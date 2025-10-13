@@ -37,7 +37,6 @@
             this.siriusEditorControl1.DIExt1 = null;
             this.siriusEditorControl1.DILaserPort = null;
             this.siriusEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.siriusEditorControl1.Document = null;
             this.siriusEditorControl1.DOExt1 = null;
             this.siriusEditorControl1.DOExt2 = null;
             this.siriusEditorControl1.DOLaserPort = null;
@@ -49,7 +48,7 @@
             this.siriusEditorControl1.Name = "siriusEditorControl1";
             this.siriusEditorControl1.PowerMeter = null;
             this.siriusEditorControl1.Rtc = null;
-            this.siriusEditorControl1.Size = new System.Drawing.Size(1578, 1144);
+            this.siriusEditorControl1.Size = new System.Drawing.Size(2378, 1743);
             this.siriusEditorControl1.Stage = null;
             this.siriusEditorControl1.TabIndex = 0;
             // 
@@ -57,7 +56,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1578, 1144);
+            this.ClientSize = new System.Drawing.Size(1585, 1162);
             this.Controls.Add(this.siriusEditorControl1);
             this.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

@@ -14,6 +14,7 @@
 	<IncludeSymbols>False</IncludeSymbols>
 	<NeutralResourcesLanguage>en-US</NeutralResourcesLanguage>
 	<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+	<ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
 
@@ -38,15 +39,15 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <PackageReference Include="Clipper2" Version="1.5.4" />
+	  <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="0.1.0" />
 	  <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.9" />
 	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.9" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-	  <PackageReference Include="NLog" Version="6.0.5" />
-	  <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="0.1.0" />
-	  <PackageReference Include="StbImageSharp" Version="2.30.15" />
 	  <PackageReference Include="System.Drawing.Common" Version="9.0.9" />
-	  <PackageReference Include="ZXing.Net" Version="0.16.10" />
+	  <!--<PackageReference Include="NLog" Version="6.0.5" />
+	  <PackageReference Include="Clipper2" Version="1.5.4" />
+	  <PackageReference Include="StbImageSharp" Version="2.30.15" />
+	  <PackageReference Include="ZXing.Net" Version="0.16.10" />-->
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='net481'">
@@ -62,19 +63,19 @@
 
 	<ItemGroup>
 		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3">
-			<HintPath>..\..\..\Psi3D\bin\net481\SpiralLab.Sirius3.dll</HintPath>
+			<HintPath>..\..\..\Psi3D\bin\net481\obfuscated\SpiralLab.Sirius3.dll</HintPath>
 		</Reference>
 		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3.UI">
-			<HintPath>..\..\..\Psi3D\bin\net481\SpiralLab.Sirius3.UI.dll</HintPath>
+			<HintPath>..\..\..\Psi3D\bin\net481\obfuscated\SpiralLab.Sirius3.UI.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Condition="'$(TargetFramework)'=='net8.0-windows'" Include="SpiralLab.Sirius3">
-			<HintPath>..\..\..\Psi3D\bin\net8.0-windows\SpiralLab.Sirius3.dll</HintPath>
+			<HintPath>..\..\..\Psi3D\bin\net8.0-windows\obfuscated\SpiralLab.Sirius3.dll</HintPath>
 		</Reference>
 		<Reference Condition="'$(TargetFramework)'=='net8.0-windows'" Include="SpiralLab.Sirius3.UI">
-			<HintPath>..\..\..\Psi3D\bin\net8.0-windows\SpiralLab.Sirius3.UI.dll</HintPath>
+			<HintPath>..\..\..\Psi3D\bin\net8.0-windows\obfuscated\SpiralLab.Sirius3.UI.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 
