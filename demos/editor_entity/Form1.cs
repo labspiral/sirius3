@@ -14,8 +14,18 @@ using SpiralLab.Sirius3.Entity.Hatch;
 
 #if OPENTK3
 using OpenTK;
+using DVec2 = OpenTK.Vector2d;
+using DVec3 = OpenTK.Vector3d;
+using DVec4 = OpenTK.Vector4d;
+using DMat3 = OpenTK.Matrix3d;
+using DMat4 = OpenTK.Matrix4d;
 #elif OPENTK4
 using OpenTK.Mathematics;
+using DVec2 = OpenTK.Mathematics.Vector2d;
+using DVec3 = OpenTK.Mathematics.Vector3d;
+using DVec4 = OpenTK.Mathematics.Vector4d;
+using DMat3 = OpenTK.Mathematics.Matrix3d;
+using DMat4 = OpenTK.Mathematics.Matrix4d;
 #endif
 
 namespace Demos
@@ -41,7 +51,7 @@ namespace Demos
             string correctionPath = Path.Combine(SpiralLab.Sirius3.Config.CorrectionPath, correctionFile);
             var rtc = ScannerFactory.CreateRtc6(
                 0,
-                Math.Pow(2, 20) / 100.0,
+                Math.Pow(2, 20) / 200.0,
                 LaserModes.Yag1,
                 RtcSignalLevels.ActiveHigh,
                 RtcSignalLevels.ActiveHigh,
@@ -91,10 +101,10 @@ namespace Demos
             rtcMarker.Ready(siriusEditorControl1.Document, siriusEditorControl1.EditorCtrl.View, rtc, laser, powerMeter, stage);
 
 
-            //siriusEditorControl1.EditorCtrl.View.FovArea = new DVec3(100, 100, 0);
-
 
             document = siriusEditorControl1.Document;
+
+            //siriusEditorControl1.EditorCtrl.View.FovArea = new DVec3(200, 200, 0);
 
             CreateEntities();
         }
