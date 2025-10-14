@@ -62,7 +62,9 @@ namespace Demos
             stage.Initialize();
             siriusEditorControl1.Stage = stage;
 
-            //siriusEditorControl1.EditorCtrl.View.FovArea = new DVec3(200, 200, 0);
+            var fov = NativeMethods.ReadIni<double>(EditorHelper.ConfigFileName, $"RTC0", "FOV", 100.0);
+            siriusEditorControl1.EditorCtrl.View.FovArea = new DVec3(fov, fov, 0);
+            siriusEditorControl1.EditorCtrl.View.FovCenter = new DVec3(0, 0, 0);
 
             CreateBarcodes();
 
