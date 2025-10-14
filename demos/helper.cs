@@ -44,9 +44,6 @@ using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Entity;
 using SpiralLab.Sirius3.Entity.Hatch;
 
-
-
-
 #if OPENTK3
 using OpenTK;
 using DVec2 = OpenTK.Vector2d;
@@ -73,9 +70,9 @@ namespace Demos
         /// <summary>
         /// Your config ini file
         /// </summary>
-        public static string ConfigFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config", "config.ini");
+        public static string ConfigFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.ini");
         // Config file for XL-SCAN (syncAXIS)
-        //public static string ConfigFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config", "config_syncaxis.ini");
+        //public static string ConfigFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config_syncaxis.ini");
 
         /// <summary>
         /// Create devices (like as <c>IScanner</c>, <c>ILaser</c>, ...)

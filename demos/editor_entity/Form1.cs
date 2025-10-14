@@ -62,12 +62,13 @@ namespace Demos
             stage.Initialize();
             siriusEditorControl1.Stage = stage;
 
-            // Initialize marker with environment
-            marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.EditorCtrl.View, rtc, laser, powerMeter, stage);
 
             //siriusEditorControl1.EditorCtrl.View.FovArea = new DVec3(200, 200, 0);
 
             EditorHelper.CreateTestEntities(rtc, siriusEditorControl1.Document);
+
+
+            marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.EditorCtrl.View, rtc, laser, powerMeter, stage);
         }
 
     }
