@@ -33,7 +33,6 @@ namespace Demos
     public partial class Form1 : Form
     {
 
-
         public Form1()
         {
             InitializeComponent();
@@ -62,10 +61,6 @@ namespace Demos
             stage.Initialize();
             siriusEditorControl1.Stage = stage;
 
-            var fov = NativeMethods.ReadIni<double>(EditorHelper.ConfigFileName, $"RTC0", "FOV", 100.0);
-            siriusEditorControl1.EditorCtrl.View.FovArea = new DVec3(fov, fov, 0);
-            siriusEditorControl1.EditorCtrl.View.FovCenter = new DVec3(0, 0, 0);
-
             CreateBarcodes();
 
             CreateTextConvertEventHandler();
@@ -73,7 +68,6 @@ namespace Demos
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.EditorCtrl.View, rtc, laser, powerMeter, stage);
         }
 
-      
         void CreateBarcodes()
         {
             var document = siriusEditorControl1.Document;
