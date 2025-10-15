@@ -464,11 +464,6 @@ namespace Demos
                     marker = MarkerFactory.CreateSyncAxis(index);
                     break;
             }
-            //var scriptFileName = NativeMethods.ReadIni(ConfigFileName, $"MARKER{index}", "SCRIPT_FILE", string.Empty);
-            //if (!string.IsNullOrEmpty(scriptFileName))
-            //    marker.ScriptFile = Path.Combine(SpiralLab.Sirius2.Winforms.Config.ScriptPath, scriptFileName);
-
-            //success &= marker.Ready( ... );
             #endregion
 
             return success;

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_mof_trigger", "demos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_hatch", "demos\editor_hatch\editor_hatch.csproj", "{901E3F3B-6769-A1FB-2949-52B92ED38A2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_pen", "demos\editor_pen\editor_pen.csproj", "{0F60FEE3-FC28-52AD-A411-D428F7B60930}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{901E3F3B-6769-A1FB-2949-52B92ED38A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{901E3F3B-6769-A1FB-2949-52B92ED38A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{901E3F3B-6769-A1FB-2949-52B92ED38A2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F60FEE3-FC28-52AD-A411-D428F7B60930}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F60FEE3-FC28-52AD-A411-D428F7B60930}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F60FEE3-FC28-52AD-A411-D428F7B60930}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F60FEE3-FC28-52AD-A411-D428F7B60930}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
