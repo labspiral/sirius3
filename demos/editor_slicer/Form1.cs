@@ -84,7 +84,7 @@ namespace Demos
                 double sliceZ = ((min + max) / 2.0).Z;
                 mesh.SliceZ = sliceZ;
             }
-            siriusEditorControl1.EditorCtrl.View.DoRender();
+            siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnSliceContours_Click(object sender, EventArgs e)
@@ -107,7 +107,7 @@ namespace Demos
                 document.ActSelect(group);
             }
 
-            //siriusEditorControl1.EditorCtrl.View.DoRender();
+            //siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnAddHatch_Click(object sender, EventArgs e)
@@ -139,7 +139,7 @@ namespace Demos
             hatchable.HatchMarkOption = HatchMarkOptions.HatchFirst;
 
             document.ActRegen();
-            siriusEditorControl1.EditorCtrl.View.DoRender();
+            siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnSimulationStart_Click(object sender, EventArgs e)
