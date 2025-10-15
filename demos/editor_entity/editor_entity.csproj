@@ -75,14 +75,6 @@
 		<PackageReference Include="WinForms.DataVisualization" Version="1.10.0" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3">
-			<HintPath>..\..\..\Psi3D\bin\net481\obfuscated\SpiralLab.Sirius3.dll</HintPath>
-		</Reference>
-		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3.UI">
-			<HintPath>..\..\..\Psi3D\bin\net481\obfuscated\SpiralLab.Sirius3.UI.dll</HintPath>
-		</Reference>
-	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3">
