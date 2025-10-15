@@ -114,7 +114,7 @@
             this.siriusEditorControl1.Marker = null;
             this.siriusEditorControl1.Name = "siriusEditorControl1";
             this.siriusEditorControl1.PowerMeter = null;
-            this.siriusEditorControl1.Rtc = null;
+            this.siriusEditorControl1.Scanner = null;
             this.siriusEditorControl1.Size = new System.Drawing.Size(2254, 1583);
             this.siriusEditorControl1.Stage = null;
             this.siriusEditorControl1.TabIndex = 2;

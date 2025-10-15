@@ -53,7 +53,7 @@ namespace Demos
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
-            siriusEditorControl1.Rtc = rtc;
+            siriusEditorControl1.Scanner = rtc;
 
             siriusEditorControl1.Laser = laser;
 
