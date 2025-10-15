@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Scanner;
@@ -73,6 +73,9 @@ namespace Demos
             stage.Initialize();
             siriusEditorControl1.Stage = stage;
 
+
+            CreateSampleData();
+
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.EditorCtrl.View, rtc, laser, powerMeter, stage);
 
             // Enable timer for update D.IO status
@@ -131,6 +134,19 @@ namespace Demos
                     "D15",
                 }};
 
+        }
+
+        void CreateSampleData()
+        {
+            var document = siriusEditorControl1.Document;
+            var entity = new EntityText("Tahoma", FontStyle.Regular, $"Hello{Environment.NewLine}你好{Environment.NewLine}안녕{Environment.NewLine}こんにちは{Environment.NewLine}Hola{Environment.NewLine}Xin chào{Environment.NewLine}Здравствуйте", 2);
+            entity.FontHorizontalAlignment = StringAlignment.Center;
+            entity.FontVerticalAlignment = StringAlignment.Center;
+
+            var hatch = HatchFactory.CreateLine(90, 0.02);
+            entity.AddHatch(hatch);
+
+            document.ActivePage?.ActiveLayer?.AddChild(entity);
         }
 
         void Timer_Tick(object sender, EventArgs e)

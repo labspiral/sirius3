@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_dio", "demos\editor_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_slicer", "demos\editor_slicer\editor_slicer.csproj", "{18FD4C35-410A-667D-C74C-7B5CAB2C8F05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_mof_trigger", "demos\editor_mof_trigger\editor_mof_trigger.csproj", "{D934FCC3-237D-10E3-B36C-34720EEDABCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{18FD4C35-410A-667D-C74C-7B5CAB2C8F05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18FD4C35-410A-667D-C74C-7B5CAB2C8F05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18FD4C35-410A-667D-C74C-7B5CAB2C8F05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D934FCC3-237D-10E3-B36C-34720EEDABCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D934FCC3-237D-10E3-B36C-34720EEDABCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D934FCC3-237D-10E3-B36C-34720EEDABCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D934FCC3-237D-10E3-B36C-34720EEDABCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
