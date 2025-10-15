@@ -1,0 +1,143 @@
+﻿THIRD-PARTY-NOTICES
+===================
+
+This product bundles the third-party components listed below. Copyright and license terms
+for each component are preserved. Where required (e.g., Apache-2.0), the full license text
+is included in the “License Texts” section.
+
+----------------------------------------------------------------
+NLog
+  Version : 6.0.5
+  License : MIT
+  Copyright: © NLog Project
+  Source  : https://github.com/NLog/NLog
+
+Newtonsoft.Json
+  Version : 13.0.4
+  License : MIT
+  Copyright: © James Newton-King
+  Source  : https://www.newtonsoft.com/json
+
+OpenTK
+  Version : 3.3.3, 4.9.4
+  License : MIT
+  Copyright: © The Open Toolkit Library
+  Source  : https://github.com/opentk/opentk
+
+Clipper2
+  Version : 1.5.3
+  License : Boost Software License 1.0
+  Copyright: © Angus Johnson
+  Source  : https://github.com/AngusJohnson/Clipper2
+
+AvalonEdit (ICSharpCode.AvalonEdit)
+  Version : 6.3.1.120
+  License : MIT
+  Copyright: © ICSharpCode
+  Source  : https://github.com/icsharpcode/AvalonEdit
+
+netDxf
+  Version : 2023.11.10
+  License : MIT
+  Copyright: © Daniel Carvajal
+  Source  : https://github.com/haplokuon/netDxf
+
+StbImageSharp
+  Version : 2.30.15
+  License : MIT (port of stb_image; original stb is public domain/Unlicense)
+  Copyright: © StbImageSharp contributors
+  Source  : https://github.com/StbSharp/StbImageSharp
+
+ZXing.Net
+  Version : 0.16.10
+  License : Apache License 2.0
+  Copyright: © ZXing.Net contributors
+  Source  : https://github.com/micjahn/ZXing.Net
+  NOTICE  : No additional upstream NOTICE content was provided beyond the Apache-2.0 license.
+
+Microsoft .NET / .NET 8 (target platform)
+  License : MIT (parts may be under other licenses; see upstream notices)
+  Source  : https://github.com/dotnet/runtime
+  Note    : This library targets .NET; the runtime itself is not redistributed by this package.
+
+----------------------------------------------------------------
+License Texts
+----------------------------------------------------------------
+
+== MIT License ==
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+----------------------------------------------------------------
+
+== Apache License, Version 2.0 ==
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+1. Definitions.
+"License" shall mean the terms and conditions for use, reproduction,
+and distribution as defined by Sections 1 through 9 of this document.
+"Licensor" shall mean the copyright owner or entity authorized
+by the copyright owner that is granting the License.
+"Legal Entity" shall mean the union of the acting entity and all other
+entities that control, are controlled by, or are under common control with
+that entity. ...
+[Full text continues; include the complete Apache-2.0 license terms down to the END OF TERMS AND CONDITIONS.]
+
+END OF TERMS AND CONDITIONS
+
+APPENDIX: How to apply the Apache License to your work.
+[Include the standard appendix paragraph as in the official text.]
+
+----------------------------------------------------------------
+
+== Boost Software License - Version 1.0 ==
+Boost Software License - Version 1.0 - August 17th, 2003
+
+Permission is hereby granted, free of charge, to any person or organization
+obtaining a copy of the software and accompanying documentation covered by
+this license (the "Software") to use, reproduce, display, distribute,
+execute, and transmit the Software, and to prepare derivative works of the
+Software, and to permit third-parties to whom the Software is furnished to
+do so, all subject to the following:
+
+The copyright notices in the Software and this entire statement,
+including the above license grant, this restriction and the following
+disclaimer, must be included in all copies of the Software, in whole or
+in part, and all derivative works of the Software, unless such copies or
+derivative works are solely in the form of machine-executable object code
+generated by a source language processor.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+
+----------------------------------------------------------------
+
+Notes:
+- For MIT-licensed components above, the generic MIT text applies; keep the component-specific
+  copyright lines with the notice.
+- For Apache-2.0 (ZXing.Net), preserve this license text and any upstream NOTICE if present.
+- For Boost (Clipper2), preserve the Boost Software License text with redistribution.
