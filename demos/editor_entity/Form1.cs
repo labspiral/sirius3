@@ -61,12 +61,9 @@ namespace Demos
             stage.Initialize();
             siriusEditorControl1.Stage = stage;
 
-
             EditorHelper.CreateTestEntities(rtc, siriusEditorControl1.Document);
-
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.EditorCtrl.View, rtc, laser, powerMeter, stage);
         }
-
     }
 }

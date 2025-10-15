@@ -14,8 +14,6 @@ using SpiralLab.Sirius3.Entity.Hatch;
 using Microsoft.Extensions.Logging;
 using SpiralLab.Sirius3;
 
-
-
 #if OPENTK3
 using OpenTK;
 using DVec2 = OpenTK.Vector2d;
@@ -46,8 +44,6 @@ namespace Demos
             this.Load += Form1_Load;
             this.FormClosed += Form1_FormClosed;
         }
-
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -132,7 +128,6 @@ namespace Demos
                     "D14",
                     "D15",
                 }};
-
         }
 
         void CreateSampleData()

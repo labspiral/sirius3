@@ -35,7 +35,6 @@ namespace Demos
 {
     public partial class Form1 : Form
     {
-
         public Form1()
         {
             InitializeComponent();
@@ -49,6 +48,30 @@ namespace Demos
             btnSimulationStop.Click += BtnSimulationStop_Click;
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
+
+            siriusEditorControl1.Scanner = rtc;
+
+            siriusEditorControl1.Laser = laser;
+
+            siriusEditorControl1.DIExt1 = dInExt1;
+            siriusEditorControl1.DOExt1 = dOutExt1;
+            siriusEditorControl1.DOExt2 = dOutExt2;
+            siriusEditorControl1.DILaserPort = dInLaserPort;
+            siriusEditorControl1.DOLaserPort = dOutLaserPort;
+
+            siriusEditorControl1.PowerMeter = powerMeter;
+
+            siriusEditorControl1.Marker = marker;
+
+            var stage = StageFactory.CreateVirtual(0);
+            stage.Initialize();
+            siriusEditorControl1.Stage = stage;
+
+            marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.EditorCtrl.View, rtc, laser, powerMeter, stage);
+        }
 
         private void BtnLoad3DModel_Click(object sender, EventArgs e)
         {
@@ -106,8 +129,6 @@ namespace Demos
                 group.Translate(0, height, 0);
                 document.ActSelect(group);
             }
-
-            //siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnAddHatch_Click(object sender, EventArgs e)
@@ -161,31 +182,6 @@ namespace Demos
             document.ActSimulateStop();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
-
-            siriusEditorControl1.Scanner = rtc;
-
-            siriusEditorControl1.Laser = laser;
-
-            siriusEditorControl1.DIExt1 = dInExt1;
-            siriusEditorControl1.DOExt1 = dOutExt1;
-            siriusEditorControl1.DOExt2 = dOutExt2;
-            siriusEditorControl1.DILaserPort = dInLaserPort;
-            siriusEditorControl1.DOLaserPort = dOutLaserPort;
-
-            siriusEditorControl1.PowerMeter = powerMeter;
-
-            siriusEditorControl1.Marker = marker;
-
-            var stage = StageFactory.CreateVirtual(0);
-            stage.Initialize();
-            siriusEditorControl1.Stage = stage;
-
-            marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.EditorCtrl.View, rtc, laser, powerMeter, stage);
-           
-        }
-
+       
     }
 }

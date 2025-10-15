@@ -63,7 +63,7 @@ namespace Demos
 
             CreateBarcodes();
 
-            CreateTextConvertEventHandler();
+            CreateEventHandlers();
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.EditorCtrl.View, rtc, laser, powerMeter, stage);
         }
@@ -134,14 +134,13 @@ namespace Demos
             }
         }
 
-        void CreateTextConvertEventHandler()
+        void CreateEventHandlers()
         {
             var marker = siriusEditorControl1.Marker;
 
             marker.OnTextConvert += (IMarker marker, ITextConvertible textConvertible) =>
             {
                 var entity = textConvertible as IEntity;
-
                 var currentLayer = marker.WorkingSet.Layer;
                 var currentLayerIndex = marker.WorkingSet.LayerIndex;
                 var currentEntity = marker.WorkingSet.Entity;
@@ -159,7 +158,6 @@ namespace Demos
                         return textConvertible.SourceText;
                 }
             };
-
         }
     }
 }

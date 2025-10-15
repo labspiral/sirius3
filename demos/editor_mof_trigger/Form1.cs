@@ -34,8 +34,9 @@ namespace Demos
 {
     public partial class Form1 : Form
     {
-
+        const int maxSerialNo = 10;
         int startingSerialNo = 1;
+        int currentSerialNo = 1;
 
         public Form1()
         {
@@ -47,7 +48,6 @@ namespace Demos
             this.btnStartEncoderSimulation.Click += BtnStartEncoderSimulation_Click;
             this.btnStopEncoderSimulation.Click += BtnStopEncoderSimulation_Click;
         }
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -81,10 +81,10 @@ namespace Demos
         private void BtnCreateEntities_Click(object sender, EventArgs e)
         {
             var document = siriusEditorControl1.Document;
-
             document.ActNew();
+
             CreateEntities();
-            CreateTextConvertEventHandler();
+            CreateEventHandlers();
         }
 
         void CreateEntities()
@@ -103,7 +103,7 @@ namespace Demos
             // Create mof begin 
             // with encoder reset
             var mofBegin = EntityFactory.CreateMoFBegin(RtcMoFModes.XY, true);
-            document.ActAdd(mofBegin);
+            document.ActivePage?.ActiveLayer?.AddChild(mofBegin);
 
             // Create barcode
             var barcode = new EntityDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 5, 10, 10);
@@ -122,7 +122,11 @@ namespace Demos
 
             // Create mof end
             var mofEnd = EntityFactory.CreateMoFEnd(DVec2.Zero);
-            document.ActAdd(mofEnd);
+            document.ActivePage?.ActiveLayer?.AddChild(mofEnd);
+
+            // Create user event
+            var userEvent = EntityFactory.CreateUserEvent();
+            document.ActivePage?.ActiveLayer?.AddChild(mofEnd);
 
             // Repeats 100 times
             document.ActivePage.ActiveLayer.Repeats = 100;
@@ -146,7 +150,8 @@ namespace Demos
             }
             else
             {
-                //startingSerialNo = 1;
+                currentSerialNo = startingSerialNo;
+
                 marker.Reset();
                 marker.Ready(siriusEditorControl1.Document);
                 marker.Start();
@@ -179,12 +184,15 @@ namespace Demos
             rtcMoF.CtlMofEncoderReset();
         }
 
-        void CreateTextConvertEventHandler()
+        void CreateEventHandlers()
         {
             var marker = siriusEditorControl1.Marker;
             
             marker.OnTextConvert -= Marker_OnTextConvert;
             marker.OnTextConvert += Marker_OnTextConvert;
+
+            marker.OnUserEvent -= Marker_OnUserEvent;
+            marker.OnUserEvent += Marker_OnUserEvent;
         }
 
         private string Marker_OnTextConvert(IMarker marker, ITextConvertible textConvertible)
@@ -201,13 +209,22 @@ namespace Demos
             switch (currentEntity.Name)
             {
                 case "MyBarcode":
-                    return $"Barcode {startingSerialNo++}";
+                    return $"Barcode {currentSerialNo}";
                 case "MyText":
-                    return $"Text {startingSerialNo++}";
+                    return $"Text {currentSerialNo}";
                 default:
                     // Not modified
                     return textConvertible.SourceText;
             }
+        }
+
+        private bool Marker_OnUserEvent(IMarker marker, EntityUserEvent entityUserEvent)
+        {
+            currentSerialNo++;
+            if (startingSerialNo > maxSerialNo)
+                currentSerialNo = startingSerialNo;
+
+            return true;
         }
     }
 }

@@ -77,7 +77,6 @@ namespace Demos
         private void BtnPrepare_Click(object sender, EventArgs e)
         {
             var document = siriusEditorControl1.Document;
-
             document.ActNew();
 
             {
@@ -151,7 +150,6 @@ namespace Demos
             marker.Start();
         }
 
-
         private bool Marker_OnMarkLayerPen(IMarker marker, EntityLayerPen pen)
         {
             // mark for each layer pen
@@ -169,9 +167,7 @@ namespace Demos
             var rtcSyncAxis = rtc as IRtcSyncAxis;
 
             bool success = true;
-
             // User defined data can be saved at 'pen.ExtensionData' 
-            //
 
             if (null != rtcAlc && pen.IsALC)
             {
@@ -188,10 +184,8 @@ namespace Demos
                 }
             }
 
-            
             if (null != rtcSyncAxis)
             {
-
                 switch (pen.MotionType)
                 {
                     case MotionTypes.StageOnly:
