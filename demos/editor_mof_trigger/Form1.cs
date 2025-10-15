@@ -124,24 +124,9 @@ namespace Demos
             var mofEnd = EntityFactory.CreateMoFEnd(DVec2.Zero);
             document.ActAdd(mofEnd);
 
-            //// Create script event
-            //// 'IScript.ListEvent' script function would be called whenever marker has started
-            //// By external script file (marker.ScriptFile)
-            //var scriptEvent = EntityFactory.CreateScriptEvent();
-            //scriptEvent.Description = "Event for increase serial no after each marks";
-            //document.ActAdd(scriptEvent);
-
             // Repeats 100 times
             document.ActivePage.ActiveLayer.Repeats = 100;
-            // or infinitely
 
-
-            //// Text convert by external script file
-            //// Target entities should be set as IsConvertedText = true
-            //marker.ScriptFile = Path.Combine(SpiralLab.Sirius2.Winforms.Config.ScriptPath, "mof_barcode.cs");
-            //Debug.Assert(null != marker.ScriptInstance);
-
-            document.ActRegen();
 
             Debug.Assert(rtc.IsMoF);
             var rtcMoF = rtc as IRtcMoF;
@@ -163,6 +148,7 @@ namespace Demos
             {
                 //startingSerialNo = 1;
                 marker.Reset();
+                marker.Ready(siriusEditorControl1.Document);
                 marker.Start();
             }
         }
@@ -193,34 +179,35 @@ namespace Demos
             rtcMoF.CtlMofEncoderReset();
         }
 
-
         void CreateTextConvertEventHandler()
         {
             var marker = siriusEditorControl1.Marker;
+            
+            marker.OnTextConvert -= Marker_OnTextConvert;
+            marker.OnTextConvert += Marker_OnTextConvert;
+        }
 
-            marker.OnTextConvert += (IMarker marker, ITextConvertible textConvertible) =>
+        private string Marker_OnTextConvert(IMarker marker, ITextConvertible textConvertible)
+        {
+            var entity = textConvertible as IEntity;
+
+            var currentLayer = marker.WorkingSet.Layer;
+            var currentLayerIndex = marker.WorkingSet.LayerIndex;
+            var currentEntity = marker.WorkingSet.Entity;
+            var currentEntityIndex = marker.WorkingSet.EntityIndex;
+            var currentOffset = marker.WorkingSet.Offset;
+            var currentOffsetIndex = marker.WorkingSet.OffsetIndex;
+
+            switch (currentEntity.Name)
             {
-                var entity = textConvertible as IEntity;
-
-                var currentLayer = marker.WorkingSet.Layer;
-                var currentLayerIndex = marker.WorkingSet.LayerIndex;
-                var currentEntity = marker.WorkingSet.Entity;
-                var currentEntityIndex = marker.WorkingSet.EntityIndex;
-                var currentOffset = marker.WorkingSet.Offset;
-                var currentOffsetIndex = marker.WorkingSet.OffsetIndex;
-
-                switch (currentEntity.Name)
-                {
-                    case "MyBarcode":
-                        return $"Barcode {startingSerialNo++}";
-                    case "MyText":
-                        return $"Text {startingSerialNo++}";
-                    default:
-                        // Not modified
-                        return textConvertible.SourceText;
-                }
-            };
-
+                case "MyBarcode":
+                    return $"Barcode {startingSerialNo++}";
+                case "MyText":
+                    return $"Text {startingSerialNo++}";
+                default:
+                    // Not modified
+                    return textConvertible.SourceText;
+            }
         }
     }
 }

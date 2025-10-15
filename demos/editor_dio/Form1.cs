@@ -73,7 +73,6 @@ namespace Demos
             stage.Initialize();
             siriusEditorControl1.Stage = stage;
 
-
             CreateSampleData();
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.EditorCtrl.View, rtc, laser, powerMeter, stage);
