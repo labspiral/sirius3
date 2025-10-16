@@ -133,7 +133,8 @@ namespace Demos
         void CreateSampleData()
         {
             var document = siriusEditorControl1.Document;
-            var entity = new EntityText("Tahoma", FontStyle.Regular, $"Hello{Environment.NewLine}你好{Environment.NewLine}안녕{Environment.NewLine}こんにちは{Environment.NewLine}Hola{Environment.NewLine}Xin chào{Environment.NewLine}Здравствуйте", 2);
+
+            var entity = EntityFactory.CreateText("Tahoma", FontStyle.Regular, $"Hello{Environment.NewLine}你好{Environment.NewLine}안녕{Environment.NewLine}こんにちは{Environment.NewLine}Hola{Environment.NewLine}Xin chào{Environment.NewLine}Здравствуйте", 2);
             entity.FontHorizontalAlignment = StringAlignment.Center;
             entity.FontVerticalAlignment = StringAlignment.Center;
 

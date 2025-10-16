@@ -81,7 +81,7 @@ namespace Demos
 
             {
                 document.ActivePage = document.DocumentData.Pages[0];
-                var text = new EntityText("Arial",
+                var text = EntityFactory.CreateText("Arial",
                     FontStyle.Regular,
                     $"AaBbCcDdEeFfGg{Environment.NewLine}HhIiJjKkLlMmNn{Environment.NewLine}OoPpQqRrSsTt{Environment.NewLine}UuVvWwXxYyZz{Environment.NewLine}0123456789{Environment.NewLine}!@#$%^&*()-+<>",
                     10);
@@ -95,7 +95,7 @@ namespace Demos
             }
             {
                 document.ActivePage = document.DocumentData.Pages[1];
-                var text = new EntityText("Arial",
+                var text = EntityFactory.CreateText("Arial",
                     FontStyle.Regular,
                     $"AaBbCcDdEeFfGg{Environment.NewLine}HhIiJjKkLlMmNn{Environment.NewLine}OoPpQqRrSsTt{Environment.NewLine}UuVvWwXxYyZz{Environment.NewLine}0123456789{Environment.NewLine}!@#$%^&*()-+<>",
                     10);

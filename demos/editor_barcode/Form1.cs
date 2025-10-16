@@ -91,7 +91,7 @@ namespace Demos
                 //entity.CellSquare.ScaleFactor = 0.9;
                 //entity.CellSquare.IsZigZag = true;
 
-                var entity = new EntityDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 5, 10, 10);
+                var entity = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 5, 10, 10);
                 entity.CellDot.Direction = CellDot.DotDirections.Horizontal;
                 entity.CellDot.IsZigZag = true;
                 entity.CellDot.IsReversed = true;

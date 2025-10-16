@@ -106,14 +106,14 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(mofBegin);
 
             // Create barcode
-            var barcode = new EntityDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 5, 10, 10);
+            var barcode = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 5, 10, 10);
             barcode.Name = "MyBarcode";
             barcode.IsAllowConvert = true; // marker.OnTextConvert event will be called
 
             document.ActivePage?.ActiveLayer?.AddChild(barcode);
           
             // Create text
-            var text = new EntityText("Arial", FontStyle.Regular, "0123456789", 2);
+            var text = EntityFactory.CreateText("Arial", FontStyle.Regular, "0123456789", 2);
             text.Name = "MyText";
             text.IsAllowConvert = true;  // marker.OnTextConvert event will be called
 
