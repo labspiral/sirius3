@@ -67,7 +67,6 @@
             this.siriusEditorControl1.PowerMeter = null;
             this.siriusEditorControl1.Scanner = null;
             this.siriusEditorControl1.Size = new System.Drawing.Size(2254, 1590);
-            this.siriusEditorControl1.Stage = null;
             this.siriusEditorControl1.TabIndex = 2;
             // 
             // btnCreateEntities

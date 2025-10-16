@@ -463,7 +463,7 @@ namespace Demos
                 case "syncaxis":
                     marker = MarkerFactory.CreateSyncAxis(index);
                     break;
-            }
+            }            
             #endregion
 
             return success;

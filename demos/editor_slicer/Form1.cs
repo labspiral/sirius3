@@ -1,4 +1,7 @@
 using System;
+using System.Text;
+
+using Microsoft.Extensions.Logging;
 
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Scanner;
@@ -7,12 +10,8 @@ using SpiralLab.Sirius3.Scanner.Rtc;
 using SpiralLab.Sirius3.PowerMeter;
 using SpiralLab.Sirius3.Laser;
 using SpiralLab.Sirius3.Marker;
-using SpiralLab.Sirius3.Motion;
 using SpiralLab.Sirius3.Entity;
-using System.Text;
 using SpiralLab.Sirius3.Entity.Hatch;
-using Microsoft.Extensions.Logging;
-using SpiralLab.Sirius3;
 using SpiralLab.Sirius3.Mathematics;
 
 #if OPENTK3
@@ -66,11 +65,7 @@ namespace Demos
 
             siriusEditorControl1.Marker = marker;
 
-            var stage = StageFactory.CreateVirtual(0);
-            stage.Initialize();
-            siriusEditorControl1.Stage = stage;
-
-            marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.EditorCtrl.View, rtc, laser, powerMeter, stage);
+            marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
 
         private void BtnLoad3DModel_Click(object sender, EventArgs e)
@@ -181,7 +176,6 @@ namespace Demos
             var document = siriusEditorControl1.Document;
             document.ActSimulateStop();
         }
-
        
     }
 }
