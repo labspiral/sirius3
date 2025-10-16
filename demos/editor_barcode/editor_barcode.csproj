@@ -49,11 +49,16 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="0.1.0" />
-	  <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.9" />
-	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.9" />
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-	  <PackageReference Include="System.Drawing.Common" Version="9.0.9" />
+		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="0.1.0" />
+		<PackageReference Include="System.Drawing.Common" Version="9.0.9" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.9" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.9" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+		<PackageReference Include="NLog" Version="6.0.5" />
+		<PackageReference Include="Clipper2" Version="1.5.4" />
+		<PackageReference Include="netDxf" Version="2023.11.10" />
+		<PackageReference Include="StbImageSharp" Version="2.30.15" />
+		<PackageReference Include="ZXing.Net" Version="0.16.10" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)'=='net481'">
@@ -67,7 +72,7 @@
 		<PackageReference Include="WinForms.DataVisualization" Version="1.10.0" />
 	</ItemGroup>
 
-	<!--<ItemGroup>
+	<ItemGroup>
 		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3">
 			<HintPath>..\..\..\sirius3lib\bin\net481\obfuscated\SpiralLab.Sirius3.dll</HintPath>
 		</Reference>
@@ -83,10 +88,10 @@
 		<Reference Condition="'$(TargetFramework)'=='net8.0-windows'" Include="SpiralLab.Sirius3.UI">
 			<HintPath>..\..\..\sirius3lib\bin\net8.0-windows\obfuscated\SpiralLab.Sirius3.UI.dll</HintPath>
 		</Reference>
-	</ItemGroup>-->
+	</ItemGroup>
 
 
-	<ItemGroup>
+	<!--<ItemGroup>
 		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3">
 			<HintPath>..\..\..\sirius3lib\bin\net481\SpiralLab.Sirius3.dll</HintPath>
 		</Reference>
@@ -102,5 +107,5 @@
 		<Reference Condition="'$(TargetFramework)'=='net8.0-windows'" Include="SpiralLab.Sirius3.UI">
 			<HintPath>..\..\..\sirius3lib\bin\net8.0-windows\SpiralLab.Sirius3.UI.dll</HintPath>
 		</Reference>
-	</ItemGroup>
+	</ItemGroup>-->
 </Project>
