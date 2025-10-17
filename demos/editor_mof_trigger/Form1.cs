@@ -147,6 +147,7 @@ namespace Demos
 
                 marker.Reset();
                 marker.Ready(siriusEditorControl1.Document);
+                //marker.Page = DocumentPages.Page1;
                 marker.Start();
             }
         }
