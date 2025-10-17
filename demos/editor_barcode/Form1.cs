@@ -39,8 +39,6 @@ namespace Demos
             this.btnCreateBarcode.Click += BtnCreateBarcode_Click;
         }
 
-
-
         private void Form1_Load(object sender, EventArgs e)
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
@@ -67,12 +65,12 @@ namespace Demos
             var document = siriusEditorControl1.Document;
             document.ActNew();
 
-            CreateBarcodes();
+            CreateEntities();
 
             CreateEventHandlers();
         }
 
-        void CreateBarcodes()
+        void CreateEntities()
         {
             var document = siriusEditorControl1.Document;
 
