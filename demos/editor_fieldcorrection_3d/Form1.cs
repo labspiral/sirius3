@@ -81,9 +81,6 @@ namespace Demos
             var fov = NativeMethods.ReadIni<double>(EditorHelper.ConfigFileName, $"RTC{index}", "FOV", 100.0);
             fieldSize = fov * 0.9; //reduce for effective field only
 
-            siriusEditorControl1.EditorCtrl.View.FovSize = new DVec3(fov, fov, 0);
-            siriusEditorControl1.EditorCtrl.View.FovCenter = new DVec3(0, 0, 0);
-
             //create grids
             rows = 3;
             cols = 3;
@@ -112,8 +109,11 @@ namespace Demos
                 entities.Add(line);
             }
 
+            double z = 0;
+            siriusEditorControl1.EditorCtrl.View.FovSize = new DVec3(fov, fov, z);
+            siriusEditorControl1.EditorCtrl.View.FovCenter = new DVec3(0, 0, z / 2.0);
+
             var group = EntityFactory.CreateGroup($"{rows}x{cols} {rowInterval}x{colInterval}mm", entities);
-            //double z = 0;
             //group.Translate(0, 0, z);
             document?.ActivePage?.ActiveLayer?.AddChild(group);
         }
@@ -127,10 +127,6 @@ namespace Demos
             var fov = NativeMethods.ReadIni<double>(EditorHelper.ConfigFileName, $"RTC{index}", "FOV", 100.0);
             fieldSize = fov * 0.9; //reduce for effective field only
 
-            siriusEditorControl1.EditorCtrl.View.FovSize = new DVec3(fov, fov, 5);
-            siriusEditorControl1.EditorCtrl.View.FovCenter = new DVec3(0, 0, 2.5);
-
-
             //create grids
             rows = 3;
             cols = 3;
@@ -159,8 +155,12 @@ namespace Demos
                 entities.Add(line);
             }
 
-            var group = EntityFactory.CreateGroup($"{rows}x{cols} {rowInterval}x{colInterval}mm", entities);
             double z = 5;
+
+            siriusEditorControl1.EditorCtrl.View.FovSize = new DVec3(fov, fov, z);
+            siriusEditorControl1.EditorCtrl.View.FovCenter = new DVec3(0, 0, z/2.0);
+
+            var group = EntityFactory.CreateGroup($"{rows}x{cols} {rowInterval}x{colInterval}mm", entities);
             group.Translate(0, 0, z);
             document?.ActivePage?.ActiveLayer?.AddChild(group);
         }

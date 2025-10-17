@@ -55,26 +55,8 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3">
-			<HintPath>..\..\..\sirius3lib\bin\net481\obfuscated\SpiralLab.Sirius3.dll</HintPath>
-		</Reference>
-		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3.UI">
-			<HintPath>..\..\..\sirius3lib\bin\net481\obfuscated\SpiralLab.Sirius3.UI.dll</HintPath>
-		</Reference>
-	</ItemGroup>
 
 	<ItemGroup>
-		<Reference Condition="'$(TargetFramework)'=='net8.0-windows'" Include="SpiralLab.Sirius3">
-			<HintPath>..\..\..\sirius3lib\bin\net8.0-windows\obfuscated\SpiralLab.Sirius3.dll</HintPath>
-		</Reference>
-		<Reference Condition="'$(TargetFramework)'=='net8.0-windows'" Include="SpiralLab.Sirius3.UI">
-			<HintPath>..\..\..\sirius3lib\bin\net8.0-windows\obfuscated\SpiralLab.Sirius3.UI.dll</HintPath>
-		</Reference>
-	</ItemGroup>
-
-
-	<!--<ItemGroup>
 		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3">
 			<HintPath>..\..\..\sirius3lib\bin\net481\SpiralLab.Sirius3.dll</HintPath>
 		</Reference>
@@ -90,5 +72,5 @@
 		<Reference Condition="'$(TargetFramework)'=='net8.0-windows'" Include="SpiralLab.Sirius3.UI">
 			<HintPath>..\..\..\sirius3lib\bin\net8.0-windows\SpiralLab.Sirius3.UI.dll</HintPath>
 		</Reference>
-	</ItemGroup>-->
+	</ItemGroup>
 </Project>
