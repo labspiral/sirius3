@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_pen", "demos\editor_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_mof_xy", "demos\editor_mof_xy\editor_mof_xy.csproj", "{3EEC958A-FCD5-66E8-99A6-705C76618A12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_measurement", "demos\editor_measurement\editor_measurement.csproj", "{0196890C-7AC1-A186-564E-B19920239E9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{3EEC958A-FCD5-66E8-99A6-705C76618A12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EEC958A-FCD5-66E8-99A6-705C76618A12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EEC958A-FCD5-66E8-99A6-705C76618A12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0196890C-7AC1-A186-564E-B19920239E9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0196890C-7AC1-A186-564E-B19920239E9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0196890C-7AC1-A186-564E-B19920239E9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0196890C-7AC1-A186-564E-B19920239E9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

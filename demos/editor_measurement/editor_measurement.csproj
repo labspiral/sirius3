@@ -1,0 +1,95 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!--<TargetFramework>net481</TargetFramework>-->
+	<!--<TargetFramework>net8.0-windows</TargetFramework>-->
+	<TargetFrameworks>net481;net8.0-windows</TargetFrameworks>	  
+	<LangVersion>latest</LangVersion>	  
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+	<RootNamespace>Demos</RootNamespace>
+	<OutputPath>..\..\bin\</OutputPath>
+	<IncludeSymbols>False</IncludeSymbols>
+	<NeutralResourcesLanguage>en-US</NeutralResourcesLanguage>
+	<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+	<ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+
+	<PropertyGroup Condition="'$(TargetFramework)'=='net481'">
+		<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
+		<DefineConstants>$(DefineConstants);OPENTK4</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)'=='net481'">
+		<PackageReference Include="OpenTK" Version="3.3.3" />
+	</ItemGroup>
+	
+	<ItemGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
+		<PackageReference Include="OpenTK" Version="4.9.4" />
+		<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Compile Include="..\helper.cs" Link="helper.cs" />
+	  <Compile Include="..\nativemethods.cs" Link="nativemethods.cs" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Include="..\config.ini" Link="config.ini">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Include="..\config_syncaxis.ini" Link="config_syncaxis.ini">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="0.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+	</ItemGroup>
+
+
+	<!--<ItemGroup>
+		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3">
+			<HintPath>..\..\..\sirius3lib\bin\net481\obfuscated\SpiralLab.Sirius3.dll</HintPath>
+		</Reference>
+		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3.UI">
+			<HintPath>..\..\..\sirius3lib\bin\net481\obfuscated\SpiralLab.Sirius3.UI.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Condition="'$(TargetFramework)'=='net8.0-windows'" Include="SpiralLab.Sirius3">
+			<HintPath>..\..\..\sirius3lib\bin\net8.0-windows\obfuscated\SpiralLab.Sirius3.dll</HintPath>
+		</Reference>
+		<Reference Condition="'$(TargetFramework)'=='net8.0-windows'" Include="SpiralLab.Sirius3.UI">
+			<HintPath>..\..\..\sirius3lib\bin\net8.0-windows\obfuscated\SpiralLab.Sirius3.UI.dll</HintPath>
+		</Reference>
+	</ItemGroup>-->
+
+
+	<ItemGroup>
+		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3">
+			<HintPath>..\..\..\sirius3lib\bin\net481\SpiralLab.Sirius3.dll</HintPath>
+		</Reference>
+		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3.UI">
+			<HintPath>..\..\..\sirius3lib\bin\net481\SpiralLab.Sirius3.UI.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Condition="'$(TargetFramework)'=='net8.0-windows'" Include="SpiralLab.Sirius3">
+			<HintPath>..\..\..\sirius3lib\bin\net8.0-windows\SpiralLab.Sirius3.dll</HintPath>
+		</Reference>
+		<Reference Condition="'$(TargetFramework)'=='net8.0-windows'" Include="SpiralLab.Sirius3.UI">
+			<HintPath>..\..\..\sirius3lib\bin\net8.0-windows\SpiralLab.Sirius3.UI.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+</Project>
