@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_fieldcorrection_2d",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_fieldcorrection_3d", "demos\editor_fieldcorrection_3d\editor_fieldcorrection_3d.csproj", "{E4E58B3A-3B03-ADB2-4CB0-F6E6A79FBAD1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_fieldcorrection_3d_calibration", "demos\editor_fieldcorrection_3d_calibration\editor_fieldcorrection_3d_calibration.csproj", "{7014AF3F-C3CD-7A5B-8E02-B0FFFBD5C3B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{E4E58B3A-3B03-ADB2-4CB0-F6E6A79FBAD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4E58B3A-3B03-ADB2-4CB0-F6E6A79FBAD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4E58B3A-3B03-ADB2-4CB0-F6E6A79FBAD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7014AF3F-C3CD-7A5B-8E02-B0FFFBD5C3B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7014AF3F-C3CD-7A5B-8E02-B0FFFBD5C3B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7014AF3F-C3CD-7A5B-8E02-B0FFFBD5C3B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7014AF3F-C3CD-7A5B-8E02-B0FFFBD5C3B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

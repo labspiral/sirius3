@@ -15,7 +15,6 @@ using SpiralLab.Sirius3.Entity.Hatch;
 using SpiralLab.Sirius3.Mathematics;
 using System.Diagnostics;
 
-
 #if OPENTK3
 using OpenTK;
 using DVec2 = OpenTK.Vector2d;
@@ -50,6 +49,9 @@ namespace Demos
         private void Form1_Load(object sender, EventArgs e)
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
+
+            var inputCtFileName = rtc.CorrectionFiles[(int)rtc.PrimaryHeadTable].FileName;
+            Debug.Assert(inputCtFileName.StartsWith("D3_"));
 
             siriusEditorControl1.Scanner = rtc;
 
@@ -95,6 +97,11 @@ namespace Demos
             if (null == mesh) 
                 return;
 
+            //// by each vertex
+            //if (!document.ActPointCloud(mesh, -DVec3.UnitZ, out var rayOriginOffset, out List<DVec3> vertices)
+            //    return;
+
+            // by grid interval
             // grid interval for hit-test 
             // smaller value cause performance drop during 'RtcCalibrationLibrary.PointsCloudCalibration'
             const double interval = 1;// 0.3; 
@@ -103,6 +110,7 @@ namespace Demos
                 return;
 
             // create points entity
+            //var points = new EntityPoints(vertices);
             var points = new EntityPoints(vertices, normals);
             // get real dimension of points entity
             mesh.CalcuateRealMinMax(out var realMin, out var realMax);
