@@ -134,6 +134,7 @@ namespace Demos
 
         private void BtnStartStop_Click(object sender, EventArgs e)
         {
+            var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
 
             if (marker.IsBusy)
@@ -147,7 +148,7 @@ namespace Demos
 
                 marker.Reset();
                 marker.Ready(siriusEditorControl1.Document);
-                //marker.Page = DocumentPages.Page1;
+                marker.Page = document.Page;
                 marker.Start();
             }
         }

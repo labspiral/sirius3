@@ -129,7 +129,7 @@ namespace Demos
             scannerPen.IsSkyWritingEnabled = false; //disable sky-writing
 
             marker.Ready(document);
-            //marker.Page = DocumentPages.Page1;
+            marker.Page = document.Page;
             marker.Start();
         }
 
@@ -151,7 +151,7 @@ namespace Demos
             scannerPen.Post = 0;
 
             marker.Ready(document);
-            //marker.Page = DocumentPages.Page1;
+            marker.Page = document.Page;
             marker.Start();
         }
 
@@ -173,7 +173,7 @@ namespace Demos
             scannerPen.Post = 0;
 
             marker.Ready(document);
-            //marker.Page = DocumentPages.Page1;
+            marker.Page = document.Page;
             marker.Start();
         }
 
@@ -195,7 +195,7 @@ namespace Demos
             scannerPen.Post = 0;
 
             marker.Ready(document);
-            //marker.Page = DocumentPages.Page1;
+            marker.Page = document.Page;
             marker.Start();
         }
 
@@ -217,7 +217,7 @@ namespace Demos
             scannerPen.Post = 0;
 
             marker.Ready(document);
-            //marker.Page = DocumentPages.Page1;
+            marker.Page = document.Page;
             marker.Start();
         }
     }

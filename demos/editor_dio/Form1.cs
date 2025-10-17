@@ -196,7 +196,7 @@ namespace Demos
                     {
                         Logger.Log(LogLevel.Information, "trying to start mark for page2 by external dio");
                         marker.Ready(document);
-                        marker.Page = DocumentPages.Page1;
+                        marker.Page = DocumentPages.Page2;
                         marker.Start();
                     }
                     break;
@@ -231,6 +231,7 @@ namespace Demos
                         }
 
                         marker.Ready(document);
+                        marker.Page = DocumentPages.Page1;
                         marker.Start();
                     }
                     break;
