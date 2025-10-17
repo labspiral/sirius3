@@ -33,8 +33,11 @@
             this.btnMarkSw1 = new System.Windows.Forms.Button();
             this.btnMarkSw2 = new System.Windows.Forms.Button();
             this.btnMarkSw3 = new System.Windows.Forms.Button();
-            this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
             this.btnMarkSw4 = new System.Windows.Forms.Button();
+            this.btnWobbelEllipse = new System.Windows.Forms.Button();
+            this.btnWobbelParallel8 = new System.Windows.Forms.Button();
+            this.btnWobbelPerpendicular8 = new System.Windows.Forms.Button();
+            this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,6 +48,9 @@
             this.flowLayoutPanel1.Controls.Add(this.btnMarkSw2);
             this.flowLayoutPanel1.Controls.Add(this.btnMarkSw3);
             this.flowLayoutPanel1.Controls.Add(this.btnMarkSw4);
+            this.flowLayoutPanel1.Controls.Add(this.btnWobbelEllipse);
+            this.flowLayoutPanel1.Controls.Add(this.btnWobbelParallel8);
+            this.flowLayoutPanel1.Controls.Add(this.btnWobbelPerpendicular8);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -55,37 +61,73 @@
             // 
             this.btnMark.Location = new System.Drawing.Point(3, 3);
             this.btnMark.Name = "btnMark";
-            this.btnMark.Size = new System.Drawing.Size(258, 42);
+            this.btnMark.Size = new System.Drawing.Size(139, 42);
             this.btnMark.TabIndex = 0;
-            this.btnMark.Text = "Measurement (No skywriting)";
+            this.btnMark.Text = "Normal";
             this.btnMark.UseVisualStyleBackColor = true;
             // 
             // btnMarkSw1
             // 
-            this.btnMarkSw1.Location = new System.Drawing.Point(267, 3);
+            this.btnMarkSw1.Location = new System.Drawing.Point(148, 3);
             this.btnMarkSw1.Name = "btnMarkSw1";
-            this.btnMarkSw1.Size = new System.Drawing.Size(230, 42);
+            this.btnMarkSw1.Size = new System.Drawing.Size(124, 42);
             this.btnMarkSw1.TabIndex = 1;
-            this.btnMarkSw1.Text = "Measurement (Skywriting 1)";
+            this.btnMarkSw1.Text = "Skywriting 1";
             this.btnMarkSw1.UseVisualStyleBackColor = true;
             // 
             // btnMarkSw2
             // 
-            this.btnMarkSw2.Location = new System.Drawing.Point(503, 3);
+            this.btnMarkSw2.Location = new System.Drawing.Point(278, 3);
             this.btnMarkSw2.Name = "btnMarkSw2";
-            this.btnMarkSw2.Size = new System.Drawing.Size(230, 42);
+            this.btnMarkSw2.Size = new System.Drawing.Size(124, 42);
             this.btnMarkSw2.TabIndex = 2;
-            this.btnMarkSw2.Text = "Measurement (Skywriting 2)";
+            this.btnMarkSw2.Text = "Skywriting 2";
             this.btnMarkSw2.UseVisualStyleBackColor = true;
             // 
             // btnMarkSw3
             // 
-            this.btnMarkSw3.Location = new System.Drawing.Point(739, 3);
+            this.btnMarkSw3.Location = new System.Drawing.Point(408, 3);
             this.btnMarkSw3.Name = "btnMarkSw3";
-            this.btnMarkSw3.Size = new System.Drawing.Size(230, 42);
+            this.btnMarkSw3.Size = new System.Drawing.Size(124, 42);
             this.btnMarkSw3.TabIndex = 3;
-            this.btnMarkSw3.Text = "Measurement (Skywriting 3)";
+            this.btnMarkSw3.Text = "Skywriting 3";
             this.btnMarkSw3.UseVisualStyleBackColor = true;
+            // 
+            // btnMarkSw4
+            // 
+            this.btnMarkSw4.Location = new System.Drawing.Point(538, 3);
+            this.btnMarkSw4.Name = "btnMarkSw4";
+            this.btnMarkSw4.Size = new System.Drawing.Size(177, 42);
+            this.btnMarkSw4.TabIndex = 4;
+            this.btnMarkSw4.Text = "Skywriting 4 (RTC6)";
+            this.btnMarkSw4.UseVisualStyleBackColor = true;
+            // 
+            // btnWobbelEllipse
+            // 
+            this.btnWobbelEllipse.Location = new System.Drawing.Point(721, 3);
+            this.btnWobbelEllipse.Name = "btnWobbelEllipse";
+            this.btnWobbelEllipse.Size = new System.Drawing.Size(159, 42);
+            this.btnWobbelEllipse.TabIndex = 5;
+            this.btnWobbelEllipse.Text = "Wobbel Ellipse";
+            this.btnWobbelEllipse.UseVisualStyleBackColor = true;
+            // 
+            // btnWobbelParallel8
+            // 
+            this.btnWobbelParallel8.Location = new System.Drawing.Point(886, 3);
+            this.btnWobbelParallel8.Name = "btnWobbelParallel8";
+            this.btnWobbelParallel8.Size = new System.Drawing.Size(211, 42);
+            this.btnWobbelParallel8.TabIndex = 6;
+            this.btnWobbelParallel8.Text = "Wobbel Parallel8 (RTC5+)";
+            this.btnWobbelParallel8.UseVisualStyleBackColor = true;
+            // 
+            // btnWobbelPerpendicular8
+            // 
+            this.btnWobbelPerpendicular8.Location = new System.Drawing.Point(1103, 3);
+            this.btnWobbelPerpendicular8.Name = "btnWobbelPerpendicular8";
+            this.btnWobbelPerpendicular8.Size = new System.Drawing.Size(269, 42);
+            this.btnWobbelPerpendicular8.TabIndex = 7;
+            this.btnWobbelPerpendicular8.Text = "Wobbel Perpendicular8 (RTC5+)";
+            this.btnWobbelPerpendicular8.UseVisualStyleBackColor = true;
             // 
             // siriusEditorControl1
             // 
@@ -106,15 +148,6 @@
             this.siriusEditorControl1.Scanner = null;
             this.siriusEditorControl1.Size = new System.Drawing.Size(2254, 1590);
             this.siriusEditorControl1.TabIndex = 2;
-            // 
-            // btnMarkSw4
-            // 
-            this.btnMarkSw4.Location = new System.Drawing.Point(975, 3);
-            this.btnMarkSw4.Name = "btnMarkSw4";
-            this.btnMarkSw4.Size = new System.Drawing.Size(230, 42);
-            this.btnMarkSw4.TabIndex = 4;
-            this.btnMarkSw4.Text = "Measurement (Skywriting 3)";
-            this.btnMarkSw4.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -141,5 +174,8 @@
         private Button btnMarkSw2;
         private Button btnMarkSw3;
         private Button btnMarkSw4;
+        private Button btnWobbelEllipse;
+        private Button btnWobbelParallel8;
+        private Button btnWobbelPerpendicular8;
     }
 }

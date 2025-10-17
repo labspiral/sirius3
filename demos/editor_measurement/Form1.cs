@@ -43,6 +43,10 @@ namespace Demos
             this.btnMarkSw2.Click += BtnMarkSw2_Click;
             this.btnMarkSw3.Click += BtnMarkSw3_Click;
             this.btnMarkSw4.Click += BtnMarkSw4_Click;
+
+            this.btnWobbelEllipse.Click += BtnWobbelEllipse_Click;
+            this.btnWobbelParallel8.Click += BtnWobbelParallel8_Click;
+            this.btnWobbelPerpendicular8.Click += BtnWobbelPerpendicular8_Click;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -127,6 +131,7 @@ namespace Demos
             var penColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
             document.FindByScannerPenColor(penColor, out var scannerPen);
             scannerPen.IsSkyWritingEnabled = false; //disable sky-writing
+            scannerPen.IsWobbelEnabled = false; //disable wobbel
 
             marker.Ready(document);
             marker.Page = document.Page;
@@ -149,6 +154,7 @@ namespace Demos
             scannerPen.LaserOnShift = 10;
             scannerPen.Prev = 0;
             scannerPen.Post = 0;
+            scannerPen.IsWobbelEnabled = false;
 
             marker.Ready(document);
             marker.Page = document.Page;
@@ -171,6 +177,8 @@ namespace Demos
             scannerPen.LaserOnShift = 10;
             scannerPen.Prev = 0;
             scannerPen.Post = 0;
+            scannerPen.IsWobbelEnabled = false;
+
 
             marker.Ready(document);
             marker.Page = document.Page;
@@ -193,6 +201,7 @@ namespace Demos
             scannerPen.LaserOnShift = 10;
             scannerPen.Prev = 0;
             scannerPen.Post = 0;
+            scannerPen.IsWobbelEnabled = false;
 
             marker.Ready(document);
             marker.Page = document.Page;
@@ -215,6 +224,69 @@ namespace Demos
             scannerPen.LaserOnShift = 10;
             scannerPen.Prev = 0;
             scannerPen.Post = 0;
+            scannerPen.IsWobbelEnabled = false;
+
+            marker.Ready(document);
+            marker.Page = document.Page;
+            marker.Start();
+        }
+
+        private void BtnWobbelEllipse_Click(object sender, EventArgs e)
+        {
+            var document = siriusEditorControl1.Document;
+            var marker = siriusEditorControl1.Marker;
+
+            CreateRectangleAndMeasurement("wobbel (ellipse)");
+
+            var penColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
+            document.FindByScannerPenColor(penColor, out var scannerPen);
+            scannerPen.IsSkyWritingEnabled = false;
+            scannerPen.WobbelShape = WobbelShapes.Ellipse;
+            scannerPen.IsWobbelEnabled = true;
+            scannerPen.WobbelFrequency = 200;
+            scannerPen.WobbelPerpendicular = 0.5;
+            scannerPen.WobbelParallel = 0.25;
+
+            marker.Ready(document);
+            marker.Page = document.Page;
+            marker.Start();
+        }
+        private void BtnWobbelParallel8_Click(object sender, EventArgs e)
+        {
+            var document = siriusEditorControl1.Document;
+            var marker = siriusEditorControl1.Marker;
+
+            CreateRectangleAndMeasurement("wobbel (parallel8)");
+
+            var penColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
+            document.FindByScannerPenColor(penColor, out var scannerPen);
+            scannerPen.IsSkyWritingEnabled = false;
+            scannerPen.WobbelShape = WobbelShapes.Parallel8;
+            scannerPen.IsWobbelEnabled = true;
+            scannerPen.WobbelFrequency = 200;
+            scannerPen.WobbelPerpendicular = 0.5;
+            scannerPen.WobbelParallel = 0.25;
+
+            marker.Ready(document);
+            marker.Page = document.Page;
+            marker.Start();
+        }
+
+        private void BtnWobbelPerpendicular8_Click(object sender, EventArgs e)
+        {
+            var document = siriusEditorControl1.Document;
+            var marker = siriusEditorControl1.Marker;
+
+            CreateRectangleAndMeasurement("wobbel (perpendicular8)");
+
+            var penColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
+            document.FindByScannerPenColor(penColor, out var scannerPen);
+            scannerPen.IsSkyWritingEnabled = false;
+            scannerPen.WobbelShape = WobbelShapes.Perpendicular8;
+            scannerPen.IsWobbelEnabled = true;
+            scannerPen.WobbelFrequency = 200;
+            scannerPen.WobbelPerpendicular = 0.5;
+            scannerPen.WobbelParallel = 0.25;
 
             marker.Ready(document);
             marker.Page = document.Page;
