@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_fieldcorrection_3d_c
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_multiple", "demos\editor_multiple\editor_multiple.csproj", "{9837F2D9-8794-25F6-7452-9BE6D59041DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_alc", "demos\editor_automatic_laser_control\editor_alc.csproj", "{32F53551-5A51-3E90-C54F-BC9846B70A8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{9837F2D9-8794-25F6-7452-9BE6D59041DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9837F2D9-8794-25F6-7452-9BE6D59041DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9837F2D9-8794-25F6-7452-9BE6D59041DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32F53551-5A51-3E90-C54F-BC9846B70A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32F53551-5A51-3E90-C54F-BC9846B70A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32F53551-5A51-3E90-C54F-BC9846B70A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32F53551-5A51-3E90-C54F-BC9846B70A8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
