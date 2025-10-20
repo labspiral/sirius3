@@ -121,7 +121,7 @@ namespace Demos
             // config scanner pen parameters
             document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
             scannerPen.JumpSpeed = 3_000;
-            scannerPen.MarkSpeed = 1_000;
+            scannerPen.MarkSpeed = 3_000;
         }
 
         private void BtnMark_Click(object sender, EventArgs e)
@@ -148,6 +148,7 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
+            Debug.Assert(marker.Rtc is not Rtc4);
 
             CreateRectangleAndMeasurement("skywriting 1");
 
@@ -155,11 +156,11 @@ namespace Demos
             document.FindByLayerPenColor(layerPenColor, out var layerPen);
             layerPen.IsSkyWritingEnabled = true;
             layerPen.SkyWritingMode = SkyWritingModes.Mode1;
-            layerPen.AngularLimit = 89;
-            layerPen.TimeLag = 150;
-            layerPen.LaserOnShift = 10;
-            layerPen.Prev = 0;
-            layerPen.Post = 0;
+            layerPen.TimeLag = 250;
+            layerPen.LaserOnShift = 0;
+            layerPen.Prev = 2000 * 0.15;
+            layerPen.Post = 2000 * 0.1;
+            //layerPen.AngularLimit = 89;
 
             var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
             document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
@@ -174,6 +175,7 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
+            Debug.Assert(marker.Rtc is not Rtc4);
 
             CreateRectangleAndMeasurement("skywriting 2");
 
@@ -181,11 +183,11 @@ namespace Demos
             document.FindByLayerPenColor(layerPenColor, out var layerPen);
             layerPen.IsSkyWritingEnabled = true;
             layerPen.SkyWritingMode = SkyWritingModes.Mode2;
-            layerPen.AngularLimit = 89;
-            layerPen.TimeLag = 150;
-            layerPen.LaserOnShift = 10;
-            layerPen.Prev = 0;
-            layerPen.Post = 0;
+            layerPen.TimeLag = 250;
+            layerPen.LaserOnShift = 0;
+            layerPen.Prev = 2000 * 0.15;
+            layerPen.Post = 2000 * 0.1;
+            //layerPen.AngularLimit = 89;
 
             var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
             document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
@@ -200,6 +202,7 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
+            Debug.Assert(marker.Rtc is not Rtc4);
 
             CreateRectangleAndMeasurement("skywriting 3");
 
@@ -207,11 +210,11 @@ namespace Demos
             document.FindByLayerPenColor(layerPenColor, out var layerPen);
             layerPen.IsSkyWritingEnabled = true;
             layerPen.SkyWritingMode = SkyWritingModes.Mode3;
+            layerPen.TimeLag = 250;
+            layerPen.LaserOnShift = 0;
+            layerPen.Prev = 2000 * 0.15;
+            layerPen.Post = 2000 * 0.1;
             layerPen.AngularLimit = 89;
-            layerPen.TimeLag = 150;
-            layerPen.LaserOnShift = 10;
-            layerPen.Prev = 0;
-            layerPen.Post = 0;
 
             var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
             document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
@@ -226,6 +229,8 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
+            Debug.Assert(marker.Rtc is not Rtc4);
+            Debug.Assert(marker.Rtc is Rtc6);
 
             CreateRectangleAndMeasurement("skywriting 4");
 
@@ -233,11 +238,11 @@ namespace Demos
             document.FindByLayerPenColor(layerPenColor, out var layerPen);
             layerPen.IsSkyWritingEnabled = true;
             layerPen.SkyWritingMode = SkyWritingModes.Mode4;
+            layerPen.TimeLag = 250;
+            layerPen.LaserOnShift = 0;
+            layerPen.Prev = 2000 * 0.15;
+            layerPen.Post = 2000 * 0.1;
             layerPen.AngularLimit = 89;
-            layerPen.TimeLag = 150;
-            layerPen.LaserOnShift = 10;
-            layerPen.Prev = 0;
-            layerPen.Post = 0;
 
             var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
             document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
@@ -275,6 +280,7 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
+            Debug.Assert(marker.Rtc is not Rtc4);
 
             CreateRectangleAndMeasurement("wobbel (parallel8)");
 
@@ -299,6 +305,7 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
+            Debug.Assert(marker.Rtc is not Rtc4);
 
             CreateRectangleAndMeasurement("wobbel (perpendicular8)");
 
