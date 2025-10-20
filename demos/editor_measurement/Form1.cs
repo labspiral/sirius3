@@ -99,16 +99,19 @@ namespace Demos
                 title
                 );
             document.ActivePage?.ActiveLayer?.AddChild(begin);
+            var layerPenColor = SpiralLab.Sirius3.UI.Config.LayerPenColors[1]; // Color.Yellow
+            document.ActivePage.ActiveLayer.PenColor = layerPenColor;
 
+
+            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
             // create rectangle
             var rectangle = EntityFactory.CreateRectangle(DVec2.Zero, 50, 50);
-            var penColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            rectangle.PenColor = penColor;
+            rectangle.PenColor = scannerPenColor;
             document.ActivePage?.ActiveLayer?.AddChild(rectangle);
 
             // create circle
             var circle = EntityFactory.CreateArc(DVec2.Zero, 25, 0, 360);
-            circle.PenColor = penColor;
+            circle.PenColor = scannerPenColor;
             document.ActivePage?.ActiveLayer?.AddChild(circle);
 
             // create measurement end
@@ -116,7 +119,7 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(end);
 
             // config scanner pen parameters
-            document.FindByScannerPenColor(penColor, out var scannerPen);
+            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
             scannerPen.JumpSpeed = 3_000;
             scannerPen.MarkSpeed = 1_000;
         }
@@ -128,9 +131,12 @@ namespace Demos
 
             CreateRectangleAndMeasurement("No skywriting");
 
-            var penColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(penColor, out var scannerPen);
-            scannerPen.IsSkyWritingEnabled = false; //disable sky-writing
+            var layerPenColor = SpiralLab.Sirius3.UI.Config.LayerPenColors[1]; // Color.Yellow
+            document.FindByLayerPenColor(layerPenColor, out var layerPen);
+            layerPen.IsSkyWritingEnabled = false; //disable sky-writing
+
+            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
+            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
             scannerPen.IsWobbelEnabled = false; //disable wobbel
 
             marker.Ready(document);
@@ -145,15 +151,18 @@ namespace Demos
 
             CreateRectangleAndMeasurement("skywriting 1");
 
-            var penColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(penColor, out var scannerPen);
-            scannerPen.IsSkyWritingEnabled = true;
-            scannerPen.SkyWritingMode = SkyWritingModes.Mode1;
-            scannerPen.AngularLimit = 89;
-            scannerPen.TimeLag = 150;
-            scannerPen.LaserOnShift = 10;
-            scannerPen.Prev = 0;
-            scannerPen.Post = 0;
+            var layerPenColor = SpiralLab.Sirius3.UI.Config.LayerPenColors[1]; // Color.Yellow
+            document.FindByLayerPenColor(layerPenColor, out var layerPen);
+            layerPen.IsSkyWritingEnabled = true;
+            layerPen.SkyWritingMode = SkyWritingModes.Mode1;
+            layerPen.AngularLimit = 89;
+            layerPen.TimeLag = 150;
+            layerPen.LaserOnShift = 10;
+            layerPen.Prev = 0;
+            layerPen.Post = 0;
+
+            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
+            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
             scannerPen.IsWobbelEnabled = false;
 
             marker.Ready(document);
@@ -168,17 +177,19 @@ namespace Demos
 
             CreateRectangleAndMeasurement("skywriting 2");
 
-            var penColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(penColor, out var scannerPen);
-            scannerPen.IsSkyWritingEnabled = true;
-            scannerPen.SkyWritingMode = SkyWritingModes.Mode2;
-            scannerPen.AngularLimit = 89;
-            scannerPen.TimeLag = 150;
-            scannerPen.LaserOnShift = 10;
-            scannerPen.Prev = 0;
-            scannerPen.Post = 0;
-            scannerPen.IsWobbelEnabled = false;
+            var layerPenColor = SpiralLab.Sirius3.UI.Config.LayerPenColors[1]; // Color.Yellow
+            document.FindByLayerPenColor(layerPenColor, out var layerPen);
+            layerPen.IsSkyWritingEnabled = true;
+            layerPen.SkyWritingMode = SkyWritingModes.Mode2;
+            layerPen.AngularLimit = 89;
+            layerPen.TimeLag = 150;
+            layerPen.LaserOnShift = 10;
+            layerPen.Prev = 0;
+            layerPen.Post = 0;
 
+            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
+            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
+            scannerPen.IsWobbelEnabled = false;
 
             marker.Ready(document);
             marker.Page = document.Page;
@@ -192,15 +203,18 @@ namespace Demos
 
             CreateRectangleAndMeasurement("skywriting 3");
 
-            var penColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(penColor, out var scannerPen);
-            scannerPen.IsSkyWritingEnabled = true;
-            scannerPen.SkyWritingMode = SkyWritingModes.Mode3;
-            scannerPen.AngularLimit = 89;
-            scannerPen.TimeLag = 150;
-            scannerPen.LaserOnShift = 10;
-            scannerPen.Prev = 0;
-            scannerPen.Post = 0;
+            var layerPenColor = SpiralLab.Sirius3.UI.Config.LayerPenColors[1]; // Color.Yellow
+            document.FindByLayerPenColor(layerPenColor, out var layerPen);
+            layerPen.IsSkyWritingEnabled = true;
+            layerPen.SkyWritingMode = SkyWritingModes.Mode3;
+            layerPen.AngularLimit = 89;
+            layerPen.TimeLag = 150;
+            layerPen.LaserOnShift = 10;
+            layerPen.Prev = 0;
+            layerPen.Post = 0;
+
+            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
+            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
             scannerPen.IsWobbelEnabled = false;
 
             marker.Ready(document);
@@ -215,15 +229,18 @@ namespace Demos
 
             CreateRectangleAndMeasurement("skywriting 4");
 
-            var penColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(penColor, out var scannerPen);
-            scannerPen.IsSkyWritingEnabled = true;
-            scannerPen.SkyWritingMode = SkyWritingModes.Mode4;
-            scannerPen.AngularLimit = 89;
-            scannerPen.TimeLag = 150;
-            scannerPen.LaserOnShift = 10;
-            scannerPen.Prev = 0;
-            scannerPen.Post = 0;
+            var layerPenColor = SpiralLab.Sirius3.UI.Config.LayerPenColors[1]; // Color.Yellow
+            document.FindByLayerPenColor(layerPenColor, out var layerPen);
+            layerPen.IsSkyWritingEnabled = true;
+            layerPen.SkyWritingMode = SkyWritingModes.Mode4;
+            layerPen.AngularLimit = 89;
+            layerPen.TimeLag = 150;
+            layerPen.LaserOnShift = 10;
+            layerPen.Prev = 0;
+            layerPen.Post = 0;
+
+            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
+            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
             scannerPen.IsWobbelEnabled = false;
 
             marker.Ready(document);
@@ -238,9 +255,12 @@ namespace Demos
 
             CreateRectangleAndMeasurement("wobbel (ellipse)");
 
-            var penColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(penColor, out var scannerPen);
-            scannerPen.IsSkyWritingEnabled = false;
+            var layerPenColor = SpiralLab.Sirius3.UI.Config.LayerPenColors[1]; // Color.Yellow
+            document.FindByLayerPenColor(layerPenColor, out var layerPen);
+            layerPen.IsSkyWritingEnabled = false;
+
+            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
+            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
             scannerPen.WobbelShape = WobbelShapes.Ellipse;
             scannerPen.IsWobbelEnabled = true;
             scannerPen.WobbelFrequency = 200;
@@ -258,9 +278,12 @@ namespace Demos
 
             CreateRectangleAndMeasurement("wobbel (parallel8)");
 
-            var penColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(penColor, out var scannerPen);
-            scannerPen.IsSkyWritingEnabled = false;
+            var layerPenColor = SpiralLab.Sirius3.UI.Config.LayerPenColors[1]; // Color.Yellow
+            document.FindByLayerPenColor(layerPenColor, out var layerPen);
+            layerPen.IsSkyWritingEnabled = false;
+
+            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
+            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
             scannerPen.WobbelShape = WobbelShapes.Parallel8;
             scannerPen.IsWobbelEnabled = true;
             scannerPen.WobbelFrequency = 200;
@@ -279,9 +302,12 @@ namespace Demos
 
             CreateRectangleAndMeasurement("wobbel (perpendicular8)");
 
-            var penColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(penColor, out var scannerPen);
-            scannerPen.IsSkyWritingEnabled = false;
+            var layerPenColor = SpiralLab.Sirius3.UI.Config.LayerPenColors[1]; // Color.Yellow
+            document.FindByLayerPenColor(layerPenColor, out var layerPen);
+            layerPen.IsSkyWritingEnabled = false;
+
+            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
+            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
             scannerPen.WobbelShape = WobbelShapes.Perpendicular8;
             scannerPen.IsWobbelEnabled = true;
             scannerPen.WobbelFrequency = 200;

@@ -163,23 +163,53 @@ namespace Demos
             bool success = true;
             // User defined data can be saved at 'pen.ExtensionData' 
 
-            if (null != rtcAlc && pen.IsALC)
+            if (null != rtcSkywriting)
             {
-                success &= rtcAlc.CtlAlcByPositionTable(pen.AlcByPositionTable);
-                switch (pen.AlcSignal)
+                if (pen.IsSkyWritingEnabled)
                 {
-                    case AutoLaserControlSignals.ExtDO16:
-                    case AutoLaserControlSignals.ExtDO8:
-                        success &= rtcAlc.CtlAlc<uint>(pen.AlcSignal, pen.AlcMode, (uint)pen.AlcPercentage100, (uint)pen.AlcMinValue, (uint)pen.AlcMaxValue);
-                        break;
-                    default:
-                        success &= rtcAlc.CtlAlc<double>(pen.AlcSignal, pen.AlcMode, pen.AlcPercentage100, pen.AlcMinValue, pen.AlcMaxValue);
-                        break;
+                    double cosineLimit = Math.Cos(SpiralLab.Sirius3.Mathematics.Helper.DegToRad(pen.AngularLimit));
+                    success &= rtcSkywriting.CtlSkyWriting(pen.SkyWritingMode, pen.LaserOnShift, pen.TimeLag, pen.Prev, pen.Post, cosineLimit);
                 }
+                else
+                    success &= rtcSkywriting.CtlSkyWriting(SkyWritingModes.Deactivate, 0, 0, 0, 0, 0);
+            }
+
+            if (null != rtcAlc)
+            {
+                if (pen.IsALC)
+                {
+                    success &= rtcAlc.CtlAlcByPositionTable(pen.AlcByPositionTable);
+                    switch (pen.AlcSignal)
+                    {
+                        case AutoLaserControlSignals.ExtDO16:
+                        case AutoLaserControlSignals.ExtDO8:
+                            success &= rtcAlc.CtlAlc<uint>(pen.AlcSignal, pen.AlcMode, (uint)pen.AlcPercentage100, (uint)pen.AlcMinValue, (uint)pen.AlcMaxValue);
+                            break;
+                        default:
+                            success &= rtcAlc.CtlAlc<double>(pen.AlcSignal, pen.AlcMode, pen.AlcPercentage100, pen.AlcMinValue, pen.AlcMaxValue);
+                            break;
+                    }
+                }
+                else
+                    success &= rtcAlc.CtlAlcByPositionTable(null);
+            }
+
+            if (rtc.Is3D)
+            {
+            }
+            if (rtc.Is2ndHead)
+            {
+            }
+            if (rtc.IsMoF)
+            {
+            }
+            if (rtc.IsScanAhead)
+            {
             }
 
             if (null != rtcSyncAxis)
             {
+
                 switch (pen.MotionType)
                 {
                     case MotionTypes.StageOnly:
@@ -229,21 +259,30 @@ namespace Demos
                     }
                 }
             }
-            success &= rtc.ListDelay(pen.LaserOnDelay, pen.LaserOffDelay, pen.ScannerJumpDelay, pen.ScannerMarkDelay, pen.ScannerPolygonDelay);
+            success &= rtc.ListDelay(
+                 pen.LaserOnDelay,
+                 pen.LaserOffDelay,
+                 pen.ScannerJumpDelay,
+                 pen.ScannerMarkDelay,
+                 pen.ScannerPolygonDelay);
+
+            if (rtc.Is3D)
+            {
+            }
+            if (rtc.Is2ndHead)
+            {
+            }
+            if (rtc.IsMoF)
+            {
+            }
+            if (rtc.IsScanAhead)
+            {
+            }
+
             success &= rtc.ListSpeed(pen.JumpSpeed, pen.MarkSpeed);
             success &= rtc.ListFirstPulseKiller(pen.LaserFpk);
             if (null != rtcExtension)
-            {
                 success &= rtcExtension.ListQSwitchDelay(pen.LaserQSwitchDelay);
-            }
-            if (null != rtcSkywriting)
-            {
-                double cosineLimit = Math.Cos(SpiralLab.Sirius3.Mathematics.Helper.DegToRad(pen.AngularLimit));
-                if (pen.IsSkyWritingEnabled)
-                    success &= rtcSkywriting.ListSkyWritingBegin(pen.SkyWritingMode, pen.LaserOnShift, pen.TimeLag, pen.Prev, pen.Post, cosineLimit);
-                else
-                    success &= rtcSkywriting.ListSkyWritingEnd();
-            }
 
             if (null != rtcWobbel)
             {
