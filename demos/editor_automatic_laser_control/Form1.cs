@@ -116,7 +116,7 @@ namespace Demos
             layerPenWhite.AlcPercentage100 = 5; //5V
             layerPenWhite.AlcMinValue = 4; // 4V
             layerPenWhite.AlcMaxValue = 6; //6V
-            layerPenWhite.AlcByPositionTable = null;
+            layerPenWhite.AlcByPositionTable.Clear();
         }
 
         private void BtnActualVelocity_Click(object sender, EventArgs e)
@@ -154,7 +154,7 @@ namespace Demos
             layerPenWhite.AlcPercentage100 = 50 * 1000; //50KHz
             layerPenWhite.AlcMinValue = 40 * 1000; //Lower cut off frequency : 40KHz
             layerPenWhite.AlcMaxValue = 60 * 1000; //Upper cut off frequency : 60KHz
-            layerPenWhite.AlcByPositionTable = null;
+            layerPenWhite.AlcByPositionTable.Clear();
         }
 
         private void BtnPositionDependent_Click(object sender, EventArgs e)
@@ -204,7 +204,7 @@ namespace Demos
             kvList.Add(new KeyValuePair<double, double>(40, 1.6));
             kvList.Add(new KeyValuePair<double, double>(50, 2.0));
             // + Position dependent
-            layerPenWhite.AlcByPositionTable = kvList.ToArray();
+            layerPenWhite.AlcByPositionTable = kvList;
         }
 
         private void BtnSpotDistance_Click(object sender, EventArgs e)
@@ -237,14 +237,14 @@ namespace Demos
 
             // Actual velocity + spot distance control
             layerPenWhite.IsALC = true;
-            layerPenWhite.AlcByPositionTable = null;
+            layerPenWhite.AlcByPositionTable.Clear();
             layerPenWhite.AlcSignal = AutoLaserControlSignals.SpotDistance; //RTC6 + SCANAhead
             layerPenWhite.AlcMode = AutoLaserControlModes.ActualVelocityWithSCANAhead;
             double spotDistance = 0.1; 
             layerPenWhite.AlcPercentage100 = spotDistance;
             //layerPenWhite.AlcMinValue = 0; // not used at SpotDistance
             //layerPenWhite.AlcMaxValue = 0; // not used at SpotDistance
-            layerPenWhite.AlcByPositionTable = null;
+            layerPenWhite.AlcByPositionTable.Clear();
         }
 
     }

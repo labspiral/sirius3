@@ -158,8 +158,8 @@ namespace Demos
             layerPen.SkyWritingMode = SkyWritingModes.Mode1;
             layerPen.TimeLag = 250;
             layerPen.LaserOnShift = 0;
-            layerPen.Prev = 2000 * 0.15;
-            layerPen.Post = 2000 * 0.1;
+            layerPen.Prev = 1000;
+            layerPen.Post = 1000;
             //layerPen.AngularLimit = 89;
 
             var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
@@ -185,8 +185,8 @@ namespace Demos
             layerPen.SkyWritingMode = SkyWritingModes.Mode2;
             layerPen.TimeLag = 250;
             layerPen.LaserOnShift = 0;
-            layerPen.Prev = 2000 * 0.15;
-            layerPen.Post = 2000 * 0.1;
+            layerPen.Prev = 1000;
+            layerPen.Post = 1000;
             //layerPen.AngularLimit = 89;
 
             var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow

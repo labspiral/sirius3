@@ -178,7 +178,7 @@ namespace Demos
             {
                 if (pen.IsALC)
                 {
-                    success &= rtcAlc.CtlAlcByPositionTable(pen.AlcByPositionTable);
+                    success &= rtcAlc.CtlAlcByPositionTable(pen.AlcByPositionTable?.ToArray());
                     switch (pen.AlcSignal)
                     {
                         case AutoLaserControlSignals.ExtDO16:
