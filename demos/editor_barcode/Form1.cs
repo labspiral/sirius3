@@ -126,7 +126,7 @@ namespace Demos
                 hatch.Exclude = 0.05;
                 hatch.IsZigZag = true;
                 hatch.Order = HatchOrders.Descending;
-                hatch.Sort = HatchSorts.Line; // fast calculation, line by line but mark time is not optimzed
+                hatch.Sort = HatchSorts.None; // fast calculation, line by line but mark time is not optimzed
                 //hatch.Sort = HatchSorts.Global; //slow calculation but mark time optimized
                 entity.HatchMarkOption = HatchMarkOptions.HatchFirst;
                 entity.AddHatch(hatch);

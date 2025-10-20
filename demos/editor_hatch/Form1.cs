@@ -98,7 +98,7 @@ namespace Demos
 
             var hatch = HatchFactory.CreateLine(angle, interval);
             hatch.Exclude = 0.05;
-            hatch.Sort = HatchSorts.Line;
+            hatch.Sort = HatchSorts.None;
 
             var index = 0; //0 means Color.White
          
@@ -125,7 +125,7 @@ namespace Demos
 
             var hatch = HatchFactory.CreateLine(angle, interval);
             hatch.Exclude = 0.05;
-            hatch.Sort = HatchSorts.Line;
+            hatch.Sort = HatchSorts.None;
 
             var index = 1; //1 means Color.Yellow
             hatch.ModelColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[index].ToDVec3();

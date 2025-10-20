@@ -144,7 +144,7 @@ namespace Demos
             hatch.Joint = HatchJoints.Miter;
             hatch.Exclude = 0.05;
             hatch.IsZigZag = true;
-            hatch.Sort = HatchSorts.Line;
+            hatch.Sort = HatchSorts.None;
             //hatch.Sort = HatchSorts.Near; // nearest. greedy 
             //hatch.Sort = HatchSorts.Global; //slow calculation but mark time optimized
 
