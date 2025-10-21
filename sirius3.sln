@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_alc", "demos\editor_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_measurement_skywriting_wobbel", "demos\editor_measurement_skywriting_wobbel\editor_measurement_skywriting_wobbel.csproj", "{940F698F-C0C5-430B-6981-217F985C6F43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_offset", "demos\editor_offset\editor_offset.csproj", "{82AD10F2-DCDC-96D7-2656-FCEB18379A25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{940F698F-C0C5-430B-6981-217F985C6F43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{940F698F-C0C5-430B-6981-217F985C6F43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{940F698F-C0C5-430B-6981-217F985C6F43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82AD10F2-DCDC-96D7-2656-FCEB18379A25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82AD10F2-DCDC-96D7-2656-FCEB18379A25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82AD10F2-DCDC-96D7-2656-FCEB18379A25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82AD10F2-DCDC-96D7-2656-FCEB18379A25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
