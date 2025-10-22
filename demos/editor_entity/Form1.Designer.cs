@@ -30,7 +30,6 @@
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnPoints = new System.Windows.Forms.Button();
-            this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
             this.btnLineArc = new System.Windows.Forms.Button();
             this.btnTriangleRectangle = new System.Windows.Forms.Button();
             this.btnPolyline = new System.Windows.Forms.Button();
@@ -47,6 +46,7 @@
             this.btnZPL = new System.Windows.Forms.Button();
             this.btnLissajous = new System.Windows.Forms.Button();
             this.btnGerber = new System.Windows.Forms.Button();
+            this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,26 +83,6 @@
             this.btnPoints.TabIndex = 0;
             this.btnPoints.Text = "Points";
             this.btnPoints.UseVisualStyleBackColor = true;
-            // 
-            // siriusEditorControl1
-            // 
-            this.siriusEditorControl1.BackColor = System.Drawing.SystemColors.Control;
-            this.siriusEditorControl1.DIExt1 = null;
-            this.siriusEditorControl1.DILaserPort = null;
-            this.siriusEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.siriusEditorControl1.DOExt1 = null;
-            this.siriusEditorControl1.DOExt2 = null;
-            this.siriusEditorControl1.DOLaserPort = null;
-            this.siriusEditorControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.siriusEditorControl1.Laser = null;
-            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 50);
-            this.siriusEditorControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.siriusEditorControl1.Marker = null;
-            this.siriusEditorControl1.Name = "siriusEditorControl1";
-            this.siriusEditorControl1.PowerMeter = null;
-            this.siriusEditorControl1.Scanner = null;
-            this.siriusEditorControl1.Size = new System.Drawing.Size(2254, 1588);
-            this.siriusEditorControl1.TabIndex = 2;
             // 
             // btnLineArc
             // 
@@ -180,14 +160,14 @@
             // 
             this.btnLines.Location = new System.Drawing.Point(897, 3);
             this.btnLines.Name = "btnLines";
-            this.btnLines.Size = new System.Drawing.Size(69, 44);
+            this.btnLines.Size = new System.Drawing.Size(112, 44);
             this.btnLines.TabIndex = 9;
-            this.btnLines.Text = "Lines";
+            this.btnLines.Text = "Large Lines";
             this.btnLines.UseVisualStyleBackColor = true;
             // 
             // btnBarcode
             // 
-            this.btnBarcode.Location = new System.Drawing.Point(972, 3);
+            this.btnBarcode.Location = new System.Drawing.Point(1015, 3);
             this.btnBarcode.Name = "btnBarcode";
             this.btnBarcode.Size = new System.Drawing.Size(96, 44);
             this.btnBarcode.TabIndex = 10;
@@ -196,16 +176,16 @@
             // 
             // btnGroup
             // 
-            this.btnGroup.Location = new System.Drawing.Point(1074, 3);
+            this.btnGroup.Location = new System.Drawing.Point(1117, 3);
             this.btnGroup.Name = "btnGroup";
-            this.btnGroup.Size = new System.Drawing.Size(83, 44);
+            this.btnGroup.Size = new System.Drawing.Size(143, 44);
             this.btnGroup.TabIndex = 11;
-            this.btnGroup.Text = "Group";
+            this.btnGroup.Text = "Group in Group";
             this.btnGroup.UseVisualStyleBackColor = true;
             // 
             // btn3DMesh
             // 
-            this.btn3DMesh.Location = new System.Drawing.Point(1163, 3);
+            this.btn3DMesh.Location = new System.Drawing.Point(1266, 3);
             this.btn3DMesh.Name = "btn3DMesh";
             this.btn3DMesh.Size = new System.Drawing.Size(97, 44);
             this.btn3DMesh.TabIndex = 12;
@@ -214,7 +194,7 @@
             // 
             // btnBlockInsert
             // 
-            this.btnBlockInsert.Location = new System.Drawing.Point(1266, 3);
+            this.btnBlockInsert.Location = new System.Drawing.Point(1369, 3);
             this.btnBlockInsert.Name = "btnBlockInsert";
             this.btnBlockInsert.Size = new System.Drawing.Size(106, 44);
             this.btnBlockInsert.TabIndex = 13;
@@ -223,7 +203,7 @@
             // 
             // btnZPL
             // 
-            this.btnZPL.Location = new System.Drawing.Point(1378, 3);
+            this.btnZPL.Location = new System.Drawing.Point(1481, 3);
             this.btnZPL.Name = "btnZPL";
             this.btnZPL.Size = new System.Drawing.Size(65, 44);
             this.btnZPL.TabIndex = 14;
@@ -232,7 +212,7 @@
             // 
             // btnLissajous
             // 
-            this.btnLissajous.Location = new System.Drawing.Point(1449, 3);
+            this.btnLissajous.Location = new System.Drawing.Point(1552, 3);
             this.btnLissajous.Name = "btnLissajous";
             this.btnLissajous.Size = new System.Drawing.Size(97, 44);
             this.btnLissajous.TabIndex = 15;
@@ -241,12 +221,32 @@
             // 
             // btnGerber
             // 
-            this.btnGerber.Location = new System.Drawing.Point(1552, 3);
+            this.btnGerber.Location = new System.Drawing.Point(1655, 3);
             this.btnGerber.Name = "btnGerber";
             this.btnGerber.Size = new System.Drawing.Size(97, 44);
             this.btnGerber.TabIndex = 16;
-            this.btnGerber.Text = "Lissajous";
+            this.btnGerber.Text = "Gerber";
             this.btnGerber.UseVisualStyleBackColor = true;
+            // 
+            // siriusEditorControl1
+            // 
+            this.siriusEditorControl1.BackColor = System.Drawing.SystemColors.Control;
+            this.siriusEditorControl1.DIExt1 = null;
+            this.siriusEditorControl1.DILaserPort = null;
+            this.siriusEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.siriusEditorControl1.DOExt1 = null;
+            this.siriusEditorControl1.DOExt2 = null;
+            this.siriusEditorControl1.DOLaserPort = null;
+            this.siriusEditorControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.siriusEditorControl1.Laser = null;
+            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 50);
+            this.siriusEditorControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.siriusEditorControl1.Marker = null;
+            this.siriusEditorControl1.Name = "siriusEditorControl1";
+            this.siriusEditorControl1.PowerMeter = null;
+            this.siriusEditorControl1.Scanner = null;
+            this.siriusEditorControl1.Size = new System.Drawing.Size(2254, 1588);
+            this.siriusEditorControl1.TabIndex = 2;
             // 
             // Form1
             // 
