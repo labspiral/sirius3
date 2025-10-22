@@ -869,7 +869,7 @@ namespace Demos
         }
         private void lissajous_testcase(IDocument document)
         {
-            var entity = new EntityLissajous(DVec3.Zero, 10, 2, 20);
+            var entity = new EntityLissajous(DVec3.Zero, EntityLissajous.LissajousTypes.Classic, 10, 2, 10);
             document.ActivePage?.ActiveLayer?.AddChild(entity);
         }
         /// <summary>
