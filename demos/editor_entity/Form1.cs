@@ -36,7 +36,80 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
-            this.btnEntities.Click += BtnEntities_Click;
+
+            this.btnPoints.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                points_testcase(document);
+            };
+            this.btnLineArc.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                line_arc_testcase(document);
+            };
+            this.btnTriangleRectangle.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                triangle_rectangle_testcase(document);
+            };
+            this.btnPolyline.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                polyline2d_testcase(document);
+                polyline3d_testcase(document);
+            };
+            this.btnHatch.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                hatch_testcase(document);
+            };
+            this.btnSpline.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                bezierSpline_testcase(document);
+                catmullRomSpline_testcase(document);
+            };
+            this.btnText.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                text_testcase(document);
+            };
+            this.btnImage.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                image_testcase(document);
+            };
+            this.btnGridCloud.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                gridcloud_testcase(document);
+            };
+            this.btnLines.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                large_lines_testcase(document);
+            };
+            this.btnBarcode.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                barcode_testcase(document);
+            };
+            this.btnGroup.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                groupIngroup_testcase(document);
+            };
+            this.btn3DMesh.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                sphere_testcase(document);
+                cube_cylinder_testcase(document);
+            };
+            this.btnBlockInsert.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                block_insert_testcase(document);
+            };
+            this.btnZPL.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                zpl_testcase(document);
+            };
+            this.btnLissajous.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                lissajous_testcase(document);
+            };
+            this.btnGerber.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                gerber_testcase(document);
+            };
+
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -60,46 +133,12 @@ namespace Demos
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
 
-        private void BtnEntities_Click(object sender, EventArgs e)
-        {
-            var document = siriusEditorControl1.Document;
-            var rtc = siriusEditorControl1.Scanner as IRtc;
-
-            //document.ActNew();
-            CreateTestEntities(rtc, document);
-        }
-
-        void CreateTestEntities(IRtc rtc, IDocument document)
-        {
-            points_testcase(document);
-            line_arc_testcase(document);
-            triangle_rectangle_testcase(document);
-            polyline2d_testcase(document);
-            polyline3d_testcase(document);
-            hatch_testcase(document);
-            bezierSpline_testcase(document);
-            catmullRomSpline_testcase(document);
-            text_testcase(document);
-            image_testcase(document);
-            gridcloud_testcase(document);
-            large_lines_testcase(document);
-            barcode_testcase(document);
-            groupIngroup_testcase(document);
-            sphere_testcase(document);
-            cube_cylinder_testcase(document);
-            block_insert_testcase(document);
-            //gerber_testcase(document);
-            zpl_testcase(document);
-        }
-
         #region Testcases (Samples)
-
         /// <summary>
         /// Adds a random point cloud entity.
         /// </summary>
         private void points_testcase(IDocument document)
         {
-
             var rng = new Random((int)DateTime.Now.Ticks);
 
             int VERT_COUNT = 100 + (int)(rng.NextDouble() * 100);
@@ -675,16 +714,6 @@ namespace Demos
         }
 
         /// <summary>
-        /// (Optional) Demonstrates adding Gerber entities (paths are placeholders).
-        /// </summary>
-        private void gerber_testcase(IDocument document)
-        {
-            // Update the file paths below before enabling.
-            // var gerber1 = new EntityGerber(@"C:\Path\LED-seven-segment.GBS");
-            // document.ActivePage?.ActiveLayer?.AddChild(gerber1);
-        }
-
-        /// <summary>
         /// Adds several large line batches to test performance.
         /// </summary>
         private void large_lines_testcase(IDocument document)
@@ -838,6 +867,23 @@ namespace Demos
             var entity = new EntityImageZPL(4 * 25.4, 6 * 25.4, zplText, EntityImageZPL.DotsPerMMs.Dots8_203DPI);
             document.ActivePage?.ActiveLayer?.AddChild(entity);
         }
+        private void lissajous_testcase(IDocument document)
+        {
+            var entity = new EntityLissajous(DVec3.Zero, 10, 2, 20);
+            document.ActivePage?.ActiveLayer?.AddChild(entity);
+        }
+        /// <summary>
+        /// (Optional) Demonstrates adding Gerber entities (paths are placeholders).
+        /// </summary>
+        private void gerber_testcase(IDocument document)
+        {
+            // Update the file paths below before enabling.
+            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\LED-seven-segment.GBS");
+            if (!File.Exists(fileName)) return;
+            var gerber = new EntityGerber(fileName);
+            document.ActivePage?.ActiveLayer?.AddChild(gerber);
+        }
+
         #endregion
     }
 }
