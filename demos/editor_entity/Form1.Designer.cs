@@ -47,6 +47,7 @@
             this.btnLissajous = new System.Windows.Forms.Button();
             this.btnGerber = new System.Windows.Forms.Button();
             this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
+            this.btnSpiral = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,6 +69,7 @@
             this.flowLayoutPanel1.Controls.Add(this.btnBlockInsert);
             this.flowLayoutPanel1.Controls.Add(this.btnZPL);
             this.flowLayoutPanel1.Controls.Add(this.btnLissajous);
+            this.flowLayoutPanel1.Controls.Add(this.btnSpiral);
             this.flowLayoutPanel1.Controls.Add(this.btnGerber);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -221,7 +223,7 @@
             // 
             // btnGerber
             // 
-            this.btnGerber.Location = new System.Drawing.Point(1655, 3);
+            this.btnGerber.Location = new System.Drawing.Point(1758, 3);
             this.btnGerber.Name = "btnGerber";
             this.btnGerber.Size = new System.Drawing.Size(97, 44);
             this.btnGerber.TabIndex = 16;
@@ -247,6 +249,15 @@
             this.siriusEditorControl1.Scanner = null;
             this.siriusEditorControl1.Size = new System.Drawing.Size(2254, 1588);
             this.siriusEditorControl1.TabIndex = 2;
+            // 
+            // btnSpiral
+            // 
+            this.btnSpiral.Location = new System.Drawing.Point(1655, 3);
+            this.btnSpiral.Name = "btnSpiral";
+            this.btnSpiral.Size = new System.Drawing.Size(97, 44);
+            this.btnSpiral.TabIndex = 17;
+            this.btnSpiral.Text = "Spiral";
+            this.btnSpiral.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -285,5 +296,6 @@
         private Button btnZPL;
         private Button btnLissajous;
         private Button btnGerber;
+        private Button btnSpiral;
     }
 }

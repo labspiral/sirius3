@@ -125,7 +125,7 @@ namespace Demos
             double x4 = -15;
             var mofWait4 = EntityFactory.CreateMoFWait(RtcEncoders.EncX, RtcEncoderWaitConditions.Over, -x4);
             document.ActivePage?.ActiveLayer?.AddChild(mofWait4);
-            var spiral = EntityFactory.CreateSpiral(x4, 0, 2, 4, 0, 5, true);
+            var spiral = EntityFactory.CreateSpiral(x4, 0, 2, 0, 5, EntitySpiral.SpiralTypes.Archimedean, true);
             document.ActivePage?.ActiveLayer?.AddChild(spiral);
 
             double x5 = -20;

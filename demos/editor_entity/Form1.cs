@@ -104,6 +104,10 @@ namespace Demos
                 var document = siriusEditorControl1.Document;
                 lissajous_testcase(document);
             };
+            this.btnSpiral.Click += (s, e) => {
+                var document = siriusEditorControl1.Document;
+                spiral_testcase(document);
+            };
             this.btnGerber.Click += (s, e) => {
                 var document = siriusEditorControl1.Document;
                 gerber_testcase(document);
@@ -669,7 +673,7 @@ namespace Demos
             var rng = new Random((int)DateTime.Now.Ticks);
 
             {
-                var entity = new EntitySpiral(Vector3d.Zero, 5, 10, 2, 5, true);
+                var entity = new EntitySpiral(Vector3d.Zero, 5, 2, 5, EntitySpiral.SpiralTypes.Archimedean);
                 document.ActBlock(new IEntity[] { entity }, "Block1");
             }
 
@@ -870,6 +874,11 @@ namespace Demos
         private void lissajous_testcase(IDocument document)
         {
             var entity = new EntityLissajous(DVec3.Zero, 10, 2, 12, EntityLissajous.LissajousTypes.¥ð, EntityLissajous.Directions.Cw);
+            document.ActivePage?.ActiveLayer?.AddChild(entity);
+        }
+        private void spiral_testcase(IDocument document)
+        {
+            var entity = new EntitySpiral(DVec3.Zero, 10, 2, 12, EntitySpiral.SpiralTypes.Archimedean, true);
             document.ActivePage?.ActiveLayer?.AddChild(entity);
         }
         /// <summary>
