@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_offset", "demos\edit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_laser_ui", "demos\editor_laser_ui\editor_laser_ui.csproj", "{E4A2971B-374A-A1FC-8A69-AB83B45F63BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_powermap", "demos\editor_powermap\editor_powermap.csproj", "{81267CC2-A36E-B350-268F-726BB8A6A4FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{E4A2971B-374A-A1FC-8A69-AB83B45F63BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4A2971B-374A-A1FC-8A69-AB83B45F63BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4A2971B-374A-A1FC-8A69-AB83B45F63BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81267CC2-A36E-B350-268F-726BB8A6A4FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81267CC2-A36E-B350-268F-726BB8A6A4FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81267CC2-A36E-B350-268F-726BB8A6A4FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81267CC2-A36E-B350-268F-726BB8A6A4FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

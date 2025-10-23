@@ -419,12 +419,19 @@ namespace Demos
             if (0 != enablePowerMap)
             {
                 var powerMap = PowerMapFactory.CreateDefault(index, $"MAP{index}");
+                
                 powerMap.OnOpened += PowerMap_OnMappingOpened;
                 powerMap.OnSaved += PowerMap_OnMappingSaved;
                 var powerMapFile = NativeMethods.ReadIni<string>(ConfigFileName, $"LASER{index}", "POWERMAP_FILE", string.Empty);
                 var powerMapFullPath = Path.Combine(SpiralLab.Sirius3.Config.PowerMapPath, powerMapFile);
                 if (File.Exists(powerMapFullPath))
                     success &= PowerMapSerializer.Open(powerMapFullPath, powerMap);
+                else
+                {
+                    //reset as 1 to 1 if you want
+                    //powerMap.Reset1to1("10000", laser.MaxPowerWatt);
+                    //powerMap.Reset1to1("50000", laser.MaxPowerWatt);
+                }
                 if (null != powerControl)
                 {
                     powerControl.PowerMap = powerMap;
@@ -495,7 +502,7 @@ namespace Demos
             rtc?.Dispose();
         }
 
-        private static void PowerMap_OnMappingOpened(IPowerMap powerMap, string fileName)
+        internal static void PowerMap_OnMappingOpened(IPowerMap powerMap, string fileName)
         {
             //var index = powerMap.Index;
             //var name = Path.GetFileName(fileName);
@@ -503,7 +510,7 @@ namespace Demos
             // ...
         }
 
-        private static void PowerMap_OnMappingSaved(IPowerMap powerMap, string fileName)
+        internal static void PowerMap_OnMappingSaved(IPowerMap powerMap, string fileName)
         {
             var index = powerMap.Index;
             // File path should be in "powermap\"
