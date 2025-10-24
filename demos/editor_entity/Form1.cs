@@ -91,6 +91,8 @@ namespace Demos
                 var document = siriusEditorControl1.Document;
                 sphere_testcase(document);
                 cube_cylinder_testcase(document);
+                stl_testcase(document);
+                obj_testcase(document);
             };
             this.btnBlockInsert.Click += (s, e) => {
                 var document = siriusEditorControl1.Document;
@@ -286,36 +288,7 @@ namespace Demos
                 }
             }
         }
-
-        /// <summary>
-        /// Adds multiple cubes and cylinders with random transforms.
-        /// </summary>
-        private void cube_cylinder_testcase(IDocument document)
-        {
-            var rng = new Random((int)DateTime.Now.Ticks);
-            const int ENTITY_COUNT = 5;
-
-            for (int i = 0; i < ENTITY_COUNT; i++)
-            {
-                var cube = new EntityCube(Vector3d.Zero, rng.NextDouble() * 5, rng.NextDouble() * 6, rng.NextDouble() * 2)
-                {
-                    ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new Vector3d(rng.NextDouble() + 0.8, rng.NextDouble() * 0.5, rng.NextDouble())
-                };
-                cube.Rotate(rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0);
-                cube.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
-                document.ActivePage?.ActiveLayer?.AddChild(cube);
-
-                var cyl = new EntityCylinder(Vector3d.Zero, rng.NextDouble() * 10, rng.NextDouble() * 10)
-                {
-                    ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new Vector3d(rng.NextDouble() * 0.5, rng.NextDouble() * 0.7, rng.NextDouble() + 0.5)
-                };
-                cyl.Rotate((float)(rng.NextDouble() * 60.0 - 30.0), (float)(rng.NextDouble() * 60.0 - 30.0), (float)(rng.NextDouble() * 60.0 - 30.0));
-                cyl.Translate((float)(rng.NextDouble() * 100.0 - 50.0), (float)(rng.NextDouble() * 100.0 - 50.0), (float)(rng.NextDouble() * 100.0 - 10.0));
-                document.ActivePage?.ActiveLayer?.AddChild(cyl);
-            }
-        }
+      
 
         /// <summary>
         /// Adds two large grid-cloud entities for a height map example.
@@ -352,7 +325,7 @@ namespace Demos
                 var minZ = zDepths.Min();
                 var maxZ = zDepths.Max();
                 var pointsCloud = new EntityGrids(ROWS, COLS, INTERVAL, zDepths, new Vector2d(minZ + 2, maxZ + 2));
-                pointsCloud.Translate(-100, 0, 2);
+                pointsCloud.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 2);
                 document.ActivePage?.ActiveLayer?.AddChild(pointsCloud);
                 reference = pointsCloud;
             }
@@ -382,7 +355,7 @@ namespace Demos
                 {
                     ColorMode = EntityModelBase.ColorModes.PerVertex
                 };
-                pointsCloud.Translate(100, 0, 5);
+                pointsCloud.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 5);
                 document.ActivePage?.ActiveLayer?.AddChild(pointsCloud);
                 measured = pointsCloud;
             }
@@ -634,6 +607,7 @@ namespace Demos
                 group.AddChild(subGroup);
             }
 
+            group.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 5);
             document.ActivePage?.ActiveLayer?.AddChild(group);
         }
 
@@ -662,8 +636,61 @@ namespace Demos
                 group.AddChild(entity);
             }
 
+            group.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0 + 100, rng.NextDouble() * 2);
             document.ActivePage?.ActiveLayer?.AddChild(group);
         }
+        /// <summary>
+        /// Adds multiple cubes and cylinders with random transforms.
+        /// </summary>
+        private void cube_cylinder_testcase(IDocument document)
+        {
+            var rng = new Random((int)DateTime.Now.Ticks);
+            const int ENTITY_COUNT = 5;
+
+            for (int i = 0; i < ENTITY_COUNT; i++)
+            {
+                var cube = new EntityCube(Vector3d.Zero, rng.NextDouble() * 5, rng.NextDouble() * 6, rng.NextDouble() * 2)
+                {
+                    ColorMode = EntityModelBase.ColorModes.Model,
+                    ModelColor = new Vector3d(rng.NextDouble() + 0.8, rng.NextDouble() * 0.5, rng.NextDouble())
+                };
+                cube.Rotate(rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0);
+                cube.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                document.ActivePage?.ActiveLayer?.AddChild(cube);
+
+                var cyl = new EntityCylinder(Vector3d.Zero, rng.NextDouble() * 10, rng.NextDouble() * 10)
+                {
+                    ColorMode = EntityModelBase.ColorModes.Model,
+                    ModelColor = new Vector3d(rng.NextDouble() * 0.5, rng.NextDouble() * 0.7, rng.NextDouble() + 0.5)
+                };
+                cyl.Rotate((rng.NextDouble() * 60.0 - 30.0), (rng.NextDouble() * 60.0 - 30.0), (rng.NextDouble() * 60.0 - 30.0));
+                cyl.Translate((rng.NextDouble() * 100.0 - 50.0), (rng.NextDouble() * 100.0 - 50.0), (rng.NextDouble() * 100.0 - 10.0));
+                document.ActivePage?.ActiveLayer?.AddChild(cyl);
+            }
+        }
+        private void stl_testcase(IDocument document)
+        {
+            var rng = new Random((int)DateTime.Now.Ticks);
+            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\11_-_Main_Fan_1.stl");
+            if (!File.Exists(fileName)) return;
+
+            var mesh = new EntityMesh(fileName);
+            mesh.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
+            mesh.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, 0);
+            document.ActivePage?.ActiveLayer?.AddChild(mesh);
+        }
+        private void obj_testcase(IDocument document)
+        {
+            var rng = new Random((int)DateTime.Now.Ticks);
+            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\teapot.obj");
+            if (!File.Exists(fileName)) return;
+
+            var mesh = new EntityMesh(fileName);
+            mesh.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
+            mesh.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, 0);
+            document.ActivePage?.ActiveLayer?.AddChild(mesh);
+        }
+      
 
         /// <summary>
         /// Creates a block from an entity and inserts multiple block instances.
@@ -671,34 +698,35 @@ namespace Demos
         private void block_insert_testcase(IDocument document)
         {
             var rng = new Random((int)DateTime.Now.Ticks);
+            const string masterBlockName = "Block1";
 
+            if (!document.FindByBlockName(masterBlockName, out _))
             {
                 var entity = new EntitySpiral(Vector3d.Zero, 5, 2, 5, EntitySpiral.SpiralTypes.Archimedean);
-                document.ActBlock(new IEntity[] { entity }, "Block1");
+                document.ActBlock(new IEntity[] { entity }, masterBlockName);
             }
+            double dx = 0;
+            double dy = 0;
+            List<IEntity> entities = new List<IEntity>(2 * 5);
 
+            for (int y = 0; y < 2; y++)
             {
-                double dx = 0;
-                double dy = 0;
-                List<IEntity> entities = new(3 * 5);
-
-                for (int y = 0; y < 2; y++)
+                for (int x = 0; x < 5; x++)
                 {
-                    for (int x = 0; x < 5; x++)
-                    {
-                        var insert = new EntityBlockInsert($"BlockInsert{x},{y}", "Block1", new Vector3d(dx, dy - 50, 0));
-                        insert.Rotate(rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0);
-                        insert.Scale(rng.NextDouble() + 0.2, rng.NextDouble() + 0.2, rng.NextDouble() + 0.2);
+                    var insert = new EntityBlockInsert($"BlockInsert{x},{y}", masterBlockName, new Vector3d(dx, dy - 50, 0));
 
-                        entities.Add(insert);
-                        dx += 10;
-                    }
-                    dx = 0;
-                    dy += 11;
+                    insert.Scale(rng.NextDouble() + 0.2, rng.NextDouble() + 0.2, rng.NextDouble() + 0.2);
+                    insert.Translate(rng.NextDouble() * 5.0, rng.NextDouble() * 5.0, 0);
+                    insert.Rotate(rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0);
+
+                    entities.Add(insert);
+                    dx += 10;
                 }
-
-                document.ActivePage?.ActiveLayer?.AddChildren(entities.ToArray());
+                dx = 0;
+                dy += 11;
             }
+
+            document.ActivePage?.ActiveLayer?.AddChildren(entities.ToArray());
         }
 
         /// <summary>
@@ -722,6 +750,7 @@ namespace Demos
         /// </summary>
         private void large_lines_testcase(IDocument document)
         {
+            var rng = new Random((int)DateTime.Now.Ticks);
             // Pack 1
             {
                 const int LINE_COUNT = 10000;
@@ -739,6 +768,7 @@ namespace Demos
                     lines.Add(end);
                 }
                 var entity = new EntityLines(lines) { Alpha = 0.9f };
+                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 5);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
@@ -759,7 +789,7 @@ namespace Demos
                     lines.Add(end);
                 }
                 var entity = new EntityLines(lines);
-                entity.Translate(0, 0, 1);
+                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 1);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
@@ -780,7 +810,7 @@ namespace Demos
                     lines.Add(end);
                 }
                 var entity = new EntityLines(lines);
-                entity.Translate(0, 0, 1);
+                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 1);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
         }
@@ -829,6 +859,8 @@ namespace Demos
         /// </summary>
         private void zpl_testcase(IDocument document)
         {
+            var rng = new Random((int)DateTime.Now.Ticks);
+
             var sb = new StringBuilder();
             sb.Append("^XA");
             sb.Append("^FX Top section with logo, name and address.");
@@ -869,16 +901,21 @@ namespace Demos
 
             var zplText = sb.ToString();
             var entity = new EntityImageZPL(4 * 25.4, 6 * 25.4, zplText, EntityImageZPL.DotsPerMMs.Dots8_203DPI);
+            entity.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
             document.ActivePage?.ActiveLayer?.AddChild(entity);
         }
         private void lissajous_testcase(IDocument document)
         {
+            var rng = new Random((int)DateTime.Now.Ticks);
             var entity = new EntityLissajous(DVec3.Zero, 10, 2, 12, EntityLissajous.LissajousTypes.¥ð, EntityLissajous.Directions.Cw);
+            entity.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
             document.ActivePage?.ActiveLayer?.AddChild(entity);
         }
         private void spiral_testcase(IDocument document)
         {
+            var rng = new Random((int)DateTime.Now.Ticks);
             var entity = new EntitySpiral(DVec3.Zero, 10, 2, 12, EntitySpiral.SpiralTypes.Archimedean, true);
+            entity.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
             document.ActivePage?.ActiveLayer?.AddChild(entity);
         }
         /// <summary>
@@ -886,11 +923,23 @@ namespace Demos
         /// </summary>
         private void gerber_testcase(IDocument document)
         {
-            // Update the file paths below before enabling.
-            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\LED-seven-segment.GBS");
-            if (!File.Exists(fileName)) return;
-            var gerber = new EntityGerber(fileName);
-            document.ActivePage?.ActiveLayer?.AddChild(gerber);
+            var rng = new Random((int)DateTime.Now.Ticks);
+
+            {
+                var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\LED-seven-segment.GBS");
+                if (!File.Exists(fileName)) return;
+                var gerber = new EntityGerber(fileName);
+                gerber.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
+                document.ActivePage?.ActiveLayer?.AddChild(gerber);
+            }
+
+            {
+                var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\TRF7960_EVM (REV A).TOP");
+                if (!File.Exists(fileName)) return;
+                var gerber = new EntityGerber(fileName);
+                gerber.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
+                document.ActivePage?.ActiveLayer?.AddChild(gerber);
+            }
         }
 
         #endregion
