@@ -12,7 +12,6 @@ using System.Text;
 using SpiralLab.Sirius3.Entity.Hatch;
 using SpiralLab.Sirius3.Mathematics;
 
-
 #if OPENTK3
 using OpenTK;
 using DVec2 = OpenTK.Vector2d;
@@ -43,8 +42,6 @@ namespace Demos
             this.btnMark4OffsetWithRotate.Click += BtnMark4OffsetWithRotate_Click;
             this.btnMark4OffsetWithChangeData.Click += BtnMark4OffsetWithChangeData_Click;
         }
-
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -82,6 +79,8 @@ namespace Demos
             entity.IsAllowConvert = true;
 
             document.ActivePage?.ActiveLayer?.AddChild(entity);
+
+            siriusEditorControl1.View?.DoRender();
 
             // assign marker ended event handler
             marker.OnEnded += Marker_OnEnded;
@@ -211,6 +210,5 @@ namespace Demos
             //detach event handler after marker has ended
             marker.OnTextConvert -= Marker_OnTextConvert;
         }
-
     }
 }

@@ -53,7 +53,6 @@ namespace Demos
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
-
             siriusEditorControl1.Scanner = rtc;
 
             siriusEditorControl1.Laser = laser;
@@ -116,6 +115,7 @@ namespace Demos
             var group = EntityFactory.CreateGroup($"{rows}x{cols} {rowInterval}x{colInterval}mm", entities);
             //group.Translate(0, 0, z);
             document?.ActivePage?.ActiveLayer?.AddChild(group);
+            siriusEditorControl1.View?.DoRender();
         }
         private void BtnCreateGrids5_Click(object sender, EventArgs e)
         {
@@ -163,6 +163,7 @@ namespace Demos
             var group = EntityFactory.CreateGroup($"{rows}x{cols} {rowInterval}x{colInterval}mm", entities);
             group.Translate(0, 0, z);
             document?.ActivePage?.ActiveLayer?.AddChild(group);
+            siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnCorrection3D_Click(object sender, EventArgs e)
@@ -236,6 +237,5 @@ namespace Demos
             else
                 System.Windows.Forms.MessageBox.Show($"Fail to load/select correction file");
         }
-
     }
 }

@@ -136,6 +136,7 @@ namespace Demos
             entity.AddHatch(hatch);
 
             document.ActivePage?.ActiveLayer?.AddChild(entity);
+            siriusEditorControl1.View?.DoRender();
         }
 
         void Timer_Tick(object sender, EventArgs e)

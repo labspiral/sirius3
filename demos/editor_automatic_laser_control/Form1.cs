@@ -80,6 +80,7 @@ namespace Demos
             text.FontVerticalAlignment = StringAlignment.Center;
 
             document.ActivePage.ActiveLayer.AddChild(text);
+            siriusEditorControl1.View?.DoRender();
         }
         private void BtnSetVelocity_Click(object sender, EventArgs e)
         {

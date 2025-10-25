@@ -115,7 +115,6 @@ namespace Demos
                 gerber_testcase(document);
             };
 
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -169,6 +168,7 @@ namespace Demos
             points.Translate(tx, ty, tz);
 
             document.ActivePage?.ActiveLayer?.AddChild(points);
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -207,6 +207,7 @@ namespace Demos
 
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -235,6 +236,7 @@ namespace Demos
                 entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -287,6 +289,7 @@ namespace Demos
                     document.ActivePage?.ActiveLayer?.AddChild(poly);
                 }
             }
+            siriusEditorControl1.View?.DoRender();
         }
       
 
@@ -359,6 +362,7 @@ namespace Demos
                 document.ActivePage?.ActiveLayer?.AddChild(pointsCloud);
                 measured = pointsCloud;
             }
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -393,6 +397,7 @@ namespace Demos
 
                 document.ActivePage?.ActiveLayer?.AddChild(poly);
             }
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -427,6 +432,7 @@ namespace Demos
 
                 document.ActivePage?.ActiveLayer?.AddChild(poly);
             }
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -461,6 +467,7 @@ namespace Demos
 
                 document.ActivePage?.ActiveLayer?.AddChild(spline);
             }
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -495,6 +502,7 @@ namespace Demos
 
                 document.ActivePage?.ActiveLayer?.AddChild(spline);
             }
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -544,6 +552,7 @@ namespace Demos
                 text.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(text);
             }
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -609,6 +618,7 @@ namespace Demos
 
             group.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 5);
             document.ActivePage?.ActiveLayer?.AddChild(group);
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -638,6 +648,7 @@ namespace Demos
 
             group.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0 + 100, rng.NextDouble() * 2);
             document.ActivePage?.ActiveLayer?.AddChild(group);
+            siriusEditorControl1.View?.DoRender();
         }
         /// <summary>
         /// Adds multiple cubes and cylinders with random transforms.
@@ -667,6 +678,7 @@ namespace Demos
                 cyl.Translate((rng.NextDouble() * 100.0 - 50.0), (rng.NextDouble() * 100.0 - 50.0), (rng.NextDouble() * 100.0 - 10.0));
                 document.ActivePage?.ActiveLayer?.AddChild(cyl);
             }
+            siriusEditorControl1.View?.DoRender();
         }
         private void stl_testcase(IDocument document)
         {
@@ -678,6 +690,7 @@ namespace Demos
             mesh.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
             mesh.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, 0);
             document.ActivePage?.ActiveLayer?.AddChild(mesh);
+            siriusEditorControl1.View?.DoRender();
         }
         private void obj_testcase(IDocument document)
         {
@@ -689,6 +702,7 @@ namespace Demos
             mesh.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
             mesh.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, 0);
             document.ActivePage?.ActiveLayer?.AddChild(mesh);
+            siriusEditorControl1.View?.DoRender();
         }
       
 
@@ -727,6 +741,7 @@ namespace Demos
             }
 
             document.ActivePage?.ActiveLayer?.AddChildren(entities.ToArray());
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -743,6 +758,7 @@ namespace Demos
             image.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
 
             document.ActivePage?.ActiveLayer?.AddChild(image);
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -813,6 +829,7 @@ namespace Demos
                 entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 1);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -849,9 +866,9 @@ namespace Demos
 
                 var hatch = HatchFactory.CreateLine(45, 0.1);
                 entity.AddHatch(hatch);
-
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
+            siriusEditorControl1.View?.DoRender();
         }
 
         /// <summary>
@@ -903,6 +920,7 @@ namespace Demos
             var entity = new EntityImageZPL(4 * 25.4, 6 * 25.4, zplText, EntityImageZPL.DotsPerMMs.Dots8_203DPI);
             entity.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
             document.ActivePage?.ActiveLayer?.AddChild(entity);
+            siriusEditorControl1.View?.DoRender();
         }
         private void lissajous_testcase(IDocument document)
         {
@@ -910,6 +928,7 @@ namespace Demos
             var entity = new EntityLissajous(DVec3.Zero, 10, 2, 12, EntityLissajous.LissajousTypes.¥ð, EntityLissajous.Directions.Cw);
             entity.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
             document.ActivePage?.ActiveLayer?.AddChild(entity);
+            siriusEditorControl1.View?.DoRender();
         }
         private void spiral_testcase(IDocument document)
         {
@@ -917,6 +936,7 @@ namespace Demos
             var entity = new EntitySpiral(DVec3.Zero, 10, 2, 12, EntitySpiral.SpiralTypes.Archimedean, true);
             entity.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
             document.ActivePage?.ActiveLayer?.AddChild(entity);
+            siriusEditorControl1.View?.DoRender();
         }
         /// <summary>
         /// (Optional) Demonstrates adding Gerber entities (paths are placeholders).
@@ -940,6 +960,7 @@ namespace Demos
                 gerber.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
                 document.ActivePage?.ActiveLayer?.AddChild(gerber);
             }
+            siriusEditorControl1.View?.DoRender();
         }
 
         #endregion

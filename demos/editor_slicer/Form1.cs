@@ -82,7 +82,9 @@ namespace Demos
             //EntityFactory.CreateMesh(fileName, out var mesh);
             //document.ActivePage.ActiveLayer.AddChild(mesh);
 
-            document.ActSelect(mesh);
+            siriusEditorControl1.View?.DoRender();
+
+            document.ActSelect(mesh);            
         }
 
         private void BtnSlicePreview_Click(object sender, EventArgs e)
@@ -103,6 +105,7 @@ namespace Demos
                 double sliceZ = ((min + max) / 2.0).Z;
                 mesh.SliceZ = sliceZ;
             }
+
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -124,6 +127,8 @@ namespace Demos
                 var height = max.Y - min.Y;
                 group.Translate(0, height, 0);
                 document.ActSelect(group);
+                
+                siriusEditorControl1.View?.DoRender();
             }
         }
 
@@ -155,7 +160,9 @@ namespace Demos
             hatchable.AddHatch(hatch);
             hatchable.HatchMarkOption = HatchMarkOptions.HatchFirst;
 
+            // regenerate hatch within entity
             document.ActRegen();
+
             siriusEditorControl1.View?.DoRender();
         }
 

@@ -161,6 +161,8 @@ namespace Demos
             var mofEnd = EntityFactory.CreateMoFEnd(DVec2.Zero);
             document.ActivePage?.ActiveLayer?.AddChild(mofEnd);
 
+            siriusEditorControl1.View?.DoRender();
+
             Debug.Assert(rtc.IsMoF);
             var rtcMoF = rtc as IRtcMoF;
             Debug.Assert(rtcMoF != null);

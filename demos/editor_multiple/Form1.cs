@@ -12,7 +12,6 @@ using System.Text;
 using SpiralLab.Sirius3.Entity.Hatch;
 using SpiralLab.Sirius3.UI.WinForms;
 
-
 #if OPENTK3
 using OpenTK;
 using DVec2 = OpenTK.Vector2d;
@@ -75,7 +74,6 @@ namespace Demos
                 marker.Ready(EditorControls[i].Document, EditorControls[i].View, rtc, laser, powerMeter);
 
             }
-        }
-     
+        }     
     }
 }

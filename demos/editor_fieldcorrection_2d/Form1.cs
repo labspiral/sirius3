@@ -12,7 +12,6 @@ using System.Text;
 using SpiralLab.Sirius3.Entity.Hatch;
 using SpiralLab.Sirius3.UI.WinForms;
 
-
 #if OPENTK3
 using OpenTK;
 using DVec2 = OpenTK.Vector2d;
@@ -109,6 +108,7 @@ namespace Demos
 
             var group = EntityFactory.CreateGroup($"{rows}x{cols} {rowInterval}x{colInterval}mm", entities);
             document?.ActivePage?.ActiveLayer?.AddChild(group);
+            siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnCorrection2D_Click(object sender, EventArgs e)

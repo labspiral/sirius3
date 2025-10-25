@@ -121,6 +121,8 @@ namespace Demos
             var userEvent = EntityFactory.CreateUserEvent();
             document.ActivePage?.ActiveLayer?.AddChild(mofEnd);
 
+            siriusEditorControl1.View?.DoRender();
+            
             // Repeats 100 times
             document.ActivePage.ActiveLayer.Repeats = 100;
 

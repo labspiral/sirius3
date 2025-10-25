@@ -102,7 +102,6 @@ namespace Demos
             var layerPenColor = SpiralLab.Sirius3.UI.Config.LayerPenColors[1]; // Color.Yellow
             document.ActivePage.ActiveLayer.PenColor = layerPenColor;
 
-
             var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
             // create rectangle
             var rectangle = EntityFactory.CreateRectangle(DVec2.Zero, 50, 50);
@@ -113,6 +112,8 @@ namespace Demos
             var circle = EntityFactory.CreateArc(DVec2.Zero, 25, 0, 360);
             circle.PenColor = scannerPenColor;
             document.ActivePage?.ActiveLayer?.AddChild(circle);
+
+            siriusEditorControl1.View?.DoRender();
 
             // create measurement end
             var end = EntityFactory.CreateMeasurementEnd();

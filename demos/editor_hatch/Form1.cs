@@ -70,17 +70,19 @@ namespace Demos
 
         private void BtnPrepare_Click(object sender, EventArgs e)
         {
-            var document = siriusEditorControl1.Document;
-            
+            var document = siriusEditorControl1.Document;            
             document.ActNew();
+
             var text = new EntityText("Arial", 
                 FontStyle.Regular, 
                 $"AaBbCcDdEeFfGg{Environment.NewLine}HhIiJjKkLlMmNn{Environment.NewLine}OoPpQqRrSsTt{Environment.NewLine}UuVvWwXxYyZz{Environment.NewLine}0123456789{Environment.NewLine}!@#$%^&*()-+<>", 
                 10);
             text.FontHorizontalAlignment = StringAlignment.Center;
             text.FontVerticalAlignment = StringAlignment.Center;
+            
             document.ActivePage?.ActiveLayer?.AddChild(text);
             document.ActSelect(text);
+            siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnAddHatch1_Click(object sender, EventArgs e)

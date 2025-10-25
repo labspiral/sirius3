@@ -40,7 +40,6 @@ namespace Demos
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
             siriusEditorControl1.Scanner = rtc;
@@ -53,7 +52,6 @@ namespace Demos
             //siriusEditorControl1.Laser = laser;
             var myLaser = new MyLaserSource();
             siriusEditorControl1.Laser = myLaser;
-
 
             siriusEditorControl1.DIExt1 = dInExt1;
             siriusEditorControl1.DOExt1 = dOutExt1;

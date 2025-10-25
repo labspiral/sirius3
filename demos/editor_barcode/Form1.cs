@@ -134,6 +134,7 @@ namespace Demos
                 entity.Translate(0, -12.5);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
+            siriusEditorControl1.View?.DoRender();
         }
 
         void CreateEventHandlers()

@@ -85,6 +85,7 @@ namespace Demos
             //document.ActivePage.ActiveLayer.AddChild(mesh);
 
             document.ActSelect(mesh);
+            siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnGridCloud_Click(object sender, EventArgs e)
@@ -126,6 +127,7 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(text);
 
             document.ActSelect(points);
+            siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnFieldCorrection_Click(object sender, EventArgs e)
@@ -163,6 +165,7 @@ namespace Demos
 
             LoadAndSelectCorrectionFile(rtc, newCtFileName);
             document.ActRemove(points);
+            siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnRevertFieldCorrection_Click(object sender, EventArgs e)

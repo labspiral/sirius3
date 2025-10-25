@@ -102,6 +102,7 @@ namespace Demos
 
                 document.ActivePage?.ActiveLayer?.AddChild(text);
             }
+            siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnEventHandler_Click(object sender, EventArgs e)
