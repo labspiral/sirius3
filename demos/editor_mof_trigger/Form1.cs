@@ -150,8 +150,8 @@ namespace Demos
 
                 marker.Reset();
                 marker.Ready(siriusEditorControl1.Document);
-                marker.Page = document.Page;
-                marker.Start();
+                var pageIndex = document.ActivePage.Index;
+                marker.Start((DocumentPages)pageIndex);
             }
         }
 

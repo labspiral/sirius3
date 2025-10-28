@@ -188,8 +188,7 @@ namespace Demos
                     {
                         Logger.Log(LogLevel.Information , "trying to start mark for page1 by external dio");
                         marker.Ready(document);
-                        marker.Page = DocumentPages.Page1;
-                        marker.Start();
+                        marker.Start(DocumentPages.Page1);
                     }
                     break;
                 case 1: //start page2
@@ -197,8 +196,7 @@ namespace Demos
                     {
                         Logger.Log(LogLevel.Information, "trying to start mark for page2 by external dio");
                         marker.Ready(document);
-                        marker.Page = DocumentPages.Page2;
-                        marker.Start();
+                        marker.Start(DocumentPages.Page2);
                     }
                     break;
                 case 2: //stop
@@ -232,8 +230,7 @@ namespace Demos
                         }
 
                         marker.Ready(document);
-                        marker.Page = DocumentPages.Page1;
-                        marker.Start();
+                        marker.Start(DocumentPages.Page1);
                     }
                     break;
             }

@@ -143,7 +143,7 @@ namespace Demos
                 return;
 
             var rng = new Random((int)DateTime.Now.Ticks);
-            var angle = rng.NextDouble() * 180;
+            var angle = rng.NextDouble() * 180 - 90;
             var interval = rng.NextDouble() / 2.0 + 0.02;
 
             var hatch = HatchFactory.CreateLine(angle, interval);

@@ -127,8 +127,7 @@ namespace Demos
 
             marker.Reset();
             marker.Ready(document);
-            marker.Page = DocumentPages.Page1;
-            marker.Start();
+            marker.Start(DocumentPages.Page1);
         }
 
         private void BtnMarkPage2_Click(object sender, EventArgs e)
@@ -141,8 +140,7 @@ namespace Demos
 
             marker.Reset();
             marker.Ready(document);
-            marker.Page = DocumentPages.Page2;
-            marker.Start();
+            marker.Start(DocumentPages.Page2);
         }
 
         private bool Marker_OnMarkLayerPen(IMarker marker, EntityLayerPen pen)

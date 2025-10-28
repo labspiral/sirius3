@@ -72,7 +72,7 @@ namespace Demos
             document.ActNew();
 
             // create entity
-            var entity = EntityFactory.CreateDataMatrix("SIRIUS3", EntityBarcode2DBase.Barcode2DCells.Lines, 1, 10, 10);
+            var entity = EntityFactory.CreateDataMatrix("SIRIUS3", EntityBarcode2DBase.Barcode2DCells.Dots, 5, 10, 10);
             entity.CellLine.Direction = CellLine.LineDirections.Horizontal;
 
             entity.Name = "MyBarcode";
@@ -111,8 +111,8 @@ namespace Demos
             marker.Reset();
             marker.Ready(document);
             //set target page as current 
-            marker.Page = document.Page;
-            marker.Start();
+            var pageIndex = document.ActivePage.Index;
+            marker.Start((DocumentPages)pageIndex);
         }
 
         private void BtnMark4OffsetWithRotate_Click(object sender, EventArgs e)
@@ -148,8 +148,8 @@ namespace Demos
             marker.Reset();
             marker.Ready(document);
             //set target page as current 
-            marker.Page = document.Page;
-            marker.Start();
+            var pageIndex = document.ActivePage.Index;
+            marker.Start((DocumentPages)pageIndex);
         }
 
         private void BtnMark4OffsetWithChangeData_Click(object sender, EventArgs e)
@@ -181,8 +181,8 @@ namespace Demos
             marker.Reset();
             marker.Ready(document);
             //set target page as current 
-            marker.Page = document.Page;
-            marker.Start();
+            var pageIndex = document.ActivePage.Index;
+            marker.Start((DocumentPages)pageIndex);
         }
 
         private string Marker_OnTextConvert(IMarker marker, ITextConvertible textConvertible)
