@@ -110,9 +110,7 @@ namespace Demos
 
             marker.Reset();
             marker.Ready(document);
-            //set target page as current 
-            var pageIndex = document.ActivePage.Index;
-            marker.Start((DocumentPages)pageIndex);
+            marker.Start(document.Page); // current page
         }
 
         private void BtnMark4OffsetWithRotate_Click(object sender, EventArgs e)
@@ -147,9 +145,7 @@ namespace Demos
 
             marker.Reset();
             marker.Ready(document);
-            //set target page as current 
-            var pageIndex = document.ActivePage.Index;
-            marker.Start((DocumentPages)pageIndex);
+            marker.Start(document.Page); // current page
         }
 
         private void BtnMark4OffsetWithChangeData_Click(object sender, EventArgs e)
@@ -180,9 +176,7 @@ namespace Demos
 
             marker.Reset();
             marker.Ready(document);
-            //set target page as current 
-            var pageIndex = document.ActivePage.Index;
-            marker.Start((DocumentPages)pageIndex);
+            marker.Start(document.Page); // current page
         }
 
         private string Marker_OnTextConvert(IMarker marker, ITextConvertible textConvertible)

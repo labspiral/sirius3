@@ -141,8 +141,7 @@ namespace Demos
             scannerPen.IsWobbelEnabled = false; //disable wobbel
 
             marker.Ready(document);
-            var pageIndex = document.ActivePage.Index;
-            marker.Start((DocumentPages)pageIndex);
+            marker.Start(document.Page); // current page
         }
 
         private void BtnMarkSw1_Click(object sender, EventArgs e)
@@ -168,8 +167,7 @@ namespace Demos
             scannerPen.IsWobbelEnabled = false;
 
             marker.Ready(document);
-            var pageIndex = document.ActivePage.Index;
-            marker.Start((DocumentPages)pageIndex);
+            marker.Start(document.Page); // current page
         }
 
         private void BtnMarkSw2_Click(object sender, EventArgs e)
@@ -194,9 +192,8 @@ namespace Demos
             document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
             scannerPen.IsWobbelEnabled = false;
 
-            marker.Ready(document);
-            var pageIndex = document.ActivePage.Index;
-            marker.Start((DocumentPages)pageIndex);
+            marker.Ready(document);            
+            marker.Start(document.Page); // current page
         }
 
         private void BtnMarkSw3_Click(object sender, EventArgs e)
@@ -222,8 +219,7 @@ namespace Demos
             scannerPen.IsWobbelEnabled = false;
 
             marker.Ready(document);
-            var pageIndex = document.ActivePage.Index;
-            marker.Start((DocumentPages)pageIndex);
+            marker.Start(document.Page); // current page
         }
 
         private void BtnMarkSw4_Click(object sender, EventArgs e)
@@ -250,8 +246,7 @@ namespace Demos
             scannerPen.IsWobbelEnabled = false;
 
             marker.Ready(document);
-            var pageIndex = document.ActivePage.Index;
-            marker.Start((DocumentPages)pageIndex);
+            marker.Start(document.Page); // current page
         }
 
         private void BtnWobbelEllipse_Click(object sender, EventArgs e)
@@ -274,8 +269,7 @@ namespace Demos
             scannerPen.WobbelParallel = 0.25;
 
             marker.Ready(document);
-            var pageIndex = document.ActivePage.Index;
-            marker.Start((DocumentPages)pageIndex);
+            marker.Start(document.Page); // current page
         }
         private void BtnWobbelParallel8_Click(object sender, EventArgs e)
         {
@@ -298,8 +292,7 @@ namespace Demos
             scannerPen.WobbelParallel = 0.25;
 
             marker.Ready(document);
-            var pageIndex = document.ActivePage.Index;
-            marker.Start((DocumentPages)pageIndex);
+            marker.Start(document.Page); // current page
         }
 
         private void BtnWobbelPerpendicular8_Click(object sender, EventArgs e)
@@ -323,8 +316,7 @@ namespace Demos
             scannerPen.WobbelParallel = 0.25;
 
             marker.Ready(document);
-            var pageIndex = document.ActivePage.Index;
-            marker.Start((DocumentPages)pageIndex);
+            marker.Start(document.Page); // current page
         }
     }
 }
