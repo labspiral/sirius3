@@ -72,8 +72,9 @@ namespace Demos
             document.ActNew();
 
             // create entity
-            var entity = EntityFactory.CreateDataMatrix("SIRIUS3", EntityBarcode2DBase.Barcode2DCells.Dots, 5, 10, 10);
-            entity.CellLine.Direction = CellLine.LineDirections.Horizontal;
+            var entity = EntityFactory.CreateDataMatrix("SIRIUS3", EntityBarcode2DBase.Barcode2DCells.Dots, 10, 10);
+            entity.CellDot.DotFactor = 3;
+            entity.CellDot.Direction = CellDot.DotDirections.Horizontal;
 
             entity.Name = "MyBarcode";
             entity.IsAllowConvert = true;

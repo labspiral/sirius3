@@ -32,6 +32,8 @@ namespace Demos
     public partial class Form1 : Form
     {
 
+        private readonly TextLineQueueLite textLineQueue = new TextLineQueueLite(@"D:\data\input_lines.txt");
+
         public Form1()
         {
             InitializeComponent();
@@ -67,7 +69,9 @@ namespace Demos
 
             CreateEntities();
 
-            CreateEventHandlers();
+            TextConvertByEventHandler();
+            // or
+            //TextConvertByExternalFile();
         }
 
         void CreateEntities()
@@ -75,33 +79,39 @@ namespace Demos
             var document = siriusEditorControl1.Document;
 
             {
-                //var entity = new EntityBarcode1D("0123456789", EntityBarcode1D.Barcode1DFormats.Code39, 5, 50, 10);
+                //var entity = new EntityBarcode1D("0123456789", EntityBarcode1D.Barcode1DFormats.Code39, 50, 10);
+                //entity.DotFactor = 5;
 
-                //var entity = new EntityDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 5, 10, 10);
+                //var entity = new EntityDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 10, 10);
+                //entity.CellLine.DotFactor = 5;
                 //entity.CellLine.Direction = CellLine.LineDirections.Horizontal;
                 //entity.CellLine.IsZigZag = true;
 
-                //var entity = new EntityQRCode("0123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 5, 10, 10);
+                //var entity = new EntityQRCode("0123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 10, 10);
+                //entity.CellLine.DotFactor = 5;
                 //entity.CellLine.Direction = CellLine.LineDirections.Horizontal;
                 //entity.CellLine.IsZigZag = true;
 
-                //var entity = new EntityDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Circles, 1, 10, 10);
-                //entity.CellCircle.RadiusFactor = 0.9;
+                //var entity = new EntityDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Circles, 10, 10);
+                //entity.CellCircle.DotFactor = 1;
+                //entity.CellCircle.RadiusFactor = 0.95;
                 //entity.CellCircle.IsZigZag = true;
 
-                //var entity = new EntityDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Squares, 1, 10, 10);
-                //entity.CellSquare.ScaleFactor = 0.9;
+                //var entity = new EntityDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Squares, 10, 10);
+                //entity.CellSquare.DotFactor = 1;
+                //entity.CellSquare.ScaleFactor = 0.95;
                 //entity.CellSquare.IsZigZag = true;
 
-                var entity = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 5, 10, 10);
+                var entity = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 10, 10);
+                entity.CellDot.DotFactor = 2;
                 entity.CellDot.Direction = CellDot.DotDirections.Horizontal;
                 entity.CellDot.IsZigZag = true;
                 entity.CellDot.IsReversed = true;
 
-                //var entity = new EntityPDF417("0123456789", EntityBarcode2DBase.Barcode2DCells.Outline, 1, 10, 10);
+                //var entity = new EntityPDF417("0123456789", EntityBarcode2DBase.Barcode2DCells.Outline, 10, 10);
                 //var hatch = HatchFactory.CreateLine(0, 0.02);
                 //hatch.Joint = HatchJoints.Miter;
-                //hatch.Exclude = 0.05;
+                //hatch.Exclude = 0.1;
                 //hatch.IsZigZag = true;
                 //hatch.Sort = HatchSorts.Global; //slow calculation but mark time optimized
                 //entity.AddHatch(hatch);
@@ -121,13 +131,12 @@ namespace Demos
                 entity.IsAllowConvert = true;
                 
                 // allow to hatch for cell types : outline, circle, square 
-                var hatch = HatchFactory.CreateLine(0, 0.02);
+                var hatch = HatchFactory.CreateLine(90, 0.1);
                 hatch.Joint = HatchJoints.Miter;
                 hatch.Exclude = 0.05;
                 hatch.IsZigZag = true;
                 hatch.Order = HatchOrders.Descending;
-                hatch.Sort = HatchSorts.None; // fast calculation, line by line but mark time is not optimzed
-                //hatch.Sort = HatchSorts.Global; //slow calculation but mark time optimized
+                hatch.Sort = HatchSorts.Nearest; 
                 entity.HatchMarkOption = HatchMarkOptions.HatchFirst;
                 entity.AddHatch(hatch);
 
@@ -137,7 +146,7 @@ namespace Demos
             siriusEditorControl1.View?.DoRender();
         }
 
-        void CreateEventHandlers()
+        void TextConvertByEventHandler()
         {
             var marker = siriusEditorControl1.Marker;
 
@@ -155,7 +164,38 @@ namespace Demos
                 {
                     case "MyBarcode":
                     case "MyText":
-                        return $"SIRIUS2 {DateTime.Now.ToString("HH:mm:ss")} {currentOffsetIndex}";
+                        return $"ABC {DateTime.Now.ToString("mm:ss")} - {currentOffsetIndex}";
+                    default:
+                        // Not modified
+                        return textConvertible.SourceText;
+                }
+            };
+        }
+        
+        void TextConvertByExternalFile()
+        {
+            var marker = siriusEditorControl1.Marker;
+
+            marker.OnTextConvert += (IMarker marker, ITextConvertible textConvertible) =>
+            {
+                var entity = textConvertible as IEntity;
+                var currentLayer = marker.WorkingSet.Layer;
+                var currentLayerIndex = marker.WorkingSet.LayerIndex;
+                var currentEntity = marker.WorkingSet.Entity;
+                var currentEntityIndex = marker.WorkingSet.EntityIndex;
+                var currentOffset = marker.WorkingSet.Offset;
+                var currentOffsetIndex = marker.WorkingSet.OffsetIndex;
+
+                switch (currentEntity.Name)
+                {
+                    case "MyBarcode":
+                    case "MyText":
+                        //read external text file, read and delete front line and use it
+                        if (textLineQueue.TryDequeue(out var next))
+                        {
+                            return next;
+                        }
+                        return string.Empty; //marker will be failed
                     default:
                         // Not modified
                         return textConvertible.SourceText;

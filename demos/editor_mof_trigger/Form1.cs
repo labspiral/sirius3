@@ -99,7 +99,8 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(mofBegin);
 
             // Create barcode
-            var barcode = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 5, 10, 10);
+            var barcode = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 10, 10);
+            barcode.CellLine.DotFactor = 5;
             barcode.Name = "MyBarcode";
             barcode.IsAllowConvert = true; // marker.OnTextConvert event will be called
 

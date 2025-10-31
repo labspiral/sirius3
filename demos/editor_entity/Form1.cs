@@ -840,27 +840,30 @@ namespace Demos
             var rng = new Random((int)DateTime.Now.Ticks);
 
             {
-                var entity = new EntityBarcode1D("1234567890", EntityBarcode1D.Barcode1DFormats.Code128, 5, 5, 1);
+                var entity = new EntityBarcode1D("1234567890", EntityBarcode1D.Barcode1DFormats.Code128, 5, 1);
+                entity.DotFactor = 5;
                 entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 10.0 - 2.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
             {
-                var entity = new EntityQRCode("01234567890123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 5, 5, 5);
+                var entity = new EntityQRCode("01234567890123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 5, 5);
+                entity.CellLine.DotFactor = 5;
                 entity.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
                 entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 10.0 - 2.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
             {
-                var entity = new EntityDataMatrix("01234567890123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 5, 5, 5);
+                var entity = new EntityDataMatrix("01234567890123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 5, 5);
+                entity.CellDot.DotFactor = 5;
                 entity.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
                 entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 10.0 - 2.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
             {
-                var entity = new EntityPDF417("01234567890123456789", EntityBarcode2DBase.Barcode2DCells.Outline, 1, 5, 5);
+                var entity = new EntityPDF417("01234567890123456789", EntityBarcode2DBase.Barcode2DCells.Outline, 5, 5);
                 entity.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
                 entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 10.0 - 2.0);
 
@@ -948,7 +951,7 @@ namespace Demos
             {
                 var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\LED-seven-segment.GBS");
                 if (!File.Exists(fileName)) return;
-                var gerber = new EntityGerber(fileName);
+                var gerber = new EntityGerber(fileName, SpiralLab.Sirius3.UI.Config.ScannerPenColors[0]);
                 gerber.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
                 document.ActivePage?.ActiveLayer?.AddChild(gerber);
             }
@@ -956,7 +959,7 @@ namespace Demos
             {
                 var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\TRF7960_EVM (REV A).TOP");
                 if (!File.Exists(fileName)) return;
-                var gerber = new EntityGerber(fileName);
+                var gerber = new EntityGerber(fileName, SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]);
                 gerber.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
                 document.ActivePage?.ActiveLayer?.AddChild(gerber);
             }
