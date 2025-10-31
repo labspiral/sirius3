@@ -31,6 +31,9 @@ namespace Demos
 {
     public partial class Form1 : Form
     {
+
+        private readonly TextLineQueueLite textLineQueue = new TextLineQueueLite(@"D:\data\input_lines.txt");
+
         public Form1()
         {
             InitializeComponent();
@@ -65,6 +68,10 @@ namespace Demos
             document.ActNew();
 
             CreateEntities();
+
+            TextConvertByEventHandler();
+            // or
+            //TextConvertByExternalFile();
         }
 
         void CreateEntities()
@@ -138,6 +145,62 @@ namespace Demos
             }
             siriusEditorControl1.View?.DoRender();
         }
-       
+
+        void TextConvertByEventHandler()
+        {
+            var marker = siriusEditorControl1.Marker;
+
+            marker.OnTextConvert += (IMarker marker, ITextConvertible textConvertible) =>
+            {
+                var entity = textConvertible as IEntity;
+                var currentLayer = marker.WorkingSet.Layer;
+                var currentLayerIndex = marker.WorkingSet.LayerIndex;
+                var currentEntity = marker.WorkingSet.Entity;
+                var currentEntityIndex = marker.WorkingSet.EntityIndex;
+                var currentOffset = marker.WorkingSet.Offset;
+                var currentOffsetIndex = marker.WorkingSet.OffsetIndex;
+
+                switch (currentEntity.Name)
+                {
+                    case "MyBarcode":
+                    case "MyText":
+                        return $"ABC {DateTime.Now.ToString("mm:ss")} - {currentOffsetIndex}";
+                    default:
+                        // Not modified
+                        return textConvertible.SourceText;
+                }
+            };
+        }
+        
+        void TextConvertByExternalFile()
+        {
+            var marker = siriusEditorControl1.Marker;
+
+            marker.OnTextConvert += (IMarker marker, ITextConvertible textConvertible) =>
+            {
+                var entity = textConvertible as IEntity;
+                var currentLayer = marker.WorkingSet.Layer;
+                var currentLayerIndex = marker.WorkingSet.LayerIndex;
+                var currentEntity = marker.WorkingSet.Entity;
+                var currentEntityIndex = marker.WorkingSet.EntityIndex;
+                var currentOffset = marker.WorkingSet.Offset;
+                var currentOffsetIndex = marker.WorkingSet.OffsetIndex;
+
+                switch (currentEntity.Name)
+                {
+                    case "MyBarcode":
+                    case "MyText":
+                        //read external text file, read and delete front line and use it
+                        if (textLineQueue.TryDequeue(out var next))
+                        {
+                            return next;
+                        }
+                        return string.Empty; //marker will be failed
+                    default:
+                        // Not modified
+                        return textConvertible.SourceText;
+                }
+            };
+        }
     }
 }
