@@ -40,12 +40,14 @@ namespace Demos
             this.Load += Form1_Load;
 
             btnLoad3DModel.Click += BtnLoad3DModel_Click;
-            btnSlicePreview.Click += BtnSlicePreview_Click;
             btnSliceContours.Click += BtnSliceContours_Click;
             btnHatchGenerate.Click += BtnAddHatch_Click;
             btnSimulationStart.Click += BtnSimulationStart_Click;
             btnSimulationStop.Click += BtnSimulationStop_Click;
+
+            nudSlice.ValueChanged += NudSlice_ValueChanged;
         }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -84,10 +86,22 @@ namespace Demos
 
             siriusEditorControl1.View?.DoRender();
 
-            document.ActSelect(mesh);            
+            document.ActSelect(mesh);
+
+            EntityModelBase.CalcuateRealMinMax(new IEntity[] { mesh }, out var realMin, out var realMax);
+            
+            nudMin.Value = (decimal)realMin.Z;
+            nudMax.Value = (decimal)realMax.Z;
+
+            nudSlice.Minimum = (decimal)realMin.Z;
+            nudSlice.Maximum = (decimal)realMax.Z;
+            nudSlice.Increment = 0.1M; // 0.1 mm step
+
+            nudSlice.Value = (decimal)(Math.Round((realMin.Z + realMax.Z) / 2.0, 1));
+
         }
 
-        private void BtnSlicePreview_Click(object sender, EventArgs e)
+        private void SlicePreview()
         {
             var document = siriusEditorControl1.Document;
             if (1 != document.Selected.Length)
@@ -99,15 +113,18 @@ namespace Demos
 
             mesh.IsAllowSlice = true; // !mesh.IsAllowSlice;
 
-            if (mesh.SliceZ == 0)
-            {
-                mesh.CalcuateRealMinMax(out var min, out var max);
-                double sliceZ = ((min + max) / 2.0).Z;
-                mesh.SliceZ = sliceZ;
-            }
+            mesh.CalcuateRealMinMax(out var min, out var max);
+            double sliceZ = (double)nudSlice.Value;
+            mesh.SliceZ = sliceZ;
 
             siriusEditorControl1.View?.DoRender();
         }
+
+        private void NudSlice_ValueChanged(object? sender, EventArgs e)
+        {
+            SlicePreview();
+        }
+
 
         private void BtnSliceContours_Click(object sender, EventArgs e)
         {
@@ -146,7 +163,10 @@ namespace Demos
             var angle = rng.NextDouble() * 180 - 90;
             var interval = rng.NextDouble() / 2.0 + 0.02;
 
+            // line hatch
             var hatch = HatchFactory.CreateLine(angle, interval);
+            //or polygon hatch
+            //var hatch = HatchFactory.CreatePolygon(interval);
             hatch.Joint = HatchJoints.Miter;
             hatch.Exclude = 0.05;
             hatch.IsZigZag = true;
