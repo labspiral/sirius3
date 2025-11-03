@@ -32,15 +32,17 @@ namespace Demos
     public partial class Form1 : Form
     {
 
-        private readonly TextLineQueueLite textLineQueue = new TextLineQueueLite(@"D:\data\input_lines.txt");
-
         public Form1()
         {
             InitializeComponent();
             this.Load += Form1_Load;
             this.btnCreateBarcode.Click += BtnCreateBarcode_Click;
+            this.btnEventHandler.Click += BtnEventHandler_Click;
+            this.btnScript.Click += BtnScript_Click;
+            this.btnExternalFile.Click += BtnExternalFile_Click;
         }
 
+    
         private void Form1_Load(object sender, EventArgs e)
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
@@ -68,139 +70,117 @@ namespace Demos
             document.ActNew();
 
             CreateEntities();
-
-            TextConvertByEventHandler();
-            // or
-            //TextConvertByExternalFile();
         }
 
         void CreateEntities()
         {
             var document = siriusEditorControl1.Document;
+            document.ActNew();
 
-            {
-                //var entity = new EntityBarcode1D("0123456789", EntityBarcode1D.Barcode1DFormats.Code39, 50, 10);
-                //entity.DotFactor = 5;
+            var entity = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 10, 10);
+            entity.CellDot.DotFactor = 2;
+            entity.CellDot.Direction = CellDot.DotDirections.Horizontal;
+            entity.CellDot.IsZigZag = true;
+            entity.CellDot.IsReversed = true;
 
-                //var entity = new EntityDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 10, 10);
-                //entity.CellLine.DotFactor = 5;
-                //entity.CellLine.Direction = CellLine.LineDirections.Horizontal;
-                //entity.CellLine.IsZigZag = true;
+            entity.Name = "MyBarcode";
+            entity.IsAllowConvert = true;
+            entity.TextConverter = TextConverters.Event;
 
-                //var entity = new EntityQRCode("0123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 10, 10);
-                //entity.CellLine.DotFactor = 5;
-                //entity.CellLine.Direction = CellLine.LineDirections.Horizontal;
-                //entity.CellLine.IsZigZag = true;
+            //entity.TextConverter = TextConverters.Script;
+            //entity.SourceText = "";
 
-                //var entity = new EntityDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Circles, 10, 10);
-                //entity.CellCircle.DotFactor = 1;
-                //entity.CellCircle.RadiusFactor = 0.95;
-                //entity.CellCircle.IsZigZag = true;
+            //entity.TextConverter = TextConverters.File;
+            //var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.txt");
+            //entity.ExternalFile = filePath;
 
-                //var entity = new EntityDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Squares, 10, 10);
-                //entity.CellSquare.DotFactor = 1;
-                //entity.CellSquare.ScaleFactor = 0.95;
-                //entity.CellSquare.IsZigZag = true;
 
-                var entity = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 10, 10);
-                entity.CellDot.DotFactor = 2;
-                entity.CellDot.Direction = CellDot.DotDirections.Horizontal;
-                entity.CellDot.IsZigZag = true;
-                entity.CellDot.IsReversed = true;
-
-                //var entity = new EntityPDF417("0123456789", EntityBarcode2DBase.Barcode2DCells.Outline, 10, 10);
-                //var hatch = HatchFactory.CreateLine(0, 0.02);
-                //hatch.Joint = HatchJoints.Miter;
-                //hatch.Exclude = 0.1;
-                //hatch.IsZigZag = true;
-                //hatch.Sort = HatchSorts.Global; //slow calculation but mark time optimized
-                //entity.AddHatch(hatch);
-                //entity.HatchMarkOption = HatchMarkOptions.HatchFirst;
-
-                entity.Name = "MyBarcode";
-                entity.IsAllowConvert = true;
-
-                entity.Translate(0, -10);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
-            }
-            {
-                //var entity = new EntityText("Arial", FontStyle.Regular, "0123456789", 2);
-                var entity = new EntitySiriusText("ocra.cxf",  EntitySiriusText.LetterSpaces.Variable, 0.2, 0.5, 1, "0123456789", 2);
-
-                entity.Name = "MyText";
-                entity.IsAllowConvert = true;
-                
-                // allow to hatch for cell types : outline, circle, square 
-                var hatch = HatchFactory.CreateLine(90, 0.1);
-                hatch.Joint = HatchJoints.Miter;
-                hatch.Exclude = 0.05;
-                hatch.IsZigZag = true;
-                hatch.Order = HatchOrders.Descending;
-                hatch.Sort = HatchSorts.Nearest; 
-                entity.HatchMarkOption = HatchMarkOptions.HatchFirst;
-                entity.AddHatch(hatch);
-
-                entity.Translate(0, -12.5);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
-            }
+            entity.Translate(0, -10);
+            document.ActivePage?.ActiveLayer?.AddChild(entity);
+          
             siriusEditorControl1.View?.DoRender();
         }
 
-        void TextConvertByEventHandler()
+        private void BtnEventHandler_Click(object sender, EventArgs e)
         {
-            var marker = siriusEditorControl1.Marker;
+            var layer = siriusEditorControl1.Document.ActivePage.ActiveLayer;
 
-            marker.OnTextConvert += (IMarker marker, ITextConvertible textConvertible) =>
+            foreach(var entity in layer.Children)
             {
-                var entity = textConvertible as IEntity;
-                var currentLayer = marker.WorkingSet.Layer;
-                var currentLayerIndex = marker.WorkingSet.LayerIndex;
-                var currentEntity = marker.WorkingSet.Entity;
-                var currentEntityIndex = marker.WorkingSet.EntityIndex;
-                var currentOffset = marker.WorkingSet.Offset;
-                var currentOffsetIndex = marker.WorkingSet.OffsetIndex;
-
-                switch (currentEntity.Name)
+                if (entity is ITextConvertible textConvertible)
                 {
-                    case "MyBarcode":
-                    case "MyText":
-                        return $"ABC {DateTime.Now.ToString("mm:ss")} - {currentOffsetIndex}";
-                    default:
-                        // Not modified
-                        return textConvertible.SourceText;
+                    // set text converter as event handler
+                    textConvertible.IsAllowConvert = true;
+                    textConvertible.TextConverter = TextConverters.Event;
                 }
-            };
+            }
+            var marker = siriusEditorControl1.Marker;
+            marker.OnTextConvert -= Marker_OnTextConvert;
+            
+            // now attach IMarker.OnTextConvert event
+            marker.OnTextConvert += Marker_OnTextConvert;
         }
-        
-        void TextConvertByExternalFile()
+
+        private string Marker_OnTextConvert(IMarker marker, ITextConvertible textConvertible)
         {
-            var marker = siriusEditorControl1.Marker;
+            var entity = textConvertible as IEntity;
+            var currentLayer = marker.WorkingSet.Layer;
+            var currentLayerIndex = marker.WorkingSet.LayerIndex;
+            var currentEntity = marker.WorkingSet.Entity;
+            var currentEntityIndex = marker.WorkingSet.EntityIndex;
+            var currentOffset = marker.WorkingSet.Offset;
+            var currentOffsetIndex = marker.WorkingSet.OffsetIndex;
 
-            marker.OnTextConvert += (IMarker marker, ITextConvertible textConvertible) =>
+            switch (currentEntity.Name)
             {
-                var entity = textConvertible as IEntity;
-                var currentLayer = marker.WorkingSet.Layer;
-                var currentLayerIndex = marker.WorkingSet.LayerIndex;
-                var currentEntity = marker.WorkingSet.Entity;
-                var currentEntityIndex = marker.WorkingSet.EntityIndex;
-                var currentOffset = marker.WorkingSet.Offset;
-                var currentOffsetIndex = marker.WorkingSet.OffsetIndex;
-
-                switch (currentEntity.Name)
-                {
-                    case "MyBarcode":
-                    case "MyText":
-                        //read external text file, read and delete front line and use it
-                        if (textLineQueue.TryDequeue(out var next))
-                        {
-                            return next;
-                        }
-                        return string.Empty; //marker will be failed
-                    default:
-                        // Not modified
-                        return textConvertible.SourceText;
-                }
-            };
+                case "MyBarcode":
+                case "MyText":
+                    return $"ABC {DateTime.Now.ToString("HH:mm:ss")} - {currentOffsetIndex}";
+                default:
+                    // Not modified
+                    return textConvertible.SourceText;
+            }
         }
+
+        private void BtnScript_Click(object sender, EventArgs e)
+        {
+            var layer = siriusEditorControl1.Document.ActivePage.ActiveLayer;
+
+            foreach (var entity in layer.Children)
+            {
+                if (entity is ITextConvertible textConvertible)
+                {
+                    // set text converter as event handler
+                    textConvertible.IsAllowConvert = true;
+                    textConvertible.TextConverter = TextConverters.Script;
+                    textConvertible.SourceText = @"$""123 {DateTime.Now.ToString(""HH:mm:ss"")}""";
+                }
+            }
+
+            siriusEditorControl1.View?.DoRender();
+            siriusEditorControl1.PropertyGridCtrl.Refresh();
+        }
+
+
+        private void BtnExternalFile_Click(object sender, EventArgs e)
+        {
+            var layer = siriusEditorControl1.Document.ActivePage.ActiveLayer;
+
+            foreach (var entity in layer.Children)
+            {
+                if (entity is ITextConvertible textConvertible)
+                {
+                    // set text converter as event handler
+                    textConvertible.IsAllowConvert = true;
+                    textConvertible.TextConverter = TextConverters.File;
+                    
+                    var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.txt");
+                    textConvertible.ExternalFile = filePath;
+                }
+            }
+
+            siriusEditorControl1.PropertyGridCtrl.Refresh();
+        }
+
     }
 }

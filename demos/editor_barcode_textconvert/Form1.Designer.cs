@@ -29,22 +29,38 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
             this.btnCreateBarcode = new System.Windows.Forms.Button();
+            this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
+            this.btnEventHandler = new System.Windows.Forms.Button();
+            this.btnScript = new System.Windows.Forms.Button();
+            this.btnExternalFile = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.btnCreateBarcode);
+            this.flowLayoutPanel1.Controls.Add(this.btnEventHandler);
+            this.flowLayoutPanel1.Controls.Add(this.btnScript);
+            this.flowLayoutPanel1.Controls.Add(this.btnExternalFile);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(2254, 48);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
+            // btnCreateBarcode
+            // 
+            this.btnCreateBarcode.Location = new System.Drawing.Point(3, 3);
+            this.btnCreateBarcode.Name = "btnCreateBarcode";
+            this.btnCreateBarcode.Size = new System.Drawing.Size(109, 42);
+            this.btnCreateBarcode.TabIndex = 0;
+            this.btnCreateBarcode.Text = "Create";
+            this.btnCreateBarcode.UseVisualStyleBackColor = true;
+            // 
             // siriusEditorControl1
             // 
+            this.siriusEditorControl1.AliasName = "NoName";
             this.siriusEditorControl1.BackColor = System.Drawing.SystemColors.Control;
             this.siriusEditorControl1.DIExt1 = null;
             this.siriusEditorControl1.DILaserPort = null;
@@ -63,14 +79,32 @@
             this.siriusEditorControl1.Size = new System.Drawing.Size(2254, 1590);
             this.siriusEditorControl1.TabIndex = 2;
             // 
-            // btnCreateBarcode
+            // btnEventHandler
             // 
-            this.btnCreateBarcode.Location = new System.Drawing.Point(3, 3);
-            this.btnCreateBarcode.Name = "btnCreateBarcode";
-            this.btnCreateBarcode.Size = new System.Drawing.Size(109, 42);
-            this.btnCreateBarcode.TabIndex = 0;
-            this.btnCreateBarcode.Text = "Create";
-            this.btnCreateBarcode.UseVisualStyleBackColor = true;
+            this.btnEventHandler.Location = new System.Drawing.Point(118, 3);
+            this.btnEventHandler.Name = "btnEventHandler";
+            this.btnEventHandler.Size = new System.Drawing.Size(149, 42);
+            this.btnEventHandler.TabIndex = 1;
+            this.btnEventHandler.Text = "Event Handler";
+            this.btnEventHandler.UseVisualStyleBackColor = true;
+            // 
+            // btnScript
+            // 
+            this.btnScript.Location = new System.Drawing.Point(273, 3);
+            this.btnScript.Name = "btnScript";
+            this.btnScript.Size = new System.Drawing.Size(109, 42);
+            this.btnScript.TabIndex = 2;
+            this.btnScript.Text = "Script";
+            this.btnScript.UseVisualStyleBackColor = true;
+            // 
+            // btnExternalFile
+            // 
+            this.btnExternalFile.Location = new System.Drawing.Point(388, 3);
+            this.btnExternalFile.Name = "btnExternalFile";
+            this.btnExternalFile.Size = new System.Drawing.Size(122, 42);
+            this.btnExternalFile.TabIndex = 3;
+            this.btnExternalFile.Text = "External File";
+            this.btnExternalFile.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -93,5 +127,8 @@
         private FlowLayoutPanel flowLayoutPanel1;
         private Button btnCreateBarcode;
         private SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl siriusEditorControl1;
+        private Button btnEventHandler;
+        private Button btnScript;
+        private Button btnExternalFile;
     }
 }

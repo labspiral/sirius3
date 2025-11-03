@@ -43,9 +43,6 @@
 	  <None Include="..\config.ini" Link="config.ini">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Include="..\config_syncaxis.ini" Link="config_syncaxis.ini">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -72,5 +69,11 @@
 		<Reference Condition="'$(TargetFramework)'=='net8.0-windows'" Include="SpiralLab.Sirius3.UI">
 			<HintPath>..\..\..\sirius3lib\bin\net8.0-windows\SpiralLab.Sirius3.UI.dll</HintPath>
 		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="test.txt">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>

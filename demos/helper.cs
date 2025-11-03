@@ -71,8 +71,6 @@ namespace Demos
         /// Your config ini file
         /// </summary>
         public static string ConfigFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.ini");
-        // Config file for XL-SCAN (syncAXIS)
-        //public static string ConfigFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config_syncaxis.ini");
 
         /// <summary>
         /// Create devices (like as <c>IScanner</c>, <c>ILaser</c>, <c>IMarker</c>, <c>IPowerMeter</c>, ...)

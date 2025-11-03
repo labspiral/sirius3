@@ -44,9 +44,6 @@
 	  <None Include="..\config.ini" Link="config.ini">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Include="..\config_syncaxis.ini" Link="config_syncaxis.ini">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
