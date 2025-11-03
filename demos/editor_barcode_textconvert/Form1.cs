@@ -88,7 +88,7 @@ namespace Demos
             entity.TextConverter = TextConverters.Event;
 
             //entity.TextConverter = TextConverters.Script;
-            //entity.SourceText = "";
+            //entity.SourceText = @"$""SCRIPT {DateTime.Now.ToString(""HH:mm:ss"")}""";
 
             //entity.TextConverter = TextConverters.File;
             //var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.txt");
@@ -134,8 +134,7 @@ namespace Demos
             switch (currentEntity.Name)
             {
                 case "MyBarcode":
-                case "MyText":
-                    return $"ABC {DateTime.Now.ToString("HH:mm:ss")} - {currentOffsetIndex}";
+                    return $"EVENT {DateTime.Now.ToString("HH:mm:ss")}";
                 default:
                     // Not modified
                     return textConvertible.SourceText;
@@ -153,7 +152,7 @@ namespace Demos
                     // set text converter as event handler
                     textConvertible.IsAllowConvert = true;
                     textConvertible.TextConverter = TextConverters.Script;
-                    textConvertible.SourceText = @"$""123 {DateTime.Now.ToString(""HH:mm:ss"")}""";
+                    textConvertible.SourceText = @"$""SCRIPT {DateTime.Now.ToString(""HH:mm:ss"")}""";
                 }
             }
 
