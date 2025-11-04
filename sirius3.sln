@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_powermap", "demos\ed
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_barcode_textconvert", "demos\editor_barcode_textconvert\editor_barcode_textconvert.csproj", "{83820993-A6B9-0252-B496-45DB2C0EA978}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_ui", "demos\editor_ui\editor_ui.csproj", "{DC90C7DA-0CB3-512C-1AD5-32703F115006}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,10 @@ Global
 		{83820993-A6B9-0252-B496-45DB2C0EA978}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83820993-A6B9-0252-B496-45DB2C0EA978}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83820993-A6B9-0252-B496-45DB2C0EA978}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC90C7DA-0CB3-512C-1AD5-32703F115006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC90C7DA-0CB3-512C-1AD5-32703F115006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC90C7DA-0CB3-512C-1AD5-32703F115006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC90C7DA-0CB3-512C-1AD5-32703F115006}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

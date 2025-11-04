@@ -6,6 +6,7 @@ This License Agreement (“Agreement”) is a legal agreement between you (an in
 PRODUCT
 - Name: Sirius3 (“Software”)
 - Covered files (including any updates and bug fixes): 
+  • SpiralLab.Sirius3.Dependencies.dll (https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
   • SpiralLab.Sirius3.dll (https://www.nuget.org/packages/SpiralLab.Sirius3)
   • SpiralLab.Sirius3.UI.dll (https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
 - Website: https://spirallab.co.kr

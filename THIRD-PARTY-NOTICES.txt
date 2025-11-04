@@ -49,6 +49,12 @@ ZXing.Net
   Source  : https://github.com/micjahn/ZXing.Net
   NOTICE  : No additional upstream NOTICE content was provided beyond the Apache-2.0 license.
 
+GerberTools
+  Version : 21/12/18
+  License : MIT
+  Copyright: © 2016 This is not Rocket Science
+  Source  : https://github.com/ThisIsNotRocketScience/GerberTools
+
 Microsoft .NET / .NET 8 (target platform)
   License : MIT (parts may be under other licenses; see upstream notices)
   Source  : https://github.com/dotnet/runtime

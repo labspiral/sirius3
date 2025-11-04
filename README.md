@@ -154,23 +154,12 @@ public class MainForm : Form
 }
 ```
 
-## Runtime Output Folders
-- **Basic**: Mandatory files for SCANLAB RTC4,5,6 and syncAXIS.
-- **siriuslog**: Output log files.
-- **correction**: Utilities for scanner field correction.
-- **measurement**: Measurement output files. 
-- **gnuplot**: Measurement viewer by gnuplot(http://gnuplot.info/download.html) program.
-- **powermap**: Powermap file for compensate output laser power.
-- **siriusfonts**: Sirius font files like as .lff, .cxf.
-- **sample**: Sample files like as dxf, plt, stl, obj, ply and more.
-- **x32**: Additional x32 dll files at runtime.
-- **x64**: Additional x64 dll files at runtime.
-
 ## License
 - Commercial license required for production use.
-- See LICENSE.txt and THIRD-PARTY-NOTICES.txt.
 - Contact: hcchoi@spirallab.co.kr | https://spirallab.co.kr
+- See LICENSE.txt and THIRD-PARTY-NOTICES.txt.
 > Without a license key, the library runs in 30-minute evaluation mode.
 
 ## Version history
-- 0.1.0 developer preview version
+* 2025.11.14 v0.8.0
+  - developer preview version
