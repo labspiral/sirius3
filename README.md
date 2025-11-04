@@ -83,9 +83,9 @@ A .NET-based, all-in-one platform for precision laser processing and additive ma
 
 ## Getting Started
 - Add references (From NuGet package manager)
-   - `SpiralLab.Sirius3.Dependencies`
-   - `SpiralLab.Sirius3`
-   - `SpiralLab.Sirius3.UI`
+   - `SpiralLab.Sirius3.Dependencies` (https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
+   - `SpiralLab.Sirius3` (https://www.nuget.org/packages/SpiralLab.Sirius3)
+   - `SpiralLab.Sirius3.UI` (https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
 
 - Create your devices like as scanner, laser, powermeter, marker, ... and attach them to SiriusEditorControl.
 - Examples: https://github.com/labspiral/sirius3

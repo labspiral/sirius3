@@ -151,7 +151,7 @@ namespace Demos
                 {
                     // set text converter as event handler
                     textConvertible.IsAllowConvert = true;
-                    textConvertible.TextConverter = TextConverters.Script;
+                    textConvertible.TextConverter = TextConverters.SimpleScript;
                     textConvertible.SourceText = @"$""SCRIPT {DateTime.Now.ToString(""HH:mm:ss"")}""";
                 }
             }

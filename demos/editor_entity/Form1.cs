@@ -54,10 +54,7 @@ namespace Demos
                 polyline2d_testcase(document);
                 polyline3d_testcase(document);
             };
-            this.btnHatch.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                hatch_testcase(document);
-            };
+           
             this.btnSpline.Click += (s, e) => {
                 var document = siriusEditorControl1.Document;
                 bezierSpline_testcase(document);
@@ -235,132 +232,6 @@ namespace Demos
                 var entity = new EntityCross(Vector3d.Zero, 10, 10, 2);
                 entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
-            }
-            siriusEditorControl1.View?.DoRender();
-        }
-
-        /// <summary>
-        /// Adds hatch examples on rectangle/cross/polylines.
-        /// </summary>
-        private void hatch_testcase(IDocument document)
-        {
-            var rng = new Random((int)DateTime.Now.Ticks);
-
-            {
-                var entity = new EntityRectangle(new Vector3d(0, 0, 0), 4, 3);
-                entity.Rotate(rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0);
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
-                entity.AddHatch(HatchFactory.CreateLine(30, 0.2));
-                entity.AddHatch(HatchFactory.CreateLine(120, 0.2));
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
-            }
-
-            {
-                var entity = new EntityCross(Vector3d.Zero, 10, 10, 2);
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
-                entity.AddHatch(HatchFactory.CreatePolygon(0.1));
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
-            }
-
-            {
-                const int ENTITY_COUNT = 5;
-                for (int i = 0; i < ENTITY_COUNT; i++)
-                {
-                    int VERT_COUNT = 3 + (int)(rng.NextDouble() * 5);
-                    var tempVerts = new List<Vertex2D>(VERT_COUNT);
-                    for (int v = 0; v < VERT_COUNT; v++)
-                    {
-                        double x = rng.NextDouble() * 10.0 - 5.0;
-                        double y = rng.NextDouble() * 10.0 - 5.0;
-                        double b = rng.NextDouble();
-                        tempVerts.Add(new Vertex2D(x, y, b));
-                    }
-
-                    var poly = new EntityPolyline2D(tempVerts, true)
-                    {
-                        ColorMode = EntityModelBase.ColorModes.Model,
-                        ModelColor = new Vector3d(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
-                    };
-
-                    poly.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                    poly.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
-                    poly.AddHatch(HatchFactory.CreateLine(45, 0.2, 0.1));
-
-                    document.ActivePage?.ActiveLayer?.AddChild(poly);
-                }
-            }
-            siriusEditorControl1.View?.DoRender();
-        }
-      
-
-        /// <summary>
-        /// Adds two large grid-cloud entities for a height map example.
-        /// </summary>
-        private void gridcloud_testcase(IDocument document)
-        {
-            var rng = new Random((int)DateTime.Now.Ticks);
-            const int COLS = 1024;
-            const int ROWS = 768;
-            const double INTERVAL = 0.05;
-
-            EntityGrids reference = null;
-            EntityGrids measured = null;
-
-            // Reference
-            {
-                var zDepths = new List<double>(ROWS * COLS);
-                var center = new Vector2d(COLS / 2f * INTERVAL, ROWS / 2f * INTERVAL);
-                double amplitude = 0.5f;
-                float wavelength = 5f;
-                double phaseOffset = 0f;
-
-                for (int y = 0; y < ROWS; y++)
-                {
-                    for (int x = 0; x < COLS; x++)
-                    {
-                        var pos = new Vector2d(x * INTERVAL, y * INTERVAL);
-                        double dist = (pos - center).Length;
-                        double z = amplitude * Math.Sin((2 * Math.PI * dist / wavelength) + phaseOffset);
-                        zDepths.Add(z);
-                    }
-                }
-
-                var minZ = zDepths.Min();
-                var maxZ = zDepths.Max();
-                var pointsCloud = new EntityGrids(ROWS, COLS, INTERVAL, zDepths, new Vector2d(minZ + 2, maxZ + 2));
-                pointsCloud.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 2);
-                document.ActivePage?.ActiveLayer?.AddChild(pointsCloud);
-                reference = pointsCloud;
-            }
-
-            // Measured
-            {
-                var zDepths = new List<double>(ROWS * COLS);
-                var center = new Vector2d(COLS / 2f * INTERVAL, ROWS / 2f * INTERVAL);
-                double amplitude = 0.5f;
-                double wavelength = 5f;
-                double phaseOffset = 0f;
-
-                for (int y = 0; y < ROWS; y++)
-                {
-                    for (int x = 0; x < COLS; x++)
-                    {
-                        var pos = new Vector2d(x * INTERVAL, y * INTERVAL);
-                        double dist = (pos - center).Length;
-                        double z = amplitude * Math.Sin((2 * Math.PI * dist / wavelength) + phaseOffset);
-                        zDepths.Add(z + 0.02f);
-                    }
-                }
-
-                var minZ = zDepths.Min();
-                var maxZ = zDepths.Max();
-                var pointsCloud = new EntityGrids(ROWS, COLS, INTERVAL, zDepths, new Vector2d(minZ + 5, maxZ + 5))
-                {
-                    ColorMode = EntityModelBase.ColorModes.PerVertex
-                };
-                pointsCloud.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 5);
-                document.ActivePage?.ActiveLayer?.AddChild(pointsCloud);
-                measured = pointsCloud;
             }
             siriusEditorControl1.View?.DoRender();
         }
@@ -650,6 +521,7 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(group);
             siriusEditorControl1.View?.DoRender();
         }
+
         /// <summary>
         /// Adds multiple cubes and cylinders with random transforms.
         /// </summary>
@@ -680,6 +552,7 @@ namespace Demos
             }
             siriusEditorControl1.View?.DoRender();
         }
+
         private void stl_testcase(IDocument document)
         {
             var rng = new Random((int)DateTime.Now.Ticks);
@@ -692,6 +565,7 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(mesh);
             siriusEditorControl1.View?.DoRender();
         }
+
         private void obj_testcase(IDocument document)
         {
             var rng = new Random((int)DateTime.Now.Ticks);
@@ -704,7 +578,78 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(mesh);
             siriusEditorControl1.View?.DoRender();
         }
-      
+
+        /// <summary>
+        /// Adds two large grid-cloud entities for a height map example.
+        /// </summary>
+        private void gridcloud_testcase(IDocument document)
+        {
+            var rng = new Random((int)DateTime.Now.Ticks);
+            const int COLS = 1024;
+            const int ROWS = 768;
+            const double INTERVAL = 0.05;
+
+            EntityGrids reference = null;
+            EntityGrids measured = null;
+
+            // Reference
+            {
+                var zDepths = new List<double>(ROWS * COLS);
+                var center = new Vector2d(COLS / 2f * INTERVAL, ROWS / 2f * INTERVAL);
+                double amplitude = 0.5f;
+                float wavelength = 5f;
+                double phaseOffset = 0f;
+
+                for (int y = 0; y < ROWS; y++)
+                {
+                    for (int x = 0; x < COLS; x++)
+                    {
+                        var pos = new Vector2d(x * INTERVAL, y * INTERVAL);
+                        double dist = (pos - center).Length;
+                        double z = amplitude * Math.Sin((2 * Math.PI * dist / wavelength) + phaseOffset);
+                        zDepths.Add(z);
+                    }
+                }
+
+                var minZ = zDepths.Min();
+                var maxZ = zDepths.Max();
+                var pointsCloud = new EntityGrids(ROWS, COLS, INTERVAL, zDepths, new Vector2d(minZ + 2, maxZ + 2));
+                pointsCloud.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 2);
+                document.ActivePage?.ActiveLayer?.AddChild(pointsCloud);
+                reference = pointsCloud;
+            }
+
+            // Measured
+            {
+                var zDepths = new List<double>(ROWS * COLS);
+                var center = new Vector2d(COLS / 2f * INTERVAL, ROWS / 2f * INTERVAL);
+                double amplitude = 0.5f;
+                double wavelength = 5f;
+                double phaseOffset = 0f;
+
+                for (int y = 0; y < ROWS; y++)
+                {
+                    for (int x = 0; x < COLS; x++)
+                    {
+                        var pos = new Vector2d(x * INTERVAL, y * INTERVAL);
+                        double dist = (pos - center).Length;
+                        double z = amplitude * Math.Sin((2 * Math.PI * dist / wavelength) + phaseOffset);
+                        zDepths.Add(z + 0.02f);
+                    }
+                }
+
+                var minZ = zDepths.Min();
+                var maxZ = zDepths.Max();
+                var pointsCloud = new EntityGrids(ROWS, COLS, INTERVAL, zDepths, new Vector2d(minZ + 5, maxZ + 5))
+                {
+                    ColorMode = EntityModelBase.ColorModes.PerVertex
+                };
+                pointsCloud.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 5);
+                document.ActivePage?.ActiveLayer?.AddChild(pointsCloud);
+                measured = pointsCloud;
+            }
+            siriusEditorControl1.View?.DoRender();
+        }
 
         /// <summary>
         /// Creates a block from an entity and inserts multiple block instances.
@@ -925,6 +870,7 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(entity);
             siriusEditorControl1.View?.DoRender();
         }
+
         private void lissajous_testcase(IDocument document)
         {
             var rng = new Random((int)DateTime.Now.Ticks);
@@ -933,6 +879,7 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(entity);
             siriusEditorControl1.View?.DoRender();
         }
+
         private void spiral_testcase(IDocument document)
         {
             var rng = new Random((int)DateTime.Now.Ticks);
@@ -941,6 +888,7 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(entity);
             siriusEditorControl1.View?.DoRender();
         }
+
         /// <summary>
         /// (Optional) Demonstrates adding Gerber entities (paths are placeholders).
         /// </summary>
@@ -965,7 +913,6 @@ namespace Demos
             }
             siriusEditorControl1.View?.DoRender();
         }
-
         #endregion
     }
 }

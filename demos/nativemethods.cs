@@ -5,6 +5,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
+// Possible null reference argument.
+#pragma warning disable CS8604 
+
+
 namespace Demos
 {
     public static class NativeMethods

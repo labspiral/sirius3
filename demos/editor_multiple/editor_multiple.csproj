@@ -6,7 +6,7 @@
 	<!--<TargetFramework>net8.0-windows</TargetFramework>-->
 	<TargetFrameworks>net481;net8.0-windows</TargetFrameworks>	  
 	<LangVersion>latest</LangVersion>	  
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
 	<RootNamespace>Demos</RootNamespace>

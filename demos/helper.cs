@@ -60,6 +60,9 @@ using DMat3 = OpenTK.Mathematics.Matrix3d;
 using DMat4 = OpenTK.Mathematics.Matrix4d;
 #endif
 
+// Cannot convert null literal to non-nullable reference type.
+#pragma warning disable CS8625 
+
 namespace Demos
 {
     /// <summary>
