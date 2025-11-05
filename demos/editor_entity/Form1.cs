@@ -82,7 +82,8 @@ namespace Demos
             };
             this.btnGroup.Click += (s, e) => {
                 var document = siriusEditorControl1.Document;
-                groupIngroup_testcase(document);
+                mixed_group_testcase(document);
+                uniform_group_testcase(document);
             };
             this.btn3DMesh.Click += (s, e) => {
                 var document = siriusEditorControl1.Document;
@@ -429,7 +430,7 @@ namespace Demos
         /// <summary>
         /// Creates a nested group containing multiple polylines and sub-groups.
         /// </summary>
-        private void groupIngroup_testcase(IDocument document)
+        private void mixed_group_testcase(IDocument document)
         {
             var rng = new Random((int)DateTime.Now.Ticks);
             var group = new EntityGroup { Name = "TestGroup" };
@@ -489,6 +490,41 @@ namespace Demos
 
             group.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 5);
             document.ActivePage?.ActiveLayer?.AddChild(group);
+            siriusEditorControl1.View?.DoRender();
+        }
+
+        private void uniform_group_testcase(IDocument document)
+        {
+            var rng = new Random((int)DateTime.Now.Ticks);
+            const int ENTITY_COUNT = 100; //large amount
+
+            List<EntityModelBase> entities = new List<EntityModelBase>(ENTITY_COUNT);
+            for (int i = 0; i < ENTITY_COUNT; i++)
+            {
+                int VERT_COUNT = 3 + (int)(rng.NextDouble() * 5);
+                var tempVerts = new List<Vertex2D>(VERT_COUNT);
+                for (int v = 0; v < VERT_COUNT; v++)
+                {
+                    double x = rng.NextDouble() * 10.0 - 5.0;
+                    double y = rng.NextDouble() * 10.0 - 5.0;
+                    double b = rng.NextDouble();
+                    tempVerts.Add(new Vertex2D(x, y, b));
+                }
+
+                var poly = new EntityPolyline2D(tempVerts, true)
+                {
+                    ColorMode = EntityModelBase.ColorModes.Model,
+                    ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                };
+                poly.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
+                poly.Scale(rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5);
+                poly.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+
+                entities.Add(poly);
+            }
+            var group = new EntityUniformGroup("Group", entities);
+             document.ActivePage?.ActiveLayer?.AddChild(group);
+
             siriusEditorControl1.View?.DoRender();
         }
 
