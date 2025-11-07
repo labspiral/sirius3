@@ -75,7 +75,7 @@ namespace Demos
             var document = siriusEditorControl1.Document;
             document.ActNew();
 
-            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\Nefertiti_face.stl");
+            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\stl\\Nefertiti_face.stl");
             if (!File.Exists(fileName)) 
                 return;
 

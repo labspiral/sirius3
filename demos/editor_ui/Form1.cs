@@ -683,7 +683,7 @@ namespace Demos
         private void stl_testcase(IDocument document)
         {
             var rng = new Random((int)DateTime.Now.Ticks);
-            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\11_-_Main_Fan_1.stl");
+            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\stl\\11_-_Main_Fan_1.stl");
             if (!File.Exists(fileName)) return;
 
             var mesh = new EntityMesh(fileName);
@@ -695,7 +695,7 @@ namespace Demos
         private void obj_testcase(IDocument document)
         {
             var rng = new Random((int)DateTime.Now.Ticks);
-            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\teapot.obj");
+            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\obj\\teapot.obj");
             if (!File.Exists(fileName)) return;
 
             var mesh = new EntityMesh(fileName);
@@ -750,7 +750,7 @@ namespace Demos
         private void image_testcase(IDocument document)
         {
             var rng = new Random((int)DateTime.Now.Ticks);
-            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\lena.bmp");
+            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\image\\lena.bmp");
             if (!File.Exists(fileName)) return;
 
             var image = new EntityImage(fileName, 10);
@@ -949,7 +949,7 @@ namespace Demos
             var rng = new Random((int)DateTime.Now.Ticks);
 
             {
-                var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\LED-seven-segment.GBS");
+                var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\gerber\\LED-seven-segment.GBS");
                 if (!File.Exists(fileName)) return;
                 var gerber = new EntityGerber(fileName, SpiralLab.Sirius3.UI.Config.ScannerPenColors[0]);
                 gerber.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
@@ -957,7 +957,7 @@ namespace Demos
             }
 
             {
-                var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\TRF7960_EVM (REV A).TOP");
+                var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\gerber\\TRF7960_EVM (REV A).TOP");
                 if (!File.Exists(fileName)) return;
                 var gerber = new EntityGerber(fileName, SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]);
                 gerber.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
