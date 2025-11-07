@@ -182,7 +182,8 @@ namespace Demos
 
             if (rtc is Rtc6SyncAxis)
             {
-                // syncAXIS has no more
+                // syncAXIS is not supported
+
             }
             else
             {

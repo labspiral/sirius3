@@ -17,7 +17,9 @@ A .NET-based, all-in-one platform for precision laser processing and additive ma
    - MoF (Marking on the Fly), 2nd head, 3D
    - Sky Writing Mode 1/2/3 and 4
 - Ramp (Automatic Laser Control)
-   – Position-dependent / Velocity-dependent / User-defined vector
+   – Position dependent 
+   - Velocity(set or actual) dependent
+   - Encoder speed dependent
 - Scanner Field Correction
    - 2D / 3D correction 
 - Laser Power Control
@@ -31,27 +33,27 @@ A .NET-based, all-in-one platform for precision laser processing and additive ma
    - Layer, Group, Block and BlockInsert
    - Text, SiriusText, ImageText, Circular Text
    - Image, DXF, HPGL, ZPL
-   - Barcodes: QR, DataMatrix, PDF417 and more
+   - QR, DataMatrix, PDF417 Barcodes
    - 3D Mesh Format like as STL, OBJ, PLY
 - Open Architecture
-   - Editor, marker, and laser-source control code are open for customization
+   - Editor and laser-source control code are open for customization
 
 ## Major Changes
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_hatch.png)
 
+- Faster rendering with updated shader engine
 - 3D-printer features: slicer integration and contour extraction
 - Multiple hatch patterns with path optimizer
-- Multi-page documents
 - Scanner, layer pen property system
-- Built-in wafer, substrate editor
 - Various rendering modes (per-vertex, Z-depth, etc.)
-- Faster rendering with updated shader engine
+- Multi-page documents
+- Built-in wafer, substrate editor
 - Switchable camera: orthographic / perspective
 
 ## Packages / DLLs
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS runtime, fonts, sample data
 - `SpiralLab.Sirius3` — HAL controllers (scanner/laser/powermeter, etc.)
-- `SpiralLab.Sirius3.UI` — Entities, 3D renderer, WinForms/WPF UI controls
+- `SpiralLab.Sirius3.UI` — Entities, 3D renderer, WinForms UI controls
  > Easy to update library files by NuGet package manager.
 
 ## Platform targets
@@ -67,7 +69,7 @@ A .NET-based, all-in-one platform for precision laser processing and additive ma
 - SCANLAB
    - RTC4: v2023.11.02
    - RTC5: v2024.09.27
-   - RTC6: v1.20.0
+   - RTC6: 2025.10.30 v1.22.1
    - syncAXIS: v1.8.2 (2023.03.09)
 
 - .NET / OpenTK
@@ -121,26 +123,31 @@ public class MainForm : Form
         Load += (s, e) =>
         {
             // 1. Create devices 
-            var scanner = /* new Rtc4, Rtc5 or Rtc6(...), */; scanner.Initialize();
-            var laser = /* new LaserVirtual(...) */; laser.Initialize();
-            var powerMeter = /* new PowerMeterVirtual(...) */; powerMeter.Initialize();
-            var marker = /* new MarkerRtc(...) */; marker.Initialize();
+            var scanner =  //new Rtc4, Rtc5 or Rtc6(...)
+            scanner.Initialize();
+            var laser = //new LaserVirtual(...)
+            laser.Initialize();
+            var powerMeter = //new PowerMeterVirtual(...)
+            powerMeter.Initialize();
+            var marker = //new MarkerRtc(...) 
+            marker.Initialize();
 
+            // 2. Assign into SiriusEditorControl
             editor.Scanner = scanner;
             editor.Laser = laser;
             editor.PowerMeter = powerMeter;
             editor.Marker = marker;
             
-            // 2. Ready marker
+            // 3. Ready marker
             marker.Ready(editor.Document, editor.View, scanner, laser, powerMeter);
 
-            // 3. Create entities
-            var line = EntityFactory.Line(new DVec3(0, 0, 0), new DVec3(10, 10, 0));
+            // 4. Create entities
+            var line = EntityFactory.CreateLine(new DVec3(0, 0, 0), new DVec3(10, 10, 0));
             editor.Document.Add(line);
-            var text = new EntityText("Arial", FontStyle.Regular, "SIRIUS3", 10);
+            var text = new EntityFactory.CreateText("Arial", FontStyle.Regular, "SIRIUS3", 10);
             editor.Document.Add(text);
             
-            // 4. Do laser processing
+            // 5. Do laser processing
             marker.Start();
         };
     }
@@ -162,4 +169,4 @@ public class MainForm : Form
 
 ## Version history
 * 2025.11.14 v0.8.0
-  - developer preview version
+  - Developer preview version
