@@ -49,6 +49,7 @@ namespace Demos
     public class MyLaserSource
         : LaserBase
         , ILaserPowerControl
+        , ILaserGuideControl
     {
         /// <inheritdoc/>  
         [RefreshProperties(RefreshProperties.All)]
@@ -59,6 +60,7 @@ namespace Demos
         [Description("Type")]
         public override LaserTypes LaserType { get { return LaserTypes.UserDefined1; } }
 
+        #region ILaserPowerControl impl
         /// <inheritdoc/>  
         [RefreshProperties(RefreshProperties.All)]
         [Browsable(true)]
@@ -67,6 +69,7 @@ namespace Demos
         [DisplayName("Map")]
         [Description("Assigned PowerMap")]
         public virtual IPowerMap PowerMap { get; set; }
+        #endregion
 
         /// <inheritdoc/>  
         [RefreshProperties(RefreshProperties.All)]
@@ -149,6 +152,16 @@ namespace Demos
         private int analogPortNo = 1;
         #endregion
 
+        #region ILaserGuideControl
+        /// <inheritdoc/>  
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Category("Guide Control")]
+        [DisplayName("Guide")]
+        [Description("Guide On or Off")]
+        public bool IsGuideOn { get; protected set; }
+        #endregion
+
         private bool disposed = false;
 
         /// <summary>
@@ -190,6 +203,8 @@ namespace Demos
             {
                 if (disposing)
                 {
+                    //CtlGuide(false);
+                    //CtlPower(0);
                 }
                 IsReady = false;
                 this.disposed = true;
@@ -271,6 +286,18 @@ namespace Demos
                 return success;
             }
         }
+        #endregion
+
+        #region ILaserGuideControl
+        /// <inheritdoc/>  
+        public virtual bool CtlGuide(bool onOff)
+        {
+            IsGuideOn = onOff;
+            // Do something to on/off guide(or pilot) beam
+            // ...
+            return true;
+        }
+        #endregion
 
         /// <inheritdoc/>  
         public override bool ListBegin()
@@ -283,6 +310,8 @@ namespace Demos
         {
             return true;
         }
+
+        #region ILaserPowerControl impl
         /// <inheritdoc/>  
         public virtual bool ListPower(double targetWatt, string category = "")
         {

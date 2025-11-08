@@ -120,7 +120,7 @@ namespace Demos
             siriusEditorControl1.View?.DoRender();
         }
 
-        private void NudSlice_ValueChanged(object? sender, EventArgs e)
+        private void NudSlice_ValueChanged(object sender, EventArgs e)
         {
             SlicePreview();
         }
