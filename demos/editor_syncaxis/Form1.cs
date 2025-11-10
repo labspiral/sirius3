@@ -10,6 +10,10 @@ using SpiralLab.Sirius3.Marker;
 using SpiralLab.Sirius3.Entity;
 using System.Text;
 using SpiralLab.Sirius3.Entity.Hatch;
+using SpiralLab.Sirius3;
+using System.Diagnostics;
+
+
 
 #if OPENTK3
 using OpenTK;
@@ -46,8 +50,11 @@ namespace Demos
             // at syncAXISConfig.xml 
             // For example : <cfg:BaseDirectoryPath> C:\git\sirius3\bin\net481 </cfg:BaseDirectoryPath>
 
-            EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
+            // Also, need to syncaxis license at library option.
+            //Core.License(out var licenseInfo);
+            //Debug.Assert(licenseInfo.IsRtcSyncAxisLicensed);
 
+            EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
             siriusEditorControl1.Scanner = rtc;
 

@@ -11,6 +11,8 @@ using SpiralLab.Sirius3.Entity;
 using System.Text;
 using SpiralLab.Sirius3.Entity.Hatch;
 using System.Diagnostics;
+using SpiralLab.Sirius3;
+
 
 #if OPENTK3
 using OpenTK;
@@ -80,6 +82,10 @@ namespace Demos
 
             // Create mof begin 
             // with encoder reset
+            // Also, need to MoF at library option.
+            Core.License(out var licenseInfo);
+            Debug.Assert(licenseInfo.IsMoFLicensed);
+
             var mofBegin = EntityFactory.CreateMoFBegin(RtcMoFModes.XY, true);
             document.ActivePage?.ActiveLayer?.AddChild(mofBegin);
 

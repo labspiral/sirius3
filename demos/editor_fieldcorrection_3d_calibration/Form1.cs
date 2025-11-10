@@ -14,6 +14,8 @@ using SpiralLab.Sirius3.Entity;
 using SpiralLab.Sirius3.Entity.Hatch;
 using SpiralLab.Sirius3.Mathematics;
 using System.Diagnostics;
+using SpiralLab.Sirius3;
+
 
 #if OPENTK3
 using OpenTK;
@@ -153,8 +155,10 @@ namespace Demos
             try
             {
                 Cursor = Cursors.WaitCursor;
-                // it takes heavy time for calaulation
-                // do works as async if you want
+                // It takes heavy time for calaulation. so do this operation as async if you want
+                // Also, need to 3D option at library option.
+                //Core.License(out var licenseInfo);
+                //Debug.Assert(licenseInfo.Is3DLicensed);
                 if (!RtcCalibrationLibrary.PointsCloudCalibration(vertices.ToArray(), inputCtFileName, null, newCtFileName, out var returnCode))
                     return;
             }

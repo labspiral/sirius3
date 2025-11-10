@@ -74,7 +74,7 @@ namespace Demos
             var document = siriusEditorControl1.Document;
             var text = EntityFactory.CreateText("Arial",
               FontStyle.Regular,
-              $"AaBbCcDdEeFfGg{Environment.NewLine}0123456789{Environment.NewLine}!@#$%^&*()-+<>",
+              $"Aa{Environment.NewLine}01{Environment.NewLine}!@",
               10);
             text.FontHorizontalAlignment = StringAlignment.Center;
             text.FontVerticalAlignment = StringAlignment.Center;
@@ -118,6 +118,8 @@ namespace Demos
             layerPenWhite.AlcMinValue = 4; // 4V
             layerPenWhite.AlcMaxValue = 6; //6V
             layerPenWhite.AlcByPositionTable.Clear();
+
+            siriusEditorControl1.PropertyGridCtrl.Refresh();
         }
 
         private void BtnActualVelocity_Click(object sender, EventArgs e)
@@ -156,6 +158,8 @@ namespace Demos
             layerPenWhite.AlcMinValue = 40 * 1000; //Lower cut off frequency : 40KHz
             layerPenWhite.AlcMaxValue = 60 * 1000; //Upper cut off frequency : 60KHz
             layerPenWhite.AlcByPositionTable.Clear();
+
+            siriusEditorControl1.PropertyGridCtrl.Refresh();
         }
 
         private void BtnPositionDependent_Click(object sender, EventArgs e)
@@ -206,6 +210,8 @@ namespace Demos
             kvList.Add(new KeyValuePair<double, double>(50, 2.0));
             // + Position dependent
             layerPenWhite.AlcByPositionTable = kvList;
+
+            siriusEditorControl1.PropertyGridCtrl.Refresh();
         }
 
         private void BtnSpotDistance_Click(object sender, EventArgs e)
@@ -246,7 +252,8 @@ namespace Demos
             //layerPenWhite.AlcMinValue = 0; // not used at SpotDistance
             //layerPenWhite.AlcMaxValue = 0; // not used at SpotDistance
             layerPenWhite.AlcByPositionTable.Clear();
-        }
 
+            siriusEditorControl1.PropertyGridCtrl.Refresh();
+        }
     }
 }

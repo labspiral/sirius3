@@ -11,6 +11,8 @@ using SpiralLab.Sirius3.Entity;
 using System.Text;
 using SpiralLab.Sirius3.Entity.Hatch;
 using System.Diagnostics;
+using SpiralLab.Sirius3;
+
 
 #if OPENTK3
 using OpenTK;
@@ -102,6 +104,10 @@ namespace Demos
             // 입력 엔코더(이동거리)값을 0 으로 초기화하도록 해주고
             // 이후 스캐너의 이동에 실시간 입력되는 외부 엔코더값을 추가(+) 해주는것을 시작하는
             // 제어용 MoF 시작 객체 추가
+            // Also, need to MoF option at library option.
+            Core.License(out var licenseInfo);
+            Debug.Assert(licenseInfo.IsMoFLicensed);
+
             var mofBegin = EntityFactory.CreateMoFBegin(RtcMoFModes.XY, true);
             document.ActivePage?.ActiveLayer?.AddChild(mofBegin);
 
