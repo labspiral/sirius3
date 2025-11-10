@@ -89,7 +89,7 @@ namespace Demos
 
             // create measurement begin
             var begin = EntityFactory.CreateMeasurementBegin(
-                10 * 1000,
+                10 * 1000, //10KHz
                 new MeasurementChannels[] {
                     MeasurementChannels.LaserOn,
                     MeasurementChannels.SampleX,

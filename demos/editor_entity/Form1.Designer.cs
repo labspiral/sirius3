@@ -33,7 +33,6 @@
             this.btnLineArc = new System.Windows.Forms.Button();
             this.btnTriangleRectangle = new System.Windows.Forms.Button();
             this.btnPolyline = new System.Windows.Forms.Button();
-            this.btnHatch = new System.Windows.Forms.Button();
             this.btnSpline = new System.Windows.Forms.Button();
             this.btnText = new System.Windows.Forms.Button();
             this.btnImage = new System.Windows.Forms.Button();
@@ -57,7 +56,6 @@
             this.flowLayoutPanel1.Controls.Add(this.btnLineArc);
             this.flowLayoutPanel1.Controls.Add(this.btnTriangleRectangle);
             this.flowLayoutPanel1.Controls.Add(this.btnPolyline);
-            this.flowLayoutPanel1.Controls.Add(this.btnHatch);
             this.flowLayoutPanel1.Controls.Add(this.btnSpline);
             this.flowLayoutPanel1.Controls.Add(this.btnText);
             this.flowLayoutPanel1.Controls.Add(this.btnImage);
@@ -113,18 +111,9 @@
             this.btnPolyline.Text = "Polyline";
             this.btnPolyline.UseVisualStyleBackColor = true;
             // 
-            // btnHatch
-            // 
-            this.btnHatch.Location = new System.Drawing.Point(459, 3);
-            this.btnHatch.Name = "btnHatch";
-            this.btnHatch.Size = new System.Drawing.Size(78, 44);
-            this.btnHatch.TabIndex = 4;
-            this.btnHatch.Text = "Hatch";
-            this.btnHatch.UseVisualStyleBackColor = true;
-            // 
             // btnSpline
             // 
-            this.btnSpline.Location = new System.Drawing.Point(543, 3);
+            this.btnSpline.Location = new System.Drawing.Point(459, 3);
             this.btnSpline.Name = "btnSpline";
             this.btnSpline.Size = new System.Drawing.Size(78, 44);
             this.btnSpline.TabIndex = 5;
@@ -133,7 +122,7 @@
             // 
             // btnText
             // 
-            this.btnText.Location = new System.Drawing.Point(627, 3);
+            this.btnText.Location = new System.Drawing.Point(543, 3);
             this.btnText.Name = "btnText";
             this.btnText.Size = new System.Drawing.Size(78, 44);
             this.btnText.TabIndex = 6;
@@ -142,7 +131,7 @@
             // 
             // btnImage
             // 
-            this.btnImage.Location = new System.Drawing.Point(711, 3);
+            this.btnImage.Location = new System.Drawing.Point(627, 3);
             this.btnImage.Name = "btnImage";
             this.btnImage.Size = new System.Drawing.Size(78, 44);
             this.btnImage.TabIndex = 7;
@@ -151,7 +140,7 @@
             // 
             // btnGridCloud
             // 
-            this.btnGridCloud.Location = new System.Drawing.Point(795, 3);
+            this.btnGridCloud.Location = new System.Drawing.Point(711, 3);
             this.btnGridCloud.Name = "btnGridCloud";
             this.btnGridCloud.Size = new System.Drawing.Size(96, 44);
             this.btnGridCloud.TabIndex = 8;
@@ -160,7 +149,7 @@
             // 
             // btnLines
             // 
-            this.btnLines.Location = new System.Drawing.Point(897, 3);
+            this.btnLines.Location = new System.Drawing.Point(813, 3);
             this.btnLines.Name = "btnLines";
             this.btnLines.Size = new System.Drawing.Size(112, 44);
             this.btnLines.TabIndex = 9;
@@ -169,7 +158,7 @@
             // 
             // btnBarcode
             // 
-            this.btnBarcode.Location = new System.Drawing.Point(1015, 3);
+            this.btnBarcode.Location = new System.Drawing.Point(931, 3);
             this.btnBarcode.Name = "btnBarcode";
             this.btnBarcode.Size = new System.Drawing.Size(96, 44);
             this.btnBarcode.TabIndex = 10;
@@ -178,7 +167,7 @@
             // 
             // btnGroup
             // 
-            this.btnGroup.Location = new System.Drawing.Point(1117, 3);
+            this.btnGroup.Location = new System.Drawing.Point(1033, 3);
             this.btnGroup.Name = "btnGroup";
             this.btnGroup.Size = new System.Drawing.Size(100, 44);
             this.btnGroup.TabIndex = 11;
@@ -187,7 +176,7 @@
             // 
             // btn3DMesh
             // 
-            this.btn3DMesh.Location = new System.Drawing.Point(1223, 3);
+            this.btn3DMesh.Location = new System.Drawing.Point(1139, 3);
             this.btn3DMesh.Name = "btn3DMesh";
             this.btn3DMesh.Size = new System.Drawing.Size(97, 44);
             this.btn3DMesh.TabIndex = 12;
@@ -196,7 +185,7 @@
             // 
             // btnBlockInsert
             // 
-            this.btnBlockInsert.Location = new System.Drawing.Point(1326, 3);
+            this.btnBlockInsert.Location = new System.Drawing.Point(1242, 3);
             this.btnBlockInsert.Name = "btnBlockInsert";
             this.btnBlockInsert.Size = new System.Drawing.Size(120, 44);
             this.btnBlockInsert.TabIndex = 13;
@@ -205,7 +194,7 @@
             // 
             // btnZPL
             // 
-            this.btnZPL.Location = new System.Drawing.Point(1452, 3);
+            this.btnZPL.Location = new System.Drawing.Point(1368, 3);
             this.btnZPL.Name = "btnZPL";
             this.btnZPL.Size = new System.Drawing.Size(65, 44);
             this.btnZPL.TabIndex = 14;
@@ -214,7 +203,7 @@
             // 
             // btnLissajous
             // 
-            this.btnLissajous.Location = new System.Drawing.Point(1523, 3);
+            this.btnLissajous.Location = new System.Drawing.Point(1439, 3);
             this.btnLissajous.Name = "btnLissajous";
             this.btnLissajous.Size = new System.Drawing.Size(97, 44);
             this.btnLissajous.TabIndex = 15;
@@ -223,7 +212,7 @@
             // 
             // btnSpiral
             // 
-            this.btnSpiral.Location = new System.Drawing.Point(1626, 3);
+            this.btnSpiral.Location = new System.Drawing.Point(1542, 3);
             this.btnSpiral.Name = "btnSpiral";
             this.btnSpiral.Size = new System.Drawing.Size(97, 44);
             this.btnSpiral.TabIndex = 17;
@@ -232,7 +221,7 @@
             // 
             // btnGerber
             // 
-            this.btnGerber.Location = new System.Drawing.Point(1729, 3);
+            this.btnGerber.Location = new System.Drawing.Point(1645, 3);
             this.btnGerber.Name = "btnGerber";
             this.btnGerber.Size = new System.Drawing.Size(97, 44);
             this.btnGerber.TabIndex = 16;
@@ -284,7 +273,6 @@
         private Button btnLineArc;
         private Button btnTriangleRectangle;
         private Button btnPolyline;
-        private Button btnHatch;
         private Button btnSpline;
         private Button btnText;
         private Button btnImage;
