@@ -30,9 +30,9 @@
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnCreateEntities = new System.Windows.Forms.Button();
-            this.btnStartStop = new System.Windows.Forms.Button();
             this.btnStartEncoderSimulation = new System.Windows.Forms.Button();
             this.btnStopEncoderSimulation = new System.Windows.Forms.Button();
+            this.btnStartStop = new System.Windows.Forms.Button();
             this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -58,15 +58,6 @@
             this.btnCreateEntities.Text = "Create Entities";
             this.btnCreateEntities.UseVisualStyleBackColor = true;
             // 
-            // btnStartStop
-            // 
-            this.btnStartStop.Location = new System.Drawing.Point(618, 3);
-            this.btnStartStop.Name = "btnStartStop";
-            this.btnStartStop.Size = new System.Drawing.Size(221, 42);
-            this.btnStartStop.TabIndex = 3;
-            this.btnStartStop.Text = "Start/Stop";
-            this.btnStartStop.UseVisualStyleBackColor = true;
-            // 
             // btnStartEncoderSimulation
             // 
             this.btnStartEncoderSimulation.Location = new System.Drawing.Point(164, 3);
@@ -80,13 +71,23 @@
             // 
             this.btnStopEncoderSimulation.Location = new System.Drawing.Point(391, 3);
             this.btnStopEncoderSimulation.Name = "btnStopEncoderSimulation";
-            this.btnStopEncoderSimulation.Size = new System.Drawing.Size(221, 42);
+            this.btnStopEncoderSimulation.Size = new System.Drawing.Size(300, 42);
             this.btnStopEncoderSimulation.TabIndex = 2;
-            this.btnStopEncoderSimulation.Text = "Stop Encoder (Simulation)";
+            this.btnStopEncoderSimulation.Text = "Stop (Simulation) and Reset Encoder";
             this.btnStopEncoderSimulation.UseVisualStyleBackColor = true;
+            // 
+            // btnStartStop
+            // 
+            this.btnStartStop.Location = new System.Drawing.Point(697, 3);
+            this.btnStartStop.Name = "btnStartStop";
+            this.btnStartStop.Size = new System.Drawing.Size(221, 42);
+            this.btnStartStop.TabIndex = 3;
+            this.btnStartStop.Text = "Start/Stop";
+            this.btnStartStop.UseVisualStyleBackColor = true;
             // 
             // siriusEditorControl1
             // 
+            this.siriusEditorControl1.AliasName = "NoName";
             this.siriusEditorControl1.BackColor = System.Drawing.SystemColors.Control;
             this.siriusEditorControl1.DIExt1 = null;
             this.siriusEditorControl1.DILaserPort = null;

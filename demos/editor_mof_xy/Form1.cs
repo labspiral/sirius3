@@ -1,5 +1,4 @@
 ﻿using System;
-
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Scanner;
 using SpiralLab.Sirius3.IO;
@@ -9,10 +8,9 @@ using SpiralLab.Sirius3.Laser;
 using SpiralLab.Sirius3.Marker;
 using SpiralLab.Sirius3.Entity;
 using System.Text;
-using SpiralLab.Sirius3.Entity.Hatch;
 using System.Diagnostics;
 using SpiralLab.Sirius3;
-
+using SpiralLab.Sirius3.Entity.Hatch;
 
 #if OPENTK3
 using OpenTK;
@@ -220,8 +218,8 @@ namespace Demos
 
             // Deactivated simulated encoders 
             rtcMoF.CtlMofEncoderSpeed(0, 0);
-
+            // Reset encoders
+            rtcMoF.CtlMofEncoderReset();
         }
-
     }
 }

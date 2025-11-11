@@ -153,7 +153,7 @@
             this.btnLines.Name = "btnLines";
             this.btnLines.Size = new System.Drawing.Size(112, 44);
             this.btnLines.TabIndex = 9;
-            this.btnLines.Text = "Large Lines";
+            this.btnLines.Text = "Lines (Many)";
             this.btnLines.UseVisualStyleBackColor = true;
             // 
             // btnBarcode
