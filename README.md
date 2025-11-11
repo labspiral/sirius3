@@ -102,14 +102,10 @@ A .NET-based, all-in-one platform for precision laser processing and additive ma
 
 #if OPENTK3
     using OpenTK;
-    using DVec2 = OpenTK.Vector2d;
     using DVec3 = OpenTK.Vector3d;
-    using DMat4 = OpenTK.Matrix4d;
 #elif OPENTK4
     using OpenTK.Mathematics;
-    using DVec2 = OpenTK.Mathematics.Vector2d;
     using DVec3 = OpenTK.Mathematics.Vector3d;
-    using DMat4 = OpenTK.Mathematics.Matrix4d;
 #endif
 
 public class MainForm : Form
@@ -155,8 +151,12 @@ public class MainForm : Form
     [STAThread]
     static void Main()
     {
+        SpiralLab.Sirius3.Core.Initialize("en-US");
+
         Application.EnableVisualStyles();
         Application.Run(new MainForm());
+
+        SpiralLab.Sirius3.Core.Cleanup();
     }
 }
 ```
@@ -168,5 +168,5 @@ public class MainForm : Form
 > Without a license key, the library runs in 30-minute evaluation mode.
 
 ## Version history
-* 2025.11.14 v0.8.0
-  - Developer preview version
+- See HISTORY.md
+  

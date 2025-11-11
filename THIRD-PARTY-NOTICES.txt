@@ -49,6 +49,12 @@ ZXing.Net
   Source  : https://github.com/micjahn/ZXing.Net
   NOTICE  : No additional upstream NOTICE content was provided beyond the Apache-2.0 license.
 
+BouncyCastle.Cryptography
+  Version : 2.3.1
+  License : MIT
+  Copyright: © Legion of the Bouncy Castle Inc.
+  Source  : https://www.bouncycastle.org/download/bouncy-castle-c/
+
 GerberTools
   Version : 21/12/18
   License : MIT
