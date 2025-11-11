@@ -48,9 +48,9 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="0.8.1" />
-		<PackageReference Include="SpiralLab.Sirius3" Version="0.8.0" />
-		<PackageReference Include="SpiralLab.Sirius3.UI" Version="0.8.0" />
+		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="0.8.2" />
+		<PackageReference Include="SpiralLab.Sirius3" Version="0.8.1" />
+		<PackageReference Include="SpiralLab.Sirius3.UI" Version="0.8.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />

@@ -537,7 +537,7 @@ namespace Demos
                 list.Add(entity);
             }
 
-            var group = EntityFactory.CreateUniformGroup("Group", list);
+            var group = EntityFactory.CreateGroup("Group", list);
             group.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0 + 100, rng.NextDouble() * 2);
             
             document.ActivePage?.ActiveLayer?.AddChild(group);
