@@ -147,19 +147,19 @@ namespace Demos
             var rng = new Random((int)DateTime.Now.Ticks);
 
             int VERT_COUNT = 100 + (int)(rng.NextDouble() * 100);
-            var tempVerts = new List<Vector3d>(VERT_COUNT);
+            var tempVerts = new List<DVec3>(VERT_COUNT);
             for (int v = 0; v < VERT_COUNT; v++)
             {
                 double x = rng.NextDouble() * 6.0 - 3.0;
                 double y = rng.NextDouble() * 6.0 - 3.0;
                 double z = rng.NextDouble();
-                tempVerts.Add(new Vector3d(x, y, z));
+                tempVerts.Add(new DVec3(x, y, z));
             }
 
             var points = new EntityPoints(tempVerts)
             {
                 ColorMode = EntityModelBase.ColorModes.Model,
-                ModelColor = new Vector3d(rng.NextDouble() + 0.8, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                ModelColor = new DVec3(rng.NextDouble() + 0.8, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
             };
 
             double tx = rng.NextDouble() * 100.0 - 50.0;
@@ -179,12 +179,12 @@ namespace Demos
             var rng = new Random((int)DateTime.Now.Ticks);
 
             {
-                var entity = new EntityLine(new Vector3d(0, 0, 0), new Vector3d(10, 10, 1));
+                var entity = new EntityLine(new DVec3(0, 0, 0), new DVec3(10, 10, 1));
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
             {
-                var entity = new EntityArc(new Vector3d(0, 0, 0), 5);
+                var entity = new EntityArc(new DVec3(0, 0, 0), 5);
                 double rx = rng.NextDouble() * 10 - 5.0;
                 double ry = rng.NextDouble() * 10 - 5.0;
                 double rz = rng.NextDouble() * 10 - 5.0;
@@ -199,7 +199,7 @@ namespace Demos
             }
 
             {
-                var entity = new EntityTrepan(Vector3d.Zero, 5, 10, 10);
+                var entity = new EntityTrepan(DVec3.Zero, 5, 10, 10);
                 double tx = rng.NextDouble() * 100.0 - 50.0;
                 double ty = rng.NextDouble() * 100.0 - 50.0;
                 double tz = rng.NextDouble() * 10.0;
@@ -218,21 +218,21 @@ namespace Demos
             var rng = new Random((int)DateTime.Now.Ticks);
 
             {
-                var entity = new EntityTriangle(new Vector3d(0, 0, 0), 3, 2);
+                var entity = new EntityTriangle(new DVec3(0, 0, 0), 3, 2);
                 entity.Rotate(rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0);
                 entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
             {
-                var entity = new EntityRectangle(new Vector3d(0, 0, 0), 4, 3);
+                var entity = new EntityRectangle(new DVec3(0, 0, 0), 4, 3);
                 entity.Rotate(rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0);
                 entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
             {
-                var entity = new EntityCross(Vector3d.Zero, 10, 10, 2);
+                var entity = new EntityCross(DVec3.Zero, 10, 10, 2);
                 entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
@@ -247,7 +247,7 @@ namespace Demos
             var rng = new Random((int)DateTime.Now.Ticks);
 
             {
-                var entity = new EntityRectangle(new Vector3d(0, 0, 0), 4, 3);
+                var entity = new EntityRectangle(new DVec3(0, 0, 0), 4, 3);
                 entity.Rotate(rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0);
                 entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
                 entity.AddHatch(HatchFactory.CreateLine(30, 0.2));
@@ -256,7 +256,7 @@ namespace Demos
             }
 
             {
-                var entity = new EntityCross(Vector3d.Zero, 10, 10, 2);
+                var entity = new EntityCross(DVec3.Zero, 10, 10, 2);
                 entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
                 entity.AddHatch(HatchFactory.CreatePolygon(0.1));
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
@@ -279,7 +279,7 @@ namespace Demos
                     var poly = new EntityPolyline2D(tempVerts, true)
                     {
                         ColorMode = EntityModelBase.ColorModes.Model,
-                        ModelColor = new Vector3d(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                        ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
                     };
 
                     poly.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
@@ -309,7 +309,7 @@ namespace Demos
             // Reference
             {
                 var zDepths = new List<double>(ROWS * COLS);
-                var center = new Vector2d(COLS / 2f * INTERVAL, ROWS / 2f * INTERVAL);
+                var center = new DVec2(COLS / 2f * INTERVAL, ROWS / 2f * INTERVAL);
                 double amplitude = 0.5f;
                 float wavelength = 5f;
                 double phaseOffset = 0f;
@@ -318,7 +318,7 @@ namespace Demos
                 {
                     for (int x = 0; x < COLS; x++)
                     {
-                        var pos = new Vector2d(x * INTERVAL, y * INTERVAL);
+                        var pos = new DVec2(x * INTERVAL, y * INTERVAL);
                         double dist = (pos - center).Length;
                         double z = amplitude * Math.Sin((2 * Math.PI * dist / wavelength) + phaseOffset);
                         zDepths.Add(z);
@@ -327,7 +327,7 @@ namespace Demos
 
                 var minZ = zDepths.Min();
                 var maxZ = zDepths.Max();
-                var pointsCloud = new EntityGrids(ROWS, COLS, INTERVAL, zDepths, new Vector2d(minZ + 2, maxZ + 2));
+                var pointsCloud = new EntityGrids(ROWS, COLS, INTERVAL, zDepths, new DVec2(minZ + 2, maxZ + 2));
                 pointsCloud.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 2);
                 document.ActivePage?.ActiveLayer?.AddChild(pointsCloud);
                 reference = pointsCloud;
@@ -336,7 +336,7 @@ namespace Demos
             // Measured
             {
                 var zDepths = new List<double>(ROWS * COLS);
-                var center = new Vector2d(COLS / 2f * INTERVAL, ROWS / 2f * INTERVAL);
+                var center = new DVec2(COLS / 2f * INTERVAL, ROWS / 2f * INTERVAL);
                 double amplitude = 0.5f;
                 double wavelength = 5f;
                 double phaseOffset = 0f;
@@ -345,7 +345,7 @@ namespace Demos
                 {
                     for (int x = 0; x < COLS; x++)
                     {
-                        var pos = new Vector2d(x * INTERVAL, y * INTERVAL);
+                        var pos = new DVec2(x * INTERVAL, y * INTERVAL);
                         double dist = (pos - center).Length;
                         double z = amplitude * Math.Sin((2 * Math.PI * dist / wavelength) + phaseOffset);
                         zDepths.Add(z + 0.02f);
@@ -354,7 +354,7 @@ namespace Demos
 
                 var minZ = zDepths.Min();
                 var maxZ = zDepths.Max();
-                var pointsCloud = new EntityGrids(ROWS, COLS, INTERVAL, zDepths, new Vector2d(minZ + 5, maxZ + 5))
+                var pointsCloud = new EntityGrids(ROWS, COLS, INTERVAL, zDepths, new DVec2(minZ + 5, maxZ + 5))
                 {
                     ColorMode = EntityModelBase.ColorModes.PerVertex
                 };
@@ -388,7 +388,7 @@ namespace Demos
                 var poly = new EntityPolyline2D(tempVerts, true)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new Vector3d(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                    ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
                 };
 
                 poly.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
@@ -411,19 +411,19 @@ namespace Demos
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
                 int VERT_COUNT = 3 + (int)(rng.NextDouble() * 5);
-                var tempVerts = new List<Vector3d>(VERT_COUNT);
+                var tempVerts = new List<DVec3>(VERT_COUNT);
                 for (int v = 0; v < VERT_COUNT; v++)
                 {
                     double x = rng.NextDouble() * 10.0 - 5.0;
                     double y = rng.NextDouble() * 10.0 - 5.0;
                     double z = rng.NextDouble() * 10.0 - 5.0;
-                    tempVerts.Add(new Vector3d(x, y, z));
+                    tempVerts.Add(new DVec3(x, y, z));
                 }
 
                 var poly = new EntityPolyline3D(tempVerts, true)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new Vector3d(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                    ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
                 };
 
                 poly.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
@@ -446,19 +446,19 @@ namespace Demos
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
                 int VERT_COUNT = 3 + (int)(rng.NextDouble() * 5);
-                var tempVerts = new List<Vector3d>(VERT_COUNT);
+                var tempVerts = new List<DVec3>(VERT_COUNT);
                 for (int v = 0; v < VERT_COUNT; v++)
                 {
                     double x = rng.NextDouble() * 10.0 - 5.0;
                     double y = rng.NextDouble() * 10.0 - 5.0;
                     double z = rng.NextDouble() * 10.0 - 5.0;
-                    tempVerts.Add(new Vector3d(x, y, z));
+                    tempVerts.Add(new DVec3(x, y, z));
                 }
 
                 var spline = new EntityBezierSpline(tempVerts)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new Vector3d(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                    ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
                 };
 
                 spline.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
@@ -481,19 +481,19 @@ namespace Demos
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
                 int VERT_COUNT = 5 + (int)(rng.NextDouble() * 5);
-                var tempVerts = new List<Vector3d>(VERT_COUNT);
+                var tempVerts = new List<DVec3>(VERT_COUNT);
                 for (int v = 0; v < VERT_COUNT; v++)
                 {
                     double x = rng.NextDouble() * 10.0 - 5.0;
                     double y = rng.NextDouble() * 10.0 - 5.0;
                     double z = rng.NextDouble() * 10.0 - 5.0;
-                    tempVerts.Add(new Vector3d(x, y, z));
+                    tempVerts.Add(new DVec3(x, y, z));
                 }
 
                 var spline = new EntityCatmullRomSpline(tempVerts, false)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new Vector3d(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                    ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
                 };
 
                 spline.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
@@ -578,7 +578,7 @@ namespace Demos
                 var poly = new EntityPolyline2D(tempVerts, true)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new Vector3d(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                    ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
                 };
 
                 poly.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
@@ -605,7 +605,7 @@ namespace Demos
                 var poly = new EntityPolyline2D(tempVerts, true)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new Vector3d(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                    ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
                 };
 
                 poly.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
@@ -632,11 +632,11 @@ namespace Demos
 
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
-                var entity = new EntitySphere(new Vector3d(0, 0, 0), 3)
+                var entity = new EntitySphere(new DVec3(0, 0, 0), 3)
                 {
                     Segments = 24,
                     ColorMode = EntityModelBase.ColorModes.ZHeightMap,
-                    ZRange = new Vector2d(-5, 5)
+                    ZRange = new DVec2(-5, 5)
                 };
 
                 entity.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
@@ -660,19 +660,19 @@ namespace Demos
 
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
-                var cube = new EntityCube(Vector3d.Zero, rng.NextDouble() * 5, rng.NextDouble() * 6, rng.NextDouble() * 2)
+                var cube = new EntityCube(DVec3.Zero, rng.NextDouble() * 5, rng.NextDouble() * 6, rng.NextDouble() * 2)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new Vector3d(rng.NextDouble() + 0.8, rng.NextDouble() * 0.5, rng.NextDouble())
+                    ModelColor = new DVec3(rng.NextDouble() + 0.8, rng.NextDouble() * 0.5, rng.NextDouble())
                 };
                 cube.Rotate(rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0);
                 cube.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(cube);
 
-                var cyl = new EntityCylinder(Vector3d.Zero, rng.NextDouble() * 10, rng.NextDouble() * 10)
+                var cyl = new EntityCylinder(DVec3.Zero, rng.NextDouble() * 10, rng.NextDouble() * 10)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new Vector3d(rng.NextDouble() * 0.5, rng.NextDouble() * 0.7, rng.NextDouble() + 0.5)
+                    ModelColor = new DVec3(rng.NextDouble() * 0.5, rng.NextDouble() * 0.7, rng.NextDouble() + 0.5)
                 };
                 cyl.Rotate((rng.NextDouble() * 60.0 - 30.0), (rng.NextDouble() * 60.0 - 30.0), (rng.NextDouble() * 60.0 - 30.0));
                 cyl.Translate((rng.NextDouble() * 100.0 - 50.0), (rng.NextDouble() * 100.0 - 50.0), (rng.NextDouble() * 100.0 - 10.0));
@@ -716,7 +716,7 @@ namespace Demos
 
             if (!document.FindByBlockName(masterBlockName, out _))
             {
-                var entity = new EntitySpiral(Vector3d.Zero, 5, 2, 5, EntitySpiral.SpiralTypes.Archimedean);
+                var entity = new EntitySpiral(DVec3.Zero, 5, 2, 5, EntitySpiral.SpiralTypes.Archimedean);
                 document.ActBlock(new IEntity[] { entity }, masterBlockName);
             }
             double dx = 0;
@@ -727,7 +727,7 @@ namespace Demos
             {
                 for (int x = 0; x < 5; x++)
                 {
-                    var insert = new EntityBlockInsert($"BlockInsert{x},{y}", masterBlockName, new Vector3d(dx, dy - 50, 0));
+                    var insert = new EntityBlockInsert($"BlockInsert{x},{y}", masterBlockName, new DVec3(dx, dy - 50, 0));
 
                     insert.Scale(rng.NextDouble() + 0.2, rng.NextDouble() + 0.2, rng.NextDouble() + 0.2);
                     insert.Translate(rng.NextDouble() * 5.0, rng.NextDouble() * 5.0, 0);
@@ -772,14 +772,14 @@ namespace Demos
                 const int LINE_COUNT = 10000;
                 const double LINE_LENGTH = 10;
                 const double LINE_GAP = 0.01;
-                List<Vector3d> lines = new(LINE_COUNT * 2);
+                List<DVec3> lines = new(LINE_COUNT * 2);
 
                 double dx = -80;
                 double dy = -10;
                 for (int i = 0; i < LINE_COUNT; i++)
                 {
-                    var start = new Vector3d(0 + dx, LINE_GAP * i + dy, 0);
-                    var end = new Vector3d(LINE_LENGTH + dx, LINE_GAP * i + dy, 0);
+                    var start = new DVec3(0 + dx, LINE_GAP * i + dy, 0);
+                    var end = new DVec3(LINE_LENGTH + dx, LINE_GAP * i + dy, 0);
                     lines.Add(start);
                     lines.Add(end);
                 }
@@ -793,14 +793,14 @@ namespace Demos
                 const int LINE_COUNT = 1000;
                 const double LINE_LENGTH = 5;
                 const double LINE_GAP = 0.05;
-                List<Vector3d> lines = new(LINE_COUNT * 2);
+                List<DVec3> lines = new(LINE_COUNT * 2);
 
                 double dx = 80;
                 double dy = -10;
                 for (int i = 0; i < LINE_COUNT; i++)
                 {
-                    var start = new Vector3d(0 + dx, LINE_GAP * i + dy, 0);
-                    var end = new Vector3d(LINE_LENGTH + dx, LINE_GAP * i + dy, 0);
+                    var start = new DVec3(0 + dx, LINE_GAP * i + dy, 0);
+                    var end = new DVec3(LINE_LENGTH + dx, LINE_GAP * i + dy, 0);
                     lines.Add(start);
                     lines.Add(end);
                 }
@@ -814,14 +814,14 @@ namespace Demos
                 const int LINE_COUNT = 100;
                 const double LINE_LENGTH = 20;
                 const double LINE_GAP = 0.05;
-                List<Vector3d> lines = new(LINE_COUNT * 2);
+                List<DVec3> lines = new(LINE_COUNT * 2);
 
                 double dx = -10;
                 double dy = -60;
                 for (int i = 0; i < LINE_COUNT; i++)
                 {
-                    var start = new Vector3d(0 + dx, 0 + dy, LINE_GAP * i);
-                    var end = new Vector3d(LINE_LENGTH + dx, 0 + dy, LINE_GAP * i);
+                    var start = new DVec3(0 + dx, 0 + dy, LINE_GAP * i);
+                    var end = new DVec3(LINE_LENGTH + dx, 0 + dy, LINE_GAP * i);
                     lines.Add(start);
                     lines.Add(end);
                 }
