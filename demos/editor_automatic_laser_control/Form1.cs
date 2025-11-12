@@ -72,6 +72,10 @@ namespace Demos
         private void CreateEntity()
         {
             var document = siriusEditorControl1.Document;
+
+            var rampBegin = EntityFactory.CreateRampBegin(AutoLaserControlSignals.Analog1, 5);
+            document.ActivePage.ActiveLayer.AddChild(rampBegin);
+
             var text = EntityFactory.CreateText("Arial",
               FontStyle.Regular,
               $"Aa{Environment.NewLine}01{Environment.NewLine}!@",
@@ -80,6 +84,10 @@ namespace Demos
             text.FontVerticalAlignment = StringAlignment.Center;
 
             document.ActivePage.ActiveLayer.AddChild(text);
+
+            var rampEnd = EntityFactory.CreateRampEnd();
+            document.ActivePage.ActiveLayer.AddChild(rampEnd);
+
             siriusEditorControl1.View?.DoRender();
         }
         private void BtnSetVelocity_Click(object sender, EventArgs e)

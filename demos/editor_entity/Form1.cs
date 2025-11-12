@@ -60,6 +60,8 @@ namespace Demos
                 var document = siriusEditorControl1.Document;
                 bezierSpline_testcase(document);
                 catmullRomSpline_testcase(document);
+                hermiteSpline_testcase(document);
+                nurbsSpline_testcase(document);
             };
             this.btnText.Click += (s, e) => {
                 var document = siriusEditorControl1.Document;
@@ -365,6 +367,139 @@ namespace Demos
             }
             siriusEditorControl1.View?.DoRender();
         }
+        private void hermiteSpline_testcase(IDocument document)
+        {
+            var rng = new Random((int)DateTime.Now.Ticks);
+            const int ENTITY_COUNT = 5;
+
+            for (int i = 0; i < ENTITY_COUNT; i++)
+            {
+                int VERT_COUNT = 5 + (int)(rng.NextDouble() * 5); // 5~9
+                var verts = new List<DVec3>(VERT_COUNT);
+
+                // 랜덤 정점 생성 (-5~5)
+                for (int v = 0; v < VERT_COUNT; v++)
+                {
+                    double x = rng.NextDouble() * 10.0 - 5.0;
+                    double y = rng.NextDouble() * 10.0 - 5.0;
+                    double z = rng.NextDouble() * 10.0 - 5.0;
+                    verts.Add(new DVec3(x, y, z));
+                }
+
+                // C1 연속성을 위한 탄젠트: 중앙은 중앙차분, 끝점은 전/후방차분
+                var tangents = new List<DVec3>(VERT_COUNT);
+                double tension = 0.5; // 0~1: 값이 작을수록 부드럽게
+                for (int v = 0; v < VERT_COUNT; v++)
+                {
+                    DVec3 t;
+                    if (v == 0)
+                        t = verts[1] - verts[0];
+                    else if (v == VERT_COUNT - 1)
+                        t = verts[VERT_COUNT - 1] - verts[VERT_COUNT - 2];
+                    else
+                        t = 0.5 * (verts[v + 1] - verts[v - 1]);
+
+                    tangents.Add(tension * t);
+                }
+
+                var spline = EntityFactory.CreateHermiteSpline(verts, tangents);
+                spline.ColorMode = EntityModelBase.ColorModes.Model;
+                spline.ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4);
+
+                spline.Rotate(rng.NextDouble() * 10.0 - 5.0,
+                              rng.NextDouble() * 10.0 - 5.0,
+                              rng.NextDouble() * 10.0 - 5.0);
+                spline.Scale(rng.NextDouble() * 2.0 + 0.5,
+                             rng.NextDouble() * 2.0 + 0.5,
+                             rng.NextDouble() * 2.0 + 0.5);
+                spline.Translate(rng.NextDouble() * 100.0 - 50.0,
+                                 rng.NextDouble() * 100.0 - 50.0,
+                                 rng.NextDouble() * 100.0 - 10.0);
+
+                document.ActivePage?.ActiveLayer?.AddChild(spline);
+            }
+
+            siriusEditorControl1.View?.DoRender();
+        }
+        private void nurbsSpline_testcase(IDocument document)
+        {
+            var rng = new Random((int)DateTime.Now.Ticks);
+            const int ENTITY_COUNT = 5;
+
+            for (int i = 0; i < ENTITY_COUNT; i++)
+            {
+                int degree = 3; // cubic
+                int CTRL_COUNT = Math.Max(6, 6 + (int)(rng.NextDouble() * 5)); // 6~10 (degree+1 보다 크게)
+                var ctrl = new List<DVec3>(CTRL_COUNT);
+                var weights = new List<double>(CTRL_COUNT);
+
+                // 랜덤 제어점 (-5~5)
+                for (int c = 0; c < CTRL_COUNT; c++)
+                {
+                    double x = rng.NextDouble() * 10.0 - 5.0;
+                    double y = rng.NextDouble() * 10.0 - 5.0;
+                    double z = rng.NextDouble() * 10.0 - 5.0;
+                    ctrl.Add(new DVec3(x, y, z));
+
+                    // 가중치(양수): 0.5 ~ 2.0
+                    weights.Add(0.5 + rng.NextDouble() * 1.5);
+                }
+
+                // 균일 클램프 노트 벡터 (길이 = nCtrlPts + degree + 1)
+                var knots = BuildUniformClampedKnots(CTRL_COUNT, degree);
+
+                var spline = EntityFactory.CreateNURBSpline(ctrl, knots, weights, degree);
+                spline.ColorMode = EntityModelBase.ColorModes.Model;
+                spline.ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4);
+
+                spline.Rotate(rng.NextDouble() * 10.0 - 5.0,
+                              rng.NextDouble() * 10.0 - 5.0,
+                              rng.NextDouble() * 10.0 - 5.0);
+                spline.Scale(rng.NextDouble() * 2.0 + 0.5,
+                             rng.NextDouble() * 2.0 + 0.5,
+                             rng.NextDouble() * 2.0 + 0.5);
+                spline.Translate(rng.NextDouble() * 100.0 - 50.0,
+                                 rng.NextDouble() * 100.0 - 50.0,
+                                 rng.NextDouble() * 100.0 - 10.0);
+
+                document.ActivePage?.ActiveLayer?.AddChild(spline);
+            }
+
+            siriusEditorControl1.View?.DoRender();
+
+            /// <summary>
+            /// Open/Clamped uniform knot vector.
+            /// Length = nCtrlPts + degree + 1
+            /// Start 'degree' zeros, end 'degree' max, interiors uniformly spaced.
+            /// </summary>
+            List<double> BuildUniformClampedKnots(int nCtrlPts, int degree)
+            {
+                if (nCtrlPts < degree + 1)
+                    throw new ArgumentException("nCtrlPts must be >= degree + 1.");
+
+                int knotCount = nCtrlPts + degree + 1; // standard open knot vector length
+                int interiorCount = knotCount - 2 * (degree + 1); // number of interior knots
+
+                var knots = new List<double>(knotCount);
+
+                // 앞쪽 클램프
+                for (int i = 0; i <= degree; i++)
+                    knots.Add(0.0);
+
+                // 내부 균일 분포
+                if (interiorCount > 0)
+                {
+                    for (int i = 1; i <= interiorCount; i++)
+                        knots.Add((double)i / (interiorCount + 1));
+                }
+
+                // 뒤쪽 클램프
+                for (int i = 0; i <= degree; i++)
+                    knots.Add(1.0);
+
+                return knots;
+            }
+        }
 
         /// <summary>
         /// Adds multiple text variants (GDI, image, circular, cxf) with transforms.
@@ -537,7 +672,7 @@ namespace Demos
                 list.Add(entity);
             }
 
-            var group = EntityFactory.CreateGroup("Group", list);
+            var group = EntityFactory.CreateUniformGroup("Group", list);
             group.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0 + 100, rng.NextDouble() * 2);
             
             document.ActivePage?.ActiveLayer?.AddChild(group);
@@ -831,11 +966,6 @@ namespace Demos
         private void spiral_testcase(IDocument document)
         {
             var rng = new Random((int)DateTime.Now.Ticks);
-            {
-                var entity = EntityFactory.CreateSpiral(DVec3.Zero, 10, 2, 12, EntitySpiral.SpiralTypes.Archimedean, true);
-                entity.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
-            }
 
             {
                 var entity = EntityFactory.CreateSpiralClassic(DVec3.Zero, 10, 8, 2, 10, true);
@@ -843,6 +973,11 @@ namespace Demos
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
+            {
+                var entity = EntityFactory.CreateSpiral(DVec3.Zero, 10, 2, 12, EntitySpiral.SpiralTypes.Archimedean, true);
+                entity.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
+                document.ActivePage?.ActiveLayer?.AddChild(entity);
+            }
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -872,6 +1007,14 @@ namespace Demos
                 gerber.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
                 document.ActivePage?.ActiveLayer?.AddChild(gerber);
             }
+
+            // or by path
+            //{
+            //    var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\gerber\\");
+            //    bool success = EntityFactory.CreateGerbers(filePath, "*.*", out EntityGerber[] gerberEntities);
+            //    Debug.Assert(success);
+            //    document.ActivePage?.ActiveLayer?.AddChildren(gerberEntities);
+            //}
             siriusEditorControl1.View?.DoRender();
         }
         #endregion
