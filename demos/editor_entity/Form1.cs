@@ -61,7 +61,8 @@ namespace Demos
                 bezierSpline_testcase(document);
                 catmullRomSpline_testcase(document);
                 hermiteSpline_testcase(document);
-                nurbsSpline_testcase(document);
+                bSpline_testcase(document);
+                nurbSpline_testcase(document);
             };
             this.btnText.Click += (s, e) => {
                 var document = siriusEditorControl1.Document;
@@ -312,29 +313,92 @@ namespace Demos
 
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
-                int VERT_COUNT = 3 + (int)(rng.NextDouble() * 5);
-                var tempVerts = new List<DVec3>(VERT_COUNT);
-                for (int v = 0; v < VERT_COUNT; v++)
-                {
-                    double x = rng.NextDouble() * 10.0 - 5.0;
-                    double y = rng.NextDouble() * 10.0 - 5.0;
-                    double z = rng.NextDouble() * 10.0 - 5.0;
-                    tempVerts.Add(new DVec3(x, y, z));
-                }
+                double radius = 10.0;           // 기본 반지름
+                double z = 0.0;                 // Z 평면
 
-                var spline = EntityFactory.CreateBezierSpline(tempVerts);
+                var ctrl = BuildBezierCircleControls(radius, z);
+
+                var spline = EntityFactory.CreateBezierSpline(ctrl);
                 spline.ColorMode = EntityModelBase.ColorModes.Model;
-                spline.ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4);
+                spline.ModelColor = new DVec3(rng.NextDouble() + 0.4,
+                                              rng.NextDouble() * 0.5,
+                                              rng.NextDouble() + 0.4);
 
-                spline.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                spline.Scale(rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5);
-                spline.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                // 랜덤 트랜스폼 (원 전체를 회전/스케일/이동)
+                //spline.Rotate(rng.NextDouble() * 10.0 - 5.0,
+                //              rng.NextDouble() * 10.0 - 5.0,
+                //              rng.NextDouble() * 10.0 - 5.0);
+                //spline.Scale(rng.NextDouble() * 2.0 + 0.5,
+                //             rng.NextDouble() * 2.0 + 0.5,
+                //             rng.NextDouble() * 2.0 + 0.5);
+                spline.Translate(rng.NextDouble() * 100.0 - 50.0,
+                                 rng.NextDouble() * 100.0 - 50.0,
+                                 rng.NextDouble() * 100.0 - 10.0);
 
                 document.ActivePage?.ActiveLayer?.AddChild(spline);
             }
+
             siriusEditorControl1.View?.DoRender();
         }
+        /// <summary>
+        /// Bezier 원 컨트롤 포인트 생성 함수 예제
+        /// 컨트롤 포인트 리스트(4개 사분면, 4개 세그먼트)
+        /// CreateBezierSpline이 “컨트롤 포인트만 쭉 받은 뒤 내부에서 3n+1 방식으로 segment를 나눈다”고 가정하면,
+        /// 가장 안전한 형태는 각 사분면마다 4개씩, 인접 사분면의 시작점을 그대로 이어붙이는 방식입니다.
+        /// </summary>
+        /// <param name="radius"></param>
+        /// <param name="z"></param>
+        /// <returns></returns>
+        List<DVec3> BuildBezierCircleControls(double radius, double z = 0.0)
+        {
+            double K = 4.0 / 3.0 * Math.Tan(Math.PI / 8.0); // ≈0.5522847498
+            double R = radius;
 
+            var pts = new List<DVec3>();
+
+            // +X axis start (0°)
+            DVec3 p0 = new DVec3(R, 0, z);
+            DVec3 p1 = new DVec3(R, K * R, z);
+            DVec3 p2 = new DVec3(K * R, R, z);
+            DVec3 p3 = new DVec3(0, R, z);
+
+            DVec3 p4 = new DVec3(-K * R, R, z);
+            DVec3 p5 = new DVec3(-R, K * R, z);
+            DVec3 p6 = new DVec3(-R, 0, z);
+
+            DVec3 p7 = new DVec3(-R, -K * R, z);
+            DVec3 p8 = new DVec3(-K * R, -R, z);
+            DVec3 p9 = new DVec3(0, -R, z);
+
+            DVec3 p10 = new DVec3(K * R, -R, z);
+            DVec3 p11 = new DVec3(R, -K * R, z);
+            DVec3 p12 = new DVec3(R, 0, z); // == p0 (닫힘)
+
+            // 4개의 cubic segment 를 위한 컨트롤 포인트 나열
+            // seg0: p0 p1 p2 p3
+            // seg1: p3 p4 p5 p6
+            // seg2: p6 p7 p8 p9
+            // seg3: p9 p10 p11 p12
+
+            pts.Add(p0);  // 0
+            pts.Add(p1);  // 1
+            pts.Add(p2);  // 2
+            pts.Add(p3);  // 3
+
+            pts.Add(p4);  // 4
+            pts.Add(p5);  // 5
+            pts.Add(p6);  // 6
+
+            pts.Add(p7);  // 7
+            pts.Add(p8);  // 8
+            pts.Add(p9);  // 9
+
+            pts.Add(p10); // 10
+            pts.Add(p11); // 11
+            pts.Add(p12); // 12
+
+            return pts;
+        }
         /// <summary>
         /// Adds random Catmull-Rom spline examples with transforms.
         /// </summary>
@@ -345,28 +409,55 @@ namespace Demos
 
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
-                int VERT_COUNT = 5 + (int)(rng.NextDouble() * 5);
-                var tempVerts = new List<DVec3>(VERT_COUNT);
-                for (int v = 0; v < VERT_COUNT; v++)
-                {
-                    double x = rng.NextDouble() * 10.0 - 5.0;
-                    double y = rng.NextDouble() * 10.0 - 5.0;
-                    double z = rng.NextDouble() * 10.0 - 5.0;
-                    tempVerts.Add(new DVec3(x, y, z));
-                }
+                int CTRL_COUNT = 10;       // 원을 따라 지나는 점 개수
+                double radius = 10.0;
+                double z = 0.0;
 
-                var spline = EntityFactory.CreateCatmullRomSpline(tempVerts);
+                var verts = BuildCirclePoints(CTRL_COUNT, radius, z);
+
+                // 필요하다면 첫 점을 마지막에 한번 더 넣어 닫힌 형태를 더 강조할 수도 있음
+                // verts.Add(verts[0]);
+
+                var spline = EntityFactory.CreateCatmullRomSpline(verts, true);
                 spline.ColorMode = EntityModelBase.ColorModes.Model;
-                spline.ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4);
+                spline.ModelColor = new DVec3(rng.NextDouble() + 0.4,
+                                              rng.NextDouble() * 0.5,
+                                              rng.NextDouble() + 0.4);
 
-                spline.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                spline.Scale(rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5);
-                spline.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                //spline.Rotate(rng.NextDouble() * 10.0 - 5.0,
+                //              rng.NextDouble() * 10.0 - 5.0,
+                //              rng.NextDouble() * 10.0 - 5.0);
+                //spline.Scale(rng.NextDouble() * 2.0 + 0.5,
+                //             rng.NextDouble() * 2.0 + 0.5,
+                //             rng.NextDouble() * 2.0 + 0.5);
+                spline.Translate(rng.NextDouble() * 100.0 - 50.0,
+                                 rng.NextDouble() * 100.0 - 50.0,
+                                 rng.NextDouble() * 100.0 - 10.0);
 
                 document.ActivePage?.ActiveLayer?.AddChild(spline);
             }
-            siriusEditorControl1.View?.DoRender();
+
+            siriusEditorControl1.View?.DoRender();           
         }
+        private static List<DVec3> BuildCirclePoints(
+               int count,
+               double radius,
+               double z = 0.0)
+        {
+            var verts = new List<DVec3>(count);
+            for (int i = 0; i < count; i++)
+            {
+                double t = 2.0 * Math.PI * i / count;
+                double x = radius * Math.Cos(t);
+                double y = radius * Math.Sin(t);
+                verts.Add(new DVec3(x, y, z));
+            }
+            return verts;
+        }
+
+        /// <summary>
+        /// Adds random hermite spline examples with transforms.
+        /// </summary>
         private void hermiteSpline_testcase(IDocument document)
         {
             var rng = new Random((int)DateTime.Now.Ticks);
@@ -374,44 +465,26 @@ namespace Demos
 
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
-                int VERT_COUNT = 5 + (int)(rng.NextDouble() * 5); // 5~9
-                var verts = new List<DVec3>(VERT_COUNT);
+                int CTRL_COUNT = 36;   // 원 위의 샘플 수
+                double radius = 10.0;
+                double z = 0.0;
 
-                // 랜덤 정점 생성 (-5~5)
-                for (int v = 0; v < VERT_COUNT; v++)
-                {
-                    double x = rng.NextDouble() * 10.0 - 5.0;
-                    double y = rng.NextDouble() * 10.0 - 5.0;
-                    double z = rng.NextDouble() * 10.0 - 5.0;
-                    verts.Add(new DVec3(x, y, z));
-                }
+                BuildCirclePointsAndTangents(CTRL_COUNT, radius, z,
+                                             out var verts,
+                                             out var tangents);
 
-                // C1 연속성을 위한 탄젠트: 중앙은 중앙차분, 끝점은 전/후방차분
-                var tangents = new List<DVec3>(VERT_COUNT);
-                double tension = 0.5; // 0~1: 값이 작을수록 부드럽게
-                for (int v = 0; v < VERT_COUNT; v++)
-                {
-                    DVec3 t;
-                    if (v == 0)
-                        t = verts[1] - verts[0];
-                    else if (v == VERT_COUNT - 1)
-                        t = verts[VERT_COUNT - 1] - verts[VERT_COUNT - 2];
-                    else
-                        t = 0.5 * (verts[v + 1] - verts[v - 1]);
-
-                    tangents.Add(tension * t);
-                }
-
-                var spline = EntityFactory.CreateHermiteSpline(verts, tangents);
+                var spline = EntityFactory.CreateHermiteSpline(verts, tangents, true);
                 spline.ColorMode = EntityModelBase.ColorModes.Model;
-                spline.ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4);
+                spline.ModelColor = new DVec3(rng.NextDouble() + 0.4,
+                                              rng.NextDouble() * 0.5,
+                                              rng.NextDouble() + 0.4);
 
-                spline.Rotate(rng.NextDouble() * 10.0 - 5.0,
-                              rng.NextDouble() * 10.0 - 5.0,
-                              rng.NextDouble() * 10.0 - 5.0);
-                spline.Scale(rng.NextDouble() * 2.0 + 0.5,
-                             rng.NextDouble() * 2.0 + 0.5,
-                             rng.NextDouble() * 2.0 + 0.5);
+                //spline.Rotate(rng.NextDouble() * 10.0 - 5.0,
+                //              rng.NextDouble() * 10.0 - 5.0,
+                //              rng.NextDouble() * 10.0 - 5.0);
+                //spline.Scale(rng.NextDouble() * 2.0 + 0.5,
+                //             rng.NextDouble() * 2.0 + 0.5,
+                //             rng.NextDouble() * 2.0 + 0.5);
                 spline.Translate(rng.NextDouble() * 100.0 - 50.0,
                                  rng.NextDouble() * 100.0 - 50.0,
                                  rng.NextDouble() * 100.0 - 10.0);
@@ -421,84 +494,172 @@ namespace Demos
 
             siriusEditorControl1.View?.DoRender();
         }
-        private void nurbsSpline_testcase(IDocument document)
+        // Hermite 용: 점 + 접선(원에 대한 정확한 접선, Hermite 파라미터에 맞게 스케일)
+        void BuildCirclePointsAndTangents(
+            int count, double radius, double z,
+            out List<DVec3> points,
+            out List<DVec3> tangents)
+        {
+            points = new List<DVec3>(count);
+            tangents = new List<DVec3>(count);
+
+            double dTheta = 2.0 * Math.PI / count;      // 세그먼트당 각도
+            double scale = dTheta;                     // dθ/d(localT) = 2π/count
+
+            for (int i = 0; i < count; i++)
+            {
+                double theta = dTheta * i;
+
+                double cos = Math.Cos(theta);
+                double sin = Math.Sin(theta);
+
+                double x = radius * cos;
+                double y = radius * sin;
+                points.Add(new DVec3(x, y, z));
+
+                // 원에 대한 접선 방향: (-sin, cos)
+                // Hermite 로컬 파라미터에 맞춰 스케일링: * dθ/d(localT)
+                double tx = -radius * sin * scale;
+                double ty = radius * cos * scale;
+                tangents.Add(new DVec3(tx, ty, 0.0));
+            }
+        }
+
+        /// <summary>
+        /// Adds random NURB spline examples with transforms.
+        /// </summary>
+        private void bSpline_testcase(IDocument document)
         {
             var rng = new Random((int)DateTime.Now.Ticks);
             const int ENTITY_COUNT = 5;
 
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
-                int degree = 3; // cubic
-                int CTRL_COUNT = Math.Max(6, 6 + (int)(rng.NextDouble() * 5)); // 6~10 (degree+1 보다 크게)
-                var ctrl = new List<DVec3>(CTRL_COUNT);
-                var weights = new List<double>(CTRL_COUNT);
+                double radius = 10.0;
+                double z = 0.0;
 
-                // 랜덤 제어점 (-5~5)
-                for (int c = 0; c < CTRL_COUNT; c++)
-                {
-                    double x = rng.NextDouble() * 10.0 - 5.0;
-                    double y = rng.NextDouble() * 10.0 - 5.0;
-                    double z = rng.NextDouble() * 10.0 - 5.0;
-                    ctrl.Add(new DVec3(x, y, z));
+                BuildNurbsCircle(
+                    radius,
+                    z,
+                    out var ctrl,
+                    out var weights,
+                    out var knots,
+                    out int degree);
 
-                    // 가중치(양수): 0.5 ~ 2.0
-                    weights.Add(0.5 + rng.NextDouble() * 1.5);
-                }
+                var spline = EntityFactory.CreateBSpline(ctrl, knots, degree, false);
 
-                // 균일 클램프 노트 벡터 (길이 = nCtrlPts + degree + 1)
-                var knots = BuildUniformClampedKnots(CTRL_COUNT, degree);
-
-                var spline = EntityFactory.CreateNURBSpline(ctrl, knots, weights, degree);
                 spline.ColorMode = EntityModelBase.ColorModes.Model;
-                spline.ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4);
-
-                spline.Rotate(rng.NextDouble() * 10.0 - 5.0,
-                              rng.NextDouble() * 10.0 - 5.0,
-                              rng.NextDouble() * 10.0 - 5.0);
-                spline.Scale(rng.NextDouble() * 2.0 + 0.5,
-                             rng.NextDouble() * 2.0 + 0.5,
-                             rng.NextDouble() * 2.0 + 0.5);
-                spline.Translate(rng.NextDouble() * 100.0 - 50.0,
-                                 rng.NextDouble() * 100.0 - 50.0,
-                                 rng.NextDouble() * 100.0 - 10.0);
+                spline.ModelColor = new DVec3(
+                    rng.NextDouble() + 0.4,
+                    rng.NextDouble() * 0.5,
+                    rng.NextDouble() + 0.4);
+                //spline.Rotate(rng.NextDouble() * 10.0 - 5.0,
+                //              rng.NextDouble() * 10.0 - 5.0,
+                //              rng.NextDouble() * 10.0 - 5.0);
+                //spline.Scale(rng.NextDouble() * 2.0 + 0.5,
+                //             rng.NextDouble() * 2.0 + 0.5,
+                //             rng.NextDouble() * 2.0 + 0.5);
+                spline.Translate(
+                    rng.NextDouble() * 100.0 - 50.0,
+                    rng.NextDouble() * 100.0 - 50.0,
+                    rng.NextDouble() * 100.0 - 10.0);
 
                 document.ActivePage?.ActiveLayer?.AddChild(spline);
             }
 
             siriusEditorControl1.View?.DoRender();
+        }
 
-            /// <summary>
-            /// Open/Clamped uniform knot vector.
-            /// Length = nCtrlPts + degree + 1
-            /// Start 'degree' zeros, end 'degree' max, interiors uniformly spaced.
-            /// </summary>
-            List<double> BuildUniformClampedKnots(int nCtrlPts, int degree)
+        /// <summary>
+        /// Adds random NURB spline examples with transforms.
+        /// </summary>
+        private void nurbSpline_testcase(IDocument document)
+        {
+            var rng = new Random((int)DateTime.Now.Ticks);
+            const int ENTITY_COUNT = 5;
+
+            for (int i = 0; i < ENTITY_COUNT; i++)
             {
-                if (nCtrlPts < degree + 1)
-                    throw new ArgumentException("nCtrlPts must be >= degree + 1.");
+                double radius = 10.0;
+                double z = 0.0;
 
-                int knotCount = nCtrlPts + degree + 1; // standard open knot vector length
-                int interiorCount = knotCount - 2 * (degree + 1); // number of interior knots
+                BuildNurbsCircle(
+                    radius,
+                    z,
+                    out var ctrl,
+                    out var weights,
+                    out var knots,
+                    out int degree);
 
-                var knots = new List<double>(knotCount);
+                var spline = EntityFactory.CreateNURBSpline(ctrl, knots, weights, degree, false);
 
-                // 앞쪽 클램프
-                for (int i = 0; i <= degree; i++)
-                    knots.Add(0.0);
+                spline.ColorMode = EntityModelBase.ColorModes.Model;
+                spline.ModelColor = new DVec3(
+                    rng.NextDouble() + 0.4,
+                    rng.NextDouble() * 0.5,
+                    rng.NextDouble() + 0.4);
+                //spline.Rotate(rng.NextDouble() * 10.0 - 5.0,
+                //              rng.NextDouble() * 10.0 - 5.0,
+                //              rng.NextDouble() * 10.0 - 5.0);
+                //spline.Scale(rng.NextDouble() * 2.0 + 0.5,
+                //             rng.NextDouble() * 2.0 + 0.5,
+                //             rng.NextDouble() * 2.0 + 0.5);
+                spline.Translate(
+                    rng.NextDouble() * 100.0 - 50.0,
+                    rng.NextDouble() * 100.0 - 50.0,
+                    rng.NextDouble() * 100.0 - 10.0);
 
-                // 내부 균일 분포
-                if (interiorCount > 0)
-                {
-                    for (int i = 1; i <= interiorCount; i++)
-                        knots.Add((double)i / (interiorCount + 1));
-                }
-
-                // 뒤쪽 클램프
-                for (int i = 0; i <= degree; i++)
-                    knots.Add(1.0);
-
-                return knots;
+                document.ActivePage?.ActiveLayer?.AddChild(spline);
             }
+
+            siriusEditorControl1.View?.DoRender();
+        }
+
+        void BuildNurbsCircle(
+            double radius,
+            double z,
+            out List<DVec3> controlPoints,
+            out List<double> weights,
+            out List<double> knots,
+            out int degree)
+        {
+            degree = 2;              // quadratic
+            double R = radius;
+            double w = Math.Sqrt(0.5); // = 1 / sqrt(2)
+
+            // 중요: 중간 포인트는 (R,R) 처럼 원 밖에 있음
+            controlPoints = new List<DVec3>
+            {
+                new DVec3( R,  0, z),   // P0
+                new DVec3( R,  R, z),   // P1
+                new DVec3( 0,  R, z),   // P2
+                new DVec3(-R,  R, z),   // P3
+                new DVec3(-R,  0, z),   // P4
+                new DVec3(-R, -R, z),   // P5
+                new DVec3( 0, -R, z),   // P6
+                new DVec3( R, -R, z),   // P7
+                new DVec3( R,  0, z),   // P8 (start point 반복)
+            };
+
+            // 가중치: 1, w, 1, w, ... , 1
+            weights = new List<double>
+            {
+                1.0, w, 1.0,
+                w,   1.0, w,
+                1.0, w, 1.0
+            };
+
+            // knot vector (open / clamped, full circle)
+            // controlPoints.Count = 9, degree = 2 → knots.Count = 9 + 2 + 1 = 12
+            // 유효 도메인: [U[p], U[m-p]] = [U[2], U[9]] = [0, 1]
+            knots = new List<double>
+            {
+                0.0, 0.0, 0.0,
+                0.25, 0.25,
+                0.5,  0.5,
+                0.75, 0.75,
+                1.0,  1.0,  1.0
+            };
         }
 
         /// <summary>
