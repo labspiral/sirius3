@@ -93,13 +93,40 @@ A .NET-based, all-in-one platform for precision laser processing and additive ma
 - Examples: https://github.com/labspiral/sirius3
 
 ## Quick Start
-```
-#if NETFRAMEWORK
-    #define OPENTK3
-#elif NET8_0_OR_GREATER
-    #define OPENTK4
-#endif
 
+Project settings
+
+```
+<PropertyGroup Condition="'$(TargetFramework)'=='net481'">
+	<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
+</PropertyGroup>
+
+PropertyGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
+	<DefineConstants>$(DefineConstants);OPENTK4</DefineConstants>
+</PropertyGroup>
+
+<ItemGroup Condition="'$(TargetFramework)'=='net481'">
+	<PackageReference Include="OpenTK" Version="3.3.3" />
+</ItemGroup>
+	
+<ItemGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
+	<PackageReference Include="OpenTK" Version="4.9.4" />
+	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
+</ItemGroup>
+
+<ItemGroup>
+	<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="*" />
+	<PackageReference Include="SpiralLab.Sirius3" Version="*" />
+	<PackageReference Include="SpiralLab.Sirius3.UI" Version="*" />
+	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
+	<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+</ItemGroup>
+```
+
+Example code
+
+```
 #if OPENTK3
     using OpenTK;
     using DVec3 = OpenTK.Vector3d;
@@ -119,13 +146,16 @@ public class MainForm : Form
         Load += (s, e) =>
         {
             // 1. Create devices 
-            var scanner =  //new Rtc4, Rtc5 or Rtc6(...)
+            var scanner =  ScannerFactory.Create ...
             scanner.Initialize();
-            var laser = //new LaserVirtual(...)
+
+            var laser = LaserFactory.Create ...
             laser.Initialize();
-            var powerMeter = //new PowerMeterVirtual(...)
+
+            var powerMeter = PowerMeterFactory.Create ...
             powerMeter.Initialize();
-            var marker = //new MarkerRtc(...) 
+
+            var marker = MarkerFactory.Create ... 
             marker.Initialize();
 
             // 2. Assign into SiriusEditorControl
@@ -134,28 +164,28 @@ public class MainForm : Form
             editor.PowerMeter = powerMeter;
             editor.Marker = marker;
             
-            // 3. Ready marker
-            marker.Ready(editor.Document, editor.View, scanner, laser, powerMeter);
-
-            // 4. Create entities
+            // 3. Create entities
             var line = EntityFactory.CreateLine(new DVec3(0, 0, 0), new DVec3(10, 10, 0));
-            editor.Document.Add(line);
+            editor.Document.ActAdd(line);
+          
             var text = new EntityFactory.CreateText("Arial", FontStyle.Regular, "SIRIUS3", 10);
-            editor.Document.Add(text);
+            editor.Document.ActAdd(text);
             
-            // 5. Do laser processing
-            marker.Start();
+            // 4. Ready marker
+            marker.Ready(editor.Document, editor.View, scanner, laser, powerMeter);
         };
     }
 
     [STAThread]
     static void Main()
     {
-        SpiralLab.Sirius3.Core.Initialize("en-US");
+        // Initialize library
+        SpiralLab.Sirius3.Core.Initialize();
 
         Application.EnableVisualStyles();
         Application.Run(new MainForm());
 
+        // Clean-up library
         SpiralLab.Sirius3.Core.Cleanup();
     }
 }
@@ -163,8 +193,8 @@ public class MainForm : Form
 
 ## License
 - Commercial license required for production use.
-- Contact: hcchoi@spirallab.co.kr | https://spirallab.co.kr
 - See LICENSE.txt and THIRD-PARTY-NOTICES.txt.
+- Contact: hcchoi@spirallab.co.kr | https://spirallab.co.kr
 > Without a license key, the library runs in 30-minute evaluation mode.
 
 ## Version history

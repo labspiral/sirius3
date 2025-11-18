@@ -1298,7 +1298,7 @@ namespace Demos
             {
                 Filter = SpiralLab.Sirius3.UI.Config.FileOpenFilters,
                 Title = "Open File",
-                InitialDirectory = SpiralLab.Sirius3.UI.Config.RecipePath
+                InitialDirectory = SpiralLab.Sirius3.Config.RecipePath
             };
 
             if (dlg.ShowDialog() != DialogResult.OK) return;
@@ -1348,7 +1348,7 @@ namespace Demos
             {
                 Filter = SpiralLab.Sirius3.UI.Config.FileSaveFilters,
                 Title = "Save File",
-                InitialDirectory = SpiralLab.Sirius3.UI.Config.RecipePath,
+                InitialDirectory = SpiralLab.Sirius3.Config.RecipePath,
                 OverwritePrompt = true
             };
 

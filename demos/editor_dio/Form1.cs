@@ -217,7 +217,7 @@ namespace Demos
                     if (edge == SignalEdges.High)
                     {
                         Logger.Log(LogLevel.Information, "trying to mark field corretion by external dio");
-                        string fileName = Path.Combine(SpiralLab.Sirius3.UI.Config.RecipePath, "cal_100mm_5x5.sirius3");
+                        string fileName = Path.Combine(SpiralLab.Sirius3.Config.RecipePath, "cal_100mm_5x5.sirius3");
                         if (!File.Exists(fileName))
                         {
                             Logger.Log(LogLevel.Error, $"file not found: {fileName}");
