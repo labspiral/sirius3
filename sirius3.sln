@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_syncaxis", "demos\ed
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_hardjump", "demos\editor_hardjump\editor_hardjump.csproj", "{D56E4B96-54D9-E62E-9BB5-3CDDDF5E2F24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_marker", "demos\editor_marker\editor_marker.csproj", "{05ABBA68-49FF-0354-E172-A170BE67686B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +147,10 @@ Global
 		{D56E4B96-54D9-E62E-9BB5-3CDDDF5E2F24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D56E4B96-54D9-E62E-9BB5-3CDDDF5E2F24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D56E4B96-54D9-E62E-9BB5-3CDDDF5E2F24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05ABBA68-49FF-0354-E172-A170BE67686B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05ABBA68-49FF-0354-E172-A170BE67686B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05ABBA68-49FF-0354-E172-A170BE67686B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05ABBA68-49FF-0354-E172-A170BE67686B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
