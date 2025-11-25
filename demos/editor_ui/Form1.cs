@@ -561,7 +561,7 @@ namespace Demos
         private void groupIngroup_testcase(IDocument document)
         {
             var rng = new Random((int)DateTime.Now.Ticks);
-            var group = new EntityGroup { Name = "TestGroup" };
+            var group = new EntityMixedGroup { Name = "TestGroup" };
 
             for (int i = 0; i < 5; i++)
             {
@@ -590,7 +590,7 @@ namespace Demos
 
             for (int i = 0; i < 2; i++)
             {
-                var subGroup = new EntityGroup(2) { Name = $"SubGroup{i}" };
+                var subGroup = new EntityMixedGroup(2) { Name = $"SubGroup{i}" };
 
                 int VERT_COUNT = 5 + (int)(rng.NextDouble() * 5);
                 var tempVerts = new List<Vertex2D>(VERT_COUNT);
@@ -628,7 +628,7 @@ namespace Demos
         {
             var rng = new Random((int)DateTime.Now.Ticks);
             const int ENTITY_COUNT = 100;
-            var group = new EntityGroup();
+            var group = new EntityMixedGroup();
 
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
@@ -717,7 +717,7 @@ namespace Demos
             if (!document.FindByBlockName(masterBlockName, out _))
             {
                 var entity = new EntitySpiral(DVec3.Zero, 5, 2, 5, EntitySpiral.SpiralTypes.Archimedean);
-                document.ActBlock(new IEntity[] { entity }, masterBlockName);
+                document.ActBlock(new IEntity[] { entity }, masterBlockName, out _);
             }
             double dx = 0;
             double dy = 0;

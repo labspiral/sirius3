@@ -70,47 +70,47 @@
             this.splitContainer8 = new System.Windows.Forms.SplitContainer();
             this.tbcLeft = new System.Windows.Forms.TabControl();
             this.tabDocPage1 = new System.Windows.Forms.TabPage();
-            this.treeViewPageControl1 = new SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl();
             this.tabDocPage2 = new System.Windows.Forms.TabPage();
-            this.treeViewPageControl2 = new SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl();
             this.tabBlockPage = new System.Windows.Forms.TabPage();
-            this.treeViewBlockControl1 = new SpiralLab.Sirius3.UI.WinForms.TreeViewBlockControl();
             this.tabWaferPage = new System.Windows.Forms.TabPage();
-            this.treeViewWaferControl1 = new SpiralLab.Sirius3.UI.WinForms.TreeViewWaferControl();
             this.tabSubstratePage = new System.Windows.Forms.TabPage();
-            this.treeViewSubstrateControl1 = new SpiralLab.Sirius3.UI.WinForms.TreeViewSubstrateControl();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tlcPen = new System.Windows.Forms.TabControl();
             this.tabScannerPen = new System.Windows.Forms.TabPage();
-            this.scannerPenControl1 = new SpiralLab.Sirius3.UI.WinForms.ScannerPenControl();
             this.tabLayerPen = new System.Windows.Forms.TabPage();
-            this.layerPenControl1 = new SpiralLab.Sirius3.UI.WinForms.LayerPenControl();
             this.splitContainer7 = new System.Windows.Forms.SplitContainer();
             this.tbcMain = new System.Windows.Forms.TabControl();
             this.tabEditor = new System.Windows.Forms.TabPage();
             this.tabMarker = new System.Windows.Forms.TabPage();
             this.splitContainer10 = new System.Windows.Forms.SplitContainer();
-            this.offsetControl1 = new SpiralLab.Sirius3.UI.WinForms.OffsetControl();
-            this.markerControl1 = new SpiralLab.Sirius3.UI.WinForms.MarkerControl();
             this.tabManual = new System.Windows.Forms.TabPage();
-            this.manualControl1 = new SpiralLab.Sirius3.UI.WinForms.ManualControl();
             this.tabScanner = new System.Windows.Forms.TabPage();
-            this.scannerControl1 = new SpiralLab.Sirius3.UI.WinForms.ScannerControl();
             this.tabLaser = new System.Windows.Forms.TabPage();
-            this.laserControl1 = new SpiralLab.Sirius3.UI.WinForms.LaserControl();
             this.tabDIO = new System.Windows.Forms.TabPage();
             this.splitContainer9 = new System.Windows.Forms.SplitContainer();
-            this.rtcDIControl1 = new SpiralLab.Sirius3.UI.WinForms.RtcDIControl();
-            this.rtcDOControl1 = new SpiralLab.Sirius3.UI.WinForms.RtcDOControl();
             this.tabPower = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage18 = new System.Windows.Forms.TabPage();
-            this.powerMeterControl1 = new SpiralLab.Sirius3.UI.WinForms.PowerMeterControl();
             this.tabPage19 = new System.Windows.Forms.TabPage();
-            this.powerMapControl1 = new SpiralLab.Sirius3.UI.WinForms.PowerMapControl();
-            this.logControl1 = new SpiralLab.Sirius3.UI.WinForms.LogControl();
             this.tlcRight = new System.Windows.Forms.TabControl();
             this.tabProperty = new System.Windows.Forms.TabPage();
+            this.treeViewPageControl1 = new SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl();
+            this.treeViewPageControl2 = new SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl();
+            this.treeViewBlockControl1 = new SpiralLab.Sirius3.UI.WinForms.TreeViewBlockControl();
+            this.treeViewWaferControl1 = new SpiralLab.Sirius3.UI.WinForms.TreeViewWaferControl();
+            this.treeViewSubstrateControl1 = new SpiralLab.Sirius3.UI.WinForms.TreeViewSubstrateControl();
+            this.scannerPenControl1 = new SpiralLab.Sirius3.UI.WinForms.ScannerPenControl();
+            this.layerPenControl1 = new SpiralLab.Sirius3.UI.WinForms.LayerPenControl();
+            this.offsetControl1 = new SpiralLab.Sirius3.UI.WinForms.OffsetControl();
+            this.markerControl1 = new SpiralLab.Sirius3.UI.WinForms.MarkerControl();
+            this.manualControl1 = new SpiralLab.Sirius3.UI.WinForms.ManualControl();
+            this.scannerControl1 = new SpiralLab.Sirius3.UI.WinForms.ScannerControl();
+            this.laserControl1 = new SpiralLab.Sirius3.UI.WinForms.LaserControl();
+            this.rtcDIControl1 = new SpiralLab.Sirius3.UI.WinForms.RtcDIControl();
+            this.rtcDOControl1 = new SpiralLab.Sirius3.UI.WinForms.RtcDOControl();
+            this.powerMeterControl1 = new SpiralLab.Sirius3.UI.WinForms.PowerMeterControl();
+            this.powerMapControl1 = new SpiralLab.Sirius3.UI.WinForms.PowerMapControl();
+            this.logControl1 = new SpiralLab.Sirius3.UI.WinForms.LogControl();
             this.propertyGridControl1 = new SpiralLab.Sirius3.UI.WinForms.PropertyGridControl();
             this.stsBottom.SuspendLayout();
             this.tlsTop1.SuspendLayout();
@@ -228,7 +228,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1490, 35);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1536, 35);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // btnLogWindow
@@ -313,7 +313,7 @@
             this.tlsTop1.Location = new System.Drawing.Point(0, 0);
             this.tlsTop1.Name = "tlsTop1";
             this.tlsTop1.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.tlsTop1.Size = new System.Drawing.Size(2303, 33);
+            this.tlsTop1.Size = new System.Drawing.Size(2303, 38);
             this.tlsTop1.TabIndex = 36;
             this.tlsTop1.Text = "tlsTop1";
             // 
@@ -324,7 +324,7 @@
             this.btnNew.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(34, 28);
+            this.btnNew.Size = new System.Drawing.Size(34, 33);
             this.btnNew.Text = "toolStripButton2";
             this.btnNew.ToolTipText = "New";
             // 
@@ -334,7 +334,7 @@
             this.btnOpen.Image = global::Demos.Properties.Resources.Import_Import;
             this.btnOpen.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(34, 28);
+            this.btnOpen.Size = new System.Drawing.Size(34, 33);
             this.btnOpen.Text = "Open";
             this.btnOpen.ToolTipText = "Open";
             // 
@@ -362,7 +362,7 @@
             this.toolStripDropDownButton1.Image = global::Demos.Properties.Resources.Slider;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(42, 28);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(42, 33);
             this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.ToolTipText = "Options for File New(or Open)";
             // 
@@ -490,7 +490,7 @@
             this.btnSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(34, 28);
+            this.btnSave.Size = new System.Drawing.Size(34, 33);
             this.btnSave.Text = "toolStripButton1";
             this.btnSave.ToolTipText = "Save";
             // 
@@ -508,19 +508,19 @@
             this.btnLock.Image = global::Demos.Properties.Resources.lock_24px;
             this.btnLock.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLock.Name = "btnLock";
-            this.btnLock.Size = new System.Drawing.Size(34, 28);
+            this.btnLock.Size = new System.Drawing.Size(34, 33);
             this.btnLock.Text = "Lock";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 33);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 33);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 38);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -532,7 +532,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tlcRight);
             this.splitContainer1.Panel2MinSize = 100;
-            this.splitContainer1.Size = new System.Drawing.Size(2303, 1455);
+            this.splitContainer1.Size = new System.Drawing.Size(2303, 1450);
             this.splitContainer1.SplitterDistance = 1839;
             this.splitContainer1.TabIndex = 37;
             // 
@@ -550,7 +550,7 @@
             // splitContainer6.Panel2
             // 
             this.splitContainer6.Panel2.Controls.Add(this.splitContainer7);
-            this.splitContainer6.Size = new System.Drawing.Size(1839, 1455);
+            this.splitContainer6.Size = new System.Drawing.Size(1839, 1450);
             this.splitContainer6.SplitterDistance = 444;
             this.splitContainer6.TabIndex = 0;
             // 
@@ -570,8 +570,8 @@
             // 
             this.splitContainer8.Panel2.Controls.Add(this.tlcPen);
             this.splitContainer8.Panel2MinSize = 100;
-            this.splitContainer8.Size = new System.Drawing.Size(444, 1455);
-            this.splitContainer8.SplitterDistance = 1184;
+            this.splitContainer8.Size = new System.Drawing.Size(444, 1450);
+            this.splitContainer8.SplitterDistance = 1179;
             this.splitContainer8.TabIndex = 3;
             // 
             // tbcLeft
@@ -590,7 +590,7 @@
             this.tbcLeft.Name = "tbcLeft";
             this.tbcLeft.Padding = new System.Drawing.Point(3, 3);
             this.tbcLeft.SelectedIndex = 0;
-            this.tbcLeft.Size = new System.Drawing.Size(444, 1184);
+            this.tbcLeft.Size = new System.Drawing.Size(444, 1179);
             this.tbcLeft.TabIndex = 3;
             // 
             // tabDocPage1
@@ -600,24 +600,10 @@
             this.tabDocPage1.Location = new System.Drawing.Point(4, 42);
             this.tabDocPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabDocPage1.Name = "tabDocPage1";
-            this.tabDocPage1.Size = new System.Drawing.Size(436, 1138);
+            this.tabDocPage1.Size = new System.Drawing.Size(436, 1133);
             this.tabDocPage1.TabIndex = 0;
             this.tabDocPage1.Text = "Page1 ";
             this.tabDocPage1.UseVisualStyleBackColor = true;
-            // 
-            // treeViewPageControl1
-            // 
-            this.treeViewPageControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.treeViewPageControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewPageControl1.Document = null;
-            this.treeViewPageControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewPageControl1.Location = new System.Drawing.Point(0, 0);
-            this.treeViewPageControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.treeViewPageControl1.Name = "treeViewPageControl1";
-            this.treeViewPageControl1.Page = SpiralLab.Sirius3.Document.DocumentPages.Page1;
-            this.treeViewPageControl1.Size = new System.Drawing.Size(436, 1138);
-            this.treeViewPageControl1.TabIndex = 2;
-            this.treeViewPageControl1.View = null;
             // 
             // tabDocPage2
             // 
@@ -631,20 +617,6 @@
             this.tabDocPage2.Text = "Page2 ";
             this.tabDocPage2.UseVisualStyleBackColor = true;
             // 
-            // treeViewPageControl2
-            // 
-            this.treeViewPageControl2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.treeViewPageControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewPageControl2.Document = null;
-            this.treeViewPageControl2.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewPageControl2.Location = new System.Drawing.Point(0, 0);
-            this.treeViewPageControl2.Margin = new System.Windows.Forms.Padding(0);
-            this.treeViewPageControl2.Name = "treeViewPageControl2";
-            this.treeViewPageControl2.Page = SpiralLab.Sirius3.Document.DocumentPages.Page2;
-            this.treeViewPageControl2.Size = new System.Drawing.Size(436, 1138);
-            this.treeViewPageControl2.TabIndex = 3;
-            this.treeViewPageControl2.View = null;
-            // 
             // tabBlockPage
             // 
             this.tabBlockPage.Controls.Add(this.treeViewBlockControl1);
@@ -656,19 +628,6 @@
             this.tabBlockPage.TabIndex = 1;
             this.tabBlockPage.Text = "Block ";
             this.tabBlockPage.UseVisualStyleBackColor = true;
-            // 
-            // treeViewBlockControl1
-            // 
-            this.treeViewBlockControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.treeViewBlockControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewBlockControl1.Document = null;
-            this.treeViewBlockControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewBlockControl1.Location = new System.Drawing.Point(0, 0);
-            this.treeViewBlockControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.treeViewBlockControl1.Name = "treeViewBlockControl1";
-            this.treeViewBlockControl1.Size = new System.Drawing.Size(436, 1138);
-            this.treeViewBlockControl1.TabIndex = 0;
-            this.treeViewBlockControl1.View = null;
             // 
             // tabWaferPage
             // 
@@ -682,19 +641,6 @@
             this.tabWaferPage.Text = "Wafer ";
             this.tabWaferPage.UseVisualStyleBackColor = true;
             // 
-            // treeViewWaferControl1
-            // 
-            this.treeViewWaferControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.treeViewWaferControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewWaferControl1.Document = null;
-            this.treeViewWaferControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewWaferControl1.Location = new System.Drawing.Point(0, 0);
-            this.treeViewWaferControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.treeViewWaferControl1.Name = "treeViewWaferControl1";
-            this.treeViewWaferControl1.Size = new System.Drawing.Size(436, 1138);
-            this.treeViewWaferControl1.TabIndex = 1;
-            this.treeViewWaferControl1.View = null;
-            // 
             // tabSubstratePage
             // 
             this.tabSubstratePage.Controls.Add(this.treeViewSubstrateControl1);
@@ -706,19 +652,6 @@
             this.tabSubstratePage.TabIndex = 3;
             this.tabSubstratePage.Text = "Substrate";
             this.tabSubstratePage.UseVisualStyleBackColor = true;
-            // 
-            // treeViewSubstrateControl1
-            // 
-            this.treeViewSubstrateControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.treeViewSubstrateControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewSubstrateControl1.Document = null;
-            this.treeViewSubstrateControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewSubstrateControl1.Location = new System.Drawing.Point(0, 0);
-            this.treeViewSubstrateControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.treeViewSubstrateControl1.Name = "treeViewSubstrateControl1";
-            this.treeViewSubstrateControl1.Size = new System.Drawing.Size(436, 1138);
-            this.treeViewSubstrateControl1.TabIndex = 0;
-            this.treeViewSubstrateControl1.View = null;
             // 
             // imageList1
             // 
@@ -802,18 +735,6 @@
             this.tabScannerPen.Text = "Scanner";
             this.tabScannerPen.UseVisualStyleBackColor = true;
             // 
-            // scannerPenControl1
-            // 
-            this.scannerPenControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.scannerPenControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scannerPenControl1.Document = null;
-            this.scannerPenControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.scannerPenControl1.Location = new System.Drawing.Point(0, 0);
-            this.scannerPenControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.scannerPenControl1.Name = "scannerPenControl1";
-            this.scannerPenControl1.Size = new System.Drawing.Size(436, 221);
-            this.scannerPenControl1.TabIndex = 2;
-            // 
             // tabLayerPen
             // 
             this.tabLayerPen.Controls.Add(this.layerPenControl1);
@@ -825,18 +746,6 @@
             this.tabLayerPen.TabIndex = 1;
             this.tabLayerPen.Text = "Layer";
             this.tabLayerPen.UseVisualStyleBackColor = true;
-            // 
-            // layerPenControl1
-            // 
-            this.layerPenControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.layerPenControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.layerPenControl1.Document = null;
-            this.layerPenControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.layerPenControl1.Location = new System.Drawing.Point(0, 0);
-            this.layerPenControl1.Margin = new System.Windows.Forms.Padding(16, 15, 16, 15);
-            this.layerPenControl1.Name = "layerPenControl1";
-            this.layerPenControl1.Size = new System.Drawing.Size(436, 221);
-            this.layerPenControl1.TabIndex = 0;
             // 
             // splitContainer7
             // 
@@ -855,8 +764,8 @@
             // 
             this.splitContainer7.Panel2.Controls.Add(this.logControl1);
             this.splitContainer7.Panel2MinSize = 100;
-            this.splitContainer7.Size = new System.Drawing.Size(1391, 1455);
-            this.splitContainer7.SplitterDistance = 1184;
+            this.splitContainer7.Size = new System.Drawing.Size(1391, 1450);
+            this.splitContainer7.SplitterDistance = 1179;
             this.splitContainer7.TabIndex = 0;
             // 
             // tbcMain
@@ -876,7 +785,7 @@
             this.tbcMain.Margin = new System.Windows.Forms.Padding(0);
             this.tbcMain.Name = "tbcMain";
             this.tbcMain.SelectedIndex = 0;
-            this.tbcMain.Size = new System.Drawing.Size(1391, 1184);
+            this.tbcMain.Size = new System.Drawing.Size(1391, 1179);
             this.tbcMain.TabIndex = 0;
             // 
             // tabEditor
@@ -885,7 +794,7 @@
             this.tabEditor.Location = new System.Drawing.Point(4, 42);
             this.tabEditor.Margin = new System.Windows.Forms.Padding(0);
             this.tabEditor.Name = "tabEditor";
-            this.tabEditor.Size = new System.Drawing.Size(1383, 1138);
+            this.tabEditor.Size = new System.Drawing.Size(1383, 1133);
             this.tabEditor.TabIndex = 0;
             this.tabEditor.Text = "Editor";
             // 
@@ -919,33 +828,6 @@
             this.splitContainer10.SplitterDistance = 446;
             this.splitContainer10.TabIndex = 4;
             // 
-            // offsetControl1
-            // 
-            this.offsetControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.offsetControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.offsetControl1.Location = new System.Drawing.Point(0, 0);
-            this.offsetControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.offsetControl1.Marker = null;
-            this.offsetControl1.Name = "offsetControl1";
-            this.offsetControl1.Size = new System.Drawing.Size(446, 1138);
-            this.offsetControl1.TabIndex = 4;
-            // 
-            // markerControl1
-            // 
-            this.markerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.markerControl1.Document = null;
-            this.markerControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.markerControl1.Laser = null;
-            this.markerControl1.Location = new System.Drawing.Point(0, 0);
-            this.markerControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.markerControl1.Marker = null;
-            this.markerControl1.Name = "markerControl1";
-            this.markerControl1.PowerMeter = null;
-            this.markerControl1.Rtc = null;
-            this.markerControl1.Size = new System.Drawing.Size(933, 1138);
-            this.markerControl1.TabIndex = 4;
-            this.markerControl1.View = null;
-            // 
             // tabManual
             // 
             this.tabManual.Controls.Add(this.manualControl1);
@@ -957,20 +839,6 @@
             this.tabManual.TabIndex = 2;
             this.tabManual.Text = "Manual";
             this.tabManual.UseVisualStyleBackColor = true;
-            // 
-            // manualControl1
-            // 
-            this.manualControl1.BackColor = System.Drawing.SystemColors.Control;
-            this.manualControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.manualControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.manualControl1.Laser = null;
-            this.manualControl1.Location = new System.Drawing.Point(0, 0);
-            this.manualControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.manualControl1.Marker = null;
-            this.manualControl1.Name = "manualControl1";
-            this.manualControl1.Rtc = null;
-            this.manualControl1.Size = new System.Drawing.Size(1383, 1138);
-            this.manualControl1.TabIndex = 1;
             // 
             // tabScanner
             // 
@@ -984,17 +852,6 @@
             this.tabScanner.Text = "Scanner";
             this.tabScanner.UseVisualStyleBackColor = true;
             // 
-            // scannerControl1
-            // 
-            this.scannerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scannerControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.scannerControl1.Location = new System.Drawing.Point(0, 0);
-            this.scannerControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.scannerControl1.Name = "scannerControl1";
-            this.scannerControl1.Scanner = null;
-            this.scannerControl1.Size = new System.Drawing.Size(1383, 1138);
-            this.scannerControl1.TabIndex = 0;
-            // 
             // tabLaser
             // 
             this.tabLaser.Controls.Add(this.laserControl1);
@@ -1006,17 +863,6 @@
             this.tabLaser.TabIndex = 4;
             this.tabLaser.Text = "Laser";
             this.tabLaser.UseVisualStyleBackColor = true;
-            // 
-            // laserControl1
-            // 
-            this.laserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.laserControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.laserControl1.Laser = null;
-            this.laserControl1.Location = new System.Drawing.Point(0, 0);
-            this.laserControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.laserControl1.Name = "laserControl1";
-            this.laserControl1.Size = new System.Drawing.Size(1383, 1138);
-            this.laserControl1.TabIndex = 0;
             // 
             // tabDIO
             // 
@@ -1047,34 +893,6 @@
             this.splitContainer9.Size = new System.Drawing.Size(1383, 1138);
             this.splitContainer9.SplitterDistance = 663;
             this.splitContainer9.TabIndex = 0;
-            // 
-            // rtcDIControl1
-            // 
-            this.rtcDIControl1.DIExt1 = null;
-            this.rtcDIControl1.DILaserPort = null;
-            this.rtcDIControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtcDIControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtcDIControl1.Location = new System.Drawing.Point(0, 0);
-            this.rtcDIControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.rtcDIControl1.Name = "rtcDIControl1";
-            this.rtcDIControl1.Size = new System.Drawing.Size(663, 1138);
-            this.rtcDIControl1.TabIndex = 0;
-            this.rtcDIControl1.UpdateTimerInterval = 100;
-            // 
-            // rtcDOControl1
-            // 
-            this.rtcDOControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtcDOControl1.DOExt1 = null;
-            this.rtcDOControl1.DOExt2 = null;
-            this.rtcDOControl1.DOLaserPort = null;
-            this.rtcDOControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rtcDOControl1.Location = new System.Drawing.Point(0, 0);
-            this.rtcDOControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.rtcDOControl1.Marker = null;
-            this.rtcDOControl1.Name = "rtcDOControl1";
-            this.rtcDOControl1.Size = new System.Drawing.Size(716, 1138);
-            this.rtcDOControl1.TabIndex = 0;
-            this.rtcDOControl1.UpdateTimerInterval = 100;
             // 
             // tabPower
             // 
@@ -1112,6 +930,225 @@
             this.tabPage18.Text = "PowerMeter";
             this.tabPage18.UseVisualStyleBackColor = true;
             // 
+            // tabPage19
+            // 
+            this.tabPage19.Controls.Add(this.powerMapControl1);
+            this.tabPage19.Location = new System.Drawing.Point(4, 36);
+            this.tabPage19.Margin = new System.Windows.Forms.Padding(0);
+            this.tabPage19.Name = "tabPage19";
+            this.tabPage19.Size = new System.Drawing.Size(1375, 1098);
+            this.tabPage19.TabIndex = 1;
+            this.tabPage19.Text = "PowerMap";
+            this.tabPage19.UseVisualStyleBackColor = true;
+            // 
+            // tlcRight
+            // 
+            this.tlcRight.Controls.Add(this.tabProperty);
+            this.tlcRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlcRight.HotTrack = true;
+            this.tlcRight.ImageList = this.imageList1;
+            this.tlcRight.ItemSize = new System.Drawing.Size(67, 38);
+            this.tlcRight.Location = new System.Drawing.Point(0, 0);
+            this.tlcRight.Margin = new System.Windows.Forms.Padding(0);
+            this.tlcRight.Name = "tlcRight";
+            this.tlcRight.SelectedIndex = 0;
+            this.tlcRight.Size = new System.Drawing.Size(460, 1450);
+            this.tlcRight.TabIndex = 1;
+            // 
+            // tabProperty
+            // 
+            this.tabProperty.Controls.Add(this.propertyGridControl1);
+            this.tabProperty.ImageKey = "Property.png";
+            this.tabProperty.Location = new System.Drawing.Point(4, 42);
+            this.tabProperty.Margin = new System.Windows.Forms.Padding(0);
+            this.tabProperty.Name = "tabProperty";
+            this.tabProperty.Size = new System.Drawing.Size(452, 1404);
+            this.tabProperty.TabIndex = 0;
+            this.tabProperty.Text = " Property ";
+            this.tabProperty.UseVisualStyleBackColor = true;
+            // 
+            // treeViewPageControl1
+            // 
+            this.treeViewPageControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.treeViewPageControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewPageControl1.Document = null;
+            this.treeViewPageControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeViewPageControl1.Location = new System.Drawing.Point(0, 0);
+            this.treeViewPageControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.treeViewPageControl1.Name = "treeViewPageControl1";
+            this.treeViewPageControl1.Page = SpiralLab.Sirius3.Document.DocumentPages.Page1;
+            this.treeViewPageControl1.Size = new System.Drawing.Size(436, 1133);
+            this.treeViewPageControl1.TabIndex = 2;
+            this.treeViewPageControl1.View = null;
+            // 
+            // treeViewPageControl2
+            // 
+            this.treeViewPageControl2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.treeViewPageControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewPageControl2.Document = null;
+            this.treeViewPageControl2.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeViewPageControl2.Location = new System.Drawing.Point(0, 0);
+            this.treeViewPageControl2.Margin = new System.Windows.Forms.Padding(0);
+            this.treeViewPageControl2.Name = "treeViewPageControl2";
+            this.treeViewPageControl2.Page = SpiralLab.Sirius3.Document.DocumentPages.Page2;
+            this.treeViewPageControl2.Size = new System.Drawing.Size(436, 1138);
+            this.treeViewPageControl2.TabIndex = 3;
+            this.treeViewPageControl2.View = null;
+            // 
+            // treeViewBlockControl1
+            // 
+            this.treeViewBlockControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.treeViewBlockControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewBlockControl1.Document = null;
+            this.treeViewBlockControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeViewBlockControl1.Location = new System.Drawing.Point(0, 0);
+            this.treeViewBlockControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.treeViewBlockControl1.Name = "treeViewBlockControl1";
+            this.treeViewBlockControl1.Size = new System.Drawing.Size(436, 1138);
+            this.treeViewBlockControl1.TabIndex = 0;
+            this.treeViewBlockControl1.View = null;
+            // 
+            // treeViewWaferControl1
+            // 
+            this.treeViewWaferControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.treeViewWaferControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewWaferControl1.Document = null;
+            this.treeViewWaferControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeViewWaferControl1.Location = new System.Drawing.Point(0, 0);
+            this.treeViewWaferControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.treeViewWaferControl1.Name = "treeViewWaferControl1";
+            this.treeViewWaferControl1.Size = new System.Drawing.Size(436, 1138);
+            this.treeViewWaferControl1.TabIndex = 1;
+            this.treeViewWaferControl1.View = null;
+            // 
+            // treeViewSubstrateControl1
+            // 
+            this.treeViewSubstrateControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.treeViewSubstrateControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewSubstrateControl1.Document = null;
+            this.treeViewSubstrateControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeViewSubstrateControl1.Location = new System.Drawing.Point(0, 0);
+            this.treeViewSubstrateControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.treeViewSubstrateControl1.Name = "treeViewSubstrateControl1";
+            this.treeViewSubstrateControl1.Size = new System.Drawing.Size(436, 1138);
+            this.treeViewSubstrateControl1.TabIndex = 0;
+            this.treeViewSubstrateControl1.View = null;
+            // 
+            // scannerPenControl1
+            // 
+            this.scannerPenControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.scannerPenControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scannerPenControl1.Document = null;
+            this.scannerPenControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.scannerPenControl1.Location = new System.Drawing.Point(0, 0);
+            this.scannerPenControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.scannerPenControl1.Name = "scannerPenControl1";
+            this.scannerPenControl1.Size = new System.Drawing.Size(436, 221);
+            this.scannerPenControl1.TabIndex = 2;
+            // 
+            // layerPenControl1
+            // 
+            this.layerPenControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.layerPenControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layerPenControl1.Document = null;
+            this.layerPenControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.layerPenControl1.Location = new System.Drawing.Point(0, 0);
+            this.layerPenControl1.Margin = new System.Windows.Forms.Padding(16, 15, 16, 15);
+            this.layerPenControl1.Name = "layerPenControl1";
+            this.layerPenControl1.Size = new System.Drawing.Size(436, 221);
+            this.layerPenControl1.TabIndex = 0;
+            // 
+            // offsetControl1
+            // 
+            this.offsetControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.offsetControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.offsetControl1.Location = new System.Drawing.Point(0, 0);
+            this.offsetControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.offsetControl1.Marker = null;
+            this.offsetControl1.Name = "offsetControl1";
+            this.offsetControl1.Size = new System.Drawing.Size(446, 1138);
+            this.offsetControl1.TabIndex = 4;
+            // 
+            // markerControl1
+            // 
+            this.markerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.markerControl1.Document = null;
+            this.markerControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.markerControl1.Laser = null;
+            this.markerControl1.Location = new System.Drawing.Point(0, 0);
+            this.markerControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.markerControl1.Marker = null;
+            this.markerControl1.Name = "markerControl1";
+            this.markerControl1.PowerMeter = null;
+            this.markerControl1.Rtc = null;
+            this.markerControl1.Size = new System.Drawing.Size(933, 1138);
+            this.markerControl1.TabIndex = 4;
+            this.markerControl1.View = null;
+            // 
+            // manualControl1
+            // 
+            this.manualControl1.BackColor = System.Drawing.SystemColors.Control;
+            this.manualControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.manualControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.manualControl1.Laser = null;
+            this.manualControl1.Location = new System.Drawing.Point(0, 0);
+            this.manualControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.manualControl1.Marker = null;
+            this.manualControl1.Name = "manualControl1";
+            this.manualControl1.Rtc = null;
+            this.manualControl1.Size = new System.Drawing.Size(1383, 1138);
+            this.manualControl1.TabIndex = 1;
+            // 
+            // scannerControl1
+            // 
+            this.scannerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scannerControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.scannerControl1.Location = new System.Drawing.Point(0, 0);
+            this.scannerControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.scannerControl1.Name = "scannerControl1";
+            this.scannerControl1.Scanner = null;
+            this.scannerControl1.Size = new System.Drawing.Size(1383, 1138);
+            this.scannerControl1.TabIndex = 0;
+            // 
+            // laserControl1
+            // 
+            this.laserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.laserControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.laserControl1.Laser = null;
+            this.laserControl1.Location = new System.Drawing.Point(0, 0);
+            this.laserControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.laserControl1.Name = "laserControl1";
+            this.laserControl1.Size = new System.Drawing.Size(1383, 1138);
+            this.laserControl1.TabIndex = 0;
+            // 
+            // rtcDIControl1
+            // 
+            this.rtcDIControl1.DIExt1 = null;
+            this.rtcDIControl1.DILaserPort = null;
+            this.rtcDIControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtcDIControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtcDIControl1.Location = new System.Drawing.Point(0, 0);
+            this.rtcDIControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.rtcDIControl1.Name = "rtcDIControl1";
+            this.rtcDIControl1.Size = new System.Drawing.Size(663, 1138);
+            this.rtcDIControl1.TabIndex = 0;
+            this.rtcDIControl1.UpdateTimerInterval = 100;
+            // 
+            // rtcDOControl1
+            // 
+            this.rtcDOControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtcDOControl1.DOExt1 = null;
+            this.rtcDOControl1.DOExt2 = null;
+            this.rtcDOControl1.DOLaserPort = null;
+            this.rtcDOControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rtcDOControl1.Location = new System.Drawing.Point(0, 0);
+            this.rtcDOControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.rtcDOControl1.Marker = null;
+            this.rtcDOControl1.Name = "rtcDOControl1";
+            this.rtcDOControl1.Size = new System.Drawing.Size(716, 1138);
+            this.rtcDOControl1.TabIndex = 0;
+            this.rtcDOControl1.UpdateTimerInterval = 100;
+            // 
             // powerMeterControl1
             // 
             this.powerMeterControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1123,17 +1160,6 @@
             this.powerMeterControl1.PowerMeter = null;
             this.powerMeterControl1.Size = new System.Drawing.Size(1375, 1098);
             this.powerMeterControl1.TabIndex = 0;
-            // 
-            // tabPage19
-            // 
-            this.tabPage19.Controls.Add(this.powerMapControl1);
-            this.tabPage19.Location = new System.Drawing.Point(4, 36);
-            this.tabPage19.Margin = new System.Windows.Forms.Padding(0);
-            this.tabPage19.Name = "tabPage19";
-            this.tabPage19.Size = new System.Drawing.Size(1375, 1098);
-            this.tabPage19.TabIndex = 1;
-            this.tabPage19.Text = "PowerMap";
-            this.tabPage19.UseVisualStyleBackColor = true;
             // 
             // powerMapControl1
             // 
@@ -1162,32 +1188,6 @@
             this.logControl1.Size = new System.Drawing.Size(1391, 267);
             this.logControl1.TabIndex = 0;
             // 
-            // tlcRight
-            // 
-            this.tlcRight.Controls.Add(this.tabProperty);
-            this.tlcRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlcRight.HotTrack = true;
-            this.tlcRight.ImageList = this.imageList1;
-            this.tlcRight.ItemSize = new System.Drawing.Size(67, 38);
-            this.tlcRight.Location = new System.Drawing.Point(0, 0);
-            this.tlcRight.Margin = new System.Windows.Forms.Padding(0);
-            this.tlcRight.Name = "tlcRight";
-            this.tlcRight.SelectedIndex = 0;
-            this.tlcRight.Size = new System.Drawing.Size(460, 1455);
-            this.tlcRight.TabIndex = 1;
-            // 
-            // tabProperty
-            // 
-            this.tabProperty.Controls.Add(this.propertyGridControl1);
-            this.tabProperty.ImageKey = "Property.png";
-            this.tabProperty.Location = new System.Drawing.Point(4, 42);
-            this.tabProperty.Margin = new System.Windows.Forms.Padding(0);
-            this.tabProperty.Name = "tabProperty";
-            this.tabProperty.Size = new System.Drawing.Size(452, 1409);
-            this.tabProperty.TabIndex = 0;
-            this.tabProperty.Text = " Property ";
-            this.tabProperty.UseVisualStyleBackColor = true;
-            // 
             // propertyGridControl1
             // 
             this.propertyGridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1198,14 +1198,14 @@
             this.propertyGridControl1.Marker = null;
             this.propertyGridControl1.Name = "propertyGridControl1";
             this.propertyGridControl1.SelecteObject = null;
-            this.propertyGridControl1.Size = new System.Drawing.Size(452, 1409);
+            this.propertyGridControl1.Size = new System.Drawing.Size(452, 1404);
             this.propertyGridControl1.TabIndex = 1;
             this.propertyGridControl1.View = null;
             // 
             // SiriusEditorControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.tlsTop1);
             this.Controls.Add(this.stsBottom);

@@ -38,8 +38,6 @@ using DMat3 = OpenTK.Mathematics.Matrix3d;
 using DMat4 = OpenTK.Mathematics.Matrix4d;
 #endif
 
-using OpenTK.Graphics.OpenGL;
-
 namespace Demos
 {
     /// <summary>
@@ -203,8 +201,6 @@ namespace Demos
                     if (scanner is IRtcMoF newMof)
                         newMof.OnEncoderChanged += Mof_OnEncoderChanged;
 
-                    if (rtc.KFactor <= 0)
-                        throw new InvalidDataException("Kfactor value is invalid. must be assigned correctly !");                 
                 }
             }
         }

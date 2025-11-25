@@ -112,7 +112,7 @@ namespace Demos
             siriusEditorControl1.EditorCtrl.View.FovSize = new DVec3(fov, fov, z);
             siriusEditorControl1.EditorCtrl.View.FovCenter = new DVec3(0, 0, z / 2.0);
 
-            var group = EntityFactory.CreateGroup($"{rows}x{cols} {rowInterval}x{colInterval}mm", entities);
+            var group = EntityFactory.CreateMixedGroup($"{rows}x{cols} {rowInterval}x{colInterval}mm", entities);
             //group.Translate(0, 0, z);
             document?.ActivePage?.ActiveLayer?.AddChild(group);
             siriusEditorControl1.View?.DoRender();
@@ -160,7 +160,7 @@ namespace Demos
             siriusEditorControl1.EditorCtrl.View.FovSize = new DVec3(fov, fov, z);
             siriusEditorControl1.EditorCtrl.View.FovCenter = new DVec3(0, 0, z/2.0);
 
-            var group = EntityFactory.CreateGroup($"{rows}x{cols} {rowInterval}x{colInterval}mm", entities);
+            var group = EntityFactory.CreateMixedGroup($"{rows}x{cols} {rowInterval}x{colInterval}mm", entities);
             group.Translate(0, 0, z);
             document?.ActivePage?.ActiveLayer?.AddChild(group);
             siriusEditorControl1.View?.DoRender();

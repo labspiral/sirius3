@@ -106,7 +106,7 @@ namespace Demos
                 entities.Add(line);
             }
 
-            var group = EntityFactory.CreateGroup($"{rows}x{cols} {rowInterval}x{colInterval}mm", entities);
+            var group = EntityFactory.CreateMixedGroup($"{rows}x{cols} {rowInterval}x{colInterval}mm", entities);
             document?.ActivePage?.ActiveLayer?.AddChild(group);
             siriusEditorControl1.View?.DoRender();
         }

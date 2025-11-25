@@ -745,7 +745,7 @@ namespace Demos
 
             for (int i = 0; i < 2; i++)
             {
-                var subGroup = new EntityGroup(2) { Name = $"SubGroup{i}" };
+                var subGroup = new EntityMixedGroup(2) { Name = $"SubGroup{i}" };
 
                 int VERT_COUNT = 5 + (int)(rng.NextDouble() * 5);
                 var tempVerts = new List<Vertex2D>(VERT_COUNT);
@@ -768,7 +768,7 @@ namespace Demos
                 subGroup.AddChild(poly);
                 list.Add(subGroup);
             }
-            var group = EntityFactory.CreateGroup("TestGroup", list);
+            var group = EntityFactory.CreateMixedGroup("TestGroup", list);
             group.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 5);
 
             document.ActivePage?.ActiveLayer?.AddChild(group);
@@ -947,7 +947,7 @@ namespace Demos
             if (!document.FindByBlockName(masterBlockName, out _))
             {
                 var entity = EntityFactory.CreateSpiral(DVec3.Zero, 5, 2, 5, EntitySpiral.SpiralTypes.Archimedean, true);
-                document.ActBlock(new IEntity[] { entity }, masterBlockName);
+                document.ActBlock(new IEntity[] { entity }, masterBlockName, out _);
             }
             double dx = 0;
             double dy = 0;

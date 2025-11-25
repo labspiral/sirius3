@@ -1,19 +1,29 @@
-﻿## Version history
+﻿# Sirius3 version history
 
-* 2025.11.18 v0.9.1
-    - added) include 'gnuplot' program at Spirallab.Sirius3.Dependencies package
-    - added) create uniform group button at editor
-    - fixed) invalid render issue at EntityUniformGroup 
-    - fixed) memory leaks
-	- fixed) invalid spline vertices
-    - fixed) out of memory if too many node items has created
-    - changed) Core.Initialize signatures
+## v0.9.2 (2025.11.25)
+- added) convert to block and block insert at menu
+- renamed) EntityGroup to EntityMixedGroup
+- fixed) ActUngroup bug
+- fixed) improve performance for ActMixedGroup, ActUniformGroup 
+- fixed) improve loading time for import gerber file
+- fixed) stackoverflow exception when save file
+
+## v0.9.1 (2025.11.18)
+- added) include 'gnuplot' program at Spirallab.Sirius3.Dependencies package
+- added) create uniform group button at editor
+- fixed) invalid render issue at EntityUniformGroup 
+- fixed) memory leaks
+- fixed) invalid spline vertices
+- fixed) out of memory if too many node items has created
+- changed) Core.Initialize signatures
 	 
-* 2025.11.11 v0.8.2
-    - fixed) fail to parse HPGL format
-    - fixed) scanner pen is not applied
-    - fixed) refresh scanner/layer pen object when do ActNew
+## v0.8.2 (2025.11.11)
+- fixed) fail to parse HPGL format
+- fixed) scanner pen is not applied
+- fixed) refresh scanner/layer pen object when do ActNew
 	 
-* 2025.11.7 v0.8.0
-    - Developer preview version
+## v0.8.0 (2025.11.7)
+- Developer preview version
   
+## v0.1 (2025.03.06)
+- Initial release

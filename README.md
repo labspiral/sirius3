@@ -1,5 +1,5 @@
 ﻿# Sirius3
-A .NET-based, all-in-one platform for precision laser processing and additive manufacturing. 
+A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo3.png)
 
