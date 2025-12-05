@@ -30,10 +30,11 @@
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnCreateBarcode = new System.Windows.Forms.Button();
-            this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
             this.btnEventHandler = new System.Windows.Forms.Button();
-            this.btnScript = new System.Windows.Forms.Button();
+            this.btnSimpleScript = new System.Windows.Forms.Button();
             this.btnExternalFile = new System.Windows.Forms.Button();
+            this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
+            this.btnOffset = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -41,8 +42,9 @@
             // 
             this.flowLayoutPanel1.Controls.Add(this.btnCreateBarcode);
             this.flowLayoutPanel1.Controls.Add(this.btnEventHandler);
-            this.flowLayoutPanel1.Controls.Add(this.btnScript);
+            this.flowLayoutPanel1.Controls.Add(this.btnSimpleScript);
             this.flowLayoutPanel1.Controls.Add(this.btnExternalFile);
+            this.flowLayoutPanel1.Controls.Add(this.btnOffset);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -57,6 +59,33 @@
             this.btnCreateBarcode.TabIndex = 0;
             this.btnCreateBarcode.Text = "Create";
             this.btnCreateBarcode.UseVisualStyleBackColor = true;
+            // 
+            // btnEventHandler
+            // 
+            this.btnEventHandler.Location = new System.Drawing.Point(118, 3);
+            this.btnEventHandler.Name = "btnEventHandler";
+            this.btnEventHandler.Size = new System.Drawing.Size(149, 42);
+            this.btnEventHandler.TabIndex = 1;
+            this.btnEventHandler.Text = "Event Handler";
+            this.btnEventHandler.UseVisualStyleBackColor = true;
+            // 
+            // btnSimpleScript
+            // 
+            this.btnSimpleScript.Location = new System.Drawing.Point(273, 3);
+            this.btnSimpleScript.Name = "btnSimpleScript";
+            this.btnSimpleScript.Size = new System.Drawing.Size(109, 42);
+            this.btnSimpleScript.TabIndex = 2;
+            this.btnSimpleScript.Text = "Simple Script";
+            this.btnSimpleScript.UseVisualStyleBackColor = true;
+            // 
+            // btnExternalFile
+            // 
+            this.btnExternalFile.Location = new System.Drawing.Point(388, 3);
+            this.btnExternalFile.Name = "btnExternalFile";
+            this.btnExternalFile.Size = new System.Drawing.Size(122, 42);
+            this.btnExternalFile.TabIndex = 3;
+            this.btnExternalFile.Text = "External File";
+            this.btnExternalFile.UseVisualStyleBackColor = true;
             // 
             // siriusEditorControl1
             // 
@@ -79,32 +108,14 @@
             this.siriusEditorControl1.Size = new System.Drawing.Size(2254, 1590);
             this.siriusEditorControl1.TabIndex = 2;
             // 
-            // btnEventHandler
+            // btnOffset
             // 
-            this.btnEventHandler.Location = new System.Drawing.Point(118, 3);
-            this.btnEventHandler.Name = "btnEventHandler";
-            this.btnEventHandler.Size = new System.Drawing.Size(149, 42);
-            this.btnEventHandler.TabIndex = 1;
-            this.btnEventHandler.Text = "Event Handler";
-            this.btnEventHandler.UseVisualStyleBackColor = true;
-            // 
-            // btnScript
-            // 
-            this.btnScript.Location = new System.Drawing.Point(273, 3);
-            this.btnScript.Name = "btnScript";
-            this.btnScript.Size = new System.Drawing.Size(109, 42);
-            this.btnScript.TabIndex = 2;
-            this.btnScript.Text = "Script";
-            this.btnScript.UseVisualStyleBackColor = true;
-            // 
-            // btnExternalFile
-            // 
-            this.btnExternalFile.Location = new System.Drawing.Point(388, 3);
-            this.btnExternalFile.Name = "btnExternalFile";
-            this.btnExternalFile.Size = new System.Drawing.Size(122, 42);
-            this.btnExternalFile.TabIndex = 3;
-            this.btnExternalFile.Text = "External File";
-            this.btnExternalFile.UseVisualStyleBackColor = true;
+            this.btnOffset.Location = new System.Drawing.Point(516, 3);
+            this.btnOffset.Name = "btnOffset";
+            this.btnOffset.Size = new System.Drawing.Size(122, 42);
+            this.btnOffset.TabIndex = 4;
+            this.btnOffset.Text = "Offset";
+            this.btnOffset.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -128,7 +139,8 @@
         private Button btnCreateBarcode;
         private SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl siriusEditorControl1;
         private Button btnEventHandler;
-        private Button btnScript;
+        private Button btnSimpleScript;
         private Button btnExternalFile;
+        private Button btnOffset;
     }
 }

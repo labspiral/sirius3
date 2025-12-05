@@ -10,6 +10,8 @@ using SpiralLab.Sirius3.Marker;
 using SpiralLab.Sirius3.Entity;
 using System.Text;
 using SpiralLab.Sirius3.Entity.Hatch;
+using SpiralLab.Sirius3.Mathematics;
+
 
 #if OPENTK3
 using OpenTK;
@@ -38,11 +40,12 @@ namespace Demos
             this.Load += Form1_Load;
             this.btnCreateBarcode.Click += BtnCreateBarcode_Click;
             this.btnEventHandler.Click += BtnEventHandler_Click;
-            this.btnScript.Click += BtnScript_Click;
+            this.btnSimpleScript.Click += BtnSimpleScript_Click;
             this.btnExternalFile.Click += BtnExternalFile_Click;
+            this.btnOffset.Click += BtnOffset_Click;
         }
 
-    
+
         private void Form1_Load(object sender, EventArgs e)
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
@@ -85,15 +88,7 @@ namespace Demos
 
             entity.Name = "MyBarcode";
             entity.IsAllowConvert = true;
-            entity.TextConverter = TextConverters.Event;
-
-            //entity.TextConverter = TextConverters.Script;
-            //entity.SourceText = @"$""SCRIPT {DateTime.Now.ToString(""HH:mm:ss"")}""";
-
-            //entity.TextConverter = TextConverters.File;
-            //var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.txt");
-            //entity.ExternalFile = filePath;
-
+            entity.TextConverter = TextConverters.Event; // used event handler by default 
 
             entity.Translate(0, -10);
             document.ActivePage?.ActiveLayer?.AddChild(entity);
@@ -141,7 +136,7 @@ namespace Demos
             }
         }
 
-        private void BtnScript_Click(object sender, EventArgs e)
+        private void BtnSimpleScript_Click(object sender, EventArgs e)
         {
             var layer = siriusEditorControl1.Document.ActivePage.ActiveLayer;
 
@@ -177,6 +172,29 @@ namespace Demos
                     textConvertible.ExternalFile = filePath;
                 }
             }
+
+            siriusEditorControl1.PropertyGridCtrl.Refresh();
+        }
+
+        private void BtnOffset_Click(object sender, EventArgs e)
+        {
+            var layer = siriusEditorControl1.Document.ActivePage.ActiveLayer;
+            var marker = siriusEditorControl1.Marker;
+
+            foreach (var entity in layer.Children)
+            {
+                if (entity is ITextConvertible textConvertible)
+                {
+                    // set text converter as event handler
+                    textConvertible.IsAllowConvert = true;
+                    textConvertible.TextConverter = TextConverters.Offset;
+                }
+            }
+
+            var offsets = new List<Offset>();
+            offsets.Add(new Offset(-10, 0) { ExtensionData = "OFFSET 1" });
+            offsets.Add(new Offset(10, 0) { ExtensionData = "OFFSET 2" });
+            marker.Offsets = offsets.ToArray();
 
             siriusEditorControl1.PropertyGridCtrl.Refresh();
         }

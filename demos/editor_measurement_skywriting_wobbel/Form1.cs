@@ -102,15 +102,15 @@ namespace Demos
             var layerPenColor = SpiralLab.Sirius3.UI.Config.LayerPenColors[1]; // Color.Yellow
             document.ActivePage.ActiveLayer.PenColor = layerPenColor;
 
-            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
+            var entityPenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[1]; // Color.Yellow
             // create rectangle
             var rectangle = EntityFactory.CreateRectangle(DVec2.Zero, 50, 50);
-            rectangle.PenColor = scannerPenColor;
+            rectangle.PenColor = entityPenColor;
             document.ActivePage?.ActiveLayer?.AddChild(rectangle);
 
             // create circle
             var circle = EntityFactory.CreateArc(DVec2.Zero, 25, 0, 360);
-            circle.PenColor = scannerPenColor;
+            circle.PenColor = entityPenColor;
             document.ActivePage?.ActiveLayer?.AddChild(circle);
 
             siriusEditorControl1.View?.DoRender();
@@ -119,10 +119,10 @@ namespace Demos
             var end = EntityFactory.CreateMeasurementEnd();
             document.ActivePage?.ActiveLayer?.AddChild(end);
 
-            // config scanner pen parameters
-            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
-            scannerPen.JumpSpeed = 3_000;
-            scannerPen.MarkSpeed = 3_000;
+            // config entity pen parameters
+            document.FindByEntityPenColor(entityPenColor, out var entityPen);
+            entityPen.JumpSpeed = 3_000;
+            entityPen.MarkSpeed = 3_000;
         }
 
         private void BtnMark_Click(object sender, EventArgs e)
@@ -136,9 +136,9 @@ namespace Demos
             document.FindByLayerPenColor(layerPenColor, out var layerPen);
             layerPen.IsSkyWritingEnabled = false; //disable sky-writing
 
-            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
-            scannerPen.IsWobbelEnabled = false; //disable wobbel
+            var entityPenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[1]; // Color.Yellow
+            document.FindByEntityPenColor(entityPenColor, out var entityPen);
+            entityPen.IsWobbelEnabled = false; //disable wobbel
 
             marker.Ready(document);
             marker.Start(document.Page); // current page
@@ -162,9 +162,9 @@ namespace Demos
             layerPen.Post = 1000;
             //layerPen.AngularLimit = 89;
 
-            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
-            scannerPen.IsWobbelEnabled = false;
+            var entityPenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[1]; // Color.Yellow
+            document.FindByEntityPenColor(entityPenColor, out var entityPen);
+            entityPen.IsWobbelEnabled = false;
 
             marker.Ready(document);
             marker.Start(document.Page); // current page
@@ -188,9 +188,9 @@ namespace Demos
             layerPen.Post = 1000;
             //layerPen.AngularLimit = 89;
 
-            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
-            scannerPen.IsWobbelEnabled = false;
+            var entityPenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[1]; // Color.Yellow
+            document.FindByEntityPenColor(entityPenColor, out var entityPen);
+            entityPen.IsWobbelEnabled = false;
 
             marker.Ready(document);            
             marker.Start(document.Page); // current page
@@ -214,9 +214,9 @@ namespace Demos
             layerPen.Post = 2000 * 0.1;
             layerPen.AngularLimit = 89;
 
-            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
-            scannerPen.IsWobbelEnabled = false;
+            var entityPenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[1]; // Color.Yellow
+            document.FindByEntityPenColor(entityPenColor, out var entityPen);
+            entityPen.IsWobbelEnabled = false;
 
             marker.Ready(document);
             marker.Start(document.Page); // current page
@@ -241,9 +241,9 @@ namespace Demos
             layerPen.Post = 2000 * 0.1;
             layerPen.AngularLimit = 89;
 
-            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
-            scannerPen.IsWobbelEnabled = false;
+            var entityPenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[1]; // Color.Yellow
+            document.FindByEntityPenColor(entityPenColor, out var entityPen);
+            entityPen.IsWobbelEnabled = false;
 
             marker.Ready(document);
             marker.Start(document.Page); // current page
@@ -260,13 +260,13 @@ namespace Demos
             document.FindByLayerPenColor(layerPenColor, out var layerPen);
             layerPen.IsSkyWritingEnabled = false;
 
-            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
-            scannerPen.WobbelShape = WobbelShapes.Ellipse;
-            scannerPen.IsWobbelEnabled = true;
-            scannerPen.WobbelFrequency = 200;
-            scannerPen.WobbelPerpendicular = 0.5;
-            scannerPen.WobbelParallel = 0.25;
+            var entityPenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[1]; // Color.Yellow
+            document.FindByEntityPenColor(entityPenColor, out var entityPen);
+            entityPen.WobbelShape = WobbelShapes.Ellipse;
+            entityPen.IsWobbelEnabled = true;
+            entityPen.WobbelFrequency = 200;
+            entityPen.WobbelPerpendicular = 0.5;
+            entityPen.WobbelParallel = 0.25;
 
             marker.Ready(document);
             marker.Start(document.Page); // current page
@@ -283,13 +283,13 @@ namespace Demos
             document.FindByLayerPenColor(layerPenColor, out var layerPen);
             layerPen.IsSkyWritingEnabled = false;
 
-            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
-            scannerPen.WobbelShape = WobbelShapes.Parallel8;
-            scannerPen.IsWobbelEnabled = true;
-            scannerPen.WobbelFrequency = 200;
-            scannerPen.WobbelPerpendicular = 0.5;
-            scannerPen.WobbelParallel = 0.25;
+            var entityPenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[1]; // Color.Yellow
+            document.FindByEntityPenColor(entityPenColor, out var entityPen);
+            entityPen.WobbelShape = WobbelShapes.Parallel8;
+            entityPen.IsWobbelEnabled = true;
+            entityPen.WobbelFrequency = 200;
+            entityPen.WobbelPerpendicular = 0.5;
+            entityPen.WobbelParallel = 0.25;
 
             marker.Ready(document);
             marker.Start(document.Page); // current page
@@ -307,13 +307,13 @@ namespace Demos
             document.FindByLayerPenColor(layerPenColor, out var layerPen);
             layerPen.IsSkyWritingEnabled = false;
 
-            var scannerPenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]; // Color.Yellow
-            document.FindByScannerPenColor(scannerPenColor, out var scannerPen);
-            scannerPen.WobbelShape = WobbelShapes.Perpendicular8;
-            scannerPen.IsWobbelEnabled = true;
-            scannerPen.WobbelFrequency = 200;
-            scannerPen.WobbelPerpendicular = 0.5;
-            scannerPen.WobbelParallel = 0.25;
+            var entityPenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[1]; // Color.Yellow
+            document.FindByEntityPenColor(entityPenColor, out var entityPen);
+            entityPen.WobbelShape = WobbelShapes.Perpendicular8;
+            entityPen.IsWobbelEnabled = true;
+            entityPen.WobbelFrequency = 200;
+            entityPen.WobbelPerpendicular = 0.5;
+            entityPen.WobbelParallel = 0.25;
 
             marker.Ready(document);
             marker.Start(document.Page); // current page

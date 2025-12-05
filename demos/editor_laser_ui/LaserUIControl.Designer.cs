@@ -140,7 +140,7 @@ namespace Demos
             this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Outset;
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 221F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 257F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 353F));
             this.tableLayoutPanel3.Controls.Add(this.lblName, 1, 2);
             this.tableLayoutPanel3.Controls.Add(this.label12, 0, 2);
             this.tableLayoutPanel3.Controls.Add(this.lblMaxPower, 1, 1);
@@ -154,7 +154,7 @@ namespace Demos
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(578, 106);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(580, 106);
             this.tableLayoutPanel3.TabIndex = 481;
             // 
             // lblName
@@ -164,7 +164,7 @@ namespace Demos
             this.lblName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblName.Location = new System.Drawing.Point(228, 54);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(345, 24);
+            this.lblName.Size = new System.Drawing.Size(347, 24);
             this.lblName.TabIndex = 443;
             this.lblName.Text = "NoName";
             this.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -184,7 +184,7 @@ namespace Demos
             this.lblMaxPower.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblMaxPower.Location = new System.Drawing.Point(228, 28);
             this.lblMaxPower.Name = "lblMaxPower";
-            this.lblMaxPower.Size = new System.Drawing.Size(345, 24);
+            this.lblMaxPower.Size = new System.Drawing.Size(347, 24);
             this.lblMaxPower.TabIndex = 441;
             this.lblMaxPower.Text = "0";
             this.lblMaxPower.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -204,7 +204,7 @@ namespace Demos
             this.lblIndex.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblIndex.Location = new System.Drawing.Point(228, 2);
             this.lblIndex.Name = "lblIndex";
-            this.lblIndex.Size = new System.Drawing.Size(345, 24);
+            this.lblIndex.Size = new System.Drawing.Size(347, 24);
             this.lblIndex.TabIndex = 439;
             this.lblIndex.Text = "0";
             this.lblIndex.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -225,7 +225,7 @@ namespace Demos
             this.tableLayoutPanel6.ColumnCount = 3;
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 220F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 189F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 68F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 163F));
             this.tableLayoutPanel6.Controls.Add(this.txtFrequency, 1, 8);
             this.tableLayoutPanel6.Controls.Add(this.txtMaxCurrent, 2, 7);
             this.tableLayoutPanel6.Controls.Add(this.txtSetCurrent, 1, 7);
@@ -262,7 +262,7 @@ namespace Demos
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(578, 288);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(580, 288);
             this.tableLayoutPanel6.TabIndex = 482;
             // 
             // txtFrequency
@@ -286,7 +286,7 @@ namespace Demos
             this.txtMaxCurrent.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtMaxCurrent.Name = "txtMaxCurrent";
             this.txtMaxCurrent.ReadOnly = true;
-            this.txtMaxCurrent.Size = new System.Drawing.Size(155, 29);
+            this.txtMaxCurrent.Size = new System.Drawing.Size(157, 29);
             this.txtMaxCurrent.TabIndex = 499;
             this.txtMaxCurrent.Text = "20";
             this.txtMaxCurrent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -310,7 +310,7 @@ namespace Demos
             this.lblTHGActualTemp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblTHGActualTemp.Location = new System.Drawing.Point(418, 158);
             this.lblTHGActualTemp.Name = "lblTHGActualTemp";
-            this.lblTHGActualTemp.Size = new System.Drawing.Size(155, 24);
+            this.lblTHGActualTemp.Size = new System.Drawing.Size(157, 24);
             this.lblTHGActualTemp.TabIndex = 495;
             this.lblTHGActualTemp.Text = "0";
             this.lblTHGActualTemp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -321,7 +321,7 @@ namespace Demos
             this.lblSHGActualTemp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblSHGActualTemp.Location = new System.Drawing.Point(418, 132);
             this.lblSHGActualTemp.Name = "lblSHGActualTemp";
-            this.lblSHGActualTemp.Size = new System.Drawing.Size(155, 24);
+            this.lblSHGActualTemp.Size = new System.Drawing.Size(157, 24);
             this.lblSHGActualTemp.TabIndex = 494;
             this.lblSHGActualTemp.Text = "0";
             this.lblSHGActualTemp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

@@ -1,5 +1,16 @@
 ﻿# Sirius3 version history
 
+## v0.9.3 (2025.11.5)
+- added) zoom to fit 
+   - mouse double click at treeview
+   - after file has opened
+- added) new TextConverters.Offset 
+   - used with Offset.ExtensionData 
+- fixed) gerber file
+   - added) UI.Config.IsGerberWithUniformGroup option for higher render speed
+   - fixed) UI.Config.IsGerberTessellation option for invalid tessellation 
+- renamed) scanner pen to entity pen
+
 ## v0.9.2 (2025.11.25)
 - added) convert to block and block insert at menu
 - renamed) EntityGroup to EntityMixedGroup
@@ -26,4 +37,4 @@
 - Developer preview version
   
 ## v0.1 (2025.03.06)
-- Initial release
+- Initial release 

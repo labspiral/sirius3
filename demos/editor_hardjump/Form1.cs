@@ -104,11 +104,11 @@ namespace Demos
             var end = EntityFactory.CreateMeasurementEnd();
             document.ActivePage.ActiveLayer.AddChild(end);
 
-            // Find scanner pen for 'White'
-            document.FindByScannerPenColor(System.Drawing.Color.White, out var scannerPenWhite);
+            // Find entity pen for 'White'
+            document.FindByEntityPenColor(System.Drawing.Color.White, out var entityPenWhite);
 
             // Disable Hard Jump 
-            scannerPenWhite.IsHardJump = false;
+            entityPenWhite.IsHardJump = false;
             
             siriusEditorControl1.PropertyGridCtrl.Refresh();
         }
@@ -136,11 +136,11 @@ namespace Demos
             var end = EntityFactory.CreateMeasurementEnd();
             document.ActivePage.ActiveLayer.AddChild(end);
 
-            // Find scanner pen for 'White'
-            document.FindByScannerPenColor(System.Drawing.Color.White, out var scannerPenWhite);
+            // Find entity pen for 'White'
+            document.FindByEntityPenColor(System.Drawing.Color.White, out var entityPenWhite);
 
             // Disable Hard Jump 
-            scannerPenWhite.IsHardJump = true;
+            entityPenWhite.IsHardJump = true;
 
             siriusEditorControl1.PropertyGridCtrl.Refresh();
         }

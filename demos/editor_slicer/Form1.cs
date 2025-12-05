@@ -174,8 +174,8 @@ namespace Demos
             //hatch.Sort = HatchSorts.Near; // nearest. greedy 
             //hatch.Sort = HatchSorts.Global; //slow calculation but mark time optimized
 
-            var index = (int)(rng.NextDouble() * SpiralLab.Sirius3.UI.Config.ScannerPenColors.Length);
-            hatch.ModelColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[index].ToDVec3();
+            var index = (int)(rng.NextDouble() * SpiralLab.Sirius3.UI.Config.EntityPenColors.Length);
+            hatch.ModelColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[index].ToDVec3();
 
             hatchable.AddHatch(hatch);
             hatchable.HatchMarkOption = HatchMarkOptions.HatchFirst;

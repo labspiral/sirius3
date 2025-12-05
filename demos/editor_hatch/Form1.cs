@@ -104,7 +104,7 @@ namespace Demos
 
             var index = 0; //0 means Color.White
          
-            hatch.ModelColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[index].ToDVec3();
+            hatch.ModelColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[index].ToDVec3();
             hatchable.AddHatch(hatch);
 
             document.ActRegen();
@@ -130,7 +130,7 @@ namespace Demos
             hatch.Sort = HatchSorts.None;
 
             var index = 1; //1 means Color.Yellow
-            hatch.ModelColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[index].ToDVec3();
+            hatch.ModelColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[index].ToDVec3();
             hatchable.AddHatch(hatch);
 
             document.ActRegen();
@@ -153,7 +153,7 @@ namespace Demos
             var hatch = HatchFactory.CreatePolygon(interval);
 
             var index = 2; //2 means Color.Orange
-            hatch.ModelColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[index].ToDVec3();
+            hatch.ModelColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[index].ToDVec3();
             hatchable.AddHatch(hatch);
 
             document.ActRegen();

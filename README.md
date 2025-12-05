@@ -48,6 +48,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 - Various rendering modes (per-vertex, Z-depth, etc.)
 - Multi-page documents
 - Built-in wafer, substrate editor
+- Built-in gerber file format(RS-274x) editor
 - Switchable camera: orthographic / perspective
 
 ## Packages / DLLs
@@ -83,8 +84,8 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
       - Microsoft.Extensions.Logging 8.0.1
       - Microsoft.Extensions.Logging.Abstractions 8.0.3
 
-## Getting Started
-- Add references (From NuGet package manager)
+## Install Packages
+- Add references 
    - `SpiralLab.Sirius3.Dependencies` (https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
    - `SpiralLab.Sirius3` (https://www.nuget.org/packages/SpiralLab.Sirius3)
    - `SpiralLab.Sirius3.UI` (https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
@@ -93,7 +94,6 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 - Examples: https://github.com/labspiral/sirius3
 
 ## Quick Start
-
 Project settings
 
 ```
@@ -168,7 +168,7 @@ public class MainForm : Form
             var line = EntityFactory.CreateLine(new DVec3(0, 0, 0), new DVec3(10, 10, 0));
             editor.Document.ActAdd(line);
           
-            var text = new EntityFactory.CreateText("Arial", FontStyle.Regular, "SIRIUS3", 10);
+            var text = EntityFactory.CreateText("Arial", FontStyle.Regular, "SIRIUS3", 10);
             editor.Document.ActAdd(text);
             
             // 4. Ready marker
@@ -179,13 +179,13 @@ public class MainForm : Form
     [STAThread]
     static void Main()
     {
-        // Initialize library
+        // Initialize sirius3 library
         SpiralLab.Sirius3.Core.Initialize();
 
-        Application.EnableVisualStyles();
+        ...
         Application.Run(new MainForm());
 
-        // Clean-up library
+        // Clean-up sirius3 library
         SpiralLab.Sirius3.Core.Cleanup();
     }
 }

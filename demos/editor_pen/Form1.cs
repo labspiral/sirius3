@@ -73,6 +73,7 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             document.ActNew();
+            var oldPage = document.ActivePage;
 
             {
                 document.ActivePage = document.DocumentData.Pages[0];
@@ -84,7 +85,7 @@ namespace Demos
                 text.FontVerticalAlignment = StringAlignment.Center;
 
                 var index = 0; //0 means Color.White
-                text.PenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[index];
+                text.PenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[index];
 
                 document.ActivePage?.ActiveLayer?.AddChild(text);
             }
@@ -98,10 +99,12 @@ namespace Demos
                 text.FontVerticalAlignment = StringAlignment.Center;
 
                 var index = 1; //1 means Color.Yellow
-                text.PenColor = SpiralLab.Sirius3.UI.Config.ScannerPenColors[index];
+                text.PenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[index];
 
                 document.ActivePage?.ActiveLayer?.AddChild(text);
             }
+
+            document.ActivePage = oldPage;
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -113,8 +116,8 @@ namespace Demos
             marker.OnMarkLayerPen -= Marker_OnMarkLayerPen;
             marker.OnMarkLayerPen += Marker_OnMarkLayerPen;
 
-            marker.OnMarkScannerPen -= Marker_OnMarkScannerPen;
-            marker.OnMarkScannerPen += Marker_OnMarkScannerPen;
+            marker.OnMarkEntityPen -= Marker_OnMarkEntityPen;
+            marker.OnMarkEntityPen += Marker_OnMarkEntityPen;
         }
 
         private void BtnMarkPage1_Click(object sender, EventArgs e)
@@ -227,7 +230,7 @@ namespace Demos
             return success;
         }
 
-        private bool Marker_OnMarkScannerPen(IMarker marker, EntityScannerPen pen)
+        private bool Marker_OnMarkEntityPen(IMarker marker, EntityPen pen)
         {
             // mark for each scanner pen
             var rtc = marker.Rtc;
