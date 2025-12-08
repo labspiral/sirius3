@@ -1,6 +1,6 @@
 ﻿# Sirius3 version history
 
-## v0.9.3 (2025.11.5)
+## v0.9.3 (2025.12.5)
 - added) zoom to fit 
    - mouse double click at treeview
    - after file has opened
