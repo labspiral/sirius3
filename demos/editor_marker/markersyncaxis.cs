@@ -692,20 +692,24 @@ namespace Demos
             success &= NotifyBeforeEntity(entity);
             if (!success)
             {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark entity at before event handler"); 
+                Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark entity at {entity.ToString()} before event handler");
                 return success;
             }
             if (entity is IMarkerable markerable)
             {
                 success &= markerable.Mark(this);
             }
-  
             if (!success)
             {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark entity at after event handler"); 
+                Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark entity at {entity.ToString()}");
                 return success;
             }
             success &= NotifyAfterEntity(entity);
+            if (!success)
+            {
+                Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark entity at {entity.ToString()} after event handler");
+                return success;
+            }
             return success;
         }
         /// <summary>
