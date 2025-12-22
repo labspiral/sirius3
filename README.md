@@ -6,7 +6,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 ---
 
 ## Highlights
-![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_slicer.png)
+![sirius3_editor](https://spirallab.co.kr/sirius3/sirius3_editor.png)
 
 - SCANLAB RTC Controllers
    - RTC4 / RTC4e / RTC5 / RTC6 / RTC6e
@@ -52,6 +52,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 - Switchable camera: orthographic / perspective
 
 ## Packages / DLLs
+![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_slicer.png)
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS runtime, fonts, sample data
 - `SpiralLab.Sirius3` — HAL controllers (scanner/laser/powermeter, etc.)
 - `SpiralLab.Sirius3.UI` — Entities, 3D renderer, WinForms UI controls
@@ -67,6 +68,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 - SCANLAB drivers/runtimes installed (see versions below)
  
 ## Dependencies
+![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_syncaxis.png)
 - SCANLAB
    - RTC4: v2023.11.02
    - RTC5: v2024.09.27
@@ -198,5 +200,6 @@ public class MainForm : Form
 > Without a license key, the library runs in 30-minute evaluation mode.
 
 ## Version history
-- See HISTORY.md
+- See [HISTORY.md](HISTORY.md)
+
   
