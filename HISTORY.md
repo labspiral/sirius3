@@ -1,6 +1,6 @@
 ﻿# Sirius3 version history
 
-## v1.0.0 (2025.12.22)
+## v1.0.1 (2025.12.22)
 - added) .chm documentation files
 - added) ActExpand 
    - expand(or shrink) contours by distance
@@ -8,6 +8,7 @@
 - updated) PowerMeterOphir by StarLab v3.93
 - fixed) enum for hatch joints 
 - fixed) IDocument.FindByLayerUsedPenColors
+- fixed) more log message for Marker.EntityWork 
  
 ## v0.9.3 (2025.12.5)
 - added) zoom to fit 
