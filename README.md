@@ -115,9 +115,9 @@ PropertyGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
 </ItemGroup>
 
 <ItemGroup>
-	<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="*" />
-	<PackageReference Include="SpiralLab.Sirius3" Version="*" />
-	<PackageReference Include="SpiralLab.Sirius3.UI" Version="*" />
+	<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
+	<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
+	<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
 	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
 	<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
 	<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />

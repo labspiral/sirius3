@@ -951,7 +951,7 @@ namespace Demos
             {
                 var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\gerber\\LED-seven-segment.GBS");
                 if (!File.Exists(fileName)) return;
-                var gerber = new EntityGerber(fileName, SpiralLab.Sirius3.UI.Config.ScannerPenColors[0]);
+                var gerber = new EntityGerber(fileName, SpiralLab.Sirius3.UI.Config.EntityPenColors[0]);
                 gerber.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
                 document.ActivePage?.ActiveLayer?.AddChild(gerber);
             }
@@ -959,7 +959,7 @@ namespace Demos
             {
                 var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\gerber\\TRF7960_EVM (REV A).TOP");
                 if (!File.Exists(fileName)) return;
-                var gerber = new EntityGerber(fileName, SpiralLab.Sirius3.UI.Config.ScannerPenColors[1]);
+                var gerber = new EntityGerber(fileName, SpiralLab.Sirius3.UI.Config.EntityPenColors[1]);
                 gerber.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
                 document.ActivePage?.ActiveLayer?.AddChild(gerber);
             }

@@ -112,7 +112,7 @@ namespace Demos
                 MarkerCtrl.Document = document;
                 PropertyGridCtrl.Document = document;
                 EditorCtrl.Document = document;
-                ScannerPenCtrl.Document = document;
+                EntityPenCtrl.Document = document;
                 LayerPenCtrl.Document = document;
                 PowerMapCtrl.Document = document;
 
@@ -230,11 +230,12 @@ namespace Demos
                 }
 
                 LaserCtrl.Laser = laser;
+                EditorCtrl.Laser = laser;
                 MarkerCtrl.Laser = laser;
                 ManualCtrl.Laser = laser;
                 PowerMeterCtrl.Laser = laser;
                 PowerMapCtrl.Laser = laser;
-                ScannerPenCtrl.Document = document;
+                EntityPenCtrl.Document = document;
             }
         }
 
@@ -643,14 +644,14 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.PowerMapControl PowerMapCtrl => powerMapControl1;
 
         /// <summary>
-        /// Gets the scanner pen control wrapper.
+        /// Gets the entity pen control wrapper.
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
         [Category("Sirius3")]
-        [DisplayName("Scanner PenUserControl")]
-        [Description("Scanner Pen UserControl")]
-        public SpiralLab.Sirius3.UI.WinForms.ScannerPenControl ScannerPenCtrl => scannerPenControl1;
+        [DisplayName("Entity PenUserControl")]
+        [Description("Entity Pen UserControl")]
+        public SpiralLab.Sirius3.UI.WinForms.EntityPenControl EntityPenCtrl => entityPenControl1;
 
         /// <summary>
         /// Gets the layer pen control wrapper.
@@ -792,7 +793,7 @@ namespace Demos
             Invoke(new MethodInvoker(() =>
             {
                 UpdatePowerMap();
-                ScannerPenCtrl.Document = document;
+                EntityPenCtrl.Document = document;
 
                 lblFileName.Text = fileName;
                 PropertyGridCtrl.Refresh();
@@ -1113,7 +1114,7 @@ namespace Demos
         private void PropertyVisibility()
         {
             Debug.Assert(Scanner != null);
-            EntityScannerPen.PropertyVisibility(Scanner);
+            EntityPen.PropertyVisibility(Scanner);
             EntityLayerPen.PropertyVisibility(Scanner);
         }
 
@@ -1141,7 +1142,7 @@ namespace Demos
                 View.IsAllowEdit = isEnable;
                 //RtcDICtrl.Enabled = isEnable;
                 //LaserCtrl.Enabled = isEnable;
-                //ScannerPenCtrl.Enabled = isEnable;
+                //EntityPenCtrl.Enabled = isEnable;
                 //LayerPenCtrl.Enabled = isEnable;
                 //LogCtrl.Enabled = isEnable;
                 //MarkerCtrl.Enabled = isEnable;
@@ -1168,9 +1169,9 @@ namespace Demos
 
             if (null != document && null != powerControl)
             {
-                foreach (var child in document.DocumentData.ScannerPens.Children)
+                foreach (var child in document.DocumentData.EntityPens.Children)
                 {
-                    var pen = child as EntityScannerPen;
+                    var pen = child as EntityPen;
                     pen.PowerMax = laser.MaxPowerWatt;
                     pen.PowerMap = powerControl?.PowerMap;
                 }

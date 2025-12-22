@@ -277,7 +277,7 @@ namespace Demos
                 {
                     default:
                     case "virtual":
-                        var laserVirtualMaxPower = NativeMethods.ReadIni<float>(ConfigFileName, $"LASER{index}", "MAXPOWER", 10);
+                        var laserVirtualMaxPower = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "MAXPOWER", 10);
                         powerMeter = PowerMeterFactory.CreateVirtual(index, laserVirtualMaxPower);
                         break;
                     case "ophirphotonics":
@@ -298,6 +298,9 @@ namespace Demos
                             powerMeter = PowerMeterFactory.CreateThorlabs(index, powerMeterSerialNo);
                         }
                         break;
+                    case "gentec-eo":
+                        powerMeter = PowerMeterFactory.CreateGentecEO(index, powerMeterCOMPort);
+                        break;
                 }
                 success &= powerMeter.Initialize();
                 Debug.Assert(success);
@@ -308,7 +311,7 @@ namespace Demos
 
             #region Initialize Laser source
             var laserType = NativeMethods.ReadIni(ConfigFileName, $"LASER{index}", "TYPE", "Virtual");
-            var laserMaxPower = NativeMethods.ReadIni<float>(ConfigFileName, $"LASER{index}", "MAXPOWER", 10);
+            var laserMaxPower = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "MAXPOWER", 10);
             var laserCOMPort = NativeMethods.ReadIni<int>(ConfigFileName, $"LASER{index}", "COM_PORT", 1);
             var laserIPaddress = NativeMethods.ReadIni<string>(ConfigFileName, $"LASER{index}", "IP_ADDRESS", string.Empty);
             var rtcAnalogPort = NativeMethods.ReadIni<int>(ConfigFileName, $"LASER{index}", "ANALOG_PORT", 1);
@@ -325,26 +328,26 @@ namespace Demos
                             break;
                         case "analog1":
                             {
-                                var voltageMin = NativeMethods.ReadIni<float>(ConfigFileName, $"LASER{index}", "POWERCONTROL_VOLTAGE_MIN", 0);
-                                var voltageMax = NativeMethods.ReadIni<float>(ConfigFileName, $"LASER{index}", "POWERCONTROL_VOLTAGE_MAX", 10);
+                                var voltageMin = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "POWERCONTROL_VOLTAGE_MIN", 0);
+                                var voltageMax = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "POWERCONTROL_VOLTAGE_MAX", 10);
                                 laser = LaserFactory.CreateVirtualAnalog(index, laserMaxPower, 1, voltageMin, voltageMax);
                             }
                             break;
                         case "analog2":
                             {
-                                var voltageMin = NativeMethods.ReadIni<float>(ConfigFileName, $"LASER{index}", "POWERCONTROL_VOLTAGE_MIN", 0);
-                                var voltageMax = NativeMethods.ReadIni<float>(ConfigFileName, $"LASER{index}", "POWERCONTROL_VOLTAGE_MAX", 10);
+                                var voltageMin = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "POWERCONTROL_VOLTAGE_MIN", 0);
+                                var voltageMax = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "POWERCONTROL_VOLTAGE_MAX", 10);
                                 laser = LaserFactory.CreateVirtualAnalog(index, laserMaxPower, 2, voltageMin, voltageMax);
                             }
                             break;
                         case "frequency":
-                            var freqMin = NativeMethods.ReadIni<float>(ConfigFileName, $"LASER{index}", "POWERCONTROL_FREQUENCY_MIN", 40000);
-                            var freqMax = NativeMethods.ReadIni<float>(ConfigFileName, $"LASER{index}", "POWERCONTROL_FREQUENCY_MAX", 50000);
+                            var freqMin = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "POWERCONTROL_FREQUENCY_MIN", 40000);
+                            var freqMax = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "POWERCONTROL_FREQUENCY_MAX", 50000);
                             laser = LaserFactory.CreateVirtualFrequency(index, laserMaxPower, freqMin, freqMax);
                             break;
                         case "dutycycle":
-                            var dutyCycleMin = NativeMethods.ReadIni<float>(ConfigFileName, $"LASER{index}", "POWERCONTROL_DUTYCYCLE_MIN", 0);
-                            var dutyCycleMax = NativeMethods.ReadIni<float>(ConfigFileName, $"LASER{index}", "POWERCONTROL_DUTYCYCLE_MAX", 99);
+                            var dutyCycleMin = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "POWERCONTROL_DUTYCYCLE_MIN", 0);
+                            var dutyCycleMax = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "POWERCONTROL_DUTYCYCLE_MAX", 99);
                             laser = LaserFactory.CreateVirtualDutyCycle(index, laserMaxPower, dutyCycleMin, dutyCycleMax);
                             break;
                         case "digitalbits16":
@@ -412,7 +415,7 @@ namespace Demos
                     powerMeterVirtual.Laser = laser;
                 }
             }
-            var laserPowerControlDelay = NativeMethods.ReadIni<float>(ConfigFileName, $"LASER{index}", "POWERCONTROL_DELAY", 0);
+            var laserPowerControlDelay = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "POWERCONTROL_DELAY", 0);
             laser.PowerControlDelayTime = laserPowerControlDelay;
             
             // Initialize PowerMap 
@@ -448,7 +451,7 @@ namespace Demos
             Debug.Assert(success);
 
             // Set Default Power
-            var laserDefaultPower = NativeMethods.ReadIni<float>(ConfigFileName, $"LASER{index}", "DEFAULT_POWER", 1);
+            var laserDefaultPower = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "DEFAULT_POWER", laserMaxPower * 0.05);
             if (null != powerControl)
                 success &= powerControl.CtlPower(laserDefaultPower);
             Debug.Assert(success);
