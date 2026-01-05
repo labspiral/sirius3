@@ -1,7 +1,7 @@
 ﻿# Sirius3 version history
 
 
-## v1.2.0 (2026.1.5)
+## v1.2.2 (2026.1.5)
 - added) shortcuts
    - CTRL + R: toggle allow to render
    - CTRL + M: toggle allow to mark
