@@ -47,7 +47,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 | Render mode                  |Model, PerVertex, Normal, ZDepth          |None                                   |
 | HitTest speed                |Faster by AABBTree                        |Slow                                   |
 | Hatch                        |Multiple Hatches                          |Single Hatch                           |
-| 3D Mesh with slicer          |Built-in Slicer  forPLY, OBJ, STL         |None                                   |
+| 3D Mesh with slicer          |Built-in Slicer for PLY, OBJ, STL         |None                                   |
 | Gerber file(RS-274x)         |Supported                                 |None                                   |
 | Wafer/Substrate map          |Built-in editor                           |None                                   |
 | Font file                    |General CXF, LFF formats                  |Customized CXF, LFF formats            |
