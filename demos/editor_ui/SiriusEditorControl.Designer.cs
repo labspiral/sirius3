@@ -57,7 +57,7 @@
             this.mnuIncludeBlocks = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuIncludeLayerPens = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuIncludeScannerPens = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuIncludeEntityPens = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuIncludeWafers = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuIncludeSubstrates = new System.Windows.Forms.ToolStripMenuItem();
@@ -364,7 +364,7 @@
             this.mnuIncludeBlocks,
             this.toolStripMenuItem1,
             this.mnuIncludeLayerPens,
-            this.mnuIncludeScannerPens,
+            this.mnuIncludeEntityPens,
             this.toolStripMenuItem3,
             this.mnuIncludeWafers,
             this.mnuIncludeSubstrates});
@@ -450,14 +450,14 @@
             // 
             // mnuIncludeScannerPens
             // 
-            this.mnuIncludeScannerPens.Checked = true;
-            this.mnuIncludeScannerPens.CheckOnClick = true;
-            this.mnuIncludeScannerPens.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.mnuIncludeScannerPens.Image = global::Demos.Properties.Resources.Index;
-            this.mnuIncludeScannerPens.Name = "mnuIncludeScannerPens";
-            this.mnuIncludeScannerPens.Size = new System.Drawing.Size(202, 34);
-            this.mnuIncludeScannerPens.Text = "Scanner Pens";
-            this.mnuIncludeScannerPens.ToolTipText = "Include Scanner Pens";
+            this.mnuIncludeEntityPens.Checked = true;
+            this.mnuIncludeEntityPens.CheckOnClick = true;
+            this.mnuIncludeEntityPens.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mnuIncludeEntityPens.Image = global::Demos.Properties.Resources.Index;
+            this.mnuIncludeEntityPens.Name = "mnuIncludeScannerPens";
+            this.mnuIncludeEntityPens.Size = new System.Drawing.Size(202, 34);
+            this.mnuIncludeEntityPens.Text = "Scanner Pens";
+            this.mnuIncludeEntityPens.ToolTipText = "Include Scanner Pens";
             // 
             // toolStripMenuItem3
             // 
@@ -1304,7 +1304,7 @@
         private ToolStripMenuItem mnuIncludeBlocks;
         private ToolStripSeparator toolStripMenuItem1;
         private ToolStripMenuItem mnuIncludeLayerPens;
-        private ToolStripMenuItem mnuIncludeScannerPens;
+        private ToolStripMenuItem mnuIncludeEntityPens;
         private ToolStripSeparator toolStripMenuItem3;
         private ToolStripMenuItem mnuIncludeWafers;
         private ToolStripMenuItem mnuIncludeSubstrates;

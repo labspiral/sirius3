@@ -33,8 +33,8 @@
             this.btnEventHandler = new System.Windows.Forms.Button();
             this.btnSimpleScript = new System.Windows.Forms.Button();
             this.btnExternalFile = new System.Windows.Forms.Button();
-            this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
             this.btnOffset = new System.Windows.Forms.Button();
+            this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,19 +73,28 @@
             // 
             this.btnSimpleScript.Location = new System.Drawing.Point(273, 3);
             this.btnSimpleScript.Name = "btnSimpleScript";
-            this.btnSimpleScript.Size = new System.Drawing.Size(109, 42);
+            this.btnSimpleScript.Size = new System.Drawing.Size(140, 42);
             this.btnSimpleScript.TabIndex = 2;
             this.btnSimpleScript.Text = "Simple Script";
             this.btnSimpleScript.UseVisualStyleBackColor = true;
             // 
             // btnExternalFile
             // 
-            this.btnExternalFile.Location = new System.Drawing.Point(388, 3);
+            this.btnExternalFile.Location = new System.Drawing.Point(419, 3);
             this.btnExternalFile.Name = "btnExternalFile";
-            this.btnExternalFile.Size = new System.Drawing.Size(122, 42);
+            this.btnExternalFile.Size = new System.Drawing.Size(140, 42);
             this.btnExternalFile.TabIndex = 3;
             this.btnExternalFile.Text = "External File";
             this.btnExternalFile.UseVisualStyleBackColor = true;
+            // 
+            // btnOffset
+            // 
+            this.btnOffset.Location = new System.Drawing.Point(565, 3);
+            this.btnOffset.Name = "btnOffset";
+            this.btnOffset.Size = new System.Drawing.Size(240, 42);
+            this.btnOffset.TabIndex = 4;
+            this.btnOffset.Text = "Offset with Extension Data";
+            this.btnOffset.UseVisualStyleBackColor = true;
             // 
             // siriusEditorControl1
             // 
@@ -107,15 +116,6 @@
             this.siriusEditorControl1.Scanner = null;
             this.siriusEditorControl1.Size = new System.Drawing.Size(2254, 1590);
             this.siriusEditorControl1.TabIndex = 2;
-            // 
-            // btnOffset
-            // 
-            this.btnOffset.Location = new System.Drawing.Point(516, 3);
-            this.btnOffset.Name = "btnOffset";
-            this.btnOffset.Size = new System.Drawing.Size(122, 42);
-            this.btnOffset.TabIndex = 4;
-            this.btnOffset.Text = "Offset";
-            this.btnOffset.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 

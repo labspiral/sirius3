@@ -1,5 +1,22 @@
 ﻿# Sirius3 version history
 
+
+## v1.2.0 (2026.1.5)
+- added) shortcuts
+   - CTRL + R: toggle allow to render
+   - CTRL + M: toggle allow to mark
+   - change node font (or color) when toggle allow to render or mark 
+- added) IRtcFreeVariable.OnFreeVariableChanged event
+   - raised when FreeVariable value has changed
+- added) Config.GridCloudInterval
+   - used when IDocument.ActGridCloud has called
+- fixed) speed up for parse gerber file
+- fixed) hittest with more detail information
+   - IDocument.SubHitEntities
+   - IDocument.HitTestRayHitInfos
+   - IDocument.HitTestFrustumHitInfos
+- fixed) invalid exception when do ActUngroup by empty node
+
 ## v1.0.1 (2025.12.22)
 - added) .chm documentation files
 - added) ActExpand 

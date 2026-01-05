@@ -39,20 +39,26 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - Editor and laser-source control code are open for customization
 
 ## Major Changes
+|                              |                SIRIUS3                   |              SIRIUS2                  |
+|:-----------------------------|:-----------------------------------------|:--------------------------------------|
+| Multiple page                |4 Pages                                   |1 Page(Single)                         |
+| Camera                       |6 Built-in Cameras                        |Perspective                            |
+| Render speed                 |Fastest by updated shader engine          |Faster                                 |
+| Render mode                  |Model, PerVertex, Normal, ZDepth          |None                                   |
+| HitTest speed                |Faster by AABBTree                        |Slow                                   |
+| Hatch                        |Multiple Hatches                          |Single Hatch                           |
+| 3D Mesh with slicer          |Built-in Slicer  forPLY, OBJ, STL         |None                                   |
+| Gerber file(RS-274x)         |Supported                                 |None                                   |
+| Wafer/Substrate map          |Built-in editor                           |None                                   |
+| Font file                    |General CXF, LFF formats                  |Customized CXF, LFF formats            |
+| Pen                          |Pens for Entity and Layer                 |Single Pen                             |
+| Library update               |By Nuget Package Manager                  |None                                   |
+                                                                                                              
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_hatch.png)
-
-- Faster rendering with updated shader engine
-- 3D-printer features: slicer integration and contour extraction
-- Multiple hatch patterns with path optimizer
-- Scanner, layer pen property system
-- Various rendering modes (per-vertex, Z-depth, etc.)
-- Multi-page documents
-- Built-in wafer, substrate editor
-- Built-in gerber file format(RS-274x) editor
-- Switchable camera: orthographic / perspective
+![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_slicer.png)
+![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_syncaxis.png)
 
 ## Packages / DLLs
-![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_slicer.png)
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS runtime, fonts, sample data
 - `SpiralLab.Sirius3` — HAL controllers (scanner/laser/powermeter, etc.)
 - `SpiralLab.Sirius3.UI` — Entities, 3D renderer, WinForms UI controls
@@ -68,7 +74,6 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 - SCANLAB drivers/runtimes installed (see versions below)
  
 ## Dependencies
-![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_syncaxis.png)
 - SCANLAB
    - RTC4: v2023.11.02
    - RTC5: v2024.09.27
@@ -97,7 +102,6 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 
 ## Quick Start
 Project settings
-
 ```
 <PropertyGroup Condition="'$(TargetFramework)'=='net481'">
 	<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
@@ -127,7 +131,6 @@ PropertyGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
 ```
 
 Example code
-
 ```
 #if OPENTK3
     using OpenTK;
@@ -201,5 +204,7 @@ public class MainForm : Form
 
 ## Version history
 - See [HISTORY.md](HISTORY.md)
+- 한국어 이력 정보 [HISTORY.krKR.md](HISTORY.koKR.md)
 
-  
+
+ 

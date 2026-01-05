@@ -74,8 +74,9 @@ namespace Demos
 
         #region Public Bindable Properties
         /// <summary>
-        /// Gets or sets the editor name
-        /// <para>현재 편집기의 이름을 가져오거나 설정합니다. </para>
+        /// Gets or sets the editor name.
+        /// <para>현재 편집기의 이름을 가져오거나 설정합니다.</para>
+        /// <para>获取或设置编辑器名称。</para>
         /// </summary>
         public string AliasName
         {
@@ -635,6 +636,8 @@ namespace Demos
 
         /// <summary>
         /// Gets the power map control wrapper.
+        /// <para>파워 맵 컨트롤 래퍼를 가져옵니다.</para>
+        /// <para>获取功率映射控件包装器。</para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -645,6 +648,8 @@ namespace Demos
 
         /// <summary>
         /// Gets the entity pen control wrapper.
+        /// <para>엔티티 펜 컨트롤 래퍼를 가져옵니다.</para>
+        /// <para>获取实体笔控件包装器。</para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -655,6 +660,8 @@ namespace Demos
 
         /// <summary>
         /// Gets the layer pen control wrapper.
+        /// <para>레이어 펜 컨트롤 래퍼를 가져옵니다.</para>
+        /// <para>获取图层笔控件包装器。</para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -665,6 +672,8 @@ namespace Demos
 
         /// <summary>
         /// Gets the log control.
+        /// <para>로그 컨트롤을 가져옵니다.</para>
+        /// <para>获取日志控件。</para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -1124,7 +1133,7 @@ namespace Demos
         /// <para>마커가 사용 중일 때 편집 관련 컨트롤을 활성화하거나 비활성화합니다.</para>
         /// <para>当标记器忙碌时，启用或禁用与编辑相关的控件。</para>
         /// </summary>
-        /// <param name="isEnable">True to enable; false to disable.</param>
+        /// <param name="isEnable">True to enable; false to disable. <para>활성화하려면 true, 비활성화하려면 false입니다.</para> <para>如果要启用则为 true；如果要禁用则为 false。</para></param>
         public virtual void ControlEnableOrNot(bool isEnable)
         {
             if (!IsHandleCreated || IsDisposed) return;
@@ -1161,7 +1170,9 @@ namespace Demos
         }
 
         /// <summary>
-        /// Update laser and powermap information at scanner pens
+        /// Update laser and powermap information at entity pens.
+        /// <para>엔티티 펜의 레이저 및 파워 맵 정보를 업데이트합니다.</para>
+        /// <para>更新实体笔处的激光和功率映射信息。</para>
         /// </summary>
         private void UpdatePowerMap()
         {
@@ -1263,7 +1274,7 @@ namespace Demos
             bool includePage3 = mnuIncludePage3.Checked;
             bool includePage4 = mnuIncludePage4.Checked;
             bool includeBlocks = mnuIncludeBlocks.Checked;
-            bool includeScannerPens = mnuIncludeScannerPens.Checked;
+            bool includeEntityPens = mnuIncludeEntityPens.Checked;
             bool includeLayerPens = mnuIncludeLayerPens.Checked;
             bool includeWafers = mnuIncludeWafers.Checked;
             bool includeSubstrates = mnuIncludeSubstrates.Checked;
@@ -1274,7 +1285,7 @@ namespace Demos
                 includePage3,
                 includePage4,
                 includeBlocks,
-                includeScannerPens,
+                includeEntityPens,
                 includeLayerPens,
                 includeWafers,
                 includeSubstrates);
@@ -1314,7 +1325,7 @@ namespace Demos
             bool includeLayers = mnuIncludePage1.Checked;
             bool includeLayers2nd = mnuIncludePage2.Checked;
             bool includeBlocks = mnuIncludeBlocks.Checked;
-            bool includeScannerPens = mnuIncludeScannerPens.Checked;
+            bool includeEntityPens = mnuIncludeEntityPens.Checked;
             bool includeLayerPens = mnuIncludeLayerPens.Checked;
             bool includeWafers = mnuIncludeWafers.Checked;
             bool includeSubstrates = mnuIncludeSubstrates.Checked;
@@ -1324,7 +1335,7 @@ namespace Demos
                 includeLayers,
                 includeLayers2nd,
                 includeBlocks,
-                includeScannerPens,
+                includeEntityPens,
                 includeLayerPens,
                 includeWafers,
                 includeSubstrates);
@@ -1354,8 +1365,12 @@ namespace Demos
         }
 
         /// <summary>
-        /// Toggles allow to edit(lock) at view or not
+        /// Toggles allow to edit(lock) at view or not.
+        /// <para>뷰에서의 편집 허용(잠금) 여부를 토글합니다.</para>
+        /// <para>切换是否允许在视图中编辑（锁定）。</para>
         /// </summary>
+        /// <param name="sender">The source of the event. <para>이벤트 소스입니다.</para> <para>事件源。</para></param>
+        /// <param name="e">An <see cref="EventArgs"/> that contains the event data. <para>이벤트 데이터를 포함하는 <see cref="EventArgs"/>입니다.</para> <para>包含事件数据的 <see cref="EventArgs"/>。</para></param>
         private void BtnLock_Click(object sender, EventArgs e)
         {
             ControlEnableOrNot(!btnLock.Checked);

@@ -49,6 +49,8 @@ namespace Demos
 {
     /// <summary>
     /// MyMarkerRtc
+    /// <para>RTC용 마커입니다.</para>
+    /// <para>RTC 标记器。</para>
     /// </summary>
     /// <remarks>
     /// Used with RTC4,4e,5,6,6e <br/>
@@ -60,27 +62,38 @@ namespace Demos
     {
         /// <summary>
         /// Mark targets
+        /// <para>마크 대상</para>
+        /// <para>标记目标</para>
         /// </summary>
         public enum MarkTargets
         {
             /// <summary>
             /// All entities
+            /// <para>모든 엔티티</para>
+            /// <para>所有实体</para>
             /// </summary>
             All = 0,
             /// <summary>
             /// Selected entities
+            /// <para>선택된 엔티티</para>
+            /// <para>选定的实体</para>
             /// </summary>
             Selected = 1,
         }
 
         /// <summary>
         /// Mark procedures
+        /// <para>마크 절차</para>
+        /// <para>标记过程</para>
         /// </summary>
         public enum MarkProcedures
         {
             /// <summary>
             /// Order of marks: Mark Page1(s) at Offset1 -> Mark Page1(s) at Offset2, ...
-            /// <code>
+            /// <para>마크 순서: 오프셋1에서 페이지1 마크 -> 오프셋2에서 페이지1 마크, ...</para>
+            /// <para>标记顺序：在偏移量1处标记页面1 -> 在偏移量2处标记页面1，...</para>
+            /// <example>
+            /// <code language="C#">
             /// //Pseudo codes
             /// for (int i = 0; i &lt; Offsets.Length; i++)
             /// {
@@ -98,6 +111,7 @@ namespace Demos
             ///     }
             /// }
             /// </code>
+            /// </example>
             /// <remarks>
             /// Default: <see cref="MarkProcedures.LayerFirst">MarkProcedures.LayerFirst</see> <br/>
             /// </remarks>
@@ -105,7 +119,10 @@ namespace Demos
             LayerFirst = 0,
             /// <summary>
             /// Order of marks: Mark Page2 at Offset(s) -> Mark Page2 at Offset(s), ... 
-            /// <code>
+            /// <para>마크 순서: 오프셋에서 페이지2 마크 -> 오프셋에서 페이지2 마크, ...</para>
+            /// <para>标记顺序：在偏移量处标记页面2 -> 在偏移量处标记页面2，...</para>
+            /// <example>
+            /// <code language="C#">
             /// //Pseudo codes
             /// for (int j = 0; j &lt; Layers.Count; j++)
             /// {
@@ -122,12 +139,15 @@ namespace Demos
             ///     Rtc.ListExecute(true);
             /// }
             /// </code>
+            /// </example>
             /// </summary>
             OffsetFirst = 1,
         }
 
         /// <summary>
         /// Target entities to mark
+        /// <para>마크할 대상 엔티티</para>
+        /// <para>要标记的目标实体</para>
         /// </summary>
         /// <remarks>
         /// Default: <see cref="MarkTargets.All">MarkTargets.All</see> <br/>
@@ -156,11 +176,15 @@ namespace Demos
         }
         /// <summary>
         /// Internal <c>MarkTargets</c>
+        /// <para>내부 <c>MarkTargets</c></para>
+        /// <para>内部 <c>MarkTargets</c></para>
         /// </summary>
         protected MarkTargets markTarget = MarkTargets.All;
 
         /// <summary>
         /// Mark procedure
+        /// <para>마크 절차</para>
+        /// <para>标记过程</para>
         /// </summary>
         /// <remarks>
         /// Default: <see cref="MarkProcedures.LayerFirst">MarkProcedures.LayerFirst</see> <br/>
@@ -189,11 +213,15 @@ namespace Demos
         }
         /// <summary>
         /// Internal <c>MarkProcedures</c>
+        /// <para>내부 <c>MarkProcedures</c></para>
+        /// <para>内部 <c>MarkProcedures</c></para>
         /// </summary>
         protected MarkProcedures markProcedure = MarkProcedures.LayerFirst;
 
         /// <summary>
         /// <c>ListBufferTypes</c>
+        /// <para><c>ListBufferTypes</c></para>
+        /// <para><c>ListBufferTypes</c></para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -201,21 +229,24 @@ namespace Demos
         [LocalizedDisplayName("ListBufferType")]
         [LocalizedDescription("ListBufferType")]
         public virtual ListBufferTypes ListBufferType
-        { 
+        {
             get { return listType; }
-            set {
+            set
+            {
                 if (this.IsBusy)
                 {
                     Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to set list type during busy");
                     return;
                 }
-                listType = value; 
+                listType = value;
             }
         }
         private ListBufferTypes listType;
 
         /// <summary>
         /// Array of <see cref="MeasurementSession">MeasurementSession</see> 
+        /// <para><see cref="MeasurementSession">MeasurementSession</see> 배열</para>
+        /// <para><see cref="MeasurementSession">MeasurementSession</see> 数组</para>
         /// </summary>
         /// <remarks>
         /// Session = <see cref="EntityMeasurementBegin">EntityMeasurementBegin</see> + <see cref="EntityMeasurementEnd">EntityMeasurementEnd</see> <br/>
@@ -229,14 +260,18 @@ namespace Demos
         [JsonIgnore]
         public virtual MeasurementSession[] Session
         {
-            get { return sessionQueue.ToArray(); }            
+            get { return sessionQueue.ToArray(); }
         }
         /// <summary>
         /// Queue for <see cref="MeasurementSession">MeasurementSession</see> 
+        /// <para><see cref="MeasurementSession">MeasurementSession</see> 큐</para>
+        /// <para><see cref="MeasurementSession">MeasurementSession</see> 队列</para>
         /// </summary>
         protected ConcurrentQueue<MeasurementSession> sessionQueue = new ConcurrentQueue<MeasurementSession>();
         /// <summary>
         /// Current (or last measurement session)
+        /// <para>현재(또는 마지막) 측정 세션</para>
+        /// <para>当前（或上一个）测量会话</para>
         /// </summary>
         /// <remarks>
         /// Valid when a pair of <see cref="EntityMeasurementBegin">EntityMeasurementBegin</see> and <see cref="EntityMeasurementEnd">EntityMeasurementEnd</see> has executed. <br/>
@@ -246,16 +281,19 @@ namespace Demos
 
         /// <summary>
         /// Is plot measurement session to graph or not
+        /// <para>측정 세션을 그래프로 그릴지 여부</para>
+        /// <para>是否将测量会话绘制到图表</para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
         [LocalizedCategory("Measurement")]
         [LocalizedDisplayName("IsMeasurementPlot")]
         [LocalizedDescription("IsMeasurementPlot")]
-        public virtual bool IsMeasurementPlot 
-        { 
-            get { return isMeasurementPlot; } 
-            set { 
+        public virtual bool IsMeasurementPlot
+        {
+            get { return isMeasurementPlot; }
+            set
+            {
                 if (!File.Exists(SpiralLab.Sirius3.Config.MeasurementGNUPlotProgramPath))
                 {
                     if (DialogResult.Yes == MessageBox.Show($"gnuplot program is not exist at '{SpiralLab.Sirius3.Config.MeasurementGNUPlotProgramPath}'.{Environment.NewLine}Press 'Yes' to open downloadable webpage", "Warning", MessageBoxButtons.YesNo))
@@ -263,15 +301,19 @@ namespace Demos
                     return;
                 }
                 isMeasurementPlot = value;
-            } 
+            }
         }
         /// <summary>
         /// Is plot measurement session to graph or not
+        /// <para>측정 세션을 그래프로 그릴지 여부</para>
+        /// <para>是否将测量会话绘制到图表</para>
         /// </summary>
         protected bool isMeasurementPlot;
 
         /// <summary>
         /// Max measurement time
+        /// <para>최대 측정 시간</para>
+        /// <para>最大测量时间</para>
         /// </summary>
         /// <remarks>
         /// RTC Max measurement time
@@ -302,6 +344,8 @@ namespace Demos
         }
         /// <summary>
         /// Check scanner temperature when start of mark
+        /// <para>마크 시작 시 스캐너 온도 확인</para>
+        /// <para>标记开始时检查扫描仪温度</para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -311,6 +355,8 @@ namespace Demos
         public virtual bool IsCheckTempOk { get; set; }
         /// <summary>
         /// Check scanner power supply when start of mark
+        /// <para>마크 시작 시 스캐너 전원 공급 확인</para>
+        /// <para>标记开始时检查扫描仪电源</para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -320,6 +366,8 @@ namespace Demos
         public virtual bool IsCheckPowerOk { get; set; }
         /// <summary>
         /// Check scanner position acknowledge when start of mark
+        /// <para>마크 시작 시 스캐너 위치 확인</para>
+        /// <para>标记开始时检查扫描仪位置确认</para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -330,10 +378,14 @@ namespace Demos
 
         /// <summary>
         /// Internal marker thread 
+        /// <para>내부 마커 스레드</para>
+        /// <para>内部标记器线程</para>
         /// </summary>
         protected Thread thread;
         /// <summary>
         /// List of layers to mark
+        /// <para>마킹할 레이어 목록</para>
+        /// <para>要标记的图层列表</para>
         /// </summary>
         protected List<EntityLayer> layers;
         private bool disposed = false;
@@ -366,8 +418,8 @@ namespace Demos
         /// <code>
         /// </code>
         /// </summary>
-        /// <param name="index">The index of the marker.</param>
-        /// <param name="name">The name of the marker.</param>
+        /// <param name="index">The index of the marker. <para>마커의 인덱스입니다.</para> <para>标记的索引。</para></param>
+        /// <param name="name">The name of the marker. <para>마커의 이름입니다.</para> <para>标记的名称。</para></param>
         public MyMarkerRtc(int index, string name)
             : this()
         {
@@ -392,7 +444,6 @@ namespace Demos
             {
                 if (disposing)
                 {
-                    //this.Stop();
                 }
                 this.disposed = true;
             }
@@ -405,7 +456,7 @@ namespace Demos
             return true;
         }
         /// <inheritdoc/>
-        public override bool Ready(IDocument document, IView view, IRtc rtc, ILaser laser, IPowerMeter powerMeter)
+        public override bool Ready(IDocument document, IView view, IRtc rtc, ILaser laser, IPowerMeter powerMeter)//, IRemote remote)
         {
             if (this.IsBusy)
             {
@@ -418,6 +469,7 @@ namespace Demos
             base.Rtc = rtc;
             base.Laser = laser;
             base.PowerMeter = powerMeter;
+            //base.Remote = remote;
 
             if (rtc is IRtcSyncAxis rtcSyncAxis)
             {
@@ -427,7 +479,7 @@ namespace Demos
             }
 
             document?.ActRegen();
-            Logger.Log(LogLevel.Debug, $"marker [{Index}]: ready with doc= {document?.FileName}, view= {view?.Name}, rtc= {rtc?.Name}, laser= {laser?.Name}, pm= {powerMeter?.Name}");
+            Logger.Log(LogLevel.Debug, $"marker [{Index}]: ready with doc= {document?.FileName}, view= {view?.Name}, rtc= {rtc?.Name}, laser= {laser?.Name}, pm= {powerMeter?.Name}");// , remote= {remote?.Name}");
             return true;
         }
         /// <inheritdoc/>
@@ -443,7 +495,7 @@ namespace Demos
             Logger.Log(LogLevel.Debug, $"marker [{Index}]: ready with doc= {document?.FileName}");
             return true;
         }
-       
+
         /// <inheritdoc/>
         public override bool Start(DocumentPages page = DocumentPages.Page1)
         {
@@ -472,7 +524,7 @@ namespace Demos
                 Logger.Log(LogLevel.Error, $"marker [{Index}]: is not ready yet");
                 return false;
             }
-           
+
 
             var rtc = this.Rtc;
             var laser = this.Laser;
@@ -683,7 +735,7 @@ namespace Demos
                         success = false;
                         Logger.Log(LogLevel.Error, $"marker [{Index}]: waiting for stop but timed out");
                         // Timed out
-                        break; 
+                        break;
                     }
                 }
                 while (true);
@@ -834,7 +886,7 @@ namespace Demos
             Debug.Assert(null == rtcSyncAxis);
             this.isInternalBusy = true;
             this.NotifyStarted();
-            WorkingSet.StartTime = WorkingSet.EndTime = DateTime.Now;            
+            WorkingSet.StartTime = WorkingSet.EndTime = DateTime.Now;
             bool success = true;
             var oldMatrixStack = (IMatrixStack<DMat4>)rtc.MatrixStack.Clone();
             if (null != rtcMoF && rtc.IsMoF)
@@ -854,24 +906,24 @@ namespace Demos
                     var layer = layers[j];
                     if (!layer.IsAllowMark)
                         continue;
-                    success &= base.NotifyBeforeLayer(layer);
+                    success &= NotifyBeforeLayer(layer);
                     if (!success)
                     {
-                        Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at before event handler"); 
+                        Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at before event handler");
                         break;
                     }
-                    
+
                     success &= layer.Mark(this);
                     if (!success)
                         break;
                     success &= rtc.ListBegin(ListBufferType);
                     success &= laser.ListBegin();
                     success &= LayerWork(i, Offsets[i], j, layer);
-                    if (success) 
+                    if (success) //!rtc.CtlGetStatus(RtcStatus.Aborted))
                     {
                         success &= laser.ListEnd();
                         success &= rtc.ListEnd();
-                        if (success) 
+                        if (success) //!rtc.CtlGetStatus(RtcStatus.Aborted))
                             success &= rtc.ListExecute(true);
                         if (success)
                         {
@@ -897,12 +949,12 @@ namespace Demos
                     success &= NotifyAfterLayer(layer);
                     if (!success)
                     {
-                        Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at after event handler"); 
+                        Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at after event handler");
                         break;
                     }
                 }
                 // Pop offset matrix
-                rtc.MatrixStack.Pop(); 
+                rtc.MatrixStack.Pop();
                 if (!success)
                     break;
             }
@@ -997,10 +1049,10 @@ namespace Demos
                 var layer = layers[j];
                 if (!layer.IsAllowMark)
                     continue;
-                success &= base.NotifyBeforeLayer(layer);
+                success &= NotifyBeforeLayer(layer);
                 if (!success)
                 {
-                    Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at before event handler"); 
+                    Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at before event handler");
                     break;
                 }
                 success &= layer.Mark(this);
@@ -1068,7 +1120,7 @@ namespace Demos
                 success &= NotifyAfterLayer(layer);
                 if (!success)
                 {
-                    Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at after event handler"); 
+                    Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at after event handler");
                     break;
                 }
             }
@@ -1139,6 +1191,7 @@ namespace Demos
             double realHeight;
             double realDepth;
             DVec3 realCenter;
+            //if (EntityTransformBase.CalcuateModelMinMax(document.Selected, out var realMin, out var realMax))
             if (EntityTransformBase.CalcuateRealMinMax(document.Selected, out var realMin, out var realMax))
             {
                 realWidth = realMax.X - realMin.X;
@@ -1162,14 +1215,14 @@ namespace Demos
             success &= laser.ListBegin();
             success &= rtc.ListSpeed(SpiralLab.Sirius3.UI.Config.MarkPreviewSpeed, SpiralLab.Sirius3.UI.Config.MarkPreviewSpeed);
             for (int j = 0; j < SpiralLab.Sirius3.UI.Config.MarkPreviewRepeats; j++)
-            { 
+            {
                 for (int i = 0; i < Offsets.Length; i++)
                 {
                     try
                     {
                         // Push offset matrix
                         rtc.MatrixStack.Push(Offsets[i].ToMatrix);
-                        // Rectangle by bouding box 
+                        // Draw Rectangle by bounding box 
                         // 2 1
                         // 3 4
                         success &= rtc.ListJumpTo(new DVec2(realMax.X, realMax.Y));
@@ -1177,6 +1230,22 @@ namespace Demos
                         success &= rtc.ListMarkTo(new DVec2(realMin.X, realMin.Y));
                         success &= rtc.ListMarkTo(new DVec2(realMax.X, realMin.Y));
                         success &= rtc.ListMarkTo(new DVec2(realMax.X, realMax.Y));
+                        //or
+                        //success &= rtc.ListJumpTo(vertices[0].ToNumeric());
+                        //for (int k = 1; k < vertices.Length; k++)
+                        //{
+                        //    success &= rtc.ListMarkTo(vertices[k].ToNumeric());
+                        //    if (!success)
+                        //        break;
+                        //}
+
+                        //or
+                        //foreach(var e in document.Selected)
+                        //{
+                        //    success &= e.BBox.Mark(this);
+                        //    if (!success)
+                        //        break;
+                        //}
                     }
                     finally
                     {
