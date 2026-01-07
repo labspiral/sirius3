@@ -1,7 +1,6 @@
 ﻿# Sirius3 version history
 
-
-## v1.2.2 (2026.1.5)
+## v1.2.4 (2026.1.7)
 - added) shortcuts
    - CTRL + R: toggle allow to render
    - CTRL + M: toggle allow to mark
@@ -13,8 +12,7 @@
 - fixed) speed up for parse gerber file
 - fixed) hittest with more detail information
    - IDocument.SubHitEntities
-   - IDocument.HitTestRayHitInfos
-   - IDocument.HitTestFrustumHitInfos
+- added) another ActHitTest function 
 - fixed) invalid exception when do ActUngroup by empty node
 
 ## v1.0.1 (2025.12.22)

@@ -1,6 +1,6 @@
 ﻿# Sirius3 버전 이력
 
-## v1.2.2 (2026.1.5)
+## v1.2.4 (2026.1.7)
 - added) 단축키 추가
    - CTRL + R: 렌더링 여부를 토글
    - CTRL + M: 마킹 여부를 토글
@@ -12,8 +12,7 @@
 - fixed) 거버 파일 파서의 성능이 향상(시간 단축)됨
 - fixed) 개체 선택(hittest)시 보다 자세한 정보를 제공
    - IDocument.SubHitEntities 은 그룹 구조의 선택시 하부 개체들을 반환
-   - IDocument.HitTestRayHitInfos 은 레이 선택시 보다 자세한 정보를 반환
-   - IDocument.HitTestFrustumHitInfos 은 프러스텀 선택시 보다 자세한 정보를 반환
+- added) 신규 ActHitTest 함수 추가
 - fixed) ActUngroup 사용시 잘못된 빈 트리노드로 인한 예외 해결
 
 ## v1.0.1 (2025.12.22)

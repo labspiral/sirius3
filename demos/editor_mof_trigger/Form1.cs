@@ -105,8 +105,9 @@ namespace Demos
             // 이후 스캐너의 이동에 실시간 입력되는 외부 엔코더값을 추가(+) 해주는것을 시작하는
             // 제어용 MoF 시작 객체 추가
             // Also, need to MoF option at library option.
-            Core.License(out var licenseInfo);
-            Debug.Assert(licenseInfo.IsMoFLicensed);
+            //Debug.Assert(rtc.IsMoF);
+            //Core.License(out var licenseInfo);
+            //Debug.Assert(licenseInfo.IsMoFLicensed);
 
             var mofBegin = EntityFactory.CreateMoFBegin(RtcMoFModes.XY, true);
             document.ActivePage?.ActiveLayer?.AddChild(mofBegin);

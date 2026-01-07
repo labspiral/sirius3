@@ -8,6 +8,7 @@
 	<LangVersion>latest</LangVersion>	  
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
+	<GenerateResourceWarnOnBinaryFormatterUse>false</GenerateResourceWarnOnBinaryFormatterUse>
     <ImplicitUsings>enable</ImplicitUsings>
 	<RootNamespace>Demos</RootNamespace>
 	<OutputPath>..\..\bin\</OutputPath>

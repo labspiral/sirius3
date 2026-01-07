@@ -81,8 +81,9 @@ namespace Demos
             // Create mof begin 
             // with encoder reset
             // Also, need to MoF at library option.
-            Core.License(out var licenseInfo);
-            Debug.Assert(licenseInfo.IsMoFLicensed);
+            //Debug.Assert(rtc.IsMoF);
+            //Core.License(out var licenseInfo);
+            //Debug.Assert(licenseInfo.IsMoFLicensed);
 
             var mofBegin = EntityFactory.CreateMoFBegin(RtcMoFModes.XY, true);
             document.ActivePage?.ActiveLayer?.AddChild(mofBegin);

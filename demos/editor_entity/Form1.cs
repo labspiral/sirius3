@@ -1147,6 +1147,10 @@ namespace Demos
         /// </summary>
         private void gerber_testcase(IDocument document)
         {
+
+            //SpiralLab.Sirius3.UI.Config.IsGerberPrecombinePolygons = true;
+            //SpiralLab.Sirius3.UI.Config.IsGerberTessellation = true;
+            //SpiralLab.Sirius3.UI.Config.IsGerberWithUniformGroup = true;
             var rng = new Random((int)DateTime.Now.Ticks);
 
             {
