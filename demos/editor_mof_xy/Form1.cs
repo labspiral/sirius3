@@ -135,13 +135,13 @@ namespace Demos
             double x5 = -20;
             var mofWait5 = EntityFactory.CreateMoFWait(RtcEncoders.EncX, RtcEncoderWaitConditions.Over, -x5);
             document.ActivePage?.ActiveLayer?.AddChild(mofWait5);
-            var dataMatrix = EntityFactory.CreateDataMatrix("SIRIUS2", EntityBarcode2DBase.Barcode2DCells.Outline, 4, 4);
+            var dataMatrix = EntityFactory.CreateDataMatrix("SIRIUS3", EntityBarcode2DBase.Barcode2DCells.Outline, 4, 4);
             dataMatrix.RotateZ(90);
             dataMatrix.Name = "MyBarcode1";
             dataMatrix.Translate(x5, -10);
             document.ActivePage?.ActiveLayer?.AddChild(dataMatrix);
 
-            var text = EntityFactory.CreateText("Arial", FontStyle.Bold, "SIRIUS2", 4);
+            var text = EntityFactory.CreateText("Arial", FontStyle.Bold, "SIRIUS3", 4);
             text.RotateZ(90);
             text.Translate(x5, 10);
             document.ActivePage?.ActiveLayer?.AddChild(text);
