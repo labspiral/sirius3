@@ -1,5 +1,15 @@
 ﻿# Sirius3 버전 이력
 
+## v1.2.5 (2026.1.15)
+- added) ClipHelper 추가됨 
+- added) 스페이스바를 누른채로 선택시 하부 개체 선택 모드 활성화
+- fixed) IHitTestable 광선검출 개선
+   - Config.RayHitTestPixelSize: 동적 거리값을 이용해 검출 기능 향상
+- fixed) IMarker
+   - MarkTargets.Selected 인 경우 재귀적으로 자식 개체 처리하도록 개선
+- updated) zxing v0.16.11 업데이트
+- updated) clipper2 v.2.0.0 업데이트
+	 
 ## v1.2.4 (2026.1.7)
 - added) 단축키 추가
    - CTRL + R: 렌더링 여부를 토글

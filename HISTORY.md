@@ -1,5 +1,15 @@
 ﻿# Sirius3 version history
 
+## v1.2.5 (2026.1.15)
+- added) ClipHelper to intersect 
+- added) activate sub-entity hit mode if spacebar has pressed
+- fixed) improve rayhit test for IHitTestable 
+   - Config.RayHitTestPixelSize: hittest with dynamic threshold distance
+- fixed) IMarker 
+   - do recursive marks for child entity if MarkTargets.Selected 
+- updated) zxing v0.16.11
+- updated) clipper2 v.2.0.0
+
 ## v1.2.4 (2026.1.7)
 - added) shortcuts
    - CTRL + R: toggle allow to render

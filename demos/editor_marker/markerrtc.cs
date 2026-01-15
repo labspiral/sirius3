@@ -44,7 +44,6 @@ using DMat3 = OpenTK.Mathematics.Matrix3d;
 using DMat4 = OpenTK.Mathematics.Matrix4d;
 #endif
 
-
 namespace Demos
 {
     /// <summary>
@@ -803,6 +802,8 @@ namespace Demos
                         case MarkTargets.Selected:
                             if (entity.IsSelected)
                                 success &= EntityWork(offsetIndex, offset, layerIndex, layer, j, entity);
+                            else if (entity is IHasChildren<IEntity> hasChildren)
+                                success &= ChildrenWorkIfSelectedRecursively(offsetIndex, offset, layerIndex, layer, j, hasChildren);
                             break;
                     }
                     if (!success)
@@ -810,6 +811,19 @@ namespace Demos
                 }
                 if (!success)
                     break;
+            }
+            return success;
+        }
+        bool ChildrenWorkIfSelectedRecursively(int offsetIndex, Offset offset, int layerIndex, EntityLayer layer, int entityIndex, IHasChildren<IEntity> hasChildren)
+        {
+            Debug.Assert(null != hasChildren);
+            bool success = true;
+            foreach (var entity in hasChildren.Children)
+            {
+                if (entity.IsSelected)
+                    success &= EntityWork(offsetIndex, offset, layerIndex, layer, entityIndex, entity);
+                else if (entity is IHasChildren<IEntity> hasChildren2)
+                    success &= ChildrenWorkIfSelectedRecursively(offsetIndex, offset, layerIndex, layer, entityIndex, hasChildren2);
             }
             return success;
         }
