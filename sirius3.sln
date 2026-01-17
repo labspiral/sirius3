@@ -58,6 +58,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_hardjump", "demos\ed
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_marker", "demos\editor_marker\editor_marker.csproj", "{05ABBA68-49FF-0354-E172-A170BE67686B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_hatch_clip", "demos\editor_hatch_clip\editor_hatch_clip.csproj", "{83C1873F-5262-2517-CB3B-371F97556E33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_pen_multiple", "demos\editor_pen_multiple\editor_pen_multiple.csproj", "{986E695A-9294-409E-21A7-BAFC6F506464}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -152,6 +156,14 @@ Global
 		{05ABBA68-49FF-0354-E172-A170BE67686B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05ABBA68-49FF-0354-E172-A170BE67686B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05ABBA68-49FF-0354-E172-A170BE67686B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83C1873F-5262-2517-CB3B-371F97556E33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83C1873F-5262-2517-CB3B-371F97556E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83C1873F-5262-2517-CB3B-371F97556E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83C1873F-5262-2517-CB3B-371F97556E33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{986E695A-9294-409E-21A7-BAFC6F506464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{986E695A-9294-409E-21A7-BAFC6F506464}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{986E695A-9294-409E-21A7-BAFC6F506464}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{986E695A-9294-409E-21A7-BAFC6F506464}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

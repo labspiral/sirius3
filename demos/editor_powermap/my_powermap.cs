@@ -133,7 +133,7 @@ namespace Demos
                 this.NotifyMappingFailed();
                 return false;
             }
-
+			Array.Sort(xWatts); //ascending sort
             return this.DoPowerMapping(categories, xWatts);
         }
         /// <summary>
@@ -495,7 +495,7 @@ namespace Demos
         /// </summary>
         /// <param name="categoryAndYWatts">Array of key(category) and value(target watt(W))</param>
         /// <returns>Success or failed</returns>
-        protected virtual bool DoPowerCompensate(KeyValuePair<string, double>[] categoryAndYWatts)
+                protected virtual bool DoPowerCompensate(KeyValuePair<string, double>[] categoryAndYWatts)
         {
             bool success = true;
             var powerControl = Laser as ILaserPowerControl;
@@ -515,6 +515,7 @@ namespace Demos
                 var oldIsEnableLookUp = this.IsEnableLookUp;
                 this.IsEnableLookUp = true;
                 int retryCounts = 0;
+
                 for (int i = 0; i < categoryAndYWatts.Length; i++) 
                 {
                     var kv = categoryAndYWatts[i];
@@ -559,6 +560,8 @@ namespace Demos
                             }
                             else
                             {
+                                // 여기에서는 기존 매핑 테이블을 검색해 해당 X 구간의 좌,우(xLeft, xRight)에 해당하는 구간을 
+                                // 각각 재 측정해서 매핑 테이블을 업데이트 하는 방식을 사용.
                                 double outOfRangeWatt = targetWatt * Config.PowerMapOutOfRangeThreshold / 100.0f;
                                 if (outOfRangeWatt > 0 && Math.Abs(targetWatt - detectedWatt) > outOfRangeWatt)
                                 {
@@ -572,61 +575,24 @@ namespace Demos
                                 }
                                 else
                                 {
-                                    success &= powerControl.PowerMap.LookUp(category, targetWatt, out var xWatt, out var leftXWatt, out var rightXWatt);
+                                    // APC (Automatic Power Compensate) - Method 2: Adaptive Update
+                                    // Instead of measuring neighbors, we use the current measurement to refine the map immediately.
+                                    // 1. Find the X value we just used (or would use) for the target Y.
+                                    success &= powerControl.PowerMap.LookUp(category, targetWatt, out var currentXWatt, out var leftXWatt, out var rightXWatt);
                                     if (!success)
                                         break;
-                                    Logger.Log(LogLevel.Warning, $"powermap [{this.Index}: compensate out of range. target: {targetWatt:F3} - detected: {detectedWatt}W < threshold: {Config.PowerMapInRangeThreshold}% at category: {category} so retry {++retryCounts} times");
-                                    success &= powerControl.CtlPower(leftXWatt, string.Empty);
+
+                                    Logger.Log(LogLevel.Warning, $"powermap [{this.Index}]: compensate out of range. target: {targetWatt:F3}W, detected: {detectedWatt:F3}W (diff > {Config.PowerMapInRangeThreshold}%) at category: {category}. Retry {++retryCounts}/{Config.PowerMapCompensateRetryCounts}");
+                                    
+                                    // 2. Update the map: The X we sent (currentXWatt) resulted in the Y we measured (detectedWatt).
+                                    // This adds a new point or updates an existing one, "bending" the curve to reality.
+                                    Logger.Log(LogLevel.Information, $"powermap [{this.Index}]: adaptive update x: {currentXWatt:F3} -> y: {detectedWatt:F3}W at category: {category}");
+                                    success &= powerControl.PowerMap.Update(category, currentXWatt, detectedWatt);
+                                    this.NotifyMappingProgress(category, currentXWatt);
+
+                                    // 3. Retry the target with the updated map
                                     if (success)
-                                    {
-                                        success &= Rtc.CtlLaserOn();
-                                        sw.Restart();
-                                        do
-                                        {
-                                            if (Rtc.CtlGetStatus(RtcStatus.Aborted))
-                                            {
-                                                success &= false;
-                                                break;
-                                            }
-                                            Thread.Sleep(50);
-                                        } while (sw.ElapsedMilliseconds < Config.PowerMapHoldTimeMs);
-                                        var detectedLeftWatt = PowerMeter.MeasuredPower;
-                                        success &= Rtc.CtlLaserOff();
-                                        if (success)
-                                        {
-                                            Logger.Log(LogLevel.Information, $"powermap [{this.Index}: update powermap left x: {leftXWatt:F3}, y: {detectedLeftWatt:F3}W at category: {category}");
-                                            success &= powerControl.PowerMap.Update(category, leftXWatt, detectedLeftWatt);
-                                            // update mapping table
-                                            this.NotifyMappingProgress(category, leftXWatt);
-                                        }
-                                    }
-                                    if (success)
-                                        success &= powerControl.CtlPower(rightXWatt, string.Empty);
-                                    if (success)
-                                    {
-                                        success &= Rtc.CtlLaserOn();
-                                        sw.Restart();
-                                        do
-                                        {
-                                            if (Rtc.CtlGetStatus(RtcStatus.Aborted))
-                                            {
-                                                success &= false;
-                                                break;
-                                            }
-                                            Thread.Sleep(50);
-                                        } while (sw.ElapsedMilliseconds < Config.PowerMapHoldTimeMs);
-                                        var detectedRightWatt = PowerMeter.MeasuredPower;
-                                        success &= Rtc.CtlLaserOff();
-                                        if (success)
-                                        {
-                                            Logger.Log(LogLevel.Information, $"powermap [{this.Index}: update powermap right x: {rightXWatt:F3}, y: {detectedRightWatt:F3}W at category: {category}");
-                                            success &= powerControl.PowerMap.Update(category, rightXWatt, detectedRightWatt);
-                                            // update mapping table
-                                            this.NotifyMappingProgress(category, rightXWatt);
-                                        }
-                                    }
-                                    if (success)
-                                        i--; //to do retry target y watt again 
+                                        i--; 
                                 }
                             }
                         }

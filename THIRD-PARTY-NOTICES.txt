@@ -25,7 +25,7 @@ OpenTK
   Source  : https://github.com/opentk/opentk
 
 Clipper2
-  Version : 1.5.3
+  Version : 2.0.0
   License : Boost Software License 1.0
   Copyright: © Angus Johnson
   Source  : https://github.com/AngusJohnson/Clipper2
@@ -43,7 +43,7 @@ StbImageSharp
   Source  : https://github.com/StbSharp/StbImageSharp
 
 ZXing.Net
-  Version : 0.16.10
+  Version : 0.16.11
   License : Apache License 2.0
   Copyright: © ZXing.Net contributors
   Source  : https://github.com/micjahn/ZXing.Net

@@ -988,29 +988,23 @@ namespace Demos
             Debug.Assert(rtc != null);
             Debug.Assert(laser != null);
             Debug.Assert(document != null);
-            double realWidth;
-            double realHeight;
-            double realDepth;
-            DVec3 realCenter;
-            //if (EntityTransformBase.CalcuateModelMinMax(document.Selected, out var realMin, out var realMax))
-            if (EntityTransformBase.CalcuateRealMinMax(document.Selected, out var realMin, out var realMax))
-            {
-                realWidth = realMax.X - realMin.X;
-                realHeight = realMax.Y - realMin.Y;
-                realDepth = realMax.Z - realMin.Z;
-                realCenter = (realMin + realMax) / 2.0f;
-            }
-            else
-                Debug.Assert(false); // "invalid real min/max");
-
-            // 해당 영역이 scanner fov 벋어나면 처리하지 말아야 ...
 
             bool success = true;
             success &= laserGuideControl.CtlGuide(true);
             if (!success)
                 return;
-            this.isInternalBusy = true;
 
+            var tuples = new List<(DVec3 realMin, DVec3 realMax)>(document.Selected.Length);
+            foreach (var entity in document.Selected)
+            {
+                if (entity is EntityTransformBase entityTransformBase)
+                {
+                    if (entityTransformBase.CalcuateRealMinMax(out var realMin, out var realMax))
+                        tuples.Add((realMin, realMax));
+                }
+            }
+
+            this.isInternalBusy = true;
             var oldMatrixStack = (IMatrixStack<DMat4>)rtc.MatrixStack.Clone();
             var oldSpeedJump = rtc.SpeedJump;
             var oldSpeedMark = rtc.SpeedMark;
@@ -1025,14 +1019,19 @@ namespace Demos
                     {
                         // Push offset matrix
                         rtc.MatrixStack.Push(Offsets[i].ToMatrix);
-                        // Draw Rectangle by bounding box 
-                        // 2 1
-                        // 3 4
-                        success &= rtc.ListJumpTo(new DVec2(realMax.X, realMax.Y));
-                        success &= rtc.ListMarkTo(new DVec2(realMin.X, realMax.Y));
-                        success &= rtc.ListMarkTo(new DVec2(realMin.X, realMin.Y));
-                        success &= rtc.ListMarkTo(new DVec2(realMax.X, realMin.Y));
-                        success &= rtc.ListMarkTo(new DVec2(realMax.X, realMax.Y));
+
+                        foreach (var tuple in tuples)
+                        {
+                            var realMin = tuple.realMin;
+                            var realMax = tuple.realMax;
+                            success &= rtc.ListJumpTo(new DVec2(realMax.X, realMax.Y));
+                            success &= rtc.ListMarkTo(new DVec2(realMin.X, realMax.Y));
+                            success &= rtc.ListMarkTo(new DVec2(realMin.X, realMin.Y));
+                            success &= rtc.ListMarkTo(new DVec2(realMax.X, realMin.Y));
+                            success &= rtc.ListMarkTo(new DVec2(realMax.X, realMax.Y));
+                            if (!success)
+                                break;
+                        }
                     }
                     finally
                     {
