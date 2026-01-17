@@ -102,6 +102,7 @@ namespace Demos
                 if (document != null)
                 {
                     PropertyGridCtrl.SelecteObject = null;
+                    document.OnNew -= Document_OnNew;
                     document.OnBeforeOpen -= Document_OnBeforeOpen;
                     document.OnAfterOpen -= Document_OnAfterOpen;
                     document.OnBeforeSave -= Document_OnBeforeSave;
@@ -137,6 +138,7 @@ namespace Demos
 
                 if (document != null)
                 {
+                    document.OnNew += Document_OnNew;
                     document.OnBeforeOpen += Document_OnBeforeOpen;
                     document.OnAfterOpen += Document_OnAfterOpen;
                     document.OnBeforeSave += Document_OnBeforeSave;
@@ -776,7 +778,15 @@ namespace Demos
         #endregion
 
         #region Document Events
+        private void Document_OnNew(IDocument obj)
+        {
+            if (!IsHandleCreated || IsDisposed) return;
 
+            Invoke(new MethodInvoker(() =>
+            {
+                UpdatePowerMap();
+            }));
+        }
         /// <summary>
         /// Called before a document open operation.
         /// <para>문서 열기 작업 전에 호출됩니다.</para>
