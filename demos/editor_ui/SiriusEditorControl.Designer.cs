@@ -66,9 +66,9 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btnLock = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer6 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer8 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer123 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer12 = new System.Windows.Forms.SplitContainer();
+            this.splitContainerLeft = new System.Windows.Forms.SplitContainer();
             this.tbcLeft = new System.Windows.Forms.TabControl();
             this.tabDocPage1 = new System.Windows.Forms.TabPage();
             this.treeViewPageControl1 = new SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl();
@@ -86,7 +86,7 @@
             this.entityPenControl1 = new SpiralLab.Sirius3.UI.WinForms.EntityPenControl();
             this.tabLayerPen = new System.Windows.Forms.TabPage();
             this.layerPenControl1 = new SpiralLab.Sirius3.UI.WinForms.LayerPenControl();
-            this.splitContainer7 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tbcMain = new System.Windows.Forms.TabControl();
             this.tabEditor = new System.Windows.Forms.TabPage();
             this.tabMarker = new System.Windows.Forms.TabPage();
@@ -115,18 +115,18 @@
             this.propertyGridControl1 = new SpiralLab.Sirius3.UI.WinForms.PropertyGridControl();
             this.stsBottom.SuspendLayout();
             this.tlsTop1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
-            this.splitContainer6.Panel1.SuspendLayout();
-            this.splitContainer6.Panel2.SuspendLayout();
-            this.splitContainer6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).BeginInit();
-            this.splitContainer8.Panel1.SuspendLayout();
-            this.splitContainer8.Panel2.SuspendLayout();
-            this.splitContainer8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer123)).BeginInit();
+            this.splitContainer123.Panel1.SuspendLayout();
+            this.splitContainer123.Panel2.SuspendLayout();
+            this.splitContainer123.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer12)).BeginInit();
+            this.splitContainer12.Panel1.SuspendLayout();
+            this.splitContainer12.Panel2.SuspendLayout();
+            this.splitContainer12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeft)).BeginInit();
+            this.splitContainerLeft.Panel1.SuspendLayout();
+            this.splitContainerLeft.Panel2.SuspendLayout();
+            this.splitContainerLeft.SuspendLayout();
             this.tbcLeft.SuspendLayout();
             this.tabDocPage1.SuspendLayout();
             this.tabDocPage2.SuspendLayout();
@@ -136,10 +136,10 @@
             this.tlcPen.SuspendLayout();
             this.tabEntityPen.SuspendLayout();
             this.tabLayerPen.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
-            this.splitContainer7.Panel1.SuspendLayout();
-            this.splitContainer7.Panel2.SuspendLayout();
-            this.splitContainer7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.tbcMain.SuspendLayout();
             this.tabMarker.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).BeginInit();
@@ -322,7 +322,7 @@
             this.tlsTop1.Location = new System.Drawing.Point(0, 0);
             this.tlsTop1.Name = "tlsTop1";
             this.tlsTop1.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.tlsTop1.Size = new System.Drawing.Size(2303, 33);
+            this.tlsTop1.Size = new System.Drawing.Size(2303, 38);
             this.tlsTop1.TabIndex = 36;
             this.tlsTop1.Text = "tlsTop1";
             // 
@@ -333,7 +333,7 @@
             this.btnNew.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(34, 28);
+            this.btnNew.Size = new System.Drawing.Size(34, 33);
             this.btnNew.Text = "toolStripButton2";
             this.btnNew.ToolTipText = "New";
             // 
@@ -343,7 +343,7 @@
             this.btnOpen.Image = global::Demos.Properties.Resources.Import_Import;
             this.btnOpen.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(34, 28);
+            this.btnOpen.Size = new System.Drawing.Size(34, 33);
             this.btnOpen.Text = "Open";
             this.btnOpen.ToolTipText = "Open";
             // 
@@ -371,7 +371,7 @@
             this.ddbOpenNewOptions.Image = global::Demos.Properties.Resources.Slider;
             this.ddbOpenNewOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbOpenNewOptions.Name = "ddbOpenNewOptions";
-            this.ddbOpenNewOptions.Size = new System.Drawing.Size(42, 28);
+            this.ddbOpenNewOptions.Size = new System.Drawing.Size(42, 33);
             this.ddbOpenNewOptions.Text = "Open(or New) Options";
             this.ddbOpenNewOptions.ToolTipText = "Open(or New) Options";
             // 
@@ -382,7 +382,7 @@
             this.mnuIncludePage1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludePage1.Image = global::Demos.Properties.Resources.cal;
             this.mnuIncludePage1.Name = "mnuIncludePage1";
-            this.mnuIncludePage1.Size = new System.Drawing.Size(202, 34);
+            this.mnuIncludePage1.Size = new System.Drawing.Size(270, 34);
             this.mnuIncludePage1.Text = "Page1";
             this.mnuIncludePage1.ToolTipText = "Include Page1";
             // 
@@ -393,7 +393,7 @@
             this.mnuIncludePage2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludePage2.Image = global::Demos.Properties.Resources._3dcal;
             this.mnuIncludePage2.Name = "mnuIncludePage2";
-            this.mnuIncludePage2.Size = new System.Drawing.Size(202, 34);
+            this.mnuIncludePage2.Size = new System.Drawing.Size(270, 34);
             this.mnuIncludePage2.Text = "Page2";
             this.mnuIncludePage2.ToolTipText = "Include Page2";
             // 
@@ -405,7 +405,7 @@
             this.mnuIncludePage3.Enabled = false;
             this.mnuIncludePage3.Image = global::Demos.Properties.Resources._3dcal;
             this.mnuIncludePage3.Name = "mnuIncludePage3";
-            this.mnuIncludePage3.Size = new System.Drawing.Size(202, 34);
+            this.mnuIncludePage3.Size = new System.Drawing.Size(270, 34);
             this.mnuIncludePage3.Text = "Page3";
             this.mnuIncludePage3.ToolTipText = "Include Page3";
             // 
@@ -417,7 +417,7 @@
             this.mnuIncludePage4.Enabled = false;
             this.mnuIncludePage4.Image = global::Demos.Properties.Resources._3dcal;
             this.mnuIncludePage4.Name = "mnuIncludePage4";
-            this.mnuIncludePage4.Size = new System.Drawing.Size(202, 34);
+            this.mnuIncludePage4.Size = new System.Drawing.Size(270, 34);
             this.mnuIncludePage4.Text = "Page4";
             this.mnuIncludePage4.ToolTipText = "Include Page4";
             // 
@@ -428,14 +428,14 @@
             this.mnuIncludeBlocks.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludeBlocks.Image = global::Demos.Properties.Resources.chain_intermediate_24px;
             this.mnuIncludeBlocks.Name = "mnuIncludeBlocks";
-            this.mnuIncludeBlocks.Size = new System.Drawing.Size(202, 34);
+            this.mnuIncludeBlocks.Size = new System.Drawing.Size(270, 34);
             this.mnuIncludeBlocks.Text = "Blocks";
             this.mnuIncludeBlocks.ToolTipText = "Include Blocks";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(199, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(267, 6);
             // 
             // mnuIncludeLayerPens
             // 
@@ -444,25 +444,25 @@
             this.mnuIncludeLayerPens.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludeLayerPens.Image = global::Demos.Properties.Resources.Index;
             this.mnuIncludeLayerPens.Name = "mnuIncludeLayerPens";
-            this.mnuIncludeLayerPens.Size = new System.Drawing.Size(202, 34);
+            this.mnuIncludeLayerPens.Size = new System.Drawing.Size(270, 34);
             this.mnuIncludeLayerPens.Text = "Layer Pens";
             this.mnuIncludeLayerPens.ToolTipText = "Include Layer Pens";
             // 
-            // mnuIncludeScannerPens
+            // mnuIncludeEntityPens
             // 
             this.mnuIncludeEntityPens.Checked = true;
             this.mnuIncludeEntityPens.CheckOnClick = true;
             this.mnuIncludeEntityPens.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludeEntityPens.Image = global::Demos.Properties.Resources.Index;
-            this.mnuIncludeEntityPens.Name = "mnuIncludeScannerPens";
-            this.mnuIncludeEntityPens.Size = new System.Drawing.Size(202, 34);
-            this.mnuIncludeEntityPens.Text = "Scanner Pens";
-            this.mnuIncludeEntityPens.ToolTipText = "Include Scanner Pens";
+            this.mnuIncludeEntityPens.Name = "mnuIncludeEntityPens";
+            this.mnuIncludeEntityPens.Size = new System.Drawing.Size(270, 34);
+            this.mnuIncludeEntityPens.Text = "Entity Pens";
+            this.mnuIncludeEntityPens.ToolTipText = "Include Entity Pens";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(199, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(267, 6);
             // 
             // mnuIncludeWafers
             // 
@@ -471,7 +471,7 @@
             this.mnuIncludeWafers.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludeWafers.Image = global::Demos.Properties.Resources.Grid4;
             this.mnuIncludeWafers.Name = "mnuIncludeWafers";
-            this.mnuIncludeWafers.Size = new System.Drawing.Size(202, 34);
+            this.mnuIncludeWafers.Size = new System.Drawing.Size(270, 34);
             this.mnuIncludeWafers.Text = "Wafers";
             this.mnuIncludeWafers.ToolTipText = "Include Wafers";
             // 
@@ -482,7 +482,7 @@
             this.mnuIncludeSubstrates.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludeSubstrates.Image = global::Demos.Properties.Resources.Grid4;
             this.mnuIncludeSubstrates.Name = "mnuIncludeSubstrates";
-            this.mnuIncludeSubstrates.Size = new System.Drawing.Size(202, 34);
+            this.mnuIncludeSubstrates.Size = new System.Drawing.Size(270, 34);
             this.mnuIncludeSubstrates.Text = "Substrates";
             this.mnuIncludeSubstrates.ToolTipText = "Include Substrates";
             // 
@@ -499,7 +499,7 @@
             this.btnSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(34, 28);
+            this.btnSave.Size = new System.Drawing.Size(34, 33);
             this.btnSave.Text = "toolStripButton1";
             this.btnSave.ToolTipText = "Save";
             // 
@@ -517,71 +517,71 @@
             this.btnLock.Image = global::Demos.Properties.Resources.lock_24px;
             this.btnLock.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLock.Name = "btnLock";
-            this.btnLock.Size = new System.Drawing.Size(34, 28);
+            this.btnLock.Size = new System.Drawing.Size(34, 33);
             this.btnLock.Text = "Lock";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 33);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
             // 
-            // splitContainer1
+            // splitContainer123
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 33);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer123.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer123.Location = new System.Drawing.Point(0, 38);
+            this.splitContainer123.Margin = new System.Windows.Forms.Padding(0);
+            this.splitContainer123.Name = "splitContainer123";
             // 
-            // splitContainer1.Panel1
+            // splitContainer123.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.splitContainer6);
+            this.splitContainer123.Panel1.Controls.Add(this.splitContainer12);
             // 
-            // splitContainer1.Panel2
+            // splitContainer123.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.tlcRight);
-            this.splitContainer1.Panel2MinSize = 100;
-            this.splitContainer1.Size = new System.Drawing.Size(2303, 1455);
-            this.splitContainer1.SplitterDistance = 1839;
-            this.splitContainer1.TabIndex = 37;
+            this.splitContainer123.Panel2.Controls.Add(this.tlcRight);
+            this.splitContainer123.Panel2MinSize = 100;
+            this.splitContainer123.Size = new System.Drawing.Size(2303, 1450);
+            this.splitContainer123.SplitterDistance = 1839;
+            this.splitContainer123.TabIndex = 37;
             // 
-            // splitContainer6
+            // splitContainer12
             // 
-            this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer6.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer6.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainer6.Name = "splitContainer6";
+            this.splitContainer12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer12.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer12.Margin = new System.Windows.Forms.Padding(0);
+            this.splitContainer12.Name = "splitContainer12";
             // 
-            // splitContainer6.Panel1
+            // splitContainer12.Panel1
             // 
-            this.splitContainer6.Panel1.Controls.Add(this.splitContainer8);
+            this.splitContainer12.Panel1.Controls.Add(this.splitContainerLeft);
             // 
-            // splitContainer6.Panel2
+            // splitContainer12.Panel2
             // 
-            this.splitContainer6.Panel2.Controls.Add(this.splitContainer7);
-            this.splitContainer6.Size = new System.Drawing.Size(1839, 1455);
-            this.splitContainer6.SplitterDistance = 444;
-            this.splitContainer6.TabIndex = 0;
+            this.splitContainer12.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer12.Size = new System.Drawing.Size(1839, 1450);
+            this.splitContainer12.SplitterDistance = 444;
+            this.splitContainer12.TabIndex = 0;
             // 
-            // splitContainer8
+            // splitContainerLeft
             // 
-            this.splitContainer8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer8.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer8.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainer8.Name = "splitContainer8";
-            this.splitContainer8.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.splitContainerLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerLeft.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerLeft.Margin = new System.Windows.Forms.Padding(0);
+            this.splitContainerLeft.Name = "splitContainerLeft";
+            this.splitContainerLeft.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer8.Panel1
+            // splitContainerLeft.Panel1
             // 
-            this.splitContainer8.Panel1.Controls.Add(this.tbcLeft);
+            this.splitContainerLeft.Panel1.Controls.Add(this.tbcLeft);
             // 
-            // splitContainer8.Panel2
+            // splitContainerLeft.Panel2
             // 
-            this.splitContainer8.Panel2.Controls.Add(this.tlcPen);
-            this.splitContainer8.Panel2MinSize = 100;
-            this.splitContainer8.Size = new System.Drawing.Size(444, 1455);
-            this.splitContainer8.SplitterDistance = 1183;
-            this.splitContainer8.TabIndex = 3;
+            this.splitContainerLeft.Panel2.Controls.Add(this.tlcPen);
+            this.splitContainerLeft.Panel2MinSize = 100;
+            this.splitContainerLeft.Size = new System.Drawing.Size(444, 1450);
+            this.splitContainerLeft.SplitterDistance = 1178;
+            this.splitContainerLeft.TabIndex = 3;
             // 
             // tbcLeft
             // 
@@ -599,7 +599,7 @@
             this.tbcLeft.Name = "tbcLeft";
             this.tbcLeft.Padding = new System.Drawing.Point(3, 3);
             this.tbcLeft.SelectedIndex = 0;
-            this.tbcLeft.Size = new System.Drawing.Size(444, 1183);
+            this.tbcLeft.Size = new System.Drawing.Size(444, 1178);
             this.tbcLeft.TabIndex = 3;
             // 
             // tabDocPage1
@@ -609,7 +609,7 @@
             this.tabDocPage1.Location = new System.Drawing.Point(4, 42);
             this.tabDocPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabDocPage1.Name = "tabDocPage1";
-            this.tabDocPage1.Size = new System.Drawing.Size(436, 1137);
+            this.tabDocPage1.Size = new System.Drawing.Size(436, 1132);
             this.tabDocPage1.TabIndex = 0;
             this.tabDocPage1.Text = "Page1 ";
             this.tabDocPage1.UseVisualStyleBackColor = true;
@@ -624,7 +624,7 @@
             this.treeViewPageControl1.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewPageControl1.Name = "treeViewPageControl1";
             this.treeViewPageControl1.Page = SpiralLab.Sirius3.Document.DocumentPages.Page1;
-            this.treeViewPageControl1.Size = new System.Drawing.Size(436, 1137);
+            this.treeViewPageControl1.Size = new System.Drawing.Size(436, 1132);
             this.treeViewPageControl1.TabIndex = 2;
             this.treeViewPageControl1.View = null;
             // 
@@ -847,26 +847,26 @@
             this.layerPenControl1.Size = new System.Drawing.Size(436, 222);
             this.layerPenControl1.TabIndex = 0;
             // 
-            // splitContainer7
+            // splitContainer2
             // 
-            this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer7.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer7.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainer7.Name = "splitContainer7";
-            this.splitContainer7.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // splitContainer7.Panel1
+            // splitContainer2.Panel1
             // 
-            this.splitContainer7.Panel1.Controls.Add(this.tbcMain);
-            this.splitContainer7.Panel1MinSize = 100;
+            this.splitContainer2.Panel1.Controls.Add(this.tbcMain);
+            this.splitContainer2.Panel1MinSize = 100;
             // 
-            // splitContainer7.Panel2
+            // splitContainer2.Panel2
             // 
-            this.splitContainer7.Panel2.Controls.Add(this.logControl1);
-            this.splitContainer7.Panel2MinSize = 100;
-            this.splitContainer7.Size = new System.Drawing.Size(1391, 1455);
-            this.splitContainer7.SplitterDistance = 1183;
-            this.splitContainer7.TabIndex = 0;
+            this.splitContainer2.Panel2.Controls.Add(this.logControl1);
+            this.splitContainer2.Panel2MinSize = 100;
+            this.splitContainer2.Size = new System.Drawing.Size(1391, 1450);
+            this.splitContainer2.SplitterDistance = 1178;
+            this.splitContainer2.TabIndex = 0;
             // 
             // tbcMain
             // 
@@ -885,7 +885,7 @@
             this.tbcMain.Margin = new System.Windows.Forms.Padding(0);
             this.tbcMain.Name = "tbcMain";
             this.tbcMain.SelectedIndex = 0;
-            this.tbcMain.Size = new System.Drawing.Size(1391, 1183);
+            this.tbcMain.Size = new System.Drawing.Size(1391, 1178);
             this.tbcMain.TabIndex = 0;
             // 
             // tabEditor
@@ -894,7 +894,7 @@
             this.tabEditor.Location = new System.Drawing.Point(4, 42);
             this.tabEditor.Margin = new System.Windows.Forms.Padding(0);
             this.tabEditor.Name = "tabEditor";
-            this.tabEditor.Size = new System.Drawing.Size(1383, 1137);
+            this.tabEditor.Size = new System.Drawing.Size(1383, 1132);
             this.tabEditor.TabIndex = 0;
             this.tabEditor.Text = "Editor";
             // 
@@ -1182,7 +1182,7 @@
             this.tlcRight.Margin = new System.Windows.Forms.Padding(0);
             this.tlcRight.Name = "tlcRight";
             this.tlcRight.SelectedIndex = 0;
-            this.tlcRight.Size = new System.Drawing.Size(460, 1455);
+            this.tlcRight.Size = new System.Drawing.Size(460, 1450);
             this.tlcRight.TabIndex = 1;
             // 
             // tabProperty
@@ -1192,7 +1192,7 @@
             this.tabProperty.Location = new System.Drawing.Point(4, 42);
             this.tabProperty.Margin = new System.Windows.Forms.Padding(0);
             this.tabProperty.Name = "tabProperty";
-            this.tabProperty.Size = new System.Drawing.Size(452, 1409);
+            this.tabProperty.Size = new System.Drawing.Size(452, 1404);
             this.tabProperty.TabIndex = 0;
             this.tabProperty.Text = " Property ";
             this.tabProperty.UseVisualStyleBackColor = true;
@@ -1207,7 +1207,7 @@
             this.propertyGridControl1.Marker = null;
             this.propertyGridControl1.Name = "propertyGridControl1";
             this.propertyGridControl1.SelecteObject = null;
-            this.propertyGridControl1.Size = new System.Drawing.Size(452, 1409);
+            this.propertyGridControl1.Size = new System.Drawing.Size(452, 1404);
             this.propertyGridControl1.TabIndex = 1;
             this.propertyGridControl1.View = null;
             // 
@@ -1215,7 +1215,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.splitContainer123);
             this.Controls.Add(this.tlsTop1);
             this.Controls.Add(this.stsBottom);
             this.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1226,18 +1226,18 @@
             this.stsBottom.PerformLayout();
             this.tlsTop1.ResumeLayout(false);
             this.tlsTop1.PerformLayout();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
-            this.splitContainer6.Panel1.ResumeLayout(false);
-            this.splitContainer6.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
-            this.splitContainer6.ResumeLayout(false);
-            this.splitContainer8.Panel1.ResumeLayout(false);
-            this.splitContainer8.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
-            this.splitContainer8.ResumeLayout(false);
+            this.splitContainer123.Panel1.ResumeLayout(false);
+            this.splitContainer123.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer123)).EndInit();
+            this.splitContainer123.ResumeLayout(false);
+            this.splitContainer12.Panel1.ResumeLayout(false);
+            this.splitContainer12.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer12)).EndInit();
+            this.splitContainer12.ResumeLayout(false);
+            this.splitContainerLeft.Panel1.ResumeLayout(false);
+            this.splitContainerLeft.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerLeft)).EndInit();
+            this.splitContainerLeft.ResumeLayout(false);
             this.tbcLeft.ResumeLayout(false);
             this.tabDocPage1.ResumeLayout(false);
             this.tabDocPage2.ResumeLayout(false);
@@ -1247,10 +1247,10 @@
             this.tlcPen.ResumeLayout(false);
             this.tabEntityPen.ResumeLayout(false);
             this.tabLayerPen.ResumeLayout(false);
-            this.splitContainer7.Panel1.ResumeLayout(false);
-            this.splitContainer7.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
-            this.splitContainer7.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.tbcMain.ResumeLayout(false);
             this.tabMarker.ResumeLayout(false);
             this.splitContainer10.Panel1.ResumeLayout(false);
@@ -1311,9 +1311,9 @@
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripButton btnSave;
         private ToolStripSeparator toolStripSeparator3;
-        private SplitContainer splitContainer1;
-        private SplitContainer splitContainer6;
-        private SplitContainer splitContainer8;
+        private SplitContainer splitContainer123;
+        private SplitContainer splitContainer12;
+        private SplitContainer splitContainerLeft;
         private TabControl tbcLeft;
         private TabPage tabDocPage1;
         private SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl treeViewPageControl1;
@@ -1330,7 +1330,7 @@
         private SpiralLab.Sirius3.UI.WinForms.EntityPenControl entityPenControl1;
         private TabPage tabLayerPen;
         private SpiralLab.Sirius3.UI.WinForms.LayerPenControl layerPenControl1;
-        private SplitContainer splitContainer7;
+        private SplitContainer splitContainer2;
         private TabControl tbcMain;
         private TabPage tabEditor;
         private TabPage tabMarker;

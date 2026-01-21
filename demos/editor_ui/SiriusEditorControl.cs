@@ -48,8 +48,28 @@ namespace Demos
     /// </summary>
     public partial class SiriusEditorControl : UserControl
     {
-        #region Fields
+        #region Events
+        /// <summary>
+        /// Raised when after new button has pressed.
+        /// <para>새 문서 버튼이 눌린 후 발생합니다.</para>
+        /// <para>按下新建按钮后触发。</para>
+        /// </summary>
+        public event Action<SiriusEditorControl> OnAfterNew;
+        /// <summary>
+        /// Raised when after open button has pressed.
+        /// <para>열기 버튼이 눌린 후 발생합니다.</para>
+        /// <para>按下打开按钮后触发。</para>
+        /// </summary>
+        public event Action<SiriusEditorControl, string> OnAfterOpen;
+        /// <summary>
+        /// Raised when after save button has pressed.
+        /// <para>저장 버튼이 눌린 후 발생합니다.</para>
+        /// <para>按下保存按钮后触发。</para>
+        /// </summary>
+        public event Action<SiriusEditorControl, string> OnAfterSave;
+        #endregion
 
+        #region Fields
         private IDocument document;
         private IScanner scanner;
         private ILaser laser;
@@ -69,7 +89,6 @@ namespace Demos
 
         private int timerStatusColorCounts;
         private int timerProgressColorCounts;
-
         #endregion
 
         #region Public Bindable Properties
@@ -102,6 +121,7 @@ namespace Demos
                 if (document != null)
                 {
                     PropertyGridCtrl.SelecteObject = null;
+                    document.OnNew -= Document_OnNew;
                     document.OnBeforeOpen -= Document_OnBeforeOpen;
                     document.OnAfterOpen -= Document_OnAfterOpen;
                     document.OnBeforeSave -= Document_OnBeforeSave;
@@ -137,6 +157,7 @@ namespace Demos
 
                 if (document != null)
                 {
+                    document.OnNew += Document_OnNew;
                     document.OnBeforeOpen += Document_OnBeforeOpen;
                     document.OnAfterOpen += Document_OnAfterOpen;
                     document.OnBeforeSave += Document_OnBeforeSave;
@@ -145,6 +166,8 @@ namespace Demos
                 }
             }
         }
+
+
 
         /// <summary>
         /// Get current view.
@@ -449,7 +472,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("PageControls")]
         [Description("Array of TreeViewPageControl UserControl")]
-        public SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl[] PageControls
+        public SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl[] PageCtrls
         {
             get
             {
@@ -471,7 +494,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("BlockControl")]
         [Description("TreeViewBlockControl UserControl")]
-        public SpiralLab.Sirius3.UI.WinForms.TreeViewBlockControl BlockControl
+        public SpiralLab.Sirius3.UI.WinForms.TreeViewBlockControl BlockCtrl
         {
             get
             {
@@ -488,7 +511,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("SubstrateControl")]
         [Description("TreeViewWaferControl UserControl")]
-        public SpiralLab.Sirius3.UI.WinForms.TreeViewWaferControl WaferControl
+        public SpiralLab.Sirius3.UI.WinForms.TreeViewWaferControl WaferCtrl
         {
             get
             {
@@ -506,7 +529,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("SubstrateControl")]
         [Description("TreeViewSubstrateControl UserControl")]
-        public SpiralLab.Sirius3.UI.WinForms.TreeViewSubstrateControl SubstrateControl
+        public SpiralLab.Sirius3.UI.WinForms.TreeViewSubstrateControl SubstrateCtrl
         {
             get
             {
@@ -681,11 +704,9 @@ namespace Demos
         [DisplayName("LogUserControl")]
         [Description("Log UserControl")]
         public SpiralLab.Sirius3.UI.WinForms.LogControl LogCtrl => logControl1;
-
         #endregion
 
         #region Constructor & Form Lifecycle
-
         /// <summary>
         /// Initializes a new instance of <see cref="SiriusEditorControl"/> and wires UI events.
         /// <para><see cref="SiriusEditorControl"/>의 새 인스턴스를 초기화하고 UI 이벤트를 연결합니다.</para>
@@ -722,12 +743,12 @@ namespace Demos
             btnLock.Click += BtnLock_Click;
 
             // Hide log window by default
-            splitContainer7.Panel2Collapsed = true;
-            splitContainer7.Panel2Collapsed = false;
-            splitContainer7.Panel2Collapsed = true;
+            splitContainer2.Panel2Collapsed = true;
+            splitContainer2.Panel2Collapsed = false;
+            splitContainer2.Panel2Collapsed = true;
             btnLogWindow.Click += (_, __) =>
             {
-                splitContainer7.Panel2Collapsed = !splitContainer7.Panel2Collapsed;
+                splitContainer2.Panel2Collapsed = !splitContainer2.Panel2Collapsed;
             };
 
         }
@@ -776,7 +797,21 @@ namespace Demos
         #endregion
 
         #region Document Events
+        /// <summary>
+        /// Called when a new document is created.
+        /// <para>새 문서가 생성될 때 호출됩니다.</para>
+        /// <para>创建新文档时调用。</para>
+        /// </summary>
+        /// <param name="obj">The document instance.</param>
+        private void Document_OnNew(IDocument obj)
+        {
+            if (!IsHandleCreated || IsDisposed) return;
 
+            Invoke(new MethodInvoker(() =>
+            {
+                UpdatePowerMap();
+            }));
+        }
         /// <summary>
         /// Called before a document open operation.
         /// <para>문서 열기 작업 전에 호출됩니다.</para>
@@ -836,7 +871,6 @@ namespace Demos
                 lblFileName.Text = fileName;
             }));
         }
-
         #endregion
 
         #region Status / Marker / PowerMeter UI
@@ -988,8 +1022,8 @@ namespace Demos
                 lblProcessTime.Text = $"{ts.GetValueOrDefault().TotalSeconds:F3} sec";
                 lblProcessTime.ForeColor = success ? stsBottom.ForeColor : Color.Red;
 
-                if (!btnLock.Checked)
-                    ControlEnableOrNot(true);
+                ControlEnableOrNot(!btnLock.Checked);
+
                 EditorCtrl.Focus();
             }));
         }
@@ -1103,7 +1137,6 @@ namespace Demos
         #endregion
 
         #region UI Visibility / Editability
-
         /// <summary>
         /// Updates menu/control visibility by RTC capabilities (placeholder).
         /// <para>RTC 기능에 따라 메뉴/컨트롤 가시성을 업데이트합니다 (자리 표시자).</para>
@@ -1127,7 +1160,6 @@ namespace Demos
             EntityLayerPen.PropertyVisibility(Scanner);
         }
 
-
         /// <summary>
         /// Enables or disables editing-related controls when marker is busy.
         /// <para>마커가 사용 중일 때 편집 관련 컨트롤을 활성화하거나 비활성화합니다.</para>
@@ -1140,32 +1172,41 @@ namespace Demos
 
             Invoke(new MethodInvoker(() =>
             {
-                //tlsTop1.Enabled = isEnable;
-                foreach (var pc in PageControls)
-                    pc.Enabled = isEnable;
+                btnNew.Enabled = isEnable;
+                //btnOpen.Enabled = isEnable;
+                ddbOpenNewOptions.Enabled = isEnable;
+                btnSave.Enabled = isEnable;
+
+                tbcLeft.Enabled = isEnable;
+                //splitContainer12.Panel1Collapsed = !isEnable;
+                //splitContainer123.Panel2Collapsed = !isEnable;
                 PropertyGridCtrl.Enabled = isEnable;
-                BlockControl.Enabled = isEnable;
-                WaferControl.Enabled = isEnable;
-                SubstrateControl.Enabled = isEnable;
-                //EditorCtrl.Enabled = isEnable;
-                View.IsAllowEdit = isEnable;
-                //RtcDICtrl.Enabled = isEnable;
-                //LaserCtrl.Enabled = isEnable;
-                //EntityPenCtrl.Enabled = isEnable;
-                //LayerPenCtrl.Enabled = isEnable;
-                //LogCtrl.Enabled = isEnable;
-                //MarkerCtrl.Enabled = isEnable;
-                OffsetCtrl.Enabled = isEnable;
+
+                EditorCtrl.IsAllowEdit = isEnable;
+                foreach (var pc in PageCtrls)
+                    pc.Enabled = isEnable;
+
+                BlockCtrl.Enabled = isEnable;
+                WaferCtrl.Enabled = isEnable;
+                SubstrateCtrl.Enabled = isEnable;
+
 
 #if DEBUG
-                // Keep enabled for debugging
+                // Keep enables for debugging
+
 #else
                 ManualCtrl.Enabled = isEnable;
+                OffsetCtrl.Enabled = isEnable;
                 ScannerCtrl.Enabled = isEnable;
+                LaserCtrl.Enabled = isEnable;
                 PowerMeterCtrl.Enabled = isEnable;
                 PowerMapCtrl.Enabled = isEnable;
                 RtcDOCtrl.Enabled = isEnable;
+                EntityPenCtrl.Enabled = isEnable;
+                LayerPenCtrl.Enabled = isEnable;
+                //MarkerCtrl.Enabled = isEnable;
 #endif
+
             }));
         }
 
@@ -1194,11 +1235,9 @@ namespace Demos
                 }
             }
         }
-
         #endregion
 
         #region Left Tab / File Buttons
-
         /// <summary>
         /// Switches active page/layer in the document based on the selected left tab.
         /// <para>선택된 왼쪽 탭에 따라 문서의 활성 페이지/레이어를 전환합니다.</para>
@@ -1289,6 +1328,8 @@ namespace Demos
                 includeLayerPens,
                 includeWafers,
                 includeSubstrates);
+
+            OnAfterNew?.Invoke(this);
         }
 
         /// <summary>
@@ -1339,6 +1380,8 @@ namespace Demos
                 includeLayerPens,
                 includeWafers,
                 includeSubstrates);
+
+            OnAfterOpen?.Invoke(this, dlg.FileName);
         }
 
         /// <summary>
@@ -1362,6 +1405,8 @@ namespace Demos
 
             if (dlg.ShowDialog() != DialogResult.OK) return;
             Document.ActSave(dlg.FileName);
+
+            OnAfterSave?.Invoke(this, dlg.FileName);
         }
 
         /// <summary>
@@ -1375,7 +1420,6 @@ namespace Demos
         {
             ControlEnableOrNot(!btnLock.Checked);
         }
-
         #endregion
     }
 }

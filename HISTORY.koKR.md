@@ -1,5 +1,18 @@
 ﻿# Sirius3 버전 이력
 
+## v1.2.6 (2026.1.21)
+- added) 타원(ellipse) 개체 추가
+- added) EntityLine, EntityArc, EntityPolyline2D
+    - Automatic laser control(defined vector) 지원을 위한 RampFactor 속성 추가됨
+- added) IHatch.HatchRepeats 반복 회수 추가
+- fixed) EntityPen, EntityLayerPen 값이 잘못 출력되는 문제
+- fixed) PowerMap CtlCompensate 애서 측정값이 범위를 벋어난 경우  
+    - 기존: 좌, 우측 범위에 대한 재 측정 방식 
+    - 변경: 측정된 데이타를 해당 구간에 즉시 업데이트 
+- fixed) IMarker.Preview
+    - 기존: 선택 개체들을 감싸는 전체 사각형 표시
+    - 변경: 선택 개체들의 개별 외곽 사각형을 모두 표시
+
 ## v1.2.5 (2026.1.15)
 - added) ClipHelper 추가됨 
 - added) 스페이스바를 누른채로 선택시 하부 개체 선택 모드 활성화

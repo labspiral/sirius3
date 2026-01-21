@@ -1,5 +1,18 @@
 ﻿# Sirius3 version history
 
+## v1.2.6 (2026.1.20)
+- added) Ellipse entity
+- added) EntityLine, EntityArc, EntityPolyline2D
+	- Added RampFactor property for Automatic laser control(defined vector) support
+- added) IHatch.HatchRepeats for hatch repeats
+- fixed) Invalid EntityPen, EntityLayerPen values are shown
+- fixed) PowerMap CtlCompensate routine modification
+	- Prev: Re-measurement method for left/right ranges 
+	- Changed: Immediately updates measured data 
+- fixed) IMarker.Preview
+   - Prev: Displayed a single bounding rectangle around selected objects
+   - Changed: Displays all individual bounding rectangles for selected objects
+	 
 ## v1.2.5 (2026.1.15)
 - added) ClipHelper to intersect 
 - added) activate sub-entity hit mode if spacebar has pressed

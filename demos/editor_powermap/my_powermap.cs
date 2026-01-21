@@ -491,11 +491,13 @@ namespace Demos
             return this.DoPowerCompensate(categoryAndYWatts);
         }
         /// <summary>
-        /// Routine for power compensation
+        /// Internal routine to perform power compensation operation.
+        /// <para>파워 보정 작업을 수행하는 내부 루틴입니다.</para>
+        /// <para>执行功率补偿操作的内部例程。</para>
         /// </summary>
-        /// <param name="categoryAndYWatts">Array of key(category) and value(target watt(W))</param>
-        /// <returns>Success or failed</returns>
-                protected virtual bool DoPowerCompensate(KeyValuePair<string, double>[] categoryAndYWatts)
+        /// <param name="categoryAndYWatts">The array of key-value pairs where key is the category and value is the target power in Watts. <para>키가 카테고리이고 값이 목표 파워(와트)인 키-값 쌍의 배열입니다.</para></param>
+        /// <returns><c>true</c> if the compensation operation was successful; otherwise, <c>false</c>.</returns>
+        protected virtual bool DoPowerCompensate(KeyValuePair<string, double>[] categoryAndYWatts)
         {
             bool success = true;
             var powerControl = Laser as ILaserPowerControl;
@@ -516,7 +518,7 @@ namespace Demos
                 this.IsEnableLookUp = true;
                 int retryCounts = 0;
 
-                for (int i = 0; i < categoryAndYWatts.Length; i++) 
+                for (int i = 0; i < categoryAndYWatts.Length; i++)
                 {
                     var kv = categoryAndYWatts[i];
                     string category = kv.Key;
@@ -583,7 +585,7 @@ namespace Demos
                                         break;
 
                                     Logger.Log(LogLevel.Warning, $"powermap [{this.Index}]: compensate out of range. target: {targetWatt:F3}W, detected: {detectedWatt:F3}W (diff > {Config.PowerMapInRangeThreshold}%) at category: {category}. Retry {++retryCounts}/{Config.PowerMapCompensateRetryCounts}");
-                                    
+
                                     // 2. Update the map: The X we sent (currentXWatt) resulted in the Y we measured (detectedWatt).
                                     // This adds a new point or updates an existing one, "bending" the curve to reality.
                                     Logger.Log(LogLevel.Information, $"powermap [{this.Index}]: adaptive update x: {currentXWatt:F3} -> y: {detectedWatt:F3}W at category: {category}");
@@ -592,7 +594,7 @@ namespace Demos
 
                                     // 3. Retry the target with the updated map
                                     if (success)
-                                        i--; 
+                                        i--;
                                 }
                             }
                         }
@@ -608,7 +610,7 @@ namespace Demos
                         break;
                 }
                 success &= Rtc.CtlLaserOff();
-                success &= PowerMeter.CtlStop(); 
+                success &= PowerMeter.CtlStop();
                 Rtc.CtlMoveTo(DVec2.Zero);
                 this.IsBusy = false;
                 this.IsEnableLookUp = oldIsEnableLookUp;
@@ -626,7 +628,7 @@ namespace Demos
             });
             return success;
         }
-        
+
         /// <inheritdoc/>
         public override bool CtlStop()
         {

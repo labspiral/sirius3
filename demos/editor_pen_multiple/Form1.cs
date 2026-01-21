@@ -71,8 +71,6 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             document.ActNew();
-            siriusEditorControl1.Laser = siriusEditorControl1.Laser; // temp
-
 
             // create measurement begin
             var begin = EntityFactory.CreateMeasurementBegin(

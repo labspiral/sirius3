@@ -16,8 +16,8 @@
  *             `---'.|    '---'   |   |.'    `--''                              `--''          |   | ,'    
  *               `---`            `---'                                                        `----'   
  * 
- * 2025 Copyright to (c)SpiralLAB. All rights reserved.
- * Description : editor helper
+ * 2026 Copyright to (c)SpiralLAB. All rights reserved.
+ * Description : Configuration helper by ini file for Demo editor projects
  * Author : hong chan, choi / hcchoi@spirallab.co.kr (http://spirallab.co.kr)
  * 
  */

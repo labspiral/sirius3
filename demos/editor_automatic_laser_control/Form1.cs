@@ -42,11 +42,14 @@ namespace Demos
             InitializeComponent();
             this.Load += Form1_Load;
 
+            btnDefinedVector.Click += BtnDefinedVector_Click;
             btnSetVelocity.Click += BtnSetVelocity_Click;
             btnActualVelocity.Click += BtnActualVelocity_Click;
+            btnSpotDistanceControl.Click += BtnSpotDistanceControl_Click;
             btnPositionDependent.Click += BtnPositionDependent_Click;
-            btnSpotDistance.Click += BtnSpotDistance_Click;
         }
+
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -69,27 +72,72 @@ namespace Demos
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
 
-        private void CreateEntity()
+        private void CreateEntity(bool withRampEntity = false)
         {
             var document = siriusEditorControl1.Document;
 
-            var rampBegin = EntityFactory.CreateRampBegin(AutoLaserControlSignals.Analog1, 5);
-            document.ActivePage.ActiveLayer.AddChild(rampBegin);
+            if (withRampEntity)
+            {
+                double startingVoltage = 5.0;
+                var rampBegin = EntityFactory.CreateRampBegin(AutoLaserControlSignals.Analog1, startingVoltage);
+                document.ActivePage.ActiveLayer.AddChild(rampBegin);
+            }
 
-            var text = EntityFactory.CreateText("Arial",
-              FontStyle.Regular,
-              $"Aa{Environment.NewLine}01{Environment.NewLine}!@",
-              10);
-            text.FontHorizontalAlignment = StringAlignment.Center;
-            text.FontVerticalAlignment = StringAlignment.Center;
+            var line = EntityFactory.CreateLine(0, 0, 20, 0);
+            if (withRampEntity)
+            {
+                line.StartRampFactor = 0.5;
+                line.EndRampFactor = 2;
+            }
 
-            document.ActivePage.ActiveLayer.AddChild(text);
+            document.ActivePage.ActiveLayer.AddChild(line);
 
-            var rampEnd = EntityFactory.CreateRampEnd();
-            document.ActivePage.ActiveLayer.AddChild(rampEnd);
+            if (withRampEntity)
+            {
+                var rampEnd = EntityFactory.CreateRampEnd();
+                document.ActivePage.ActiveLayer.AddChild(rampEnd);
+            }
 
             siriusEditorControl1.View?.DoRender();
         }
+
+        private void BtnDefinedVector_Click(object sender, EventArgs e)
+        {
+            var document = siriusEditorControl1.Document;
+            document.ActNew();
+
+            // create measurement begin
+            var begin = EntityFactory.CreateMeasurementBegin(
+                10 * 1000,
+                new MeasurementChannels[] {
+                    MeasurementChannels.SampleX,
+                    MeasurementChannels.SampleY,
+                    MeasurementChannels.LaserOn,
+                    MeasurementChannels.ExtAO1,
+                },
+                "Defined vector (scale: 0.5 -> 2.0) + analog1"
+                );
+            document.ActivePage.ActiveLayer.AddChild(begin);
+
+            CreateEntity(true);
+
+            var end = EntityFactory.CreateMeasurementEnd();
+            document.ActivePage.ActiveLayer.AddChild(end);
+
+            Debug.Assert(document.ActivePage.ActiveLayer.PenColor == Color.White);
+
+            // Find layer pen for 'White'
+            document.FindByLayerPenColor(System.Drawing.Color.White, out var layerPenWhite);
+
+            //Set veloticy + analog output
+            layerPenWhite.IsALC = false;
+            layerPenWhite.AlcSignal = AutoLaserControlSignals.Disabled;
+            layerPenWhite.AlcMode = AutoLaserControlModes.Disabled;
+            layerPenWhite.AlcByPositionTable.Clear();
+
+            siriusEditorControl1.PropertyGridCtrl.Refresh();
+        }
+
         private void BtnSetVelocity_Click(object sender, EventArgs e)
         {
             var document = siriusEditorControl1.Document;
@@ -170,63 +218,12 @@ namespace Demos
             siriusEditorControl1.PropertyGridCtrl.Refresh();
         }
 
-        private void BtnPositionDependent_Click(object sender, EventArgs e)
+        private void BtnSpotDistanceControl_Click(object sender, EventArgs e)
         {
             var document = siriusEditorControl1.Document;
             document.ActNew();
 
-            // create measurement begin
-            var begin = EntityFactory.CreateMeasurementBegin(
-                10 * 1000,
-                new MeasurementChannels[] {
-                    MeasurementChannels.SampleX,
-                    MeasurementChannels.SampleY,
-                    MeasurementChannels.LaserOn,
-                    MeasurementChannels.ExtAO1,
-                },
-                "Set velocity + analog + position dependent"
-                );
-            document.ActivePage.ActiveLayer.AddChild(begin);
-
-            CreateEntity();
-
-            var end = EntityFactory.CreateMeasurementEnd();
-            document.ActivePage.ActiveLayer.AddChild(end);
-
-            Debug.Assert(document.ActivePage.ActiveLayer.PenColor == Color.White);
-
-            // Find layer pen for 'White'
-            document.FindByLayerPenColor(System.Drawing.Color.White, out var layerPenWhite);
-
-            // Set veloticy + analog output 
-            layerPenWhite.IsALC = true;
-            layerPenWhite.AlcSignal = AutoLaserControlSignals.Analog1;
-            layerPenWhite.AlcMode = AutoLaserControlModes.SetVelocity;
-            layerPenWhite.AlcPercentage100 = 5; //5V
-            layerPenWhite.AlcMinValue = 4; // 4V
-            layerPenWhite.AlcMaxValue = 6; //6V
-            // Distance(or radius) (mm), scale (0~4)
-            var kvList = new List<KeyValuePair<double, double>>();
-            kvList.Add(new KeyValuePair<double, double>(5, 0.9));
-            kvList.Add(new KeyValuePair<double, double>(10, 1));
-            kvList.Add(new KeyValuePair<double, double>(15, 1.1));
-            kvList.Add(new KeyValuePair<double, double>(20, 1.2));
-            kvList.Add(new KeyValuePair<double, double>(25, 1.3));
-            kvList.Add(new KeyValuePair<double, double>(30, 1.4));
-            kvList.Add(new KeyValuePair<double, double>(35, 1.5));
-            kvList.Add(new KeyValuePair<double, double>(40, 1.6));
-            kvList.Add(new KeyValuePair<double, double>(50, 2.0));
-            // + Position dependent
-            layerPenWhite.AlcByPositionTable = kvList;
-
-            siriusEditorControl1.PropertyGridCtrl.Refresh();
-        }
-
-        private void BtnSpotDistance_Click(object sender, EventArgs e)
-        {
-            var document = siriusEditorControl1.Document;
-            document.ActNew();
-
+            double spotDistance = 0.1;
             // create measurement begin
             var begin = EntityFactory.CreateMeasurementBegin(
                 10 * 1000,
@@ -236,7 +233,7 @@ namespace Demos
                     MeasurementChannels.LaserOn,
                     //MeasurementChannels.SpotDistance,
                 },
-                "Spot distance"
+                $"Spot distance control: {spotDistance:F3}mm"
                 );
             document.ActivePage.ActiveLayer.AddChild(begin);
 
@@ -255,11 +252,61 @@ namespace Demos
             layerPenWhite.AlcByPositionTable.Clear();
             layerPenWhite.AlcSignal = AutoLaserControlSignals.SpotDistance; //RTC6 + SCANAhead
             layerPenWhite.AlcMode = AutoLaserControlModes.ActualVelocityWithSCANAhead;
-            double spotDistance = 0.1; 
             layerPenWhite.AlcPercentage100 = spotDistance;
             //layerPenWhite.AlcMinValue = 0; // not used at SpotDistance
             //layerPenWhite.AlcMaxValue = 0; // not used at SpotDistance
             layerPenWhite.AlcByPositionTable.Clear();
+
+            siriusEditorControl1.PropertyGridCtrl.Refresh();
+        }
+
+        private void BtnPositionDependent_Click(object sender, EventArgs e)
+        {
+            var document = siriusEditorControl1.Document;
+            document.ActNew();
+
+            // create measurement begin
+            var begin = EntityFactory.CreateMeasurementBegin(
+                10 * 1000,
+                new MeasurementChannels[] {
+                    MeasurementChannels.SampleX,
+                    MeasurementChannels.SampleY,
+                    MeasurementChannels.LaserOn,
+                    MeasurementChannels.ExtAO1,
+                },
+                "position dependent + analog1"
+                );
+            document.ActivePage.ActiveLayer.AddChild(begin);
+
+            CreateEntity();
+
+            var end = EntityFactory.CreateMeasurementEnd();
+            document.ActivePage.ActiveLayer.AddChild(end);
+
+            Debug.Assert(document.ActivePage.ActiveLayer.PenColor == Color.White);
+
+            // Find layer pen for 'White'
+            document.FindByLayerPenColor(System.Drawing.Color.White, out var layerPenWhite);
+
+            // Mode Disable + analog output 
+            layerPenWhite.IsALC = true;
+            layerPenWhite.AlcMode = AutoLaserControlModes.Disabled;
+            layerPenWhite.AlcSignal = AutoLaserControlSignals.Analog1;
+            layerPenWhite.AlcPercentage100 = 5; //5V
+            layerPenWhite.AlcMinValue = 0; // 0V
+            layerPenWhite.AlcMaxValue = 10; //10V
+
+            // Distance(or radius) (mm), scale (0~4)
+            var kvList = new List<KeyValuePair<double, double>>();
+            kvList.Add(new KeyValuePair<double, double>(2, 1));
+            kvList.Add(new KeyValuePair<double, double>(3, 0.8));
+            kvList.Add(new KeyValuePair<double, double>(4, 0.6));
+            kvList.Add(new KeyValuePair<double, double>(5, 0.5));
+            kvList.Add(new KeyValuePair<double, double>(20, 0.4));
+            kvList.Add(new KeyValuePair<double, double>(50, 0.1));
+
+            // Position dependent
+            layerPenWhite.AlcByPositionTable = kvList;
 
             siriusEditorControl1.PropertyGridCtrl.Refresh();
         }

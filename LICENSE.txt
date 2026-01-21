@@ -13,7 +13,7 @@ PRODUCT
 - Example projects: https://github.com/labspiral/sirius3
 
 CONTACT FOR LICENSING
-To purchase or obtain a license key, contact: hcchoi@spirallab.co.kr (Attn: Developer Hong Chan, Choi).
+To purchase or obtain a license key, contact: hcchoi@spirallab.co.kr (Attn: Hong Chan, Choi).
 
 1. GRANT OF LICENSE
 1.1. Upon SpiralLab’s issuance of a valid license key and your acceptance of this Agreement, SpiralLab grants you a non-exclusive, non-transferable, non-sublicensable license to install and use the Software in binary form solely for your internal business purposes, subject to the terms herein.

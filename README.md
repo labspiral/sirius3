@@ -17,9 +17,9 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - MoF (Marking on the Fly), 2nd head, 3D
    - Sky Writing Mode 1/2/3 and 4
 - Ramp (Automatic Laser Control)
-   – Position dependent 
    - Velocity(set or actual) dependent
    - Encoder speed dependent
+   - Position dependent 
 - Scanner Field Correction
    - 2D / 3D correction 
 - Laser Power Control
@@ -51,8 +51,8 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 | Gerber file(RS-274x)         |Supported                                 |None                                   |
 | Wafer/Substrate map          |Built-in editor                           |None                                   |
 | Font file                    |General CXF, LFF formats                  |Customized CXF, LFF formats            |
-| Pen                          |Pens for Entity and Layer                 |Single Pen                             |
-| Library update               |By Nuget Package Manager                  |None                                   |
+| Pen                          |Pens for Entity and Layer                 |Entity Pen                             |
+| Library update               |By Nuget Package Manager                  |Manual                                 |
                                                                                                               
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_hatch.png)
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_slicer.png)
@@ -204,7 +204,6 @@ public class MainForm : Form
 
 ## Version history
 - See [HISTORY.md](HISTORY.md)
-- 한국어 이력 정보 [HISTORY.krKR.md](HISTORY.koKR.md)
 
 
  
