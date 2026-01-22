@@ -16,10 +16,16 @@
 - 강력한 가공 옵션
    - MoF (Marking on the Fly), 2nd 헤드, 3D
    - Sky Writing Mode 1/2/3/4
-- Ramp (Automatic Laser Control)
-   - 지령(및 실제) 속도 의존형
-   - 엔코더 속도 의존형
+- ALC(Automatic Laser Control)
+   - 벡터 정의형
+      - 램프(Ramp)
+   - 속도 의존형
+      - 지령 속도
+      - 실제 속도
+      - 엔코더 속도
+      - SDC(스팟 간격 제어)
    - 위치 의존형
+      - 거리 및 스케일 값 기반 테이블
 - 스캐너 필드 보정
    - 2D / 3D 보정
 - 레이저 파워 제어
@@ -197,6 +203,8 @@ public class MainForm : Form
 ```
 
 ## 라이센스
+- 라이센스 타입1: RTC 인스턴스 개수 + 옵션(MoF, 3D)
+- 라이센스 타입2: syncAXIS 인스턴스 개수 
 - 상업용 사용은 라이센스 구매가 필요합니다.
 - 라이센스 및 외부 라이브러리는 LICENSE.txt, THIRD-PARTY-NOTICES.txt 참고.
 - 이메일: hcchoi@spirallab.co.kr | https://spirallab.co.kr
@@ -204,6 +212,3 @@ public class MainForm : Form
 
 ## 버전 이력
 - 이력 정보 [HISTORY.krKR.md](HISTORY.koKR.md)
-
-
- 

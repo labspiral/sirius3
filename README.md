@@ -15,11 +15,17 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - Log scanner trajectory and output signals with plotted graphs
 - Powerful Marking Options
    - MoF (Marking on the Fly), 2nd head, 3D
-   - Sky Writing Mode 1/2/3 and 4
-- Ramp (Automatic Laser Control)
-   - Velocity(set or actual) dependent
-   - Encoder speed dependent
+   - Sky Writing Mode 1/2/3 or 4
+- ALC(Automatic Laser Control)
+   - Defined vector 
+      - Ramp
+   - Speed dependent 
+      - SetVelocity
+      - ActualVelocity
+      - EncoderSpeed 
+      - SDC(Spot distance control)
    - Position dependent 
+      - Table by distance and scale factor
 - Scanner Field Correction
    - 2D / 3D correction 
 - Laser Power Control
@@ -198,12 +204,11 @@ public class MainForm : Form
 
 ## License
 - Commercial license required for production use.
+- License Type1 : RTC instance count [+ options MoF, 3D]
+- License Type2 : syncAXIS instance count
 - See LICENSE.txt and THIRD-PARTY-NOTICES.txt.
 - Contact: hcchoi@spirallab.co.kr | https://spirallab.co.kr
 > Without a license key, the library runs in 30-minute evaluation mode.
 
 ## Version history
 - See [HISTORY.md](HISTORY.md)
-
-
- 
