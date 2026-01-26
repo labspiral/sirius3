@@ -1,5 +1,19 @@
 ﻿# Sirius3 version history
 
+## v1.2.7 (2026.1.26)
+- added) Added Variable Delays to EntityLayerPen
+    - Variable polygon delay: Set variable polygon delay time based on the angle of the bend (Default: Enabled)
+    - Variable jump delay: Set variable jump delay time based on the jump distance
+- fixed) RTC7
+    - invalid LaserOnShift value for Skywriting 
+- fixed) Config.IsMarkArcsIntoLines
+    - True: Arcs (EntityArc) and polylines (EntityPolyline2D) are processed by decomposing into lines (ListMarkTo)
+    - False: Arcs (EntityArc) and polylines (EntityPolyline2D) are processed by decomposing into lines  (ListArcTo)
+- fixed) Contour 
+   - IsClosed value was incorrectly calculated during contour extraction
+- fixed) Editable Config.EntityPenColors and Config.LayerPenColors
+- fixed) ActRemove failure for simulated entities
+ 
 ## v1.2.6 (2026.1.20)
 - added) Ellipse entity
 - added) EntityLine, EntityArc, EntityPolyline2D

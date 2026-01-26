@@ -1,5 +1,17 @@
 ﻿# Sirius3 버전 이력
 
+## v1.2.7 (2026.1.26)
+- added) EntityLayerPen 에 Variable Delays 기능 추가
+    - Variable polygon delay: 꺽이는 각도에 따라 가변적인 폴리곤 지연시간 설정 (기본값: 활성화)
+    - Variable jump delay: 점프 거리에 따라 가변적인 점프 지연시간 설정
+- fixed) RTC6 에서 Skywriting 사용 LaserOnShift 값이 너무 작게 설정되는 문제
+- fixed) Config.IsMarkArcsIntoLines 
+    - True : 호(EntityArc)와 폴리라인(EntityPolyline2D)의 곡선 가공시 직선(ListMarkTo)으로 분해되어 처리됨
+    - False: 호(EntityArc)와 폴리라인(EntityPolyline2D)의 곡선 가공시 호(ListArcTo)로 처리됨
+- fixed) Contour 추출시 IsClosed 값이 잘못 계산되는 문제 수정
+- fixed) Config.EntityPenColors, Config.LayerPenColors 편집 지원
+- fixed) 시뮬레이션 객체에 대한 ActRemove 실패
+ 
 ## v1.2.6 (2026.1.21)
 - added) 타원(ellipse) 개체 추가
 - added) EntityLine, EntityArc, EntityPolyline2D
