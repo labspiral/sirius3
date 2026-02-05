@@ -47,14 +47,14 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 namespace Demos
 {
     /// <summary>
-    /// MyMarkerRtc
+    /// MarkerRtc
     /// <para>RTC용 마커입니다.</para>
     /// <para>RTC 标记器。</para>
     /// </summary>
     /// <remarks>
     /// Used with RTC4,4e,5,6,6e <br/>
     /// Used with <see cref="IRtc.ListBegin">IRtc.ListBegin</see> and <see cref="IRtc.ListEnd">IRtc.ListEnd</see> at each <see cref="EntityLayer">EntityLayer</see>. <br/>
-    /// Supported useful features like as <see cref="MyMarkerRtc.MarkProcedures"/> and <see cref="MyMarkerRtc.MarkTargets"/>. <br/>
+    /// Supported useful features like as <see cref="MarkerRtc.MarkProcedures"/> and <see cref="MarkerRtc.MarkTargets"/>. <br/>
     /// </remarks>
     public class MyMarkerRtc
         : MarkerBase
@@ -293,12 +293,6 @@ namespace Demos
             get { return isMeasurementPlot; }
             set
             {
-                if (!File.Exists(SpiralLab.Sirius3.Config.MeasurementGNUPlotProgramPath))
-                {
-                    if (DialogResult.Yes == MessageBox.Show($"gnuplot program is not exist at '{SpiralLab.Sirius3.Config.MeasurementGNUPlotProgramPath}'.{Environment.NewLine}Press 'Yes' to open downloadable webpage", "Warning", MessageBoxButtons.YesNo))
-                        System.Diagnostics.Process.Start("http://gnuplot.info/download.html");
-                    return;
-                }
                 isMeasurementPlot = value;
             }
         }
@@ -387,12 +381,13 @@ namespace Demos
         /// <para>要标记的图层列表</para>
         /// </summary>
         protected List<EntityLayer> layers;
+
         private bool disposed = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MyMarkerRtc"/> class.
-        /// <para><see cref="MyMarkerRtc"/> 클래스의 새 인스턴스를 초기화합니다.</para>
-        /// <para>初始化 <see cref="MyMarkerRtc"/> 类的新实例。</para>
+        /// Initializes a new instance of the <see cref="MarkerRtc"/> class.
+        /// <para><see cref="MarkerRtc"/> 클래스의 새 인스턴스를 초기화합니다.</para>
+        /// <para>初始化 <see cref="MarkerRtc"/> 类的新实例。</para>
         /// <code>
         /// </code>
         /// </summary>
@@ -411,9 +406,9 @@ namespace Demos
             layers = new List<EntityLayer>();
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="MyMarkerRtc"/> class with the specified index and name.
-        /// <para>지정된 인덱스와 이름으로 <see cref="MyMarkerRtc"/> 클래스의 새 인스턴스를 초기화합니다.</para>
-        /// <para>使用指定的索引和名称初始化 <see cref="MyMarkerRtc"/> 类的新实例。</para>
+        /// Initializes a new instance of the <see cref="MarkerRtc"/> class with the specified index and name.
+        /// <para>지정된 인덱스와 이름으로 <see cref="MarkerRtc"/> 클래스의 새 인스턴스를 초기화합니다.</para>
+        /// <para>使用指定的索引和名称初始化 <see cref="MarkerRtc"/> 类的新实例。</para>
         /// <code>
         /// </code>
         /// </summary>
@@ -426,9 +421,9 @@ namespace Demos
             Name = name;
         }
         /// <summary>
-        /// Finalizes an instance of the <see cref="MyMarkerRtc"/> class.
-        /// <para><see cref="MyMarkerRtc"/> 클래스의 인스턴스를 종료합니다.</para>
-        /// <para>终止 <see cref="MyMarkerRtc"/> 类的一个实例。</para>
+        /// Finalizes an instance of the <see cref="MarkerRtc"/> class.
+        /// <para><see cref="MarkerRtc"/> 클래스의 인스턴스를 종료합니다.</para>
+        /// <para>终止 <see cref="MarkerRtc"/> 类的一个实例。</para>
         /// <code>
         /// </code>
         /// </summary>
@@ -827,6 +822,7 @@ namespace Demos
             }
             return success;
         }
+
         /// <summary>
         /// Marks each <see cref="IEntity"/>.
         /// <para>각 <see cref="IEntity"/>를 마킹합니다.</para>
@@ -1199,7 +1195,8 @@ namespace Demos
             var rtcMoF = rtc as IRtcMoF;
             Debug.Assert(rtc != null);
             Debug.Assert(laser != null);
-            Debug.Assert(document != null);         
+            Debug.Assert(document != null);
+            Debug.Assert(document.Selected.Length > 0);
 
             bool success = true;
             success &= laserGuideControl.CtlGuide(true);
@@ -1229,6 +1226,8 @@ namespace Demos
                 {
                     try
                     {
+                        WorkingSet.Offset = Offsets[i];
+                        WorkingSet.OffsetIndex = i;
                         // Push offset matrix
                         rtc.MatrixStack.Push(Offsets[i].ToMatrix);
 
@@ -1271,9 +1270,9 @@ namespace Demos
         }
 
         /// <summary>
-        /// Plots the measurement session data to a graph using gnuplot.
-        /// <para>gnuplot을 사용하여 측정 세션 데이터를 그래프로 그립니다.</para>
-        /// <para>使用 gnuplot 将测量会话数据绘制到图表。</para>
+        /// Plots the measurement session data to a graph.
+        /// <para>측정 세션 데이터를 그래프로 그립니다.</para>
+        /// <para>将测量会话数据绘制到图表。</para>
         /// <code>
         /// </code>
         /// </summary>

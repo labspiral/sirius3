@@ -41,10 +41,13 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 namespace Demos
 {
     /// <summary>
-    /// Main WinForms editor form that hosts the OpenGL editor surface,
-    /// device controls (RTC/Laser/PowerMeter/IO), and document management UI.
-    /// <para>OpenGL 편집기 화면, 장치 제어(RTC/레이저/파워 미터/IO) 및 문서 관리 UI를 호스팅하는 주 WinForms 편집기 폼입니다.</para>
-    /// <para>主 WinForms 编辑器窗体，托管 OpenGL 编辑器表面、设备控件（RTC/激光/功率计/IO）和文档管理 UI。</para>
+    /// Main WinForms editor control that hosts the OpenGL editor surface,
+    /// device controls (Scanner/Laser/PowerMeter/IO/Marker), and document management UI.
+    /// It supports a single set of devices for a single document.
+    /// <para>OpenGL 편집기 화면, 장치 제어(스캐너/레이저/파워 미터/IO/마커) 및 문서 관리 UI를 호스팅하는 주 WinForms 편집기 컨트롤입니다.
+    /// 하나의 문서에 대해 하나의 장치 세트(스캐너, 레이저, 파워 미터, 마커 등)를 지원합니다.</para>
+    /// <para>主 WinForms 编辑器控件，托管 OpenGL 编辑器表面、设备控件（扫描仪/激光/功率计/IO/标记）和文档管理 UI。
+    /// 它支持单个文档的单个设备集。</para>
     /// </summary>
     public partial class SiriusEditorControl : UserControl
     {
@@ -364,7 +367,6 @@ namespace Demos
             set
             {
                 if (dIExt1 == value) return;
-                dIExt1?.Dispose();
                 dIExt1 = value;
                 RtcDICtrl.DIExt1 = dIExt1;
             }
@@ -387,7 +389,6 @@ namespace Demos
             set
             {
                 if (dILaserPort == value) return;
-                dILaserPort?.Dispose();
                 dILaserPort = value;
                 RtcDICtrl.DILaserPort = dILaserPort;
             }
@@ -410,7 +411,6 @@ namespace Demos
             set
             {
                 if (dOExt1 == value) return;
-                dOExt1?.Dispose();
                 dOExt1 = value;
                 RtcDOCtrl.DOExt1 = dOExt1;
             }
@@ -433,7 +433,6 @@ namespace Demos
             set
             {
                 if (dOExt2 == value) return;
-                dOExt2?.Dispose();
                 dOExt2 = value;
                 RtcDOCtrl.DOExt2 = dOExt2;
             }
@@ -456,7 +455,6 @@ namespace Demos
             set
             {
                 if (dOLaserPort == value) return;
-                dOLaserPort?.Dispose();
                 dOLaserPort = value;
                 RtcDOCtrl.DOLaserPort = dOLaserPort;
             }
@@ -766,7 +764,7 @@ namespace Demos
             //Document.ActNew(true, true, true, true, true, true, true, true, true);
             Document.ActNew(true, true, true, true, true, false, false, false, false); //scanner layer 펜 재 생성 막기
 
-            Marker?.Ready(Document);
+            Marker?.Ready(Document, View, Scanner as IRtc, Laser, PowerMeter);
         }
         /// <summary>
         /// Handles form closing; disposes timers.

@@ -1,5 +1,21 @@
 ﻿# Sirius3 version history
 
+## v1.3.0 (2026.2.5)
+- added) EntityPolyline2D and EntityPolyline3D
+    - vertex list editor 
+- added) SiriusMultiEditorControl control
+    - support for processing a single document across multiple devices 
+- added) EntityLayerPen
+    - Added UI to edit pen values and provide assistance
+- replace) removed gnuplot and replaced with built-in plot functionality
+- fixed) invalid scanner jog output form 
+- added) support for ODA converter programme
+    - improved to enable the additional use of the ODA converter when processing .dwg and .dxf files
+    - ODA converter requires separate installation by the user (https://www.opendesign.com/guestfiles/oda_file_converter) 
+- licence) Licence policy changes
+    - 3D option removed and changed to basic
+    - syncAXIS instance changed to an option feature
+
 ## v1.2.7 (2026.1.26)
 - added) Added Variable Delays to EntityLayerPen
     - Variable polygon delay: Set variable polygon delay time based on the angle of the bend (Default: Enabled)

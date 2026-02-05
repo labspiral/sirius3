@@ -204,8 +204,7 @@ public class MainForm : Form
 
 ## License
 - Commercial license required for production use.
-- License Type1 : RTC instance count [+ options MoF, 3D]
-- License Type2 : syncAXIS instance count
+- License : RTC instance count + [options: MoF or syncAXIS]
 - See LICENSE.txt and THIRD-PARTY-NOTICES.txt.
 - Contact: hcchoi@spirallab.co.kr | https://spirallab.co.kr
 > Without a license key, the library runs in 30-minute evaluation mode.

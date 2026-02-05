@@ -46,7 +46,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="0.9.3" />
+		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
 		<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
 		<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
@@ -54,6 +54,36 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 
+	<!-- To copy(or overwrite) specific RTC6 files for syncAXIS v1.8.2 -->
+	<!--
+	<Target Name="OverrideRTCFilesForSyncAXIS" AfterTargets="Build">
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\bin64\RTC6DLLx64.dll"
+			DestinationFolder="$(TargetDir)x64\"
+			OverwriteReadOnlyFiles="true" />
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\bin\RTC6DLL.dll"
+			DestinationFolder="$(TargetDir)x32\"
+			OverwriteReadOnlyFiles="true" />
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\ProgramFiles\RTC6Dat.dat"
+			DestinationFolder="$(TargetDir)"
+			OverwriteReadOnlyFiles="true" />
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\ProgramFiles\RTC6Eth.out"
+			DestinationFolder="$(TargetDir)"
+			OverwriteReadOnlyFiles="true" />
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\ProgramFiles\RTC6Out.out"
+			DestinationFolder="$(TargetDir)"
+			OverwriteReadOnlyFiles="true" />
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\ProgramFiles\RTC6RBF.rbf"
+			DestinationFolder="$(TargetDir)"
+			OverwriteReadOnlyFiles="true" />
+	</Target>
+	-->	
+	
 	<!--
 	<ItemGroup>
 		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3">

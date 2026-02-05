@@ -46,13 +46,13 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 namespace Demos
 {
     /// <summary>
-    /// MyMarkerSyncAxis
+    /// MarkerSyncAxis
     /// <para>SyncAXIS용 마커입니다.</para>
     /// <para>SyncAXIS 标记器。</para>
     /// </summary>
     /// <remarks>
     /// Used with syncAXIS only. <br/>
-    /// Supported useful features like as <see cref="MyMarkerSyncAxis.MarkProcedures">MarkProcedures</see> and <see cref="MyMarkerSyncAxis.MarkTargets">MarkTargets</see>. <br/>
+    /// Supported useful features like as <see cref="MarkerSyncAxis.MarkProcedures">MarkProcedures</see> and <see cref="MarkerSyncAxis.MarkTargets">MarkTargets</see>. <br/>
     /// </remarks>
     public class MyMarkerSyncAxis
         : MarkerBase
@@ -240,11 +240,6 @@ namespace Demos
             get { return isMeasurementPlot; }
             set
             {
-                if (!File.Exists(SpiralLab.Sirius3.Config.SyncAxisViewerProgramPath))
-                {
-                    MessageBox.Show($"syncaxis viewer program is not exist at '{SpiralLab.Sirius3.Config.MeasurementGNUPlotProgramPath}'", "Warning", MessageBoxButtons.OK);
-                    return;
-                }
                 isMeasurementPlot = value;
             }
         }
@@ -273,9 +268,9 @@ namespace Demos
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MyMarkerSyncAxis"/> class.
-        /// <para><see cref="MyMarkerSyncAxis"/> 클래스의 새 인스턴스를 초기화합니다.</para>
-        /// <para>初始化 <see cref="MyMarkerSyncAxis"/> 类的新实例。</para>
+        /// Initializes a new instance of the <see cref="MarkerSyncAxis"/> class.
+        /// <para><see cref="MarkerSyncAxis"/> 클래스의 새 인스턴스를 초기화합니다.</para>
+        /// <para>初始化 <see cref="MarkerSyncAxis"/> 类的新实例。</para>
         /// <code>
         /// </code>
         /// </summary>
@@ -295,9 +290,9 @@ namespace Demos
             layers = new List<EntityLayer>();
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="MyMarkerSyncAxis"/> class with the specified index and name.
-        /// <para>지정된 인덱스와 이름으로 <see cref="MyMarkerSyncAxis"/> 클래스의 새 인스턴스를 초기화합니다.</para>
-        /// <para>使用指定的索引和名称初始化 <see cref="MyMarkerSyncAxis"/> 类的新实例。</para>
+        /// Initializes a new instance of the <see cref="MarkerSyncAxis"/> class with the specified index and name.
+        /// <para>지정된 인덱스와 이름으로 <see cref="MarkerSyncAxis"/> 클래스의 새 인스턴스를 초기화합니다.</para>
+        /// <para>使用指定的索引和名称初始化 <see cref="MarkerSyncAxis"/> 类的新实例。</para>
         /// <code>
         /// </code>
         /// </summary>
@@ -310,9 +305,9 @@ namespace Demos
             Name = name;
         }
         /// <summary>
-        /// Finalizes an instance of the <see cref="MyMarkerSyncAxis"/> class.
-        /// <para><see cref="MyMarkerSyncAxis"/> 클래스의 인스턴스를 종료합니다.</para>
-        /// <para>终止 <see cref="MyMarkerSyncAxis"/> 类的一个实例。</para>
+        /// Finalizes an instance of the <see cref="MarkerSyncAxis"/> class.
+        /// <para><see cref="MarkerSyncAxis"/> 클래스의 인스턴스를 종료합니다.</para>
+        /// <para>终止 <see cref="MarkerSyncAxis"/> 类的一个实例。</para>
         /// <code>
         /// </code>
         /// </summary>
@@ -719,7 +714,6 @@ namespace Demos
             }
             return success;
         }
-
         /// <summary>
         /// Marks each <see cref="IEntity"/>.
         /// <para>각 <see cref="IEntity"/>를 마킹합니다.</para>
@@ -786,6 +780,7 @@ namespace Demos
             Debug.Assert(document != null);
             Debug.Assert(null != rtcSyncAxis);
             this.isInternalBusy = true;
+
             this.NotifyStarted();
             WorkingSet.StartTime = WorkingSet.EndTime = DateTime.Now;
             bool success = true;
@@ -886,6 +881,7 @@ namespace Demos
             Debug.Assert(null != rtcSyncAxis);
             this.isInternalBusy = true;
             WorkingSet.StartTime = WorkingSet.EndTime = DateTime.Now;
+
             this.NotifyStarted();
             bool success = true;
             var oldMatrixStack = (IMatrixStack<DMat4>)rtc.MatrixStack.Clone();
@@ -1017,6 +1013,8 @@ namespace Demos
                 {
                     try
                     {
+                        WorkingSet.Offset = Offsets[i];
+                        WorkingSet.OffsetIndex = i;
                         // Push offset matrix
                         rtc.MatrixStack.Push(Offsets[i].ToMatrix);
 

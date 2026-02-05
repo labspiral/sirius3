@@ -48,9 +48,9 @@ namespace Demos
             EditorHelper.ConfigFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config_syncaxis.ini");
             // Edit : <cfg:BaseDirectoryPath> YOUR WORKING DIRECTORY </cfg:BaseDirectoryPath>
             // at syncAXISConfig.xml 
-            // For example : <cfg:BaseDirectoryPath> C:\git\sirius3\bin\net481 </cfg:BaseDirectoryPath>
+            // For example : <cfg:BaseDirectoryPath>C:\git\sirius3\bin\net481</cfg:BaseDirectoryPath>
 
-            // Also, need to syncaxis license at library option.
+            // Also, need to syncaxis license at sirius3 library option.
             //Core.License(out var licenseInfo);
             //Debug.Assert(licenseInfo.IsRtcSyncAxisLicensed);
 

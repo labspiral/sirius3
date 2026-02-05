@@ -25,6 +25,9 @@ namespace Demos
             SpiralLab.Sirius3.Core.Initialize();
 
             Application.Run(new Form1());
+            
+            //or for multiple devices
+            //Application.Run(new Form2());
 
             SpiralLab.Sirius3.Core.Cleanup();
         }

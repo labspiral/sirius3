@@ -1,5 +1,21 @@
 ﻿# Sirius3 버전 이력
 
+## v1.3.0 (2026.2.5)
+- added) EntityPolyline2D, EntityPolyline3D 
+    - 정점 목록 편집기 추가
+- added) SiriusMultiEditorControl 컨트롤
+    - 하나의 문서 + 다중 디바이스 처리 지원
+- added) EntityLayerPen 
+    - 펜 값을 편집하고 도움을 주는 UI 추가
+- replace) 외부 gnuplot 프로그램 삭제 및 자체 plot 내장
+- fixed) scanner jog 출력 문제 해결
+- added) .dwg 임포트 지원
+    - ODA converter 는 사용자가 별도 설치 필요 (https://www.opendesign.com/guestfiles/oda_file_converter) 
+    - .dwg, .dxf 파일 처리시 ODA converter 를 추가적으로 사용가능하도록 개선
+- license) 라이센스 정책 변경
+    - 3D 옵션이 삭제되고 기본 제공으로 변경
+    - syncAXIS 인스턴스가 옵션으로 변경
+
 ## v1.2.7 (2026.1.26)
 - added) EntityLayerPen 에 Variable Delays 기능 추가
     - Variable polygon delay: 꺽이는 각도에 따라 가변적인 폴리곤 지연시간 설정 (기본값: 활성화)

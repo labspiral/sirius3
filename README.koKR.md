@@ -203,9 +203,8 @@ public class MainForm : Form
 ```
 
 ## 라이센스
-- 라이센스 타입1: RTC 인스턴스 개수 + 옵션(MoF, 3D)
-- 라이센스 타입2: syncAXIS 인스턴스 개수 
 - 상업용 사용은 라이센스 구매가 필요합니다.
+- 라이센스: RTC 인스턴스 개수 + [옵션: MoF 혹은 syncAXIS]
 - 라이센스 및 외부 라이브러리는 LICENSE.txt, THIRD-PARTY-NOTICES.txt 참고.
 - 이메일: hcchoi@spirallab.co.kr | https://spirallab.co.kr
 > 라이센스키가 없으면 30분간 사용이 가능한 평가모드로 실행됩니다.

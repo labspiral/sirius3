@@ -66,14 +66,14 @@ LibTessDotNet
   License : SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008) 
   Source  : https://github.com/speps/LibTessDotNet
 
-gnuplot
-  Version : 6.0
-  License :  See upstream notices
-  Copyright: Thomas Williams, Colin Kelley
-  Source  : https://sourceforge.net/p/gnuplot/ 
+OxyPlot
+  Version : 2.2.0
+  License : MIT
+  Copyright: Copyright (c) 2014 OxyPlot contributors
+  Source  : https://github.com/oxyplot/oxyplot
 
 Microsoft .NET / .NET 8 (target platform)
-  License : MIT (parts may be under other licenses; see upstream notices)
+  License : MIT 
   Source  : https://github.com/dotnet/runtime
   Note    : This library targets .NET; the runtime itself is not redistributed by this package.
 

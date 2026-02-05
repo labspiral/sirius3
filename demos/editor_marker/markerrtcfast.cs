@@ -47,7 +47,7 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 namespace Demos
 {
     /// <summary>
-    /// MyMarkerRtcFast
+    /// MarkerRtcFast
     /// <para>
     /// Process whole <see cref="EntityLayer">EntityLayer</see>s between a pair of <see cref="IRtc.ListBegin">IRtc.ListBegin</see> and <see cref="IRtc.ListEnd">IRtc.ListEnd</see> to performance up (also. reduce total mark time). <br/>
     /// </para>
@@ -197,12 +197,6 @@ namespace Demos
             get { return isMeasurementPlot; }
             set
             {
-                if (!File.Exists(SpiralLab.Sirius3.Config.MeasurementGNUPlotProgramPath))
-                {
-                    if (DialogResult.Yes == MessageBox.Show($"gnuplot program is not exist at '{SpiralLab.Sirius3.Config.MeasurementGNUPlotProgramPath}'.{Environment.NewLine}Press 'Yes' to open downloadable webpage", "Warning", MessageBoxButtons.YesNo))
-                        System.Diagnostics.Process.Start("http://gnuplot.info/download.html");
-                    return;
-                }
                 isMeasurementPlot = value;
             }
         }
@@ -294,9 +288,9 @@ namespace Demos
         private bool disposed = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MyMarkerRtcFast"/> class.
-        /// <para><see cref="MyMarkerRtcFast"/> 클래스의 새 인스턴스를 초기화합니다.</para>
-        /// <para>初始化 <see cref="MyMarkerRtcFast"/> 类的新实例。</para>
+        /// Initializes a new instance of the <see cref="MarkerRtcFast"/> class.
+        /// <para><see cref="MarkerRtcFast"/> 클래스의 새 인스턴스를 초기화합니다.</para>
+        /// <para>初始化 <see cref="MarkerRtcFast"/> 类的新实例。</para>
         /// <code>
         /// </code>
         /// </summary>
@@ -314,9 +308,9 @@ namespace Demos
             layers = new List<EntityLayer>();
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="MyMarkerRtcFast"/> class with the specified index and name.
-        /// <para>지정된 인덱스와 이름으로 <see cref="MyMarkerRtcFast"/> 클래스의 새 인스턴스를 초기화합니다.</para>
-        /// <para>使用指定的索引和名称初始化 <see cref="MyMarkerRtcFast"/> 类的新实例。</para>
+        /// Initializes a new instance of the <see cref="MarkerRtcFast"/> class with the specified index and name.
+        /// <para>지정된 인덱스와 이름으로 <see cref="MarkerRtcFast"/> 클래스의 새 인스턴스를 초기화합니다.</para>
+        /// <para>使用指定的索引和名称初始化 <see cref="MarkerRtcFast"/> 类的新实例。</para>
         /// <code>
         /// </code>
         /// </summary>
@@ -329,9 +323,9 @@ namespace Demos
             Name = name;
         }
         /// <summary>
-        /// Finalizes an instance of the <see cref="MyMarkerRtcFast"/> class.
-        /// <para><see cref="MyMarkerRtcFast"/> 클래스의 인스턴스를 종료합니다.</para>
-        /// <para>终止 <see cref="MyMarkerRtcFast"/> 类的一个实例。</para>
+        /// Finalizes an instance of the <see cref="MarkerRtcFast"/> class.
+        /// <para><see cref="MarkerRtcFast"/> 클래스의 인스턴스를 종료합니다.</para>
+        /// <para>终止 <see cref="MarkerRtcFast"/> 类的一个实例。</para>
         /// <code>
         /// </code>
         /// </summary>
@@ -598,7 +592,6 @@ namespace Demos
                 layers.Add(layer);
             }
 
-
             Logger.Log(LogLevel.Warning, $"marker [{Index}]: trying to start preview mark");
             this.thread = new Thread(this.MarkerThreadPreview);
             this.thread.Name = $"Marker: {this.Name}";
@@ -721,7 +714,6 @@ namespace Demos
             }
             return success;
         }
-
         /// <summary>
         /// Marks each <see cref="IEntity"/>.
         /// <para>각 <see cref="IEntity"/>를 마킹합니다.</para>
@@ -793,6 +785,7 @@ namespace Demos
             Debug.Assert(document != null);
             Debug.Assert(null == rtcSyncAxis);
             this.isInternalBusy = true;
+
             this.NotifyStarted();
             WorkingSet.StartTime = WorkingSet.EndTime = DateTime.Now;
             bool success = true;
@@ -928,7 +921,8 @@ namespace Demos
             Debug.Assert(rtc != null);
             Debug.Assert(laser != null);
             Debug.Assert(document != null);
-   
+            Debug.Assert(document.Selected.Length > 0);
+
             bool success = true;
             success &= laserGuideControl.CtlGuide(true);
             if (!success)
@@ -999,7 +993,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Plot measurement to graph by gnuplot
+        /// Plot measurement to graph 
         /// </summary>
         protected virtual void NotifyPlot()
         {
