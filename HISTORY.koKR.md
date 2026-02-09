@@ -1,5 +1,12 @@
 ﻿# Sirius3 버전 이력
 
+## v1.3.1 (2026.2.9)
+- added) IRtcSCANAhead 인터페이스
+    - EntityPen 에 SCANAhead 용 항목(Corner, End, Acc Scale) 추가 
+    - Position(or Trajectory) Acknowledge Limit 값 설정 지원 (초기값 : 전체 위치 범위의 0.28%)
+    - RTC6 + SCANAhead 사용시 Trajectory ACK Limit 값을 의미함
+- added) IRtcWaitID 인터페이스
+
 ## v1.3.0 (2026.2.5)
 - added) EntityPolyline2D, EntityPolyline3D 
     - 정점 목록 편집기 추가

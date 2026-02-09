@@ -46,49 +46,49 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 namespace Demos
 {
     /// <summary>
-    /// MarkerSyncAxis
-    /// <para>SyncAXIS용 마커입니다.</para>
-    /// <para>SyncAXIS 标记器。</para>
+    /// MyMarkerSyncAxis
+    /// <para>SyncAXIS용 마커입니다.<br/></para>
+    /// <para>SyncAXIS 标记器。<br/></para>
     /// </summary>
     /// <remarks>
     /// Used with syncAXIS only. <br/>
-    /// Supported useful features like as <see cref="MarkerSyncAxis.MarkProcedures">MarkProcedures</see> and <see cref="MarkerSyncAxis.MarkTargets">MarkTargets</see>. <br/>
+    /// Supported useful features like as <see cref="MyMarkerSyncAxis.MarkProcedures">MarkProcedures</see> and <see cref="MyMarkerSyncAxis.MarkTargets">MarkTargets</see>. <br/>
     /// </remarks>
     public class MyMarkerSyncAxis
         : MarkerBase
     {
         /// <summary>
         /// Mark targets
-        /// <para>마크 대상</para>
-        /// <para>标记目标</para>
+        /// <para>마크 대상<br/></para>
+        /// <para>标记目标<br/></para>
         /// </summary>
         public enum MarkTargets
         {
             /// <summary>
             /// All entities
-            /// <para>모든 엔티티</para>
-            /// <para>所有实体</para>
+            /// <para>모든 엔티티<br/></para>
+            /// <para>所有实体<br/></para>
             /// </summary>
             All = 0,
             /// <summary>
             /// Selected entities
-            /// <para>선택된 엔티티</para>
-            /// <para>选定的实体</para>
+            /// <para>선택된 엔티티<br/></para>
+            /// <para>选定的实体<br/></para>
             /// </summary>
             Selected = 1,
         }
 
         /// <summary>
         /// Mark procedures
-        /// <para>마크 절차</para>
-        /// <para>标记过程</para>
+        /// <para>마크 절차<br/></para>
+        /// <para>标记过程<br/></para>
         /// </summary>
         public enum MarkProcedures
         {
             /// <summary>
             /// Order of marks: Mark Page1(s) at Offset1 -> Mark Page1(s) at Offset2, ...
-            /// <para>마크 순서: 오프셋1에서 페이지1 마크 -> 오프셋2에서 페이지1 마크, ...</para>
-            /// <para>标记顺序：在偏移量1处标记页面1 -> 在偏移量2处标记页面1，...</para>
+            /// <para>마크 순서: 오프셋1에서 페이지1 마크 -> 오프셋2에서 페이지1 마크, ...<br/></para>
+            /// <para>标记顺序：在偏移量1处标记页面1 -> 在偏移量2处标记页面1，...<br/></para>
             /// <example>
             /// <code language="C#">
             /// //Pseudo codes
@@ -116,8 +116,8 @@ namespace Demos
             LayerFirst = 0,
             /// <summary>
             /// Order of marks: Mark Page2 at Offset(s) -> Mark Page2 at Offset(s), ... 
-            /// <para>마크 순서: 오프셋에서 페이지2 마크 -> 오프셋에서 페이지2 마크, ...</para>
-            /// <para>标记顺序：在偏移量处标记页面2 -> 在偏移量处标记页面2，...</para>
+            /// <para>마크 순서: 오프셋에서 페이지2 마크 -> 오프셋에서 페이지2 마크, ...<br/></para>
+            /// <para>标记顺序：在偏移量处标记页面2 -> 在偏移量处标记页面2，...<br/></para>
             /// <example>
             /// <code language="C#">
             /// //Pseudo codes
@@ -143,8 +143,8 @@ namespace Demos
 
         /// <summary>
         /// Target entities to mark
-        /// <para>마크할 대상 엔티티</para>
-        /// <para>要标记的目标实体</para>
+        /// <para>마크할 대상 엔티티<br/></para>
+        /// <para>要标记的目标实体<br/></para>
         /// </summary>
         /// <remarks>
         /// Default: <see cref="MarkTargets.All">MarkTargets.All</see> <br/>
@@ -172,15 +172,15 @@ namespace Demos
         }
         /// <summary>
         /// Internal <c>MarkTargets</c>
-        /// <para>내부 <c>MarkTargets</c></para>
-        /// <para>内部 <c>MarkTargets</c></para>
+        /// <para>내부 <c>MarkTargets</c><br/></para>
+        /// <para>内部 <c>MarkTargets</c><br/></para>
         /// </summary>
         protected MarkTargets markTarget = MarkTargets.All;
 
         /// <summary>
         /// Mark procedure
-        /// <para>마크 절차</para>
-        /// <para>标记过程</para>
+        /// <para>마크 절차<br/></para>
+        /// <para>标记过程<br/></para>
         /// </summary>
         /// <remarks>
         /// Default: <see cref="MarkProcedures.LayerFirst">MarkProcedures.LayerFirst</see> <br/>
@@ -208,15 +208,15 @@ namespace Demos
         }
         /// <summary>
         /// Internal <c>MarkProcedures</c>
-        /// <para>내부 <c>MarkProcedures</c></para>
-        /// <para>内部 <c>MarkProcedures</c></para>
+        /// <para>내부 <c>MarkProcedures</c><br/></para>
+        /// <para>内部 <c>MarkProcedures</c><br/></para>
         /// </summary>
         protected MarkProcedures markProcedure = MarkProcedures.LayerFirst;
 
         /// <summary>
         /// Op status 
-        /// <para>작업 상태</para>
-        /// <para>操作状态</para>
+        /// <para>작업 상태<br/></para>
+        /// <para>操作状态<br/></para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -227,8 +227,8 @@ namespace Demos
 
         /// <summary>
         /// Is plot simulation output to syncAxis viewer
-        /// <para>시뮬레이션 출력을 syncAxis 뷰어로 그릴지 여부</para>
-        /// <para>是否将模拟输出绘制到 syncAxis 查看器</para>
+        /// <para>시뮬레이션 출력을 syncAxis 뷰어로 그릴지 여부<br/></para>
+        /// <para>是否将模拟输出绘制到 syncAxis 查看器<br/></para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -245,21 +245,21 @@ namespace Demos
         }
         /// <summary>
         /// Is plot measurement session to graph or not
-        /// <para>측정 세션을 그래프로 그릴지 여부</para>
-        /// <para>是否将测量会话绘制到图表</para>
+        /// <para>측정 세션을 그래프로 그릴지 여부<br/></para>
+        /// <para>是否将测量会话绘制到图表<br/></para>
         /// </summary>
         protected bool isMeasurementPlot;
 
         /// <summary>
         /// Internal marker thread 
-        /// <para>내부 마커 스레드</para>
-        /// <para>内部标记器线程</para>
+        /// <para>내부 마커 스레드<br/></para>
+        /// <para>内部标记器线程<br/></para>
         /// </summary>
         protected Thread thread;
         /// <summary>
         /// list of layers to mark
-        /// <para>마킹할 레이어 목록</para>
-        /// <para>要标记的图层列表</para>
+        /// <para>마킹할 레이어 목록<br/></para>
+        /// <para>要标记的图层列表<br/></para>
         /// </summary>
         protected List<EntityLayer> layers;
         System.Windows.Forms.Timer timerStatus = new System.Windows.Forms.Timer();
@@ -268,9 +268,9 @@ namespace Demos
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MarkerSyncAxis"/> class.
-        /// <para><see cref="MarkerSyncAxis"/> 클래스의 새 인스턴스를 초기화합니다.</para>
-        /// <para>初始化 <see cref="MarkerSyncAxis"/> 类的新实例。</para>
+        /// Initializes a new instance of the <see cref="MyMarkerSyncAxis"/> class.
+        /// <para><see cref="MyMarkerSyncAxis"/> 클래스의 새 인스턴스를 초기화합니다.<br/></para>
+        /// <para>初始化 <see cref="MyMarkerSyncAxis"/> 类的新实例。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -290,9 +290,9 @@ namespace Demos
             layers = new List<EntityLayer>();
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="MarkerSyncAxis"/> class with the specified index and name.
-        /// <para>지정된 인덱스와 이름으로 <see cref="MarkerSyncAxis"/> 클래스의 새 인스턴스를 초기화합니다.</para>
-        /// <para>使用指定的索引和名称初始化 <see cref="MarkerSyncAxis"/> 类的新实例。</para>
+        /// Initializes a new instance of the <see cref="MyMarkerSyncAxis"/> class with the specified index and name.
+        /// <para>지정된 인덱스와 이름으로 <see cref="MyMarkerSyncAxis"/> 클래스의 새 인스턴스를 초기화합니다.<br/></para>
+        /// <para>使用指定的索引和名称初始化 <see cref="MyMarkerSyncAxis"/> 类的新实例。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -305,9 +305,9 @@ namespace Demos
             Name = name;
         }
         /// <summary>
-        /// Finalizes an instance of the <see cref="MarkerSyncAxis"/> class.
-        /// <para><see cref="MarkerSyncAxis"/> 클래스의 인스턴스를 종료합니다.</para>
-        /// <para>终止 <see cref="MarkerSyncAxis"/> 类的一个实例。</para>
+        /// Finalizes an instance of the <see cref="MyMarkerSyncAxis"/> class.
+        /// <para><see cref="MyMarkerSyncAxis"/> 클래스의 인스턴스를 종료합니다.<br/></para>
+        /// <para>终止 <see cref="MyMarkerSyncAxis"/> 类的一个实例。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -333,8 +333,8 @@ namespace Demos
 
         /// <summary>
         /// Handles the Tick event of the timerStatus, updating the operation status color.
-        /// <para>timerStatus의 Tick 이벤트를 처리하여 작업 상태 색상을 업데이트합니다.</para>
-        /// <para>处理 timerStatus 的 Tick 事件，更新操作状态颜色。</para>
+        /// <para>timerStatus의 Tick 이벤트를 처리하여 작업 상태 색상을 업데이트합니다.<br/></para>
+        /// <para>处理 timerStatus 的 Tick 事件，更新操作状态颜色。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -647,8 +647,8 @@ namespace Demos
         }
         /// <summary>
         /// Marks each <see cref="EntityLayer"/>.
-        /// <para>각 <see cref="EntityLayer"/>를 마킹합니다.</para>
-        /// <para>标记每个 <see cref="EntityLayer"/>。</para>
+        /// <para>각 <see cref="EntityLayer"/>를 마킹합니다.<br/></para>
+        /// <para>标记每个 <see cref="EntityLayer"/>。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -716,8 +716,8 @@ namespace Demos
         }
         /// <summary>
         /// Marks each <see cref="IEntity"/>.
-        /// <para>각 <see cref="IEntity"/>를 마킹합니다.</para>
-        /// <para>标记每个 <see cref="IEntity"/>。</para>
+        /// <para>각 <see cref="IEntity"/>를 마킹합니다.<br/></para>
+        /// <para>标记每个 <see cref="IEntity"/>。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -760,8 +760,8 @@ namespace Demos
         }
         /// <summary>
         /// Implements the marker thread for <see cref="MarkProcedures.LayerFirst"/> procedure.
-        /// <para><see cref="MarkProcedures.LayerFirst"/> 절차에 대한 마커 스레드를 구현합니다.</para>
-        /// <para>实现 <see cref="MarkProcedures.LayerFirst"/> 过程的标记器线程。</para>
+        /// <para><see cref="MarkProcedures.LayerFirst"/> 절차에 대한 마커 스레드를 구현합니다.<br/></para>
+        /// <para>实现 <see cref="MarkProcedures.LayerFirst"/> 过程的标记器线程。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -860,8 +860,8 @@ namespace Demos
         }
         /// <summary>
         /// Implements the marker thread for <see cref="MarkProcedures.OffsetFirst"/> procedure.
-        /// <para><see cref="MarkProcedures.OffsetFirst"/> 절차에 대한 마커 스레드를 구현합니다.</para>
-        /// <para>实现 <see cref="MarkProcedures.OffsetFirst"/> 过程的标记器线程。</para>
+        /// <para><see cref="MarkProcedures.OffsetFirst"/> 절차에 대한 마커 스레드를 구현합니다.<br/></para>
+        /// <para>实现 <see cref="MarkProcedures.OffsetFirst"/> 过程的标记器线程。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -961,8 +961,8 @@ namespace Demos
         }
         /// <summary>
         /// Implements the marker thread for previewing marks.
-        /// <para>마크 미리보기를 위한 마커 스레드를 구현합니다.</para>
-        /// <para>实现标记预览的标记器线程。</para>
+        /// <para>마크 미리보기를 위한 마커 스레드를 구현합니다.<br/></para>
+        /// <para>实现标记预览的标记器线程。<br/></para>
         /// <code>
         /// </code>
         /// </summary>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36908.2
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11415.280 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_entity", "demos\editor_entity\editor_entity.csproj", "{86D5A453-BCA8-7226-34CD-2C8AADF627DA}"
 EndProject
@@ -63,6 +63,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_pen_multiple", "demos\editor_pen_multiple\editor_pen_multiple.csproj", "{986E695A-9294-409E-21A7-BAFC6F506464}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_multiple2", "demos\editor_multiple2\editor_multiple2.csproj", "{9D406814-6558-CD09-F8C1-B2D29FE1D2DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_scanahead", "demos\editor_scanahead\editor_scanahead.csproj", "{86087375-0307-12F4-9865-9B9A2FE4DE98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -170,6 +172,10 @@ Global
 		{9D406814-6558-CD09-F8C1-B2D29FE1D2DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D406814-6558-CD09-F8C1-B2D29FE1D2DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D406814-6558-CD09-F8C1-B2D29FE1D2DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86087375-0307-12F4-9865-9B9A2FE4DE98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86087375-0307-12F4-9865-9B9A2FE4DE98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86087375-0307-12F4-9865-9B9A2FE4DE98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86087375-0307-12F4-9865-9B9A2FE4DE98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

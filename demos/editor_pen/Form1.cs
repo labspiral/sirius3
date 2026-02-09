@@ -159,6 +159,7 @@ namespace Demos
             var rtcSkywriting = rtc as IRtcSkyWriting;
             var rtcWobbel = rtc as IRtcWobbel;
             var rtcAlc = rtc as IRtcAutoLaserControl;
+            var rtcVariableDelay = rtc as IRtcVariableDelay;
             var rtcMoF = rtc as IRtcMoF;
             var rtcSyncAxis = rtc as IRtcSyncAxis;
 
@@ -196,6 +197,11 @@ namespace Demos
                     success &= rtcAlc.CtlAlcByPositionTable(null);
             }
 
+            if (null != rtcVariableDelay)
+            {
+                success &= rtcVariableDelay.CtlDelayVariable(pen.IsVariablePolygonDelay, pen.VariablePolygonDelayEdgeLevel, pen.IsVariableJumpDelay, pen.VariableJumpDelayMin, pen.VariableJumpDelayLimitLength);
+            }
+
             if (rtc.Is3D)
             {
             }
@@ -205,7 +211,7 @@ namespace Demos
             if (rtc.IsMoF)
             {
             }
-            if (rtc.IsScanAhead)
+            if (rtc.IsSCANAhead)
             {
             }
 
@@ -239,8 +245,8 @@ namespace Demos
             Debug.Assert(null != laser);
 
             var rtcExtension = rtc as IRtcExtension;
-            var rtcSkywriting = rtc as IRtcSkyWriting;
             var rtcWobbel = rtc as IRtcWobbel;
+            var rtcSCANAhead = rtc as IRtcSCANAhead;
             var rtcSyncAxis = rtc as IRtcSyncAxis;
 
             bool success = true;
@@ -277,9 +283,26 @@ namespace Demos
             if (rtc.IsMoF)
             {
             }
-            if (rtc.IsScanAhead)
+            if (rtc.IsSCANAhead)
             {
+                if (null != rtcSCANAhead)
+                {
+                    success &= rtcSCANAhead.ListDelaySCANAhead(pen.LaserOnShiftSCANa, pen.LaserOffShiftSCANa);
+                    success &= rtcSCANAhead.ListLineParams(pen.CornerScaleSCANa, pen.EndScaleSCANa, pen.AccScaleSCANa);
+                }
             }
+
+            // Convert jump to hard jump
+            // Above rtc5+ only
+            if (pen.IsHardJump)
+            {
+                Config.IsConvertJumpToHardJump = true;
+                Config.HardJumpLaserOnDelay = pen.LaserOnDelay;
+                Config.HardJumpLaserOffDelay = pen.LaserOffDelay;
+                Config.HardJumpScannerJumpDelay = pen.ScannerJumpDelay;
+            }
+            else
+                Config.IsConvertJumpToHardJump = false;
 
             success &= rtc.ListSpeed(pen.JumpSpeed, pen.MarkSpeed);
             success &= rtc.ListFirstPulseKiller(pen.LaserFpk);

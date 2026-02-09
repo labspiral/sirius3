@@ -34,9 +34,17 @@ namespace Demos
 {
     public partial class Form1 : Form
     {
-        const int maxSerialNo = 10;
-        int startingSerialNo = 1;
-        int currentSerialNo = 1;
+        const uint maxSerialNo = 100;
+
+        // 시작 일련번호
+        uint startingSerialNo = 1;
+        // 일렵번호 증가값
+        const uint increment = 1;
+        // 현재 일련번호 : RTC 리스트 버퍼에 삽입된후 업데이트됨 (실제 마킹 이전에 업데이트됨)
+        uint currentSerialNo = 1;
+        // 실제 일련번호: 실제 리스트 명령이 실행된후(텍스트 마킹이후) 실시간 업데이트됨 (여기에서는 자유번수 0 을 사용함)
+        uint realSerialNo;
+
 
         public Form1()
         {
@@ -74,7 +82,8 @@ namespace Demos
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
 
-            txtSerialNo.Text = $"{currentSerialNo}";
+            txtCurrentSerialNo.Text = $"{currentSerialNo}";
+            txtRealSerialNo.Text = $"{realSerialNo}";
         }
 
         private void BtnCreateEntities_Click(object sender, EventArgs e)
@@ -177,18 +186,21 @@ namespace Demos
                 // 이미 마커(IMarker)가 가공중이면 강제 중단
                 marker.Stop();
                 marker.Reset();
-                txtSerialNo.Enabled = true;
+                txtCurrentSerialNo.Enabled = true;
             }
             else
             {
                 // 마커(IMarker) 가공시작을 위해 
                 // 초기 일련번호를 설정
-                currentSerialNo = int.Parse(txtSerialNo.Text);
+                currentSerialNo = uint.Parse(txtCurrentSerialNo.Text);
+                realSerialNo = currentSerialNo;
+                txtRealSerialNo.Text = txtCurrentSerialNo.Text;
 
                 marker.Reset();
                 marker.Ready(siriusEditorControl1.Document);
                 marker.Start(document.Page); // current page
-                txtSerialNo.Enabled = false;
+
+                txtCurrentSerialNo.Enabled = false;
             }
         }
 
@@ -227,7 +239,7 @@ namespace Demos
         void CreateEventHandlers()
         {
             var marker = siriusEditorControl1.Marker;
-            
+
             // 바코드 및 텍스트 객체의 데이타 변경용 이벤트 핸들러 등록
             marker.OnTextConvert -= Marker_OnTextConvert;
             marker.OnTextConvert += Marker_OnTextConvert;
@@ -235,6 +247,25 @@ namespace Demos
             // UserEvent 객체 통지용 이벤트 핸들러 등록
             marker.OnUserEvent -= Marker_OnUserEvent;
             marker.OnUserEvent += Marker_OnUserEvent;
+
+            // 자유번수 변경 시점을 통지받기 위한 이벤트 핸들러 등록
+            if (marker.Rtc is IRtcFreeVariable rtcFreeVariable)
+            {
+                rtcFreeVariable.OnFreeVariableChanged -= OnFreeVariableChanged;
+                rtcFreeVariable.OnFreeVariableChanged += OnFreeVariableChanged;
+            }
+        }
+
+        private void OnFreeVariableChanged(IRtcFreeVariable rtcFreeVariable, uint no, uint data)
+        {
+            if (txtRealSerialNo.InvokeRequired)
+            {
+                txtRealSerialNo.BeginInvoke((MethodInvoker)(() => txtRealSerialNo.Text = $"{data}"));
+            }
+            else
+            {
+                txtRealSerialNo.Text = $"{data}";
+            }
         }
 
         private string Marker_OnTextConvert(IMarker marker, ITextConvertible textConvertible)
@@ -271,21 +302,24 @@ namespace Demos
         private bool Marker_OnUserEvent(IMarker marker, EntityUserEvent entityUserEvent)
         {
             // 일련번호 증가 및 최대값 처리
-            currentSerialNo++;
-            if (startingSerialNo > maxSerialNo)
+            currentSerialNo += increment;
+            if (currentSerialNo > maxSerialNo)
                 currentSerialNo = startingSerialNo;
 
-            if (txtSerialNo.InvokeRequired)
+            bool success = true;
+            if (marker.Rtc is IRtcFreeVariable rtcFreeVariable)
+                success &= rtcFreeVariable.ListWriteVariable(0, currentSerialNo);
+
+            if (txtCurrentSerialNo.InvokeRequired)
             {
-                txtSerialNo.BeginInvoke((MethodInvoker)(() => txtSerialNo.Text = $"{currentSerialNo}"));
+                txtCurrentSerialNo.BeginInvoke((MethodInvoker)(() => txtCurrentSerialNo.Text = $"{currentSerialNo}"));
             }
             else
             {
-                txtSerialNo.Text = $"{currentSerialNo}";
+                txtCurrentSerialNo.Text = $"{currentSerialNo}";
             }
 
-
-            return true;
+            return success;
         }
     }
 }

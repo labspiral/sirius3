@@ -30,11 +30,12 @@
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnCreateEntities = new System.Windows.Forms.Button();
-            this.btnStartStop = new System.Windows.Forms.Button();
             this.btnStartEncoderSimulation = new System.Windows.Forms.Button();
             this.btnStopEncoderSimulation = new System.Windows.Forms.Button();
+            this.txtCurrentSerialNo = new System.Windows.Forms.TextBox();
+            this.btnStartStop = new System.Windows.Forms.Button();
             this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
-            this.txtSerialNo = new System.Windows.Forms.TextBox();
+            this.txtRealSerialNo = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,7 +44,8 @@
             this.flowLayoutPanel1.Controls.Add(this.btnCreateEntities);
             this.flowLayoutPanel1.Controls.Add(this.btnStartEncoderSimulation);
             this.flowLayoutPanel1.Controls.Add(this.btnStopEncoderSimulation);
-            this.flowLayoutPanel1.Controls.Add(this.txtSerialNo);
+            this.flowLayoutPanel1.Controls.Add(this.txtCurrentSerialNo);
+            this.flowLayoutPanel1.Controls.Add(this.txtRealSerialNo);
             this.flowLayoutPanel1.Controls.Add(this.btnStartStop);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -59,15 +61,6 @@
             this.btnCreateEntities.TabIndex = 0;
             this.btnCreateEntities.Text = "Create Entities";
             this.btnCreateEntities.UseVisualStyleBackColor = true;
-            // 
-            // btnStartStop
-            // 
-            this.btnStartStop.Location = new System.Drawing.Point(724, 3);
-            this.btnStartStop.Name = "btnStartStop";
-            this.btnStartStop.Size = new System.Drawing.Size(221, 42);
-            this.btnStartStop.TabIndex = 3;
-            this.btnStartStop.Text = "Start/Stop";
-            this.btnStartStop.UseVisualStyleBackColor = true;
             // 
             // btnStartEncoderSimulation
             // 
@@ -86,6 +79,23 @@
             this.btnStopEncoderSimulation.TabIndex = 2;
             this.btnStopEncoderSimulation.Text = "Stop Encoder (Simulation)";
             this.btnStopEncoderSimulation.UseVisualStyleBackColor = true;
+            // 
+            // txtCurrentSerialNo
+            // 
+            this.txtCurrentSerialNo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCurrentSerialNo.Location = new System.Drawing.Point(618, 3);
+            this.txtCurrentSerialNo.Name = "txtCurrentSerialNo";
+            this.txtCurrentSerialNo.Size = new System.Drawing.Size(100, 39);
+            this.txtCurrentSerialNo.TabIndex = 4;
+            // 
+            // btnStartStop
+            // 
+            this.btnStartStop.Location = new System.Drawing.Point(830, 3);
+            this.btnStartStop.Name = "btnStartStop";
+            this.btnStartStop.Size = new System.Drawing.Size(221, 42);
+            this.btnStartStop.TabIndex = 3;
+            this.btnStartStop.Text = "Start/Stop";
+            this.btnStartStop.UseVisualStyleBackColor = true;
             // 
             // siriusEditorControl1
             // 
@@ -108,13 +118,13 @@
             this.siriusEditorControl1.Size = new System.Drawing.Size(2254, 1590);
             this.siriusEditorControl1.TabIndex = 2;
             // 
-            // txtSerialNo
+            // txtRealSerialNo
             // 
-            this.txtSerialNo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSerialNo.Location = new System.Drawing.Point(618, 3);
-            this.txtSerialNo.Name = "txtSerialNo";
-            this.txtSerialNo.Size = new System.Drawing.Size(100, 39);
-            this.txtSerialNo.TabIndex = 4;
+            this.txtRealSerialNo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRealSerialNo.Location = new System.Drawing.Point(724, 3);
+            this.txtRealSerialNo.Name = "txtRealSerialNo";
+            this.txtRealSerialNo.Size = new System.Drawing.Size(100, 39);
+            this.txtRealSerialNo.TabIndex = 5;
             // 
             // Form1
             // 
@@ -141,6 +151,7 @@
         private Button btnStartEncoderSimulation;
         private Button btnStopEncoderSimulation;
         private Button btnStartStop;
-        private TextBox txtSerialNo;
+        private TextBox txtCurrentSerialNo;
+        private TextBox txtRealSerialNo;
     }
 }

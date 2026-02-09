@@ -1,5 +1,12 @@
 ﻿# Sirius3 version history
 
+## v1.3.1 (2026.2.9)
+- added) IRtcSCANAhead interface
+    - Added SCANAhead-specific items (Corner, End, Acc Scale) to EntityPen
+    - Supports setting Position(or Trajectory) Acknowledge Limit value (default: 0.28% of total position range)
+    - When using RTC6 + SCANAhead, works as Trajectory ACK Limit value
+- added) IRtcWaitID interface
+ 
 ## v1.3.0 (2026.2.5)
 - added) EntityPolyline2D and EntityPolyline3D
     - vertex list editor 

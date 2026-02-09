@@ -47,9 +47,9 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 namespace Demos
 {
     /// <summary>
-    /// MarkerRtc
-    /// <para>RTC용 마커입니다.</para>
-    /// <para>RTC 标记器。</para>
+    /// MyMarkerRtc
+    /// <para>RTC용 마커입니다.<br/></para>
+    /// <para>RTC 标记器。<br/></para>
     /// </summary>
     /// <remarks>
     /// Used with RTC4,4e,5,6,6e <br/>
@@ -61,36 +61,36 @@ namespace Demos
     {
         /// <summary>
         /// Mark targets
-        /// <para>마크 대상</para>
-        /// <para>标记目标</para>
+        /// <para>마크 대상<br/></para>
+        /// <para>标记目标<br/></para>
         /// </summary>
         public enum MarkTargets
         {
             /// <summary>
             /// All entities
-            /// <para>모든 엔티티</para>
-            /// <para>所有实体</para>
+            /// <para>모든 엔티티<br/></para>
+            /// <para>所有实体<br/></para>
             /// </summary>
             All = 0,
             /// <summary>
             /// Selected entities
-            /// <para>선택된 엔티티</para>
-            /// <para>选定的实体</para>
+            /// <para>선택된 엔티티<br/></para>
+            /// <para>选定的实体<br/></para>
             /// </summary>
             Selected = 1,
         }
 
         /// <summary>
         /// Mark procedures
-        /// <para>마크 절차</para>
-        /// <para>标记过程</para>
+        /// <para>마크 절차<br/></para>
+        /// <para>标记过程<br/></para>
         /// </summary>
         public enum MarkProcedures
         {
             /// <summary>
             /// Order of marks: Mark Page1(s) at Offset1 -> Mark Page1(s) at Offset2, ...
-            /// <para>마크 순서: 오프셋1에서 페이지1 마크 -> 오프셋2에서 페이지1 마크, ...</para>
-            /// <para>标记顺序：在偏移量1处标记页面1 -> 在偏移量2处标记页面1，...</para>
+            /// <para>마크 순서: 오프셋1에서 페이지1 마크 -> 오프셋2에서 페이지1 마크, ...<br/></para>
+            /// <para>标记顺序：在偏移量1处标记页面1 -> 在偏移量2处标记页面1，...<br/></para>
             /// <example>
             /// <code language="C#">
             /// //Pseudo codes
@@ -118,8 +118,8 @@ namespace Demos
             LayerFirst = 0,
             /// <summary>
             /// Order of marks: Mark Page2 at Offset(s) -> Mark Page2 at Offset(s), ... 
-            /// <para>마크 순서: 오프셋에서 페이지2 마크 -> 오프셋에서 페이지2 마크, ...</para>
-            /// <para>标记顺序：在偏移量处标记页面2 -> 在偏移量处标记页面2，...</para>
+            /// <para>마크 순서: 오프셋에서 페이지2 마크 -> 오프셋에서 페이지2 마크, ...<br/></para>
+            /// <para>标记顺序：在偏移量处标记页面2 -> 在偏移量处标记页面2，...<br/></para>
             /// <example>
             /// <code language="C#">
             /// //Pseudo codes
@@ -145,8 +145,8 @@ namespace Demos
 
         /// <summary>
         /// Target entities to mark
-        /// <para>마크할 대상 엔티티</para>
-        /// <para>要标记的目标实体</para>
+        /// <para>마크할 대상 엔티티<br/></para>
+        /// <para>要标记的目标实体<br/></para>
         /// </summary>
         /// <remarks>
         /// Default: <see cref="MarkTargets.All">MarkTargets.All</see> <br/>
@@ -175,15 +175,15 @@ namespace Demos
         }
         /// <summary>
         /// Internal <c>MarkTargets</c>
-        /// <para>내부 <c>MarkTargets</c></para>
-        /// <para>内部 <c>MarkTargets</c></para>
+        /// <para>내부 <c>MarkTargets</c><br/></para>
+        /// <para>内部 <c>MarkTargets</c><br/></para>
         /// </summary>
         protected MarkTargets markTarget = MarkTargets.All;
 
         /// <summary>
         /// Mark procedure
-        /// <para>마크 절차</para>
-        /// <para>标记过程</para>
+        /// <para>마크 절차<br/></para>
+        /// <para>标记过程<br/></para>
         /// </summary>
         /// <remarks>
         /// Default: <see cref="MarkProcedures.LayerFirst">MarkProcedures.LayerFirst</see> <br/>
@@ -212,8 +212,8 @@ namespace Demos
         }
         /// <summary>
         /// Internal <c>MarkProcedures</c>
-        /// <para>내부 <c>MarkProcedures</c></para>
-        /// <para>内部 <c>MarkProcedures</c></para>
+        /// <para>내부 <c>MarkProcedures</c><br/></para>
+        /// <para>内部 <c>MarkProcedures</c><br/></para>
         /// </summary>
         protected MarkProcedures markProcedure = MarkProcedures.LayerFirst;
 
@@ -244,8 +244,8 @@ namespace Demos
 
         /// <summary>
         /// Array of <see cref="MeasurementSession">MeasurementSession</see> 
-        /// <para><see cref="MeasurementSession">MeasurementSession</see> 배열</para>
-        /// <para><see cref="MeasurementSession">MeasurementSession</see> 数组</para>
+        /// <para><see cref="MeasurementSession">MeasurementSession</see> 배열<br/></para>
+        /// <para><see cref="MeasurementSession">MeasurementSession</see> 数组<br/></para>
         /// </summary>
         /// <remarks>
         /// Session = <see cref="EntityMeasurementBegin">EntityMeasurementBegin</see> + <see cref="EntityMeasurementEnd">EntityMeasurementEnd</see> <br/>
@@ -263,14 +263,14 @@ namespace Demos
         }
         /// <summary>
         /// Queue for <see cref="MeasurementSession">MeasurementSession</see> 
-        /// <para><see cref="MeasurementSession">MeasurementSession</see> 큐</para>
-        /// <para><see cref="MeasurementSession">MeasurementSession</see> 队列</para>
+        /// <para><see cref="MeasurementSession">MeasurementSession</see> 큐<br/></para>
+        /// <para><see cref="MeasurementSession">MeasurementSession</see> 队列<br/></para>
         /// </summary>
         protected ConcurrentQueue<MeasurementSession> sessionQueue = new ConcurrentQueue<MeasurementSession>();
         /// <summary>
         /// Current (or last measurement session)
-        /// <para>현재(또는 마지막) 측정 세션</para>
-        /// <para>当前（或上一个）测量会话</para>
+        /// <para>현재(또는 마지막) 측정 세션<br/></para>
+        /// <para>当前（或上一个）测量会话<br/></para>
         /// </summary>
         /// <remarks>
         /// Valid when a pair of <see cref="EntityMeasurementBegin">EntityMeasurementBegin</see> and <see cref="EntityMeasurementEnd">EntityMeasurementEnd</see> has executed. <br/>
@@ -280,8 +280,8 @@ namespace Demos
 
         /// <summary>
         /// Is plot measurement session to graph or not
-        /// <para>측정 세션을 그래프로 그릴지 여부</para>
-        /// <para>是否将测量会话绘制到图表</para>
+        /// <para>측정 세션을 그래프로 그릴지 여부<br/></para>
+        /// <para>是否将测量会话绘制到图表<br/></para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -298,15 +298,15 @@ namespace Demos
         }
         /// <summary>
         /// Is plot measurement session to graph or not
-        /// <para>측정 세션을 그래프로 그릴지 여부</para>
-        /// <para>是否将测量会话绘制到图表</para>
+        /// <para>측정 세션을 그래프로 그릴지 여부<br/></para>
+        /// <para>是否将测量会话绘制到图表<br/></para>
         /// </summary>
         protected bool isMeasurementPlot;
 
         /// <summary>
         /// Max measurement time
-        /// <para>최대 측정 시간</para>
-        /// <para>最大测量时间</para>
+        /// <para>최대 측정 시간<br/></para>
+        /// <para>最大测量时间<br/></para>
         /// </summary>
         /// <remarks>
         /// RTC Max measurement time
@@ -337,8 +337,8 @@ namespace Demos
         }
         /// <summary>
         /// Check scanner temperature when start of mark
-        /// <para>마크 시작 시 스캐너 온도 확인</para>
-        /// <para>标记开始时检查扫描仪温度</para>
+        /// <para>마크 시작 시 스캐너 온도 확인<br/></para>
+        /// <para>标记开始时检查扫描仪温度<br/></para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -348,8 +348,8 @@ namespace Demos
         public virtual bool IsCheckTempOk { get; set; }
         /// <summary>
         /// Check scanner power supply when start of mark
-        /// <para>마크 시작 시 스캐너 전원 공급 확인</para>
-        /// <para>标记开始时检查扫描仪电源</para>
+        /// <para>마크 시작 시 스캐너 전원 공급 확인<br/></para>
+        /// <para>标记开始时检查扫描仪电源<br/></para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -359,8 +359,8 @@ namespace Demos
         public virtual bool IsCheckPowerOk { get; set; }
         /// <summary>
         /// Check scanner position acknowledge when start of mark
-        /// <para>마크 시작 시 스캐너 위치 확인</para>
-        /// <para>标记开始时检查扫描仪位置确认</para>
+        /// <para>마크 시작 시 스캐너 위치 확인<br/></para>
+        /// <para>标记开始时检查扫描仪位置确认<br/></para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -371,23 +371,23 @@ namespace Demos
 
         /// <summary>
         /// Internal marker thread 
-        /// <para>내부 마커 스레드</para>
-        /// <para>内部标记器线程</para>
+        /// <para>내부 마커 스레드<br/></para>
+        /// <para>内部标记器线程<br/></para>
         /// </summary>
         protected Thread thread;
         /// <summary>
         /// List of layers to mark
-        /// <para>마킹할 레이어 목록</para>
-        /// <para>要标记的图层列表</para>
+        /// <para>마킹할 레이어 목록<br/></para>
+        /// <para>要标记的图层列表<br/></para>
         /// </summary>
         protected List<EntityLayer> layers;
 
         private bool disposed = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MarkerRtc"/> class.
-        /// <para><see cref="MarkerRtc"/> 클래스의 새 인스턴스를 초기화합니다.</para>
-        /// <para>初始化 <see cref="MarkerRtc"/> 类的新实例。</para>
+        /// Initializes a new instance of the <see cref="MyMarkerRtc"/> class.
+        /// <para><see cref="MyMarkerRtc"/> 클래스의 새 인스턴스를 초기화합니다.<br/></para>
+        /// <para>初始化 <see cref="MyMarkerRtc"/> 类的新实例。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -406,9 +406,9 @@ namespace Demos
             layers = new List<EntityLayer>();
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="MarkerRtc"/> class with the specified index and name.
-        /// <para>지정된 인덱스와 이름으로 <see cref="MarkerRtc"/> 클래스의 새 인스턴스를 초기화합니다.</para>
-        /// <para>使用指定的索引和名称初始化 <see cref="MarkerRtc"/> 类的新实例。</para>
+        /// Initializes a new instance of the <see cref="MyMarkerRtc"/> class with the specified index and name.
+        /// <para>지정된 인덱스와 이름으로 <see cref="MyMarkerRtc"/> 클래스의 새 인스턴스를 초기화합니다.<br/></para>
+        /// <para>使用指定的索引和名称初始化 <see cref="MyMarkerRtc"/> 类的新实例。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -421,9 +421,9 @@ namespace Demos
             Name = name;
         }
         /// <summary>
-        /// Finalizes an instance of the <see cref="MarkerRtc"/> class.
-        /// <para><see cref="MarkerRtc"/> 클래스의 인스턴스를 종료합니다.</para>
-        /// <para>终止 <see cref="MarkerRtc"/> 类的一个实例。</para>
+        /// Finalizes an instance of the <see cref="MyMarkerRtc"/> class.
+        /// <para><see cref="MyMarkerRtc"/> 클래스의 인스턴스를 종료합니다.<br/></para>
+        /// <para>终止 <see cref="MyMarkerRtc"/> 类的一个实例。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -754,8 +754,8 @@ namespace Demos
         }
         /// <summary>
         /// Marks each <see cref="EntityLayer"/>.
-        /// <para>각 <see cref="EntityLayer"/>를 마킹합니다.</para>
-        /// <para>标记每个 <see cref="EntityLayer"/>。</para>
+        /// <para>각 <see cref="EntityLayer"/>를 마킹합니다.<br/></para>
+        /// <para>标记每个 <see cref="EntityLayer"/>。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -825,8 +825,8 @@ namespace Demos
 
         /// <summary>
         /// Marks each <see cref="IEntity"/>.
-        /// <para>각 <see cref="IEntity"/>를 마킹합니다.</para>
-        /// <para>标记每个 <see cref="IEntity"/>。</para>
+        /// <para>각 <see cref="IEntity"/>를 마킹합니다.<br/></para>
+        /// <para>标记每个 <see cref="IEntity"/>。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -870,8 +870,8 @@ namespace Demos
 
         /// <summary>
         /// Implements the marker thread for <see cref="MarkProcedures.LayerFirst"/> procedure.
-        /// <para><see cref="MarkProcedures.LayerFirst"/> 절차에 대한 마커 스레드를 구현합니다.</para>
-        /// <para>实现 <see cref="MarkProcedures.LayerFirst"/> 过程的标记器线程。</para>
+        /// <para><see cref="MarkProcedures.LayerFirst"/> 절차에 대한 마커 스레드를 구현합니다.<br/></para>
+        /// <para>实现 <see cref="MarkProcedures.LayerFirst"/> 过程的标记器线程。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -1002,6 +1002,14 @@ namespace Demos
                     success &= rtc.CtlMoveTo(DVec2.Zero, 500);
                 }
             }
+            if (IsCheckPositionAck)
+            {
+                if (!rtc.CtlGetStatus(RtcStatus.PositionAckOK))
+                {
+                    var positionACKLimit = rtc is IRtcRangeCheck rtcRangeCheck ? rtcRangeCheck.PositionACKLimit : 0;
+                    Logger.Log(LogLevel.Error, $"marker [{Index}]: out of range trajectory error limit: {positionACKLimit:F6}mm");
+                }
+            }
             rtc.MatrixStack = oldMatrixStack;
             WorkingSet.EndTime = DateTime.Now;
             this.isInternalBusy = false;
@@ -1019,8 +1027,8 @@ namespace Demos
         }
         /// <summary>
         /// Implements the marker thread for <see cref="MarkProcedures.OffsetFirst"/> procedure.
-        /// <para><see cref="MarkProcedures.OffsetFirst"/> 절차에 대한 마커 스레드를 구현합니다.</para>
-        /// <para>实现 <see cref="MarkProcedures.OffsetFirst"/> 过程的标记器线程。</para>
+        /// <para><see cref="MarkProcedures.OffsetFirst"/> 절차에 대한 마커 스레드를 구현합니다.<br/></para>
+        /// <para>实现 <see cref="MarkProcedures.OffsetFirst"/> 过程的标记器线程。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -1156,7 +1164,14 @@ namespace Demos
                     }
                 }
             }
-
+            if (IsCheckPositionAck)
+            {
+                if (!rtc.CtlGetStatus(RtcStatus.PositionAckOK))
+                {
+                    var positionACKLimit = rtc is IRtcRangeCheck rtcRangeCheck ? rtcRangeCheck.PositionACKLimit : 0;
+                    Logger.Log(LogLevel.Error, $"marker [{Index}]: out of range trajectory error limit: {positionACKLimit:F6}mm");
+                }
+            }
             rtc.MatrixStack = oldMatrixStack;
             WorkingSet.EndTime = DateTime.Now;
             this.isInternalBusy = false;
@@ -1174,8 +1189,8 @@ namespace Demos
         }
         /// <summary>
         /// Implements the marker thread for previewing marks.
-        /// <para>마크 미리보기를 위한 마커 스레드를 구현합니다.</para>
-        /// <para>实现标记预览的标记器线程。</para>
+        /// <para>마크 미리보기를 위한 마커 스레드를 구현합니다.<br/></para>
+        /// <para>实现标记预览的标记器线程。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -1271,8 +1286,8 @@ namespace Demos
 
         /// <summary>
         /// Plots the measurement session data to a graph.
-        /// <para>측정 세션 데이터를 그래프로 그립니다.</para>
-        /// <para>将测量会话数据绘制到图表。</para>
+        /// <para>측정 세션 데이터를 그래프로 그립니다.<br/></para>
+        /// <para>将测量会话数据绘制到图表。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
