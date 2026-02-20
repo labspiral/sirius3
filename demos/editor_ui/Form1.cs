@@ -36,6 +36,8 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
+
 
             this.btnPoints.Click += (s, e) => {
                 var document = siriusEditorControl1.Document;
@@ -114,7 +116,6 @@ namespace Demos
                 var document = siriusEditorControl1.Document;
                 gerber_testcase(document);
             };
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -137,6 +138,11 @@ namespace Demos
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
+        }
+
 
         #region Testcases (Samples)
         /// <summary>
@@ -144,27 +150,27 @@ namespace Demos
         /// </summary>
         private void points_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
 
-            int VERT_COUNT = 100 + (int)(rng.NextDouble() * 100);
+            int VERT_COUNT = 100 + (int)(rnd.NextDouble() * 100);
             var tempVerts = new List<DVec3>(VERT_COUNT);
             for (int v = 0; v < VERT_COUNT; v++)
             {
-                double x = rng.NextDouble() * 6.0 - 3.0;
-                double y = rng.NextDouble() * 6.0 - 3.0;
-                double z = rng.NextDouble();
+                double x = rnd.NextDouble() * 6.0 - 3.0;
+                double y = rnd.NextDouble() * 6.0 - 3.0;
+                double z = rnd.NextDouble();
                 tempVerts.Add(new DVec3(x, y, z));
             }
 
             var points = new EntityPoints(tempVerts)
             {
                 ColorMode = EntityModelBase.ColorModes.Model,
-                ModelColor = new DVec3(rng.NextDouble() + 0.8, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                ModelColor = new DVec3(rnd.NextDouble() + 0.8, rnd.NextDouble() * 0.5, rnd.NextDouble() + 0.4)
             };
 
-            double tx = rng.NextDouble() * 100.0 - 50.0;
-            double ty = rng.NextDouble() * 100.0 - 50.0;
-            double tz = rng.NextDouble() * 10.0;
+            double tx = rnd.NextDouble() * 100.0 - 50.0;
+            double ty = rnd.NextDouble() * 100.0 - 50.0;
+            double tz = rnd.NextDouble() * 10.0;
             points.Translate(tx, ty, tz);
 
             document.ActivePage?.ActiveLayer?.AddChild(points);
@@ -176,7 +182,7 @@ namespace Demos
         /// </summary>
         private void line_arc_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
 
             {
                 var entity = new EntityLine(new DVec3(0, 0, 0), new DVec3(10, 10, 1));
@@ -185,14 +191,14 @@ namespace Demos
 
             {
                 var entity = new EntityArc(new DVec3(0, 0, 0), 5);
-                double rx = rng.NextDouble() * 10 - 5.0;
-                double ry = rng.NextDouble() * 10 - 5.0;
-                double rz = rng.NextDouble() * 10 - 5.0;
+                double rx = rnd.NextDouble() * 10 - 5.0;
+                double ry = rnd.NextDouble() * 10 - 5.0;
+                double rz = rnd.NextDouble() * 10 - 5.0;
                 entity.Rotate(rx, ry, rz);
 
-                double tx = rng.NextDouble() * 100.0 - 50.0;
-                double ty = rng.NextDouble() * 100.0 - 50.0;
-                double tz = rng.NextDouble() * 100.0 - 10.0;
+                double tx = rnd.NextDouble() * 100.0 - 50.0;
+                double ty = rnd.NextDouble() * 100.0 - 50.0;
+                double tz = rnd.NextDouble() * 100.0 - 10.0;
                 entity.Translate(tx, ty, tz);
 
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
@@ -200,9 +206,9 @@ namespace Demos
 
             {
                 var entity = new EntityTrepan(DVec3.Zero, 5, 10, 10);
-                double tx = rng.NextDouble() * 100.0 - 50.0;
-                double ty = rng.NextDouble() * 100.0 - 50.0;
-                double tz = rng.NextDouble() * 10.0;
+                double tx = rnd.NextDouble() * 100.0 - 50.0;
+                double ty = rnd.NextDouble() * 100.0 - 50.0;
+                double tz = rnd.NextDouble() * 10.0;
                 entity.Translate(tx, ty, tz);
 
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
@@ -215,25 +221,25 @@ namespace Demos
         /// </summary>
         private void triangle_rectangle_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
 
             {
                 var entity = new EntityTriangle(new DVec3(0, 0, 0), 3, 2);
-                entity.Rotate(rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0);
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                entity.Rotate(rnd.NextDouble() * 10 - 5.0, rnd.NextDouble() * 10 - 5.0, rnd.NextDouble() * 10 - 5.0);
+                entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
             {
                 var entity = new EntityRectangle(new DVec3(0, 0, 0), 4, 3);
-                entity.Rotate(rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0);
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                entity.Rotate(rnd.NextDouble() * 10 - 5.0, rnd.NextDouble() * 10 - 5.0, rnd.NextDouble() * 10 - 5.0);
+                entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
             {
                 var entity = new EntityCross(DVec3.Zero, 10, 10, 2);
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 10.0);
+                entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
             siriusEditorControl1.View?.DoRender();
@@ -244,12 +250,12 @@ namespace Demos
         /// </summary>
         private void hatch_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
 
             {
                 var entity = new EntityRectangle(new DVec3(0, 0, 0), 4, 3);
-                entity.Rotate(rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0, rng.NextDouble() * 10 - 5.0);
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                entity.Rotate(rnd.NextDouble() * 10 - 5.0, rnd.NextDouble() * 10 - 5.0, rnd.NextDouble() * 10 - 5.0);
+                entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
                 entity.AddHatch(HatchFactory.CreateLine(30, 0.2));
                 entity.AddHatch(HatchFactory.CreateLine(120, 0.2));
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
@@ -257,7 +263,7 @@ namespace Demos
 
             {
                 var entity = new EntityCross(DVec3.Zero, 10, 10, 2);
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
                 entity.AddHatch(HatchFactory.CreatePolygon(0.1));
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
@@ -266,24 +272,24 @@ namespace Demos
                 const int ENTITY_COUNT = 5;
                 for (int i = 0; i < ENTITY_COUNT; i++)
                 {
-                    int VERT_COUNT = 3 + (int)(rng.NextDouble() * 5);
+                    int VERT_COUNT = 3 + (int)(rnd.NextDouble() * 5);
                     var tempVerts = new List<Vertex2D>(VERT_COUNT);
                     for (int v = 0; v < VERT_COUNT; v++)
                     {
-                        double x = rng.NextDouble() * 10.0 - 5.0;
-                        double y = rng.NextDouble() * 10.0 - 5.0;
-                        double b = rng.NextDouble();
+                        double x = rnd.NextDouble() * 10.0 - 5.0;
+                        double y = rnd.NextDouble() * 10.0 - 5.0;
+                        double b = rnd.NextDouble();
                         tempVerts.Add(new Vertex2D(x, y, b));
                     }
 
                     var poly = new EntityPolyline2D(tempVerts, true)
                     {
                         ColorMode = EntityModelBase.ColorModes.Model,
-                        ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                        ModelColor = new DVec3(rnd.NextDouble() + 0.4, rnd.NextDouble() * 0.5, rnd.NextDouble() + 0.4)
                     };
 
-                    poly.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                    poly.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                    poly.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+                    poly.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
                     poly.AddHatch(HatchFactory.CreateLine(45, 0.2, 0.1));
 
                     document.ActivePage?.ActiveLayer?.AddChild(poly);
@@ -298,7 +304,7 @@ namespace Demos
         /// </summary>
         private void gridcloud_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             const int COLS = 1024;
             const int ROWS = 768;
             const double INTERVAL = 0.05;
@@ -328,7 +334,7 @@ namespace Demos
                 var minZ = zDepths.Min();
                 var maxZ = zDepths.Max();
                 var pointsCloud = new EntityGrids(ROWS, COLS, INTERVAL, zDepths, new DVec2(minZ + 2, maxZ + 2));
-                pointsCloud.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 2);
+                pointsCloud.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 2);
                 document.ActivePage?.ActiveLayer?.AddChild(pointsCloud);
                 reference = pointsCloud;
             }
@@ -358,7 +364,7 @@ namespace Demos
                 {
                     ColorMode = EntityModelBase.ColorModes.PerVertex
                 };
-                pointsCloud.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 5);
+                pointsCloud.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 5);
                 document.ActivePage?.ActiveLayer?.AddChild(pointsCloud);
                 measured = pointsCloud;
             }
@@ -370,30 +376,30 @@ namespace Demos
         /// </summary>
         private void polyline2d_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             const int ENTITY_COUNT = 5;
 
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
-                int VERT_COUNT = 3 + (int)(rng.NextDouble() * 5);
+                int VERT_COUNT = 3 + (int)(rnd.NextDouble() * 5);
                 var tempVerts = new List<Vertex2D>(VERT_COUNT);
                 for (int v = 0; v < VERT_COUNT; v++)
                 {
-                    double x = rng.NextDouble() * 10.0 - 5.0;
-                    double y = rng.NextDouble() * 10.0 - 5.0;
-                    double b = rng.NextDouble();
+                    double x = rnd.NextDouble() * 10.0 - 5.0;
+                    double y = rnd.NextDouble() * 10.0 - 5.0;
+                    double b = rnd.NextDouble();
                     tempVerts.Add(new Vertex2D(x, y, b));
                 }
 
                 var poly = new EntityPolyline2D(tempVerts, true)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                    ModelColor = new DVec3(rnd.NextDouble() + 0.4, rnd.NextDouble() * 0.5, rnd.NextDouble() + 0.4)
                 };
 
-                poly.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                poly.Scale(rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5);
-                poly.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                poly.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+                poly.Scale(rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5);
+                poly.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
 
                 document.ActivePage?.ActiveLayer?.AddChild(poly);
             }
@@ -405,30 +411,30 @@ namespace Demos
         /// </summary>
         private void polyline3d_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             const int ENTITY_COUNT = 5;
 
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
-                int VERT_COUNT = 3 + (int)(rng.NextDouble() * 5);
+                int VERT_COUNT = 3 + (int)(rnd.NextDouble() * 5);
                 var tempVerts = new List<DVec3>(VERT_COUNT);
                 for (int v = 0; v < VERT_COUNT; v++)
                 {
-                    double x = rng.NextDouble() * 10.0 - 5.0;
-                    double y = rng.NextDouble() * 10.0 - 5.0;
-                    double z = rng.NextDouble() * 10.0 - 5.0;
+                    double x = rnd.NextDouble() * 10.0 - 5.0;
+                    double y = rnd.NextDouble() * 10.0 - 5.0;
+                    double z = rnd.NextDouble() * 10.0 - 5.0;
                     tempVerts.Add(new DVec3(x, y, z));
                 }
 
                 var poly = new EntityPolyline3D(tempVerts, true)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                    ModelColor = new DVec3(rnd.NextDouble() + 0.4, rnd.NextDouble() * 0.5, rnd.NextDouble() + 0.4)
                 };
 
-                poly.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                poly.Scale(rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5);
-                poly.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                poly.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+                poly.Scale(rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5);
+                poly.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
 
                 document.ActivePage?.ActiveLayer?.AddChild(poly);
             }
@@ -440,30 +446,30 @@ namespace Demos
         /// </summary>
         private void bezierSpline_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             const int ENTITY_COUNT = 5;
 
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
-                int VERT_COUNT = 3 + (int)(rng.NextDouble() * 5);
+                int VERT_COUNT = 3 + (int)(rnd.NextDouble() * 5);
                 var tempVerts = new List<DVec3>(VERT_COUNT);
                 for (int v = 0; v < VERT_COUNT; v++)
                 {
-                    double x = rng.NextDouble() * 10.0 - 5.0;
-                    double y = rng.NextDouble() * 10.0 - 5.0;
-                    double z = rng.NextDouble() * 10.0 - 5.0;
+                    double x = rnd.NextDouble() * 10.0 - 5.0;
+                    double y = rnd.NextDouble() * 10.0 - 5.0;
+                    double z = rnd.NextDouble() * 10.0 - 5.0;
                     tempVerts.Add(new DVec3(x, y, z));
                 }
 
                 var spline = new EntityBezierSpline(tempVerts)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                    ModelColor = new DVec3(rnd.NextDouble() + 0.4, rnd.NextDouble() * 0.5, rnd.NextDouble() + 0.4)
                 };
 
-                spline.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                spline.Scale(rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5);
-                spline.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                spline.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+                spline.Scale(rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5);
+                spline.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
 
                 document.ActivePage?.ActiveLayer?.AddChild(spline);
             }
@@ -475,30 +481,30 @@ namespace Demos
         /// </summary>
         private void catmullRomSpline_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             const int ENTITY_COUNT = 5;
 
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
-                int VERT_COUNT = 5 + (int)(rng.NextDouble() * 5);
+                int VERT_COUNT = 5 + (int)(rnd.NextDouble() * 5);
                 var tempVerts = new List<DVec3>(VERT_COUNT);
                 for (int v = 0; v < VERT_COUNT; v++)
                 {
-                    double x = rng.NextDouble() * 10.0 - 5.0;
-                    double y = rng.NextDouble() * 10.0 - 5.0;
-                    double z = rng.NextDouble() * 10.0 - 5.0;
+                    double x = rnd.NextDouble() * 10.0 - 5.0;
+                    double y = rnd.NextDouble() * 10.0 - 5.0;
+                    double z = rnd.NextDouble() * 10.0 - 5.0;
                     tempVerts.Add(new DVec3(x, y, z));
                 }
 
                 var spline = new EntityCatmullRomSpline(tempVerts, false)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                    ModelColor = new DVec3(rnd.NextDouble() + 0.4, rnd.NextDouble() * 0.5, rnd.NextDouble() + 0.4)
                 };
 
-                spline.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                spline.Scale(rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5);
-                spline.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                spline.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+                spline.Scale(rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5);
+                spline.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
 
                 document.ActivePage?.ActiveLayer?.AddChild(spline);
             }
@@ -510,18 +516,18 @@ namespace Demos
         /// </summary>
         private void text_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
 
             {
                 var text = new EntityText("Arial", FontStyle.Regular, $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+", 10);
-                text.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 10.0);
+                text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(text);
             }
 
             {
                 var text = new EntityText("Segoe UI", FontStyle.Regular, $"½ºÆÄÀÌ·²·¦{Environment.NewLine}SIRIUS3{Environment.NewLine}°³¹ßÀÚ ¹öÀü", 12);
-                text.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                text.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                text.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+                text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(text);
             }
 
@@ -532,8 +538,8 @@ namespace Demos
                     $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+",
                     50, 1, true, 20);
 
-                text.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                text.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                text.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+                text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(text);
             }
 
@@ -541,7 +547,7 @@ namespace Demos
                 var text = new EntityCircularText("Segoe UI", FontStyle.Regular, TextCircularDirections.ClockWise, 30, 90,
                     $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+", 5);
 
-                text.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(text);
             }
 
@@ -549,7 +555,7 @@ namespace Demos
                 var text = new EntitySiriusText("romans2.cxf", EntitySiriusText.LetterSpaces.Fixed, 0, 1, 0.5,
                     $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+", 10);
 
-                text.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(text);
             }
             siriusEditorControl1.View?.DoRender();
@@ -560,30 +566,30 @@ namespace Demos
         /// </summary>
         private void groupIngroup_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             var group = new EntityMixedGroup { Name = "TestGroup" };
 
             for (int i = 0; i < 5; i++)
             {
-                int VERT_COUNT = 3 + (int)(rng.NextDouble() * 5);
+                int VERT_COUNT = 3 + (int)(rnd.NextDouble() * 5);
                 var tempVerts = new List<Vertex2D>(VERT_COUNT);
                 for (int v = 0; v < VERT_COUNT; v++)
                 {
-                    double x = rng.NextDouble() * 20.0 - 10.0;
-                    double y = rng.NextDouble() * 20.0 - 10.0;
-                    double b = rng.NextDouble() * 0.1;
+                    double x = rnd.NextDouble() * 20.0 - 10.0;
+                    double y = rnd.NextDouble() * 20.0 - 10.0;
+                    double b = rnd.NextDouble() * 0.1;
                     tempVerts.Add(new Vertex2D(x, y, b));
                 }
 
                 var poly = new EntityPolyline2D(tempVerts, true)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                    ModelColor = new DVec3(rnd.NextDouble() + 0.4, rnd.NextDouble() * 0.5, rnd.NextDouble() + 0.4)
                 };
 
-                poly.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                poly.Scale(rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5);
-                poly.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                poly.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+                poly.Scale(rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5);
+                poly.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
 
                 group.AddChild(poly);
             }
@@ -592,31 +598,31 @@ namespace Demos
             {
                 var subGroup = new EntityMixedGroup(2) { Name = $"SubGroup{i}" };
 
-                int VERT_COUNT = 5 + (int)(rng.NextDouble() * 5);
+                int VERT_COUNT = 5 + (int)(rnd.NextDouble() * 5);
                 var tempVerts = new List<Vertex2D>(VERT_COUNT);
                 for (int v = 0; v < VERT_COUNT; v++)
                 {
-                    double x = rng.NextDouble() * 20.0 - 10.0;
-                    double y = rng.NextDouble() * 20.0 - 10.0;
-                    double b = rng.NextDouble() * 0.1;
+                    double x = rnd.NextDouble() * 20.0 - 10.0;
+                    double y = rnd.NextDouble() * 20.0 - 10.0;
+                    double b = rnd.NextDouble() * 0.1;
                     tempVerts.Add(new Vertex2D(x, y, b));
                 }
 
                 var poly = new EntityPolyline2D(tempVerts, true)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new DVec3(rng.NextDouble() + 0.4, rng.NextDouble() * 0.5, rng.NextDouble() + 0.4)
+                    ModelColor = new DVec3(rnd.NextDouble() + 0.4, rnd.NextDouble() * 0.5, rnd.NextDouble() + 0.4)
                 };
 
-                poly.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                poly.Scale(rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5);
-                poly.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                poly.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+                poly.Scale(rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5);
+                poly.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
 
                 subGroup.AddChild(poly);
                 group.AddChild(subGroup);
             }
 
-            group.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 5);
+            group.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 5);
             document.ActivePage?.ActiveLayer?.AddChild(group);
             siriusEditorControl1.View?.DoRender();
         }
@@ -626,7 +632,7 @@ namespace Demos
         /// </summary>
         private void sphere_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             const int ENTITY_COUNT = 100;
             var group = new EntityMixedGroup();
 
@@ -639,14 +645,14 @@ namespace Demos
                     ZRange = new DVec2(-5, 5)
                 };
 
-                entity.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                entity.Scale(rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5, rng.NextDouble() * 2.0 + 0.5);
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0 + 100, rng.NextDouble() * 10.0 - 5.0);
+                entity.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+                entity.Scale(rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5);
+                entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0 + 100, rnd.NextDouble() * 10.0 - 5.0);
 
                 group.AddChild(entity);
             }
 
-            group.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0 + 100, rng.NextDouble() * 2);
+            group.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0 + 100, rnd.NextDouble() * 2);
             document.ActivePage?.ActiveLayer?.AddChild(group);
             siriusEditorControl1.View?.DoRender();
         }
@@ -655,52 +661,52 @@ namespace Demos
         /// </summary>
         private void cube_cylinder_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             const int ENTITY_COUNT = 5;
 
             for (int i = 0; i < ENTITY_COUNT; i++)
             {
-                var cube = new EntityCube(DVec3.Zero, rng.NextDouble() * 5, rng.NextDouble() * 6, rng.NextDouble() * 2)
+                var cube = new EntityCube(DVec3.Zero, rnd.NextDouble() * 5, rnd.NextDouble() * 6, rnd.NextDouble() * 2)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new DVec3(rng.NextDouble() + 0.8, rng.NextDouble() * 0.5, rng.NextDouble())
+                    ModelColor = new DVec3(rnd.NextDouble() + 0.8, rnd.NextDouble() * 0.5, rnd.NextDouble())
                 };
-                cube.Rotate(rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0);
-                cube.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+                cube.Rotate(rnd.NextDouble() * 60.0 - 30.0, rnd.NextDouble() * 60.0 - 30.0, rnd.NextDouble() * 60.0 - 30.0);
+                cube.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
                 document.ActivePage?.ActiveLayer?.AddChild(cube);
 
-                var cyl = new EntityCylinder(DVec3.Zero, rng.NextDouble() * 10, rng.NextDouble() * 10)
+                var cyl = new EntityCylinder(DVec3.Zero, rnd.NextDouble() * 10, rnd.NextDouble() * 10)
                 {
                     ColorMode = EntityModelBase.ColorModes.Model,
-                    ModelColor = new DVec3(rng.NextDouble() * 0.5, rng.NextDouble() * 0.7, rng.NextDouble() + 0.5)
+                    ModelColor = new DVec3(rnd.NextDouble() * 0.5, rnd.NextDouble() * 0.7, rnd.NextDouble() + 0.5)
                 };
-                cyl.Rotate((rng.NextDouble() * 60.0 - 30.0), (rng.NextDouble() * 60.0 - 30.0), (rng.NextDouble() * 60.0 - 30.0));
-                cyl.Translate((rng.NextDouble() * 100.0 - 50.0), (rng.NextDouble() * 100.0 - 50.0), (rng.NextDouble() * 100.0 - 10.0));
+                cyl.Rotate((rnd.NextDouble() * 60.0 - 30.0), (rnd.NextDouble() * 60.0 - 30.0), (rnd.NextDouble() * 60.0 - 30.0));
+                cyl.Translate((rnd.NextDouble() * 100.0 - 50.0), (rnd.NextDouble() * 100.0 - 50.0), (rnd.NextDouble() * 100.0 - 10.0));
                 document.ActivePage?.ActiveLayer?.AddChild(cyl);
             }
             siriusEditorControl1.View?.DoRender();
         }
         private void stl_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\stl\\11_-_Main_Fan_1.stl");
             if (!File.Exists(fileName)) return;
 
             var mesh = new EntityMesh(fileName);
-            mesh.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-            mesh.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, 0);
+            mesh.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+            mesh.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, 0);
             document.ActivePage?.ActiveLayer?.AddChild(mesh);
             siriusEditorControl1.View?.DoRender();
         }
         private void obj_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\obj\\teapot.obj");
             if (!File.Exists(fileName)) return;
 
             var mesh = new EntityMesh(fileName);
-            mesh.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-            mesh.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, 0);
+            mesh.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+            mesh.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, 0);
             document.ActivePage?.ActiveLayer?.AddChild(mesh);
             siriusEditorControl1.View?.DoRender();
         }
@@ -711,7 +717,7 @@ namespace Demos
         /// </summary>
         private void block_insert_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             const string masterBlockName = "Block1";
 
             if (!document.FindByBlockName(masterBlockName, out _))
@@ -729,9 +735,9 @@ namespace Demos
                 {
                     var insert = new EntityBlockInsert($"BlockInsert{x},{y}", masterBlockName, new DVec3(dx, dy - 50, 0));
 
-                    insert.Scale(rng.NextDouble() + 0.2, rng.NextDouble() + 0.2, rng.NextDouble() + 0.2);
-                    insert.Translate(rng.NextDouble() * 5.0, rng.NextDouble() * 5.0, 0);
-                    insert.Rotate(rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0, rng.NextDouble() * 60.0 - 30.0);
+                    insert.Scale(rnd.NextDouble() + 0.2, rnd.NextDouble() + 0.2, rnd.NextDouble() + 0.2);
+                    insert.Translate(rnd.NextDouble() * 5.0, rnd.NextDouble() * 5.0, 0);
+                    insert.Rotate(rnd.NextDouble() * 60.0 - 30.0, rnd.NextDouble() * 60.0 - 30.0, rnd.NextDouble() * 60.0 - 30.0);
 
                     entities.Add(insert);
                     dx += 10;
@@ -749,13 +755,13 @@ namespace Demos
         /// </summary>
         private void image_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\image\\lena.bmp");
             if (!File.Exists(fileName)) return;
 
             var image = new EntityImage(fileName, 10);
-            image.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-            image.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 10.0);
+            image.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+            image.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
 
             document.ActivePage?.ActiveLayer?.AddChild(image);
             siriusEditorControl1.View?.DoRender();
@@ -766,7 +772,7 @@ namespace Demos
         /// </summary>
         private void large_lines_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             // Pack 1
             {
                 const int LINE_COUNT = 10000;
@@ -784,7 +790,7 @@ namespace Demos
                     lines.Add(end);
                 }
                 var entity = new EntityLines(lines) { Alpha = 0.9f };
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 5);
+                entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 5);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
@@ -805,7 +811,7 @@ namespace Demos
                     lines.Add(end);
                 }
                 var entity = new EntityLines(lines);
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 1);
+                entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 1);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
@@ -826,7 +832,7 @@ namespace Demos
                     lines.Add(end);
                 }
                 var entity = new EntityLines(lines);
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 1);
+                entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 1);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
             siriusEditorControl1.View?.DoRender();
@@ -837,35 +843,35 @@ namespace Demos
         /// </summary>
         private void barcode_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
 
             {
                 var entity = new EntityBarcode1D("1234567890", EntityBarcode1D.Barcode1DFormats.Code128, 5, 1);
                 entity.DotFactor = 5;
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 10.0 - 2.0);
+                entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 10.0 - 2.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
             {
                 var entity = new EntityQRCode("01234567890123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 5, 5);
                 entity.CellLine.DotFactor = 5;
-                entity.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 10.0 - 2.0);
+                entity.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+                entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 10.0 - 2.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
             {
                 var entity = new EntityDataMatrix("01234567890123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 5, 5);
                 entity.CellDot.DotFactor = 5;
-                entity.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 10.0 - 2.0);
+                entity.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+                entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 10.0 - 2.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }
 
             {
                 var entity = new EntityPDF417("01234567890123456789", EntityBarcode2DBase.Barcode2DCells.Outline, 5, 5);
-                entity.Rotate(rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0, rng.NextDouble() * 10.0 - 5.0);
-                entity.Translate(rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 100.0 - 50.0, rng.NextDouble() * 10.0 - 2.0);
+                entity.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
+                entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 10.0 - 2.0);
 
                 var hatch = HatchFactory.CreateLine(45, 0.1);
                 entity.AddHatch(hatch);
@@ -879,7 +885,7 @@ namespace Demos
         /// </summary>
         private void zpl_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
 
             var sb = new StringBuilder();
             sb.Append("^XA");
@@ -921,23 +927,23 @@ namespace Demos
 
             var zplText = sb.ToString();
             var entity = new EntityImageZPL(4 * 25.4, 6 * 25.4, zplText, EntityImageZPL.DotsPerMMs.Dots8_203DPI);
-            entity.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
+            entity.Translate(rnd.NextDouble() * 100.0 - 50, rnd.NextDouble() * 100.0 - 50, 0);
             document.ActivePage?.ActiveLayer?.AddChild(entity);
             siriusEditorControl1.View?.DoRender();
         }
         private void lissajous_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             var entity = new EntityLissajous(DVec3.Zero, 10, 2, 12, EntityLissajous.LissajousTypes.¥ð, EntityLissajous.Directions.Cw);
-            entity.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
+            entity.Translate(rnd.NextDouble() * 100.0 - 50, rnd.NextDouble() * 100.0 - 50, 0);
             document.ActivePage?.ActiveLayer?.AddChild(entity);
             siriusEditorControl1.View?.DoRender();
         }
         private void spiral_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
             var entity = new EntitySpiral(DVec3.Zero, 10, 2, 12, EntitySpiral.SpiralTypes.Archimedean, true);
-            entity.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
+            entity.Translate(rnd.NextDouble() * 100.0 - 50, rnd.NextDouble() * 100.0 - 50, 0);
             document.ActivePage?.ActiveLayer?.AddChild(entity);
             siriusEditorControl1.View?.DoRender();
         }
@@ -946,13 +952,13 @@ namespace Demos
         /// </summary>
         private void gerber_testcase(IDocument document)
         {
-            var rng = new Random((int)DateTime.Now.Ticks);
+            var rnd = new Random((int)DateTime.Now.Ticks);
 
             {
                 var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\gerber\\LED-seven-segment.GBS");
                 if (!File.Exists(fileName)) return;
                 var gerber = new EntityGerber(fileName, SpiralLab.Sirius3.UI.Config.EntityPenColors[0]);
-                gerber.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
+                gerber.Translate(rnd.NextDouble() * 100.0 - 50, rnd.NextDouble() * 100.0 - 50, 0);
                 document.ActivePage?.ActiveLayer?.AddChild(gerber);
             }
 
@@ -960,7 +966,7 @@ namespace Demos
                 var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\gerber\\TRF7960_EVM (REV A).TOP");
                 if (!File.Exists(fileName)) return;
                 var gerber = new EntityGerber(fileName, SpiralLab.Sirius3.UI.Config.EntityPenColors[1]);
-                gerber.Translate(rng.NextDouble() * 100.0 - 50, rng.NextDouble() * 100.0 - 50, 0);
+                gerber.Translate(rnd.NextDouble() * 100.0 - 50, rnd.NextDouble() * 100.0 - 50, 0);
                 document.ActivePage?.ActiveLayer?.AddChild(gerber);
             }
             siriusEditorControl1.View?.DoRender();

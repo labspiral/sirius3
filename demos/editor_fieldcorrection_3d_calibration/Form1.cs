@@ -41,6 +41,7 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
 
             btnLoad3DModel.Click += BtnLoad3DModel_Click;
             btnGridCloud.Click += BtnGridCloud_Click;
@@ -70,6 +71,10 @@ namespace Demos
             siriusEditorControl1.Marker = marker;
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
+        }
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
         }
 
         private void BtnLoad3DModel_Click(object sender, EventArgs e)
@@ -200,9 +205,9 @@ namespace Demos
                     throw new InvalidOperationException();
             }
             if (success)
-                MessageBox.Show($"New 3D calibration has applied: {newCtFileName} at {targetTable}");
+                MessageBox.Show(this, $"New 3D calibration has applied: {newCtFileName} at {targetTable}", "Warn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             else
-                MessageBox.Show($"Fail to load and select 3D calibration: {newCtFileName} at {targetTable}");
+                MessageBox.Show(this, $"Fail to load and select 3D calibration: {newCtFileName} at {targetTable}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             return success;
         }
@@ -221,7 +226,7 @@ namespace Demos
                     throw new InvalidOperationException();
             }
             if (success)
-                MessageBox.Show($"3D calibration has reset to original(or default) correction table");
+                MessageBox.Show(this, $"3D calibration has reset to original(or default) correction table", "Warn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return success;
         }
     }

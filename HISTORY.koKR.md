@@ -1,5 +1,20 @@
 ﻿# Sirius3 버전 이력
 
+## v1.3.2 (2026.2.20)
+- fixed) Automatic Laser Control 의 확장 모드 지원
+    - Actual Velocity + Encoder + SCANAhead +  Inverse Speed Correction +  Backward Transformation + SDC + SkyWriting 신호 조합 사용가능
+    - EntityLayerPen 속성에 PoD 목록에서 확장 모드 조합 설정 지원
+    - EntityPoD 가 추가됨
+- fixed) EntityPen 
+    - SDC 기능을 위한 Spot distance 값 설정이 SpotDistanceSCANa 에서 지원됩니다.
+- added) IRtcMoF 
+    - 엔코더 신호 이상 알림 이벤트 지원 : IRtcMoF.OnEncoderSignalError 이벤트
+    - 가상 영역을 벋어날 경우 알림 이벤트 지원 : IRtcMoF.OnOutOfVirtualImageField
+    - 엔코더 신호 필터 설정 지원 (RTC6 전용) : CtlMoFEncoderFilter 함수를 사용해 노이즈가 많을때 신호의 산술 평균 사용하거나, 4MHz 이상의 고속 지원
+    - 엔코더 값 조회시 절대 위치,  상대 위치를 각각 조회가능합니다.
+    - OnEncoderChanged 이벤트 인자가 추가됨
+- fixed) IRtcWaitID 를 IRtcInterrupt 로 이름 변경
+
 ## v1.3.1 (2026.2.9)
 - added) IRtcSCANAhead 인터페이스
     - EntityPen 에 SCANAhead 용 항목(Corner, End, Acc Scale) 추가 

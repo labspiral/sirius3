@@ -40,6 +40,7 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
 
             btnPrepare.Click += BtnPrepare_Click;
             btnIntersect.Click += BtnIntersect_Click;
@@ -68,15 +69,19 @@ namespace Demos
             // Ready marker
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
+        }
 
         /// <summary>
         /// Get points by creating rectangle with winding direction
         /// </summary>
         List<DVec2> CreateRectangle(
-           DVec2 center,
-           double width,
-           double height,
-           bool ccw = true)
+            DVec2 center,
+            double width,
+            double height,
+            bool ccw = true)
         {
             double hw = width * 0.5;
             double hh = height * 0.5;
@@ -218,7 +223,7 @@ namespace Demos
             // Select target entity
             document.ActSelect(resultPolyline2D);
 
-            var dlgResult = MessageBox.Show($"Do you really want to mark selected {resultPolyline2D.ToString()} hatch ?", "WARNING", MessageBoxButtons.YesNo);
+            var dlgResult = MessageBox.Show(this, $"Do you really want to mark selected {resultPolyline2D.ToString()} hatch ?", "WARNING", MessageBoxButtons.YesNo);
             if (dlgResult != DialogResult.Yes)
                 return;
 

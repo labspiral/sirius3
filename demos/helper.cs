@@ -43,6 +43,8 @@ using SpiralLab.Sirius3.PowerMap;
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Entity;
 using SpiralLab.Sirius3.Entity.Hatch;
+using SpiralLab.Sirius3.UI.WinForms;
+
 
 #if OPENTK3
 using OpenTK;
@@ -105,6 +107,7 @@ namespace Demos
 
             #region Initialize RTC controller
             string rtcType = NativeMethods.ReadIni(ConfigFileName, $"RTC{index}", "TYPE", "Rtc6");
+            int rtcId = NativeMethods.ReadIni<int>(ConfigFileName, $"RTC{index}", "ID", index);
 
             // FOV size (mm)
             var fov = NativeMethods.ReadIni<double>(ConfigFileName, $"RTC{index}", "FOV", 100.0);
@@ -125,34 +128,34 @@ namespace Demos
             {
                 default:
                 case "virtual":
-                    rtc = ScannerFactory.CreateVirtual(index, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath);
+                    rtc = ScannerFactory.CreateVirtual(rtcId, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath);
                     break;
                 case "rtc4":
                     // RTC4 using 16 bits resolution
                     kfactor = Math.Pow(2, 16) / fov;
                     correctionFile = NativeMethods.ReadIni(ConfigFileName, $"RTC{index}", "CORRECTION", "cor_1to1.ctb");
-                    rtc = ScannerFactory.CreateRtc4(index, kfactor, laserMode, correctionPath);
+                    rtc = ScannerFactory.CreateRtc4(rtcId, kfactor, laserMode, correctionPath);
                     break;
                 case "rtc4e":
                     ipAddress = NativeMethods.ReadIni(ConfigFileName, $"RTC{index}", "IP_ADDRESS", "192.168.0.100");
                     subnetMask = NativeMethods.ReadIni(ConfigFileName, $"RTC{index}", "SUBNET_MASK", "255.255.255.0");
-                    rtc = ScannerFactory.CreateRtc4Ethernet(index, ipAddress, subnetMask, kfactor, laserMode, correctionPath);
+                    rtc = ScannerFactory.CreateRtc4Ethernet(rtcId, ipAddress, subnetMask, kfactor, laserMode, correctionPath);
                     break;
                 case "rtc5":
-                    rtc = ScannerFactory.CreateRtc5(index, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath);
+                    rtc = ScannerFactory.CreateRtc5(rtcId, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath);
                     break;
                 case "rtc6":
-                    rtc = ScannerFactory.CreateRtc6(index, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath);
+                    rtc = ScannerFactory.CreateRtc6(rtcId, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath);
                     break;
                 case "rtc6e":
                     ipAddress = NativeMethods.ReadIni(ConfigFileName, $"RTC{index}", "IP_ADDRESS", "192.168.0.100");
                     subnetMask = NativeMethods.ReadIni(ConfigFileName, $"RTC{index}", "SUBNET_MASK", "255.255.255.0");
-                    rtc = ScannerFactory.CreateRtc6Ethernet(index, ipAddress, subnetMask, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath);
+                    rtc = ScannerFactory.CreateRtc6Ethernet(rtcId, ipAddress, subnetMask, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath);
                     break;
                 case "syncaxis":
                     string configXmlFileName = NativeMethods.ReadIni(ConfigFileName, $"RTC{index}", "CONFIG_XML", string.Empty);
                     string configXmlFilePath = Path.Combine(SpiralLab.Sirius3.Config.SyncAxisPath, configXmlFileName);
-                    rtc = ScannerFactory.CreateRtc6SyncAxis(index, configXmlFilePath);
+                    rtc = ScannerFactory.CreateRtc6SyncAxis(rtcId, configXmlFilePath);
                     break;
             }
 
@@ -257,7 +260,7 @@ namespace Demos
                 rtcMoF.EncYCountsPerMm = NativeMethods.ReadIni<int>(ConfigFileName, $"RTC{index}", "MOF_X_ENC_COUNTS_PER_MM", 0);
                 rtcMoF.EncCountsPerRevolution = NativeMethods.ReadIni<int>(ConfigFileName, $"RTC{index}", "MOF_ANGULAR_ENC_COUNTS_PER_REVOLUTION", 0);
                 var trackingError = NativeMethods.ReadIni<int>(ConfigFileName, $"RTC{index}", "MOF_TRACKING_ERROR", 250);
-                rtcMoF.CtlMofTrackingError(trackingError, trackingError);
+                rtcMoF.CtlMoFTrackingError(trackingError, trackingError);
             }
 
             // Default frequency and pulse width: 50KHz, 2 usec 
@@ -507,6 +510,23 @@ namespace Demos
             rtc?.Dispose();
         }
 
+        public static void DestroyDevices(SiriusEditorControl siriusEditorControl)
+        {
+            siriusEditorControl.Marker?.Dispose();
+            siriusEditorControl.DIExt1?.Dispose();
+            siriusEditorControl.DILaserPort?.Dispose();
+            siriusEditorControl.DOExt1?.Dispose();
+            siriusEditorControl.DOExt2?.Dispose();
+            siriusEditorControl.DOLaserPort?.Dispose();
+            siriusEditorControl.PowerMeter?.Dispose();
+            siriusEditorControl.Laser?.Dispose();
+            siriusEditorControl.Scanner?.Dispose();
+        }
+
+        public static void DestroyDevices(SiriusMultiEditorControl siriusMultiEditorControl)
+        {
+            siriusMultiEditorControl?.DisposeDevices();
+        }
         internal static void PowerMap_OnMappingOpened(IPowerMap powerMap, string fileName)
         {
             //var index = powerMap.Index;

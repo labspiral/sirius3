@@ -792,7 +792,7 @@ namespace Demos
             var oldMatrixStack = (IMatrixStack<DMat4>)rtc.MatrixStack.Clone();
             if (null != rtcMoF && rtc.IsMoF)
             {
-                rtcMoF.CtlMofOverflowClear();
+                rtcMoF.CtlMoFOverflowClear();
                 //rtcMoF.MofAngularCenter = DVec2.Zero;
             }
 

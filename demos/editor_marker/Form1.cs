@@ -37,6 +37,7 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -79,6 +80,10 @@ namespace Demos
             siriusEditorControl1.Marker = marker;
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
+        }
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
         }
     }
 }

@@ -137,8 +137,8 @@ namespace Demos
                 btnDevice2.Enabled = maxDeviceCounts >= 3;
                 btnDevice3.Enabled = maxDeviceCounts >= 4;
 
-                if (currentInstanceIndex >= maxDeviceCounts)
-                    CurrentDeviceIndex = 0; //reset to 0
+                if (CurrentDeviceIndex >= maxDeviceCounts)
+                    SwitchDevices(0); //reset to 0
             }
         }
         int maxDeviceCounts = 4;
@@ -148,63 +148,7 @@ namespace Demos
         /// <para>현재 장치 인덱스를 가져오거나 설정합니다.</para>
         /// <para>获取或设置当前设备索引。</para>
         /// </summary>
-        public int CurrentDeviceIndex
-        {
-            get { return currentInstanceIndex; }
-            set
-            {
-                if (DesignMode) return;
-                if (MaxDeviceCounts <= currentInstanceIndex)
-                    throw new ArgumentOutOfRangeException(nameof(value), $"CurrentInstanceIndex must be less than {MaxDeviceCounts}.");
-
-                if (null == scanners[value] || null == lasers[value] || null == markers[value])
-                {
-                    Logger.Log(LogLevel.Error, $"Some device is not registered yet at {value} index.");
-                    //throw new ArgumentOutOfRangeException(nameof(value), $"Some device is not assigned. null ?");
-                }
-
-                OnBeforeChangeDevice?.Invoke(this);
-
-                currentInstanceIndex = value;
-                var buttons = new ToolStripButton[] { btnDevice0, btnDevice1, btnDevice2, btnDevice3 };
-                for (int i = 0; i < buttons.Length; i++)
-                {
-                    if (null == buttons[i]) continue;
-                    if (i == currentInstanceIndex)
-                    {
-                        buttons[i].Checked = true;
-                        buttons[i].Text = $"Device {i + 1}";
-                        buttons[i].DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
-                        //buttons[i].BackColor = Color.Orange;
-                        //buttons[i].ForeColor = Color.Black;
-                    }
-                    else
-                    {
-                        buttons[i].Checked = false;
-                        buttons[i].Text = ""; // $"{i + 1}";
-                        buttons[i].DisplayStyle = ToolStripItemDisplayStyle.Image;
-                        //buttons[i].BackColor = Color.Empty;
-                        //buttons[i].ForeColor = Color.Empty;
-                    }
-                }
-
-                this.Scanner = scanners[currentInstanceIndex];
-                this.Laser = lasers[currentInstanceIndex];
-                this.PowerMeter = powerMeters[currentInstanceIndex];
-                this.Marker = markers[currentInstanceIndex];
-
-                this.DIExt1 = dIExt1s[currentInstanceIndex];
-                this.DILaserPort = dILaserPorts[currentInstanceIndex];
-                this.DOExt1 = dOExt1s[currentInstanceIndex];
-                this.DOExt2 = dOExt2s[currentInstanceIndex];
-                this.DOLaserPort = dOLaserPorts[currentInstanceIndex];
-
-                this.Marker?.Ready(Document, View, Scanner as IRtc, Laser, PowerMeter);
-
-                OnAfterChangeDevice?.Invoke(this);
-            }
-        }
-        int currentInstanceIndex;
+        public int CurrentDeviceIndex { get; protected set; }
 
         /// <summary>
         /// Gets or sets the editor name.
@@ -310,33 +254,42 @@ namespace Demos
         [Description("Scanner Instance")]
         public IScanner Scanner
         {
-            get => scanners[currentInstanceIndex];
+            get => scanners[CurrentDeviceIndex];
             private set
             {
 
-                if (scanners[currentInstanceIndex] is IRtcMoF oldMof)
-                    oldMof.OnEncoderChanged -= Mof_OnEncoderChanged;
+                if (scanners[CurrentDeviceIndex] is IRtcMoF oldMof)
+                    oldMof.OnEncoderChanged -= MoF_OnEncoderChanged;
 
-                scanners[currentInstanceIndex] = value;
+                scanners[CurrentDeviceIndex] = value;
 
-                if (lasers[currentInstanceIndex] != null)
-                    lasers[currentInstanceIndex].Scanner = scanners[currentInstanceIndex];
+                if (lasers[CurrentDeviceIndex] != null)
+                    lasers[CurrentDeviceIndex].Scanner = scanners[CurrentDeviceIndex];
 
-                ScannerCtrl.Scanner = scanners[currentInstanceIndex];
+                ScannerCtrl.Scanner = scanners[CurrentDeviceIndex];
                 var rtc = value as IRtc;
                 MarkerCtrl.Rtc = rtc;
                 ManualCtrl.Rtc = rtc;
                 EditorCtrl.Rtc = rtc;
                 PowerMapCtrl.Rtc = rtc;
 
-                if (scanners[currentInstanceIndex] != null)
+                if (scanners[CurrentDeviceIndex] != null)
                 {
                     PropertyVisibility();
                     MenuVisibility();
 
-                    if (scanners[currentInstanceIndex] is IRtcMoF newMof)
-                        newMof.OnEncoderChanged += Mof_OnEncoderChanged;
-
+                    if (rtc.IsMoF)
+                    {
+                        if (scanners[CurrentDeviceIndex] is IRtcMoF newMof)
+                        {
+                            newMof.OnEncoderChanged += MoF_OnEncoderChanged;
+                        }
+                        lblEncoder.Visible = true;
+                    }
+                    else
+                    {
+                        lblEncoder.Visible = false;
+                    }
                 }
             }
         }
@@ -354,21 +307,21 @@ namespace Demos
         [Description("Laser Instance")]
         public ILaser Laser
         {
-            get => lasers[currentInstanceIndex];
+            get => lasers[CurrentDeviceIndex];
             private set
             {
-                if (lasers[currentInstanceIndex] != null)
+                if (lasers[CurrentDeviceIndex] != null)
                 {
-                    lasers[currentInstanceIndex].Scanner = scanners[currentInstanceIndex];
+                    lasers[CurrentDeviceIndex].Scanner = scanners[CurrentDeviceIndex];
                     UpdatePowerMap();
                 }
 
-                LaserCtrl.Laser = lasers[currentInstanceIndex];
-                EditorCtrl.Laser = lasers[currentInstanceIndex];
-                MarkerCtrl.Laser = lasers[currentInstanceIndex];
-                ManualCtrl.Laser = lasers[currentInstanceIndex];
-                PowerMeterCtrl.Laser = lasers[currentInstanceIndex];
-                PowerMapCtrl.Laser = lasers[currentInstanceIndex];
+                LaserCtrl.Laser = lasers[CurrentDeviceIndex];
+                EditorCtrl.Laser = lasers[CurrentDeviceIndex];
+                MarkerCtrl.Laser = lasers[CurrentDeviceIndex];
+                ManualCtrl.Laser = lasers[CurrentDeviceIndex];
+                PowerMeterCtrl.Laser = lasers[CurrentDeviceIndex];
+                PowerMapCtrl.Laser = lasers[CurrentDeviceIndex];
                 EntityPenCtrl.Document = document;
             }
         }
@@ -386,31 +339,31 @@ namespace Demos
         [Description("Marker Instance")]
         public IMarker Marker
         {
-            get => markers[currentInstanceIndex];
+            get => markers[CurrentDeviceIndex];
             private set
             {
 
-                if (markers[currentInstanceIndex] != null)
+                if (markers[CurrentDeviceIndex] != null)
                 {
 
                 }
 
-                markers[currentInstanceIndex] = value;
+                markers[CurrentDeviceIndex] = value;
 
-                MarkerCtrl.Marker = markers[currentInstanceIndex];
-                ManualCtrl.Marker = markers[currentInstanceIndex];
-                RtcDOCtrl.Marker = markers[currentInstanceIndex];
-                OffsetCtrl.Marker = markers[currentInstanceIndex];
-                EditorCtrl.Marker = markers[currentInstanceIndex];
-                PropertyGridCtrl.Marker = markers[currentInstanceIndex];
+                MarkerCtrl.Marker = markers[CurrentDeviceIndex];
+                ManualCtrl.Marker = markers[CurrentDeviceIndex];
+                RtcDOCtrl.Marker = markers[CurrentDeviceIndex];
+                OffsetCtrl.Marker = markers[CurrentDeviceIndex];
+                EditorCtrl.Marker = markers[CurrentDeviceIndex];
+                PropertyGridCtrl.Marker = markers[CurrentDeviceIndex];
 
-                if (markers[currentInstanceIndex] != null)
+                if (markers[CurrentDeviceIndex] != null)
                 {
-                    markers[currentInstanceIndex].OnStarted -= Marker_OnStarted;
-                    markers[currentInstanceIndex].OnStarted += Marker_OnStarted;
+                    markers[CurrentDeviceIndex].OnStarted -= Marker_OnStarted;
+                    markers[CurrentDeviceIndex].OnStarted += Marker_OnStarted;
 
-                    markers[currentInstanceIndex].OnEnded -= Marker_OnEnded;
-                    markers[currentInstanceIndex].OnEnded += Marker_OnEnded;
+                    markers[CurrentDeviceIndex].OnEnded -= Marker_OnEnded;
+                    markers[CurrentDeviceIndex].OnEnded += Marker_OnEnded;
                 }
             }
         }
@@ -428,21 +381,21 @@ namespace Demos
         [Description("PowerMeter Instance")]
         public IPowerMeter PowerMeter
         {
-            get => powerMeters[currentInstanceIndex];
+            get => powerMeters[CurrentDeviceIndex];
             private set
             {
-                if (powerMeters[currentInstanceIndex] != null)
+                if (powerMeters[CurrentDeviceIndex] != null)
                 {
 
                 }
 
-                powerMeters[currentInstanceIndex] = value;
+                powerMeters[CurrentDeviceIndex] = value;
 
-                PowerMeterCtrl.PowerMeter = powerMeters[currentInstanceIndex];
-                PowerMapCtrl.PowerMeter = powerMeters[currentInstanceIndex];
-                MarkerCtrl.PowerMeter = powerMeters[currentInstanceIndex];
+                PowerMeterCtrl.PowerMeter = powerMeters[CurrentDeviceIndex];
+                PowerMapCtrl.PowerMeter = powerMeters[CurrentDeviceIndex];
+                MarkerCtrl.PowerMeter = powerMeters[CurrentDeviceIndex];
 
-                if (powerMeters[currentInstanceIndex] != null)
+                if (powerMeters[CurrentDeviceIndex] != null)
                 {
 
                 }
@@ -462,11 +415,11 @@ namespace Demos
         [Description("IDInput Instance for RTC Extension1 Port")]
         public IDInput DIExt1
         {
-            get => dIExt1s[currentInstanceIndex];
+            get => dIExt1s[CurrentDeviceIndex];
             private set
             {
-                dIExt1s[currentInstanceIndex] = value;
-                RtcDICtrl.DIExt1 = dIExt1s[currentInstanceIndex];
+                dIExt1s[CurrentDeviceIndex] = value;
+                RtcDICtrl.DIExt1 = dIExt1s[CurrentDeviceIndex];
             }
         }
 
@@ -483,11 +436,11 @@ namespace Demos
         [Description("IDInput Instance for RTC LASER Port")]
         public IDInput DILaserPort
         {
-            get => dILaserPorts[currentInstanceIndex];
+            get => dILaserPorts[CurrentDeviceIndex];
             private set
             {
-                dILaserPorts[currentInstanceIndex] = value;
-                RtcDICtrl.DILaserPort = dILaserPorts[currentInstanceIndex];
+                dILaserPorts[CurrentDeviceIndex] = value;
+                RtcDICtrl.DILaserPort = dILaserPorts[CurrentDeviceIndex];
             }
         }
 
@@ -504,11 +457,11 @@ namespace Demos
         [Description("IDOutput Instance for RTC EXTENSION1 Port")]
         public IDOutput DOExt1
         {
-            get => dOExt1s[currentInstanceIndex];
+            get => dOExt1s[CurrentDeviceIndex];
             private set
             {
-                dOExt1s[currentInstanceIndex] = value;
-                RtcDOCtrl.DOExt1 = dOExt1s[currentInstanceIndex];
+                dOExt1s[CurrentDeviceIndex] = value;
+                RtcDOCtrl.DOExt1 = dOExt1s[CurrentDeviceIndex];
             }
         }
 
@@ -525,11 +478,11 @@ namespace Demos
         [Description("IDOutput Instance for RTC EXTENSION2 Port")]
         public IDOutput DOExt2
         {
-            get => dOExt2s[currentInstanceIndex];
+            get => dOExt2s[CurrentDeviceIndex];
             private set
             {
-                dOExt2s[currentInstanceIndex] = value;
-                RtcDOCtrl.DOExt2 = dOExt2s[currentInstanceIndex];
+                dOExt2s[CurrentDeviceIndex] = value;
+                RtcDOCtrl.DOExt2 = dOExt2s[CurrentDeviceIndex];
             }
         }
 
@@ -546,11 +499,11 @@ namespace Demos
         [Description("IDOutput Instance for RTC LASER Port")]
         public IDOutput DOLaserPort
         {
-            get => dOLaserPorts[currentInstanceIndex];
+            get => dOLaserPorts[CurrentDeviceIndex];
             private set
             {
-                dOLaserPorts[currentInstanceIndex] = value;
-                RtcDOCtrl.DOLaserPort = dOLaserPorts[currentInstanceIndex];
+                dOLaserPorts[CurrentDeviceIndex] = value;
+                RtcDOCtrl.DOLaserPort = dOLaserPorts[CurrentDeviceIndex];
             }
         }
 
@@ -782,9 +735,9 @@ namespace Demos
 
         #region Constructor & Form Lifecycle
         /// <summary>
-        /// Initializes a new instance of <see cref="SiriusEditorControl"/> and wires UI events.
-        /// <para><see cref="SiriusEditorControl"/>의 새 인스턴스를 초기화하고 UI 이벤트를 연결합니다.</para>
-        /// <para>初始化 <see cref="SiriusEditorControl"/> 的新实例并连接 UI 事件。</para>
+        /// Initializes a new instance of <see cref="SiriusMultiEditorControl"/> and wires UI events. <br/>
+        /// <see cref="SiriusMultiEditorControl"/>의 새 인스턴스를 초기화하고 UI 이벤트를 연결합니다. <br/>
+        /// 初始化 <see cref="SiriusMultiEditorControl"/> 的新实例并连接 UI 事件。
         /// </summary>
         public SiriusMultiEditorControl()
         {
@@ -847,7 +800,7 @@ namespace Demos
         public void RegisterDevices(int index, IScanner scanner, ILaser laser, IPowerMeter powerMeter, IDInput dIExt1, IDInput dILaserPort, IDOutput dOExt1, IDOutput dOExt2, IDOutput dOLaserPort, IMarker marker)
         {
             if (MaxDeviceCounts <= index)
-                throw new ArgumentOutOfRangeException(nameof(index), $"CurrentInstanceIndex must be less than {MaxDeviceCounts}.");
+                throw new ArgumentOutOfRangeException(nameof(index), $"CurrentDeviceIndex must be less than {MaxDeviceCounts}.");
 
             scanners[index] = scanner;
             lasers[index] = laser;
@@ -858,6 +811,95 @@ namespace Demos
             dOExt2s[index] = dOExt2;
             dOLaserPorts[index] = dOLaserPort;
             markers[index] = marker;
+        }
+
+        /// <summary>
+        /// Dispose all registered devices.
+        /// <para>장치를 모두 해지하고 자원을 회수합니다.</para>
+        /// </summary>
+        public void DisposeDevices()
+        {
+            //this.Marker?.Stop();
+            //this.Marker = null;
+            //this.PowerMeter = null;
+            //this.DIExt1 = null;
+            //this.DILaserPort = null;
+            //this.DOExt1 = null;
+            //this.DOExt2 = null;
+            //this.DOLaserPort = null;
+            //this.Laser = null;
+            //this.Scanner = null;
+
+            for (int i = 0; i < MaxDeviceCounts; i++)
+            {
+                markers[i]?.Dispose();
+                powerMeters[i]?.Dispose();
+                dIExt1s[i]?.Dispose();
+                dILaserPorts[i]?.Dispose();
+                dOExt1s[i]?.Dispose();
+                dOExt2s[i]?.Dispose();
+                dOLaserPorts[i]?.Dispose();
+                lasers[i]?.Dispose();
+                scanners[i]?.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Sets the current device index.
+        /// <para>현재 장치 인덱스를 설정합니다.</para>
+        /// </summary>
+        /// <param name="index">Target device index. <br/>Allowed range: 0 ~ MaxDeviceCounts - 1 </param>
+        public bool SwitchDevices(int index)
+        {
+            if (MaxDeviceCounts <= CurrentDeviceIndex)
+                throw new ArgumentOutOfRangeException(nameof(index), $"CurrentDeviceIndex must be less than {MaxDeviceCounts}.");
+
+            if (null == scanners[index] || null == lasers[index] || null == markers[index])
+            {
+                Logger.Log(LogLevel.Error, $"Some device is not registered yet at {index} index.");
+                //throw new ArgumentOutOfRangeException(nameof(value), $"Some device is not assigned. null ?");
+            }
+
+            OnBeforeChangeDevice?.Invoke(this);
+
+            CurrentDeviceIndex = index;
+            var buttons = new ToolStripButton[] { btnDevice0, btnDevice1, btnDevice2, btnDevice3 };
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                if (null == buttons[i]) continue;
+                if (i == CurrentDeviceIndex)
+                {
+                    buttons[i].Checked = true;
+                    buttons[i].Text = $"Device {i + 1}";
+                    buttons[i].DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+                    //buttons[i].BackColor = Color.Orange;
+                    //buttons[i].ForeColor = Color.Black;
+                }
+                else
+                {
+                    buttons[i].Checked = false;
+                    buttons[i].Text = ""; // $"{i + 1}";
+                    buttons[i].DisplayStyle = ToolStripItemDisplayStyle.Image;
+                    //buttons[i].BackColor = Color.Empty;
+                    //buttons[i].ForeColor = Color.Empty;
+                }
+            }
+
+            this.Scanner = scanners[CurrentDeviceIndex];
+            this.Laser = lasers[CurrentDeviceIndex];
+            this.PowerMeter = powerMeters[CurrentDeviceIndex];
+            this.Marker = markers[CurrentDeviceIndex];
+
+            this.DIExt1 = dIExt1s[CurrentDeviceIndex];
+            this.DILaserPort = dILaserPorts[CurrentDeviceIndex];
+            this.DOExt1 = dOExt1s[CurrentDeviceIndex];
+            this.DOExt2 = dOExt2s[CurrentDeviceIndex];
+            this.DOLaserPort = dOLaserPorts[CurrentDeviceIndex];
+
+            this.Marker?.Ready(Document, View, Scanner as IRtc, Laser, PowerMeter);
+
+            OnAfterChangeDevice?.Invoke(this);
+            return true;
         }
 
         /// <summary>
@@ -872,7 +914,7 @@ namespace Demos
             var btn = sender as ToolStripButton;
             if (int.TryParse((string)btn.Tag, out int index))
             {
-                CurrentDeviceIndex = index;
+                SwitchDevices(index);
             }
         }
 
@@ -889,7 +931,7 @@ namespace Demos
             //Document.ActNew(true, true, true, true, true, true, true, true, true);
             Document.ActNew(true, true, true, true, true, false, false, false, false); //scanner layer 펜 재 생성 막기
 
-            CurrentDeviceIndex = 0;
+            SwitchDevices(0);
         }
         /// <summary>
         /// Handles form closing; disposes timers.
@@ -1025,7 +1067,7 @@ namespace Demos
 
             var dialogResult = form.ShowDialog(this);
             if (dialogResult == DialogResult.Yes)
-                rtcMoF.CtlMofEncoderReset();
+                rtcMoF.CtlMoFEncoderReset();
         }
 
         /// <summary>
@@ -1151,9 +1193,11 @@ namespace Demos
         /// <para>MoF 编码器更改时调用；根据 MoF 模式更新编码器标签文本。</para>
         /// </summary>
         /// <param name="rtcMoF">The IRtcMoF instance.</param>
-        /// <param name="encX">The X-axis encoder value.</param>
-        /// <param name="encY">The Y-axis encoder value.</param>
-        private void Mof_OnEncoderChanged(IRtcMoF rtcMoF, int encX, int encY)
+        /// <param name="encX">The X(or rotate) axis encoder count value.</param>
+        /// <param name="encY">The Y axis encoder count value.</param>
+        /// <param name="encXmmOrAngle">The X(or rptate) axis encoder converted to mm(or °)value.</param>
+        /// <param name="encYmm">The Y axis encoder converted to mm value.</param>
+        private void MoF_OnEncoderChanged(IRtcMoF rtcMoF, int encX, int encY, double encXmmOrAngle, double encYmm)
         {
             if (!stsBottom.IsHandleCreated || IsDisposed) return;
 
@@ -1163,18 +1207,16 @@ namespace Demos
                 {
                     default:
                     case RtcMoFModes.XY:
-                        rtcMoF.CtlMofGetEncoder(out _, out _, out var xMm, out var yMm);
                         stsBottom.Invoke(new MethodInvoker(() =>
                         {
-                            lblEncoder.Text = string.Format("ENC: {0:F3}, {1:F3}mm ({2}, {3})", xMm, yMm, encX, encY);
+                            lblEncoder.Text = string.Format("ENC: {0:F3}, {1:F3}mm ({2}, {3})", encXmmOrAngle, encYmm, encX, encY);
                         }));
                         break;
 
                     case RtcMoFModes.Angular:
-                        rtcMoF.CtlMofGetAngularEncoder(out _, out var angle);
                         stsBottom.Invoke(new MethodInvoker(() =>
                         {
-                            lblEncoder.Text = string.Format("ENC: {0:F3}° ({1})", angle, encX);
+                            lblEncoder.Text = string.Format("ENC: {0:F3}° ({1})", encXmmOrAngle, encX);
                         }));
                         break;
                 }
@@ -1266,14 +1308,14 @@ namespace Demos
         /// </summary>
         private void UpdatePowerMap()
         {
-            var powerControl = lasers[currentInstanceIndex] as ILaserPowerControl;
+            var powerControl = lasers[CurrentDeviceIndex] as ILaserPowerControl;
 
             if (null != document && null != powerControl)
             {
                 foreach (var child in document.DocumentData.EntityPens.Children)
                 {
                     var pen = child as EntityPen;
-                    pen.PowerMax = lasers[currentInstanceIndex].MaxPowerWatt;
+                    pen.PowerMax = lasers[CurrentDeviceIndex].MaxPowerWatt;
                     pen.PowerMap = powerControl?.PowerMap;
                 }
 
@@ -1470,7 +1512,5 @@ namespace Demos
             ControlEnableOrNot(!btnLock.Checked);
         }
         #endregion
-
-
     }
 }

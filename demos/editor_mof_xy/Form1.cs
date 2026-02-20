@@ -36,6 +36,7 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
 
             this.btnCreateEntities.Click += BtnCreateEntities_Click;
             this.btnStartStop.Click += BtnStartStop_Click;
@@ -46,6 +47,11 @@ namespace Demos
         private void Form1_Load(object sender, EventArgs e)
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
+
+            var rtcMoF = rtc as IRtcMoF;
+            Debug.Assert(rtcMoF != null);
+            rtcMoF.OnEncoderSignalError += OnEncoderSignalError;
+            rtcMoF.OnOutOfVirtualImageField += OnOutOfVirtualImageField;
 
             siriusEditorControl1.Scanner = rtc;
 
@@ -62,6 +68,136 @@ namespace Demos
             siriusEditorControl1.Marker = marker;
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
+        }
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
+        }
+
+        private void OnEncoderSignalError(IRtcMoF rtcMoF, IRtcMarkingInfo rtcMarkingInfo)
+        {
+            if (rtcMarkingInfo is Rtc6MarkingInfo rtc6MarkingInfo)
+            {
+                // For RTC6 card
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.Signal1EncoderXTooShort))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.Signal1EncoderYTooShort))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.Signal2EncoderXTooShort))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.Signal2EncoderYTooShort))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.WrongSignalSequenceEncoderX))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.WrongSignalSequenceEncoderY))
+                {
+
+                }
+            }
+            else if (rtcMarkingInfo is Rtc5MarkingInfo rtc5MarkingInfo)
+            {
+                // For RTC5 card
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.Signal1EncoderXTooShort))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.Signal1EncoderYTooShort))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.Signal2EncoderXTooShort))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.Signal2EncoderYTooShort))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.WrongSignalSequenceEncoderX))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.WrongSignalSequenceEncoderY))
+                {
+
+                }
+            }
+            else if (rtcMarkingInfo is Rtc4MarkingInfo rtc4MarkingInfo)
+            {
+                // For RTC4 card
+                // Not supported  
+            }
+
+            this.Invoke(new MethodInvoker(() =>
+            {
+                MessageBox.Show(this, $"Encoder Signal Error: {rtcMarkingInfo.ToString()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);                
+            }));
+
+        }
+
+        private void OnOutOfVirtualImageField(IRtcMoF rtcMoF, IRtcMarkingInfo rtcMarkingInfo)
+        {
+            if (rtcMarkingInfo is Rtc6MarkingInfo rtc6MarkingInfo)
+            {
+                // For RTC6 card
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.MoFOverflowInXDirection))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.MoFUnderflowInXDirection))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.MoFOverflowInYDirection))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.MoFUnderflowInYDirection))
+                {
+
+                }
+
+            }
+            else if (rtcMarkingInfo is Rtc5MarkingInfo rtc5MarkingInfo)
+            {
+                // For RTC5 card
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.MoFOverflowInXDirection))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.MoFUnderflowInXDirection))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.MoFOverflowInYDirection))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.MoFUnderflowInYDirection))
+                {
+
+                }
+            }
+            else if (rtcMarkingInfo is Rtc4MarkingInfo rtc4MarkingInfo)
+            {
+                // For RTC4 card
+                // Not supported (no virtual image field)
+            }
+
+            this.Invoke(new MethodInvoker(() =>
+            {
+                MessageBox.Show(this, $"Out of Virtual Image Field: {rtcMarkingInfo.ToString()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }));
         }
 
         private void BtnCreateEntities_Click(object sender, EventArgs e)
@@ -89,26 +225,29 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(mofBegin);
 
             /*      
-                    *                     |
-                    *                     |
-                    *                     |
-                    *                     |
-                    *     . .             |
-                    *      .        |     |
-                    *       .       | |   |
-                    *     .         | | | |
-                    *  ----.--▯--@--|-|-|-+-------------------    => ENC +
-                    *       .       | | | |                       => MOVING DIRECTION 
-                    *     .         | |   |
-                    *      .        |     |
-                    *        .            |
-                    *      .              |
-                    *                     |
-                    *                     |
-                    *                     |
-                    */
-            // adjust RtcEncoderWaitConditions contition to marks at scanner center area
+             *      
+             *      
+             *      
+             *                     |
+             *                     |
+             *                     |
+             *                     |
+             *     . .             |
+             *      .        |     |
+             *       .       | |   |
+             *     .         | | | |
+             *  ----.--▯--@--|-|-|-+-------------------    => ENC +
+             *       .       | | | |                       => MOVING DIRECTION 
+             *     .         | |   |
+             *      .        |     |
+             *        .            |
+             *      .              |
+             *                     |
+             *                     |
+             *                     |
+             */
 
+            // Adjust RtcEncoderWaitConditions condition to marks at scanner center area
             double x1 = -1;
             var mofWait1 = EntityFactory.CreateMoFWait(RtcEncoders.EncX, RtcEncoderWaitConditions.Over, -x1);
             document.ActivePage?.ActiveLayer?.AddChild(mofWait1);
@@ -203,7 +342,7 @@ namespace Demos
             var rtcMoF = rtc as IRtcMoF;
 
             // Start simulated encoders as x= 1, y=0 mm/s by rtcMoF.CtlMofEncoderSpeed(1, 0);
-            rtcMoF.CtlMofEncoderSpeed(1, 0);
+            rtcMoF.CtlMoFEncoderSpeed(1, 0);
             // or
             // Edit 'Simulated x speed at MoF = 1' at propertygrid of scanner(RTC) page
             // and
@@ -218,9 +357,9 @@ namespace Demos
             var rtcMoF = rtc as IRtcMoF;
 
             // Deactivated simulated encoders 
-            rtcMoF.CtlMofEncoderSpeed(0, 0);
+            rtcMoF.CtlMoFEncoderSpeed(0, 0);
             // Reset encoders
-            rtcMoF.CtlMofEncoderReset();
+            rtcMoF.CtlMoFEncoderReset();
         }
     }
 }

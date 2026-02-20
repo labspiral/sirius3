@@ -901,7 +901,7 @@ namespace Demos
             var oldMatrixStack = (IMatrixStack<DMat4>)rtc.MatrixStack.Clone();
             if (null != rtcMoF && rtc.IsMoF)
             {
-                rtcMoF.CtlMofOverflowClear();
+                rtcMoF.CtlMoFOverflowClear();
                 //rtcMoF.MofAngularCenter = DVec2.Zero;
             }
 
@@ -952,7 +952,7 @@ namespace Demos
                     if (null != rtcAlc && WorkingSet.LayerPen.IsALC)
                     {
                         success &= rtcAlc.CtlAlcByPositionTable(null);
-                        success &= rtcAlc.CtlAlc<double>(AutoLaserControlSignals.Disabled, AutoLaserControlModes.Disabled);
+                        success &= rtcAlc.CtlAlc<double>(AutoLaserControlSignals.Disabled, AutoLaserControlModes.Disabled, AutoLaserControlModeExtensions.Empty);
                     }
                     if (!success)
                         break;
@@ -1058,7 +1058,7 @@ namespace Demos
             var oldMatrixStack = (IMatrixStack<DMat4>)rtc.MatrixStack.Clone();
             if (null != rtcMoF && rtc.IsMoF)
             {
-                rtcMoF.CtlMofOverflowClear();
+                rtcMoF.CtlMoFOverflowClear();
                 //rtcMoF.MofAngularCenter = DVec2.Zero;
             }
 
@@ -1131,7 +1131,7 @@ namespace Demos
                 if (null != rtcAlc && WorkingSet.LayerPen.IsALC)
                 {
                     success &= rtcAlc.CtlAlcByPositionTable(null);
-                    success &= rtcAlc.CtlAlc<uint>(AutoLaserControlSignals.Disabled, AutoLaserControlModes.Disabled, 0, 0, 0);
+                    success &= rtcAlc.CtlAlc<uint>(AutoLaserControlSignals.Disabled, AutoLaserControlModes.Disabled,  AutoLaserControlModeExtensions.Empty, 0, 0, 0);
                 }
                 if (!success)
                     break;

@@ -41,6 +41,7 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
 
             btnNormalJump.Click += BtnNormalJump_Click;
             btnHardJump.Click += BtnHardJump_Click;
@@ -65,6 +66,10 @@ namespace Demos
             siriusEditorControl1.Marker = marker;
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
+        }
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
         }
 
         private void CreateEntity()

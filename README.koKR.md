@@ -14,8 +14,10 @@
 - 계측 및 프로파일링
    - 스캐너 운동 경로와 시그널 출력 로그를 이용한 그래프 출력 지원
 - 강력한 가공 옵션
-   - MoF (Marking on the Fly), 2nd 헤드, 3D
+   - 가변 폴리곤, 점프 지연시간 설정 지원
+   - MoF (Marking on the Fly), 2nd 헤드, 3D 지원
    - Sky Writing Mode 1/2/3/4
+   - SCANAhead 를 이용한 지연값(Auto delays) 자동 설정 지원
 - ALC(Automatic Laser Control)
    - 벡터 정의형
       - 램프(Ramp)
@@ -23,7 +25,7 @@
       - 지령 속도
       - 실제 속도
       - 엔코더 속도
-      - SDC(스팟 간격 제어)
+      - 또한 SCANAhead, Encoder Speed Addition, Inverse Speed Correction, Backward Transformation, SDC+Skywriting 조합 사용 가능
    - 위치 의존형
       - 거리 및 스케일 값 기반 테이블
 - 스캐너 필드 보정
@@ -60,9 +62,10 @@
 | 펜                           |Entity 와 Layer 용 펜 속성 분리            |Entity 단일펜                           |
 | 라이브러리 업데이트           |Nuget 패키지 매니저 지원                    |수동                                   |
                                                                                                               
-![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_hatch.png)
-![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_slicer.png)
-![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_syncaxis.png)
+![sirius3_hatch](https://spirallab.co.kr/sirius3/sirius3_hatch.png)
+![sirius3_pod](https://spirallab.co.kr/sirius3/sirius3_pod.png)
+![sirius3_slicer](https://spirallab.co.kr/sirius3/sirius3_slicer.png)
+![sirius3_syncaxis](https://spirallab.co.kr/sirius3/sirius3_syncaxis.png)
 
 ## 패키지 / DLLs
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS 런타임, 폰트, 샘플 파일들

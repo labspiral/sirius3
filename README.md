@@ -14,16 +14,18 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 - Measurement and Profiling
    - Log scanner trajectory and output signals with plotted graphs
 - Powerful Marking Options
+   - Variable Polygon(Jump) Delay 
    - MoF (Marking on the Fly), 2nd head, 3D
    - Sky Writing Mode 1/2/3 or 4
-- ALC(Automatic Laser Control)
+   - Auto Delays by SCANAhead
+- ALC(Automatic Laser Control) or Pulse on Demand
    - Defined vector 
       - Ramp
    - Speed dependent 
-      - SetVelocity
-      - ActualVelocity
-      - EncoderSpeed 
-      - SDC(Spot distance control)
+      - Set Velocity
+      - Actual Velocity
+      - Encoder Speed 
+      - also, SCANAhead, Encoder Speed Addition, Inverse Speed Correction, Backward Transformation, SDC+Skywriting combinations available
    - Position dependent 
       - Table by distance and scale factor
 - Scanner Field Correction
@@ -60,9 +62,10 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 | Pen                          |Pens for Entity and Layer                 |Entity Pen                             |
 | Library update               |By Nuget Package Manager                  |Manual                                 |
                                                                                                               
-![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_hatch.png)
-![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_slicer.png)
-![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_syncaxis.png)
+![sirius3_hatch](https://spirallab.co.kr/sirius3/sirius3_hatch.png)
+![sirius3_pod](https://spirallab.co.kr/sirius3/sirius3_pod.png)
+![sirius3_slicer](https://spirallab.co.kr/sirius3/sirius3_slicer.png)
+![sirius3_syncaxis](https://spirallab.co.kr/sirius3/sirius3_syncaxis.png)
 
 ## Packages / DLLs
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS runtime, fonts, sample data

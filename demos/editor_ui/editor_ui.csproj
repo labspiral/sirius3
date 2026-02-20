@@ -46,6 +46,11 @@
 	  </None>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Form2.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
@@ -56,14 +61,7 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 
-
-	<ItemGroup>
-	  <Compile Update="Form2.cs">
-	    <SubType>Form</SubType>
-	  </Compile>
-	</ItemGroup>
-
-	<!--	
+	<!--
 	<ItemGroup>
 		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3">
 			<HintPath>..\..\..\sirius3lib\bin\net481\SpiralLab.Sirius3.dll</HintPath>

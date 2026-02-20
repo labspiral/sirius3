@@ -42,6 +42,8 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
+
             this.btnCreateGrids.Click += BtnCreateGrids_Click;
             this.btnCorrection2D.Click += BtnCorrection2D_Click;
             this.btnSelectTable.Click += BtnSelectTable_Click;
@@ -66,6 +68,10 @@ namespace Demos
             siriusEditorControl1.Marker = marker;
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
+        }
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
         }
 
         private void BtnCreateGrids_Click(object sender, EventArgs e)
@@ -119,7 +125,7 @@ namespace Demos
             double left = -colInterval * (double)(int)(cols / 2);
             double top = rowInterval * (double)(int)(rows / 2);
             
-            var rand = new Random();
+            var rnd = new Random();
             for (int row = 0; row < rows; row++)
             {
                 for (int col = 0; col < cols; col++)
@@ -131,8 +137,8 @@ namespace Demos
                         
                         //DVec2.Zero
                         new DVec2(
-                            rand.Next(20) / 1000.0 - 0.01,
-                            rand.Next(20) / 1000.0 - 0.01
+                            rnd.Next(20) / 1000.0 - 0.01,
+                            rnd.Next(20) / 1000.0 - 0.01
                             )                        
                         );
                 }
@@ -161,9 +167,9 @@ namespace Demos
             rtc.CtlLoadCorrectionFile(currentTable, dlg.FileName);
             rtc.CtlSelectCorrection(currentTable);
             if (success)
-                System.Windows.Forms.MessageBox.Show($"Target correction file is load/selected at Table1");
+                System.Windows.Forms.MessageBox.Show(this, $"Target correction file is load/selected at Table1");
             else
-                System.Windows.Forms.MessageBox.Show($"Fail to load/select correction file");
+                System.Windows.Forms.MessageBox.Show(this, $"Fail to load/select correction file");
         }
 
     }

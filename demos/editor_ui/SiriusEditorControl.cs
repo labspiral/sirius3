@@ -206,7 +206,7 @@ namespace Demos
                 if (scanner == value) return;
 
                 if (scanner is IRtcMoF oldMof)
-                    oldMof.OnEncoderChanged -= Mof_OnEncoderChanged;
+                    oldMof.OnEncoderChanged -= MoF_OnEncoderChanged;
 
                 scanner = value;
 
@@ -226,7 +226,7 @@ namespace Demos
                     MenuVisibility();
 
                     if (scanner is IRtcMoF newMof)
-                        newMof.OnEncoderChanged += Mof_OnEncoderChanged;
+                        newMof.OnEncoderChanged += MoF_OnEncoderChanged;
 
                 }
             }
@@ -752,6 +752,58 @@ namespace Demos
         }
 
         /// <summary>
+        /// Registers devices.
+        /// <para>장치를 등록합니다.</para>
+        /// </summary>
+        /// <param name="scanner">The scanner instance.</param>
+        /// <param name="laser">The laser instance.</param>
+        /// <param name="powerMeter">The power meter instance.</param>
+        /// <param name="dIExt1">The digital input extension 1.</param>
+        /// <param name="dILaserPort">The digital input laser port.</param>
+        /// <param name="dOExt1">The digital output extension 1.</param>
+        /// <param name="dOExt2">The digital output extension 2.</param>
+        /// <param name="dOLaserPort">The digital output laser port.</param>
+        /// <param name="marker">The marker instance.</param>
+        public void RegisterDevices(IScanner scanner, ILaser laser, IPowerMeter powerMeter, IDInput dIExt1, IDInput dILaserPort, IDOutput dOExt1, IDOutput dOExt2, IDOutput dOLaserPort, IMarker marker)
+        {
+            Scanner = scanner;
+            Laser = laser;
+            PowerMeter = powerMeter;
+            DIExt1 = dIExt1;
+            DILaserPort = dILaserPort;
+            DOExt1 = dOExt1;
+            DOExt2 = dOExt2;
+            DOLaserPort = dOLaserPort;
+            Marker = marker;
+        }
+        /// <summary>
+        /// Dispose all registered devices.
+        /// <para>장치를 모두 해지하고 자원을 회수합니다.</para>
+        /// </summary>
+        public void DisposeDevices()
+        {
+            Marker?.Dispose();
+            Marker = null;
+
+            DIExt1?.Dispose();
+            DIExt1 = null;
+            DILaserPort?.Dispose();
+            DILaserPort = null;
+            DOExt1?.Dispose();
+            DOExt1 = null;
+            DOExt2?.Dispose();
+            DOExt2 = null;
+            DOLaserPort?.Dispose();
+            DOLaserPort = null;
+            PowerMeter?.Dispose();
+            PowerMeter = null;
+            Laser?.Dispose();
+            Laser = null;
+            Scanner?.Dispose();
+            Scanner = null;
+        }
+
+        /// <summary>
         /// Initializes core components, editor surface, document, and default virtual devices.
         /// <para>핵심 구성 요소, 편집기 화면, 문서 및 기본 가상 장치를 초기화합니다.</para>
         /// <para>初始化核心组件、编辑器表面、文档和默认虚拟设备。</para>
@@ -902,7 +954,7 @@ namespace Demos
 
             var dialogResult = form.ShowDialog(this);
             if (dialogResult == DialogResult.Yes)
-                rtcMoF.CtlMofEncoderReset();
+                rtcMoF.CtlMoFEncoderReset();
         }
 
         /// <summary>
@@ -1032,9 +1084,11 @@ namespace Demos
         /// <para>MoF 编码器更改时调用；根据 MoF 模式更新编码器标签文本。</para>
         /// </summary>
         /// <param name="rtcMoF">The IRtcMoF instance.</param>
-        /// <param name="encX">The X-axis encoder value.</param>
-        /// <param name="encY">The Y-axis encoder value.</param>
-        private void Mof_OnEncoderChanged(IRtcMoF rtcMoF, int encX, int encY)
+        /// <param name="encX">The X-axis encoder count value.</param>
+        /// <param name="encY">The Y-axis encoder count value.</param>
+        /// <param name="encXmm">The X-axis encoder converted to mm value.</param>
+        /// <param name="encYmm">The Y-axis encoder converted to mm value.</param>
+        private void MoF_OnEncoderChanged(IRtcMoF rtcMoF, int encX, int encY, double encXmm, double encYmm)
         {
             if (!stsBottom.IsHandleCreated || IsDisposed) return;
 
@@ -1044,18 +1098,16 @@ namespace Demos
                 {
                     default:
                     case RtcMoFModes.XY:
-                        rtcMoF.CtlMofGetEncoder(out _, out _, out var xMm, out var yMm);
                         stsBottom.Invoke(new MethodInvoker(() =>
                         {
-                            lblEncoder.Text = string.Format("ENC: {0:F3}, {1:F3}mm ({2}, {3})", xMm, yMm, encX, encY);
+                            lblEncoder.Text = string.Format("ENC: {0:F3}, {1:F3}mm ({2}, {3})", encXmm, encYmm, encX, encY);
                         }));
                         break;
 
                     case RtcMoFModes.Angular:
-                        rtcMoF.CtlMofGetAngularEncoder(out _, out var angle);
                         stsBottom.Invoke(new MethodInvoker(() =>
                         {
-                            lblEncoder.Text = string.Format("ENC: {0:F3}° ({1})", angle, encX);
+                            lblEncoder.Text = string.Format("ENC: {0:F3}° ({1})", encXmm, encX);
                         }));
                         break;
                 }
@@ -1131,7 +1183,6 @@ namespace Demos
             {
             }
         }
-
         #endregion
 
         #region UI Visibility / Editability

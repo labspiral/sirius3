@@ -38,6 +38,7 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
 
             btnLoad3DModel.Click += BtnLoad3DModel_Click;
             btnSliceContours.Click += BtnSliceContours_Click;
@@ -69,6 +70,11 @@ namespace Demos
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
+        }
+
 
         private void BtnLoad3DModel_Click(object sender, EventArgs e)
         {
@@ -159,9 +165,9 @@ namespace Demos
             if (null == hatchable)
                 return;
 
-            var rng = new Random((int)DateTime.Now.Ticks);
-            var angle = rng.NextDouble() * 180 - 90;
-            var interval = rng.NextDouble() / 2.0 + 0.02;
+            var rnd = new Random((int)DateTime.Now.Ticks);
+            var angle = rnd.NextDouble() * 180 - 90;
+            var interval = rnd.NextDouble() / 2.0 + 0.02;
 
             // line hatch
             var hatch = HatchFactory.CreateLine(angle, interval);
@@ -174,7 +180,7 @@ namespace Demos
             //hatch.Sort = HatchSorts.Near; // nearest. greedy 
             //hatch.Sort = HatchSorts.Global; //slow calculation but mark time optimized
 
-            var index = (int)(rng.NextDouble() * SpiralLab.Sirius3.UI.Config.EntityPenColors.Length);
+            var index = (int)(rnd.NextDouble() * SpiralLab.Sirius3.UI.Config.EntityPenColors.Length);
             hatch.ModelColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[index].ToDVec3();
 
             hatchable.AddHatch(hatch);

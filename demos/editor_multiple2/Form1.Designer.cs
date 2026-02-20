@@ -34,7 +34,6 @@
             // siriusMultiEditorControl1
             // 
             this.siriusMultiEditorControl1.AliasName = "NoName";
-            this.siriusMultiEditorControl1.CurrentDeviceIndex = 0;
             this.siriusMultiEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.siriusMultiEditorControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.siriusMultiEditorControl1.Location = new System.Drawing.Point(0, 0);

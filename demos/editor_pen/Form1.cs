@@ -41,13 +41,18 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
 
             btnPrepare.Click += BtnPrepare_Click;
             btnEventHandler.Click += BtnEventHandler_Click;
             btnMarkPage1.Click += BtnMarkPage1_Click;
             btnMarkPage2.Click += BtnMarkPage2_Click;
-        }
 
+            // Override default entity pen values
+            SpiralLab.Sirius3.UI.Config.OnCreateEntityPen += Config_OnCreateEntityPen;
+            // Override default layer pen values
+            SpiralLab.Sirius3.UI.Config.OnCreateLayerPen += Config_OnCreateLayerPen;
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
@@ -68,6 +73,100 @@ namespace Demos
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
+        }
+
+        private EntityLayerPen Config_OnCreateLayerPen(IDocument document, System.Drawing.Color color)
+        {
+            EntityLayerPen pen = new EntityLayerPen();
+
+            pen.Name = color.ToKnownColor().ToString();
+            pen.PenColor = color; //Config.EntityPenColors[0]; //default 'white'
+            pen.Description = color.ToString();
+
+            pen.IsALC = false;
+            pen.AlcSignal = AutoLaserControlSignals.Disabled;
+            pen.AlcMode = AutoLaserControlModes.Disabled;
+            pen.AlcModeExtension = AutoLaserControlModeExtensions.Empty;
+            pen.AlcPercentage100 = 0;
+            pen.AlcMinValue = 0;
+            pen.AlcMaxValue = 0;
+            pen.AlcByPositionTable.Clear();
+
+            pen.IsSkyWritingEnabled = false;
+            pen.SkyWritingMode = SkyWritingModes.Mode3;
+            pen.TimeLag = 250;
+            pen.LaserOnShift = 0;
+            pen.Prev = 2000 * 0.15;
+            pen.Post = 2000 * 0.1;
+            pen.AngularLimit = 90;
+
+            pen.MotionType = MotionTypes.StageAndScanner;
+            pen.BandWidth = 2;
+
+            pen.IsVariablePolygonDelay = true;
+            pen.VariablePolygonDelayEdgeLevel = 150; // < PolygonDelay * 2(or 1.5)
+
+            pen.IsVariableJumpDelay = false;
+            pen.VariableJumpDelayMin = 50;
+            pen.VariableJumpDelayLimitLength = 0.1;
+
+            return pen;
+        }
+
+        private EntityPen Config_OnCreateEntityPen(IDocument document, System.Drawing.Color color)
+        {
+            EntityPen pen = new EntityPen();
+
+            pen.Name = color.ToKnownColor().ToString();
+            pen.PenColor = color; //Config.EntityPenColors[0]; //default 'white'
+            pen.Description = color.ToString();
+
+            pen.LaserFpk = 0;
+            pen.LaserQSwitchDelay = 0;
+
+            pen.Power = 1;
+            pen.Frequency = 50 * 1000;
+            pen.PulseWidth = 2;
+
+            pen.LaserOnDelay = 0;
+            pen.LaserOffDelay = 0;
+            pen.ScannerJumpDelay = 250;
+            pen.ScannerMarkDelay = 150;
+            pen.ScannerPolygonDelay = 100;
+
+            pen.JumpSpeed = 500; //syncAXIS?
+            pen.MarkSpeed = 500;
+            pen.IsHardJump = false;
+
+            pen.RasterMode = RasterModes.JumpAndShoot;
+            pen.RasterDirection = EntityPen.RasterDirections.Horizontal;
+            pen.IsRasterZigZag = true;
+            pen.PixelTime = 100;
+            pen.PixelPeriod = 200;
+            pen.PixelChannel = ExtensionChannels.ExtAO2;
+
+            pen.LaserOnShiftSCANa = 0;
+            pen.LaserOffShiftSCANa = 0;
+            pen.CornerScaleSCANa = 100;
+            pen.EndScaleSCANa = 100;
+            pen.AccScaleSCANa = 100;
+            pen.SpotDistanceSCANa = 0.02;
+
+            pen.IsWobbelEnabled = false;
+            pen.WobbelFrequency = 100;
+            pen.WobbelPerpendicular = 0.5;
+            pen.WobbelParallel = 0.5;
+            pen.WobbelShape = WobbelShapes.Ellipse;
+
+            pen.MinMarkSpeed = 0;
+            pen.ApproxBlendLimit = 0;
+
+            return pen;
+        }
+
 
         private void BtnPrepare_Click(object sender, EventArgs e)
         {
@@ -186,10 +285,10 @@ namespace Demos
                     {
                         case AutoLaserControlSignals.ExtDO16:
                         case AutoLaserControlSignals.ExtDO8:
-                            success &= rtcAlc.CtlAlc<uint>(pen.AlcSignal, pen.AlcMode, (uint)pen.AlcPercentage100, (uint)pen.AlcMinValue, (uint)pen.AlcMaxValue);
+                            success &= rtcAlc.CtlAlc<uint>(pen.AlcSignal, pen.AlcMode, pen.AlcModeExtension, (uint)pen.AlcPercentage100, (uint)pen.AlcMinValue, (uint)pen.AlcMaxValue);
                             break;
                         default:
-                            success &= rtcAlc.CtlAlc<double>(pen.AlcSignal, pen.AlcMode, pen.AlcPercentage100, pen.AlcMinValue, pen.AlcMaxValue);
+                            success &= rtcAlc.CtlAlc<double>(pen.AlcSignal, pen.AlcMode, pen.AlcModeExtension, pen.AlcPercentage100, pen.AlcMinValue, pen.AlcMaxValue);
                             break;
                     }
                 }

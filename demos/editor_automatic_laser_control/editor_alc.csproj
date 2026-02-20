@@ -54,7 +54,6 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 
-	
 	<!--
 	<ItemGroup>
 		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3">

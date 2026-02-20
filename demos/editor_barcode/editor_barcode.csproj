@@ -17,7 +17,6 @@
 	<ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
-
 	<PropertyGroup Condition="'$(TargetFramework)'=='net481'">
 		<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
 	</PropertyGroup>
@@ -73,4 +72,5 @@
 		</Reference>
 	</ItemGroup>
 	-->
+	
 </Project>

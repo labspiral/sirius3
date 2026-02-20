@@ -45,14 +45,6 @@
 	  </None>
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
-		<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
-		<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-	</ItemGroup>
 
 	<!-- To copy(or overwrite) specific RTC6 files for syncAXIS v1.8.2 -->
 	<!--
@@ -82,8 +74,17 @@
 			DestinationFolder="$(TargetDir)"
 			OverwriteReadOnlyFiles="true" />
 	</Target>
-	-->	
-	
+	-->
+
+	<ItemGroup>
+		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
+		<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
+		<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+	</ItemGroup>
+
 	<!--
 	<ItemGroup>
 		<Reference Condition="'$(TargetFramework)'=='net481'" Include="SpiralLab.Sirius3">
@@ -103,4 +104,5 @@
 		</Reference>
 	</ItemGroup>
 	-->
+
 </Project>

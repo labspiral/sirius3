@@ -38,6 +38,8 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
+
             this.btnMark.Click += BtnMark_Click;
             this.btnMarkSw1.Click += BtnMarkSw1_Click;
             this.btnMarkSw2.Click += BtnMarkSw2_Click;
@@ -70,6 +72,10 @@ namespace Demos
             MarkerOption();
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
+        }
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
         }
 
         void MarkerOption()

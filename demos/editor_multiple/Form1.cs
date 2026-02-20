@@ -48,6 +48,7 @@ namespace Demos
             EditorControls[1] = siriusEditorControl2;
 
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -81,6 +82,12 @@ namespace Demos
                 marker.Ready(EditorControls[i].Document, EditorControls[i].View, rtc, laser, powerMeter);
 
             }
-        }     
+        }
+
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            for (int i = 0; i < editorCount; i++)
+                EditorHelper.DestroyDevices(EditorControls[i]);
+        }
     }
 }

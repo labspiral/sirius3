@@ -1,5 +1,21 @@
 ﻿# Sirius3 version history
 
+## v1.3.2 (2026.2.20)
+- fixed) Support for Extended Mode in Automatic Laser Control
+    - Actual Velocity + Encoder + SCANAhead + Inverse Speed Correction + Backward Transformation + SDC + SkyWriting signal combinations now usable
+    - Support added for setting Extended Mode combinations in the PoD list within the EntityLayerPen properties
+    - Added EntityPoD
+- fixed) EntityPen
+    - Support added for setting Spot distance values for SDC functionality in SpotDistanceSCANa.
+- added) IRtcMoF 
+    - Support added for encoder signal error notification events: IRtcMoF.OnEncoderSignalError event
+    - Supports notification event when exiting virtual image field: IRtcMoF.OnOutOfVirtualImageField
+    - Supports encoder signal filter settings (RTC6 exclusive)
+        - Use CtlMoFEncoderFilter function to apply arithmetic mean to signals in noisy conditions or support high speeds above 4MHz
+    - When querying encoder values, both absolute and relative positions can be retrieved separately.
+    - modified argument to OnEncoderChanged event
+- fixed) renamed IRtcWaitID to IRtcInterrupt
+ 
 ## v1.3.1 (2026.2.9)
 - added) IRtcSCANAhead interface
     - Added SCANAhead-specific items (Corner, End, Acc Scale) to EntityPen

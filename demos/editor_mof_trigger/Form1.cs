@@ -50,6 +50,7 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
 
             this.btnCreateEntities.Click += BtnCreateEntities_Click;
             this.btnStartStop.Click += BtnStartStop_Click;
@@ -60,6 +61,11 @@ namespace Demos
         private void Form1_Load(object sender, EventArgs e)
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
+
+            var rtcMoF = rtc as IRtcMoF;
+            Debug.Assert(rtcMoF != null);
+            rtcMoF.OnEncoderSignalError += OnEncoderSignalError;
+            rtcMoF.OnOutOfVirtualImageField += OnOutOfVirtualImageField;
 
             siriusEditorControl1.Scanner = rtc;
 
@@ -84,6 +90,136 @@ namespace Demos
 
             txtCurrentSerialNo.Text = $"{currentSerialNo}";
             txtRealSerialNo.Text = $"{realSerialNo}";
+        }
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
+        }
+
+        private void OnEncoderSignalError(IRtcMoF rtcMoF, IRtcMarkingInfo rtcMarkingInfo)
+        {
+            if (rtcMarkingInfo is Rtc6MarkingInfo rtc6MarkingInfo)
+            {
+                // For RTC6 card
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.Signal1EncoderXTooShort))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.Signal1EncoderYTooShort))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.Signal2EncoderXTooShort))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.Signal2EncoderYTooShort))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.WrongSignalSequenceEncoderX))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.WrongSignalSequenceEncoderY))
+                {
+
+                }
+            }
+            else if (rtcMarkingInfo is Rtc5MarkingInfo rtc5MarkingInfo)
+            {
+                // For RTC5 card
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.Signal1EncoderXTooShort))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.Signal1EncoderYTooShort))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.Signal2EncoderXTooShort))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.Signal2EncoderYTooShort))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.WrongSignalSequenceEncoderX))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.WrongSignalSequenceEncoderY))
+                {
+
+                }
+            }
+            else if (rtcMarkingInfo is Rtc4MarkingInfo rtc4MarkingInfo)
+            {
+                // For RTC4 card
+                // Not supported  
+            }
+
+            this.Invoke(new MethodInvoker(() =>
+            {
+                MessageBox.Show(this, $"Encoder Signal Error: {rtcMarkingInfo.ToString()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);                
+            }));
+
+        }
+
+        private void OnOutOfVirtualImageField(IRtcMoF rtcMoF, IRtcMarkingInfo rtcMarkingInfo)
+        {
+            if (rtcMarkingInfo is Rtc6MarkingInfo rtc6MarkingInfo)
+            {
+                // For RTC6 card
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.MoFOverflowInXDirection))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.MoFUnderflowInXDirection))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.MoFOverflowInYDirection))
+                {
+
+                }
+                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.MoFUnderflowInYDirection))
+                {
+
+                }
+              
+            }
+            else if (rtcMarkingInfo is Rtc5MarkingInfo rtc5MarkingInfo)
+            {
+                // For RTC5 card
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.MoFOverflowInXDirection))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.MoFUnderflowInXDirection))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.MoFOverflowInYDirection))
+                {
+
+                }
+                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.MoFUnderflowInYDirection))
+                {
+
+                }
+            }
+            else if (rtcMarkingInfo is Rtc4MarkingInfo rtc4MarkingInfo)
+            {
+                // For RTC4 card
+                // Not supported (no virtual image field)
+            }
+
+            this.Invoke(new MethodInvoker(() =>
+            {
+                MessageBox.Show(this, $"Out of Virtual Image Field: {rtcMarkingInfo.ToString()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }));
         }
 
         private void BtnCreateEntities_Click(object sender, EventArgs e)
@@ -216,7 +352,7 @@ namespace Demos
             // Activated simulated encoders for test purpose (x= -1, y=0 mm/s)
             // DO NOT set simulated encoder speed if ENC 0,1 has connected
             // 엔코더 입력 시뮬레이션 시작 (x 축 방향은 -1mm/s 가상 속도, y 축은 미사용)
-            rtcMoF.CtlMofEncoderSpeed(-1, 0);
+            rtcMoF.CtlMoFEncoderSpeed(-1, 0);
         }
 
         private void BtnStopEncoderSimulation_Click(object sender, EventArgs e)
@@ -230,10 +366,10 @@ namespace Demos
 
             // Deactivated simulated encoders 
             // 엔코더 입력 시뮬레이션 중지 (가상 속도를 0 으로 하는것으로 중지됨)
-            rtcMoF.CtlMofEncoderSpeed(0, 0);
+            rtcMoF.CtlMoFEncoderSpeed(0, 0);
 
             // Reset encoders
-            rtcMoF.CtlMofEncoderReset();
+            rtcMoF.CtlMoFEncoderReset();
         }
 
         void CreateEventHandlers()

@@ -40,6 +40,8 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
+
             this.FormClosed += Form1_FormClosed;
         }
 
@@ -74,7 +76,10 @@ namespace Demos
 
             dInExt1.OnChanged += DIExt1_OnChanged;
         }
-
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
+        }
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             timer.Stop();

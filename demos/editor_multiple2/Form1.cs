@@ -72,23 +72,13 @@ namespace Demos
                 siriusMultiEditorControl1.RegisterDevices(index, rtcs[index], lasers[index], powerMeters[index], dInExt1s[index], dInLaserPorts[index], dOutExt1s[index], dOutExt2s[index], dOutLaserPorts[index], markers[index]);
             }
 
-            //siriusMultiEditorControl1.CurrentDeviceIndex = 0; //0 by default
+            // 0 (first device set) by default
+            siriusMultiEditorControl1.SwitchDevices(0);
         }
 
         private void Form1_Disposed(object sender, EventArgs e)
         {
-            for (int i = 0; i < MaxDeviceCount; i++)
-            {
-                rtcs[i]?.Dispose();
-                lasers[i]?.Dispose();
-                dInExt1s[i]?.Dispose();
-                dInLaserPorts[i]?.Dispose();
-                dOutExt1s[i]?.Dispose();
-                dOutExt2s[i]?.Dispose();
-                dOutLaserPorts[i]?.Dispose();
-                powerMeters[i]?.Dispose();
-                markers[i]?.Dispose();
-            }
+            EditorHelper.DestroyDevices(siriusMultiEditorControl1);
         }
     }
 }

@@ -35,6 +35,8 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
+
             this.btnCreateBarcode.Click += BtnCreateBarcode_Click;
         }
 
@@ -57,6 +59,10 @@ namespace Demos
             siriusEditorControl1.Marker = marker;
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
+        }
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
         }
 
         private void BtnCreateBarcode_Click(object sender, EventArgs e)

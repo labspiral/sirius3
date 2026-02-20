@@ -39,6 +39,7 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
+            this.Disposed += Form1_Disposed;
 
             btnPrepare.Click += BtnPrepare_Click;
             btnAddHatch1.Click += BtnAddHatch1_Click;
@@ -67,6 +68,11 @@ namespace Demos
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
+        private void Form1_Disposed(object sender, EventArgs e)
+        {
+            EditorHelper.DestroyDevices(siriusEditorControl1);
+        }
+
 
         private void BtnPrepare_Click(object sender, EventArgs e)
         {
