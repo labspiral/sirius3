@@ -105,8 +105,8 @@ namespace Demos
         /// DIGITAL IN1 핀으로 입력받는 외부 신호는 레이저 소스 자체의 실제 발진(공진) 주기와 일치하는 마스터 클럭(Master Clock) 또는 펄스 동기(Sync) 신호여야 합니다.
         /// </summary>
         /// <param name="rtc"></param>
-        /// <param name="isDIGITALIN1ActiveHigh"></param>
-        void ConfigLASERPORT_DIN1_Pin_SignalLevel(IRtc rtc, bool isDIGITALIN1ActiveHigh)
+        /// <param name="isDIGITALIN1RisingEdge"></param>
+        void ConfigLASERPORT_DIN1_Pin_SignalLevel(IRtc rtc, bool isDIGITALIN1RisingEdge)
         {
             var rtcSignalLevel = rtc as IRtcSignalLevel;
             Debug.Assert(rtcSignalLevel != null);
@@ -114,7 +114,7 @@ namespace Demos
             if (rtc is Rtc5 rtc5)
             {
                 var lcs = rtc5.LaserControlSignal;
-                if (isDIGITALIN1ActiveHigh)
+                if (isDIGITALIN1RisingEdge)
                     lcs.Add(Rtc5LaserControlSignal.Bit.ExtSignalPulseRisingEdge);
                 else
                     lcs.Remove(Rtc5LaserControlSignal.Bit.ExtSignalPulseRisingEdge);
@@ -123,7 +123,7 @@ namespace Demos
             else if (rtc is Rtc6 rtc6)
             {
                 var lcs = rtc6.LaserControlSignal;
-                if (isDIGITALIN1ActiveHigh)
+                if (isDIGITALIN1RisingEdge)
                     lcs.Add(Rtc6LaserControlSignal.Bit.ExtSignalPulseRisingEdge);
                 else
                     lcs.Remove(Rtc6LaserControlSignal.Bit.ExtSignalPulseRisingEdge);
@@ -250,7 +250,7 @@ namespace Demos
             entityPen.PixelPulses = 5;
 
 
-            // PixelPulses 사용시(0 보다 큰 경우) 목표한 외부 펄스 개수가 감지되는 즉시 대기를 종료하고 다음 명령어로 넘어가는 기능을 활성화 할지 여부입니다.
+            // PixelPulses 사용시(0 보다 큰 경우) 목표한 외부 펄스 개수에 도달되는 즉시 대기를 종료하고 다음 명령어로 넘어가는 기능을 활성화 할지 여부입니다.
             // Break(or terminate) waiting if DIGITAL IN1 signal counts has reached PixelPulses
             entityPen.IsPixelPulsesExit = true;
 
