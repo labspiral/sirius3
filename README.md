@@ -18,6 +18,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - MoF (Marking on the Fly), 2nd head, 3D
    - Sky Writing Mode 1/2/3 or 4
    - Auto Delays by SCANAhead
+   - MultiBeam (1 Laser source + 2 AOM + 2 ScanHead)
 - ALC(Automatic Laser Control) or Pulse on Demand
    - Defined vector 
       - Ramp
@@ -78,6 +79,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 - `net481`
 - `net8.0-windows`
 - `net9.0-windows`
+- `net10.0-windows`
 
 ## System Requirements
 - Windows 10/11 (x64)
@@ -96,6 +98,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
       - OpenTK 3.3.3
    - `net8.0-windows`
    - `net9.0-windows` 
+   - `net10.0-windows`
       - OpenTK 4.9.4
       - OpenTK.Mathematics 4.9.4
    - Common
@@ -215,7 +218,7 @@ public class MainForm : Form
 
 ## License
 - Commercial license required for production use.
-- License : RTC instance count + [options: MoF, MultiBeam or syncAXIS]
+- License : RTC instance count + [Options: MoF, MultiBeam or syncAXIS]
 - See LICENSE.txt and THIRD-PARTY-NOTICES.txt.
 - Contact: hcchoi@spirallab.co.kr | https://spirallab.co.kr
 > Without a license key, the library runs in 30-minute evaluation mode.

@@ -18,6 +18,7 @@
    - MoF (Marking on the Fly), 2nd 헤드, 3D 지원
    - Sky Writing Mode 1/2/3/4
    - SCANAhead 를 이용한 지연값(Auto delays) 자동 설정 지원
+   - 멀티빔 (1개의 레이저 소스 + 2개의 AOM + 2개의 스캔헤드)을 통한 성능 향상 지원
 - ALC(Automatic Laser Control)
    - 벡터 정의형
       - 램프(Ramp)
