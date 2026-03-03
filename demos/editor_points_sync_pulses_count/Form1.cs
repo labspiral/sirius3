@@ -48,14 +48,15 @@ namespace Demos
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
+            // Allowed RTC5 or 6 only
             // RTC5,6 만 지원됨
             VerifyProperCard(rtc);
 
-
+            // External SYNC signal edge level
             // 외부 신호의 엣지 레벨 설정
             ConfigLASERPORT_DIN1_Pin_SignalLevel(rtc, true);
 
-
+            // Addition synchronization options
             // 아래는 부가적인 동기화 기능에 대한 소개로, 사용을 하지 않아도 됩니다.
             if (rtc is Rtc5 rtc5)
             {
@@ -63,10 +64,11 @@ namespace Demos
             }
             else if (rtc is Rtc6 rtc6)
             {
+                // Choose only one thing
                 // 아래 2 개중 하나의 기능만 선택 사용
                 //ConfigLASER1Synchronization(rtc6);
                 // or
-                ConfigLASER1Synchronization(rtc6); // RTC6 전용
+                ConfigLASER1Synchronization(rtc6); // RTC6 only
             }
 
             siriusEditorControl1.Scanner = rtc;
@@ -89,24 +91,25 @@ namespace Demos
 
         /// <summary>
         /// D.IN1 pin at LASER PORT is exist RTC5,6 only
+        /// <para>
         /// RTC5,6 이상에서만 LASER 커넥터에 있는 DIGITAL IN1 핀이 제공됩니다.
+        /// </para>
         /// </summary>
-        /// <param name="rtc"></param>
         void VerifyProperCard(IRtc rtc)
         {
             Debug.Assert(rtc is Rtc5 || rtc is Rtc6);
         }
 
         /// <summary>
-        /// Configure D.IN1 signal edge (active high or low)
-        /// DIGITAL IN1 핀의 신호 에지를 설정합니다.
+        /// Configure D.IN1 signal edge (falling or rising)
+        /// <para>
+        /// <see cref="EntityPen.PixelPulses"/> 설정된 펄스 개수만큼, DIGITAL IN1 핀에 입력되는 외부 펄스에 대해 상승 모서리에서 셀지, 하강 모서리에서 셀지를 결정합니다.
         /// 외부 펄스 신호는 RTC 보드의 LASER 커넥터에 있는 DIGITAL IN1 핀에 반드시 연결해야 합니다.
         /// LASER 커넥터의 DIGITAL IN1 핀으로 레이저 소스의 Sync Out 신호를 입력시킵니다.
         /// DIGITAL IN1 핀으로 입력받는 외부 신호는 레이저 소스 자체의 실제 발진(공진) 주기와 일치하는 마스터 클럭(Master Clock) 또는 펄스 동기(Sync) 신호여야 합니다.
+        /// </para>
         /// </summary>
-        /// <param name="rtc"></param>
-        /// <param name="isDIGITALIN1RisingEdge"></param>
-        void ConfigLASERPORT_DIN1_Pin_SignalLevel(IRtc rtc, bool isDIGITALIN1RisingEdge)
+        void ConfigLASERPORT_DIN1_Pin_SignalLevel(IRtc rtc, bool isDIGITALIN1FallingEdge = true)
         {
             var rtcSignalLevel = rtc as IRtcSignalLevel;
             Debug.Assert(rtcSignalLevel != null);
@@ -114,25 +117,26 @@ namespace Demos
             if (rtc is Rtc5 rtc5)
             {
                 var lcs = rtc5.LaserControlSignal;
-                if (isDIGITALIN1RisingEdge)
-                    lcs.Add(Rtc5LaserControlSignal.Bit.ExtSignalPulseRisingEdge);
-                else
+                if (isDIGITALIN1FallingEdge)
                     lcs.Remove(Rtc5LaserControlSignal.Bit.ExtSignalPulseRisingEdge);
+                else
+                    lcs.Add(Rtc5LaserControlSignal.Bit.ExtSignalPulseRisingEdge);
                 rtc5.LaserControlSignal = lcs;
             }
             else if (rtc is Rtc6 rtc6)
             {
                 var lcs = rtc6.LaserControlSignal;
-                if (isDIGITALIN1RisingEdge)
-                    lcs.Add(Rtc6LaserControlSignal.Bit.ExtSignalPulseRisingEdge);
-                else
+                if (isDIGITALIN1FallingEdge)
                     lcs.Remove(Rtc6LaserControlSignal.Bit.ExtSignalPulseRisingEdge);
+                else
+                    lcs.Add(Rtc6LaserControlSignal.Bit.ExtSignalPulseRisingEdge);
                 rtc6.LaserControlSignal = lcs;
             }
         }
 
         /// <summary>
         /// Configure Output Synchronization (sync timing for start of vector by D.IN1 pin)
+        /// <para>
         /// 출력 동기화(혹은 스캐너 모션 외부 클럭 동기화) 기능 켜기
         /// DIGITAL IN1 핀으로 입력되는 외부 펄스 신호 타이밍을 사용해 스캐너의 위치를 맞춰주는 역할을 합니다.
         /// 작동 원리:
@@ -140,8 +144,8 @@ namespace Demos
         /// 마킹 명령어(mark, arc, ellipse 등)가 시작될 때, 명령어의 시작 시점과 실제 첫 번째 레이저 펄스가 나오는 시점 사이의 시간 차이(위상 편이)를 계산하여 스캐너 거울의 출력 위치를 자동으로 보정합니다.
         /// 사용 목적:
         /// 프리 러닝 레이저 사용 시 레이저 펄스의 무작위한 위상 차이로 인해 선을 반복해서 그을 때 시작점이 들쭉날쭉해지는 현상(Jittery line images)을 방지하고,항상 일정한 위치에서 선이 시작되도록(flush line starts) 보장합니다.
+        /// <para>
         /// </summary>
-        /// <param name="rtc"></param>
         void ConfigOutputSynchronization(IRtc rtc)
         {
             if (rtc is Rtc5 rtc5)
@@ -160,6 +164,7 @@ namespace Demos
 
         /// <summary>
         /// Configure LASER1 Synchronization (sync timing for LASER1 output signal by D.IN1 pin)
+        /// <para>
         /// 펄스 동기화 모드(Pulse Synchronization) 기능 켜기 (RTC6 고유기능)
         /// 이 기능 역시 DIGITAL IN1 핀으로 입력되는 외부 펄스 신호를 사용합니다.
         /// 앞선 OutputSynchronization 스캐너의 움직임으로 동기화 하는 것과 달리, RTC6 보드가 내보내는 LASER1 펄스의 출력 타이밍 자체를 외부 클럭에 맞추는 기능입니다.
@@ -170,8 +175,8 @@ namespace Demos
         /// 외부 신호가 감지되면 그에 맞춰 펄스를 출력하므로 외부 레이저 소스와의 완벽한 위상 동기화가 가능해집니다.
         /// 
         /// 주의사항: OutputSynchronization 와 함께 사용하는것은 금지됩니다. 2개중 하나의 기능만 사용하세요.
+        /// </para>
         /// </summary>
-        /// <param name="rtc6"></param>
         void ConfigLASER1Synchronization(Rtc6 rtc6)
         {
             rtc6.CtlLASER1Synchronization(true, 0);
