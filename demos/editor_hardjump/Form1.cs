@@ -110,10 +110,10 @@ namespace Demos
             document.ActivePage.ActiveLayer.AddChild(end);
 
             // Find entity pen for 'White'
-            document.FindByEntityPenColor(System.Drawing.Color.White, out var entityPenWhite);
+            document.FindByEntityPenColor(System.Drawing.Color.White, out var entityPen);
 
             // Disable Hard Jump 
-            entityPenWhite.IsHardJump = false;
+            entityPen.IsHardJump = false;
             
             siriusEditorControl1.PropertyGridCtrl.Refresh();
         }
@@ -142,13 +142,12 @@ namespace Demos
             document.ActivePage.ActiveLayer.AddChild(end);
 
             // Find entity pen for 'White'
-            document.FindByEntityPenColor(System.Drawing.Color.White, out var entityPenWhite);
+            document.FindByEntityPenColor(System.Drawing.Color.White, out var entityPen);
 
-            // Disable Hard Jump 
-            entityPenWhite.IsHardJump = true;
+            // Enable Hard Jump 
+            entityPen.IsHardJump = true;
 
             siriusEditorControl1.PropertyGridCtrl.Refresh();
         }
-
     }
 }

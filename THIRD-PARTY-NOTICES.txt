@@ -50,7 +50,7 @@ ZXing.Net
   NOTICE  : No additional upstream NOTICE content was provided beyond the Apache-2.0 license.
 
 BouncyCastle.Cryptography
-  Version : 2.3.1
+  Version : 2.6.2
   License : MIT
   Copyright: © Legion of the Bouncy Castle Inc.
   Source  : https://www.bouncycastle.org/download/bouncy-castle-c/

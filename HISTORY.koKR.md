@@ -1,5 +1,31 @@
 ﻿# Sirius3 버전 이력
 
+## v1.4.0 (2026.3.3)
+- added) .net9.0-windows, .net10.0-windows 개발환경 추가
+- added) 외부 레이저 소스의 동기 신호에 의한 펄스 개수 출력
+    - LASER 커넥터의 DIGITAL IN1 으로 외부 동기 신호 입력
+    - IRtc.ListLaserOn(대기 시간, 펄스 개수, 펄스 개수 종료) 
+    - EntityPen 펜의 PixelPulses, IsPixelPulsesExit 값으로 설정 가능
+        - 0: 기존처럼 픽셀 시간동안 LASERON 출력
+        - 1~65535: 픽셀 시간 동안 외부 동기 신호를 펄스수 만큼 대기하며 LASERON 출력
+        - IsPixelPulsesExit 사용시 외부 동기 신호 개수가 PixelPulses 설정값에 도달시 즉시 종료하고 다음 리스트 명령으로 이동됨
+- added) (experimental) IRtcMultiBeam 인터페이스
+    - 하나의 레이저 소스 + 2 개의 RTC + 2개의 AOM RF 드라이버를 이용한 멀티빔 시스템
+    - Rtc6MultiBeam 
+- added) EntityPoints 
+    - Sort 함수를 통한 최단 경로 최적화 지원 
+- added) IRtcIO 인터페이스
+- fixed) EntityWaitDataExt16Cond, EntityWaitDataExt16EdgeCond, EntityWriteDataExt16, EntityWriteDataExt16Cond
+    - bitmask 를 문자열 대신 ushort 타입으로 처리
+- fixed) SiriusEditorControl 컨트롤
+    - 디자인 타임에 추가할때 발생하는 예외
+    - 컨트롤이 컨트롤 비하인드에서 생성시 OpenGL 이 초기화 되지 않아 발생하는 예외 수정
+    - 컨트롤이 Load 시점에 Document 를 ActNew 강제하는 코드 삭제
+- fixed) 라이센스
+    - 최대 허용 인스턴스 개수를 초과 혹은 옵션이 없는 경우
+    - 이전: 사용 불가
+    - 변경: 30 분간 평가 모드 활성화
+
 ## v1.3.2 (2026.2.20)
 - fixed) Automatic Laser Control 의 확장 모드 지원
     - Actual Velocity + Encoder + SCANAhead +  Inverse Speed Correction +  Backward Transformation + SDC + SkyWriting 신호 조합 사용가능

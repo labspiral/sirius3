@@ -1,5 +1,31 @@
 ﻿# Sirius3 version history
 
+## v1.4.0 (2026.3.3)
+- added) .NET 9.0-Windows, .NET 10.0-Windows development environments
+- added) Pulse count output via synchronisation signal from external laser source
+    - External synchronisation signal input via DIGITAL IN1 on LASER connector
+    - IRtc.ListLaserOn(wait time, pulse count, pulse count exit) 
+    - Can be set via the PixelPulses and IsPixelPulsesExit values of the EntityPen pen
+        - 0: Output LASERON for the pixel duration as before
+        - 1~65535: Output LASERON for the pixel duration while waiting for the external synchronisation signal for the specified number of pulses
+        - When using IsPixelPulsesExit, immediately terminates when the external synchronisation signal count reaches the PixelPulses setting value and proceeds to the next list command
+- added) (experimental) IRtcMultiBeam interface
+    - Multi-beam system utilising one laser source + two RTCs + two AOM RF drivers
+    - Rtc6MultiBeam
+- added) EntityPoints
+    - Supports shortest path optimization 
+- added) IRtcIO interface
+- fixed) EntityWaitDataExt16Cond, EntityWaitDataExt16EdgeCond, EntityWriteDataExt16, EntityWriteDataExt16Cond
+    - Bitmask as ushort type instead of string
+- fixed) SiriusEditorControl control
+    - Exception occurring when adding at design time
+    - Fixed exception occurring when control is created in control behind, due to OpenGL not initialised
+    - Removed code forcing Document to ActNew at control load time
+- fixed) Licence
+    - When exceeding maximum allowed instances or lacking options
+    - Prev: Unusable
+    - Changed: Activates 30-minute evaluation mode
+     
 ## v1.3.2 (2026.2.20)
 - fixed) Support for Extended Mode in Automatic Laser Control
     - Actual Velocity + Encoder + SCANAhead + Inverse Speed Correction + Backward Transformation + SDC + SkyWriting signal combinations now usable

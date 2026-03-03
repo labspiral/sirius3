@@ -157,7 +157,7 @@ namespace Demos
                     string configXmlFilePath = Path.Combine(SpiralLab.Sirius3.Config.SyncAxisPath, configXmlFileName);
                     rtc = ScannerFactory.CreateRtc6SyncAxis(rtcId, configXmlFilePath);
                     break;
-            }
+            }        
 
             // Initialize RTC controller
             success &= rtc.Initialize();
@@ -174,6 +174,14 @@ namespace Demos
                 // Select Table2 on Secondary(2nd) head
                 success &= rtc.CtlSelectCorrection(CorrectionTables.Table1, CorrectionTables.Table2);
             }
+
+            double fpk = NativeMethods.ReadIni(ConfigFileName, $"RTC{index}", "FPK", 0.0);
+            double qSwitchDelay = NativeMethods.ReadIni(ConfigFileName, $"RTC{index}", "QSWITCH_DELAY", 0.0);
+
+            success &= rtc.CtlFirstPulseKiller(fpk);
+
+            if (rtc is IRtcExtension rtcExtension)
+                success &= rtcExtension.CtlQSwitchDelay(qSwitchDelay);
 
             // Create GPIO at RTC 
             // 16 bits input at extension 1 port

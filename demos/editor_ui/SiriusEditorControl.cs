@@ -749,6 +749,7 @@ namespace Demos
                 splitContainer2.Panel2Collapsed = !splitContainer2.Panel2Collapsed;
             };
 
+            Document = new DocumentBase();
         }
 
         /// <summary>
@@ -812,10 +813,6 @@ namespace Demos
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         private void SiriusEditorControl_Load(object sender, EventArgs e)
         {
-            Document = new DocumentBase();
-            //Document.ActNew(true, true, true, true, true, true, true, true, true);
-            Document.ActNew(true, true, true, true, true, false, false, false, false); //scanner layer 펜 재 생성 막기
-
             Marker?.Ready(Document, View, Scanner as IRtc, Laser, PowerMeter);
         }
         /// <summary>

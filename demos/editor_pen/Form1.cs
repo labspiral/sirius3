@@ -124,9 +124,6 @@ namespace Demos
             pen.PenColor = color; //Config.EntityPenColors[0]; //default 'white'
             pen.Description = color.ToString();
 
-            pen.LaserFpk = 0;
-            pen.LaserQSwitchDelay = 0;
-
             pen.Power = 1;
             pen.Frequency = 50 * 1000;
             pen.PulseWidth = 2;
@@ -145,6 +142,8 @@ namespace Demos
             pen.RasterDirection = EntityPen.RasterDirections.Horizontal;
             pen.IsRasterZigZag = true;
             pen.PixelTime = 100;
+            pen.PixelPulses = 0;
+            pen.IsPixelPulsesExit = true;
             pen.PixelPeriod = 200;
             pen.PixelChannel = ExtensionChannels.ExtAO2;
 
@@ -404,9 +403,6 @@ namespace Demos
                 Config.IsConvertJumpToHardJump = false;
 
             success &= rtc.ListSpeed(pen.JumpSpeed, pen.MarkSpeed);
-            success &= rtc.ListFirstPulseKiller(pen.LaserFpk);
-            if (null != rtcExtension)
-                success &= rtcExtension.ListQSwitchDelay(pen.LaserQSwitchDelay);
 
             if (null != rtcWobbel)
             {

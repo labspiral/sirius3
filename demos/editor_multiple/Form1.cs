@@ -53,11 +53,7 @@ namespace Demos
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // must be called onload event at editor (view)
-            tabControl1.SelectedIndex = 1;
-            tabControl1.SelectedIndex = 0;
-
-            // Also, need to 2 instances at library option.
+            //Need to 2 instances at library option.
             //Core.License(out var licenseInfo);
             //Debug.Assert(licenseInfo.RtcLicenseMax == 2);
 

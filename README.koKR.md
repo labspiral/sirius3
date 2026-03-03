@@ -24,10 +24,11 @@
    - 속도 의존형
       - 지령 속도
       - 실제 속도
+   - 엔코더 의존형
       - 엔코더 속도
-      - 또한 SCANAhead, Encoder Speed Addition, Inverse Speed Correction, Backward Transformation, SDC+Skywriting 조합 사용 가능
    - 위치 의존형
       - 거리 및 스케일 값 기반 테이블
+   - 또한 SCANAhead, Encoder Speed Addition, Inverse Speed Correction, Backward Transformation, SDC+Skywriting 조합 사용 가능
 - 스캐너 필드 보정
    - 2D / 3D 보정
 - 레이저 파워 제어
@@ -76,6 +77,8 @@
 ## 대상 플랫폼
 - `net481`
 - `net8.0-windows`
+- `net9.0-windows`
+- `net10.0-windows`
 
 ## 시스템 요구사항
 - Windows 10/11 (x64)
@@ -93,6 +96,8 @@
    - `net481`
       - OpenTK 3.3.3
    - `net8.0-windows`
+   - `net9.0-windows`
+   - `net10.0-windows`
       - OpenTK 4.9.4
       - OpenTK.Mathematics 4.9.4
    - Common
@@ -112,19 +117,24 @@
 ## 빠른 시작
 프로젝트 설정
 ```
+<PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+    <UseWindowsForms>true</UseWindowsForms>
+</PropertyGroup>
+
 <PropertyGroup Condition="'$(TargetFramework)'=='net481'">
 	<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
 </PropertyGroup>
-
-PropertyGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
+<PropertyGroup Condition="'$(TargetFramework.StartsWith(`net8.0-windows`))' OR '$(TargetFramework.StartsWith(`net9.0-windows`))' OR '$(TargetFramework.StartsWith(`net10.0-windows`))'">
 	<DefineConstants>$(DefineConstants);OPENTK4</DefineConstants>
 </PropertyGroup>
 
 <ItemGroup Condition="'$(TargetFramework)'=='net481'">
 	<PackageReference Include="OpenTK" Version="3.3.3" />
 </ItemGroup>
-	
-<ItemGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
+
+<ItemGroup Condition="'$(TargetFramework.StartsWith(`net8.0-windows`))' OR '$(TargetFramework.StartsWith(`net9.0-windows`))' OR '$(TargetFramework.StartsWith(`net10.0-windows`))'">
 	<PackageReference Include="OpenTK" Version="4.9.4" />
 	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
 </ItemGroup>
@@ -133,7 +143,6 @@ PropertyGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
 	<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
 	<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
 	<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
-
 	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
 	<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
 	<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
@@ -208,7 +217,7 @@ public class MainForm : Form
 
 ## 라이센스
 - 상업용 사용은 라이센스 구매가 필요합니다.
-- 라이센스: RTC 인스턴스 개수 + [옵션: MoF 혹은 syncAXIS]
+- 라이센스: RTC 인스턴스 개수 + [옵션: MoF, MultiBeam 혹은 syncAXIS]
 - 라이센스 및 외부 라이브러리는 LICENSE.txt, THIRD-PARTY-NOTICES.txt 참고.
 - 이메일: hcchoi@spirallab.co.kr | https://spirallab.co.kr
 > 라이센스키가 없으면 30분간 사용이 가능한 평가모드로 실행됩니다.

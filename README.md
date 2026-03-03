@@ -24,10 +24,11 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - Speed dependent 
       - Set Velocity
       - Actual Velocity
+   - Encoder dependent
       - Encoder Speed 
-      - also, SCANAhead, Encoder Speed Addition, Inverse Speed Correction, Backward Transformation, SDC+Skywriting combinations available
    - Position dependent 
       - Table by distance and scale factor
+   - Also, SCANAhead, Encoder Speed Addition, Inverse Speed Correction, Backward Transformation, SDC+Skywriting combinations available
 - Scanner Field Correction
    - 2D / 3D correction 
 - Laser Power Control
@@ -76,6 +77,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 ## Platform targets
 - `net481`
 - `net8.0-windows`
+- `net9.0-windows`
 
 ## System Requirements
 - Windows 10/11 (x64)
@@ -93,6 +95,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - `net481`
       - OpenTK 3.3.3
    - `net8.0-windows`
+   - `net9.0-windows` 
       - OpenTK 4.9.4
       - OpenTK.Mathematics 4.9.4
    - Common
@@ -112,19 +115,24 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 ## Quick Start
 Project settings
 ```
+<PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+    <UseWindowsForms>true</UseWindowsForms>
+</PropertyGroup>
+
 <PropertyGroup Condition="'$(TargetFramework)'=='net481'">
 	<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
 </PropertyGroup>
-
-PropertyGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
+<PropertyGroup Condition="'$(TargetFramework.StartsWith(`net8.0-windows`))' OR '$(TargetFramework.StartsWith(`net9.0-windows`))' OR '$(TargetFramework.StartsWith(`net10.0-windows`))'">
 	<DefineConstants>$(DefineConstants);OPENTK4</DefineConstants>
 </PropertyGroup>
 
 <ItemGroup Condition="'$(TargetFramework)'=='net481'">
 	<PackageReference Include="OpenTK" Version="3.3.3" />
 </ItemGroup>
-	
-<ItemGroup Condition="'$(TargetFramework)'=='net8.0-windows'">
+
+<ItemGroup Condition="'$(TargetFramework.StartsWith(`net8.0-windows`))' OR '$(TargetFramework.StartsWith(`net9.0-windows`))' OR '$(TargetFramework.StartsWith(`net10.0-windows`))'">
 	<PackageReference Include="OpenTK" Version="4.9.4" />
 	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
 </ItemGroup>
@@ -207,7 +215,7 @@ public class MainForm : Form
 
 ## License
 - Commercial license required for production use.
-- License : RTC instance count + [options: MoF or syncAXIS]
+- License : RTC instance count + [options: MoF, MultiBeam or syncAXIS]
 - See LICENSE.txt and THIRD-PARTY-NOTICES.txt.
 - Contact: hcchoi@spirallab.co.kr | https://spirallab.co.kr
 > Without a license key, the library runs in 30-minute evaluation mode.

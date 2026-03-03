@@ -247,6 +247,8 @@ namespace Demos
             CreateEntities();
 
             EditPenValues();
+
+
         }
         void CreateEntities()
         {
@@ -294,6 +296,10 @@ namespace Demos
 
             marker.OnAfterEntity -= Marker_OnAfterEntity;
             marker.OnAfterEntity += Marker_OnAfterEntity;
+
+            // Zoom to fit for target entity
+            siriusEditorControl1.View?.Camera?.Fit(siriusEditorControl1.View, null, new IEntity[] { entity });
+            siriusEditorControl1.View?.DoRender();
         }
 
         void EditPenValues()
@@ -427,9 +433,6 @@ namespace Demos
             Debug.Assert(document.ActivePage.Layers.ChildrenCount == 1); 
             Debug.Assert(marker is MarkerRtc);
 
-            if (marker is MarkerRtc markerRtc)
-                markerRtc.MarkProcedure = MarkerRtc.MarkProcedures.OffsetFirst; // 개별 레이어에 대해 오프셋 개수만큼 반복 가공하는 모드 사용 필요
-
             if (marker.IsBusy)
             {
                 marker.Stop();
@@ -439,6 +442,9 @@ namespace Demos
             {
                 marker.Reset();
                 marker.Ready(siriusEditorControl1.Document);
+
+                if (marker is MarkerRtc markerRtc)
+                    markerRtc.MarkProcedure = MarkerRtc.MarkProcedures.OffsetFirst; // 개별 레이어에 대해 오프셋 개수만큼 반복 가공하는 모드 사용 필요
 
                 // Jump to origin
                 rtc.CtlMoveTo(DVec2.Zero);
@@ -490,6 +496,9 @@ namespace Demos
         private void BtnResetEncoder_Click(object sender, EventArgs e)
         {
             var marker = siriusEditorControl1.Marker;
+            if (marker.IsBusy)
+                return;
+
             var rtc = siriusEditorControl1.Scanner as IRtc;
             Debug.Assert(rtc.IsMoF);
             var rtcMoF = rtc as IRtcMoF;

@@ -253,6 +253,8 @@ namespace Demos
             Debug.Assert(this.MaxPowerWatt > 0);
             var rtc = Scanner as IRtc;
             Debug.Assert(rtc != null);
+            var rtcIO = rtc as IRtcIO;
+            Debug.Assert(rtcIO != null);
             bool success = true;
             double compensatedWatt = targetWatt;
             if (null != PowerMap && IsLookUpPowerMap && !string.IsNullOrEmpty(category))
@@ -269,9 +271,9 @@ namespace Demos
 
                 double dataVoltage = percentage / 100.0 * (this.MaxVoltage - this.MinVoltage) + this.MinVoltage;
                 if (1 == this.AnalogPortNo)
-                    success &= rtc.CtlWriteData<double>(ExtensionChannels.ExtAO1, dataVoltage);
+                    success &= rtcIO.CtlWriteData<double>(ExtensionChannels.ExtAO1, dataVoltage);
                 else if (2 == this.AnalogPortNo)
-                    success &= rtc.CtlWriteData<double>(ExtensionChannels.ExtAO2, dataVoltage);
+                    success &= rtcIO.CtlWriteData<double>(ExtensionChannels.ExtAO2, dataVoltage);
 
                 Thread.Sleep((int)this.PowerControlDelayTime);
                 if (success)
@@ -318,6 +320,8 @@ namespace Demos
             Debug.Assert(this.MaxPowerWatt > 0);
             var rtc = Scanner as IRtc;
             Debug.Assert(rtc != null);
+            var rtcIO = rtc as IRtcIO;
+            Debug.Assert(rtcIO != null);
             if (targetWatt > this.MaxPowerWatt)
                 targetWatt = this.MaxPowerWatt;
             bool success = true;
@@ -336,9 +340,9 @@ namespace Demos
 
                 double dataVoltage = percentage / 100.0 * (this.MaxVoltage - this.MinVoltage) + this.MinVoltage;
                 if (1 == this.AnalogPortNo)
-                    success &= rtc.ListWriteData<double>(ExtensionChannels.ExtAO1, dataVoltage);
+                    success &= rtcIO.ListWriteData<double>(ExtensionChannels.ExtAO1, dataVoltage);
                 else
-                    success &= rtc.ListWriteData<double>(ExtensionChannels.ExtAO2, dataVoltage);
+                    success &= rtcIO.ListWriteData<double>(ExtensionChannels.ExtAO2, dataVoltage);
                 success &= rtc.ListWait(this.PowerControlDelayTime);
                        
                 if (success)
