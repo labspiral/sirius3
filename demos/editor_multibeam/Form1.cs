@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Scanner;
@@ -35,9 +35,9 @@ namespace Demos
     public partial class Form1 : Form
     {
 
-        const int editorCount = 2;
-        SiriusEditorControl[] EditorControls = new SiriusEditorControl[editorCount];
-        IRtcMultiBeam[] RtcMultiBeams = new IRtcMultiBeam[editorCount];
+        const int instanceCount = 2;
+        SiriusEditorControl[] EditorControls = new SiriusEditorControl[instanceCount];
+        IRtcMultiBeam[] RtcMultiBeams = new IRtcMultiBeam[instanceCount];
 
         public Form1()
         {
@@ -49,12 +49,18 @@ namespace Demos
             this.Load += Form1_Load;
             this.Disposed += Form1_Disposed;
 
-            //this.BtnStartStop.Click += BtnStartStop_Click;
+            this.btnCheckPins.Click += BtnCheckPins_Click;
+            this.btnNone.Click += BtnHeadNone_Click;
+            this.btnHead1.Click += BtnHead1_Click;
+            this.btnHead2.Click += BtnHead2_Click;
+            this.btnHead12.Click += BtnHead12_Click;
+            this.btnStop.Click += BtnStop_Click;
         }
+
 
         private void Form1_Disposed(object sender, EventArgs e)
         {
-            for (int i = 0; i < editorCount; i++)
+            for (int i = 0; i < instanceCount; i++)
                 EditorHelper.DestroyDevices(EditorControls[i]);
         }
 
@@ -68,70 +74,26 @@ namespace Demos
             
             ILaser laser = null;
 
-            CreateMultiBeamDevices(0, out var rtcMultiBeam1, out IMarker marker1);
+            // Initialize RTC MultiBeam instances (MultiBeamIndex: 0, 1 for Pair 0)
+            // RTC 멀티빔 인스턴스 초기화 (멀티빔 인덱스 0, 1은 페어 0을 형성함)
+            // 初始化 RTC 多光束实例（多光束索引 0、1 组成第 0 对）
+            CreateMultiBeamDevices(0, out var rtcMultiBeam1, out IMarker marker1, 0);
             RtcMultiBeams[0] = rtcMultiBeam1;
             var rtc1 = rtcMultiBeam1 as IRtc;
             CreateLaser(out laser, rtc1);
             EditorControls[0].Scanner = rtc1;
             EditorControls[0].Laser = laser;
             EditorControls[0].Marker = marker1;
-            marker1.Ready(EditorControls[0].Document, EditorControls[0].View, rtc1, laser, null);
 
-            CreateMultiBeamDevices(1, out var rtcMultiBeam2,  out IMarker marker2);
+            CreateMultiBeamDevices(1, out var rtcMultiBeam2,  out IMarker marker2, 1);
             RtcMultiBeams[1] = rtcMultiBeam2;
             var rtc2 = rtcMultiBeam2 as IRtc;
             EditorControls[1].Scanner = rtc2;
             EditorControls[1].Laser = laser; //same laser source
             EditorControls[1].Marker = marker2;
-            marker1.Ready(EditorControls[1].Document, EditorControls[1].View, rtc2, laser, null);
 
-            // System Block Diagram
-            //
-            // 1. Laser beam path
-            //  LASER -------> AOM1 -----------------------------> AOM2 -----------> DUMP
-            //  SOURCE           .                0��              .         0��    
-            //                   1�� .                       .  1��   
-            //                           .                .  
-            //                               .        .
-            //                                   .. 
-            //                               .        .
-            //                           .                .
-            //                       .                        .
-            //                  HEAD1                           HEAD2              
-            //
-            // 2. Each head path
-            //  +------------+-----------+-----------+-------------------------------------------+
-            //    Target     | AOM1      | AOM2      | ���� �� ���� �� ����                       
-            //  +------------+-----------+-----------+-------------------------------------------+
-            //    HEAD1      | 0�� (OFF) | 1�� (ON)  | AOM1 ����, AOM2 ȸ��->HEAD1, ������->Dump    
-            //    HEAD2      | 1�� (ON)  | 0�� (OFF) | AOM1 ȸ��- HEAD2, ������->Dump             
-            //    Beam Dump  | 0�� (OFF) | 0�� (OFF) | ��� ���� ����->���� Beam Dump              
-            //  +------------+-----------+-----------+-------------------------------------------+
-            //  
-            // 3. RTC EXTENSION 16 DIO PORT 
-            //             R  T  C  1                    R  T  C  2        
-            //    AO       DI      DO                    DI      DO          AO
-            //    |   .---->0       0-------------------->0       0------.   |
-            //    |   |    WAIT    NEXT                  WAIT    NEXT    |   |
-            //    |   |                                                  |   |
-            //    |   ----------------------------------------------------   |
-            //    |   .---->1       1-------------------->1       1------.   |
-            //    |   |    ACK     ACK                   ACK     ACK     |   |
-            //    |   |                                                  |   |
-            //    |   ----------------------------------------------------   |
-            //    |         2       2-----------.         2       2------.   |
-            //    |                             |                        |   |
-            //    |         3       3           |         3       3      |   |
-            //    |                             -------------------.     |   |
-            //    |                                                |     |   |
-            //    |                 |------------------------------+------   |
-            //    |                 v                              v         |
-            //    |         D.IN(1st ORDER)               D.IN(1st ORDER)    |
-            //    --------->AOM RF DRIVER 1               AOM RF DRIVER 2<----
-            //                     |                             |  
-            //                   HEAD1                         HEAD2
 
-            // for 1st SCAN Head with Rtc0 
+            // for 1st SCAN Head with Rtc1 
             RtcMultiBeams[0].TokenWaitBitMask = 0b_0000_0000_0000_0001;
             RtcMultiBeams[0].TokenAckBitMask = 0b_0000_0000_0000_0010;
             RtcMultiBeams[0].AOMBitMask = 0b_0000_0000_0000_0100;
@@ -142,19 +104,32 @@ namespace Demos
             RtcMultiBeams[0].AOMHoldMsec = 0.01; // 10usec
 
 
-            // for 2nd SCAN Head with Rtc1 
+            // for 2nd SCAN Head with Rtc2
             RtcMultiBeams[1].TokenWaitBitMask = 0b_0000_0000_0000_0001;
             RtcMultiBeams[1].TokenAckBitMask = 0b_0000_0000_0000_0010;
             RtcMultiBeams[1].AOMBitMask = 0b_0000_0000_0000_0100;
             RtcMultiBeams[1].AOMChannel = ExtensionChannels.ExtAO1;
             RtcMultiBeams[1].AOM0OrderVoltage = 0;
             var approxMaxWatt2 = laser.MaxPowerWatt * 0.85;
-            double approxEfficient = (approxMaxWatt2 / laser.MaxPowerWatt);
-            RtcMultiBeams[1].AOM1stOrderVoltage = 5.0 * approxEfficient;
+            double approxEfficiency = (approxMaxWatt2 / laser.MaxPowerWatt); 
+            RtcMultiBeams[1].AOM1stOrderVoltage = 5.0 * approxEfficiency;
             RtcMultiBeams[1].AOMHoldMsec = 0.01; // 10usec
+
+            // To get notification for 'RtcMultiBeamHelper.Modes' has changed
+            RtcMultiBeamHelper.PropertyChanged += RtcMultiBeamHelper_PropertyChanged;
+
+
+            marker1.Ready(EditorControls[0].Document, EditorControls[0].View, rtc1, laser, null);
+            marker2.Ready(EditorControls[1].Document, EditorControls[1].View, rtc2, laser, null);
         }
 
-        bool CreateMultiBeamDevices(int index, out IRtcMultiBeam rtcMultiBeam, out IMarker marker)
+        private void RtcMultiBeamHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            RtcMultiBeamHelper.Modes mode = RtcMultiBeamHelper.GetMode(0);
+            lblMode.Text = $"Mode: {mode.ToString()}"; 
+        }
+
+        bool CreateMultiBeamDevices(int index, out IRtcMultiBeam rtcMultiBeam, out IMarker marker, int multiBeamIndex)
         {
             rtcMultiBeam = null;
             marker = null;
@@ -168,9 +143,9 @@ namespace Demos
             RtcSignalLevels signalLevelLaser12 = RtcSignalLevels.ActiveHigh; // output signal level for LASER1 and LASER2 at RTC card
             RtcSignalLevels signalLevelLaserOn = RtcSignalLevels.ActiveHigh; // output signal level for LASER ON at RTC card
             string correctionPath = Path.Combine(SpiralLab.Sirius3.Config.CorrectionPath, "cor_1to1.ct5"); // *.ct5 for RTC5,6 card (*.ctb for RTC4 card)
-            //var rtc = ScannerFactory.CreateRtc5MultiBeam(index, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath, index); // create Rtc6 card instance
-            var rtc = ScannerFactory.CreateRtc6MultiBeam(index, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath, index); // create Rtc6 card instance
-            //var rtc = ScannerFactory.CreateRtcVirtualMultiBeam(index, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath, index); // create Rtc6 card instance
+            //var rtc = ScannerFactory.CreateRtc5MultiBeam(index, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath, multiBeamIndex); // create Rtc6 card instance
+            var rtc = ScannerFactory.CreateRtc6MultiBeam(index, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath, multiBeamIndex); // create Rtc6 card instance
+            //var rtc = ScannerFactory.CreateRtcVirtualMultiBeam(index, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath, multiBeamIndex); // create Rtc6 card instance
             success &= rtc.Initialize(); // initialize the card
             Debug.Assert(success);
             rtcMultiBeam = rtc;
@@ -213,28 +188,109 @@ namespace Demos
             return success;
         }
 
-        private void BtnStartStop_Click(object sender, EventArgs e)
+        private void BtnCheckPins_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < editorCount; i++)
+            if (RtcMultiBeamHelper.CheckPins(0))
+                System.Windows.Forms.MessageBox.Show(this, $"PIN CONNECTION ARE OK!", "INFORMATION", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            else
+                System.Windows.Forms.MessageBox.Show(this, $"PIN CONNECTION ARE NOT OK!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void BtnHeadNone_Click(object sender, EventArgs e)
+        {
+            // Safety State (Route laser to Beam Dump)
+            // 안전 상태 (레이저를 빔 덤프 경로로 설정)
+            // 安全状态（将激光引导至光束卸载区路径）
+           if (!RtcMultiBeamHelper.SetMode(0, RtcMultiBeamHelper.Modes.None))
+               return;       
+        }
+
+        private void BtnHead1_Click(object sender, EventArgs e)
+        {
+            // Manual Head Selection (Switch AOM to Head 1 path)
+            // 수동 헤드 선택 (AOM을 헤드 1 경로로 스위칭)
+            // 手动选择头（将 AOM 切换到 1 号头路径）
+            if (!RtcMultiBeamHelper.SetMode(0, RtcMultiBeamHelper.Modes.Head1Only))
+                return;
+
+            var marker = EditorControls[0].Marker;
+            if (marker.IsBusy)
+                return;
+
+            var document = EditorControls[0].Document;
+         
+            marker.Reset();
+            marker.Ready(siriusEditorControl1.Document);
+
+            // Start to mark current page
+            marker.Start(document.Page);
+        }
+
+        private void BtnHead2_Click(object sender, EventArgs e)
+        {
+            // Manual Head Selection (Switch AOM to Head 2 path)
+            // 수동 헤드 선택 (AOM을 헤드 2 경로로 스위칭)
+            // 手动选择头（将 AOM 切换到 2 号头路径）
+            if (!RtcMultiBeamHelper.SetMode(0, RtcMultiBeamHelper.Modes.Head2Only))
+                return;
+
+            var marker = EditorControls[1].Marker;
+            if (marker.IsBusy)
+                return;
+
+            var document = EditorControls[1].Document;
+
+            marker.Reset();
+            marker.Ready(siriusEditorControl1.Document);
+
+            // Start to mark current page
+            marker.Start(document.Page);
+        }
+
+        private void BtnHead12_Click(object sender, EventArgs e)
+        {
+            // Set Multi-Beam Processing Mode (Pair Index: 0, Mode: Both for exclusive sequential marking)
+            // 멀티빔 가공 모드 설정 (페어 인덱스: 0, 모드: Both - 배타적 순차 가공)
+            // 设置多光束加工模式（对索引：0，模式：Both - 互斥顺序加工）
+
+            // Exclusive Marking Logic (Each RTC board exchanges tokens via 4-Way Handshake)
+            // 배타적 가공 로직 (각 RTC 보드는 4-Way Handshake를 통해 토큰을 교환함)
+            // 互斥加工逻辑（每个 RTC 板卡通过 4-Way Handshake 交换令牌）
+
+            // Note: RtcMultiBeamHelper.Modes.Both ensures that ListJumpTo internally handles token acquisition/release.
+            // 참고: Modes.Both 설정 시 ListJumpTo 내부에서 토큰 획득/해제 핸드셰이크가 자동으로 수행됩니다.
+            // 注意：设置 Modes.Both 时，ListJumpTo 内部会自动执行令牌获取/释放握手。
+            if (!RtcMultiBeamHelper.SetMode(0, RtcMultiBeamHelper.Modes.Both))
+                return;
+
+            for (int i = 0; i < instanceCount; i++)
+            {
+                var marker = EditorControls[i].Marker;
+                if (marker.IsBusy)
+                    return;
+            }
+
+            for (int i = 0; i < instanceCount; i++)
             {
                 var document = EditorControls[i].Document;
                 var marker = EditorControls[i].Marker;
 
-                if (marker.IsBusy)
-                {
-                    marker.Stop();
-                    marker.Reset();
-                }
-                else
-                {
-                    marker.Reset();
-                    marker.Ready(siriusEditorControl1.Document);
+                marker.Reset();
+                marker.Ready(siriusEditorControl1.Document);
 
-                    // Start to mark current page
-                    marker.Start(document.Page);
-                }
+                // Start to mark current page
+                marker.Start(document.Page);
             }
         }
+        private void BtnStop_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < instanceCount; i++)
+            {
+                var marker = EditorControls[i].Marker;
 
+                marker.Stop();
+                marker.Reset();
+            }
+        }
     }
 }

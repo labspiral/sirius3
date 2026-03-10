@@ -86,7 +86,7 @@
 - OpenGL 3.3 이상 지원의 GPU 필요
 - SCANLAB 드라이버/런타임 설치 필요
  
-## Dependencies
+## 의존성
 - SCANLAB
    - RTC4: v2023.11.02
    - RTC5: v2024.09.27
@@ -225,3 +225,6 @@ public class MainForm : Form
 
 ## 버전 이력
 - 이력 정보 [HISTORY.krKR.md](HISTORY.koKR.md)
+
+## API 문서
+- https://spirallab.co.kr/sirius3/doc 참고

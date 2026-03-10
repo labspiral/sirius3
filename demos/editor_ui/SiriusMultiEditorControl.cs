@@ -198,21 +198,21 @@ namespace Demos
 
                 treeViewPageControl1.Document = document;
                 treeViewPageControl2.Document = document;
-                //treeViewPageControl3.Document = document;
-                //treeViewPageControl4.Document = document;
+                treeViewPageControl3.Document = document;
+                treeViewPageControl4.Document = document;
 
                 treeViewBlockControl1.Document = document;
-                treeViewWaferControl1.Document = document;
-                treeViewSubstrateControl1.Document = document;
+                //treeViewWaferControl1.Document = document;
+                //treeViewSubstrateControl1.Document = document;
 
                 treeViewPageControl1.View = editorControl1.View;
                 treeViewPageControl2.View = editorControl1.View;
-                //treeViewPageControl3.View = editorControl1.View;
-                //treeViewPageControl4.View = editorControl1.View;
+                treeViewPageControl3.View = editorControl1.View;
+                treeViewPageControl4.View = editorControl1.View;
 
                 treeViewBlockControl1.View = editorControl1.View;
-                treeViewWaferControl1.View = editorControl1.View;
-                treeViewSubstrateControl1.View = editorControl1.View;
+                //treeViewWaferControl1.View = editorControl1.View;
+                //treeViewSubstrateControl1.View = editorControl1.View;
 
                 if (document != null)
                 {
@@ -313,7 +313,8 @@ namespace Demos
                 if (lasers[CurrentDeviceIndex] != null)
                 {
                     lasers[CurrentDeviceIndex].Scanner = scanners[CurrentDeviceIndex];
-                    UpdatePowerMap();
+                    UpdatePens();
+                    PropertyVisibility();
                 }
 
                 LaserCtrl.Laser = lasers[CurrentDeviceIndex];
@@ -525,6 +526,8 @@ namespace Demos
                     {
                         treeViewPageControl1,
                         treeViewPageControl2,
+                        treeViewPageControl3,
+                        treeViewPageControl4,
                     };
             }
         }
@@ -540,29 +543,29 @@ namespace Demos
         [DisplayName("BlockControl")]
         [Description("TreeViewBlockControl UserControl")]
         public SpiralLab.Sirius3.UI.WinForms.TreeViewBlockControl BlockCtrl => treeViewBlockControl1;
-        /// <summary>
-        /// Get <see cref="TreeViewWaferControl"/> for <see cref="IDocumentData.Wafers"/>
-        /// <para><see cref="IDocumentData.Wafers"/>에 대한 <see cref="TreeViewWaferControl"/>을 가져옵니다.</para>
-        /// <para>获取 <see cref="IDocumentData.Wafers"/> 的 <see cref="TreeViewWaferControl"/>。</para>
-        /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("SubstrateControl")]
-        [Description("TreeViewWaferControl UserControl")]
-        public SpiralLab.Sirius3.UI.WinForms.TreeViewWaferControl WaferCtrl => treeViewWaferControl1;
+        ///// <summary>
+        ///// Get <see cref="TreeViewWaferControl"/> for <see cref="IDocumentData.Wafers"/>
+        ///// <para><see cref="IDocumentData.Wafers"/>에 대한 <see cref="TreeViewWaferControl"/>을 가져옵니다.</para>
+        ///// <para>获取 <see cref="IDocumentData.Wafers"/> 的 <see cref="TreeViewWaferControl"/>。</para>
+        ///// </summary>
+        //[Browsable(true)]
+        //[ReadOnly(false)]
+        //[Category("Sirius3")]
+        //[DisplayName("SubstrateControl")]
+        //[Description("TreeViewWaferControl UserControl")]
+        //public SpiralLab.Sirius3.UI.WinForms.TreeViewWaferControl WaferCtrl => treeViewWaferControl1;
 
-        /// <summary>
-        /// Get <see cref="TreeViewSubstrateControl"/> for <see cref="IDocumentData.Substrates"/>
-        /// <para><see cref="IDocumentData.Substrates"/>에 대한 <see cref="TreeViewSubstrateControl"/>을 가져옵니다.</para>
-        /// <para>获取 <see cref="IDocumentData.Substrates"/> 的 <see cref="TreeViewSubstrateControl"/>。</para>
-        /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("SubstrateControl")]
-        [Description("TreeViewSubstrateControl UserControl")]
-        public SpiralLab.Sirius3.UI.WinForms.TreeViewSubstrateControl SubstrateCtrl => treeViewSubstrateControl1;
+        ///// <summary>
+        ///// Get <see cref="TreeViewSubstrateControl"/> for <see cref="IDocumentData.Substrates"/>
+        ///// <para><see cref="IDocumentData.Substrates"/>에 대한 <see cref="TreeViewSubstrateControl"/>을 가져옵니다.</para>
+        ///// <para>获取 <see cref="IDocumentData.Substrates"/> 的 <see cref="TreeViewSubstrateControl"/>。</para>
+        ///// </summary>
+        //[Browsable(true)]
+        //[ReadOnly(false)]
+        //[Category("Sirius3")]
+        //[DisplayName("SubstrateControl")]
+        //[Description("TreeViewSubstrateControl UserControl")]
+        //public SpiralLab.Sirius3.UI.WinForms.TreeViewSubstrateControl SubstrateCtrl => treeViewSubstrateControl1;
 
         /// <summary>
         /// Gets the property grid control wrapper.
@@ -962,14 +965,14 @@ namespace Demos
         /// <para>새 문서가 생성될 때 호출됩니다.</para>
         /// <para>创建新文档时调用。</para>
         /// </summary>
-        /// <param name="obj">The document instance.</param>
-        private void Document_OnNew(IDocument obj)
+        /// <param name="doc">The document instance.</param>
+        private void Document_OnNew(IDocument doc)
         {
             if (!IsHandleCreated || IsDisposed) return;
 
             Invoke(new MethodInvoker(() =>
             {
-                UpdatePowerMap();
+                UpdatePens();
             }));
         }
         /// <summary>
@@ -977,8 +980,8 @@ namespace Demos
         /// <para>문서 열기 작업 전에 호출됩니다.</para>
         /// <para>在文档打开操作之前调用。</para>
         /// </summary>
-        /// <param name="_document">The document instance.</param>
-        private void Document_OnBeforeOpen(IDocument _document)
+        /// <param name="doc">The document instance.</param>
+        private void Document_OnBeforeOpen(IDocument doc)
         {
             // Reserved for pre-open logic
         }
@@ -996,7 +999,7 @@ namespace Demos
 
             Invoke(new MethodInvoker(() =>
             {
-                UpdatePowerMap();
+                UpdatePens();
                 EntityPenCtrl.Document = document;
 
                 lblFileName.Text = fileName;
@@ -1009,8 +1012,8 @@ namespace Demos
         /// <para>문서 저장 작업 전에 호출됩니다.</para>
         /// <para>在文档保存操作之前调用。</para>
         /// </summary>
-        /// <param name="_document">The document instance.</param>
-        private void Document_OnBeforeSave(IDocument _document)
+        /// <param name="doc">The document instance.</param>
+        private void Document_OnBeforeSave(IDocument doc)
         {
             // Reserved for pre-save logic
         }
@@ -1020,9 +1023,9 @@ namespace Demos
         /// <para>문서가 저장된 후 호출됩니다. 파일 이름 레이블을 업데이트합니다.</para>
         /// <para>文档保存后调用；更新文件名标签。</para>
         /// </summary>
-        /// <param name="_document">The document instance.</param>
+        /// <param name="doc">The document instance.</param>
         /// <param name="fileName">The name of the saved file.</param>
-        private void Document_OnAfterSave(IDocument _document, string fileName)
+        private void Document_OnAfterSave(IDocument doc, string fileName)
         {
             if (!stsBottom.IsHandleCreated || IsDisposed) return;
 
@@ -1243,8 +1246,8 @@ namespace Demos
         /// </summary>
         private void PropertyVisibility()
         {
-            Debug.Assert(Scanner != null);
             EntityPen.PropertyVisibility(Scanner);
+            EntityPen.PropertyVisibility(Laser);
             EntityLayerPen.PropertyVisibility(Scanner);
         }
 
@@ -1275,8 +1278,8 @@ namespace Demos
                     pc.Enabled = isEnable;
 
                 BlockCtrl.Enabled = isEnable;
-                WaferCtrl.Enabled = isEnable;
-                SubstrateCtrl.Enabled = isEnable;
+                //WaferCtrl.Enabled = isEnable;
+                //SubstrateCtrl.Enabled = isEnable;
 
 
 #if DEBUG
@@ -1299,27 +1302,23 @@ namespace Demos
         }
 
         /// <summary>
-        /// Update laser and powermap information at entity pens.
-        /// <para>엔티티 펜의 레이저 및 파워 맵 정보를 업데이트합니다.</para>
-        /// <para>更新实体笔处的激光和功率映射信息。</para>
+        /// Update device information at entity, layer pens.
+        /// <para>엔티티, 레이저 펜에 레이저 및 스캐너의 디바이스 정보를 업데이트합니다.</para>
         /// </summary>
-        private void UpdatePowerMap()
+        private void UpdatePens()
         {
-            var powerControl = lasers[CurrentDeviceIndex] as ILaserPowerControl;
-
-            if (null != document && null != powerControl)
+            if (null != document)
             {
                 foreach (var child in document.DocumentData.EntityPens.Children)
                 {
                     var pen = child as EntityPen;
-                    pen.PowerMax = lasers[CurrentDeviceIndex].MaxPowerWatt;
-                    pen.PowerMap = powerControl?.PowerMap;
+                    pen.Apply(scanners[CurrentDeviceIndex], lasers[CurrentDeviceIndex]);
                 }
 
                 foreach (var child in document.DocumentData.LayerPens.Children)
                 {
-                    // Reserved: layer pen updates (if needed)
-                    _ = child as EntityLayerPen;
+                    var pen = child as EntityLayerPen;
+                    pen.Apply(scanners[CurrentDeviceIndex], lasers[CurrentDeviceIndex]);
                 }
             }
         }
@@ -1354,33 +1353,33 @@ namespace Demos
                     editorControl1.Document.ActRegen();
                     editorControl1.View.Camera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
                     break;
-                //case 2:
-                //    Document.Page = DocumentPages.Page3;
-                //    Document.ActivePage = Document.DocumentData.Pages[2];
-                //    editorControl1.Document.ActRegen();
-                //    editorControl1.View.Camera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
-                //    break;
-                //case 3:
-                //    Document.Page = DocumentPages.Page4;
-                //    Document.ActivePage = Document.DocumentData.Pages[3];
-                //    editorControl1.Document.ActRegen();
-                //    editorControl1.View.Camera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
-                //    break;
                 case 2:
+                    Document.Page = DocumentPages.Page3;
+                    Document.ActivePage = Document.DocumentData.Pages[2];
+                    editorControl1.Document.ActRegen();
+                    editorControl1.View.Camera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
+                    break;
+                case 3:
+                    Document.Page = DocumentPages.Page4;
+                    Document.ActivePage = Document.DocumentData.Pages[3];
+                    editorControl1.Document.ActRegen();
+                    editorControl1.View.Camera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
+                    break;
+                case 5:
                     Document.Page = DocumentPages.Block;
                     editorControl1.Document.ActRegen();
                     editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Blocks.Children.ToArray());
                     break;
-                case 3:
-                    Document.Page = DocumentPages.Wafer;
-                    editorControl1.Document.ActRegen();
-                    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Wafers.Children.ToArray());
-                    break;
-                case 4:
-                    Document.Page = DocumentPages.Substrate;
-                    editorControl1.Document.ActRegen();
-                    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Substrates.Children.ToArray());
-                    break;
+                    //case :
+                    //    Document.Page = DocumentPages.Wafer;
+                    //    editorControl1.Document.ActRegen();
+                    //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Wafers.Children.ToArray());
+                    //    break;
+                    //case :
+                    //    Document.Page = DocumentPages.Substrate;
+                    //    editorControl1.Document.ActRegen();
+                    //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Substrates.Children.ToArray());
+                    //    break;
             }
 
             editorControl1.View.DoRender();

@@ -72,158 +72,158 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(2254, 50);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1436, 38);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // btnPoints
             // 
             this.btnPoints.Location = new System.Drawing.Point(3, 3);
             this.btnPoints.Name = "btnPoints";
-            this.btnPoints.Size = new System.Drawing.Size(68, 44);
+            this.btnPoints.Size = new System.Drawing.Size(49, 32);
             this.btnPoints.TabIndex = 0;
             this.btnPoints.Text = "Points";
             this.btnPoints.UseVisualStyleBackColor = true;
             // 
             // btnLineArc
             // 
-            this.btnLineArc.Location = new System.Drawing.Point(77, 3);
+            this.btnLineArc.Location = new System.Drawing.Point(58, 3);
             this.btnLineArc.Name = "btnLineArc";
-            this.btnLineArc.Size = new System.Drawing.Size(106, 44);
+            this.btnLineArc.Size = new System.Drawing.Size(87, 32);
             this.btnLineArc.TabIndex = 1;
             this.btnLineArc.Text = "Line, Arc";
             this.btnLineArc.UseVisualStyleBackColor = true;
             // 
             // btnTriangleRectangle
             // 
-            this.btnTriangleRectangle.Location = new System.Drawing.Point(189, 3);
+            this.btnTriangleRectangle.Location = new System.Drawing.Point(151, 3);
             this.btnTriangleRectangle.Name = "btnTriangleRectangle";
-            this.btnTriangleRectangle.Size = new System.Drawing.Size(162, 44);
+            this.btnTriangleRectangle.Size = new System.Drawing.Size(143, 32);
             this.btnTriangleRectangle.TabIndex = 2;
             this.btnTriangleRectangle.Text = "Triangle, Rectangle";
             this.btnTriangleRectangle.UseVisualStyleBackColor = true;
             // 
             // btnPolyline
             // 
-            this.btnPolyline.Location = new System.Drawing.Point(357, 3);
+            this.btnPolyline.Location = new System.Drawing.Point(300, 3);
             this.btnPolyline.Name = "btnPolyline";
-            this.btnPolyline.Size = new System.Drawing.Size(96, 44);
+            this.btnPolyline.Size = new System.Drawing.Size(77, 32);
             this.btnPolyline.TabIndex = 3;
             this.btnPolyline.Text = "Polyline";
             this.btnPolyline.UseVisualStyleBackColor = true;
             // 
             // btnSpline
             // 
-            this.btnSpline.Location = new System.Drawing.Point(459, 3);
+            this.btnSpline.Location = new System.Drawing.Point(383, 3);
             this.btnSpline.Name = "btnSpline";
-            this.btnSpline.Size = new System.Drawing.Size(78, 44);
+            this.btnSpline.Size = new System.Drawing.Size(59, 32);
             this.btnSpline.TabIndex = 5;
             this.btnSpline.Text = "Spline";
             this.btnSpline.UseVisualStyleBackColor = true;
             // 
             // btnText
             // 
-            this.btnText.Location = new System.Drawing.Point(543, 3);
+            this.btnText.Location = new System.Drawing.Point(448, 3);
             this.btnText.Name = "btnText";
-            this.btnText.Size = new System.Drawing.Size(78, 44);
+            this.btnText.Size = new System.Drawing.Size(59, 32);
             this.btnText.TabIndex = 6;
             this.btnText.Text = "Text";
             this.btnText.UseVisualStyleBackColor = true;
             // 
             // btnImage
             // 
-            this.btnImage.Location = new System.Drawing.Point(627, 3);
+            this.btnImage.Location = new System.Drawing.Point(513, 3);
             this.btnImage.Name = "btnImage";
-            this.btnImage.Size = new System.Drawing.Size(78, 44);
+            this.btnImage.Size = new System.Drawing.Size(59, 32);
             this.btnImage.TabIndex = 7;
             this.btnImage.Text = "Image";
             this.btnImage.UseVisualStyleBackColor = true;
             // 
             // btnGridCloud
             // 
-            this.btnGridCloud.Location = new System.Drawing.Point(711, 3);
+            this.btnGridCloud.Location = new System.Drawing.Point(578, 3);
             this.btnGridCloud.Name = "btnGridCloud";
-            this.btnGridCloud.Size = new System.Drawing.Size(96, 44);
+            this.btnGridCloud.Size = new System.Drawing.Size(77, 32);
             this.btnGridCloud.TabIndex = 8;
             this.btnGridCloud.Text = "Grid Cloud";
             this.btnGridCloud.UseVisualStyleBackColor = true;
             // 
             // btnLines
             // 
-            this.btnLines.Location = new System.Drawing.Point(813, 3);
+            this.btnLines.Location = new System.Drawing.Point(661, 3);
             this.btnLines.Name = "btnLines";
-            this.btnLines.Size = new System.Drawing.Size(112, 44);
+            this.btnLines.Size = new System.Drawing.Size(93, 32);
             this.btnLines.TabIndex = 9;
             this.btnLines.Text = "Lines (Many)";
             this.btnLines.UseVisualStyleBackColor = true;
             // 
             // btnBarcode
             // 
-            this.btnBarcode.Location = new System.Drawing.Point(931, 3);
+            this.btnBarcode.Location = new System.Drawing.Point(760, 3);
             this.btnBarcode.Name = "btnBarcode";
-            this.btnBarcode.Size = new System.Drawing.Size(96, 44);
+            this.btnBarcode.Size = new System.Drawing.Size(77, 32);
             this.btnBarcode.TabIndex = 10;
             this.btnBarcode.Text = "Barcode";
             this.btnBarcode.UseVisualStyleBackColor = true;
             // 
             // btnGroup
             // 
-            this.btnGroup.Location = new System.Drawing.Point(1033, 3);
+            this.btnGroup.Location = new System.Drawing.Point(843, 3);
             this.btnGroup.Name = "btnGroup";
-            this.btnGroup.Size = new System.Drawing.Size(100, 44);
+            this.btnGroup.Size = new System.Drawing.Size(81, 32);
             this.btnGroup.TabIndex = 11;
             this.btnGroup.Text = "Group";
             this.btnGroup.UseVisualStyleBackColor = true;
             // 
             // btn3DMesh
             // 
-            this.btn3DMesh.Location = new System.Drawing.Point(1139, 3);
+            this.btn3DMesh.Location = new System.Drawing.Point(930, 3);
             this.btn3DMesh.Name = "btn3DMesh";
-            this.btn3DMesh.Size = new System.Drawing.Size(97, 44);
+            this.btn3DMesh.Size = new System.Drawing.Size(78, 32);
             this.btn3DMesh.TabIndex = 12;
             this.btn3DMesh.Text = "3D Mesh";
             this.btn3DMesh.UseVisualStyleBackColor = true;
             // 
             // btnBlockInsert
             // 
-            this.btnBlockInsert.Location = new System.Drawing.Point(1242, 3);
+            this.btnBlockInsert.Location = new System.Drawing.Point(1014, 3);
             this.btnBlockInsert.Name = "btnBlockInsert";
-            this.btnBlockInsert.Size = new System.Drawing.Size(120, 44);
+            this.btnBlockInsert.Size = new System.Drawing.Size(101, 32);
             this.btnBlockInsert.TabIndex = 13;
             this.btnBlockInsert.Text = "Block, Insert";
             this.btnBlockInsert.UseVisualStyleBackColor = true;
             // 
             // btnZPL
             // 
-            this.btnZPL.Location = new System.Drawing.Point(1368, 3);
+            this.btnZPL.Location = new System.Drawing.Point(1121, 3);
             this.btnZPL.Name = "btnZPL";
-            this.btnZPL.Size = new System.Drawing.Size(65, 44);
+            this.btnZPL.Size = new System.Drawing.Size(46, 32);
             this.btnZPL.TabIndex = 14;
             this.btnZPL.Text = "ZPL";
             this.btnZPL.UseVisualStyleBackColor = true;
             // 
             // btnLissajous
             // 
-            this.btnLissajous.Location = new System.Drawing.Point(1439, 3);
+            this.btnLissajous.Location = new System.Drawing.Point(1173, 3);
             this.btnLissajous.Name = "btnLissajous";
-            this.btnLissajous.Size = new System.Drawing.Size(97, 44);
+            this.btnLissajous.Size = new System.Drawing.Size(78, 32);
             this.btnLissajous.TabIndex = 15;
             this.btnLissajous.Text = "Lissajous";
             this.btnLissajous.UseVisualStyleBackColor = true;
             // 
             // btnSpiral
             // 
-            this.btnSpiral.Location = new System.Drawing.Point(1542, 3);
+            this.btnSpiral.Location = new System.Drawing.Point(1257, 3);
             this.btnSpiral.Name = "btnSpiral";
-            this.btnSpiral.Size = new System.Drawing.Size(97, 44);
+            this.btnSpiral.Size = new System.Drawing.Size(78, 32);
             this.btnSpiral.TabIndex = 17;
             this.btnSpiral.Text = "Spiral";
             this.btnSpiral.UseVisualStyleBackColor = true;
             // 
             // btnGerber
             // 
-            this.btnGerber.Location = new System.Drawing.Point(1645, 3);
+            this.btnGerber.Location = new System.Drawing.Point(1341, 3);
             this.btnGerber.Name = "btnGerber";
-            this.btnGerber.Size = new System.Drawing.Size(97, 44);
+            this.btnGerber.Size = new System.Drawing.Size(78, 32);
             this.btnGerber.TabIndex = 16;
             this.btnGerber.Text = "Gerber";
             this.btnGerber.UseVisualStyleBackColor = true;
@@ -240,23 +240,23 @@
             this.siriusEditorControl1.DOLaserPort = null;
             this.siriusEditorControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.siriusEditorControl1.Laser = null;
-            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 50);
+            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 38);
             this.siriusEditorControl1.Margin = new System.Windows.Forms.Padding(0);
             this.siriusEditorControl1.Marker = null;
             this.siriusEditorControl1.Name = "siriusEditorControl1";
             this.siriusEditorControl1.PowerMeter = null;
             this.siriusEditorControl1.Scanner = null;
-            this.siriusEditorControl1.Size = new System.Drawing.Size(2254, 1588);
+            this.siriusEditorControl1.Size = new System.Drawing.Size(1436, 762);
             this.siriusEditorControl1.TabIndex = 2;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2254, 1638);
+            this.ClientSize = new System.Drawing.Size(1436, 800);
             this.Controls.Add(this.siriusEditorControl1);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form1";
             this.Text = "Sirius3 Demo - (c)SpiralLAB";

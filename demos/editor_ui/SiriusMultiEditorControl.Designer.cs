@@ -30,19 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SiriusMultiEditorControl));
-            this.stsBottom = new System.Windows.Forms.StatusStrip();
-            this.lblName = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblFileName = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnLogWindow = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblEncoder = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblReady = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblBusy = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel9 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblError = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel8 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tlsTop1 = new System.Windows.Forms.ToolStrip();
             this.btnNew = new System.Windows.Forms.ToolStripButton();
             this.btnOpen = new System.Windows.Forms.ToolStripButton();
@@ -71,6 +58,21 @@
             this.btnLock = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.stsBottom = new System.Windows.Forms.StatusStrip();
+            this.lblName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblFileName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel14 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnLogWindow = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblEncoder = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblReady = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblBusy = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblError = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer123 = new System.Windows.Forms.SplitContainer();
             this.splitContainer12 = new System.Windows.Forms.SplitContainer();
             this.splitContainerLeft = new System.Windows.Forms.SplitContainer();
@@ -79,13 +81,12 @@
             this.treeViewPageControl1 = new SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl();
             this.tabDocPage2 = new System.Windows.Forms.TabPage();
             this.treeViewPageControl2 = new SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl();
+            this.tabDocPage3 = new System.Windows.Forms.TabPage();
+            this.treeViewPageControl3 = new SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl();
+            this.tabDocPage4 = new System.Windows.Forms.TabPage();
+            this.treeViewPageControl4 = new SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl();
             this.tabBlockPage = new System.Windows.Forms.TabPage();
             this.treeViewBlockControl1 = new SpiralLab.Sirius3.UI.WinForms.TreeViewBlockControl();
-            this.tabWaferPage = new System.Windows.Forms.TabPage();
-            this.treeViewWaferControl1 = new SpiralLab.Sirius3.UI.WinForms.TreeViewWaferControl();
-            this.tabSubstratePage = new System.Windows.Forms.TabPage();
-            this.treeViewSubstrateControl1 = new SpiralLab.Sirius3.UI.WinForms.TreeViewSubstrateControl();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tlcPen = new System.Windows.Forms.TabControl();
             this.tabEntityPen = new System.Windows.Forms.TabPage();
             this.entityPenControl1 = new SpiralLab.Sirius3.UI.WinForms.EntityPenControl();
@@ -118,8 +119,8 @@
             this.tlcRight = new System.Windows.Forms.TabControl();
             this.tabProperty = new System.Windows.Forms.TabPage();
             this.propertyGridControl1 = new SpiralLab.Sirius3.UI.WinForms.PropertyGridControl();
-            this.stsBottom.SuspendLayout();
             this.tlsTop1.SuspendLayout();
+            this.stsBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer123)).BeginInit();
             this.splitContainer123.Panel1.SuspendLayout();
             this.splitContainer123.Panel2.SuspendLayout();
@@ -135,9 +136,9 @@
             this.tbcLeft.SuspendLayout();
             this.tabDocPage1.SuspendLayout();
             this.tabDocPage2.SuspendLayout();
+            this.tabDocPage3.SuspendLayout();
+            this.tabDocPage4.SuspendLayout();
             this.tabBlockPage.SuspendLayout();
-            this.tabWaferPage.SuspendLayout();
-            this.tabSubstratePage.SuspendLayout();
             this.tlcPen.SuspendLayout();
             this.tabEntityPen.SuspendLayout();
             this.tabLayerPen.SuspendLayout();
@@ -167,127 +168,6 @@
             this.tabProperty.SuspendLayout();
             this.SuspendLayout();
             // 
-            // stsBottom
-            // 
-            this.stsBottom.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stsBottom.GripMargin = new System.Windows.Forms.Padding(0);
-            this.stsBottom.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.stsBottom.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblName,
-            this.lblFileName,
-            this.toolStripStatusLabel1,
-            this.btnLogWindow,
-            this.lblEncoder,
-            this.lblReady,
-            this.toolStripStatusLabel7,
-            this.lblBusy,
-            this.toolStripStatusLabel9,
-            this.lblError,
-            this.toolStripStatusLabel2,
-            this.toolStripStatusLabel8});
-            this.stsBottom.Location = new System.Drawing.Point(0, 1488);
-            this.stsBottom.Name = "stsBottom";
-            this.stsBottom.Padding = new System.Windows.Forms.Padding(0);
-            this.stsBottom.ShowItemToolTips = true;
-            this.stsBottom.Size = new System.Drawing.Size(2303, 42);
-            this.stsBottom.SizingGrip = false;
-            this.stsBottom.TabIndex = 35;
-            this.stsBottom.Text = "statusStrip1";
-            // 
-            // lblName
-            // 
-            this.lblName.Image = global::Demos.Properties.Resources.Top_View2;
-            this.lblName.Margin = new System.Windows.Forms.Padding(8, 4, 0, 3);
-            this.lblName.Name = "lblName";
-            this.lblName.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.lblName.Size = new System.Drawing.Size(113, 35);
-            this.lblName.Text = "NoName";
-            this.lblName.ToolTipText = "Name";
-            // 
-            // lblFileName
-            // 
-            this.lblFileName.Image = global::Demos.Properties.Resources.micro_sd_26px;
-            this.lblFileName.Name = "lblFileName";
-            this.lblFileName.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.lblFileName.Size = new System.Drawing.Size(123, 35);
-            this.lblFileName.Text = "(NoName)";
-            this.lblFileName.ToolTipText = "File Name";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(1663, 35);
-            this.toolStripStatusLabel1.Spring = true;
-            // 
-            // btnLogWindow
-            // 
-            this.btnLogWindow.Image = global::Demos.Properties.Resources.pens_32px;
-            this.btnLogWindow.Name = "btnLogWindow";
-            this.btnLogWindow.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.btnLogWindow.Size = new System.Drawing.Size(40, 35);
-            this.btnLogWindow.ToolTipText = "Show/Hide Log Window";
-            // 
-            // lblEncoder
-            // 
-            this.lblEncoder.Image = global::Demos.Properties.Resources.Counter;
-            this.lblEncoder.Name = "lblEncoder";
-            this.lblEncoder.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.lblEncoder.Size = new System.Drawing.Size(100, 35);
-            this.lblEncoder.Text = "XY: 0, 0";
-            this.lblEncoder.ToolTipText = "Encoder Value(s)";
-            // 
-            // lblReady
-            // 
-            this.lblReady.BackColor = System.Drawing.Color.Green;
-            this.lblReady.ForeColor = System.Drawing.Color.White;
-            this.lblReady.Name = "lblReady";
-            this.lblReady.Size = new System.Drawing.Size(66, 35);
-            this.lblReady.Text = " READY ";
-            this.lblReady.ToolTipText = "Ready Status";
-            // 
-            // toolStripStatusLabel7
-            // 
-            this.toolStripStatusLabel7.AutoSize = false;
-            this.toolStripStatusLabel7.Name = "toolStripStatusLabel7";
-            this.toolStripStatusLabel7.Size = new System.Drawing.Size(4, 35);
-            // 
-            // lblBusy
-            // 
-            this.lblBusy.ActiveLinkColor = System.Drawing.Color.Red;
-            this.lblBusy.BackColor = System.Drawing.Color.Olive;
-            this.lblBusy.ForeColor = System.Drawing.Color.White;
-            this.lblBusy.Name = "lblBusy";
-            this.lblBusy.Size = new System.Drawing.Size(56, 35);
-            this.lblBusy.Text = " BUSY ";
-            this.lblBusy.ToolTipText = "Busy Status";
-            // 
-            // toolStripStatusLabel9
-            // 
-            this.toolStripStatusLabel9.AutoSize = false;
-            this.toolStripStatusLabel9.Name = "toolStripStatusLabel9";
-            this.toolStripStatusLabel9.Size = new System.Drawing.Size(4, 35);
-            // 
-            // lblError
-            // 
-            this.lblError.BackColor = System.Drawing.Color.Maroon;
-            this.lblError.ForeColor = System.Drawing.Color.White;
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(68, 35);
-            this.lblError.Text = " ERROR ";
-            this.lblError.ToolTipText = "Error Status";
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.AutoSize = false;
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(4, 35);
-            // 
-            // toolStripStatusLabel8
-            // 
-            this.toolStripStatusLabel8.AutoSize = false;
-            this.toolStripStatusLabel8.Name = "toolStripStatusLabel8";
-            this.toolStripStatusLabel8.Size = new System.Drawing.Size(8, 35);
-            // 
             // tlsTop1
             // 
             this.tlsTop1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -314,7 +194,7 @@
             this.tlsTop1.Location = new System.Drawing.Point(0, 0);
             this.tlsTop1.Name = "tlsTop1";
             this.tlsTop1.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.tlsTop1.Size = new System.Drawing.Size(2303, 38);
+            this.tlsTop1.Size = new System.Drawing.Size(1200, 38);
             this.tlsTop1.TabIndex = 36;
             this.tlsTop1.Text = "tlsTop1";
             // 
@@ -325,7 +205,7 @@
             this.btnNew.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(34, 33);
+            this.btnNew.Size = new System.Drawing.Size(28, 35);
             this.btnNew.Text = "toolStripButton2";
             this.btnNew.ToolTipText = "New";
             // 
@@ -335,7 +215,7 @@
             this.btnOpen.Image = global::Demos.Properties.Resources.Import_Import;
             this.btnOpen.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(34, 33);
+            this.btnOpen.Size = new System.Drawing.Size(28, 35);
             this.btnOpen.Text = "Open";
             this.btnOpen.ToolTipText = "Open";
             // 
@@ -363,7 +243,7 @@
             this.ddbOpenNewOptions.Image = global::Demos.Properties.Resources.Slider;
             this.ddbOpenNewOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbOpenNewOptions.Name = "ddbOpenNewOptions";
-            this.ddbOpenNewOptions.Size = new System.Drawing.Size(42, 33);
+            this.ddbOpenNewOptions.Size = new System.Drawing.Size(37, 35);
             this.ddbOpenNewOptions.Text = "Open(or New) Options";
             this.ddbOpenNewOptions.ToolTipText = "Open(or New) Options";
             // 
@@ -374,7 +254,7 @@
             this.mnuIncludePage1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludePage1.Image = global::Demos.Properties.Resources.cal;
             this.mnuIncludePage1.Name = "mnuIncludePage1";
-            this.mnuIncludePage1.Size = new System.Drawing.Size(185, 34);
+            this.mnuIncludePage1.Size = new System.Drawing.Size(138, 30);
             this.mnuIncludePage1.Text = "Page1";
             this.mnuIncludePage1.ToolTipText = "Include Page1";
             // 
@@ -385,7 +265,7 @@
             this.mnuIncludePage2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludePage2.Image = global::Demos.Properties.Resources._3dcal;
             this.mnuIncludePage2.Name = "mnuIncludePage2";
-            this.mnuIncludePage2.Size = new System.Drawing.Size(185, 34);
+            this.mnuIncludePage2.Size = new System.Drawing.Size(138, 30);
             this.mnuIncludePage2.Text = "Page2";
             this.mnuIncludePage2.ToolTipText = "Include Page2";
             // 
@@ -394,10 +274,9 @@
             this.mnuIncludePage3.Checked = true;
             this.mnuIncludePage3.CheckOnClick = true;
             this.mnuIncludePage3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.mnuIncludePage3.Enabled = false;
             this.mnuIncludePage3.Image = global::Demos.Properties.Resources._3dcal;
             this.mnuIncludePage3.Name = "mnuIncludePage3";
-            this.mnuIncludePage3.Size = new System.Drawing.Size(185, 34);
+            this.mnuIncludePage3.Size = new System.Drawing.Size(138, 30);
             this.mnuIncludePage3.Text = "Page3";
             this.mnuIncludePage3.ToolTipText = "Include Page3";
             // 
@@ -406,10 +285,9 @@
             this.mnuIncludePage4.Checked = true;
             this.mnuIncludePage4.CheckOnClick = true;
             this.mnuIncludePage4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.mnuIncludePage4.Enabled = false;
             this.mnuIncludePage4.Image = global::Demos.Properties.Resources._3dcal;
             this.mnuIncludePage4.Name = "mnuIncludePage4";
-            this.mnuIncludePage4.Size = new System.Drawing.Size(185, 34);
+            this.mnuIncludePage4.Size = new System.Drawing.Size(138, 30);
             this.mnuIncludePage4.Text = "Page4";
             this.mnuIncludePage4.ToolTipText = "Include Page4";
             // 
@@ -420,14 +298,14 @@
             this.mnuIncludeBlocks.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludeBlocks.Image = global::Demos.Properties.Resources.chain_intermediate_24px;
             this.mnuIncludeBlocks.Name = "mnuIncludeBlocks";
-            this.mnuIncludeBlocks.Size = new System.Drawing.Size(185, 34);
+            this.mnuIncludeBlocks.Size = new System.Drawing.Size(138, 30);
             this.mnuIncludeBlocks.Text = "Blocks";
             this.mnuIncludeBlocks.ToolTipText = "Include Blocks";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(182, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(135, 6);
             // 
             // mnuIncludeLayerPens
             // 
@@ -436,7 +314,7 @@
             this.mnuIncludeLayerPens.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludeLayerPens.Image = global::Demos.Properties.Resources.Index;
             this.mnuIncludeLayerPens.Name = "mnuIncludeLayerPens";
-            this.mnuIncludeLayerPens.Size = new System.Drawing.Size(185, 34);
+            this.mnuIncludeLayerPens.Size = new System.Drawing.Size(138, 30);
             this.mnuIncludeLayerPens.Text = "Layer Pens";
             this.mnuIncludeLayerPens.ToolTipText = "Include Layer Pens";
             // 
@@ -447,14 +325,14 @@
             this.mnuIncludeEntityPens.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludeEntityPens.Image = global::Demos.Properties.Resources.Index;
             this.mnuIncludeEntityPens.Name = "mnuIncludeEntityPens";
-            this.mnuIncludeEntityPens.Size = new System.Drawing.Size(185, 34);
+            this.mnuIncludeEntityPens.Size = new System.Drawing.Size(138, 30);
             this.mnuIncludeEntityPens.Text = "Entity Pens";
             this.mnuIncludeEntityPens.ToolTipText = "Include Entity Pens";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(182, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(135, 6);
             // 
             // mnuIncludeWafers
             // 
@@ -463,9 +341,10 @@
             this.mnuIncludeWafers.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludeWafers.Image = global::Demos.Properties.Resources.Grid4;
             this.mnuIncludeWafers.Name = "mnuIncludeWafers";
-            this.mnuIncludeWafers.Size = new System.Drawing.Size(185, 34);
+            this.mnuIncludeWafers.Size = new System.Drawing.Size(138, 30);
             this.mnuIncludeWafers.Text = "Wafers";
             this.mnuIncludeWafers.ToolTipText = "Include Wafers";
+            this.mnuIncludeWafers.Visible = false;
             // 
             // mnuIncludeSubstrates
             // 
@@ -474,9 +353,10 @@
             this.mnuIncludeSubstrates.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuIncludeSubstrates.Image = global::Demos.Properties.Resources.Grid4;
             this.mnuIncludeSubstrates.Name = "mnuIncludeSubstrates";
-            this.mnuIncludeSubstrates.Size = new System.Drawing.Size(185, 34);
+            this.mnuIncludeSubstrates.Size = new System.Drawing.Size(138, 30);
             this.mnuIncludeSubstrates.Text = "Substrates";
             this.mnuIncludeSubstrates.ToolTipText = "Include Substrates";
+            this.mnuIncludeSubstrates.Visible = false;
             // 
             // toolStripSeparator2
             // 
@@ -491,7 +371,7 @@
             this.btnSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(34, 33);
+            this.btnSave.Size = new System.Drawing.Size(28, 35);
             this.btnSave.Text = "toolStripButton1";
             this.btnSave.ToolTipText = "Save";
             // 
@@ -517,7 +397,7 @@
             this.btnDevice3.Image = global::Demos.Properties.Resources.m4;
             this.btnDevice3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDevice3.Name = "btnDevice3";
-            this.btnDevice3.Size = new System.Drawing.Size(34, 33);
+            this.btnDevice3.Size = new System.Drawing.Size(28, 35);
             this.btnDevice3.Tag = "3";
             this.btnDevice3.Text = "Device4";
             this.btnDevice3.ToolTipText = "Device 4";
@@ -531,7 +411,7 @@
             this.btnDevice2.Image = global::Demos.Properties.Resources.m3;
             this.btnDevice2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDevice2.Name = "btnDevice2";
-            this.btnDevice2.Size = new System.Drawing.Size(34, 33);
+            this.btnDevice2.Size = new System.Drawing.Size(28, 35);
             this.btnDevice2.Tag = "2";
             this.btnDevice2.Text = "Device3";
             this.btnDevice2.ToolTipText = "Device 3";
@@ -545,7 +425,7 @@
             this.btnDevice1.Image = global::Demos.Properties.Resources.m2;
             this.btnDevice1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDevice1.Name = "btnDevice1";
-            this.btnDevice1.Size = new System.Drawing.Size(34, 33);
+            this.btnDevice1.Size = new System.Drawing.Size(28, 35);
             this.btnDevice1.Tag = "1";
             this.btnDevice1.Text = "Device2";
             this.btnDevice1.ToolTipText = "Device 2";
@@ -562,7 +442,7 @@
             this.btnDevice0.Image = global::Demos.Properties.Resources.m1;
             this.btnDevice0.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDevice0.Name = "btnDevice0";
-            this.btnDevice0.Size = new System.Drawing.Size(99, 33);
+            this.btnDevice0.Size = new System.Drawing.Size(75, 35);
             this.btnDevice0.Tag = "0";
             this.btnDevice0.Text = "Device1";
             this.btnDevice0.ToolTipText = "Device 1";
@@ -582,7 +462,7 @@
             this.btnLock.Image = global::Demos.Properties.Resources.lock_24px;
             this.btnLock.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLock.Name = "btnLock";
-            this.btnLock.Size = new System.Drawing.Size(34, 33);
+            this.btnLock.Size = new System.Drawing.Size(28, 35);
             this.btnLock.Text = "Lock";
             // 
             // toolStripSeparator5
@@ -595,210 +475,7 @@
             // toolStripButton1
             // 
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(34, 33);
-            // 
-            // splitContainer123
-            // 
-            this.splitContainer123.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer123.Location = new System.Drawing.Point(0, 38);
-            this.splitContainer123.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainer123.Name = "splitContainer123";
-            // 
-            // splitContainer123.Panel1
-            // 
-            this.splitContainer123.Panel1.Controls.Add(this.splitContainer12);
-            // 
-            // splitContainer123.Panel2
-            // 
-            this.splitContainer123.Panel2.Controls.Add(this.tlcRight);
-            this.splitContainer123.Panel2MinSize = 100;
-            this.splitContainer123.Size = new System.Drawing.Size(2303, 1450);
-            this.splitContainer123.SplitterDistance = 1839;
-            this.splitContainer123.TabIndex = 37;
-            // 
-            // splitContainer12
-            // 
-            this.splitContainer12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer12.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer12.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainer12.Name = "splitContainer12";
-            // 
-            // splitContainer12.Panel1
-            // 
-            this.splitContainer12.Panel1.Controls.Add(this.splitContainerLeft);
-            // 
-            // splitContainer12.Panel2
-            // 
-            this.splitContainer12.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer12.Size = new System.Drawing.Size(1839, 1450);
-            this.splitContainer12.SplitterDistance = 444;
-            this.splitContainer12.TabIndex = 0;
-            // 
-            // splitContainerLeft
-            // 
-            this.splitContainerLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainerLeft.Location = new System.Drawing.Point(0, 0);
-            this.splitContainerLeft.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainerLeft.Name = "splitContainerLeft";
-            this.splitContainerLeft.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainerLeft.Panel1
-            // 
-            this.splitContainerLeft.Panel1.Controls.Add(this.tbcLeft);
-            // 
-            // splitContainerLeft.Panel2
-            // 
-            this.splitContainerLeft.Panel2.Controls.Add(this.tlcPen);
-            this.splitContainerLeft.Panel2MinSize = 100;
-            this.splitContainerLeft.Size = new System.Drawing.Size(444, 1450);
-            this.splitContainerLeft.SplitterDistance = 1096;
-            this.splitContainerLeft.TabIndex = 3;
-            // 
-            // tbcLeft
-            // 
-            this.tbcLeft.Controls.Add(this.tabDocPage1);
-            this.tbcLeft.Controls.Add(this.tabDocPage2);
-            this.tbcLeft.Controls.Add(this.tabBlockPage);
-            this.tbcLeft.Controls.Add(this.tabWaferPage);
-            this.tbcLeft.Controls.Add(this.tabSubstratePage);
-            this.tbcLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbcLeft.HotTrack = true;
-            this.tbcLeft.ImageList = this.imageList1;
-            this.tbcLeft.ItemSize = new System.Drawing.Size(80, 38);
-            this.tbcLeft.Location = new System.Drawing.Point(0, 0);
-            this.tbcLeft.Margin = new System.Windows.Forms.Padding(0);
-            this.tbcLeft.Name = "tbcLeft";
-            this.tbcLeft.Padding = new System.Drawing.Point(3, 3);
-            this.tbcLeft.SelectedIndex = 0;
-            this.tbcLeft.Size = new System.Drawing.Size(444, 1096);
-            this.tbcLeft.TabIndex = 3;
-            // 
-            // tabDocPage1
-            // 
-            this.tabDocPage1.Controls.Add(this.treeViewPageControl1);
-            this.tabDocPage1.ImageKey = "1.png";
-            this.tabDocPage1.Location = new System.Drawing.Point(4, 42);
-            this.tabDocPage1.Margin = new System.Windows.Forms.Padding(0);
-            this.tabDocPage1.Name = "tabDocPage1";
-            this.tabDocPage1.Size = new System.Drawing.Size(436, 1050);
-            this.tabDocPage1.TabIndex = 0;
-            this.tabDocPage1.Text = "Page1 ";
-            this.tabDocPage1.UseVisualStyleBackColor = true;
-            // 
-            // treeViewPageControl1
-            // 
-            this.treeViewPageControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.treeViewPageControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewPageControl1.Document = null;
-            this.treeViewPageControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewPageControl1.Location = new System.Drawing.Point(0, 0);
-            this.treeViewPageControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.treeViewPageControl1.Name = "treeViewPageControl1";
-            this.treeViewPageControl1.Page = SpiralLab.Sirius3.Document.DocumentPages.Page1;
-            this.treeViewPageControl1.Size = new System.Drawing.Size(436, 1050);
-            this.treeViewPageControl1.TabIndex = 2;
-            this.treeViewPageControl1.View = null;
-            // 
-            // tabDocPage2
-            // 
-            this.tabDocPage2.Controls.Add(this.treeViewPageControl2);
-            this.tabDocPage2.ImageKey = "2.png";
-            this.tabDocPage2.Location = new System.Drawing.Point(4, 42);
-            this.tabDocPage2.Margin = new System.Windows.Forms.Padding(0);
-            this.tabDocPage2.Name = "tabDocPage2";
-            this.tabDocPage2.Size = new System.Drawing.Size(436, 1050);
-            this.tabDocPage2.TabIndex = 4;
-            this.tabDocPage2.Text = "Page2 ";
-            this.tabDocPage2.UseVisualStyleBackColor = true;
-            // 
-            // treeViewPageControl2
-            // 
-            this.treeViewPageControl2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.treeViewPageControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewPageControl2.Document = null;
-            this.treeViewPageControl2.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewPageControl2.Location = new System.Drawing.Point(0, 0);
-            this.treeViewPageControl2.Margin = new System.Windows.Forms.Padding(0);
-            this.treeViewPageControl2.Name = "treeViewPageControl2";
-            this.treeViewPageControl2.Page = SpiralLab.Sirius3.Document.DocumentPages.Page2;
-            this.treeViewPageControl2.Size = new System.Drawing.Size(436, 1050);
-            this.treeViewPageControl2.TabIndex = 3;
-            this.treeViewPageControl2.View = null;
-            // 
-            // tabBlockPage
-            // 
-            this.tabBlockPage.Controls.Add(this.treeViewBlockControl1);
-            this.tabBlockPage.ImageKey = "chain_intermediate_24px.png";
-            this.tabBlockPage.Location = new System.Drawing.Point(4, 42);
-            this.tabBlockPage.Margin = new System.Windows.Forms.Padding(0);
-            this.tabBlockPage.Name = "tabBlockPage";
-            this.tabBlockPage.Size = new System.Drawing.Size(436, 1050);
-            this.tabBlockPage.TabIndex = 1;
-            this.tabBlockPage.Text = "Block ";
-            this.tabBlockPage.UseVisualStyleBackColor = true;
-            // 
-            // treeViewBlockControl1
-            // 
-            this.treeViewBlockControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.treeViewBlockControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewBlockControl1.Document = null;
-            this.treeViewBlockControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewBlockControl1.Location = new System.Drawing.Point(0, 0);
-            this.treeViewBlockControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.treeViewBlockControl1.Name = "treeViewBlockControl1";
-            this.treeViewBlockControl1.Size = new System.Drawing.Size(436, 1050);
-            this.treeViewBlockControl1.TabIndex = 0;
-            this.treeViewBlockControl1.View = null;
-            // 
-            // tabWaferPage
-            // 
-            this.tabWaferPage.Controls.Add(this.treeViewWaferControl1);
-            this.tabWaferPage.ImageKey = "Grid4.png";
-            this.tabWaferPage.Location = new System.Drawing.Point(4, 42);
-            this.tabWaferPage.Margin = new System.Windows.Forms.Padding(0);
-            this.tabWaferPage.Name = "tabWaferPage";
-            this.tabWaferPage.Size = new System.Drawing.Size(436, 1050);
-            this.tabWaferPage.TabIndex = 2;
-            this.tabWaferPage.Text = "Wafer ";
-            this.tabWaferPage.UseVisualStyleBackColor = true;
-            // 
-            // treeViewWaferControl1
-            // 
-            this.treeViewWaferControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.treeViewWaferControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewWaferControl1.Document = null;
-            this.treeViewWaferControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewWaferControl1.Location = new System.Drawing.Point(0, 0);
-            this.treeViewWaferControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.treeViewWaferControl1.Name = "treeViewWaferControl1";
-            this.treeViewWaferControl1.Size = new System.Drawing.Size(436, 1050);
-            this.treeViewWaferControl1.TabIndex = 1;
-            this.treeViewWaferControl1.View = null;
-            // 
-            // tabSubstratePage
-            // 
-            this.tabSubstratePage.Controls.Add(this.treeViewSubstrateControl1);
-            this.tabSubstratePage.ImageKey = "Grid3.png";
-            this.tabSubstratePage.Location = new System.Drawing.Point(4, 42);
-            this.tabSubstratePage.Margin = new System.Windows.Forms.Padding(0);
-            this.tabSubstratePage.Name = "tabSubstratePage";
-            this.tabSubstratePage.Size = new System.Drawing.Size(436, 1050);
-            this.tabSubstratePage.TabIndex = 3;
-            this.tabSubstratePage.Text = "Substrate";
-            this.tabSubstratePage.UseVisualStyleBackColor = true;
-            // 
-            // treeViewSubstrateControl1
-            // 
-            this.treeViewSubstrateControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.treeViewSubstrateControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewSubstrateControl1.Document = null;
-            this.treeViewSubstrateControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeViewSubstrateControl1.Location = new System.Drawing.Point(0, 0);
-            this.treeViewSubstrateControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.treeViewSubstrateControl1.Name = "treeViewSubstrateControl1";
-            this.treeViewSubstrateControl1.Size = new System.Drawing.Size(436, 1050);
-            this.treeViewSubstrateControl1.TabIndex = 0;
-            this.treeViewSubstrateControl1.View = null;
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 35);
             // 
             // imageList1
             // 
@@ -854,6 +531,354 @@
             this.imageList1.Images.SetKeyName(47, "1.png");
             this.imageList1.Images.SetKeyName(48, "Grid4.png");
             this.imageList1.Images.SetKeyName(49, "Grid3.png");
+            this.imageList1.Images.SetKeyName(50, "m1.png");
+            this.imageList1.Images.SetKeyName(51, "m2.png");
+            this.imageList1.Images.SetKeyName(52, "m3.png");
+            this.imageList1.Images.SetKeyName(53, "m4.png");
+            // 
+            // stsBottom
+            // 
+            this.stsBottom.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.stsBottom.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.stsBottom.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblName,
+            this.toolStripStatusLabel2,
+            this.lblFileName,
+            this.toolStripStatusLabel14,
+            this.btnLogWindow,
+            this.toolStripStatusLabel1,
+            this.lblEncoder,
+            this.toolStripStatusLabel5,
+            this.lblReady,
+            this.toolStripStatusLabel3,
+            this.lblBusy,
+            this.toolStripStatusLabel4,
+            this.lblError});
+            this.stsBottom.Location = new System.Drawing.Point(0, 969);
+            this.stsBottom.Name = "stsBottom";
+            this.stsBottom.Size = new System.Drawing.Size(1200, 31);
+            this.stsBottom.SizingGrip = false;
+            this.stsBottom.TabIndex = 39;
+            this.stsBottom.Text = "toolStrip1";
+            // 
+            // lblName
+            // 
+            this.lblName.Image = global::Demos.Properties.Resources.Top_View2;
+            this.lblName.Margin = new System.Windows.Forms.Padding(8, 4, 0, 3);
+            this.lblName.Name = "lblName";
+            this.lblName.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lblName.Size = new System.Drawing.Size(91, 24);
+            this.lblName.Text = "NoName";
+            this.lblName.ToolTipText = "Name";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.AutoSize = false;
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(4, 26);
+            this.toolStripStatusLabel2.ToolTipText = "Show/Hide Log Window";
+            // 
+            // lblFileName
+            // 
+            this.lblFileName.Image = global::Demos.Properties.Resources.micro_sd_26px;
+            this.lblFileName.Name = "lblFileName";
+            this.lblFileName.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lblFileName.Size = new System.Drawing.Size(97, 26);
+            this.lblFileName.Text = "(NoName)";
+            this.lblFileName.ToolTipText = "File Name";
+            // 
+            // toolStripStatusLabel14
+            // 
+            this.toolStripStatusLabel14.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStripStatusLabel14.ForeColor = System.Drawing.Color.Black;
+            this.toolStripStatusLabel14.Name = "toolStripStatusLabel14";
+            this.toolStripStatusLabel14.Size = new System.Drawing.Size(682, 26);
+            this.toolStripStatusLabel14.Spring = true;
+            // 
+            // btnLogWindow
+            // 
+            this.btnLogWindow.Image = global::Demos.Properties.Resources.pens_32px;
+            this.btnLogWindow.Name = "btnLogWindow";
+            this.btnLogWindow.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.btnLogWindow.Size = new System.Drawing.Size(40, 26);
+            this.btnLogWindow.ToolTipText = "Show/Hide Log Window";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.AutoSize = false;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(4, 26);
+            this.toolStripStatusLabel1.ToolTipText = "Show/Hide Log Window";
+            // 
+            // lblEncoder
+            // 
+            this.lblEncoder.AutoToolTip = true;
+            this.lblEncoder.Image = global::Demos.Properties.Resources.Counter;
+            this.lblEncoder.Name = "lblEncoder";
+            this.lblEncoder.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lblEncoder.Size = new System.Drawing.Size(82, 26);
+            this.lblEncoder.Text = "XY: 0, 0";
+            this.lblEncoder.ToolTipText = "Encoder Value(s)";
+            // 
+            // toolStripStatusLabel5
+            // 
+            this.toolStripStatusLabel5.AutoSize = false;
+            this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
+            this.toolStripStatusLabel5.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.toolStripStatusLabel5.Size = new System.Drawing.Size(4, 26);
+            this.toolStripStatusLabel5.ToolTipText = "Show/Hide Log Window";
+            // 
+            // lblReady
+            // 
+            this.lblReady.BackColor = System.Drawing.Color.Green;
+            this.lblReady.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReady.ForeColor = System.Drawing.Color.White;
+            this.lblReady.Name = "lblReady";
+            this.lblReady.Size = new System.Drawing.Size(46, 26);
+            this.lblReady.Text = " READY ";
+            this.lblReady.ToolTipText = "Ready Status";
+            // 
+            // toolStripStatusLabel3
+            // 
+            this.toolStripStatusLabel3.AutoSize = false;
+            this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+            this.toolStripStatusLabel3.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(4, 26);
+            this.toolStripStatusLabel3.ToolTipText = "Show/Hide Log Window";
+            // 
+            // lblBusy
+            // 
+            this.lblBusy.ActiveLinkColor = System.Drawing.Color.Red;
+            this.lblBusy.BackColor = System.Drawing.Color.Olive;
+            this.lblBusy.ForeColor = System.Drawing.Color.White;
+            this.lblBusy.Name = "lblBusy";
+            this.lblBusy.Size = new System.Drawing.Size(39, 26);
+            this.lblBusy.Text = " BUSY ";
+            this.lblBusy.ToolTipText = "Busy Status";
+            // 
+            // toolStripStatusLabel4
+            // 
+            this.toolStripStatusLabel4.AutoSize = false;
+            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(4, 26);
+            this.toolStripStatusLabel4.ToolTipText = "Show/Hide Log Window";
+            // 
+            // lblError
+            // 
+            this.lblError.BackColor = System.Drawing.Color.Maroon;
+            this.lblError.ForeColor = System.Drawing.Color.White;
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(49, 26);
+            this.lblError.Text = " ERROR ";
+            this.lblError.ToolTipText = "Error Status";
+            // 
+            // splitContainer123
+            // 
+            this.splitContainer123.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer123.Location = new System.Drawing.Point(0, 38);
+            this.splitContainer123.Margin = new System.Windows.Forms.Padding(0);
+            this.splitContainer123.Name = "splitContainer123";
+            // 
+            // splitContainer123.Panel1
+            // 
+            this.splitContainer123.Panel1.Controls.Add(this.splitContainer12);
+            // 
+            // splitContainer123.Panel2
+            // 
+            this.splitContainer123.Panel2.Controls.Add(this.tlcRight);
+            this.splitContainer123.Panel2MinSize = 100;
+            this.splitContainer123.Size = new System.Drawing.Size(1200, 931);
+            this.splitContainer123.SplitterDistance = 956;
+            this.splitContainer123.TabIndex = 40;
+            // 
+            // splitContainer12
+            // 
+            this.splitContainer12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer12.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer12.Margin = new System.Windows.Forms.Padding(0);
+            this.splitContainer12.Name = "splitContainer12";
+            // 
+            // splitContainer12.Panel1
+            // 
+            this.splitContainer12.Panel1.Controls.Add(this.splitContainerLeft);
+            // 
+            // splitContainer12.Panel2
+            // 
+            this.splitContainer12.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer12.Size = new System.Drawing.Size(956, 931);
+            this.splitContainer12.SplitterDistance = 228;
+            this.splitContainer12.TabIndex = 0;
+            // 
+            // splitContainerLeft
+            // 
+            this.splitContainerLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerLeft.Location = new System.Drawing.Point(0, 0);
+            this.splitContainerLeft.Margin = new System.Windows.Forms.Padding(0);
+            this.splitContainerLeft.Name = "splitContainerLeft";
+            this.splitContainerLeft.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerLeft.Panel1
+            // 
+            this.splitContainerLeft.Panel1.Controls.Add(this.tbcLeft);
+            // 
+            // splitContainerLeft.Panel2
+            // 
+            this.splitContainerLeft.Panel2.Controls.Add(this.tlcPen);
+            this.splitContainerLeft.Panel2MinSize = 100;
+            this.splitContainerLeft.Size = new System.Drawing.Size(228, 931);
+            this.splitContainerLeft.SplitterDistance = 702;
+            this.splitContainerLeft.TabIndex = 3;
+            // 
+            // tbcLeft
+            // 
+            this.tbcLeft.Controls.Add(this.tabDocPage1);
+            this.tbcLeft.Controls.Add(this.tabDocPage2);
+            this.tbcLeft.Controls.Add(this.tabDocPage3);
+            this.tbcLeft.Controls.Add(this.tabDocPage4);
+            this.tbcLeft.Controls.Add(this.tabBlockPage);
+            this.tbcLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbcLeft.HotTrack = true;
+            this.tbcLeft.ImageList = this.imageList1;
+            this.tbcLeft.ItemSize = new System.Drawing.Size(80, 28);
+            this.tbcLeft.Location = new System.Drawing.Point(0, 0);
+            this.tbcLeft.Margin = new System.Windows.Forms.Padding(0);
+            this.tbcLeft.Name = "tbcLeft";
+            this.tbcLeft.Padding = new System.Drawing.Point(3, 3);
+            this.tbcLeft.SelectedIndex = 0;
+            this.tbcLeft.Size = new System.Drawing.Size(228, 702);
+            this.tbcLeft.TabIndex = 4;
+            // 
+            // tabDocPage1
+            // 
+            this.tabDocPage1.Controls.Add(this.treeViewPageControl1);
+            this.tabDocPage1.ImageKey = "m1.png";
+            this.tabDocPage1.Location = new System.Drawing.Point(4, 32);
+            this.tabDocPage1.Margin = new System.Windows.Forms.Padding(0);
+            this.tabDocPage1.Name = "tabDocPage1";
+            this.tabDocPage1.Size = new System.Drawing.Size(220, 666);
+            this.tabDocPage1.TabIndex = 0;
+            this.tabDocPage1.Text = "P1 ";
+            this.tabDocPage1.UseVisualStyleBackColor = true;
+            // 
+            // treeViewPageControl1
+            // 
+            this.treeViewPageControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.treeViewPageControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewPageControl1.Document = null;
+            this.treeViewPageControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeViewPageControl1.Location = new System.Drawing.Point(0, 0);
+            this.treeViewPageControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.treeViewPageControl1.Name = "treeViewPageControl1";
+            this.treeViewPageControl1.Page = SpiralLab.Sirius3.Document.DocumentPages.Page1;
+            this.treeViewPageControl1.Size = new System.Drawing.Size(220, 666);
+            this.treeViewPageControl1.TabIndex = 2;
+            this.treeViewPageControl1.View = null;
+            // 
+            // tabDocPage2
+            // 
+            this.tabDocPage2.Controls.Add(this.treeViewPageControl2);
+            this.tabDocPage2.ImageKey = "m2.png";
+            this.tabDocPage2.Location = new System.Drawing.Point(4, 32);
+            this.tabDocPage2.Margin = new System.Windows.Forms.Padding(0);
+            this.tabDocPage2.Name = "tabDocPage2";
+            this.tabDocPage2.Size = new System.Drawing.Size(220, 666);
+            this.tabDocPage2.TabIndex = 4;
+            this.tabDocPage2.Text = "P2 ";
+            this.tabDocPage2.UseVisualStyleBackColor = true;
+            // 
+            // treeViewPageControl2
+            // 
+            this.treeViewPageControl2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.treeViewPageControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewPageControl2.Document = null;
+            this.treeViewPageControl2.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeViewPageControl2.Location = new System.Drawing.Point(0, 0);
+            this.treeViewPageControl2.Margin = new System.Windows.Forms.Padding(0);
+            this.treeViewPageControl2.Name = "treeViewPageControl2";
+            this.treeViewPageControl2.Page = SpiralLab.Sirius3.Document.DocumentPages.Page2;
+            this.treeViewPageControl2.Size = new System.Drawing.Size(220, 666);
+            this.treeViewPageControl2.TabIndex = 3;
+            this.treeViewPageControl2.View = null;
+            // 
+            // tabDocPage3
+            // 
+            this.tabDocPage3.Controls.Add(this.treeViewPageControl3);
+            this.tabDocPage3.ImageKey = "m3.png";
+            this.tabDocPage3.Location = new System.Drawing.Point(4, 32);
+            this.tabDocPage3.Margin = new System.Windows.Forms.Padding(0);
+            this.tabDocPage3.Name = "tabDocPage3";
+            this.tabDocPage3.Size = new System.Drawing.Size(220, 666);
+            this.tabDocPage3.TabIndex = 5;
+            this.tabDocPage3.Text = "P3 ";
+            this.tabDocPage3.UseVisualStyleBackColor = true;
+            // 
+            // treeViewPageControl3
+            // 
+            this.treeViewPageControl3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.treeViewPageControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewPageControl3.Document = null;
+            this.treeViewPageControl3.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeViewPageControl3.Location = new System.Drawing.Point(0, 0);
+            this.treeViewPageControl3.Margin = new System.Windows.Forms.Padding(0);
+            this.treeViewPageControl3.Name = "treeViewPageControl3";
+            this.treeViewPageControl3.Page = SpiralLab.Sirius3.Document.DocumentPages.Page3;
+            this.treeViewPageControl3.Size = new System.Drawing.Size(220, 666);
+            this.treeViewPageControl3.TabIndex = 3;
+            this.treeViewPageControl3.View = null;
+            // 
+            // tabDocPage4
+            // 
+            this.tabDocPage4.Controls.Add(this.treeViewPageControl4);
+            this.tabDocPage4.ImageKey = "m4.png";
+            this.tabDocPage4.Location = new System.Drawing.Point(4, 32);
+            this.tabDocPage4.Margin = new System.Windows.Forms.Padding(0);
+            this.tabDocPage4.Name = "tabDocPage4";
+            this.tabDocPage4.Size = new System.Drawing.Size(220, 666);
+            this.tabDocPage4.TabIndex = 6;
+            this.tabDocPage4.Text = "P4 ";
+            this.tabDocPage4.UseVisualStyleBackColor = true;
+            // 
+            // treeViewPageControl4
+            // 
+            this.treeViewPageControl4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.treeViewPageControl4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewPageControl4.Document = null;
+            this.treeViewPageControl4.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeViewPageControl4.Location = new System.Drawing.Point(0, 0);
+            this.treeViewPageControl4.Margin = new System.Windows.Forms.Padding(0);
+            this.treeViewPageControl4.Name = "treeViewPageControl4";
+            this.treeViewPageControl4.Page = SpiralLab.Sirius3.Document.DocumentPages.Page4;
+            this.treeViewPageControl4.Size = new System.Drawing.Size(220, 666);
+            this.treeViewPageControl4.TabIndex = 3;
+            this.treeViewPageControl4.View = null;
+            // 
+            // tabBlockPage
+            // 
+            this.tabBlockPage.Controls.Add(this.treeViewBlockControl1);
+            this.tabBlockPage.ImageKey = "chain_intermediate_24px.png";
+            this.tabBlockPage.Location = new System.Drawing.Point(4, 32);
+            this.tabBlockPage.Margin = new System.Windows.Forms.Padding(0);
+            this.tabBlockPage.Name = "tabBlockPage";
+            this.tabBlockPage.Size = new System.Drawing.Size(220, 666);
+            this.tabBlockPage.TabIndex = 1;
+            this.tabBlockPage.Text = "Block ";
+            this.tabBlockPage.UseVisualStyleBackColor = true;
+            // 
+            // treeViewBlockControl1
+            // 
+            this.treeViewBlockControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.treeViewBlockControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeViewBlockControl1.Document = null;
+            this.treeViewBlockControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeViewBlockControl1.Location = new System.Drawing.Point(0, 0);
+            this.treeViewBlockControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.treeViewBlockControl1.Name = "treeViewBlockControl1";
+            this.treeViewBlockControl1.Size = new System.Drawing.Size(220, 666);
+            this.treeViewBlockControl1.TabIndex = 0;
+            this.treeViewBlockControl1.View = null;
             // 
             // tlcPen
             // 
@@ -862,22 +887,22 @@
             this.tlcPen.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlcPen.HotTrack = true;
             this.tlcPen.ImageList = this.imageList1;
-            this.tlcPen.ItemSize = new System.Drawing.Size(74, 38);
+            this.tlcPen.ItemSize = new System.Drawing.Size(74, 28);
             this.tlcPen.Location = new System.Drawing.Point(0, 0);
             this.tlcPen.Multiline = true;
             this.tlcPen.Name = "tlcPen";
             this.tlcPen.SelectedIndex = 0;
-            this.tlcPen.Size = new System.Drawing.Size(444, 350);
+            this.tlcPen.Size = new System.Drawing.Size(228, 225);
             this.tlcPen.TabIndex = 4;
             // 
             // tabEntityPen
             // 
             this.tabEntityPen.Controls.Add(this.entityPenControl1);
             this.tabEntityPen.ImageKey = "driving_directions_24px.png";
-            this.tabEntityPen.Location = new System.Drawing.Point(4, 42);
+            this.tabEntityPen.Location = new System.Drawing.Point(4, 32);
             this.tabEntityPen.Margin = new System.Windows.Forms.Padding(0);
             this.tabEntityPen.Name = "tabEntityPen";
-            this.tabEntityPen.Size = new System.Drawing.Size(436, 304);
+            this.tabEntityPen.Size = new System.Drawing.Size(220, 189);
             this.tabEntityPen.TabIndex = 0;
             this.tabEntityPen.Text = "Entity";
             this.tabEntityPen.UseVisualStyleBackColor = true;
@@ -891,17 +916,17 @@
             this.entityPenControl1.Location = new System.Drawing.Point(0, 0);
             this.entityPenControl1.Margin = new System.Windows.Forms.Padding(0);
             this.entityPenControl1.Name = "entityPenControl1";
-            this.entityPenControl1.Size = new System.Drawing.Size(436, 304);
+            this.entityPenControl1.Size = new System.Drawing.Size(220, 189);
             this.entityPenControl1.TabIndex = 2;
             // 
             // tabLayerPen
             // 
             this.tabLayerPen.Controls.Add(this.layerPenControl1);
             this.tabLayerPen.ImageKey = "driving_directions_24px.png";
-            this.tabLayerPen.Location = new System.Drawing.Point(4, 42);
+            this.tabLayerPen.Location = new System.Drawing.Point(4, 32);
             this.tabLayerPen.Margin = new System.Windows.Forms.Padding(0);
             this.tabLayerPen.Name = "tabLayerPen";
-            this.tabLayerPen.Size = new System.Drawing.Size(436, 304);
+            this.tabLayerPen.Size = new System.Drawing.Size(220, 189);
             this.tabLayerPen.TabIndex = 1;
             this.tabLayerPen.Text = "Layer";
             this.tabLayerPen.UseVisualStyleBackColor = true;
@@ -915,7 +940,7 @@
             this.layerPenControl1.Location = new System.Drawing.Point(0, 0);
             this.layerPenControl1.Margin = new System.Windows.Forms.Padding(16, 15, 16, 15);
             this.layerPenControl1.Name = "layerPenControl1";
-            this.layerPenControl1.Size = new System.Drawing.Size(436, 304);
+            this.layerPenControl1.Size = new System.Drawing.Size(220, 189);
             this.layerPenControl1.TabIndex = 0;
             // 
             // splitContainer2
@@ -935,8 +960,8 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.logControl1);
             this.splitContainer2.Panel2MinSize = 100;
-            this.splitContainer2.Size = new System.Drawing.Size(1391, 1450);
-            this.splitContainer2.SplitterDistance = 1177;
+            this.splitContainer2.Size = new System.Drawing.Size(724, 931);
+            this.splitContainer2.SplitterDistance = 754;
             this.splitContainer2.TabIndex = 0;
             // 
             // tbcMain
@@ -951,21 +976,21 @@
             this.tbcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbcMain.HotTrack = true;
             this.tbcMain.ImageList = this.imageList1;
-            this.tbcMain.ItemSize = new System.Drawing.Size(80, 38);
+            this.tbcMain.ItemSize = new System.Drawing.Size(80, 28);
             this.tbcMain.Location = new System.Drawing.Point(0, 0);
             this.tbcMain.Margin = new System.Windows.Forms.Padding(0);
             this.tbcMain.Name = "tbcMain";
             this.tbcMain.SelectedIndex = 0;
-            this.tbcMain.Size = new System.Drawing.Size(1391, 1177);
+            this.tbcMain.Size = new System.Drawing.Size(724, 754);
             this.tbcMain.TabIndex = 0;
             // 
             // tabEditor
             // 
             this.tabEditor.ImageKey = "cube_24px.png";
-            this.tabEditor.Location = new System.Drawing.Point(4, 42);
+            this.tabEditor.Location = new System.Drawing.Point(4, 32);
             this.tabEditor.Margin = new System.Windows.Forms.Padding(0);
             this.tabEditor.Name = "tabEditor";
-            this.tabEditor.Size = new System.Drawing.Size(1383, 1131);
+            this.tabEditor.Size = new System.Drawing.Size(716, 718);
             this.tabEditor.TabIndex = 0;
             this.tabEditor.Text = "Editor";
             // 
@@ -973,10 +998,10 @@
             // 
             this.tabMarker.Controls.Add(this.splitContainer10);
             this.tabMarker.ImageKey = "Design.png";
-            this.tabMarker.Location = new System.Drawing.Point(4, 42);
+            this.tabMarker.Location = new System.Drawing.Point(4, 32);
             this.tabMarker.Margin = new System.Windows.Forms.Padding(0);
             this.tabMarker.Name = "tabMarker";
-            this.tabMarker.Size = new System.Drawing.Size(1383, 1131);
+            this.tabMarker.Size = new System.Drawing.Size(716, 718);
             this.tabMarker.TabIndex = 1;
             this.tabMarker.Text = "Marker";
             this.tabMarker.UseVisualStyleBackColor = true;
@@ -995,8 +1020,8 @@
             // splitContainer10.Panel2
             // 
             this.splitContainer10.Panel2.Controls.Add(this.markerControl1);
-            this.splitContainer10.Size = new System.Drawing.Size(1383, 1131);
-            this.splitContainer10.SplitterDistance = 446;
+            this.splitContainer10.Size = new System.Drawing.Size(716, 718);
+            this.splitContainer10.SplitterDistance = 229;
             this.splitContainer10.TabIndex = 4;
             // 
             // offsetControl1
@@ -1007,7 +1032,7 @@
             this.offsetControl1.Margin = new System.Windows.Forms.Padding(0);
             this.offsetControl1.Marker = null;
             this.offsetControl1.Name = "offsetControl1";
-            this.offsetControl1.Size = new System.Drawing.Size(446, 1131);
+            this.offsetControl1.Size = new System.Drawing.Size(229, 718);
             this.offsetControl1.TabIndex = 4;
             // 
             // markerControl1
@@ -1022,7 +1047,7 @@
             this.markerControl1.Name = "markerControl1";
             this.markerControl1.PowerMeter = null;
             this.markerControl1.Rtc = null;
-            this.markerControl1.Size = new System.Drawing.Size(933, 1131);
+            this.markerControl1.Size = new System.Drawing.Size(483, 718);
             this.markerControl1.TabIndex = 4;
             this.markerControl1.View = null;
             // 
@@ -1030,10 +1055,10 @@
             // 
             this.tabManual.Controls.Add(this.manualControl1);
             this.tabManual.ImageKey = "Voltage.png";
-            this.tabManual.Location = new System.Drawing.Point(4, 42);
+            this.tabManual.Location = new System.Drawing.Point(4, 32);
             this.tabManual.Margin = new System.Windows.Forms.Padding(0);
             this.tabManual.Name = "tabManual";
-            this.tabManual.Size = new System.Drawing.Size(1383, 1131);
+            this.tabManual.Size = new System.Drawing.Size(716, 718);
             this.tabManual.TabIndex = 2;
             this.tabManual.Text = "Manual";
             this.tabManual.UseVisualStyleBackColor = true;
@@ -1049,17 +1074,17 @@
             this.manualControl1.Marker = null;
             this.manualControl1.Name = "manualControl1";
             this.manualControl1.Rtc = null;
-            this.manualControl1.Size = new System.Drawing.Size(1383, 1131);
+            this.manualControl1.Size = new System.Drawing.Size(716, 718);
             this.manualControl1.TabIndex = 1;
             // 
             // tabScanner
             // 
             this.tabScanner.Controls.Add(this.scannerControl1);
             this.tabScanner.ImageKey = "Video Card.png";
-            this.tabScanner.Location = new System.Drawing.Point(4, 42);
+            this.tabScanner.Location = new System.Drawing.Point(4, 32);
             this.tabScanner.Margin = new System.Windows.Forms.Padding(0);
             this.tabScanner.Name = "tabScanner";
-            this.tabScanner.Size = new System.Drawing.Size(1383, 1131);
+            this.tabScanner.Size = new System.Drawing.Size(716, 718);
             this.tabScanner.TabIndex = 3;
             this.tabScanner.Text = "Scanner";
             this.tabScanner.UseVisualStyleBackColor = true;
@@ -1072,17 +1097,17 @@
             this.scannerControl1.Margin = new System.Windows.Forms.Padding(0);
             this.scannerControl1.Name = "scannerControl1";
             this.scannerControl1.Scanner = null;
-            this.scannerControl1.Size = new System.Drawing.Size(1383, 1131);
+            this.scannerControl1.Size = new System.Drawing.Size(716, 718);
             this.scannerControl1.TabIndex = 0;
             // 
             // tabLaser
             // 
             this.tabLaser.Controls.Add(this.laserControl1);
             this.tabLaser.ImageKey = "Processor2.png";
-            this.tabLaser.Location = new System.Drawing.Point(4, 42);
+            this.tabLaser.Location = new System.Drawing.Point(4, 32);
             this.tabLaser.Margin = new System.Windows.Forms.Padding(0);
             this.tabLaser.Name = "tabLaser";
-            this.tabLaser.Size = new System.Drawing.Size(1383, 1131);
+            this.tabLaser.Size = new System.Drawing.Size(716, 718);
             this.tabLaser.TabIndex = 4;
             this.tabLaser.Text = "Laser";
             this.tabLaser.UseVisualStyleBackColor = true;
@@ -1095,17 +1120,17 @@
             this.laserControl1.Location = new System.Drawing.Point(0, 0);
             this.laserControl1.Margin = new System.Windows.Forms.Padding(0);
             this.laserControl1.Name = "laserControl1";
-            this.laserControl1.Size = new System.Drawing.Size(1383, 1131);
+            this.laserControl1.Size = new System.Drawing.Size(716, 718);
             this.laserControl1.TabIndex = 0;
             // 
             // tabDIO
             // 
             this.tabDIO.Controls.Add(this.splitContainer9);
             this.tabDIO.ImageKey = "RS-232 Male.png";
-            this.tabDIO.Location = new System.Drawing.Point(4, 42);
+            this.tabDIO.Location = new System.Drawing.Point(4, 32);
             this.tabDIO.Margin = new System.Windows.Forms.Padding(0);
             this.tabDIO.Name = "tabDIO";
-            this.tabDIO.Size = new System.Drawing.Size(1383, 1131);
+            this.tabDIO.Size = new System.Drawing.Size(716, 718);
             this.tabDIO.TabIndex = 5;
             this.tabDIO.Text = "DIO";
             this.tabDIO.UseVisualStyleBackColor = true;
@@ -1124,8 +1149,8 @@
             // splitContainer9.Panel2
             // 
             this.splitContainer9.Panel2.Controls.Add(this.rtcDOControl1);
-            this.splitContainer9.Size = new System.Drawing.Size(1383, 1131);
-            this.splitContainer9.SplitterDistance = 663;
+            this.splitContainer9.Size = new System.Drawing.Size(716, 718);
+            this.splitContainer9.SplitterDistance = 342;
             this.splitContainer9.TabIndex = 0;
             // 
             // rtcDIControl1
@@ -1137,7 +1162,7 @@
             this.rtcDIControl1.Location = new System.Drawing.Point(0, 0);
             this.rtcDIControl1.Margin = new System.Windows.Forms.Padding(0);
             this.rtcDIControl1.Name = "rtcDIControl1";
-            this.rtcDIControl1.Size = new System.Drawing.Size(663, 1131);
+            this.rtcDIControl1.Size = new System.Drawing.Size(342, 718);
             this.rtcDIControl1.TabIndex = 0;
             this.rtcDIControl1.UpdateTimerInterval = 100;
             // 
@@ -1152,7 +1177,7 @@
             this.rtcDOControl1.Margin = new System.Windows.Forms.Padding(0);
             this.rtcDOControl1.Marker = null;
             this.rtcDOControl1.Name = "rtcDOControl1";
-            this.rtcDOControl1.Size = new System.Drawing.Size(716, 1131);
+            this.rtcDOControl1.Size = new System.Drawing.Size(370, 718);
             this.rtcDOControl1.TabIndex = 0;
             this.rtcDOControl1.UpdateTimerInterval = 100;
             // 
@@ -1160,10 +1185,10 @@
             // 
             this.tabPower.Controls.Add(this.tabControl2);
             this.tabPower.ImageKey = "Graph2.png";
-            this.tabPower.Location = new System.Drawing.Point(4, 42);
+            this.tabPower.Location = new System.Drawing.Point(4, 32);
             this.tabPower.Margin = new System.Windows.Forms.Padding(0);
             this.tabPower.Name = "tabPower";
-            this.tabPower.Size = new System.Drawing.Size(1383, 1131);
+            this.tabPower.Size = new System.Drawing.Size(716, 718);
             this.tabPower.TabIndex = 6;
             this.tabPower.Text = "Power";
             this.tabPower.UseVisualStyleBackColor = true;
@@ -1173,21 +1198,21 @@
             this.tabControl2.Controls.Add(this.tabPage18);
             this.tabControl2.Controls.Add(this.tabPage19);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl2.ItemSize = new System.Drawing.Size(106, 32);
+            this.tabControl2.ItemSize = new System.Drawing.Size(106, 28);
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1383, 1131);
+            this.tabControl2.Size = new System.Drawing.Size(716, 718);
             this.tabControl2.TabIndex = 0;
             // 
             // tabPage18
             // 
             this.tabPage18.Controls.Add(this.powerMeterControl1);
-            this.tabPage18.Location = new System.Drawing.Point(4, 36);
+            this.tabPage18.Location = new System.Drawing.Point(4, 32);
             this.tabPage18.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage18.Name = "tabPage18";
-            this.tabPage18.Size = new System.Drawing.Size(1375, 1091);
+            this.tabPage18.Size = new System.Drawing.Size(708, 682);
             this.tabPage18.TabIndex = 0;
             this.tabPage18.Text = "PowerMeter";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -1201,7 +1226,7 @@
             this.powerMeterControl1.Margin = new System.Windows.Forms.Padding(0);
             this.powerMeterControl1.Name = "powerMeterControl1";
             this.powerMeterControl1.PowerMeter = null;
-            this.powerMeterControl1.Size = new System.Drawing.Size(1375, 1091);
+            this.powerMeterControl1.Size = new System.Drawing.Size(708, 682);
             this.powerMeterControl1.TabIndex = 0;
             // 
             // tabPage19
@@ -1210,7 +1235,7 @@
             this.tabPage19.Location = new System.Drawing.Point(4, 36);
             this.tabPage19.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage19.Name = "tabPage19";
-            this.tabPage19.Size = new System.Drawing.Size(1375, 1091);
+            this.tabPage19.Size = new System.Drawing.Size(708, 678);
             this.tabPage19.TabIndex = 1;
             this.tabPage19.Text = "PowerMap";
             this.tabPage19.UseVisualStyleBackColor = true;
@@ -1223,11 +1248,11 @@
             this.powerMapControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.powerMapControl1.Laser = null;
             this.powerMapControl1.Location = new System.Drawing.Point(0, 0);
-            this.powerMapControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.powerMapControl1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
             this.powerMapControl1.Name = "powerMapControl1";
             this.powerMapControl1.PowerMeter = null;
             this.powerMapControl1.Rtc = null;
-            this.powerMapControl1.Size = new System.Drawing.Size(1375, 1091);
+            this.powerMapControl1.Size = new System.Drawing.Size(708, 678);
             this.powerMapControl1.TabIndex = 0;
             // 
             // logControl1
@@ -1239,7 +1264,7 @@
             this.logControl1.Location = new System.Drawing.Point(0, 0);
             this.logControl1.Margin = new System.Windows.Forms.Padding(0);
             this.logControl1.Name = "logControl1";
-            this.logControl1.Size = new System.Drawing.Size(1391, 269);
+            this.logControl1.Size = new System.Drawing.Size(724, 173);
             this.logControl1.TabIndex = 0;
             // 
             // tlcRight
@@ -1248,22 +1273,22 @@
             this.tlcRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlcRight.HotTrack = true;
             this.tlcRight.ImageList = this.imageList1;
-            this.tlcRight.ItemSize = new System.Drawing.Size(67, 38);
+            this.tlcRight.ItemSize = new System.Drawing.Size(67, 28);
             this.tlcRight.Location = new System.Drawing.Point(0, 0);
             this.tlcRight.Margin = new System.Windows.Forms.Padding(0);
             this.tlcRight.Name = "tlcRight";
             this.tlcRight.SelectedIndex = 0;
-            this.tlcRight.Size = new System.Drawing.Size(460, 1450);
+            this.tlcRight.Size = new System.Drawing.Size(240, 931);
             this.tlcRight.TabIndex = 1;
             // 
             // tabProperty
             // 
             this.tabProperty.Controls.Add(this.propertyGridControl1);
             this.tabProperty.ImageKey = "Property.png";
-            this.tabProperty.Location = new System.Drawing.Point(4, 42);
+            this.tabProperty.Location = new System.Drawing.Point(4, 32);
             this.tabProperty.Margin = new System.Windows.Forms.Padding(0);
             this.tabProperty.Name = "tabProperty";
-            this.tabProperty.Size = new System.Drawing.Size(452, 1404);
+            this.tabProperty.Size = new System.Drawing.Size(232, 895);
             this.tabProperty.TabIndex = 0;
             this.tabProperty.Text = " Property ";
             this.tabProperty.UseVisualStyleBackColor = true;
@@ -1279,25 +1304,25 @@
             this.propertyGridControl1.Marker = null;
             this.propertyGridControl1.Name = "propertyGridControl1";
             this.propertyGridControl1.SelecteObject = null;
-            this.propertyGridControl1.Size = new System.Drawing.Size(452, 1404);
+            this.propertyGridControl1.Size = new System.Drawing.Size(232, 895);
             this.propertyGridControl1.TabIndex = 1;
             this.propertyGridControl1.View = null;
             // 
             // SiriusMultiEditorControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer123);
-            this.Controls.Add(this.tlsTop1);
             this.Controls.Add(this.stsBottom);
-            this.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Controls.Add(this.tlsTop1);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "SiriusMultiEditorControl";
-            this.Size = new System.Drawing.Size(2303, 1530);
-            this.stsBottom.ResumeLayout(false);
-            this.stsBottom.PerformLayout();
+            this.Size = new System.Drawing.Size(1200, 1000);
             this.tlsTop1.ResumeLayout(false);
             this.tlsTop1.PerformLayout();
+            this.stsBottom.ResumeLayout(false);
+            this.stsBottom.PerformLayout();
             this.splitContainer123.Panel1.ResumeLayout(false);
             this.splitContainer123.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer123)).EndInit();
@@ -1313,9 +1338,9 @@
             this.tbcLeft.ResumeLayout(false);
             this.tabDocPage1.ResumeLayout(false);
             this.tabDocPage2.ResumeLayout(false);
+            this.tabDocPage3.ResumeLayout(false);
+            this.tabDocPage4.ResumeLayout(false);
             this.tabBlockPage.ResumeLayout(false);
-            this.tabWaferPage.ResumeLayout(false);
-            this.tabSubstratePage.ResumeLayout(false);
             this.tlcPen.ResumeLayout(false);
             this.tabEntityPen.ResumeLayout(false);
             this.tabLayerPen.ResumeLayout(false);
@@ -1349,19 +1374,6 @@
         }
 
         #endregion
-
-        private StatusStrip stsBottom;
-        private ToolStripStatusLabel lblName;
-        private ToolStripStatusLabel lblFileName;
-        private ToolStripStatusLabel toolStripStatusLabel1;
-        private ToolStripStatusLabel btnLogWindow;
-        private ToolStripStatusLabel lblEncoder;
-        private ToolStripStatusLabel lblReady;
-        private ToolStripStatusLabel toolStripStatusLabel7;
-        private ToolStripStatusLabel lblBusy;
-        private ToolStripStatusLabel toolStripStatusLabel9;
-        private ToolStripStatusLabel lblError;
-        private ToolStripStatusLabel toolStripStatusLabel8;
         private ToolStrip tlsTop1;
         private ToolStripButton btnNew;
         private ToolStripButton btnOpen;
@@ -1381,20 +1393,28 @@
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripButton btnSave;
         private ToolStripSeparator toolStripSeparator3;
+        private ImageList imageList1;
+        private ToolStripButton btnLock;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripSeparator toolStripSeparator6;
+        private ToolStripButton btnDevice1;
+        private ToolStripButton btnDevice0;
+        private ToolStripSeparator toolStripSeparator5;
+        private ToolStripButton btnDevice3;
+        private ToolStripButton btnDevice2;
+        private ToolStripButton toolStripButton1;
+        private StatusStrip stsBottom;
+        private ToolStripStatusLabel lblName;
+        private ToolStripStatusLabel lblFileName;
+        private ToolStripStatusLabel toolStripStatusLabel14;
+        private ToolStripStatusLabel btnLogWindow;
+        private ToolStripStatusLabel lblEncoder;
+        private ToolStripStatusLabel lblReady;
+        private ToolStripStatusLabel lblBusy;
+        private ToolStripStatusLabel lblError;
         private SplitContainer splitContainer123;
         private SplitContainer splitContainer12;
         private SplitContainer splitContainerLeft;
-        private TabControl tbcLeft;
-        private TabPage tabDocPage1;
-        private SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl treeViewPageControl1;
-        private TabPage tabDocPage2;
-        private SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl treeViewPageControl2;
-        private TabPage tabBlockPage;
-        private SpiralLab.Sirius3.UI.WinForms.TreeViewBlockControl treeViewBlockControl1;
-        private TabPage tabWaferPage;
-        private SpiralLab.Sirius3.UI.WinForms.TreeViewWaferControl treeViewWaferControl1;
-        private TabPage tabSubstratePage;
-        private SpiralLab.Sirius3.UI.WinForms.TreeViewSubstrateControl treeViewSubstrateControl1;
         private TabControl tlcPen;
         private TabPage tabEntityPen;
         private SpiralLab.Sirius3.UI.WinForms.EntityPenControl entityPenControl1;
@@ -1427,16 +1447,21 @@
         private TabControl tlcRight;
         private TabPage tabProperty;
         private SpiralLab.Sirius3.UI.WinForms.PropertyGridControl propertyGridControl1;
-        private ImageList imageList1;
-        private ToolStripButton btnLock;
-        private ToolStripSeparator toolStripSeparator1;
         private ToolStripStatusLabel toolStripStatusLabel2;
-        private ToolStripSeparator toolStripSeparator6;
-        private ToolStripButton btnDevice1;
-        private ToolStripButton btnDevice0;
-        private ToolStripSeparator toolStripSeparator5;
-        private ToolStripButton btnDevice3;
-        private ToolStripButton btnDevice2;
-        private ToolStripButton toolStripButton1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
+        private ToolStripStatusLabel toolStripStatusLabel5;
+        private ToolStripStatusLabel toolStripStatusLabel3;
+        private ToolStripStatusLabel toolStripStatusLabel4;
+        private TabControl tbcLeft;
+        private TabPage tabDocPage1;
+        private SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl treeViewPageControl1;
+        private TabPage tabDocPage2;
+        private SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl treeViewPageControl2;
+        private TabPage tabDocPage3;
+        private TabPage tabDocPage4;
+        private TabPage tabBlockPage;
+        private SpiralLab.Sirius3.UI.WinForms.TreeViewBlockControl treeViewBlockControl1;
+        private SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl treeViewPageControl3;
+        private SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl treeViewPageControl4;
     }
 }

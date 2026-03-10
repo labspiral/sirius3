@@ -100,7 +100,7 @@ namespace Demos
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(14, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(113, 25);
+            this.label1.Size = new System.Drawing.Size(73, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "MY Laser UI";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -120,7 +120,7 @@ namespace Demos
             this.label15.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.Location = new System.Drawing.Point(15, 59);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(114, 25);
+            this.label15.Size = new System.Drawing.Size(74, 15);
             this.label15.TabIndex = 433;
             this.label15.Text = "Information";
             // 
@@ -130,7 +130,7 @@ namespace Demos
             this.label4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(15, 213);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(75, 25);
+            this.label4.Size = new System.Drawing.Size(48, 15);
             this.label4.TabIndex = 422;
             this.label4.Text = "Control";
             // 
@@ -140,7 +140,7 @@ namespace Demos
             this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Outset;
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 221F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 353F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 355F));
             this.tableLayoutPanel3.Controls.Add(this.lblName, 1, 2);
             this.tableLayoutPanel3.Controls.Add(this.label12, 0, 2);
             this.tableLayoutPanel3.Controls.Add(this.lblMaxPower, 1, 1);
@@ -154,7 +154,7 @@ namespace Demos
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(580, 106);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(582, 106);
             this.tableLayoutPanel3.TabIndex = 481;
             // 
             // lblName
@@ -164,7 +164,7 @@ namespace Demos
             this.lblName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblName.Location = new System.Drawing.Point(228, 54);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(347, 24);
+            this.lblName.Size = new System.Drawing.Size(349, 24);
             this.lblName.TabIndex = 443;
             this.lblName.Text = "NoName";
             this.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -174,7 +174,7 @@ namespace Demos
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(5, 54);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(52, 21);
+            this.label12.Size = new System.Drawing.Size(36, 13);
             this.label12.TabIndex = 442;
             this.label12.Text = "Name";
             // 
@@ -184,7 +184,7 @@ namespace Demos
             this.lblMaxPower.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblMaxPower.Location = new System.Drawing.Point(228, 28);
             this.lblMaxPower.Name = "lblMaxPower";
-            this.lblMaxPower.Size = new System.Drawing.Size(347, 24);
+            this.lblMaxPower.Size = new System.Drawing.Size(349, 24);
             this.lblMaxPower.TabIndex = 441;
             this.lblMaxPower.Text = "0";
             this.lblMaxPower.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -194,7 +194,7 @@ namespace Demos
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(5, 28);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(115, 21);
+            this.label11.Size = new System.Drawing.Size(83, 13);
             this.label11.TabIndex = 440;
             this.label11.Text = "Max Power (W)";
             // 
@@ -204,7 +204,7 @@ namespace Demos
             this.lblIndex.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblIndex.Location = new System.Drawing.Point(228, 2);
             this.lblIndex.Name = "lblIndex";
-            this.lblIndex.Size = new System.Drawing.Size(347, 24);
+            this.lblIndex.Size = new System.Drawing.Size(349, 24);
             this.lblIndex.TabIndex = 439;
             this.lblIndex.Text = "0";
             this.lblIndex.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -214,7 +214,7 @@ namespace Demos
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(5, 2);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(47, 21);
+            this.label9.Size = new System.Drawing.Size(35, 13);
             this.label9.TabIndex = 431;
             this.label9.Text = "Index";
             // 
@@ -225,7 +225,7 @@ namespace Demos
             this.tableLayoutPanel6.ColumnCount = 3;
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 220F));
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 189F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 163F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 165F));
             this.tableLayoutPanel6.Controls.Add(this.txtFrequency, 1, 8);
             this.tableLayoutPanel6.Controls.Add(this.txtMaxCurrent, 2, 7);
             this.tableLayoutPanel6.Controls.Add(this.txtSetCurrent, 1, 7);
@@ -262,7 +262,7 @@ namespace Demos
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(580, 288);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(582, 288);
             this.tableLayoutPanel6.TabIndex = 482;
             // 
             // txtFrequency
@@ -273,7 +273,7 @@ namespace Demos
             this.txtFrequency.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtFrequency.Name = "txtFrequency";
             this.txtFrequency.ReadOnly = true;
-            this.txtFrequency.Size = new System.Drawing.Size(183, 29);
+            this.txtFrequency.Size = new System.Drawing.Size(183, 22);
             this.txtFrequency.TabIndex = 501;
             this.txtFrequency.Text = "100";
             this.txtFrequency.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -286,7 +286,7 @@ namespace Demos
             this.txtMaxCurrent.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtMaxCurrent.Name = "txtMaxCurrent";
             this.txtMaxCurrent.ReadOnly = true;
-            this.txtMaxCurrent.Size = new System.Drawing.Size(157, 29);
+            this.txtMaxCurrent.Size = new System.Drawing.Size(159, 22);
             this.txtMaxCurrent.TabIndex = 499;
             this.txtMaxCurrent.Text = "20";
             this.txtMaxCurrent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -299,7 +299,7 @@ namespace Demos
             this.txtSetCurrent.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSetCurrent.Name = "txtSetCurrent";
             this.txtSetCurrent.ReadOnly = true;
-            this.txtSetCurrent.Size = new System.Drawing.Size(183, 29);
+            this.txtSetCurrent.Size = new System.Drawing.Size(183, 22);
             this.txtSetCurrent.TabIndex = 497;
             this.txtSetCurrent.Text = "20";
             this.txtSetCurrent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -310,7 +310,7 @@ namespace Demos
             this.lblTHGActualTemp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblTHGActualTemp.Location = new System.Drawing.Point(418, 158);
             this.lblTHGActualTemp.Name = "lblTHGActualTemp";
-            this.lblTHGActualTemp.Size = new System.Drawing.Size(157, 24);
+            this.lblTHGActualTemp.Size = new System.Drawing.Size(159, 24);
             this.lblTHGActualTemp.TabIndex = 495;
             this.lblTHGActualTemp.Text = "0";
             this.lblTHGActualTemp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -321,7 +321,7 @@ namespace Demos
             this.lblSHGActualTemp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblSHGActualTemp.Location = new System.Drawing.Point(418, 132);
             this.lblSHGActualTemp.Name = "lblSHGActualTemp";
-            this.lblSHGActualTemp.Size = new System.Drawing.Size(157, 24);
+            this.lblSHGActualTemp.Size = new System.Drawing.Size(159, 24);
             this.lblSHGActualTemp.TabIndex = 494;
             this.lblSHGActualTemp.Text = "0";
             this.lblSHGActualTemp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -342,7 +342,7 @@ namespace Demos
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(5, 2);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(93, 21);
+            this.label3.Size = new System.Drawing.Size(68, 13);
             this.label3.TabIndex = 422;
             this.label3.Text = "Laser Status";
             // 
@@ -351,7 +351,7 @@ namespace Demos
             this.label40.AutoSize = true;
             this.label40.Location = new System.Drawing.Point(5, 28);
             this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(134, 21);
+            this.label40.Size = new System.Drawing.Size(97, 13);
             this.label40.TabIndex = 473;
             this.label40.Text = "Actual Current (A)";
             // 
@@ -371,7 +371,7 @@ namespace Demos
             this.label44.AutoSize = true;
             this.label44.Location = new System.Drawing.Point(5, 106);
             this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(75, 21);
+            this.label44.Size = new System.Drawing.Size(54, 13);
             this.label44.TabIndex = 480;
             this.label44.Text = "Diode (V)";
             // 
@@ -391,7 +391,7 @@ namespace Demos
             this.label51.AutoSize = true;
             this.label51.Location = new System.Drawing.Point(5, 132);
             this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(195, 21);
+            this.label51.Size = new System.Drawing.Size(139, 13);
             this.label51.TabIndex = 478;
             this.label51.Text = "SHG Set / Actual Temp (°C)";
             // 
@@ -411,7 +411,7 @@ namespace Demos
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(5, 54);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(164, 21);
+            this.label2.Size = new System.Drawing.Size(121, 13);
             this.label2.TabIndex = 482;
             this.label2.Text = "Power Monitoring (W)";
             // 
@@ -431,7 +431,7 @@ namespace Demos
             this.label53.AutoSize = true;
             this.label53.Location = new System.Drawing.Point(5, 158);
             this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(194, 21);
+            this.label53.Size = new System.Drawing.Size(138, 13);
             this.label53.TabIndex = 484;
             this.label53.Text = "THG Set / Actual Temp (°C)";
             // 
@@ -451,7 +451,7 @@ namespace Demos
             this.label36.AutoSize = true;
             this.label36.Location = new System.Drawing.Point(5, 80);
             this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(78, 21);
+            this.label36.Size = new System.Drawing.Size(54, 13);
             this.label36.TabIndex = 486;
             this.label36.Text = "LDD (Hrs)";
             // 
@@ -471,7 +471,7 @@ namespace Demos
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(5, 184);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(113, 21);
+            this.label6.Size = new System.Drawing.Size(81, 13);
             this.label6.TabIndex = 496;
             this.label6.Text = "Set Current (A)";
             // 
@@ -480,7 +480,7 @@ namespace Demos
             this.label38.AutoSize = true;
             this.label38.Location = new System.Drawing.Point(5, 210);
             this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(120, 21);
+            this.label38.Size = new System.Drawing.Size(86, 13);
             this.label38.TabIndex = 498;
             this.label38.Text = "Max Current (A)";
             // 
@@ -489,7 +489,7 @@ namespace Demos
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(5, 236);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(123, 21);
+            this.label7.Size = new System.Drawing.Size(88, 13);
             this.label7.TabIndex = 500;
             this.label7.Text = "Frequency (KHz)";
             // 
@@ -661,7 +661,7 @@ namespace Demos
             // 
             // LaserUIControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
@@ -684,7 +684,7 @@ namespace Demos
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.panel2);
-            this.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "LaserUIControl";
             this.Size = new System.Drawing.Size(800, 962);

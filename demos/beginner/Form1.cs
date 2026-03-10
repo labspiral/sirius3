@@ -19,6 +19,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 
 #if OPENTK3
 using OpenTK;
@@ -49,7 +51,22 @@ namespace Demos
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            string locale = "en-US";
+            //string locale = "ko-KR";
+            //string locale = "zh-CN";
+            //string locale = "ja-JP";
+            //string locale = "de-DE";
+            var cultureInfo = new CultureInfo(locale);
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
+            Thread.CurrentThread.CurrentUICulture = cultureInfo;
+
+            // Initialize SIRIUS3 library
+            SpiralLab.Sirius3.Core.Initialize();
+
+            // Create devices
             CreateDevices();
+
+            // Create entities for test
             CreateEntities();
         }
         private void Form1_Disposed(object sender, EventArgs e)
@@ -64,6 +81,9 @@ namespace Demos
             siriusEditorControl1.PowerMeter?.Dispose();
             siriusEditorControl1.Laser?.Dispose();
             siriusEditorControl1.Scanner?.Dispose();
+
+            // Clean up SIRIUS3 library
+            SpiralLab.Sirius3.Core.Cleanup();
         }
 
         void CreateDevices()
@@ -104,22 +124,22 @@ namespace Demos
             // DIOs at RTC card 
 
             // D/O 16bit at extension1 port 
-            //var dIExt1 = IOFactory.CreateInputExtension1(rtc);
-            //success &= dIExt1.Initialize();
-            //Debug.Assert(success);
-            //siriusEditorControl1.DIExt1 = dIExt1;
+            var dIExt1 = IOFactory.CreateInputExtension1(rtc);
+            success &= dIExt1.Initialize();
+            Debug.Assert(success);
+            siriusEditorControl1.DIExt1 = dIExt1;
 
             // D/I 16bit at extension1 port 
-            //var dOExt1 = IOFactory.CreateOutputExtension1(rtc);
-            //success &= dOExt1.Initialize();
-            //Debug.Assert(success);
-            //siriusEditorControl1.DOExt1 = dOExt1;
+            var dOExt1 = IOFactory.CreateOutputExtension1(rtc);
+            success &= dOExt1.Initialize();
+            Debug.Assert(success);
+            siriusEditorControl1.DOExt1 = dOExt1;
 
             // D/O 8bit at extension1 port 
-            //var dOExt2 = IOFactory.CreateOutputExtension2(rtc);
-            //success &= dOExt2.Initialize();
-            //Debug.Assert(success);
-            //siriusEditorControl1.DOExt2 = dOExt2;
+            var dOExt2 = IOFactory.CreateOutputExtension2(rtc);
+            success &= dOExt2.Initialize();
+            Debug.Assert(success);
+            siriusEditorControl1.DOExt2 = dOExt2;
 
             // D/O 2bit at laser port 
             //var dILaserPort = IOFactory.CreateInputLaserPort(rtc);
@@ -133,16 +153,15 @@ namespace Demos
             //Debug.Assert(success);
             //siriusEditorControl1.DOLaserPort = dOLaserPort;
 
-
             // powermeter device
-            //var powerMeter = PowerMeterFactory.CreateVirtual(index, laserMaxPower); // create virtual powermeter instance for test purpose
+            var powerMeter = PowerMeterFactory.CreateVirtual(index, laserMaxPower); // create virtual powermeter instance for test purpose
             //var powerMeter = PowerMeterFactory.CreateCoherentPowerMax(index, COMPORT);
             //var powerMeter = PowerMeterFactory.CreateOphirPhotonics(index, SERIALNO);
             //var powerMeter = PowerMeterFactory.CreateGentecEO(index, COMPORT);
-            //success &= powerMeter.Initialize();
-            //Debug.Assert(success);
-            //siriusEditorControl1.PowerMeter = powerMeter;
-
+            powerMeter.Laser = laser;
+            success &= powerMeter.Initialize();
+            Debug.Assert(success);
+            siriusEditorControl1.PowerMeter = powerMeter;
 
             // marker
             var marker = MarkerFactory.CreateRtc(index); // create marker instance 

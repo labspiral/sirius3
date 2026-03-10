@@ -1,5 +1,22 @@
 ﻿# Sirius3 버전 이력
 
+## v1.4.1 (2026.3.10)
+- added) 웹 서버를 통한 문서화 제공
+    - 온라인 웹사이트: https://spirallab.co.kr/sirius3/doc 사용 가능
+    - sirius3\doc\sirius3_doc_버전.zip 압축을 풀고 'start_doc.bat' 배치파일 실행으로도 사용가능
+- added) 마우스를 이용한 값 편집
+    - PropertyGrid 마우스 오른쪽 버튼를 누른채 좌우로 드래그 이동시 값 증가, 감소 지원
+- fixed) Rtc6
+    - ListLaserOn 사용시 외부 레이저 소스의 SYNC OUT 을 입력해 펄스 개수 카운트시 대기시간이 10배로 잘못 처리되는 버그
+- fixed) ListLaserOn(msec)
+    - 시간 종료후 레이저 오프(Laser Off Delay) 시간 자동 삽입하도록 개선
+- fixed) IRtcJumpMode 인터페이스 일부 변경
+- fixed) EntityPen
+    - Power, PowerPercentage,PowerMapCategory 값이 보이지 않는 문제
+- fixed) SiriusEditorControl
+    - 4 개의 페이지(Page)를 모두 기본적으로 사용 가능함
+    - WaferMap 및 Substratemap 는 비활성화
+
 ## v1.4.0 (2026.3.3)
 - added) .net9.0-windows, .net10.0-windows 개발환경 추가
 - added) 외부 레이저 소스의 동기 신호에 의한 펄스 개수 출력

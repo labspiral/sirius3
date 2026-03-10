@@ -1,5 +1,19 @@
 ﻿# Sirius3 version history
 
+## v1.4.1 (2026.3.10)
+- added) documentation provided via web server
+    - online website: https://spirallab.co.kr/sirius3/doc available
+    - alternatively, extract the sirius3\doc\sirius3_doc_{version}.zip archive and run the 'start_doc.bat' batch file
+- added) Value editing using the mouse
+    - Supports increasing or decreasing values by dragging left or right while holding down the right mouse button in the PropertyGrid
+- fixed) Rtc6
+    - When using ListLaserOn, the SYNC OUT from an external laser source is input to count pulses, but the wait time is processed as 10 times longer.
+- fixed) EntityPen
+    - Issue where Power, PowerPercentage, and PowerMapCategory values were not visible
+- fixed) SiriusEditorControl
+    - All 4 pages are usable by default
+    - WaferMap and Substratemap are deactivated
+    
 ## v1.4.0 (2026.3.3)
 - added) .NET 9.0-Windows, .NET 10.0-Windows development environments
 - added) Pulse count output via synchronisation signal from external laser source
