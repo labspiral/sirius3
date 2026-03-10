@@ -346,6 +346,7 @@ namespace Demos
             var rtcWobbel = rtc as IRtcWobbel;
             var rtcSCANAhead = rtc as IRtcSCANAhead;
             var rtcSyncAxis = rtc as IRtcSyncAxis;
+            var rtcAlc = rtc as IRtcAutoLaserControl;
 
             bool success = true;
             if (null != laser)
@@ -387,20 +388,23 @@ namespace Demos
                 {
                     success &= rtcSCANAhead.ListDelaySCANAhead(pen.LaserOnShiftSCANa, pen.LaserOffShiftSCANa);
                     success &= rtcSCANAhead.ListLineParams(pen.CornerScaleSCANa, pen.EndScaleSCANa, pen.AccScaleSCANa);
+                    if (null != rtcAlc)
+                        success &= rtcAlc.ListSpotDistance(pen.SpotDistanceSCANa);
                 }
             }
 
             // Convert jump to hard jump
             // Above rtc5+ only
-            if (pen.IsHardJump)
+            if (rtc is IRtcJumpMode rtcJumpMode)
             {
-                Config.IsConvertJumpToHardJump = true;
-                Config.HardJumpLaserOnDelay = pen.LaserOnDelay;
-                Config.HardJumpLaserOffDelay = pen.LaserOffDelay;
-                Config.HardJumpScannerJumpDelay = pen.ScannerJumpDelay;
+                if (pen.IsHardJump)
+                {
+                    rtcJumpMode.IsConvertJumpToHardJump = true;
+                    rtcJumpMode.HardJumpScannerJumpDelay = pen.ScannerJumpDelay;
+                }
+                else
+                    rtcJumpMode.IsConvertJumpToHardJump = false;
             }
-            else
-                Config.IsConvertJumpToHardJump = false;
 
             success &= rtc.ListSpeed(pen.JumpSpeed, pen.MarkSpeed);
 
