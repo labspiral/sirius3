@@ -930,7 +930,8 @@ namespace Demos
             this.DOExt2 = dOExt2s[CurrentDeviceIndex];
             this.DOLaserPort = dOLaserPorts[CurrentDeviceIndex];
 
-            this.Marker?.Ready(Document, View, Scanner as IRtc, Laser, PowerMeter);
+            if (null != this.Marker && !this.Marker.IsBusy)
+                this.Marker?.Ready(Document, View, Scanner as IRtc, Laser, PowerMeter);
 
             OnAfterChangeDevice?.Invoke(this);
             return true;
