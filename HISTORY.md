@@ -1,6 +1,6 @@
 ﻿# Sirius3 version history
 
-## v1.5.0 (2026.3.26)
+## v1.5.1 (2026.3.26)
 - added) Stepper motor control support
     - added controlling external stepper motors via the stepper port on the RTC5, RTC6
     - added the IRtcStepper interface
@@ -30,6 +30,7 @@
 - fixed) SiriusEditorControl
     - import external .sirius3 files and add(or merge) them as layers to the current document
     - layer pen color use on the layer node is displayed in the tree view
+- added) paste array at editorcontrol
 
 ## v1.4.1 (2026.3.10)
 - added) documentation provided via web server
