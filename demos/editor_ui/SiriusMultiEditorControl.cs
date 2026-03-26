@@ -1,4 +1,27 @@
-﻿using System;
+﻿/*
+ * 
+ *                                                            ,--,      ,--,                              
+ *             ,-.----.                                     ,---.'|   ,---.'|                              
+ *   .--.--.   \    /  \     ,---,,-.----.      ,---,       |   | :   |   | :      ,---,           ,---,.  
+ *  /  /    '. |   :    \ ,`--.' |\    /  \    '  .' \      :   : |   :   : |     '  .' \        ,'  .'  \ 
+ * |  :  /`. / |   |  .\ :|   :  :;   :    \  /  ;    '.    |   ' :   |   ' :    /  ;    '.    ,---.' .' | 
+ * ;  |  |--`  .   :  |: |:   |  '|   | .\ : :  :       \   ;   ; '   ;   ; '   :  :       \   |   |  |: | 
+ * |  :  ;_    |   |   \ :|   :  |.   : |: | :  |   /\   \  '   | |__ '   | |__ :  |   /\   \  :   :  :  / 
+ *  \  \    `. |   : .   /'   '  ;|   |  \ : |  :  ' ;.   : |   | :.'||   | :.'||  :  ' ;.   : :   |    ;  
+ *   `----.   \;   | |`-' |   |  ||   : .  / |  |  ;/  \   \'   :    ;'   :    ;|  |  ;/  \   \|   :     \ 
+ *   __ \  \  ||   | ;    '   :  ;;   | |  \ '  :  | \  \ ,'|   |  ./ |   |  ./ '  :  | \  \ ,'|   |   . | 
+ *  /  /`--'  /:   ' |    |   |  '|   | ;\  \|  |  '  '--'  ;   : ;   ;   : ;   |  |  '  '--'  '   :  '; | 
+ * '--'.     / :   : :    '   :  |:   ' | \.'|  :  :        |   ,/    |   ,/    |  :  :        |   |  | ;  
+ *   `--'---'  |   | :    ;   |.' :   : :-'  |  | ,'        '---'     '---'     |  | ,'        |   :   /   
+ *             `---'.|    '---'   |   |.'    `--''                              `--''          |   | ,'    
+ *               `---`            `---'                                                        `----'   
+ * 
+ * 2026 Copyright to (c)SpiralLAB. All rights reserved.
+ * Description : SiriusMultiEditorControl
+ * Author : hong chan, choi / hcchoi@spirallab.co.kr (http://spirallab.co.kr)
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -57,6 +80,9 @@ namespace Demos
     /// 要使用此控件，请设置 <see cref="MaxDeviceCounts"/>（1 到 4）并使用 <see cref="RegisterDevices"/> 在特定索引处注册设备。 
     /// 您可以通过设置 <see cref="CurrentDeviceIndex"/>（0 到 <see cref="MaxDeviceCounts"/> - 1）来切换活动设备集。</para>
     /// </summary>
+    /// <remarks>
+    /// <img src="~/images/siriusmultieditorcontrol.png"/><br/>
+    /// </remarks>
     public partial class SiriusMultiEditorControl : UserControl
     {
         #region Events
@@ -132,10 +158,10 @@ namespace Demos
                 maxDeviceCounts = value;
 
                 // Update UI
-                btnDevice0.Enabled = maxDeviceCounts >= 1;
-                btnDevice1.Enabled = maxDeviceCounts >= 2;
-                btnDevice2.Enabled = maxDeviceCounts >= 3;
-                btnDevice3.Enabled = maxDeviceCounts >= 4;
+                rdDevice0.Enabled = maxDeviceCounts >= 1;
+                rdDevice1.Enabled = maxDeviceCounts >= 2;
+                rdDevice2.Enabled = maxDeviceCounts >= 3;
+                rdDevice3.Enabled = maxDeviceCounts >= 4;
 
                 if (CurrentDeviceIndex >= maxDeviceCounts)
                     SwitchDevices(0); //reset to 0
@@ -258,6 +284,7 @@ namespace Demos
             private set
             {
 
+                Document?.ActSimulateStop(false);
                 if (scanners[CurrentDeviceIndex] is IRtcMoF oldMof)
                     oldMof.OnEncoderChanged -= MoF_OnEncoderChanged;
 
@@ -267,11 +294,13 @@ namespace Demos
                     lasers[CurrentDeviceIndex].Scanner = scanners[CurrentDeviceIndex];
 
                 ScannerCtrl.Scanner = scanners[CurrentDeviceIndex];
+                LaserCtrl.Scanner = scanners[CurrentDeviceIndex];
                 var rtc = value as IRtc;
                 MarkerCtrl.Rtc = rtc;
                 ManualCtrl.Rtc = rtc;
                 EditorCtrl.Rtc = rtc;
                 PowerMapCtrl.Rtc = rtc;
+                StepperCtrl.RtcStepper = rtc as IRtcStepper;
 
                 if (scanners[CurrentDeviceIndex] != null)
                 {
@@ -310,10 +339,12 @@ namespace Demos
             get => lasers[CurrentDeviceIndex];
             private set
             {
+                Document?.ActSimulateStop(false);
                 if (lasers[CurrentDeviceIndex] != null)
                 {
                     lasers[CurrentDeviceIndex].Scanner = scanners[CurrentDeviceIndex];
                     UpdatePens();
+                    UpdateLaser();
                     PropertyVisibility();
                 }
 
@@ -343,10 +374,10 @@ namespace Demos
             get => markers[CurrentDeviceIndex];
             private set
             {
-
+                Document?.ActSimulateStop(false);
                 if (markers[CurrentDeviceIndex] != null)
                 {
-
+                
                 }
 
                 markers[CurrentDeviceIndex] = value;
@@ -354,7 +385,6 @@ namespace Demos
                 MarkerCtrl.Marker = markers[CurrentDeviceIndex];
                 ManualCtrl.Marker = markers[CurrentDeviceIndex];
                 RtcDOCtrl.Marker = markers[CurrentDeviceIndex];
-                OffsetCtrl.Marker = markers[CurrentDeviceIndex];
                 EditorCtrl.Marker = markers[CurrentDeviceIndex];
                 PropertyGridCtrl.Marker = markers[CurrentDeviceIndex];
 
@@ -387,7 +417,7 @@ namespace Demos
             {
                 if (powerMeters[CurrentDeviceIndex] != null)
                 {
-
+                  
                 }
 
                 powerMeters[CurrentDeviceIndex] = value;
@@ -395,10 +425,11 @@ namespace Demos
                 PowerMeterCtrl.PowerMeter = powerMeters[CurrentDeviceIndex];
                 PowerMapCtrl.PowerMeter = powerMeters[CurrentDeviceIndex];
                 MarkerCtrl.PowerMeter = powerMeters[CurrentDeviceIndex];
+                UpdateLaser();
 
                 if (powerMeters[CurrentDeviceIndex] != null)
                 {
-
+                  
                 }
             }
         }
@@ -628,18 +659,6 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.MarkerControl MarkerCtrl => markerControl1;
 
         /// <summary>
-        /// Gets the offset control wrapper.
-        /// <para>오프셋 컨트롤 래퍼를 가져옵니다.</para>
-        /// <para>获取偏移控制器包装器。</para>
-        /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("OffsetControl")]
-        [Description("Offset UserControl")]
-        public SpiralLab.Sirius3.UI.WinForms.OffsetControl OffsetCtrl => offsetControl1;
-
-        /// <summary>
         /// Gets the RTC DI control wrapper.
         /// <para>RTC DI 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取 RTC DI 控制器包装器。</para>
@@ -649,7 +668,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("RtcDIControl")]
         [Description("RtcDI UserControl")]
-        public SpiralLab.Sirius3.UI.WinForms.RtcDIControl RtcDICtrl => rtcDIControl1;
+        public SpiralLab.Sirius3.UI.WinForms.DIRtcControl RtcDICtrl => rtcDIControl1;
 
         /// <summary>
         /// Gets the RTC DO control wrapper.
@@ -661,7 +680,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("RtcDOControl")]
         [Description("RtcDO UserControl")]
-        public SpiralLab.Sirius3.UI.WinForms.RtcDOControl RtcDOCtrl => rtcDOControl1;
+        public SpiralLab.Sirius3.UI.WinForms.DORtcControl RtcDOCtrl => rtcDOControl1;
 
         /// <summary>
         /// Gets the manual control wrapper.
@@ -698,6 +717,17 @@ namespace Demos
         [DisplayName("PowerMapControl")]
         [Description("PowerMap UserControl")]
         public SpiralLab.Sirius3.UI.WinForms.PowerMapControl PowerMapCtrl => powerMapControl1;
+
+        /// <summary>
+        /// Gets the stepper control wrapper.
+        /// <para>스태퍼 컨트롤 래퍼를 가져옵니다.</para>
+        /// </summary>
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Category("Sirius3")]
+        [DisplayName("StepperControl")]
+        [Description("Stepper UserControl")]
+        public SpiralLab.Sirius3.UI.WinForms.StepperControl StepperCtrl => stepperControl1;
 
         /// <summary>
         /// Gets the entity pen control wrapper.
@@ -769,10 +799,14 @@ namespace Demos
             btnSave.Click += BtnSave_Click;
             btnLock.Click += BtnLock_Click;
 
-            btnDevice0.Click += BtnDevice_Click;
-            btnDevice1.Click += BtnDevice_Click;
-            btnDevice2.Click += BtnDevice_Click;
-            btnDevice3.Click += BtnDevice_Click;
+            rdDevice0.Tag = "0";
+            rdDevice0.CheckedChanged += RdDevice_CheckedChanged;
+            rdDevice1.Tag = "1";
+            rdDevice1.CheckedChanged += RdDevice_CheckedChanged;
+            rdDevice2.Tag = "2";
+            rdDevice2.CheckedChanged += RdDevice_CheckedChanged;
+            rdDevice3.Tag = "3";
+            rdDevice3.CheckedChanged += RdDevice_CheckedChanged;
 
             // Hide log window by default
             splitContainer2.Panel2Collapsed = true;
@@ -785,6 +819,7 @@ namespace Demos
 
             Document = new DocumentBase();
         }
+      
 
         /// <summary>
         /// Registers devices for the specified device index.
@@ -823,6 +858,7 @@ namespace Demos
         /// </summary>
         public void DisposeDevices()
         {
+            Document?.ActSimulateStop(false);
             //this.Marker?.Stop();
             //this.Marker = null;
             //this.PowerMeter = null;
@@ -867,25 +903,19 @@ namespace Demos
             OnBeforeChangeDevice?.Invoke(this);
 
             CurrentDeviceIndex = index;
-            var buttons = new ToolStripButton[] { btnDevice0, btnDevice1, btnDevice2, btnDevice3 };
-            for (int i = 0; i < buttons.Length; i++)
+            var rdButton = new RadioButton[] { rdDevice0, rdDevice1, rdDevice2, rdDevice3 };
+            for (int i = 0; i < rdButton.Length; i++)
             {
-                if (null == buttons[i]) continue;
+                if (null == rdButton[i]) continue;
                 if (i == CurrentDeviceIndex)
                 {
-                    buttons[i].Checked = true;
-                    buttons[i].Text = $"Device {i + 1}";
-                    buttons[i].DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
-                    //buttons[i].BackColor = Color.Orange;
-                    //buttons[i].ForeColor = Color.Black;
+                    rdButton[i].Checked = true;
+                    rdButton[i].Text = $"Device {i + 1}";
+                    
                 }
                 else
                 {
-                    buttons[i].Checked = false;
-                    buttons[i].Text = ""; // $"{i + 1}";
-                    buttons[i].DisplayStyle = ToolStripItemDisplayStyle.Image;
-                    //buttons[i].BackColor = Color.Empty;
-                    //buttons[i].ForeColor = Color.Empty;
+                    rdButton[i].Text = ""; // $"{i + 1}";
                 }
             }
 
@@ -907,15 +937,16 @@ namespace Demos
         }
 
         /// <summary>
-        /// Handles the device button click event.
-        /// <para>장치 버튼 클릭 이벤트를 처리합니다.</para>
-        /// <para>处理设备按钮单击事件。</para>
+        /// Handles the device radio button checked changed event.
+        /// <para>장치 라디오 버튼 변경 이벤트를 처리합니다.</para>
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
-        private void BtnDevice_Click(object sender, EventArgs e)
+        private void RdDevice_CheckedChanged(object sender, EventArgs e)
         {
-            var btn = sender as ToolStripButton;
+            var btn = sender as RadioButton;
+            if (null == btn) return;
+            if (!btn.Checked) return;
             if (int.TryParse((string)btn.Tag, out int index))
             {
                 SwitchDevices(index);
@@ -1138,7 +1169,7 @@ namespace Demos
         {
             if (!IsHandleCreated || IsDisposed) return;
 
-            switch (_marker.Index)
+            switch(_marker.Index)
             {
                 case 0:
                 case 1:
@@ -1213,7 +1244,7 @@ namespace Demos
                         }));
                         break;
 
-                    case RtcMoFModes.Angular:
+                    case RtcMoFModes.Rotary:
                         stsBottom.Invoke(new MethodInvoker(() =>
                         {
                             lblEncoder.Text = string.Format("ENC: {0:F3}° ({1})", encXmmOrAngle, encX);
@@ -1263,7 +1294,7 @@ namespace Demos
 
             Invoke(new MethodInvoker(() =>
             {
-                btnNew.Enabled = isEnable;
+                btnNew.Enabled= isEnable;
                 //btnOpen.Enabled = isEnable;
                 ddbOpenNewOptions.Enabled = isEnable;
                 btnSave.Enabled = isEnable;
@@ -1280,14 +1311,13 @@ namespace Demos
                 BlockCtrl.Enabled = isEnable;
                 //WaferCtrl.Enabled = isEnable;
                 //SubstrateCtrl.Enabled = isEnable;
-
+                
 
 #if DEBUG
                 // Keep enables for debugging
 
 #else
                 ManualCtrl.Enabled = isEnable;
-                OffsetCtrl.Enabled = isEnable;
                 ScannerCtrl.Enabled = isEnable;
                 LaserCtrl.Enabled = isEnable;
                 PowerMeterCtrl.Enabled = isEnable;
@@ -1307,7 +1337,7 @@ namespace Demos
         /// </summary>
         private void UpdatePens()
         {
-            if (null != document)
+            if (null != document )
             {
                 foreach (var child in document.DocumentData.EntityPens.Children)
                 {
@@ -1322,6 +1352,54 @@ namespace Demos
                 }
             }
         }
+        /// <summary>
+        /// Update laser information 
+        /// </summary>
+        private void UpdateLaser()
+        {
+            if (powerMeters[CurrentDeviceIndex] != null)
+            {
+                if (powerMeters[CurrentDeviceIndex] is PowerMeterVirtual powerMeterVirtual)
+                {
+                    powerMeterVirtual.Laser = lasers[CurrentDeviceIndex];
+                }
+            }
+        }
+        /// <summary>
+        /// Show(or hide) <see cref="LogCtrl"/> window  at bottom
+        /// </summary>
+        /// <param name="show"><c>True</c>: Show<br/>
+        /// <c>False</c>: Hide (Default)
+        /// </param>
+        public void ShowLogWindow(bool show)
+        {
+            splitContainer2.Panel2Collapsed = !show;
+
+        }
+
+      
+        /// <summary>
+        /// Show(or hide) <c>TreeView</c>, <see cref="EntityPenControl"/> and <see cref="LayerPenControl"/> windows at left side
+        /// </summary>
+        /// <param name="show"><c>True</c>: Show  (Default)<br/>
+        /// <c>False</c>: Hide 
+        /// </param>
+        public void ShowTreeViewAndPens(bool show)
+        {
+            splitContainer12.Panel1Collapsed = !show;
+        }
+
+        /// <summary>
+        /// Show(or hide) <see cref="PropertyGridControl"/> window at right side
+        /// </summary>
+        /// <param name="show"><c>True</c>: Show  (Default)<br/>
+        /// <c>False</c>: Hide
+        /// </param>
+        public void ShowPropertyWindow(bool show)
+        {
+            splitContainer123.Panel2Collapsed = !show;
+        }
+
         #endregion
 
         #region Left Tab / File Buttons
@@ -1365,21 +1443,21 @@ namespace Demos
                     editorControl1.Document.ActRegen();
                     editorControl1.View.Camera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
                     break;
-                case 5:
+                case 4:
                     Document.Page = DocumentPages.Block;
                     editorControl1.Document.ActRegen();
                     editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Blocks.Children.ToArray());
                     break;
-                    //case :
-                    //    Document.Page = DocumentPages.Wafer;
-                    //    editorControl1.Document.ActRegen();
-                    //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Wafers.Children.ToArray());
-                    //    break;
-                    //case :
-                    //    Document.Page = DocumentPages.Substrate;
-                    //    editorControl1.Document.ActRegen();
-                    //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Substrates.Children.ToArray());
-                    //    break;
+                //case :
+                //    Document.Page = DocumentPages.Wafer;
+                //    editorControl1.Document.ActRegen();
+                //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Wafers.Children.ToArray());
+                //    break;
+                //case :
+                //    Document.Page = DocumentPages.Substrate;
+                //    editorControl1.Document.ActRegen();
+                //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Substrates.Children.ToArray());
+                //    break;
             }
 
             editorControl1.View.DoRender();

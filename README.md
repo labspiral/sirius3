@@ -15,7 +15,8 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - Log scanner trajectory and output signals with plotted graphs
 - Powerful Marking Options
    - Variable Polygon(Jump) Delay 
-   - MoF (Marking on the Fly), 2nd head, 3D
+   - 2nd head, 3D
+   - MoF (Marking on the Fly) and MoF Extension(aka. Fly extension)
    - Sky Writing Mode 1/2/3 or 4
    - Auto Delays by SCANAhead
    - MultiBeam (1 Laser source + 2 AOM + 2 ScanHead)
@@ -51,7 +52,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 ## Major Changes
 |                              |                SIRIUS3                   |              SIRIUS2                  |
 |:-----------------------------|:-----------------------------------------|:--------------------------------------|
-| Multiple page                |4 Pages                                   |1 Page(Single)                         |
+| Multiple page                |4 Pages                                   |No Page / Single Document              |
 | Camera                       |6 Built-in Cameras                        |Perspective                            |
 | Render speed                 |Fastest by updated shader engine          |Faster                                 |
 | Render mode                  |Model, PerVertex, Normal, ZDepth          |None                                   |

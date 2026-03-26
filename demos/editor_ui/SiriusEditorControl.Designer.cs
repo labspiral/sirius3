@@ -93,8 +93,6 @@
             this.tbcMain = new System.Windows.Forms.TabControl();
             this.tabEditor = new System.Windows.Forms.TabPage();
             this.tabMarker = new System.Windows.Forms.TabPage();
-            this.splitContainer10 = new System.Windows.Forms.SplitContainer();
-            this.offsetControl1 = new SpiralLab.Sirius3.UI.WinForms.OffsetControl();
             this.markerControl1 = new SpiralLab.Sirius3.UI.WinForms.MarkerControl();
             this.tabManual = new System.Windows.Forms.TabPage();
             this.manualControl1 = new SpiralLab.Sirius3.UI.WinForms.ManualControl();
@@ -104,14 +102,16 @@
             this.laserControl1 = new SpiralLab.Sirius3.UI.WinForms.LaserControl();
             this.tabDIO = new System.Windows.Forms.TabPage();
             this.splitContainer9 = new System.Windows.Forms.SplitContainer();
-            this.rtcDIControl1 = new SpiralLab.Sirius3.UI.WinForms.RtcDIControl();
-            this.rtcDOControl1 = new SpiralLab.Sirius3.UI.WinForms.RtcDOControl();
+            this.rtcDIControl1 = new SpiralLab.Sirius3.UI.WinForms.DIRtcControl();
+            this.rtcDOControl1 = new SpiralLab.Sirius3.UI.WinForms.DORtcControl();
             this.tabPower = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage18 = new System.Windows.Forms.TabPage();
             this.powerMeterControl1 = new SpiralLab.Sirius3.UI.WinForms.PowerMeterControl();
             this.tabPage19 = new System.Windows.Forms.TabPage();
             this.powerMapControl1 = new SpiralLab.Sirius3.UI.WinForms.PowerMapControl();
+            this.tabStepper = new System.Windows.Forms.TabPage();
+            this.stepperControl1 = new SpiralLab.Sirius3.UI.WinForms.StepperControl();
             this.logControl1 = new SpiralLab.Sirius3.UI.WinForms.LogControl();
             this.tlcRight = new System.Windows.Forms.TabControl();
             this.tabProperty = new System.Windows.Forms.TabPage();
@@ -145,10 +145,6 @@
             this.splitContainer2.SuspendLayout();
             this.tbcMain.SuspendLayout();
             this.tabMarker.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).BeginInit();
-            this.splitContainer10.Panel1.SuspendLayout();
-            this.splitContainer10.Panel2.SuspendLayout();
-            this.splitContainer10.SuspendLayout();
             this.tabManual.SuspendLayout();
             this.tabScanner.SuspendLayout();
             this.tabLaser.SuspendLayout();
@@ -161,6 +157,7 @@
             this.tabControl2.SuspendLayout();
             this.tabPage18.SuspendLayout();
             this.tabPage19.SuspendLayout();
+            this.tabStepper.SuspendLayout();
             this.tlcRight.SuspendLayout();
             this.tabProperty.SuspendLayout();
             this.SuspendLayout();
@@ -369,7 +366,7 @@
             // 
             this.toolStripSeparator3.AutoSize = false;
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(12, 32);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(16, 32);
             // 
             // btnLock
             // 
@@ -385,8 +382,9 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator1.AutoSize = false;
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 32);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(16, 32);
             // 
             // imageList1
             // 
@@ -446,6 +444,11 @@
             this.imageList1.Images.SetKeyName(51, "m2.png");
             this.imageList1.Images.SetKeyName(52, "m3.png");
             this.imageList1.Images.SetKeyName(53, "m4.png");
+            this.imageList1.Images.SetKeyName(54, "Motor Symbol.png");
+            this.imageList1.Images.SetKeyName(55, "Color Palette.png");
+            this.imageList1.Images.SetKeyName(56, "Easel.png");
+            this.imageList1.Images.SetKeyName(57, "Easel2.png");
+            this.imageList1.Images.SetKeyName(58, "Color Palette2.png");
             // 
             // stsBottom
             // 
@@ -539,7 +542,7 @@
             this.toolStripStatusLabel14.BackColor = System.Drawing.SystemColors.Control;
             this.toolStripStatusLabel14.ForeColor = System.Drawing.Color.Black;
             this.toolStripStatusLabel14.Name = "toolStripStatusLabel14";
-            this.toolStripStatusLabel14.Size = new System.Drawing.Size(493, 26);
+            this.toolStripStatusLabel14.Size = new System.Drawing.Size(548, 26);
             this.toolStripStatusLabel14.Spring = true;
             // 
             // btnLogWindow
@@ -723,10 +726,10 @@
             // 
             this.tabDocPage2.Controls.Add(this.treeViewPageControl2);
             this.tabDocPage2.ImageKey = "m2.png";
-            this.tabDocPage2.Location = new System.Drawing.Point(4, 36);
+            this.tabDocPage2.Location = new System.Drawing.Point(4, 32);
             this.tabDocPage2.Margin = new System.Windows.Forms.Padding(0);
             this.tabDocPage2.Name = "tabDocPage2";
-            this.tabDocPage2.Size = new System.Drawing.Size(220, 667);
+            this.tabDocPage2.Size = new System.Drawing.Size(220, 671);
             this.tabDocPage2.TabIndex = 4;
             this.tabDocPage2.Text = "P2 ";
             this.tabDocPage2.UseVisualStyleBackColor = true;
@@ -741,7 +744,7 @@
             this.treeViewPageControl2.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewPageControl2.Name = "treeViewPageControl2";
             this.treeViewPageControl2.Page = SpiralLab.Sirius3.Document.DocumentPages.Page2;
-            this.treeViewPageControl2.Size = new System.Drawing.Size(220, 667);
+            this.treeViewPageControl2.Size = new System.Drawing.Size(220, 671);
             this.treeViewPageControl2.TabIndex = 3;
             this.treeViewPageControl2.View = null;
             // 
@@ -749,10 +752,10 @@
             // 
             this.tabDocPage3.Controls.Add(this.treeViewPageControl3);
             this.tabDocPage3.ImageKey = "m3.png";
-            this.tabDocPage3.Location = new System.Drawing.Point(4, 36);
+            this.tabDocPage3.Location = new System.Drawing.Point(4, 32);
             this.tabDocPage3.Margin = new System.Windows.Forms.Padding(0);
             this.tabDocPage3.Name = "tabDocPage3";
-            this.tabDocPage3.Size = new System.Drawing.Size(220, 667);
+            this.tabDocPage3.Size = new System.Drawing.Size(220, 671);
             this.tabDocPage3.TabIndex = 5;
             this.tabDocPage3.Text = "P3 ";
             this.tabDocPage3.UseVisualStyleBackColor = true;
@@ -767,7 +770,7 @@
             this.treeViewPageControl3.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewPageControl3.Name = "treeViewPageControl3";
             this.treeViewPageControl3.Page = SpiralLab.Sirius3.Document.DocumentPages.Page3;
-            this.treeViewPageControl3.Size = new System.Drawing.Size(220, 667);
+            this.treeViewPageControl3.Size = new System.Drawing.Size(220, 671);
             this.treeViewPageControl3.TabIndex = 3;
             this.treeViewPageControl3.View = null;
             // 
@@ -775,10 +778,10 @@
             // 
             this.tabDocPage4.Controls.Add(this.treeViewPageControl4);
             this.tabDocPage4.ImageKey = "m4.png";
-            this.tabDocPage4.Location = new System.Drawing.Point(4, 36);
+            this.tabDocPage4.Location = new System.Drawing.Point(4, 32);
             this.tabDocPage4.Margin = new System.Windows.Forms.Padding(0);
             this.tabDocPage4.Name = "tabDocPage4";
-            this.tabDocPage4.Size = new System.Drawing.Size(220, 667);
+            this.tabDocPage4.Size = new System.Drawing.Size(220, 671);
             this.tabDocPage4.TabIndex = 6;
             this.tabDocPage4.Text = "P4 ";
             this.tabDocPage4.UseVisualStyleBackColor = true;
@@ -793,7 +796,7 @@
             this.treeViewPageControl4.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewPageControl4.Name = "treeViewPageControl4";
             this.treeViewPageControl4.Page = SpiralLab.Sirius3.Document.DocumentPages.Page4;
-            this.treeViewPageControl4.Size = new System.Drawing.Size(220, 667);
+            this.treeViewPageControl4.Size = new System.Drawing.Size(220, 671);
             this.treeViewPageControl4.TabIndex = 4;
             this.treeViewPageControl4.View = null;
             // 
@@ -801,10 +804,10 @@
             // 
             this.tabBlockPage.Controls.Add(this.treeViewBlockControl1);
             this.tabBlockPage.ImageKey = "chain_intermediate_24px.png";
-            this.tabBlockPage.Location = new System.Drawing.Point(4, 36);
+            this.tabBlockPage.Location = new System.Drawing.Point(4, 32);
             this.tabBlockPage.Margin = new System.Windows.Forms.Padding(0);
             this.tabBlockPage.Name = "tabBlockPage";
-            this.tabBlockPage.Size = new System.Drawing.Size(220, 667);
+            this.tabBlockPage.Size = new System.Drawing.Size(220, 671);
             this.tabBlockPage.TabIndex = 1;
             this.tabBlockPage.Text = "Block ";
             this.tabBlockPage.UseVisualStyleBackColor = true;
@@ -818,7 +821,7 @@
             this.treeViewBlockControl1.Location = new System.Drawing.Point(0, 0);
             this.treeViewBlockControl1.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewBlockControl1.Name = "treeViewBlockControl1";
-            this.treeViewBlockControl1.Size = new System.Drawing.Size(220, 667);
+            this.treeViewBlockControl1.Size = new System.Drawing.Size(220, 671);
             this.treeViewBlockControl1.TabIndex = 0;
             this.treeViewBlockControl1.View = null;
             // 
@@ -840,7 +843,7 @@
             // tabEntityPen
             // 
             this.tabEntityPen.Controls.Add(this.entityPenControl1);
-            this.tabEntityPen.ImageKey = "driving_directions_24px.png";
+            this.tabEntityPen.ImageKey = "Color Palette2.png";
             this.tabEntityPen.Location = new System.Drawing.Point(4, 32);
             this.tabEntityPen.Margin = new System.Windows.Forms.Padding(0);
             this.tabEntityPen.Name = "tabEntityPen";
@@ -864,11 +867,11 @@
             // tabLayerPen
             // 
             this.tabLayerPen.Controls.Add(this.layerPenControl1);
-            this.tabLayerPen.ImageKey = "driving_directions_24px.png";
-            this.tabLayerPen.Location = new System.Drawing.Point(4, 36);
+            this.tabLayerPen.ImageKey = "Easel2.png";
+            this.tabLayerPen.Location = new System.Drawing.Point(4, 32);
             this.tabLayerPen.Margin = new System.Windows.Forms.Padding(0);
             this.tabLayerPen.Name = "tabLayerPen";
-            this.tabLayerPen.Size = new System.Drawing.Size(220, 186);
+            this.tabLayerPen.Size = new System.Drawing.Size(220, 190);
             this.tabLayerPen.TabIndex = 1;
             this.tabLayerPen.Text = "Layer";
             this.tabLayerPen.UseVisualStyleBackColor = true;
@@ -882,7 +885,7 @@
             this.layerPenControl1.Location = new System.Drawing.Point(0, 0);
             this.layerPenControl1.Margin = new System.Windows.Forms.Padding(16, 15, 16, 15);
             this.layerPenControl1.Name = "layerPenControl1";
-            this.layerPenControl1.Size = new System.Drawing.Size(220, 186);
+            this.layerPenControl1.Size = new System.Drawing.Size(220, 190);
             this.layerPenControl1.TabIndex = 0;
             // 
             // splitContainer2
@@ -915,10 +918,10 @@
             this.tbcMain.Controls.Add(this.tabLaser);
             this.tbcMain.Controls.Add(this.tabDIO);
             this.tbcMain.Controls.Add(this.tabPower);
+            this.tbcMain.Controls.Add(this.tabStepper);
             this.tbcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbcMain.HotTrack = true;
             this.tbcMain.ImageList = this.imageList1;
-            this.tbcMain.ItemSize = new System.Drawing.Size(80, 28);
             this.tbcMain.Location = new System.Drawing.Point(0, 0);
             this.tbcMain.Margin = new System.Windows.Forms.Padding(0);
             this.tbcMain.Name = "tbcMain";
@@ -929,59 +932,30 @@
             // tabEditor
             // 
             this.tabEditor.ImageKey = "cube_24px.png";
-            this.tabEditor.Location = new System.Drawing.Point(4, 32);
+            this.tabEditor.Location = new System.Drawing.Point(4, 31);
             this.tabEditor.Margin = new System.Windows.Forms.Padding(0);
             this.tabEditor.Name = "tabEditor";
-            this.tabEditor.Size = new System.Drawing.Size(716, 724);
+            this.tabEditor.Size = new System.Drawing.Size(716, 725);
             this.tabEditor.TabIndex = 0;
             this.tabEditor.Text = "Editor";
             // 
             // tabMarker
             // 
-            this.tabMarker.Controls.Add(this.splitContainer10);
+            this.tabMarker.Controls.Add(this.markerControl1);
             this.tabMarker.ImageKey = "Design.png";
-            this.tabMarker.Location = new System.Drawing.Point(4, 32);
+            this.tabMarker.Location = new System.Drawing.Point(4, 31);
             this.tabMarker.Margin = new System.Windows.Forms.Padding(0);
             this.tabMarker.Name = "tabMarker";
-            this.tabMarker.Size = new System.Drawing.Size(716, 724);
+            this.tabMarker.Size = new System.Drawing.Size(716, 725);
             this.tabMarker.TabIndex = 1;
             this.tabMarker.Text = "Marker";
             this.tabMarker.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer10
-            // 
-            this.splitContainer10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer10.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer10.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainer10.Name = "splitContainer10";
-            // 
-            // splitContainer10.Panel1
-            // 
-            this.splitContainer10.Panel1.Controls.Add(this.offsetControl1);
-            // 
-            // splitContainer10.Panel2
-            // 
-            this.splitContainer10.Panel2.Controls.Add(this.markerControl1);
-            this.splitContainer10.Size = new System.Drawing.Size(716, 724);
-            this.splitContainer10.SplitterDistance = 230;
-            this.splitContainer10.TabIndex = 4;
-            // 
-            // offsetControl1
-            // 
-            this.offsetControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.offsetControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.offsetControl1.Location = new System.Drawing.Point(0, 0);
-            this.offsetControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.offsetControl1.Marker = null;
-            this.offsetControl1.Name = "offsetControl1";
-            this.offsetControl1.Size = new System.Drawing.Size(230, 724);
-            this.offsetControl1.TabIndex = 4;
             // 
             // markerControl1
             // 
             this.markerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.markerControl1.Document = null;
-            this.markerControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.markerControl1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.markerControl1.Laser = null;
             this.markerControl1.Location = new System.Drawing.Point(0, 0);
             this.markerControl1.Margin = new System.Windows.Forms.Padding(0);
@@ -989,18 +963,18 @@
             this.markerControl1.Name = "markerControl1";
             this.markerControl1.PowerMeter = null;
             this.markerControl1.Rtc = null;
-            this.markerControl1.Size = new System.Drawing.Size(482, 724);
-            this.markerControl1.TabIndex = 4;
+            this.markerControl1.Size = new System.Drawing.Size(716, 725);
+            this.markerControl1.TabIndex = 0;
             this.markerControl1.View = null;
             // 
             // tabManual
             // 
             this.tabManual.Controls.Add(this.manualControl1);
             this.tabManual.ImageKey = "Voltage.png";
-            this.tabManual.Location = new System.Drawing.Point(4, 32);
+            this.tabManual.Location = new System.Drawing.Point(4, 31);
             this.tabManual.Margin = new System.Windows.Forms.Padding(0);
             this.tabManual.Name = "tabManual";
-            this.tabManual.Size = new System.Drawing.Size(716, 724);
+            this.tabManual.Size = new System.Drawing.Size(716, 725);
             this.tabManual.TabIndex = 2;
             this.tabManual.Text = "Manual";
             this.tabManual.UseVisualStyleBackColor = true;
@@ -1016,17 +990,17 @@
             this.manualControl1.Marker = null;
             this.manualControl1.Name = "manualControl1";
             this.manualControl1.Rtc = null;
-            this.manualControl1.Size = new System.Drawing.Size(716, 724);
+            this.manualControl1.Size = new System.Drawing.Size(716, 725);
             this.manualControl1.TabIndex = 1;
             // 
             // tabScanner
             // 
             this.tabScanner.Controls.Add(this.scannerControl1);
             this.tabScanner.ImageKey = "Video Card.png";
-            this.tabScanner.Location = new System.Drawing.Point(4, 32);
+            this.tabScanner.Location = new System.Drawing.Point(4, 31);
             this.tabScanner.Margin = new System.Windows.Forms.Padding(0);
             this.tabScanner.Name = "tabScanner";
-            this.tabScanner.Size = new System.Drawing.Size(716, 724);
+            this.tabScanner.Size = new System.Drawing.Size(716, 725);
             this.tabScanner.TabIndex = 3;
             this.tabScanner.Text = "Scanner";
             this.tabScanner.UseVisualStyleBackColor = true;
@@ -1039,17 +1013,17 @@
             this.scannerControl1.Margin = new System.Windows.Forms.Padding(0);
             this.scannerControl1.Name = "scannerControl1";
             this.scannerControl1.Scanner = null;
-            this.scannerControl1.Size = new System.Drawing.Size(716, 724);
+            this.scannerControl1.Size = new System.Drawing.Size(716, 725);
             this.scannerControl1.TabIndex = 0;
             // 
             // tabLaser
             // 
             this.tabLaser.Controls.Add(this.laserControl1);
             this.tabLaser.ImageKey = "Processor2.png";
-            this.tabLaser.Location = new System.Drawing.Point(4, 32);
+            this.tabLaser.Location = new System.Drawing.Point(4, 31);
             this.tabLaser.Margin = new System.Windows.Forms.Padding(0);
             this.tabLaser.Name = "tabLaser";
-            this.tabLaser.Size = new System.Drawing.Size(716, 724);
+            this.tabLaser.Size = new System.Drawing.Size(716, 725);
             this.tabLaser.TabIndex = 4;
             this.tabLaser.Text = "Laser";
             this.tabLaser.UseVisualStyleBackColor = true;
@@ -1062,17 +1036,18 @@
             this.laserControl1.Location = new System.Drawing.Point(0, 0);
             this.laserControl1.Margin = new System.Windows.Forms.Padding(0);
             this.laserControl1.Name = "laserControl1";
-            this.laserControl1.Size = new System.Drawing.Size(716, 724);
+            this.laserControl1.Scanner = null;
+            this.laserControl1.Size = new System.Drawing.Size(716, 725);
             this.laserControl1.TabIndex = 0;
             // 
             // tabDIO
             // 
             this.tabDIO.Controls.Add(this.splitContainer9);
             this.tabDIO.ImageKey = "RS-232 Male.png";
-            this.tabDIO.Location = new System.Drawing.Point(4, 32);
+            this.tabDIO.Location = new System.Drawing.Point(4, 31);
             this.tabDIO.Margin = new System.Windows.Forms.Padding(0);
             this.tabDIO.Name = "tabDIO";
-            this.tabDIO.Size = new System.Drawing.Size(716, 724);
+            this.tabDIO.Size = new System.Drawing.Size(716, 725);
             this.tabDIO.TabIndex = 5;
             this.tabDIO.Text = "DIO";
             this.tabDIO.UseVisualStyleBackColor = true;
@@ -1091,7 +1066,7 @@
             // splitContainer9.Panel2
             // 
             this.splitContainer9.Panel2.Controls.Add(this.rtcDOControl1);
-            this.splitContainer9.Size = new System.Drawing.Size(716, 724);
+            this.splitContainer9.Size = new System.Drawing.Size(716, 725);
             this.splitContainer9.SplitterDistance = 342;
             this.splitContainer9.TabIndex = 0;
             // 
@@ -1104,7 +1079,7 @@
             this.rtcDIControl1.Location = new System.Drawing.Point(0, 0);
             this.rtcDIControl1.Margin = new System.Windows.Forms.Padding(0);
             this.rtcDIControl1.Name = "rtcDIControl1";
-            this.rtcDIControl1.Size = new System.Drawing.Size(342, 724);
+            this.rtcDIControl1.Size = new System.Drawing.Size(342, 725);
             this.rtcDIControl1.TabIndex = 0;
             this.rtcDIControl1.UpdateTimerInterval = 100;
             // 
@@ -1119,7 +1094,7 @@
             this.rtcDOControl1.Margin = new System.Windows.Forms.Padding(0);
             this.rtcDOControl1.Marker = null;
             this.rtcDOControl1.Name = "rtcDOControl1";
-            this.rtcDOControl1.Size = new System.Drawing.Size(370, 724);
+            this.rtcDOControl1.Size = new System.Drawing.Size(370, 725);
             this.rtcDOControl1.TabIndex = 0;
             this.rtcDOControl1.UpdateTimerInterval = 100;
             // 
@@ -1127,10 +1102,10 @@
             // 
             this.tabPower.Controls.Add(this.tabControl2);
             this.tabPower.ImageKey = "Graph2.png";
-            this.tabPower.Location = new System.Drawing.Point(4, 32);
+            this.tabPower.Location = new System.Drawing.Point(4, 31);
             this.tabPower.Margin = new System.Windows.Forms.Padding(0);
             this.tabPower.Name = "tabPower";
-            this.tabPower.Size = new System.Drawing.Size(716, 724);
+            this.tabPower.Size = new System.Drawing.Size(716, 725);
             this.tabPower.TabIndex = 6;
             this.tabPower.Text = "Power";
             this.tabPower.UseVisualStyleBackColor = true;
@@ -1145,7 +1120,7 @@
             this.tabControl2.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(716, 724);
+            this.tabControl2.Size = new System.Drawing.Size(716, 725);
             this.tabControl2.TabIndex = 0;
             // 
             // tabPage18
@@ -1154,7 +1129,7 @@
             this.tabPage18.Location = new System.Drawing.Point(4, 32);
             this.tabPage18.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage18.Name = "tabPage18";
-            this.tabPage18.Size = new System.Drawing.Size(708, 688);
+            this.tabPage18.Size = new System.Drawing.Size(708, 689);
             this.tabPage18.TabIndex = 0;
             this.tabPage18.Text = "PowerMeter";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -1168,16 +1143,16 @@
             this.powerMeterControl1.Margin = new System.Windows.Forms.Padding(0);
             this.powerMeterControl1.Name = "powerMeterControl1";
             this.powerMeterControl1.PowerMeter = null;
-            this.powerMeterControl1.Size = new System.Drawing.Size(708, 688);
+            this.powerMeterControl1.Size = new System.Drawing.Size(708, 689);
             this.powerMeterControl1.TabIndex = 0;
             // 
             // tabPage19
             // 
             this.tabPage19.Controls.Add(this.powerMapControl1);
-            this.tabPage19.Location = new System.Drawing.Point(4, 36);
+            this.tabPage19.Location = new System.Drawing.Point(4, 32);
             this.tabPage19.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage19.Name = "tabPage19";
-            this.tabPage19.Size = new System.Drawing.Size(708, 680);
+            this.tabPage19.Size = new System.Drawing.Size(708, 689);
             this.tabPage19.TabIndex = 1;
             this.tabPage19.Text = "PowerMap";
             this.tabPage19.UseVisualStyleBackColor = true;
@@ -1190,12 +1165,36 @@
             this.powerMapControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.powerMapControl1.Laser = null;
             this.powerMapControl1.Location = new System.Drawing.Point(0, 0);
-            this.powerMapControl1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+            this.powerMapControl1.Margin = new System.Windows.Forms.Padding(0);
             this.powerMapControl1.Name = "powerMapControl1";
             this.powerMapControl1.PowerMeter = null;
             this.powerMapControl1.Rtc = null;
-            this.powerMapControl1.Size = new System.Drawing.Size(708, 680);
+            this.powerMapControl1.Size = new System.Drawing.Size(708, 689);
             this.powerMapControl1.TabIndex = 0;
+            // 
+            // tabStepper
+            // 
+            this.tabStepper.Controls.Add(this.stepperControl1);
+            this.tabStepper.ImageKey = "Motor Symbol.png";
+            this.tabStepper.Location = new System.Drawing.Point(4, 31);
+            this.tabStepper.Margin = new System.Windows.Forms.Padding(0);
+            this.tabStepper.Name = "tabStepper";
+            this.tabStepper.Padding = new System.Windows.Forms.Padding(2);
+            this.tabStepper.Size = new System.Drawing.Size(716, 725);
+            this.tabStepper.TabIndex = 7;
+            this.tabStepper.Text = "Stepper";
+            this.tabStepper.UseVisualStyleBackColor = true;
+            // 
+            // stepperControl1
+            // 
+            this.stepperControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.stepperControl1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stepperControl1.Location = new System.Drawing.Point(2, 2);
+            this.stepperControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.stepperControl1.Name = "stepperControl1";
+            this.stepperControl1.RtcStepper = null;
+            this.stepperControl1.Size = new System.Drawing.Size(712, 721);
+            this.stepperControl1.TabIndex = 1;
             // 
             // logControl1
             // 
@@ -1292,10 +1291,6 @@
             this.splitContainer2.ResumeLayout(false);
             this.tbcMain.ResumeLayout(false);
             this.tabMarker.ResumeLayout(false);
-            this.splitContainer10.Panel1.ResumeLayout(false);
-            this.splitContainer10.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).EndInit();
-            this.splitContainer10.ResumeLayout(false);
             this.tabManual.ResumeLayout(false);
             this.tabScanner.ResumeLayout(false);
             this.tabLaser.ResumeLayout(false);
@@ -1308,6 +1303,7 @@
             this.tabControl2.ResumeLayout(false);
             this.tabPage18.ResumeLayout(false);
             this.tabPage19.ResumeLayout(false);
+            this.tabStepper.ResumeLayout(false);
             this.tlcRight.ResumeLayout(false);
             this.tabProperty.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1368,9 +1364,6 @@
         private TabControl tbcMain;
         private TabPage tabEditor;
         private TabPage tabMarker;
-        private SplitContainer splitContainer10;
-        private SpiralLab.Sirius3.UI.WinForms.OffsetControl offsetControl1;
-        private SpiralLab.Sirius3.UI.WinForms.MarkerControl markerControl1;
         private TabPage tabManual;
         private SpiralLab.Sirius3.UI.WinForms.ManualControl manualControl1;
         private TabPage tabScanner;
@@ -1379,8 +1372,8 @@
         private SpiralLab.Sirius3.UI.WinForms.LaserControl laserControl1;
         private TabPage tabDIO;
         private SplitContainer splitContainer9;
-        private SpiralLab.Sirius3.UI.WinForms.RtcDIControl rtcDIControl1;
-        private SpiralLab.Sirius3.UI.WinForms.RtcDOControl rtcDOControl1;
+        private SpiralLab.Sirius3.UI.WinForms.DIRtcControl rtcDIControl1;
+        private SpiralLab.Sirius3.UI.WinForms.DORtcControl rtcDOControl1;
         private TabPage tabPower;
         private TabControl tabControl2;
         private TabPage tabPage18;
@@ -1402,5 +1395,8 @@
         private TabPage tabDocPage4;
         private SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl treeViewPageControl3;
         private SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl treeViewPageControl4;
+        private TabPage tabStepper;
+        private SpiralLab.Sirius3.UI.WinForms.StepperControl stepperControl1;
+        private SpiralLab.Sirius3.UI.WinForms.MarkerControl markerControl1;
     }
 }

@@ -1,5 +1,36 @@
 ﻿# Sirius3 버전 이력
 
+## v1.5.0 (2026.3.26)
+- added) 스테퍼 모터 제어 지원
+    - RTC5,6 의 스테퍼 단자를 통한 외부 스탭모터 제어 기능 추가
+    - IRtcStepper 인터페이스 추가
+    - StepperControl 사용자 컨트롤 UI 추가
+    - 스텝 모터의 절대, 상대 좌표 이동 지원
+- added) 시리얼 통신 지원
+    - RTC5,6 의 RS232 단자를 통한 통신 기능 추가
+    - IRtcSerialComm 인터페이스 추가
+    - SerialCommControl 사용자 컨트롤 UI 추가
+    - 레이저 탭에서 송수신 데이타 (바이너리) 모니터링 가능
+    - OnSerialReceived 이벤트 추가
+- added) Fly Extension 개선
+    - RTC6 전용 Marking on the fly 확장 기능 개선
+    - IRtcMoFExtension 인터페이스 리팩토링
+    - 3축 조합 (X,Y,Z 혹은 회전축) 지원
+    - McBSP 통신 지원
+- fixed) 사용자 컨트롤 UI 리팩토링
+    - OffsetControl
+    - MarkerControl
+    - ScannerControl 
+    - LaserControl
+- fixed) 행렬 스택
+    - MatrixStack 의 BaseMatrix 삭제 
+    - IRtc.CtlMatrix, ListMatrix 사용으로 통합 지원
+- fixed) 파워메터
+    - CoherentPowerMax, GentecEO 장치에서 파워값 읽기 오류 수정
+- added) SiriusEditorControl    
+    - 외부 .sirius3 파일을 가져와 현재 문서의 레이어로 추가
+    - 레이어 개체에서 사용중인 펜 색상이 트리뷰 에서 출력됨
+ 
 ## v1.4.1 (2026.3.10)
 - added) 웹 서버를 통한 문서화 제공
     - 온라인 웹사이트: https://spirallab.co.kr/sirius3/doc 사용 가능

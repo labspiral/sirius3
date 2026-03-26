@@ -91,14 +91,14 @@ namespace Demos
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(800, 41);
+            this.panel2.Size = new System.Drawing.Size(711, 41);
             this.panel2.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(14, 8);
+            this.label1.Location = new System.Drawing.Point(14, 13);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 15);
             this.label1.TabIndex = 0;
@@ -108,17 +108,17 @@ namespace Demos
             // pnGuide
             // 
             this.pnGuide.BackColor = System.Drawing.Color.Green;
-            this.pnGuide.Location = new System.Drawing.Point(149, 799);
+            this.pnGuide.Location = new System.Drawing.Point(243, 555);
             this.pnGuide.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnGuide.Name = "pnGuide";
-            this.pnGuide.Size = new System.Drawing.Size(200, 6);
+            this.pnGuide.Size = new System.Drawing.Size(150, 6);
             this.pnGuide.TabIndex = 473;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(15, 59);
+            this.label15.Location = new System.Drawing.Point(15, 54);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(74, 15);
             this.label15.TabIndex = 433;
@@ -128,7 +128,7 @@ namespace Demos
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(15, 213);
+            this.label4.Location = new System.Drawing.Point(15, 202);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 15);
             this.label4.TabIndex = 422;
@@ -139,22 +139,22 @@ namespace Demos
             this.tableLayoutPanel3.AutoSize = true;
             this.tableLayoutPanel3.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Outset;
             this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 221F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 355F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 164F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 360F));
             this.tableLayoutPanel3.Controls.Add(this.lblName, 1, 2);
             this.tableLayoutPanel3.Controls.Add(this.label12, 0, 2);
             this.tableLayoutPanel3.Controls.Add(this.lblMaxPower, 1, 1);
             this.tableLayoutPanel3.Controls.Add(this.label11, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.lblIndex, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.label9, 0, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(149, 95);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(87, 77);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 4;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(582, 106);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(530, 106);
             this.tableLayoutPanel3.TabIndex = 481;
             // 
             // lblName
@@ -162,9 +162,9 @@ namespace Demos
             this.lblName.AutoSize = true;
             this.lblName.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblName.Location = new System.Drawing.Point(228, 54);
+            this.lblName.Location = new System.Drawing.Point(171, 54);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(349, 24);
+            this.lblName.Size = new System.Drawing.Size(354, 24);
             this.lblName.TabIndex = 443;
             this.lblName.Text = "NoName";
             this.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -180,11 +180,12 @@ namespace Demos
             // 
             // lblMaxPower
             // 
+            this.lblMaxPower.AutoSize = true;
             this.lblMaxPower.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblMaxPower.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblMaxPower.Location = new System.Drawing.Point(228, 28);
+            this.lblMaxPower.Location = new System.Drawing.Point(171, 28);
             this.lblMaxPower.Name = "lblMaxPower";
-            this.lblMaxPower.Size = new System.Drawing.Size(349, 24);
+            this.lblMaxPower.Size = new System.Drawing.Size(354, 24);
             this.lblMaxPower.TabIndex = 441;
             this.lblMaxPower.Text = "0";
             this.lblMaxPower.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -200,11 +201,12 @@ namespace Demos
             // 
             // lblIndex
             // 
+            this.lblIndex.AutoSize = true;
             this.lblIndex.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblIndex.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblIndex.Location = new System.Drawing.Point(228, 2);
+            this.lblIndex.Location = new System.Drawing.Point(171, 2);
             this.lblIndex.Name = "lblIndex";
-            this.lblIndex.Size = new System.Drawing.Size(349, 24);
+            this.lblIndex.Size = new System.Drawing.Size(354, 24);
             this.lblIndex.TabIndex = 439;
             this.lblIndex.Text = "0";
             this.lblIndex.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -223,9 +225,9 @@ namespace Demos
             this.tableLayoutPanel6.AutoSize = true;
             this.tableLayoutPanel6.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Outset;
             this.tableLayoutPanel6.ColumnCount = 3;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 220F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 189F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 165F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 162F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 181F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
             this.tableLayoutPanel6.Controls.Add(this.txtFrequency, 1, 8);
             this.tableLayoutPanel6.Controls.Add(this.txtMaxCurrent, 2, 7);
             this.tableLayoutPanel6.Controls.Add(this.txtSetCurrent, 1, 7);
@@ -248,7 +250,7 @@ namespace Demos
             this.tableLayoutPanel6.Controls.Add(this.label6, 0, 7);
             this.tableLayoutPanel6.Controls.Add(this.label38, 0, 8);
             this.tableLayoutPanel6.Controls.Add(this.label7, 0, 9);
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(149, 243);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(87, 223);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 11;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
@@ -262,18 +264,18 @@ namespace Demos
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(582, 288);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(531, 288);
             this.tableLayoutPanel6.TabIndex = 482;
             // 
             // txtFrequency
             // 
             this.txtFrequency.Cursor = System.Windows.Forms.Cursors.Hand;
             this.txtFrequency.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtFrequency.Location = new System.Drawing.Point(227, 214);
+            this.txtFrequency.Location = new System.Drawing.Point(169, 214);
             this.txtFrequency.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtFrequency.Name = "txtFrequency";
             this.txtFrequency.ReadOnly = true;
-            this.txtFrequency.Size = new System.Drawing.Size(183, 22);
+            this.txtFrequency.Size = new System.Drawing.Size(175, 22);
             this.txtFrequency.TabIndex = 501;
             this.txtFrequency.Text = "100";
             this.txtFrequency.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -282,11 +284,11 @@ namespace Demos
             // 
             this.txtMaxCurrent.Cursor = System.Windows.Forms.Cursors.Hand;
             this.txtMaxCurrent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtMaxCurrent.Location = new System.Drawing.Point(418, 188);
+            this.txtMaxCurrent.Location = new System.Drawing.Point(352, 188);
             this.txtMaxCurrent.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtMaxCurrent.Name = "txtMaxCurrent";
             this.txtMaxCurrent.ReadOnly = true;
-            this.txtMaxCurrent.Size = new System.Drawing.Size(159, 22);
+            this.txtMaxCurrent.Size = new System.Drawing.Size(174, 22);
             this.txtMaxCurrent.TabIndex = 499;
             this.txtMaxCurrent.Text = "20";
             this.txtMaxCurrent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -295,33 +297,35 @@ namespace Demos
             // 
             this.txtSetCurrent.Cursor = System.Windows.Forms.Cursors.Hand;
             this.txtSetCurrent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtSetCurrent.Location = new System.Drawing.Point(227, 188);
+            this.txtSetCurrent.Location = new System.Drawing.Point(169, 188);
             this.txtSetCurrent.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSetCurrent.Name = "txtSetCurrent";
             this.txtSetCurrent.ReadOnly = true;
-            this.txtSetCurrent.Size = new System.Drawing.Size(183, 22);
+            this.txtSetCurrent.Size = new System.Drawing.Size(175, 22);
             this.txtSetCurrent.TabIndex = 497;
             this.txtSetCurrent.Text = "20";
             this.txtSetCurrent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // lblTHGActualTemp
             // 
+            this.lblTHGActualTemp.AutoSize = true;
             this.lblTHGActualTemp.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblTHGActualTemp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTHGActualTemp.Location = new System.Drawing.Point(418, 158);
+            this.lblTHGActualTemp.Location = new System.Drawing.Point(352, 158);
             this.lblTHGActualTemp.Name = "lblTHGActualTemp";
-            this.lblTHGActualTemp.Size = new System.Drawing.Size(159, 24);
+            this.lblTHGActualTemp.Size = new System.Drawing.Size(174, 24);
             this.lblTHGActualTemp.TabIndex = 495;
             this.lblTHGActualTemp.Text = "0";
             this.lblTHGActualTemp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblSHGActualTemp
             // 
+            this.lblSHGActualTemp.AutoSize = true;
             this.lblSHGActualTemp.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblSHGActualTemp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSHGActualTemp.Location = new System.Drawing.Point(418, 132);
+            this.lblSHGActualTemp.Location = new System.Drawing.Point(352, 132);
             this.lblSHGActualTemp.Name = "lblSHGActualTemp";
-            this.lblSHGActualTemp.Size = new System.Drawing.Size(159, 24);
+            this.lblSHGActualTemp.Size = new System.Drawing.Size(174, 24);
             this.lblSHGActualTemp.TabIndex = 494;
             this.lblSHGActualTemp.Text = "0";
             this.lblSHGActualTemp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -330,9 +334,9 @@ namespace Demos
             // 
             this.lblLaserStatus.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblLaserStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblLaserStatus.Location = new System.Drawing.Point(227, 2);
+            this.lblLaserStatus.Location = new System.Drawing.Point(169, 2);
             this.lblLaserStatus.Name = "lblLaserStatus";
-            this.lblLaserStatus.Size = new System.Drawing.Size(183, 24);
+            this.lblLaserStatus.Size = new System.Drawing.Size(175, 24);
             this.lblLaserStatus.TabIndex = 472;
             this.lblLaserStatus.Text = "Ready";
             this.lblLaserStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -359,9 +363,9 @@ namespace Demos
             // 
             this.lblActualCurrent.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblActualCurrent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblActualCurrent.Location = new System.Drawing.Point(227, 28);
+            this.lblActualCurrent.Location = new System.Drawing.Point(169, 28);
             this.lblActualCurrent.Name = "lblActualCurrent";
-            this.lblActualCurrent.Size = new System.Drawing.Size(183, 24);
+            this.lblActualCurrent.Size = new System.Drawing.Size(175, 24);
             this.lblActualCurrent.TabIndex = 474;
             this.lblActualCurrent.Text = "20";
             this.lblActualCurrent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -379,9 +383,9 @@ namespace Demos
             // 
             this.lblDiodeVoltage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblDiodeVoltage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblDiodeVoltage.Location = new System.Drawing.Point(227, 106);
+            this.lblDiodeVoltage.Location = new System.Drawing.Point(169, 106);
             this.lblDiodeVoltage.Name = "lblDiodeVoltage";
-            this.lblDiodeVoltage.Size = new System.Drawing.Size(183, 24);
+            this.lblDiodeVoltage.Size = new System.Drawing.Size(175, 24);
             this.lblDiodeVoltage.TabIndex = 481;
             this.lblDiodeVoltage.Text = "10";
             this.lblDiodeVoltage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -399,9 +403,9 @@ namespace Demos
             // 
             this.lblSHGSetTemp.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblSHGSetTemp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSHGSetTemp.Location = new System.Drawing.Point(227, 132);
+            this.lblSHGSetTemp.Location = new System.Drawing.Point(169, 132);
             this.lblSHGSetTemp.Name = "lblSHGSetTemp";
-            this.lblSHGSetTemp.Size = new System.Drawing.Size(183, 24);
+            this.lblSHGSetTemp.Size = new System.Drawing.Size(175, 24);
             this.lblSHGSetTemp.TabIndex = 479;
             this.lblSHGSetTemp.Text = "0";
             this.lblSHGSetTemp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -419,9 +423,9 @@ namespace Demos
             // 
             this.lblMonitoringPower.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblMonitoringPower.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblMonitoringPower.Location = new System.Drawing.Point(227, 54);
+            this.lblMonitoringPower.Location = new System.Drawing.Point(169, 54);
             this.lblMonitoringPower.Name = "lblMonitoringPower";
-            this.lblMonitoringPower.Size = new System.Drawing.Size(183, 24);
+            this.lblMonitoringPower.Size = new System.Drawing.Size(175, 24);
             this.lblMonitoringPower.TabIndex = 483;
             this.lblMonitoringPower.Text = "20";
             this.lblMonitoringPower.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -439,9 +443,9 @@ namespace Demos
             // 
             this.lblTHGSetTemp.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblTHGSetTemp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTHGSetTemp.Location = new System.Drawing.Point(227, 158);
+            this.lblTHGSetTemp.Location = new System.Drawing.Point(169, 158);
             this.lblTHGSetTemp.Name = "lblTHGSetTemp";
-            this.lblTHGSetTemp.Size = new System.Drawing.Size(183, 24);
+            this.lblTHGSetTemp.Size = new System.Drawing.Size(175, 24);
             this.lblTHGSetTemp.TabIndex = 485;
             this.lblTHGSetTemp.Text = "0";
             this.lblTHGSetTemp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -459,9 +463,9 @@ namespace Demos
             // 
             this.lbLDDHours.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lbLDDHours.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbLDDHours.Location = new System.Drawing.Point(227, 80);
+            this.lbLDDHours.Location = new System.Drawing.Point(169, 80);
             this.lbLDDHours.Name = "lbLDDHours";
-            this.lbLDDHours.Size = new System.Drawing.Size(183, 24);
+            this.lbLDDHours.Size = new System.Drawing.Size(175, 24);
             this.lbLDDHours.TabIndex = 487;
             this.lbLDDHours.Text = "10";
             this.lbLDDHours.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -499,10 +503,10 @@ namespace Demos
             this.chbGuide.BackColor = System.Drawing.Color.WhiteSmoke;
             this.chbGuide.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chbGuide.Image = ((System.Drawing.Image)(resources.GetObject("chbGuide.Image")));
-            this.chbGuide.Location = new System.Drawing.Point(149, 753);
+            this.chbGuide.Location = new System.Drawing.Point(243, 521);
             this.chbGuide.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chbGuide.Name = "chbGuide";
-            this.chbGuide.Size = new System.Drawing.Size(200, 42);
+            this.chbGuide.Size = new System.Drawing.Size(150, 32);
             this.chbGuide.TabIndex = 486;
             this.chbGuide.Text = "Guide";
             this.chbGuide.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -514,10 +518,10 @@ namespace Demos
             this.btnAbort.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnAbort.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAbort.Image = ((System.Drawing.Image)(resources.GetObject("btnAbort.Image")));
-            this.btnAbort.Location = new System.Drawing.Point(150, 858);
+            this.btnAbort.Location = new System.Drawing.Point(88, 666);
             this.btnAbort.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnAbort.Name = "btnAbort";
-            this.btnAbort.Size = new System.Drawing.Size(200, 42);
+            this.btnAbort.Size = new System.Drawing.Size(150, 32);
             this.btnAbort.TabIndex = 485;
             this.btnAbort.Text = "Abort";
             this.btnAbort.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -529,10 +533,10 @@ namespace Demos
             this.btnReset.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnReset.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnReset.Image = ((System.Drawing.Image)(resources.GetObject("btnReset.Image")));
-            this.btnReset.Location = new System.Drawing.Point(359, 858);
+            this.btnReset.Location = new System.Drawing.Point(244, 666);
             this.btnReset.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(200, 42);
+            this.btnReset.Size = new System.Drawing.Size(150, 32);
             this.btnReset.TabIndex = 484;
             this.btnReset.Text = "Reset";
             this.btnReset.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -542,46 +546,46 @@ namespace Demos
             // pnPEC
             // 
             this.pnPEC.BackColor = System.Drawing.Color.Green;
-            this.pnPEC.Location = new System.Drawing.Point(566, 733);
+            this.pnPEC.Location = new System.Drawing.Point(401, 648);
             this.pnPEC.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnPEC.Name = "pnPEC";
-            this.pnPEC.Size = new System.Drawing.Size(200, 6);
+            this.pnPEC.Size = new System.Drawing.Size(150, 6);
             this.pnPEC.TabIndex = 496;
             // 
             // pnGate
             // 
             this.pnGate.BackColor = System.Drawing.Color.Green;
-            this.pnGate.Location = new System.Drawing.Point(359, 733);
+            this.pnGate.Location = new System.Drawing.Point(244, 648);
             this.pnGate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnGate.Name = "pnGate";
-            this.pnGate.Size = new System.Drawing.Size(200, 6);
+            this.pnGate.Size = new System.Drawing.Size(150, 6);
             this.pnGate.TabIndex = 495;
             // 
             // pnPRF
             // 
             this.pnPRF.BackColor = System.Drawing.Color.Green;
-            this.pnPRF.Location = new System.Drawing.Point(150, 733);
+            this.pnPRF.Location = new System.Drawing.Point(88, 648);
             this.pnPRF.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnPRF.Name = "pnPRF";
-            this.pnPRF.Size = new System.Drawing.Size(200, 6);
+            this.pnPRF.Size = new System.Drawing.Size(150, 6);
             this.pnPRF.TabIndex = 494;
             // 
             // pnLDD
             // 
             this.pnLDD.BackColor = System.Drawing.Color.Green;
-            this.pnLDD.Location = new System.Drawing.Point(149, 670);
+            this.pnLDD.Location = new System.Drawing.Point(88, 602);
             this.pnLDD.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnLDD.Name = "pnLDD";
-            this.pnLDD.Size = new System.Drawing.Size(200, 6);
+            this.pnLDD.Size = new System.Drawing.Size(150, 6);
             this.pnLDD.TabIndex = 488;
             // 
             // pnShutter
             // 
             this.pnShutter.BackColor = System.Drawing.Color.Green;
-            this.pnShutter.Location = new System.Drawing.Point(150, 606);
+            this.pnShutter.Location = new System.Drawing.Point(88, 554);
             this.pnShutter.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pnShutter.Name = "pnShutter";
-            this.pnShutter.Size = new System.Drawing.Size(200, 6);
+            this.pnShutter.Size = new System.Drawing.Size(150, 6);
             this.pnShutter.TabIndex = 487;
             // 
             // btnPECSource
@@ -589,10 +593,10 @@ namespace Demos
             this.btnPECSource.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnPECSource.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPECSource.Image = ((System.Drawing.Image)(resources.GetObject("btnPECSource.Image")));
-            this.btnPECSource.Location = new System.Drawing.Point(565, 688);
+            this.btnPECSource.Location = new System.Drawing.Point(400, 616);
             this.btnPECSource.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnPECSource.Name = "btnPECSource";
-            this.btnPECSource.Size = new System.Drawing.Size(200, 42);
+            this.btnPECSource.Size = new System.Drawing.Size(150, 32);
             this.btnPECSource.TabIndex = 493;
             this.btnPECSource.Text = "PEC Source External";
             this.btnPECSource.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -604,10 +608,10 @@ namespace Demos
             this.btnGateSource.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnGateSource.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnGateSource.Image = ((System.Drawing.Image)(resources.GetObject("btnGateSource.Image")));
-            this.btnGateSource.Location = new System.Drawing.Point(359, 688);
+            this.btnGateSource.Location = new System.Drawing.Point(244, 616);
             this.btnGateSource.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGateSource.Name = "btnGateSource";
-            this.btnGateSource.Size = new System.Drawing.Size(200, 42);
+            this.btnGateSource.Size = new System.Drawing.Size(150, 32);
             this.btnGateSource.TabIndex = 492;
             this.btnGateSource.Text = "Gate Source External";
             this.btnGateSource.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -619,10 +623,10 @@ namespace Demos
             this.btnPRFSource.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnPRFSource.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPRFSource.Image = ((System.Drawing.Image)(resources.GetObject("btnPRFSource.Image")));
-            this.btnPRFSource.Location = new System.Drawing.Point(150, 688);
+            this.btnPRFSource.Location = new System.Drawing.Point(88, 616);
             this.btnPRFSource.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnPRFSource.Name = "btnPRFSource";
-            this.btnPRFSource.Size = new System.Drawing.Size(200, 42);
+            this.btnPRFSource.Size = new System.Drawing.Size(150, 32);
             this.btnPRFSource.TabIndex = 491;
             this.btnPRFSource.Text = "PRF Source External";
             this.btnPRFSource.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -634,10 +638,10 @@ namespace Demos
             this.btnLDD.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnLDD.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLDD.Image = ((System.Drawing.Image)(resources.GetObject("btnLDD.Image")));
-            this.btnLDD.Location = new System.Drawing.Point(149, 625);
+            this.btnLDD.Location = new System.Drawing.Point(88, 569);
             this.btnLDD.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnLDD.Name = "btnLDD";
-            this.btnLDD.Size = new System.Drawing.Size(200, 42);
+            this.btnLDD.Size = new System.Drawing.Size(150, 32);
             this.btnLDD.TabIndex = 490;
             this.btnLDD.Text = "LDD";
             this.btnLDD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -649,10 +653,10 @@ namespace Demos
             this.btnShutter.BackColor = System.Drawing.Color.WhiteSmoke;
             this.btnShutter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnShutter.Image = ((System.Drawing.Image)(resources.GetObject("btnShutter.Image")));
-            this.btnShutter.Location = new System.Drawing.Point(149, 561);
+            this.btnShutter.Location = new System.Drawing.Point(87, 521);
             this.btnShutter.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnShutter.Name = "btnShutter";
-            this.btnShutter.Size = new System.Drawing.Size(200, 42);
+            this.btnShutter.Size = new System.Drawing.Size(150, 32);
             this.btnShutter.TabIndex = 489;
             this.btnShutter.Text = "Shutter";
             this.btnShutter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -687,7 +691,7 @@ namespace Demos
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "LaserUIControl";
-            this.Size = new System.Drawing.Size(800, 962);
+            this.Size = new System.Drawing.Size(711, 773);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);

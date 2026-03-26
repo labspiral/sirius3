@@ -38,38 +38,42 @@
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.Controls.Add(this.btnCreateEntities);
             this.flowLayoutPanel1.Controls.Add(this.btnReferenceRun);
             this.flowLayoutPanel1.Controls.Add(this.btnStartStop);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 34);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1264, 38);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // btnCreateEntities
             // 
+            this.btnCreateEntities.AutoSize = true;
             this.btnCreateEntities.Location = new System.Drawing.Point(3, 3);
             this.btnCreateEntities.Name = "btnCreateEntities";
-            this.btnCreateEntities.Size = new System.Drawing.Size(116, 28);
+            this.btnCreateEntities.Size = new System.Drawing.Size(120, 32);
             this.btnCreateEntities.TabIndex = 0;
             this.btnCreateEntities.Text = "Create Entities";
             this.btnCreateEntities.UseVisualStyleBackColor = true;
             // 
             // btnReferenceRun
             // 
-            this.btnReferenceRun.Location = new System.Drawing.Point(125, 3);
+            this.btnReferenceRun.AutoSize = true;
+            this.btnReferenceRun.Location = new System.Drawing.Point(129, 3);
             this.btnReferenceRun.Name = "btnReferenceRun";
-            this.btnReferenceRun.Size = new System.Drawing.Size(182, 28);
+            this.btnReferenceRun.Size = new System.Drawing.Size(124, 32);
             this.btnReferenceRun.TabIndex = 4;
             this.btnReferenceRun.Text = "Stage Reference Run";
             this.btnReferenceRun.UseVisualStyleBackColor = true;
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Location = new System.Drawing.Point(313, 3);
+            this.btnStartStop.AutoSize = true;
+            this.btnStartStop.Location = new System.Drawing.Point(259, 3);
             this.btnStartStop.Name = "btnStartStop";
-            this.btnStartStop.Size = new System.Drawing.Size(182, 28);
+            this.btnStartStop.Size = new System.Drawing.Size(120, 32);
             this.btnStartStop.TabIndex = 3;
             this.btnStartStop.Text = "Start/Stop";
             this.btnStartStop.UseVisualStyleBackColor = true;
@@ -77,6 +81,7 @@
             // siriusEditorControl1
             // 
             this.siriusEditorControl1.AliasName = "NoName";
+            this.siriusEditorControl1.AutoSize = true;
             this.siriusEditorControl1.BackColor = System.Drawing.SystemColors.Control;
             this.siriusEditorControl1.DIExt1 = null;
             this.siriusEditorControl1.DILaserPort = null;
@@ -86,20 +91,20 @@
             this.siriusEditorControl1.DOLaserPort = null;
             this.siriusEditorControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.siriusEditorControl1.Laser = null;
-            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 34);
+            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 38);
             this.siriusEditorControl1.Margin = new System.Windows.Forms.Padding(0);
             this.siriusEditorControl1.Marker = null;
             this.siriusEditorControl1.Name = "siriusEditorControl1";
             this.siriusEditorControl1.PowerMeter = null;
             this.siriusEditorControl1.Scanner = null;
-            this.siriusEditorControl1.Size = new System.Drawing.Size(1000, 766);
+            this.siriusEditorControl1.Size = new System.Drawing.Size(1264, 823);
             this.siriusEditorControl1.TabIndex = 2;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 800);
+            this.ClientSize = new System.Drawing.Size(1264, 861);
             this.Controls.Add(this.siriusEditorControl1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -107,7 +112,9 @@
             this.Name = "Form1";
             this.Text = "Sirius3 Demo - (c)SpiralLAB";
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

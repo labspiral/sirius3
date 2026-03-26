@@ -37,16 +37,18 @@
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.Controls.Add(this.btnNormalJump);
             this.flowLayoutPanel1.Controls.Add(this.btnHardJump);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 36);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1264, 36);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // btnNormalJump
             // 
+            this.btnNormalJump.AutoSize = true;
             this.btnNormalJump.Location = new System.Drawing.Point(3, 3);
             this.btnNormalJump.Name = "btnNormalJump";
             this.btnNormalJump.Size = new System.Drawing.Size(140, 30);
@@ -56,6 +58,7 @@
             // 
             // btnHardJump
             // 
+            this.btnHardJump.AutoSize = true;
             this.btnHardJump.Location = new System.Drawing.Point(149, 3);
             this.btnHardJump.Name = "btnHardJump";
             this.btnHardJump.Size = new System.Drawing.Size(140, 30);
@@ -66,6 +69,7 @@
             // siriusEditorControl1
             // 
             this.siriusEditorControl1.AliasName = "NoName";
+            this.siriusEditorControl1.AutoSize = true;
             this.siriusEditorControl1.BackColor = System.Drawing.SystemColors.Control;
             this.siriusEditorControl1.DIExt1 = null;
             this.siriusEditorControl1.DILaserPort = null;
@@ -81,14 +85,14 @@
             this.siriusEditorControl1.Name = "siriusEditorControl1";
             this.siriusEditorControl1.PowerMeter = null;
             this.siriusEditorControl1.Scanner = null;
-            this.siriusEditorControl1.Size = new System.Drawing.Size(1000, 764);
+            this.siriusEditorControl1.Size = new System.Drawing.Size(1264, 825);
             this.siriusEditorControl1.TabIndex = 2;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 800);
+            this.ClientSize = new System.Drawing.Size(1264, 861);
             this.Controls.Add(this.siriusEditorControl1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -96,7 +100,9 @@
             this.Name = "Form1";
             this.Text = "Sirius3 Demo - (c)SpiralLAB";
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

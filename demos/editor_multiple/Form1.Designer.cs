@@ -50,7 +50,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1000, 800);
+            this.tabControl1.Size = new System.Drawing.Size(1264, 861);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 3;
             // 
@@ -60,7 +60,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 32);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(992, 764);
+            this.tabPage1.Size = new System.Drawing.Size(1256, 825);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "EDITOR 1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -83,16 +83,16 @@
             this.siriusEditorControl1.Name = "siriusEditorControl1";
             this.siriusEditorControl1.PowerMeter = null;
             this.siriusEditorControl1.Scanner = null;
-            this.siriusEditorControl1.Size = new System.Drawing.Size(986, 758);
+            this.siriusEditorControl1.Size = new System.Drawing.Size(1250, 819);
             this.siriusEditorControl1.TabIndex = 3;
             // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.siriusEditorControl2);
-            this.tabPage2.Location = new System.Drawing.Point(4, 46);
+            this.tabPage2.Location = new System.Drawing.Point(4, 32);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(2246, 1588);
+            this.tabPage2.Size = new System.Drawing.Size(992, 764);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "EDITOR 2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -115,14 +115,14 @@
             this.siriusEditorControl2.Name = "siriusEditorControl2";
             this.siriusEditorControl2.PowerMeter = null;
             this.siriusEditorControl2.Scanner = null;
-            this.siriusEditorControl2.Size = new System.Drawing.Size(2240, 1582);
+            this.siriusEditorControl2.Size = new System.Drawing.Size(986, 758);
             this.siriusEditorControl2.TabIndex = 4;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 800);
+            this.ClientSize = new System.Drawing.Size(1264, 861);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

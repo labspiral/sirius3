@@ -1,5 +1,36 @@
 ﻿# Sirius3 version history
 
+## v1.5.0 (2026.3.26)
+- added) Stepper motor control support
+    - added controlling external stepper motors via the stepper port on the RTC5, RTC6
+    - added the IRtcStepper interface
+    - added the StepperControl user control UI
+    - support for absolute and relative movement of stepper motors
+- added) Serial communication support
+    - added serial communication via the RS232 port on RTC5, RTC6
+    - added the IRtcSerialComm interface
+    - added the SerialCommControl user control UI
+    - ability to monitor transmitted and received data (binary) in the Laser tab
+    - added OnSerialReceived event
+- Added) Fly Extension improvements
+    - improvements to the Marking on the fly extension for RTC6
+    - refactored the IRtcMoFExtension interface
+    - support for 3-axis combinations (X, Y, Z or rotational axes)
+    - added support for McBSP communication
+- Fixed) Refactored user control UI
+    - OffsetControl
+    - MarkerControl
+    - ScannerControl
+    - LaserControl
+- Fixed) Matrix stack
+    - removed BaseMatrix from MatrixStack 
+    - integrated support via IRtc.CtlMatrix and ListMatrix
+- fixed) PowerMeter
+    - fixed an error reading power values from CoherentPowerMax and GentecEO devices
+- fixed) SiriusEditorControl
+    - import external .sirius3 files and add(or merge) them as layers to the current document
+    - layer pen color use on the layer node is displayed in the tree view
+
 ## v1.4.1 (2026.3.10)
 - added) documentation provided via web server
     - online website: https://spirallab.co.kr/sirius3/doc available

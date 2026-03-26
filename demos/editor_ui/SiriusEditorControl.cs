@@ -1,4 +1,27 @@
-﻿using System;
+﻿/*
+ * 
+ *                                                            ,--,      ,--,                              
+ *             ,-.----.                                     ,---.'|   ,---.'|                              
+ *   .--.--.   \    /  \     ,---,,-.----.      ,---,       |   | :   |   | :      ,---,           ,---,.  
+ *  /  /    '. |   :    \ ,`--.' |\    /  \    '  .' \      :   : |   :   : |     '  .' \        ,'  .'  \ 
+ * |  :  /`. / |   |  .\ :|   :  :;   :    \  /  ;    '.    |   ' :   |   ' :    /  ;    '.    ,---.' .' | 
+ * ;  |  |--`  .   :  |: |:   |  '|   | .\ : :  :       \   ;   ; '   ;   ; '   :  :       \   |   |  |: | 
+ * |  :  ;_    |   |   \ :|   :  |.   : |: | :  |   /\   \  '   | |__ '   | |__ :  |   /\   \  :   :  :  / 
+ *  \  \    `. |   : .   /'   '  ;|   |  \ : |  :  ' ;.   : |   | :.'||   | :.'||  :  ' ;.   : :   |    ;  
+ *   `----.   \;   | |`-' |   |  ||   : .  / |  |  ;/  \   \'   :    ;'   :    ;|  |  ;/  \   \|   :     \ 
+ *   __ \  \  ||   | ;    '   :  ;;   | |  \ '  :  | \  \ ,'|   |  ./ |   |  ./ '  :  | \  \ ,'|   |   . | 
+ *  /  /`--'  /:   ' |    |   |  '|   | ;\  \|  |  '  '--'  ;   : ;   ;   : ;   |  |  '  '--'  '   :  '; | 
+ * '--'.     / :   : :    '   :  |:   ' | \.'|  :  :        |   ,/    |   ,/    |  :  :        |   |  | ;  
+ *   `--'---'  |   | :    ;   |.' :   : :-'  |  | ,'        '---'     '---'     |  | ,'        |   :   /   
+ *             `---'.|    '---'   |   |.'    `--''                              `--''          |   | ,'    
+ *               `---`            `---'                                                        `----'   
+ * 
+ * 2026 Copyright to (c)SpiralLAB. All rights reserved.
+ * Description : SiriusEditorControl
+ * Author : hong chan, choi / hcchoi@spirallab.co.kr (http://spirallab.co.kr)
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -38,6 +61,8 @@ using DMat3 = OpenTK.Mathematics.Matrix3d;
 using DMat4 = OpenTK.Mathematics.Matrix4d;
 #endif
 
+using OpenTK.Graphics.OpenGL;
+
 namespace Demos
 {
     /// <summary>
@@ -49,6 +74,9 @@ namespace Demos
     /// <para>主 WinForms 编辑器控件，托管 OpenGL 编辑器表面、设备控件（扫描仪/激光/功率计/IO/标记）和文档管理 UI。
     /// 它支持单个文档的单个设备集。</para>
     /// </summary>
+    /// <remarks>
+    /// <img src="~/images/siriuseditorcontrol.png"/><br/>
+    /// </remarks>
     public partial class SiriusEditorControl : UserControl
     {
         #region Events
@@ -203,6 +231,7 @@ namespace Demos
             {
                 if (scanner == value) return;
 
+                Document?.ActSimulateStop(false);
                 if (scanner is IRtcMoF oldMof)
                     oldMof.OnEncoderChanged -= MoF_OnEncoderChanged;
 
@@ -212,11 +241,13 @@ namespace Demos
                     laser.Scanner = scanner;
 
                 ScannerCtrl.Scanner = scanner;
+                LaserCtrl.Scanner = scanner;
                 var rtc = value as IRtc;
                 MarkerCtrl.Rtc = rtc;
                 ManualCtrl.Rtc = rtc;
                 EditorCtrl.Rtc = rtc;
                 PowerMapCtrl.Rtc = rtc;
+                StepperCtrl.RtcStepper = rtc as IRtcStepper;
 
                 if (scanner != null)
                 {
@@ -261,6 +292,7 @@ namespace Demos
                 {
                     laser.Scanner = scanner;
                     UpdatePens();
+                    UpdateLaser();
                     PropertyVisibility();
                 }
 
@@ -291,7 +323,7 @@ namespace Demos
             set
             {
                 if (marker == value) return;
-
+                Document?.ActSimulateStop(false);
                 if (marker != null)
                 {
                     marker.OnStarted -= Marker_OnStarted;
@@ -303,10 +335,8 @@ namespace Demos
                 MarkerCtrl.Marker = marker;
                 ManualCtrl.Marker = marker;
                 RtcDOCtrl.Marker = marker;
-                OffsetCtrl.Marker = marker;
                 EditorCtrl.Marker = marker;
                 PropertyGridCtrl.Marker = marker;
-
                 if (marker != null)
                 {
                     marker.OnStarted += Marker_OnStarted;
@@ -342,6 +372,7 @@ namespace Demos
                 }
 
                 powerMeter = value;
+                UpdateLaser();
 
                 PowerMeterCtrl.PowerMeter = powerMeter;
                 PowerMapCtrl.PowerMeter = powerMeter;
@@ -606,18 +637,6 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.MarkerControl MarkerCtrl => markerControl1;
 
         /// <summary>
-        /// Gets the offset control wrapper.
-        /// <para>오프셋 컨트롤 래퍼를 가져옵니다.</para>
-        /// <para>获取偏移控制器包装器。</para>
-        /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("OffsetControl")]
-        [Description("Offset UserControl")]
-        public SpiralLab.Sirius3.UI.WinForms.OffsetControl OffsetCtrl => offsetControl1;
-
-        /// <summary>
         /// Gets the RTC DI control wrapper.
         /// <para>RTC DI 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取 RTC DI 控制器包装器。</para>
@@ -627,7 +646,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("RtcDIControl")]
         [Description("RtcDI UserControl")]
-        public SpiralLab.Sirius3.UI.WinForms.RtcDIControl RtcDICtrl => rtcDIControl1;
+        public SpiralLab.Sirius3.UI.WinForms.DIRtcControl RtcDICtrl => rtcDIControl1;
 
         /// <summary>
         /// Gets the RTC DO control wrapper.
@@ -639,7 +658,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("RtcDOControl")]
         [Description("RtcDO UserControl")]
-        public SpiralLab.Sirius3.UI.WinForms.RtcDOControl RtcDOCtrl => rtcDOControl1;
+        public SpiralLab.Sirius3.UI.WinForms.DORtcControl RtcDOCtrl => rtcDOControl1;
 
         /// <summary>
         /// Gets the manual control wrapper.
@@ -676,6 +695,17 @@ namespace Demos
         [DisplayName("PowerMapControl")]
         [Description("PowerMap UserControl")]
         public SpiralLab.Sirius3.UI.WinForms.PowerMapControl PowerMapCtrl => powerMapControl1;
+
+        /// <summary>
+        /// Gets the stepper control wrapper.
+        /// <para>스태퍼 컨트롤 래퍼를 가져옵니다.</para>
+        /// </summary>
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Category("Sirius3")]
+        [DisplayName("StepperControl")]
+        [Description("Stepper UserControl")]
+        public SpiralLab.Sirius3.UI.WinForms.StepperControl StepperCtrl => stepperControl1;
 
         /// <summary>
         /// Gets the entity pen control wrapper.
@@ -723,8 +753,8 @@ namespace Demos
         public SiriusEditorControl()
         {
             InitializeComponent();
-
-
+            
+                
             // Embed editor control into tab page
             tabEditor.Controls.Add(editorControl1);
             editorControl1.Dock = DockStyle.Fill;
@@ -760,7 +790,7 @@ namespace Demos
                 splitContainer2.Panel2Collapsed = !splitContainer2.Panel2Collapsed;
             };
 
-            Document = new DocumentBase();
+            Document = new DocumentBase(); 
         }
 
         /// <summary>
@@ -794,9 +824,10 @@ namespace Demos
         /// </summary>
         public void DisposeDevices()
         {
+            Document?.ActSimulateStop(false);
             Marker?.Dispose();
             Marker = null;
-
+     
             DIExt1?.Dispose();
             DIExt1 = null;
             DILaserPort?.Dispose();
@@ -1037,6 +1068,7 @@ namespace Demos
             {
                 timerProgressStopwatch.Restart();
                 timerProgress.Enabled = true;
+                lblProcessTime.ForeColor = stsBottom.ForeColor;
                 ControlEnableOrNot(false);
             }));
         }
@@ -1081,7 +1113,7 @@ namespace Demos
                 lblProcessTime.ForeColor = success ? stsBottom.ForeColor : Color.Red;
 
                 ControlEnableOrNot(!btnLock.Checked);
-
+                
                 EditorCtrl.Focus();
             }));
         }
@@ -1112,7 +1144,7 @@ namespace Demos
                         }));
                         break;
 
-                    case RtcMoFModes.Angular:
+                    case RtcMoFModes.Rotary:
                         stsBottom.Invoke(new MethodInvoker(() =>
                         {
                             lblEncoder.Text = string.Format("ENC: {0:F3}° ({1})", encXmmOrAngle, encX);
@@ -1230,7 +1262,7 @@ namespace Demos
 
             Invoke(new MethodInvoker(() =>
             {
-                btnNew.Enabled = isEnable;
+                btnNew.Enabled= isEnable;
                 //btnOpen.Enabled = isEnable;
                 ddbOpenNewOptions.Enabled = isEnable;
                 btnSave.Enabled = isEnable;
@@ -1247,14 +1279,13 @@ namespace Demos
                 BlockCtrl.Enabled = isEnable;
                 //WaferCtrl.Enabled = isEnable;
                 //SubstrateCtrl.Enabled = isEnable;
-
+                
 
 #if DEBUG
                 // Keep enables for debugging
 
 #else
                 ManualCtrl.Enabled = isEnable;
-                OffsetCtrl.Enabled = isEnable;
                 ScannerCtrl.Enabled = isEnable;
                 LaserCtrl.Enabled = isEnable;
                 PowerMeterCtrl.Enabled = isEnable;
@@ -1291,6 +1322,53 @@ namespace Demos
                 }
             }
         }
+        /// <summary>
+        /// Update laser information 
+        /// </summary>
+        private void UpdateLaser()
+        {
+            if (powerMeter != null)
+            {
+                if (powerMeter is PowerMeterVirtual powerMeterVirtual)
+                {
+                    powerMeterVirtual.Laser = laser;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Show(or hide) <see cref="LogCtrl"/> window at bottom side
+        /// </summary>
+        /// <param name="show"><c>True</c>: Show<br/>
+        /// <c>False</c>: Hide (Default)
+        /// </param>
+        public void ShowLogWindow(bool show)
+        {
+            splitContainer2.Panel2Collapsed = !show;
+
+        }
+        /// <summary>
+        /// Show(or hide) <c>TreeView</c>, <see cref="EntityPenControl"/> and <see cref="LayerPenControl"/> windows at left side
+        /// </summary>
+        /// <param name="show"><c>True</c>: Show  (Default)<br/>
+        /// <c>False</c>: Hide 
+        /// </param>
+        public void ShowTreeViewAndPens(bool show)
+        {
+            splitContainer12.Panel1Collapsed = !show;
+        }
+
+        /// <summary>
+        /// Show(or hide) <see cref="PropertyGridControl"/> window at right side
+        /// </summary>
+        /// <param name="show"><c>True</c>: Show  (Default)<br/>
+        /// <c>False</c>: Hide
+        /// </param>
+        public void ShowPropertyWindow(bool show)
+        {
+            splitContainer123.Panel2Collapsed = !show;
+        }
+
         #endregion
 
         #region Left Tab / File Buttons
@@ -1339,16 +1417,16 @@ namespace Demos
                     editorControl1.Document.ActRegen();
                     editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Blocks.Children.ToArray());
                     break;
-                    //case :
-                    //    Document.Page = DocumentPages.Wafer;
-                    //    editorControl1.Document.ActRegen();
-                    //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Wafers.Children.ToArray());
-                    //    break;
-                    //case :
-                    //    Document.Page = DocumentPages.Substrate;
-                    //    editorControl1.Document.ActRegen();
-                    //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Substrates.Children.ToArray());
-                    //    break;
+                //case :
+                //    Document.Page = DocumentPages.Wafer;
+                //    editorControl1.Document.ActRegen();
+                //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Wafers.Children.ToArray());
+                //    break;
+                //case :
+                //    Document.Page = DocumentPages.Substrate;
+                //    editorControl1.Document.ActRegen();
+                //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Substrates.Children.ToArray());
+                //    break;
             }
 
             editorControl1.View.DoRender();

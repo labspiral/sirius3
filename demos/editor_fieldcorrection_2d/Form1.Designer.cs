@@ -38,38 +38,42 @@
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.Controls.Add(this.btnCreateGrids);
             this.flowLayoutPanel1.Controls.Add(this.btnCorrection2D);
             this.flowLayoutPanel1.Controls.Add(this.btnSelectTable);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 37);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1264, 38);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // btnCreateGrids
             // 
+            this.btnCreateGrids.AutoSize = true;
             this.btnCreateGrids.Location = new System.Drawing.Point(3, 3);
             this.btnCreateGrids.Name = "btnCreateGrids";
-            this.btnCreateGrids.Size = new System.Drawing.Size(109, 31);
+            this.btnCreateGrids.Size = new System.Drawing.Size(120, 32);
             this.btnCreateGrids.TabIndex = 0;
             this.btnCreateGrids.Text = "Create Grids";
             this.btnCreateGrids.UseVisualStyleBackColor = true;
             // 
             // btnCorrection2D
             // 
-            this.btnCorrection2D.Location = new System.Drawing.Point(118, 3);
+            this.btnCorrection2D.AutoSize = true;
+            this.btnCorrection2D.Location = new System.Drawing.Point(129, 3);
             this.btnCorrection2D.Name = "btnCorrection2D";
-            this.btnCorrection2D.Size = new System.Drawing.Size(145, 31);
+            this.btnCorrection2D.Size = new System.Drawing.Size(120, 32);
             this.btnCorrection2D.TabIndex = 1;
             this.btnCorrection2D.Text = "Correction 2D";
             this.btnCorrection2D.UseVisualStyleBackColor = true;
             // 
             // btnSelectTable
             // 
-            this.btnSelectTable.Location = new System.Drawing.Point(269, 3);
+            this.btnSelectTable.AutoSize = true;
+            this.btnSelectTable.Location = new System.Drawing.Point(255, 3);
             this.btnSelectTable.Name = "btnSelectTable";
-            this.btnSelectTable.Size = new System.Drawing.Size(145, 31);
+            this.btnSelectTable.Size = new System.Drawing.Size(120, 32);
             this.btnSelectTable.TabIndex = 2;
             this.btnSelectTable.Text = "Select Table";
             this.btnSelectTable.UseVisualStyleBackColor = true;
@@ -77,6 +81,7 @@
             // siriusEditorControl1
             // 
             this.siriusEditorControl1.AliasName = "NoName";
+            this.siriusEditorControl1.AutoSize = true;
             this.siriusEditorControl1.BackColor = System.Drawing.SystemColors.Control;
             this.siriusEditorControl1.DIExt1 = null;
             this.siriusEditorControl1.DILaserPort = null;
@@ -86,20 +91,20 @@
             this.siriusEditorControl1.DOLaserPort = null;
             this.siriusEditorControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.siriusEditorControl1.Laser = null;
-            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 37);
+            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 38);
             this.siriusEditorControl1.Margin = new System.Windows.Forms.Padding(0);
             this.siriusEditorControl1.Marker = null;
             this.siriusEditorControl1.Name = "siriusEditorControl1";
             this.siriusEditorControl1.PowerMeter = null;
             this.siriusEditorControl1.Scanner = null;
-            this.siriusEditorControl1.Size = new System.Drawing.Size(1000, 763);
+            this.siriusEditorControl1.Size = new System.Drawing.Size(1264, 823);
             this.siriusEditorControl1.TabIndex = 2;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 800);
+            this.ClientSize = new System.Drawing.Size(1264, 861);
             this.Controls.Add(this.siriusEditorControl1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -107,7 +112,9 @@
             this.Name = "Form1";
             this.Text = "Sirius3 Demo - (c)SpiralLAB";
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

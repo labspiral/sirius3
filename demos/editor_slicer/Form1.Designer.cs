@@ -46,6 +46,7 @@
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.Controls.Add(this.btnLoad3DModel);
             this.flowLayoutPanel1.Controls.Add(this.nudMin);
             this.flowLayoutPanel1.Controls.Add(this.nudSlice);
@@ -57,96 +58,104 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 39);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1264, 38);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // btnLoad3DModel
             // 
+            this.btnLoad3DModel.AutoSize = true;
             this.btnLoad3DModel.Location = new System.Drawing.Point(3, 3);
             this.btnLoad3DModel.Name = "btnLoad3DModel";
-            this.btnLoad3DModel.Size = new System.Drawing.Size(104, 33);
+            this.btnLoad3DModel.Size = new System.Drawing.Size(120, 32);
             this.btnLoad3DModel.TabIndex = 0;
             this.btnLoad3DModel.Text = "Load 3D Model";
             this.btnLoad3DModel.UseVisualStyleBackColor = true;
             // 
             // nudMin
             // 
+            this.nudMin.AutoSize = true;
             this.nudMin.DecimalPlaces = 3;
             this.nudMin.Enabled = false;
-            this.nudMin.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudMin.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudMin.Increment = new decimal(new int[] {
             1,
             0,
             0,
             196608});
-            this.nudMin.Location = new System.Drawing.Point(113, 3);
+            this.nudMin.Location = new System.Drawing.Point(129, 3);
             this.nudMin.Name = "nudMin";
             this.nudMin.ReadOnly = true;
-            this.nudMin.Size = new System.Drawing.Size(107, 32);
+            this.nudMin.Size = new System.Drawing.Size(83, 29);
             this.nudMin.TabIndex = 6;
             // 
             // nudSlice
             // 
+            this.nudSlice.AutoSize = true;
             this.nudSlice.DecimalPlaces = 3;
-            this.nudSlice.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudSlice.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudSlice.Increment = new decimal(new int[] {
             1,
             0,
             0,
             196608});
-            this.nudSlice.Location = new System.Drawing.Point(226, 3);
+            this.nudSlice.Location = new System.Drawing.Point(218, 3);
             this.nudSlice.Name = "nudSlice";
-            this.nudSlice.Size = new System.Drawing.Size(107, 32);
+            this.nudSlice.Size = new System.Drawing.Size(83, 29);
             this.nudSlice.TabIndex = 7;
             // 
             // nudMax
             // 
+            this.nudMax.AutoSize = true;
             this.nudMax.DecimalPlaces = 3;
             this.nudMax.Enabled = false;
-            this.nudMax.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudMax.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudMax.Increment = new decimal(new int[] {
             1,
             0,
             0,
             196608});
-            this.nudMax.Location = new System.Drawing.Point(339, 3);
+            this.nudMax.Location = new System.Drawing.Point(307, 3);
             this.nudMax.Name = "nudMax";
             this.nudMax.ReadOnly = true;
-            this.nudMax.Size = new System.Drawing.Size(107, 32);
+            this.nudMax.Size = new System.Drawing.Size(83, 29);
             this.nudMax.TabIndex = 8;
             // 
             // btnSliceContours
             // 
-            this.btnSliceContours.Location = new System.Drawing.Point(452, 3);
+            this.btnSliceContours.AutoSize = true;
+            this.btnSliceContours.Location = new System.Drawing.Point(396, 3);
             this.btnSliceContours.Name = "btnSliceContours";
-            this.btnSliceContours.Size = new System.Drawing.Size(122, 33);
+            this.btnSliceContours.Size = new System.Drawing.Size(120, 32);
             this.btnSliceContours.TabIndex = 2;
             this.btnSliceContours.Text = "Slice (Contours)";
             this.btnSliceContours.UseVisualStyleBackColor = true;
             // 
             // btnHatchGenerate
             // 
-            this.btnHatchGenerate.Location = new System.Drawing.Point(580, 3);
+            this.btnHatchGenerate.AutoSize = true;
+            this.btnHatchGenerate.Location = new System.Drawing.Point(522, 3);
             this.btnHatchGenerate.Name = "btnHatchGenerate";
-            this.btnHatchGenerate.Size = new System.Drawing.Size(142, 33);
+            this.btnHatchGenerate.Size = new System.Drawing.Size(120, 32);
             this.btnHatchGenerate.TabIndex = 3;
             this.btnHatchGenerate.Text = "Add Hatch";
             this.btnHatchGenerate.UseVisualStyleBackColor = true;
             // 
             // btnSimulationStart
             // 
-            this.btnSimulationStart.Location = new System.Drawing.Point(728, 3);
+            this.btnSimulationStart.AutoSize = true;
+            this.btnSimulationStart.Location = new System.Drawing.Point(648, 3);
             this.btnSimulationStart.Name = "btnSimulationStart";
-            this.btnSimulationStart.Size = new System.Drawing.Size(104, 33);
+            this.btnSimulationStart.Size = new System.Drawing.Size(120, 32);
             this.btnSimulationStart.TabIndex = 4;
             this.btnSimulationStart.Text = "Simulation Start";
             this.btnSimulationStart.UseVisualStyleBackColor = true;
             // 
             // btnSimulationStop
             // 
-            this.btnSimulationStop.Location = new System.Drawing.Point(838, 3);
+            this.btnSimulationStop.AutoSize = true;
+            this.btnSimulationStop.Location = new System.Drawing.Point(774, 3);
             this.btnSimulationStop.Name = "btnSimulationStop";
-            this.btnSimulationStop.Size = new System.Drawing.Size(104, 33);
+            this.btnSimulationStop.Size = new System.Drawing.Size(120, 32);
             this.btnSimulationStop.TabIndex = 5;
             this.btnSimulationStop.Text = "Simulation Stop";
             this.btnSimulationStop.UseVisualStyleBackColor = true;
@@ -154,6 +163,7 @@
             // siriusEditorControl1
             // 
             this.siriusEditorControl1.AliasName = "NoName";
+            this.siriusEditorControl1.AutoSize = true;
             this.siriusEditorControl1.BackColor = System.Drawing.SystemColors.Control;
             this.siriusEditorControl1.DIExt1 = null;
             this.siriusEditorControl1.DILaserPort = null;
@@ -163,20 +173,20 @@
             this.siriusEditorControl1.DOLaserPort = null;
             this.siriusEditorControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.siriusEditorControl1.Laser = null;
-            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 39);
+            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 38);
             this.siriusEditorControl1.Margin = new System.Windows.Forms.Padding(0);
             this.siriusEditorControl1.Marker = null;
             this.siriusEditorControl1.Name = "siriusEditorControl1";
             this.siriusEditorControl1.PowerMeter = null;
             this.siriusEditorControl1.Scanner = null;
-            this.siriusEditorControl1.Size = new System.Drawing.Size(1000, 761);
+            this.siriusEditorControl1.Size = new System.Drawing.Size(1264, 823);
             this.siriusEditorControl1.TabIndex = 2;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 800);
+            this.ClientSize = new System.Drawing.Size(1264, 861);
             this.Controls.Add(this.siriusEditorControl1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -184,10 +194,12 @@
             this.Name = "Form1";
             this.Text = "Sirius3 Demo - (c)SpiralLAB";
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSlice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMax)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

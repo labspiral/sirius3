@@ -216,7 +216,7 @@ namespace Demos
                 }
             }
 
-            var form = new RtcCorrection3DForm(rtc, rtcCorrection3D);
+            var form = new Correction3DRtcForm(rtc, rtcCorrection3D);
             form.ShowDialog();
         }
 

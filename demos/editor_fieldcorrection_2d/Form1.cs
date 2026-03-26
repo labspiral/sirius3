@@ -144,7 +144,7 @@ namespace Demos
                 }
             }
 
-            var form = new RtcCorrection2DForm(rtc, rtcCorrection2D);
+            var form = new Correction2DRtcForm(rtc, rtcCorrection2D);
             form.ShowDialog();
         }
 

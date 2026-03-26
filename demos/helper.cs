@@ -335,7 +335,7 @@ namespace Demos
                     {
                         default:
                         case "unknown":
-                            laser = LaserFactory.CreateVirtual(index, laserMaxPower);
+                            laser = LaserFactory.CreateVirtual(index, laserMaxPower, PowerControlMethods.Unknown);
                             break;
                         case "analog1":
                             {
@@ -419,13 +419,7 @@ namespace Demos
                     laser = LaserFactory.CreateSPIG4(index, $"LASER{index}", laserCOMPort, laserMaxPower);
                     break;
             }
-            if (powerMeter != null)
-            {
-                if (powerMeter is PowerMeterVirtual powerMeterVirtual)
-                {
-                    powerMeterVirtual.Laser = laser;
-                }
-            }
+
             var laserPowerControlDelay = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "POWERCONTROL_DELAY", 0);
             laser.PowerControlDelayTime = laserPowerControlDelay;
             

@@ -143,9 +143,10 @@ namespace Demos
             RtcSignalLevels signalLevelLaser12 = RtcSignalLevels.ActiveHigh; // output signal level for LASER1 and LASER2 at RTC card
             RtcSignalLevels signalLevelLaserOn = RtcSignalLevels.ActiveHigh; // output signal level for LASER ON at RTC card
             string correctionPath = Path.Combine(SpiralLab.Sirius3.Config.CorrectionPath, "cor_1to1.ct5"); // *.ct5 for RTC5,6 card (*.ctb for RTC4 card)
-            //var rtc = ScannerFactory.CreateRtc5MultiBeam(index, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath, multiBeamIndex); // create Rtc6 card instance
-            var rtc = ScannerFactory.CreateRtc6MultiBeam(index, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath, multiBeamIndex); // create Rtc6 card instance
-            //var rtc = ScannerFactory.CreateRtcVirtualMultiBeam(index, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath, multiBeamIndex); // create Rtc6 card instance
+
+            //var rtc = ScannerFactory.CreateRtc5MultiBeam(index, multiBeamIndex, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath); // create Rtc6 card instance
+            var rtc = ScannerFactory.CreateRtc6MultiBeam(index, multiBeamIndex, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath); // create Rtc6 card instance
+            //var rtc = ScannerFactory.CreateRtcVirtualMultiBeam(index, multiBeamIndex, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath); // create Rtc6 card instance
             success &= rtc.Initialize(); // initialize the card
             Debug.Assert(success);
             rtcMultiBeam = rtc;
@@ -175,7 +176,7 @@ namespace Demos
 
             // laser source device
             var laserMaxPower = 10.0; // laser max output power (W)
-            laser = LaserFactory.CreateVirtual(0, laserMaxPower); // create virtual laser instance for test purpose
+            laser = LaserFactory.CreateVirtual(0, laserMaxPower, PowerControlMethods.Unknown); // create virtual laser instance for test purpose
             //var laser = LaserFactory.CreateVirtualAnalog(index, laserMaxPower, analog1, voltageMin, voltageMax); // create virtual analog output laser instance for test purpose
             //var laser = LaserFactory.CreateVirtualDutyCycle(index, laserMaxPower, dutyCycleMin, dutyCycleMax); // create virtual duty cycle output laser instance for test purpose
             //var laser = LaserFactory.CreateVirtualDO8Bits(index, laserMaxPower, dOut8Min, dOut8Max); // create virtual DO8Bits output laser instance for test purpose

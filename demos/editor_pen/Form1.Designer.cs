@@ -39,6 +39,7 @@
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.Controls.Add(this.btnPrepare);
             this.flowLayoutPanel1.Controls.Add(this.btnEventHandler);
             this.flowLayoutPanel1.Controls.Add(this.btnMarkPage1);
@@ -46,41 +47,45 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1000, 30);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1264, 38);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // btnPrepare
             // 
+            this.btnPrepare.AutoSize = true;
             this.btnPrepare.Location = new System.Drawing.Point(3, 3);
             this.btnPrepare.Name = "btnPrepare";
-            this.btnPrepare.Size = new System.Drawing.Size(78, 24);
+            this.btnPrepare.Size = new System.Drawing.Size(120, 32);
             this.btnPrepare.TabIndex = 0;
             this.btnPrepare.Text = "Prepare";
             this.btnPrepare.UseVisualStyleBackColor = true;
             // 
             // btnEventHandler
             // 
-            this.btnEventHandler.Location = new System.Drawing.Point(87, 3);
+            this.btnEventHandler.AutoSize = true;
+            this.btnEventHandler.Location = new System.Drawing.Point(129, 3);
             this.btnEventHandler.Name = "btnEventHandler";
-            this.btnEventHandler.Size = new System.Drawing.Size(116, 24);
+            this.btnEventHandler.Size = new System.Drawing.Size(120, 32);
             this.btnEventHandler.TabIndex = 5;
             this.btnEventHandler.Text = "Event for Pen";
             this.btnEventHandler.UseVisualStyleBackColor = true;
             // 
             // btnMarkPage1
             // 
-            this.btnMarkPage1.Location = new System.Drawing.Point(209, 3);
+            this.btnMarkPage1.AutoSize = true;
+            this.btnMarkPage1.Location = new System.Drawing.Point(255, 3);
             this.btnMarkPage1.Name = "btnMarkPage1";
-            this.btnMarkPage1.Size = new System.Drawing.Size(116, 24);
+            this.btnMarkPage1.Size = new System.Drawing.Size(120, 32);
             this.btnMarkPage1.TabIndex = 6;
             this.btnMarkPage1.Text = "Mark Page1";
             this.btnMarkPage1.UseVisualStyleBackColor = true;
             // 
             // btnMarkPage2
             // 
-            this.btnMarkPage2.Location = new System.Drawing.Point(331, 3);
+            this.btnMarkPage2.AutoSize = true;
+            this.btnMarkPage2.Location = new System.Drawing.Point(381, 3);
             this.btnMarkPage2.Name = "btnMarkPage2";
-            this.btnMarkPage2.Size = new System.Drawing.Size(116, 24);
+            this.btnMarkPage2.Size = new System.Drawing.Size(120, 32);
             this.btnMarkPage2.TabIndex = 7;
             this.btnMarkPage2.Text = "Mark Page2";
             this.btnMarkPage2.UseVisualStyleBackColor = true;
@@ -88,6 +93,7 @@
             // siriusEditorControl1
             // 
             this.siriusEditorControl1.AliasName = "NoName";
+            this.siriusEditorControl1.AutoSize = true;
             this.siriusEditorControl1.BackColor = System.Drawing.SystemColors.Control;
             this.siriusEditorControl1.DIExt1 = null;
             this.siriusEditorControl1.DILaserPort = null;
@@ -97,20 +103,20 @@
             this.siriusEditorControl1.DOLaserPort = null;
             this.siriusEditorControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.siriusEditorControl1.Laser = null;
-            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 30);
+            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 38);
             this.siriusEditorControl1.Margin = new System.Windows.Forms.Padding(0);
             this.siriusEditorControl1.Marker = null;
             this.siriusEditorControl1.Name = "siriusEditorControl1";
             this.siriusEditorControl1.PowerMeter = null;
             this.siriusEditorControl1.Scanner = null;
-            this.siriusEditorControl1.Size = new System.Drawing.Size(1000, 770);
+            this.siriusEditorControl1.Size = new System.Drawing.Size(1264, 823);
             this.siriusEditorControl1.TabIndex = 2;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 800);
+            this.ClientSize = new System.Drawing.Size(1264, 861);
             this.Controls.Add(this.siriusEditorControl1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -118,7 +124,9 @@
             this.Name = "Form1";
             this.Text = "Sirius3 Demo - (c)SpiralLAB";
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

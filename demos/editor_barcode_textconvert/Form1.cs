@@ -90,7 +90,7 @@ namespace Demos
             entity.CellDot.DotFactor = 2;
             entity.CellDot.Direction = CellDot.DotDirections.Horizontal;
             entity.CellDot.IsZigZag = true;
-            entity.CellDot.IsReversed = true;
+            entity.IsReversed = true;
 
             entity.Name = "MyBarcode";
             entity.IsAllowConvert = true;

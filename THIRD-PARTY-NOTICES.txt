@@ -72,6 +72,12 @@ OxyPlot
   Copyright: Copyright (c) 2014 OxyPlot contributors
   Source  : https://github.com/oxyplot/oxyplot
 
+Be.HexEdito
+  Version : 1.6.1
+  License : MIT
+  Copyright: Copyright (c) 2011 Bernhard Elbl
+  Source  : https://sourceforge.net/projects/hexbox/
+
 Microsoft .NET / .NET 8 (target platform)
   License : MIT 
   Source  : https://github.com/dotnet/runtime

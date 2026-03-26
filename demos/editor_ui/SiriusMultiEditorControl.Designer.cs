@@ -49,15 +49,8 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnDevice3 = new System.Windows.Forms.ToolStripButton();
-            this.btnDevice2 = new System.Windows.Forms.ToolStripButton();
-            this.btnDevice1 = new System.Windows.Forms.ToolStripButton();
-            this.btnDevice0 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnLock = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.stsBottom = new System.Windows.Forms.StatusStrip();
             this.lblName = new System.Windows.Forms.ToolStripStatusLabel();
@@ -96,8 +89,6 @@
             this.tbcMain = new System.Windows.Forms.TabControl();
             this.tabEditor = new System.Windows.Forms.TabPage();
             this.tabMarker = new System.Windows.Forms.TabPage();
-            this.splitContainer10 = new System.Windows.Forms.SplitContainer();
-            this.offsetControl1 = new SpiralLab.Sirius3.UI.WinForms.OffsetControl();
             this.markerControl1 = new SpiralLab.Sirius3.UI.WinForms.MarkerControl();
             this.tabManual = new System.Windows.Forms.TabPage();
             this.manualControl1 = new SpiralLab.Sirius3.UI.WinForms.ManualControl();
@@ -107,18 +98,25 @@
             this.laserControl1 = new SpiralLab.Sirius3.UI.WinForms.LaserControl();
             this.tabDIO = new System.Windows.Forms.TabPage();
             this.splitContainer9 = new System.Windows.Forms.SplitContainer();
-            this.rtcDIControl1 = new SpiralLab.Sirius3.UI.WinForms.RtcDIControl();
-            this.rtcDOControl1 = new SpiralLab.Sirius3.UI.WinForms.RtcDOControl();
+            this.rtcDIControl1 = new SpiralLab.Sirius3.UI.WinForms.DIRtcControl();
+            this.rtcDOControl1 = new SpiralLab.Sirius3.UI.WinForms.DORtcControl();
             this.tabPower = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage18 = new System.Windows.Forms.TabPage();
             this.powerMeterControl1 = new SpiralLab.Sirius3.UI.WinForms.PowerMeterControl();
             this.tabPage19 = new System.Windows.Forms.TabPage();
             this.powerMapControl1 = new SpiralLab.Sirius3.UI.WinForms.PowerMapControl();
+            this.tabStepper = new System.Windows.Forms.TabPage();
+            this.stepperControl1 = new SpiralLab.Sirius3.UI.WinForms.StepperControl();
             this.logControl1 = new SpiralLab.Sirius3.UI.WinForms.LogControl();
             this.tlcRight = new System.Windows.Forms.TabControl();
             this.tabProperty = new System.Windows.Forms.TabPage();
             this.propertyGridControl1 = new SpiralLab.Sirius3.UI.WinForms.PropertyGridControl();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.rdDevice0 = new System.Windows.Forms.RadioButton();
+            this.rdDevice1 = new System.Windows.Forms.RadioButton();
+            this.rdDevice2 = new System.Windows.Forms.RadioButton();
+            this.rdDevice3 = new System.Windows.Forms.RadioButton();
             this.tlsTop1.SuspendLayout();
             this.stsBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer123)).BeginInit();
@@ -148,10 +146,6 @@
             this.splitContainer2.SuspendLayout();
             this.tbcMain.SuspendLayout();
             this.tabMarker.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).BeginInit();
-            this.splitContainer10.Panel1.SuspendLayout();
-            this.splitContainer10.Panel2.SuspendLayout();
-            this.splitContainer10.SuspendLayout();
             this.tabManual.SuspendLayout();
             this.tabScanner.SuspendLayout();
             this.tabLaser.SuspendLayout();
@@ -164,12 +158,15 @@
             this.tabControl2.SuspendLayout();
             this.tabPage18.SuspendLayout();
             this.tabPage19.SuspendLayout();
+            this.tabStepper.SuspendLayout();
             this.tlcRight.SuspendLayout();
             this.tabProperty.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlsTop1
             // 
+            this.tlsTop1.AutoSize = false;
             this.tlsTop1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tlsTop1.GripMargin = new System.Windows.Forms.Padding(0);
             this.tlsTop1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
@@ -182,19 +179,12 @@
             this.toolStripSeparator2,
             this.btnSave,
             this.toolStripSeparator3,
-            this.toolStripSeparator6,
-            this.btnDevice3,
-            this.btnDevice2,
-            this.btnDevice1,
-            this.btnDevice0,
-            this.toolStripSeparator1,
             this.btnLock,
-            this.toolStripSeparator5,
-            this.toolStripButton1});
+            this.toolStripSeparator1});
             this.tlsTop1.Location = new System.Drawing.Point(0, 0);
             this.tlsTop1.Name = "tlsTop1";
             this.tlsTop1.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.tlsTop1.Size = new System.Drawing.Size(1200, 38);
+            this.tlsTop1.Size = new System.Drawing.Size(1200, 32);
             this.tlsTop1.TabIndex = 36;
             this.tlsTop1.Text = "tlsTop1";
             // 
@@ -205,7 +195,7 @@
             this.btnNew.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(28, 35);
+            this.btnNew.Size = new System.Drawing.Size(28, 29);
             this.btnNew.Text = "toolStripButton2";
             this.btnNew.ToolTipText = "New";
             // 
@@ -215,7 +205,7 @@
             this.btnOpen.Image = global::Demos.Properties.Resources.Import_Import;
             this.btnOpen.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(28, 35);
+            this.btnOpen.Size = new System.Drawing.Size(28, 29);
             this.btnOpen.Text = "Open";
             this.btnOpen.ToolTipText = "Open";
             // 
@@ -223,7 +213,7 @@
             // 
             this.toolStripSeparator4.AutoSize = false;
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(12, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(16, 32);
             // 
             // ddbOpenNewOptions
             // 
@@ -243,7 +233,7 @@
             this.ddbOpenNewOptions.Image = global::Demos.Properties.Resources.Slider;
             this.ddbOpenNewOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ddbOpenNewOptions.Name = "ddbOpenNewOptions";
-            this.ddbOpenNewOptions.Size = new System.Drawing.Size(37, 35);
+            this.ddbOpenNewOptions.Size = new System.Drawing.Size(37, 29);
             this.ddbOpenNewOptions.Text = "Open(or New) Options";
             this.ddbOpenNewOptions.ToolTipText = "Open(or New) Options";
             // 
@@ -371,7 +361,7 @@
             this.btnSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(28, 35);
+            this.btnSave.Size = new System.Drawing.Size(28, 29);
             this.btnSave.Text = "toolStripButton1";
             this.btnSave.ToolTipText = "Save";
             // 
@@ -379,80 +369,7 @@
             // 
             this.toolStripSeparator3.AutoSize = false;
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(12, 32);
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator6.AutoSize = false;
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(24, 38);
-            // 
-            // btnDevice3
-            // 
-            this.btnDevice3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnDevice3.CheckOnClick = true;
-            this.btnDevice3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDevice3.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDevice3.Image = global::Demos.Properties.Resources.m4;
-            this.btnDevice3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDevice3.Name = "btnDevice3";
-            this.btnDevice3.Size = new System.Drawing.Size(28, 35);
-            this.btnDevice3.Tag = "3";
-            this.btnDevice3.Text = "Device4";
-            this.btnDevice3.ToolTipText = "Device 4";
-            // 
-            // btnDevice2
-            // 
-            this.btnDevice2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnDevice2.CheckOnClick = true;
-            this.btnDevice2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDevice2.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDevice2.Image = global::Demos.Properties.Resources.m3;
-            this.btnDevice2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDevice2.Name = "btnDevice2";
-            this.btnDevice2.Size = new System.Drawing.Size(28, 35);
-            this.btnDevice2.Tag = "2";
-            this.btnDevice2.Text = "Device3";
-            this.btnDevice2.ToolTipText = "Device 3";
-            // 
-            // btnDevice1
-            // 
-            this.btnDevice1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnDevice1.CheckOnClick = true;
-            this.btnDevice1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDevice1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDevice1.Image = global::Demos.Properties.Resources.m2;
-            this.btnDevice1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDevice1.Name = "btnDevice1";
-            this.btnDevice1.Size = new System.Drawing.Size(28, 35);
-            this.btnDevice1.Tag = "1";
-            this.btnDevice1.Text = "Device2";
-            this.btnDevice1.ToolTipText = "Device 2";
-            // 
-            // btnDevice0
-            // 
-            this.btnDevice0.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.btnDevice0.BackColor = System.Drawing.SystemColors.Control;
-            this.btnDevice0.Checked = true;
-            this.btnDevice0.CheckOnClick = true;
-            this.btnDevice0.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.btnDevice0.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDevice0.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnDevice0.Image = global::Demos.Properties.Resources.m1;
-            this.btnDevice0.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDevice0.Name = "btnDevice0";
-            this.btnDevice0.Size = new System.Drawing.Size(75, 35);
-            this.btnDevice0.Tag = "0";
-            this.btnDevice0.Text = "Device1";
-            this.btnDevice0.ToolTipText = "Device 1";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator1.AutoSize = false;
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(28, 38);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(16, 32);
             // 
             // btnLock
             // 
@@ -462,20 +379,15 @@
             this.btnLock.Image = global::Demos.Properties.Resources.lock_24px;
             this.btnLock.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLock.Name = "btnLock";
-            this.btnLock.Size = new System.Drawing.Size(28, 35);
+            this.btnLock.Size = new System.Drawing.Size(28, 29);
             this.btnLock.Text = "Lock";
             // 
-            // toolStripSeparator5
+            // toolStripSeparator1
             // 
-            this.toolStripSeparator5.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator5.AutoSize = false;
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(24, 38);
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 35);
+            this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator1.AutoSize = false;
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(16, 32);
             // 
             // imageList1
             // 
@@ -535,6 +447,7 @@
             this.imageList1.Images.SetKeyName(51, "m2.png");
             this.imageList1.Images.SetKeyName(52, "m3.png");
             this.imageList1.Images.SetKeyName(53, "m4.png");
+            this.imageList1.Images.SetKeyName(54, "Motor Symbol.png");
             // 
             // stsBottom
             // 
@@ -593,7 +506,7 @@
             this.toolStripStatusLabel14.BackColor = System.Drawing.SystemColors.Control;
             this.toolStripStatusLabel14.ForeColor = System.Drawing.Color.Black;
             this.toolStripStatusLabel14.Name = "toolStripStatusLabel14";
-            this.toolStripStatusLabel14.Size = new System.Drawing.Size(682, 26);
+            this.toolStripStatusLabel14.Size = new System.Drawing.Size(713, 26);
             this.toolStripStatusLabel14.Spring = true;
             // 
             // btnLogWindow
@@ -678,7 +591,7 @@
             // splitContainer123
             // 
             this.splitContainer123.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer123.Location = new System.Drawing.Point(0, 38);
+            this.splitContainer123.Location = new System.Drawing.Point(0, 32);
             this.splitContainer123.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainer123.Name = "splitContainer123";
             // 
@@ -690,7 +603,7 @@
             // 
             this.splitContainer123.Panel2.Controls.Add(this.tlcRight);
             this.splitContainer123.Panel2MinSize = 100;
-            this.splitContainer123.Size = new System.Drawing.Size(1200, 931);
+            this.splitContainer123.Size = new System.Drawing.Size(1200, 937);
             this.splitContainer123.SplitterDistance = 956;
             this.splitContainer123.TabIndex = 40;
             // 
@@ -708,7 +621,7 @@
             // splitContainer12.Panel2
             // 
             this.splitContainer12.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer12.Size = new System.Drawing.Size(956, 931);
+            this.splitContainer12.Size = new System.Drawing.Size(956, 937);
             this.splitContainer12.SplitterDistance = 228;
             this.splitContainer12.TabIndex = 0;
             // 
@@ -728,8 +641,8 @@
             // 
             this.splitContainerLeft.Panel2.Controls.Add(this.tlcPen);
             this.splitContainerLeft.Panel2MinSize = 100;
-            this.splitContainerLeft.Size = new System.Drawing.Size(228, 931);
-            this.splitContainerLeft.SplitterDistance = 702;
+            this.splitContainerLeft.Size = new System.Drawing.Size(228, 937);
+            this.splitContainerLeft.SplitterDistance = 706;
             this.splitContainerLeft.TabIndex = 3;
             // 
             // tbcLeft
@@ -748,7 +661,7 @@
             this.tbcLeft.Name = "tbcLeft";
             this.tbcLeft.Padding = new System.Drawing.Point(3, 3);
             this.tbcLeft.SelectedIndex = 0;
-            this.tbcLeft.Size = new System.Drawing.Size(228, 702);
+            this.tbcLeft.Size = new System.Drawing.Size(228, 706);
             this.tbcLeft.TabIndex = 4;
             // 
             // tabDocPage1
@@ -758,7 +671,7 @@
             this.tabDocPage1.Location = new System.Drawing.Point(4, 32);
             this.tabDocPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabDocPage1.Name = "tabDocPage1";
-            this.tabDocPage1.Size = new System.Drawing.Size(220, 666);
+            this.tabDocPage1.Size = new System.Drawing.Size(220, 670);
             this.tabDocPage1.TabIndex = 0;
             this.tabDocPage1.Text = "P1 ";
             this.tabDocPage1.UseVisualStyleBackColor = true;
@@ -773,7 +686,7 @@
             this.treeViewPageControl1.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewPageControl1.Name = "treeViewPageControl1";
             this.treeViewPageControl1.Page = SpiralLab.Sirius3.Document.DocumentPages.Page1;
-            this.treeViewPageControl1.Size = new System.Drawing.Size(220, 666);
+            this.treeViewPageControl1.Size = new System.Drawing.Size(220, 670);
             this.treeViewPageControl1.TabIndex = 2;
             this.treeViewPageControl1.View = null;
             // 
@@ -784,7 +697,7 @@
             this.tabDocPage2.Location = new System.Drawing.Point(4, 32);
             this.tabDocPage2.Margin = new System.Windows.Forms.Padding(0);
             this.tabDocPage2.Name = "tabDocPage2";
-            this.tabDocPage2.Size = new System.Drawing.Size(220, 666);
+            this.tabDocPage2.Size = new System.Drawing.Size(220, 670);
             this.tabDocPage2.TabIndex = 4;
             this.tabDocPage2.Text = "P2 ";
             this.tabDocPage2.UseVisualStyleBackColor = true;
@@ -799,7 +712,7 @@
             this.treeViewPageControl2.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewPageControl2.Name = "treeViewPageControl2";
             this.treeViewPageControl2.Page = SpiralLab.Sirius3.Document.DocumentPages.Page2;
-            this.treeViewPageControl2.Size = new System.Drawing.Size(220, 666);
+            this.treeViewPageControl2.Size = new System.Drawing.Size(220, 670);
             this.treeViewPageControl2.TabIndex = 3;
             this.treeViewPageControl2.View = null;
             // 
@@ -810,7 +723,7 @@
             this.tabDocPage3.Location = new System.Drawing.Point(4, 32);
             this.tabDocPage3.Margin = new System.Windows.Forms.Padding(0);
             this.tabDocPage3.Name = "tabDocPage3";
-            this.tabDocPage3.Size = new System.Drawing.Size(220, 666);
+            this.tabDocPage3.Size = new System.Drawing.Size(220, 670);
             this.tabDocPage3.TabIndex = 5;
             this.tabDocPage3.Text = "P3 ";
             this.tabDocPage3.UseVisualStyleBackColor = true;
@@ -825,7 +738,7 @@
             this.treeViewPageControl3.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewPageControl3.Name = "treeViewPageControl3";
             this.treeViewPageControl3.Page = SpiralLab.Sirius3.Document.DocumentPages.Page3;
-            this.treeViewPageControl3.Size = new System.Drawing.Size(220, 666);
+            this.treeViewPageControl3.Size = new System.Drawing.Size(220, 670);
             this.treeViewPageControl3.TabIndex = 3;
             this.treeViewPageControl3.View = null;
             // 
@@ -836,7 +749,7 @@
             this.tabDocPage4.Location = new System.Drawing.Point(4, 32);
             this.tabDocPage4.Margin = new System.Windows.Forms.Padding(0);
             this.tabDocPage4.Name = "tabDocPage4";
-            this.tabDocPage4.Size = new System.Drawing.Size(220, 666);
+            this.tabDocPage4.Size = new System.Drawing.Size(220, 670);
             this.tabDocPage4.TabIndex = 6;
             this.tabDocPage4.Text = "P4 ";
             this.tabDocPage4.UseVisualStyleBackColor = true;
@@ -851,7 +764,7 @@
             this.treeViewPageControl4.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewPageControl4.Name = "treeViewPageControl4";
             this.treeViewPageControl4.Page = SpiralLab.Sirius3.Document.DocumentPages.Page4;
-            this.treeViewPageControl4.Size = new System.Drawing.Size(220, 666);
+            this.treeViewPageControl4.Size = new System.Drawing.Size(220, 670);
             this.treeViewPageControl4.TabIndex = 3;
             this.treeViewPageControl4.View = null;
             // 
@@ -862,7 +775,7 @@
             this.tabBlockPage.Location = new System.Drawing.Point(4, 32);
             this.tabBlockPage.Margin = new System.Windows.Forms.Padding(0);
             this.tabBlockPage.Name = "tabBlockPage";
-            this.tabBlockPage.Size = new System.Drawing.Size(220, 666);
+            this.tabBlockPage.Size = new System.Drawing.Size(220, 670);
             this.tabBlockPage.TabIndex = 1;
             this.tabBlockPage.Text = "Block ";
             this.tabBlockPage.UseVisualStyleBackColor = true;
@@ -876,7 +789,7 @@
             this.treeViewBlockControl1.Location = new System.Drawing.Point(0, 0);
             this.treeViewBlockControl1.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewBlockControl1.Name = "treeViewBlockControl1";
-            this.treeViewBlockControl1.Size = new System.Drawing.Size(220, 666);
+            this.treeViewBlockControl1.Size = new System.Drawing.Size(220, 670);
             this.treeViewBlockControl1.TabIndex = 0;
             this.treeViewBlockControl1.View = null;
             // 
@@ -892,7 +805,7 @@
             this.tlcPen.Multiline = true;
             this.tlcPen.Name = "tlcPen";
             this.tlcPen.SelectedIndex = 0;
-            this.tlcPen.Size = new System.Drawing.Size(228, 225);
+            this.tlcPen.Size = new System.Drawing.Size(228, 227);
             this.tlcPen.TabIndex = 4;
             // 
             // tabEntityPen
@@ -902,7 +815,7 @@
             this.tabEntityPen.Location = new System.Drawing.Point(4, 32);
             this.tabEntityPen.Margin = new System.Windows.Forms.Padding(0);
             this.tabEntityPen.Name = "tabEntityPen";
-            this.tabEntityPen.Size = new System.Drawing.Size(220, 189);
+            this.tabEntityPen.Size = new System.Drawing.Size(220, 191);
             this.tabEntityPen.TabIndex = 0;
             this.tabEntityPen.Text = "Entity";
             this.tabEntityPen.UseVisualStyleBackColor = true;
@@ -916,7 +829,7 @@
             this.entityPenControl1.Location = new System.Drawing.Point(0, 0);
             this.entityPenControl1.Margin = new System.Windows.Forms.Padding(0);
             this.entityPenControl1.Name = "entityPenControl1";
-            this.entityPenControl1.Size = new System.Drawing.Size(220, 189);
+            this.entityPenControl1.Size = new System.Drawing.Size(220, 191);
             this.entityPenControl1.TabIndex = 2;
             // 
             // tabLayerPen
@@ -926,7 +839,7 @@
             this.tabLayerPen.Location = new System.Drawing.Point(4, 32);
             this.tabLayerPen.Margin = new System.Windows.Forms.Padding(0);
             this.tabLayerPen.Name = "tabLayerPen";
-            this.tabLayerPen.Size = new System.Drawing.Size(220, 189);
+            this.tabLayerPen.Size = new System.Drawing.Size(220, 191);
             this.tabLayerPen.TabIndex = 1;
             this.tabLayerPen.Text = "Layer";
             this.tabLayerPen.UseVisualStyleBackColor = true;
@@ -940,7 +853,7 @@
             this.layerPenControl1.Location = new System.Drawing.Point(0, 0);
             this.layerPenControl1.Margin = new System.Windows.Forms.Padding(16, 15, 16, 15);
             this.layerPenControl1.Name = "layerPenControl1";
-            this.layerPenControl1.Size = new System.Drawing.Size(220, 189);
+            this.layerPenControl1.Size = new System.Drawing.Size(220, 191);
             this.layerPenControl1.TabIndex = 0;
             // 
             // splitContainer2
@@ -960,8 +873,8 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.logControl1);
             this.splitContainer2.Panel2MinSize = 100;
-            this.splitContainer2.Size = new System.Drawing.Size(724, 931);
-            this.splitContainer2.SplitterDistance = 754;
+            this.splitContainer2.Size = new System.Drawing.Size(724, 937);
+            this.splitContainer2.SplitterDistance = 758;
             this.splitContainer2.TabIndex = 0;
             // 
             // tbcMain
@@ -973,6 +886,7 @@
             this.tbcMain.Controls.Add(this.tabLaser);
             this.tbcMain.Controls.Add(this.tabDIO);
             this.tbcMain.Controls.Add(this.tabPower);
+            this.tbcMain.Controls.Add(this.tabStepper);
             this.tbcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbcMain.HotTrack = true;
             this.tbcMain.ImageList = this.imageList1;
@@ -981,7 +895,7 @@
             this.tbcMain.Margin = new System.Windows.Forms.Padding(0);
             this.tbcMain.Name = "tbcMain";
             this.tbcMain.SelectedIndex = 0;
-            this.tbcMain.Size = new System.Drawing.Size(724, 754);
+            this.tbcMain.Size = new System.Drawing.Size(724, 758);
             this.tbcMain.TabIndex = 0;
             // 
             // tabEditor
@@ -990,56 +904,27 @@
             this.tabEditor.Location = new System.Drawing.Point(4, 32);
             this.tabEditor.Margin = new System.Windows.Forms.Padding(0);
             this.tabEditor.Name = "tabEditor";
-            this.tabEditor.Size = new System.Drawing.Size(716, 718);
+            this.tabEditor.Size = new System.Drawing.Size(716, 722);
             this.tabEditor.TabIndex = 0;
             this.tabEditor.Text = "Editor";
             // 
             // tabMarker
             // 
-            this.tabMarker.Controls.Add(this.splitContainer10);
+            this.tabMarker.Controls.Add(this.markerControl1);
             this.tabMarker.ImageKey = "Design.png";
             this.tabMarker.Location = new System.Drawing.Point(4, 32);
             this.tabMarker.Margin = new System.Windows.Forms.Padding(0);
             this.tabMarker.Name = "tabMarker";
-            this.tabMarker.Size = new System.Drawing.Size(716, 718);
+            this.tabMarker.Size = new System.Drawing.Size(716, 722);
             this.tabMarker.TabIndex = 1;
             this.tabMarker.Text = "Marker";
             this.tabMarker.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer10
-            // 
-            this.splitContainer10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer10.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer10.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainer10.Name = "splitContainer10";
-            // 
-            // splitContainer10.Panel1
-            // 
-            this.splitContainer10.Panel1.Controls.Add(this.offsetControl1);
-            // 
-            // splitContainer10.Panel2
-            // 
-            this.splitContainer10.Panel2.Controls.Add(this.markerControl1);
-            this.splitContainer10.Size = new System.Drawing.Size(716, 718);
-            this.splitContainer10.SplitterDistance = 229;
-            this.splitContainer10.TabIndex = 4;
-            // 
-            // offsetControl1
-            // 
-            this.offsetControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.offsetControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.offsetControl1.Location = new System.Drawing.Point(0, 0);
-            this.offsetControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.offsetControl1.Marker = null;
-            this.offsetControl1.Name = "offsetControl1";
-            this.offsetControl1.Size = new System.Drawing.Size(229, 718);
-            this.offsetControl1.TabIndex = 4;
             // 
             // markerControl1
             // 
             this.markerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.markerControl1.Document = null;
-            this.markerControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.markerControl1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.markerControl1.Laser = null;
             this.markerControl1.Location = new System.Drawing.Point(0, 0);
             this.markerControl1.Margin = new System.Windows.Forms.Padding(0);
@@ -1047,8 +932,8 @@
             this.markerControl1.Name = "markerControl1";
             this.markerControl1.PowerMeter = null;
             this.markerControl1.Rtc = null;
-            this.markerControl1.Size = new System.Drawing.Size(483, 718);
-            this.markerControl1.TabIndex = 4;
+            this.markerControl1.Size = new System.Drawing.Size(716, 722);
+            this.markerControl1.TabIndex = 0;
             this.markerControl1.View = null;
             // 
             // tabManual
@@ -1058,7 +943,7 @@
             this.tabManual.Location = new System.Drawing.Point(4, 32);
             this.tabManual.Margin = new System.Windows.Forms.Padding(0);
             this.tabManual.Name = "tabManual";
-            this.tabManual.Size = new System.Drawing.Size(716, 718);
+            this.tabManual.Size = new System.Drawing.Size(716, 722);
             this.tabManual.TabIndex = 2;
             this.tabManual.Text = "Manual";
             this.tabManual.UseVisualStyleBackColor = true;
@@ -1074,7 +959,7 @@
             this.manualControl1.Marker = null;
             this.manualControl1.Name = "manualControl1";
             this.manualControl1.Rtc = null;
-            this.manualControl1.Size = new System.Drawing.Size(716, 718);
+            this.manualControl1.Size = new System.Drawing.Size(716, 722);
             this.manualControl1.TabIndex = 1;
             // 
             // tabScanner
@@ -1084,7 +969,7 @@
             this.tabScanner.Location = new System.Drawing.Point(4, 32);
             this.tabScanner.Margin = new System.Windows.Forms.Padding(0);
             this.tabScanner.Name = "tabScanner";
-            this.tabScanner.Size = new System.Drawing.Size(716, 718);
+            this.tabScanner.Size = new System.Drawing.Size(716, 722);
             this.tabScanner.TabIndex = 3;
             this.tabScanner.Text = "Scanner";
             this.tabScanner.UseVisualStyleBackColor = true;
@@ -1097,7 +982,7 @@
             this.scannerControl1.Margin = new System.Windows.Forms.Padding(0);
             this.scannerControl1.Name = "scannerControl1";
             this.scannerControl1.Scanner = null;
-            this.scannerControl1.Size = new System.Drawing.Size(716, 718);
+            this.scannerControl1.Size = new System.Drawing.Size(716, 722);
             this.scannerControl1.TabIndex = 0;
             // 
             // tabLaser
@@ -1107,7 +992,7 @@
             this.tabLaser.Location = new System.Drawing.Point(4, 32);
             this.tabLaser.Margin = new System.Windows.Forms.Padding(0);
             this.tabLaser.Name = "tabLaser";
-            this.tabLaser.Size = new System.Drawing.Size(716, 718);
+            this.tabLaser.Size = new System.Drawing.Size(716, 722);
             this.tabLaser.TabIndex = 4;
             this.tabLaser.Text = "Laser";
             this.tabLaser.UseVisualStyleBackColor = true;
@@ -1120,7 +1005,8 @@
             this.laserControl1.Location = new System.Drawing.Point(0, 0);
             this.laserControl1.Margin = new System.Windows.Forms.Padding(0);
             this.laserControl1.Name = "laserControl1";
-            this.laserControl1.Size = new System.Drawing.Size(716, 718);
+            this.laserControl1.Scanner = null;
+            this.laserControl1.Size = new System.Drawing.Size(716, 722);
             this.laserControl1.TabIndex = 0;
             // 
             // tabDIO
@@ -1130,7 +1016,7 @@
             this.tabDIO.Location = new System.Drawing.Point(4, 32);
             this.tabDIO.Margin = new System.Windows.Forms.Padding(0);
             this.tabDIO.Name = "tabDIO";
-            this.tabDIO.Size = new System.Drawing.Size(716, 718);
+            this.tabDIO.Size = new System.Drawing.Size(716, 722);
             this.tabDIO.TabIndex = 5;
             this.tabDIO.Text = "DIO";
             this.tabDIO.UseVisualStyleBackColor = true;
@@ -1149,7 +1035,7 @@
             // splitContainer9.Panel2
             // 
             this.splitContainer9.Panel2.Controls.Add(this.rtcDOControl1);
-            this.splitContainer9.Size = new System.Drawing.Size(716, 718);
+            this.splitContainer9.Size = new System.Drawing.Size(716, 722);
             this.splitContainer9.SplitterDistance = 342;
             this.splitContainer9.TabIndex = 0;
             // 
@@ -1162,7 +1048,7 @@
             this.rtcDIControl1.Location = new System.Drawing.Point(0, 0);
             this.rtcDIControl1.Margin = new System.Windows.Forms.Padding(0);
             this.rtcDIControl1.Name = "rtcDIControl1";
-            this.rtcDIControl1.Size = new System.Drawing.Size(342, 718);
+            this.rtcDIControl1.Size = new System.Drawing.Size(342, 722);
             this.rtcDIControl1.TabIndex = 0;
             this.rtcDIControl1.UpdateTimerInterval = 100;
             // 
@@ -1177,7 +1063,7 @@
             this.rtcDOControl1.Margin = new System.Windows.Forms.Padding(0);
             this.rtcDOControl1.Marker = null;
             this.rtcDOControl1.Name = "rtcDOControl1";
-            this.rtcDOControl1.Size = new System.Drawing.Size(370, 718);
+            this.rtcDOControl1.Size = new System.Drawing.Size(370, 722);
             this.rtcDOControl1.TabIndex = 0;
             this.rtcDOControl1.UpdateTimerInterval = 100;
             // 
@@ -1188,7 +1074,7 @@
             this.tabPower.Location = new System.Drawing.Point(4, 32);
             this.tabPower.Margin = new System.Windows.Forms.Padding(0);
             this.tabPower.Name = "tabPower";
-            this.tabPower.Size = new System.Drawing.Size(716, 718);
+            this.tabPower.Size = new System.Drawing.Size(716, 722);
             this.tabPower.TabIndex = 6;
             this.tabPower.Text = "Power";
             this.tabPower.UseVisualStyleBackColor = true;
@@ -1203,7 +1089,7 @@
             this.tabControl2.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(716, 718);
+            this.tabControl2.Size = new System.Drawing.Size(716, 722);
             this.tabControl2.TabIndex = 0;
             // 
             // tabPage18
@@ -1212,7 +1098,7 @@
             this.tabPage18.Location = new System.Drawing.Point(4, 32);
             this.tabPage18.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage18.Name = "tabPage18";
-            this.tabPage18.Size = new System.Drawing.Size(708, 682);
+            this.tabPage18.Size = new System.Drawing.Size(708, 686);
             this.tabPage18.TabIndex = 0;
             this.tabPage18.Text = "PowerMeter";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -1226,16 +1112,16 @@
             this.powerMeterControl1.Margin = new System.Windows.Forms.Padding(0);
             this.powerMeterControl1.Name = "powerMeterControl1";
             this.powerMeterControl1.PowerMeter = null;
-            this.powerMeterControl1.Size = new System.Drawing.Size(708, 682);
+            this.powerMeterControl1.Size = new System.Drawing.Size(708, 686);
             this.powerMeterControl1.TabIndex = 0;
             // 
             // tabPage19
             // 
             this.tabPage19.Controls.Add(this.powerMapControl1);
-            this.tabPage19.Location = new System.Drawing.Point(4, 36);
+            this.tabPage19.Location = new System.Drawing.Point(4, 32);
             this.tabPage19.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage19.Name = "tabPage19";
-            this.tabPage19.Size = new System.Drawing.Size(708, 678);
+            this.tabPage19.Size = new System.Drawing.Size(708, 686);
             this.tabPage19.TabIndex = 1;
             this.tabPage19.Text = "PowerMap";
             this.tabPage19.UseVisualStyleBackColor = true;
@@ -1248,12 +1134,35 @@
             this.powerMapControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.powerMapControl1.Laser = null;
             this.powerMapControl1.Location = new System.Drawing.Point(0, 0);
-            this.powerMapControl1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+            this.powerMapControl1.Margin = new System.Windows.Forms.Padding(0);
             this.powerMapControl1.Name = "powerMapControl1";
             this.powerMapControl1.PowerMeter = null;
             this.powerMapControl1.Rtc = null;
-            this.powerMapControl1.Size = new System.Drawing.Size(708, 678);
+            this.powerMapControl1.Size = new System.Drawing.Size(708, 686);
             this.powerMapControl1.TabIndex = 0;
+            // 
+            // tabStepper
+            // 
+            this.tabStepper.Controls.Add(this.stepperControl1);
+            this.tabStepper.ImageKey = "Motor Symbol.png";
+            this.tabStepper.Location = new System.Drawing.Point(4, 32);
+            this.tabStepper.Margin = new System.Windows.Forms.Padding(0);
+            this.tabStepper.Name = "tabStepper";
+            this.tabStepper.Size = new System.Drawing.Size(716, 722);
+            this.tabStepper.TabIndex = 7;
+            this.tabStepper.Text = "Stepper";
+            this.tabStepper.UseVisualStyleBackColor = true;
+            // 
+            // stepperControl1
+            // 
+            this.stepperControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.stepperControl1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stepperControl1.Location = new System.Drawing.Point(0, 0);
+            this.stepperControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.stepperControl1.Name = "stepperControl1";
+            this.stepperControl1.RtcStepper = null;
+            this.stepperControl1.Size = new System.Drawing.Size(716, 722);
+            this.stepperControl1.TabIndex = 1;
             // 
             // logControl1
             // 
@@ -1264,7 +1173,7 @@
             this.logControl1.Location = new System.Drawing.Point(0, 0);
             this.logControl1.Margin = new System.Windows.Forms.Padding(0);
             this.logControl1.Name = "logControl1";
-            this.logControl1.Size = new System.Drawing.Size(724, 173);
+            this.logControl1.Size = new System.Drawing.Size(724, 175);
             this.logControl1.TabIndex = 0;
             // 
             // tlcRight
@@ -1278,7 +1187,7 @@
             this.tlcRight.Margin = new System.Windows.Forms.Padding(0);
             this.tlcRight.Name = "tlcRight";
             this.tlcRight.SelectedIndex = 0;
-            this.tlcRight.Size = new System.Drawing.Size(240, 931);
+            this.tlcRight.Size = new System.Drawing.Size(240, 937);
             this.tlcRight.TabIndex = 1;
             // 
             // tabProperty
@@ -1288,7 +1197,7 @@
             this.tabProperty.Location = new System.Drawing.Point(4, 32);
             this.tabProperty.Margin = new System.Windows.Forms.Padding(0);
             this.tabProperty.Name = "tabProperty";
-            this.tabProperty.Size = new System.Drawing.Size(232, 895);
+            this.tabProperty.Size = new System.Drawing.Size(232, 901);
             this.tabProperty.TabIndex = 0;
             this.tabProperty.Text = " Property ";
             this.tabProperty.UseVisualStyleBackColor = true;
@@ -1304,14 +1213,92 @@
             this.propertyGridControl1.Marker = null;
             this.propertyGridControl1.Name = "propertyGridControl1";
             this.propertyGridControl1.SelecteObject = null;
-            this.propertyGridControl1.Size = new System.Drawing.Size(232, 895);
+            this.propertyGridControl1.Size = new System.Drawing.Size(232, 901);
             this.propertyGridControl1.TabIndex = 1;
             this.propertyGridControl1.View = null;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel1.Controls.Add(this.rdDevice0);
+            this.flowLayoutPanel1.Controls.Add(this.rdDevice1);
+            this.flowLayoutPanel1.Controls.Add(this.rdDevice2);
+            this.flowLayoutPanel1.Controls.Add(this.rdDevice3);
+            this.flowLayoutPanel1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(379, 2);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(376, 30);
+            this.flowLayoutPanel1.TabIndex = 41;
+            // 
+            // rdDevice0
+            // 
+            this.rdDevice0.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rdDevice0.AutoSize = true;
+            this.rdDevice0.Checked = true;
+            this.rdDevice0.Image = global::Demos.Properties.Resources.m1;
+            this.rdDevice0.Location = new System.Drawing.Point(3, 0);
+            this.rdDevice0.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.rdDevice0.Name = "rdDevice0";
+            this.rdDevice0.Size = new System.Drawing.Size(84, 30);
+            this.rdDevice0.TabIndex = 1;
+            this.rdDevice0.TabStop = true;
+            this.rdDevice0.Tag = "0";
+            this.rdDevice0.Text = "Device 1";
+            this.rdDevice0.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.rdDevice0.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.rdDevice0.UseVisualStyleBackColor = true;
+            // 
+            // rdDevice1
+            // 
+            this.rdDevice1.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rdDevice1.AutoSize = true;
+            this.rdDevice1.Image = global::Demos.Properties.Resources.m2;
+            this.rdDevice1.Location = new System.Drawing.Point(93, 0);
+            this.rdDevice1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.rdDevice1.Name = "rdDevice1";
+            this.rdDevice1.Size = new System.Drawing.Size(30, 30);
+            this.rdDevice1.TabIndex = 2;
+            this.rdDevice1.Tag = "1";
+            this.rdDevice1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.rdDevice1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.rdDevice1.UseVisualStyleBackColor = true;
+            // 
+            // rdDevice2
+            // 
+            this.rdDevice2.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rdDevice2.AutoSize = true;
+            this.rdDevice2.Image = global::Demos.Properties.Resources.m3;
+            this.rdDevice2.Location = new System.Drawing.Point(129, 0);
+            this.rdDevice2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.rdDevice2.Name = "rdDevice2";
+            this.rdDevice2.Size = new System.Drawing.Size(30, 30);
+            this.rdDevice2.TabIndex = 3;
+            this.rdDevice2.Tag = "2";
+            this.rdDevice2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.rdDevice2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.rdDevice2.UseVisualStyleBackColor = true;
+            // 
+            // rdDevice3
+            // 
+            this.rdDevice3.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rdDevice3.AutoSize = true;
+            this.rdDevice3.Image = global::Demos.Properties.Resources.m4;
+            this.rdDevice3.Location = new System.Drawing.Point(165, 0);
+            this.rdDevice3.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.rdDevice3.Name = "rdDevice3";
+            this.rdDevice3.Size = new System.Drawing.Size(30, 30);
+            this.rdDevice3.TabIndex = 4;
+            this.rdDevice3.Tag = "3";
+            this.rdDevice3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.rdDevice3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.rdDevice3.UseVisualStyleBackColor = true;
             // 
             // SiriusMultiEditorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.splitContainer123);
             this.Controls.Add(this.stsBottom);
             this.Controls.Add(this.tlsTop1);
@@ -1350,10 +1337,6 @@
             this.splitContainer2.ResumeLayout(false);
             this.tbcMain.ResumeLayout(false);
             this.tabMarker.ResumeLayout(false);
-            this.splitContainer10.Panel1.ResumeLayout(false);
-            this.splitContainer10.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).EndInit();
-            this.splitContainer10.ResumeLayout(false);
             this.tabManual.ResumeLayout(false);
             this.tabScanner.ResumeLayout(false);
             this.tabLaser.ResumeLayout(false);
@@ -1366,8 +1349,11 @@
             this.tabControl2.ResumeLayout(false);
             this.tabPage18.ResumeLayout(false);
             this.tabPage19.ResumeLayout(false);
+            this.tabStepper.ResumeLayout(false);
             this.tlcRight.ResumeLayout(false);
             this.tabProperty.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1395,14 +1381,6 @@
         private ToolStripSeparator toolStripSeparator3;
         private ImageList imageList1;
         private ToolStripButton btnLock;
-        private ToolStripSeparator toolStripSeparator1;
-        private ToolStripSeparator toolStripSeparator6;
-        private ToolStripButton btnDevice1;
-        private ToolStripButton btnDevice0;
-        private ToolStripSeparator toolStripSeparator5;
-        private ToolStripButton btnDevice3;
-        private ToolStripButton btnDevice2;
-        private ToolStripButton toolStripButton1;
         private StatusStrip stsBottom;
         private ToolStripStatusLabel lblName;
         private ToolStripStatusLabel lblFileName;
@@ -1424,9 +1402,6 @@
         private TabControl tbcMain;
         private TabPage tabEditor;
         private TabPage tabMarker;
-        private SplitContainer splitContainer10;
-        private SpiralLab.Sirius3.UI.WinForms.OffsetControl offsetControl1;
-        private SpiralLab.Sirius3.UI.WinForms.MarkerControl markerControl1;
         private TabPage tabManual;
         private SpiralLab.Sirius3.UI.WinForms.ManualControl manualControl1;
         private TabPage tabScanner;
@@ -1435,8 +1410,8 @@
         private SpiralLab.Sirius3.UI.WinForms.LaserControl laserControl1;
         private TabPage tabDIO;
         private SplitContainer splitContainer9;
-        private SpiralLab.Sirius3.UI.WinForms.RtcDIControl rtcDIControl1;
-        private SpiralLab.Sirius3.UI.WinForms.RtcDOControl rtcDOControl1;
+        private SpiralLab.Sirius3.UI.WinForms.DIRtcControl rtcDIControl1;
+        private SpiralLab.Sirius3.UI.WinForms.DORtcControl rtcDOControl1;
         private TabPage tabPower;
         private TabControl tabControl2;
         private TabPage tabPage18;
@@ -1463,5 +1438,14 @@
         private SpiralLab.Sirius3.UI.WinForms.TreeViewBlockControl treeViewBlockControl1;
         private SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl treeViewPageControl3;
         private SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl treeViewPageControl4;
+        private TabPage tabStepper;
+        private SpiralLab.Sirius3.UI.WinForms.StepperControl stepperControl1;
+        private SpiralLab.Sirius3.UI.WinForms.MarkerControl markerControl1;
+        private ToolStripSeparator toolStripSeparator1;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private RadioButton rdDevice0;
+        private RadioButton rdDevice1;
+        private RadioButton rdDevice2;
+        private RadioButton rdDevice3;
     }
 }
