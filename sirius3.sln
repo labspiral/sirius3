@@ -81,6 +81,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_multibeam", "demos\e
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_points_sync_pulses_count", "demos\editor_points_sync_pulses_count\editor_points_sync_pulses_count.csproj", "{298A8C0D-0AB6-486A-F048-CB2DA266257C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_steppermotor", "demos\editor_steppermotor\editor_steppermotor.csproj", "{ACD85527-DB65-CDE4-ACDC-623F3A6E270B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -219,6 +221,10 @@ Global
 		{298A8C0D-0AB6-486A-F048-CB2DA266257C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{298A8C0D-0AB6-486A-F048-CB2DA266257C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{298A8C0D-0AB6-486A-F048-CB2DA266257C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACD85527-DB65-CDE4-ACDC-623F3A6E270B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACD85527-DB65-CDE4-ACDC-623F3A6E270B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACD85527-DB65-CDE4-ACDC-623F3A6E270B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACD85527-DB65-CDE4-ACDC-623F3A6E270B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
