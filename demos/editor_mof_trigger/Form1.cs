@@ -50,7 +50,21 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
-            this.Disposed += Form1_Disposed;
+            this.FormClosing += (s, e) =>
+            {
+                var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dlgResult != DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
+
+                // Clean up SIRIUS3 library
+                SpiralLab.Sirius3.Core.Cleanup();
+            };
 
             this.btnCreateEntities.Click += BtnCreateEntities_Click;
             this.btnStartStop.Click += BtnStartStop_Click;
@@ -81,9 +95,7 @@ namespace Demos
             siriusEditorControl1.DOExt2 = dOutExt2;
             siriusEditorControl1.DILaserPort = dInLaserPort;
             siriusEditorControl1.DOLaserPort = dOutLaserPort;
-
             siriusEditorControl1.PowerMeter = powerMeter;
-
             siriusEditorControl1.Marker = marker;
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
@@ -91,11 +103,6 @@ namespace Demos
             txtCurrentSerialNo.Text = $"{currentSerialNo}";
             txtRealSerialNo.Text = $"{realSerialNo}";
         }
-        private void Form1_Disposed(object sender, EventArgs e)
-        {
-            EditorHelper.DestroyDevices(siriusEditorControl1);
-        }
-
         private void OnEncoderSignalError(IRtcMoF rtcMoF, IRtcMarkingInfo rtcMarkingInfo)
         {
             if (rtcMarkingInfo is Rtc6MarkingInfo rtc6MarkingInfo)

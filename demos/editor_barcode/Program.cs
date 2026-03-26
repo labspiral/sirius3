@@ -8,8 +8,8 @@ namespace Demos
         static void Main()
         {
 #if NET8_0_OR_GREATER
-            Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
-#endif				
+            ApplicationConfiguration.Initialize();
+#endif			
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

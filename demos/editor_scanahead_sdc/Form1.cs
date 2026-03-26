@@ -42,7 +42,21 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
-            this.Disposed += Form1_Disposed;
+            this.FormClosing += (s, e) =>
+            {
+                var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dlgResult != DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
+
+                // Clean up SIRIUS3 library
+                SpiralLab.Sirius3.Core.Cleanup();
+            };
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -143,9 +157,5 @@ namespace Demos
             entityPenWhite.SpotDistanceSCANa = spotDistance;
         }
 
-        private void Form1_Disposed(object sender, EventArgs e)
-        {
-            EditorHelper.DestroyDevices(siriusEditorControl1);
-        }
     }
 }

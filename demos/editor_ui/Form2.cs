@@ -36,7 +36,21 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
-            this.Disposed += Form1_Disposed;
+            this.FormClosing += (s, e) =>
+            {
+                var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dlgResult != DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
+
+                // Clean up SIRIUS3 library
+                SpiralLab.Sirius3.Core.Cleanup();
+            };
 
             this.btnPoints.Click += (s, e) => {
                 var document = siriusEditorControl1.Document;
@@ -141,10 +155,6 @@ namespace Demos
                 EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker, index);
                 siriusEditorControl1.RegisterDevices(index, rtc, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
             }
-        }
-        private void Form1_Disposed(object sender, EventArgs e)
-        {
-            EditorHelper.DestroyDevices(siriusEditorControl1);
         }
 
         #region Testcases (Samples)

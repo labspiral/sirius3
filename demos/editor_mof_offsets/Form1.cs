@@ -43,7 +43,21 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
-            this.Disposed += Form1_Disposed;
+            this.FormClosing += (s, e) =>
+            {
+                var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dlgResult != DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
+
+                // Clean up SIRIUS3 library
+                SpiralLab.Sirius3.Core.Cleanup();
+            };
 
             this.btnCreateEntities.Click += BtnCreateEntities_Click;
             this.btnStartStop.Click += BtnStartStop_Click;
@@ -87,12 +101,6 @@ namespace Demos
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
-
-        private void Form1_Disposed(object sender, EventArgs e)
-        {
-            EditorHelper.DestroyDevices(siriusEditorControl1);
-        }
-        
         private void OnFreeVariableChanged(IRtcFreeVariable rtcFreeVariable, uint no, uint data)
         {
             // 실시간 증가된 가공 회수를 출력

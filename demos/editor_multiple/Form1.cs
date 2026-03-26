@@ -48,7 +48,22 @@ namespace Demos
             EditorControls[1] = siriusEditorControl2;
 
             this.Load += Form1_Load;
-            this.Disposed += Form1_Disposed;
+            this.FormClosing += (s, e) =>
+            {
+                var dlgResult = System.Windows.Forms.MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dlgResult != DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+                // Dispose instances 
+                for (int i = 0; i < editorCount; i++)
+                    EditorHelper.DestroyDevices(EditorControls[i]);
+
+                // Clean up SIRIUS3 library
+                SpiralLab.Sirius3.Core.Cleanup();
+            };
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -80,10 +95,5 @@ namespace Demos
             }
         }
 
-        private void Form1_Disposed(object sender, EventArgs e)
-        {
-            for (int i = 0; i < editorCount; i++)
-                EditorHelper.DestroyDevices(EditorControls[i]);
-        }
     }
 }

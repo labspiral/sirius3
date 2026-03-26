@@ -10,7 +10,6 @@ namespace Demos
         [STAThread]
         static void Main()
         {
-
 #if NET8_0_OR_GREATER
             ApplicationConfiguration.Initialize();
 #endif

@@ -14,6 +14,7 @@
 		<NeutralResourcesLanguage>en-US</NeutralResourcesLanguage>
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
+ <ApplicationHighDpiMode>DpiUnaware</ApplicationHighDpiMode>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework.StartsWith(`net9.0-windows`))' OR '$(TargetFramework.StartsWith(`net10.0-windows`))'">
