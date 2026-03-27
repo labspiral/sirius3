@@ -38,7 +38,7 @@ namespace Demos
 
         // 시작 일련번호
         uint startingSerialNo = 1;
-        // 일렵번호 증가값
+        // 일련번호 증가값
         const uint increment = 1;
         // 현재 일련번호 : RTC 리스트 버퍼에 삽입된후 업데이트됨 (실제 마킹 이전에 업데이트됨)
         uint currentSerialNo = 1;
@@ -246,71 +246,62 @@ namespace Demos
 
             // Create waiting D.IN0 ("External Trigger")
             // Condition: rising edge
+            // Extension DI16 포트의 D.IN0 비트를 트리거로 사용함
             // D.IN0 트리거 신호가 High(Rising edge) 될때 까지 대기하는 제어용 객체 추가
             var waitExt16Cond = EntityFactory.CreateWaitDataExt16EdgeCond(
-                0, //D.IN0 ("External Trigger")
+                0, //D.IN0 = External Trigger
                 SignalEdges.High);
+
             document.ActivePage?.ActiveLayer?.AddChild(waitExt16Cond);
 
             // Create mof begin with encoder reset
-            // 입력 엔코더(이동거리)값을 0 으로 초기화하도록 해주고
-            // 이후 스캐너의 이동에 실시간 입력되는 외부 엔코더값을 추가(+) 해주는것을 시작하는
-            // 제어용 MoF 시작 객체 추가
+            // MoF 시작과 함께 엔코더(이동거리) 값을 0 으로 리셋(초기화) 하면서,
+            // 엔코더의 누적 이동량을 스캐너가 추종(Follow) 되도록 MoF 시작
             // Also, need to MoF option at library option.
-            //Debug.Assert(rtc.IsMoF);
-            //Core.License(out var licenseInfo);
-            //Debug.Assert(licenseInfo.IsMoFLicensed);
+            // Debug.Assert(rtc.IsMoF);
+            // Core.License(out var licenseInfo);
+            // Debug.Assert(licenseInfo.IsMoFLicensed);
 
             var mofBegin = EntityFactory.CreateMoFBegin(RtcMoFModes.XY, true);
             document.ActivePage?.ActiveLayer?.AddChild(mofBegin);
 
-            // Create barcode
-            // 바코드 객체 추가 및 IsAllowConvert 을 true 로 사용시 가공 직전 바코드 텍스트 데이타를 지정된 컨버터로 변경해주는 기능 사용
-            // 이 예제에서는 이벤트 핸들러(IMarker 의 OnTextConvert 이벤트 핸들러)를 사용하는 방식 사용
+            // Create barcode entity
+            // 바코드 객체 추가 및 IsAllowConvert 을 true 로 설정시, 가공 직전 바코드의 텍스트 데이타를 변경시키는 용도
+            // TextConverters.Event 사용시 IMarker 의 OnTextConvert 이벤트 핸들러를 사용해 데이타를 변경하는 방식을 사용함
             var barcode = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 5, 5);
             barcode.CellLine.DotFactor = 1;
             barcode.Name = "MyBarcode";
             barcode.IsAllowConvert = true;
-            barcode.TextConverter = TextConverters.Event; // marker.OnTextConvert event will be called
+            barcode.TextConverter = TextConverters.Event; // 'OnTextConvert' at IMarker will be called
             barcode.SourceText = "SERIAL NO";
-
             document.ActivePage?.ActiveLayer?.AddChild(barcode);
 
-            // Create text
-            // 텍스트 객체 추가 및 IsAllowConvert 을 true 로 사용시 가공 직전 바코드 텍스트 데이타를 지정된 컨버터로 변경해주는 기능 사용
-            // 이 예제에서는 이벤트 핸들러(IMarker 의 OnTextConvert 이벤트 핸들러)를 사용하는 방식 사용
+            // Create text entity
+            // 텍스트 객체 추가 및 IsAllowConvert 을 true 로 설정시, 가공 직전 바코드의 텍스트 데이타를 변경시키는 용도
+            // TextConverters.Event 사용시 IMarker 의 OnTextConvert 이벤트 핸들러를 사용해 데이타를 변경하는 방식을 사용함
             var text = EntityFactory.CreateText("Arial", FontStyle.Regular, "0123456789", 2);
             text.Name = "MyText";
             text.IsAllowConvert = true;  
-            text.TextConverter = TextConverters.Event; // marker.OnTextConvert event will be called
+            text.TextConverter = TextConverters.Event; // 'OnTextConvert' at IMarker will be called
             text.SourceText = "SERIAL NO";
-
             text.Translate(0, -2.5);
             document.ActivePage?.ActiveLayer?.AddChild(text);
 
             // Create mof end with jump 0,0
-            // 입력 엔코더(이동거리)에 의한 스캐너 추종이 중단(MoF end) 됨
-            // 이후 실시간 입력되는 외부 엔코더처리는 중단되고 스캐너를 물리적 원점(0,0) 으로 점프
+            // MoF 종료와 함께 특정 위치로 스캐너를 점프시킴
+            // 이후 실시간 입력되는 외부 엔코더에 대한 Following 는 중단되고 스캐너를 물리적 원점(0,0) 으로 점프후 고정
             // 제어용 MoF 끝 객체 추가
             var mofEnd = EntityFactory.CreateMoFEnd(DVec2.Zero);
             document.ActivePage?.ActiveLayer?.AddChild(mofEnd);
 
-            // Create user event
-            // 사용자 이벤트용 제어 객체 추가
-            // 사용자 이벤트가 실행되면 이벤트 핸들러 (IMarker 의 OnUserEvent 이벤트 핸들러) 가 호출됨
-            // 이 예제에서는 OnUserEvent 이벤트 호출시 일련번호를 증가시키는 기능을 추가함
-            var userEvent = EntityFactory.CreateUserEvent(); // marker.OnUserEvent event will be called
-            
-            document.ActivePage?.ActiveLayer?.AddChild(userEvent);
-
             siriusEditorControl1.View?.DoRender();
             
             // Repeats 100 times
-            // 최대 100개의 트리거 입력을 처리하기 위해
+            // 최대 100개의 D.IN0 트리거 입력을 처리하기 위해
             // 레이어의 가공 반복회수(Repeats) 를 입력함
             document.ActivePage.ActiveLayer.Repeats = 100;
 
-
+      
             Debug.Assert(rtc.IsMoF);
             var rtcMoF = rtc as IRtcMoF;
             Debug.Assert(rtcMoF != null);
@@ -387,27 +378,16 @@ namespace Demos
             marker.OnTextConvert -= Marker_OnTextConvert;
             marker.OnTextConvert += Marker_OnTextConvert;
 
-            // UserEvent 객체 통지용 이벤트 핸들러 등록
-            marker.OnUserEvent -= Marker_OnUserEvent;
-            marker.OnUserEvent += Marker_OnUserEvent;
+            // text 개체 가공 이후 일련번호 증가시키기 위한 이벤트 핸들러 등록
+            marker.OnAfterEntity -= Marker_OnAfterEntity;
+            marker.OnAfterEntity += Marker_OnAfterEntity;
 
-            // 자유번수 변경 시점을 통지받기 위한 이벤트 핸들러 등록
+
+            // 자유변수 변경 시점을 통지받기 위한 이벤트 핸들러 등록
             if (marker.Rtc is IRtcFreeVariable rtcFreeVariable)
             {
                 rtcFreeVariable.OnFreeVariableChanged -= OnFreeVariableChanged;
                 rtcFreeVariable.OnFreeVariableChanged += OnFreeVariableChanged;
-            }
-        }
-
-        private void OnFreeVariableChanged(IRtcFreeVariable rtcFreeVariable, uint no, uint data)
-        {
-            if (txtRealSerialNo.InvokeRequired)
-            {
-                txtRealSerialNo.BeginInvoke((MethodInvoker)(() => txtRealSerialNo.Text = $"{data}"));
-            }
-            else
-            {
-                txtRealSerialNo.Text = $"{data}";
             }
         }
 
@@ -439,30 +419,45 @@ namespace Demos
                     // Not modified
                     return textConvertible.SourceText;
             }
-            
         }
 
-        private bool Marker_OnUserEvent(IMarker marker, EntityUserEvent entityUserEvent)
+        private bool Marker_OnAfterEntity(IMarker marker, IEntity entity)
         {
-            // 일련번호 증가 및 최대값 처리
-            currentSerialNo += increment;
-            if (currentSerialNo > maxSerialNo)
-                currentSerialNo = startingSerialNo;
-
-            bool success = true;
-            if (marker.Rtc is IRtcFreeVariable rtcFreeVariable)
-                success &= rtcFreeVariable.ListWriteVariable(0, currentSerialNo);
-
-            if (txtCurrentSerialNo.InvokeRequired)
+            if (entity.Name == "MyText")
             {
-                txtCurrentSerialNo.BeginInvoke((MethodInvoker)(() => txtCurrentSerialNo.Text = $"{currentSerialNo}"));
+                // 일련번호 증가 및 최대값 처리
+                currentSerialNo += increment;
+                if (currentSerialNo > maxSerialNo)
+                    currentSerialNo = startingSerialNo;
+
+                bool success = true;
+                if (marker.Rtc is IRtcFreeVariable rtcFreeVariable)
+                    success &= rtcFreeVariable.ListWriteVariable(0, currentSerialNo); //자유변수를 이용해 일련번호 업데이트
+
+                if (txtCurrentSerialNo.InvokeRequired)
+                {
+                    txtCurrentSerialNo.BeginInvoke((MethodInvoker)(() => txtCurrentSerialNo.Text = $"{currentSerialNo}"));
+                }
+                else
+                {
+                    txtCurrentSerialNo.Text = $"{currentSerialNo}";
+                }
+            }
+            return true;
+        }
+
+        private void OnFreeVariableChanged(IRtcFreeVariable rtcFreeVariable, uint no, uint data)
+        {
+            if (txtRealSerialNo.InvokeRequired)
+            {
+                txtRealSerialNo.BeginInvoke((MethodInvoker)(() => txtRealSerialNo.Text = $"{data}"));
             }
             else
             {
-                txtCurrentSerialNo.Text = $"{currentSerialNo}";
+                txtRealSerialNo.Text = $"{data}";
             }
-
-            return success;
         }
+        
+
     }
 }
