@@ -132,7 +132,7 @@ namespace Demos
             //var points = new EntityPoints(vertices);
             var points = new EntityPoints(vertices, normals);
             // get real dimension of points entity
-            mesh.CalcuateRealMinMax(out var realMin, out var realMax);
+            mesh.CalcuateRealMinMax(document.View, out var realMin, out var realMax);
             double width = realMax.X - realMin.X;
             double height = realMax.Y - realMin.Y;
             points.Translate(0, -height, 0);

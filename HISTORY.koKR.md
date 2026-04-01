@@ -1,6 +1,21 @@
 ﻿# Sirius3 버전 이력
 
-## v1.5.1 (2026.3.26)
+## v1.5.3 (2026.4.1)
+- fixed) IDocument
+    - IDocument 와 IView 간 상호 연결 설정 추가
+- added) IPowerMeter
+    - 파워모드, 에너지 모드로 분리 및 MeasureUnits 추가
+- fixed) Rtc6
+    - IsActivateAutoDelays 속성 변경시 이벤트 통지
+    - IsActivateAutoDelays 속성 변경시 EntityPen, EntityLayerPen 에 항목들 visible 처리 
+- fixed) EntityBarcode2D
+    - CellDot 타입으로 가공시 EntityPen 의 Raster 항목을 통해 가공이 처리되도록 변경
+- fixed) IRtcMultiBeam
+    - 배타적 토큰(Token) 처리 검증 완료
+- fixed) IRtcCorrection2D, IRtcCorrection3D
+    - 스캔헤드에 설정된 내부행렬(회전 등)을 사용해 Raw 데이타 연산 처리 지원
+
+## v1.5.2 (2026.3.27)
 - added) 스테퍼 모터 제어 지원
     - RTC5,6 의 스테퍼 단자를 통한 외부 스탭모터 제어 기능 추가
     - IRtcStepper 인터페이스 추가

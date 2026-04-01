@@ -1,6 +1,21 @@
 ﻿# Sirius3 version history
 
-## v1.5.1 (2026.3.26)
+## v1.5.3 (2026.3.31)
+- fixed) IDocument
+    - added IView connection settings
+- added) IPowerMeter
+    - added MeasureUnits for power and energy measurement modes
+- fixed) Rtc6
+    - event notification when the IsActivateAutoDelays property is changed
+    - items in EntityPen and EntityLayerPen are set to visible when the IsActivateAutoDelays property is changed 
+- fixed) EntityBarcode2D
+    - changed marking order via EntityPen when processing CellDot
+- fixed) IRtcMultiBeam
+    - verification of exclusive token handling completed
+- fixed) IRtcCorrection2D, IRtcCorrection3D
+    - support added for processing raw data using the internal matrix (rotation, etc.) set in the scan head
+     
+## v1.5.2 (2026.3.27)
 - added) Stepper motor control support
     - added controlling external stepper motors via the stepper port on the RTC5, RTC6
     - added the IRtcStepper interface

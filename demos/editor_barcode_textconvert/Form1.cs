@@ -98,8 +98,6 @@ namespace Demos
 
             var entity = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 10, 10);
             entity.CellDot.DotFactor = 2;
-            entity.CellDot.Direction = CellDot.DotDirections.Horizontal;
-            entity.CellDot.IsZigZag = true;
             entity.IsReversed = true;
 
             entity.Name = "MyBarcode";

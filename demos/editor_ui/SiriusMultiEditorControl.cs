@@ -44,6 +44,8 @@ using SpiralLab.Sirius3.PowerMeter;
 using SpiralLab.Sirius3.Scanner;
 using SpiralLab.Sirius3.Scanner.Rtc;
 using SpiralLab.Sirius3.View;
+using SpiralLab.Sirius3.UI.WinForms;
+
 
 #if OPENTK3
 using OpenTK;
@@ -213,6 +215,12 @@ namespace Demos
                     document.OnAfterSave -= Document_OnAfterSave;
                 }
 
+                if (value != null && value.View == null)
+                    throw new InvalidOperationException("Document must be assigned target view !");
+
+                if (value != null && value.View != null && value.View != this.View)
+                    throw new InvalidOperationException("Current document has binded another view already. not supported multiple view targets !");
+
                 document = value;
 
                 MarkerCtrl.Document = document;
@@ -231,14 +239,6 @@ namespace Demos
                 //treeViewWaferControl1.Document = document;
                 //treeViewSubstrateControl1.Document = document;
 
-                treeViewPageControl1.View = editorControl1.View;
-                treeViewPageControl2.View = editorControl1.View;
-                treeViewPageControl3.View = editorControl1.View;
-                treeViewPageControl4.View = editorControl1.View;
-
-                treeViewBlockControl1.View = editorControl1.View;
-                //treeViewWaferControl1.View = editorControl1.View;
-                //treeViewSubstrateControl1.View = editorControl1.View;
 
                 if (document != null)
                 {
@@ -377,8 +377,9 @@ namespace Demos
                 Document?.ActSimulateStop(false);
                 if (markers[CurrentDeviceIndex] != null)
                 {
-                
+
                 }
+                MultiBeamRtcControl.Markers[CurrentDeviceIndex] = null;
 
                 markers[CurrentDeviceIndex] = value;
 
@@ -395,6 +396,8 @@ namespace Demos
 
                     markers[CurrentDeviceIndex].OnEnded -= Marker_OnEnded;
                     markers[CurrentDeviceIndex].OnEnded += Marker_OnEnded;
+
+                    MultiBeamRtcControl.Markers[CurrentDeviceIndex] = markers[CurrentDeviceIndex];
                 }
             }
         }
@@ -417,7 +420,7 @@ namespace Demos
             {
                 if (powerMeters[CurrentDeviceIndex] != null)
                 {
-                  
+
                 }
 
                 powerMeters[CurrentDeviceIndex] = value;
@@ -429,7 +432,7 @@ namespace Demos
 
                 if (powerMeters[CurrentDeviceIndex] != null)
                 {
-                  
+
                 }
             }
         }
@@ -817,9 +820,10 @@ namespace Demos
                 splitContainer2.Panel2Collapsed = !splitContainer2.Panel2Collapsed;
             };
 
-            Document = new DocumentBase();
+            var doc = new DocumentBase(EditorCtrl.View);
+            Document = doc;
         }
-      
+
 
         /// <summary>
         /// Registers devices for the specified device index.
@@ -850,6 +854,8 @@ namespace Demos
             dOExt2s[index] = dOExt2;
             dOLaserPorts[index] = dOLaserPort;
             markers[index] = marker;
+
+            marker.Ready(Document, View, scanner as IRtc, laser, powerMeter);
         }
 
         /// <summary>
@@ -911,7 +917,7 @@ namespace Demos
                 {
                     rdButton[i].Checked = true;
                     rdButton[i].Text = $"Device {i + 1}";
-                    
+
                 }
                 else
                 {
@@ -1170,7 +1176,7 @@ namespace Demos
         {
             if (!IsHandleCreated || IsDisposed) return;
 
-            switch(_marker.Index)
+            switch (_marker.Index)
             {
                 case 0:
                 case 1:
@@ -1295,7 +1301,7 @@ namespace Demos
 
             Invoke(new MethodInvoker(() =>
             {
-                btnNew.Enabled= isEnable;
+                btnNew.Enabled = isEnable;
                 //btnOpen.Enabled = isEnable;
                 ddbOpenNewOptions.Enabled = isEnable;
                 btnSave.Enabled = isEnable;
@@ -1312,7 +1318,7 @@ namespace Demos
                 BlockCtrl.Enabled = isEnable;
                 //WaferCtrl.Enabled = isEnable;
                 //SubstrateCtrl.Enabled = isEnable;
-                
+
 
 #if DEBUG
                 // Keep enables for debugging
@@ -1338,7 +1344,7 @@ namespace Demos
         /// </summary>
         private void UpdatePens()
         {
-            if (null != document )
+            if (null != document)
             {
                 foreach (var child in document.DocumentData.EntityPens.Children)
                 {
@@ -1378,7 +1384,7 @@ namespace Demos
 
         }
 
-      
+
         /// <summary>
         /// Show(or hide) <c>TreeView</c>, <see cref="EntityPenControl"/> and <see cref="LayerPenControl"/> windows at left side
         /// </summary>
@@ -1424,41 +1430,41 @@ namespace Demos
                     Document.Page = DocumentPages.Page1;
                     Document.ActivePage = Document.DocumentData.Pages[0];
                     editorControl1.Document.ActRegen();
-                    editorControl1.View.Camera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
+                    editorControl1.View.ActiveCamera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
                     break;
                 case 1:
                     Document.Page = DocumentPages.Page2;
                     Document.ActivePage = Document.DocumentData.Pages[1];
                     editorControl1.Document.ActRegen();
-                    editorControl1.View.Camera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
+                    editorControl1.View.ActiveCamera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
                     break;
                 case 2:
                     Document.Page = DocumentPages.Page3;
                     Document.ActivePage = Document.DocumentData.Pages[2];
                     editorControl1.Document.ActRegen();
-                    editorControl1.View.Camera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
+                    editorControl1.View.ActiveCamera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
                     break;
                 case 3:
                     Document.Page = DocumentPages.Page4;
                     Document.ActivePage = Document.DocumentData.Pages[3];
                     editorControl1.Document.ActRegen();
-                    editorControl1.View.Camera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
+                    editorControl1.View.ActiveCamera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
                     break;
                 case 4:
                     Document.Page = DocumentPages.Block;
                     editorControl1.Document.ActRegen();
-                    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Blocks.Children.ToArray());
+                    editorControl1.View.ActiveCamera.Fit(editorControl1.View, null, Document.DocumentData.Blocks.Children.ToArray());
                     break;
-                //case :
-                //    Document.Page = DocumentPages.Wafer;
-                //    editorControl1.Document.ActRegen();
-                //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Wafers.Children.ToArray());
-                //    break;
-                //case :
-                //    Document.Page = DocumentPages.Substrate;
-                //    editorControl1.Document.ActRegen();
-                //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Substrates.Children.ToArray());
-                //    break;
+                    //case :
+                    //    Document.Page = DocumentPages.Wafer;
+                    //    editorControl1.Document.ActRegen();
+                    //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Wafers.Children.ToArray());
+                    //    break;
+                    //case :
+                    //    Document.Page = DocumentPages.Substrate;
+                    //    editorControl1.Document.ActRegen();
+                    //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Substrates.Children.ToArray());
+                    //    break;
             }
 
             editorControl1.View.DoRender();

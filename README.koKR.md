@@ -160,58 +160,106 @@
     using DVec3 = OpenTK.Mathematics.Vector3d;
 #endif
 
-public class MainForm : Form
+static class Program
 {
-    private readonly SiriusEditorControl editor = new SiriusEditorControl();
-
-    public MainForm()
-    {
-        editor.Dock = DockStyle.Fill;
-        Controls.Add(editor);
-        Load += (s, e) =>
-        {
-            // 1. 장치 생성
-            var scanner =  ScannerFactory.Create ...
-            scanner.Initialize();
-
-            var laser = LaserFactory.Create ...
-            laser.Initialize();
-
-            var powerMeter = PowerMeterFactory.Create ...
-            powerMeter.Initialize();
-
-            var marker = MarkerFactory.Create ... 
-            marker.Initialize();
-
-            // 2. SiriusEditorControl 에 연결
-            editor.Scanner = scanner;
-            editor.Laser = laser;
-            editor.PowerMeter = powerMeter;
-            editor.Marker = marker;
-            
-            // 3. 엔티티 생성
-            var line = EntityFactory.CreateLine(new DVec3(0, 0, 0), new DVec3(10, 10, 0));
-            editor.Document.ActAdd(line);
-          
-            var text = EntityFactory.CreateText("Arial", FontStyle.Regular, "SIRIUS3", 10);
-            editor.Document.ActAdd(text);
-            
-            // 4. 마커 준비
-            marker.Ready(editor.Document, editor.View, scanner, laser, powerMeter);
-        };
-    }
-
     [STAThread]
     static void Main()
     {
-        // sirius3 라이브러리 초기화
-        SpiralLab.Sirius3.Core.Initialize();
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
 
-        ...
-        Application.Run(new MainForm());
+        // 윈폼 생성
+        CreateAndExecuteMainForm();
+    }
 
-        // sirius3 라이브러리 종료(정리)
-        SpiralLab.Sirius3.Core.Cleanup();
+    public CreateAndExecuteMainForm()
+    {
+        // 동적 폼 생성하여 SiriusEditorControl 추가
+        Form dynamicForm = new Form();
+        dynamicForm.SuspendLayout();
+        dynamicForm.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+        dynamicForm.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+        dynamicForm.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+        dynamicForm.Text = "DEMO - (c)SpiralLab";
+        dynamicForm.Size = new Size(1600, 1200);
+        dynamicForm.StartPosition = FormStartPosition.CenterScreen;
+        var editorControl = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
+        editorControl.Dock = DockStyle.Fill;
+        dynamicForm.Controls.Add(editorControl);
+        dynamicForm.ResumeLayout(false);
+
+        dynamicForm.Load += (s, e) =>
+        {
+            // 시리우스3 라이브러리 초기화
+            SpiralLab.Sirius3.Core.Initialize();
+
+            // 장치 생성및 초기화 후 EditorControl 에 등록
+            bool success = true;
+
+            // 스캐너 제어
+            string correctionFile = "cor_1to1.ct5";
+            string correctionPath = Path.Combine(SpiralLab.Sirius3.Config.CorrectionPath, correctionFile);
+            const var fov = 100.0;
+            var kfactor = Math.Pow(2, 20) / fov;
+            var index = 0;
+            var rtc = ScannerFactory.CreateRtc5(index, kfactor, LaserModes.Yag1, RtcSignalLevels.ActiveHigh, RtcSignalLevels.ActiveHigh, correctionPath);
+            success &= rtc.Initialize();
+            rtc.CtlFrequency(50 * 1000, 2);
+            rtc.CtlSpeed(100, 100);
+
+            // 디지털 입출력 제어
+            var dIExt1 = IOFactory.CreateInputExtension1(rtc); success &= dIExt1.Initialize();
+            var dOExt1 = IOFactory.CreateOutputExtension1(rtc); success &= dOExt1.Initialize();
+            var dOExt2 = IOFactory.CreateOutputExtension2(rtc); success &= dOExt2.Initialize();
+            var dILaserPort = IOFactory.CreateInputLaserPort(rtc); success &= dILaserPort.Initialize();
+            var dOLaserPort = IOFactory.CreateOutputLaserPort(rtc); success &= dOLaserPort.Initialize();
+
+            // 파워메터 제어
+            double laserMaxPower = 20;
+            var powerMeter = PowerMeterFactory.CreateVirtual(index, laserMaxPower);
+            //var powerMeter = PowerMeterFactory.CreateCoherentPowerMax(index, 4);
+            //var powerMeter = PowerMeterFactory.CreateGentecEO(index, 3);
+            success &= powerMeter.Initialize();
+
+            // 레이저 제어
+            var laser = LaserFactory.CreateVirtualDutyCycle(index, laserMaxPower, 0, 100);
+            //var laser = LaserFactory.Create ...
+            success &= laser.Initialize();
+            laser.Scanner = rtc;
+
+            // 파워맵
+            var powerMap = PowerMapFactory.CreateDefault(index, "default");
+            powerMap.Reset1to1("10000", laserMaxPower);
+            laser.PowerMap = powerMap;
+
+            // 마커
+            var marker = MarkerFactory.CreateRtc(index);
+            //var marker = MarkerFactory.CreateRtcFast(index);
+            //var marker = MarkerFactory.CreateSyncAxis(index);
+            success &= marker.Initialize();
+
+            Debug.Assert(success);
+
+            // 장치 등록
+            editorControl.RegisterDevices(rtc, laser, powerMeter, dIExt1, dILaserPort, dOExt1, dOExt2, dOLaserPort, marker);
+        };
+
+       dynamicForm.FormClosing += (s, e) =>
+        {
+            var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dlgResult != DialogResult.Yes)
+            {
+                e.Cancel = true;
+                return;
+            }
+            // 장치 해제
+            editorControl.DisposeDevices();
+
+            // 시리우스3 라이브러리 정리
+            SpiralLab.Sirius3.Core.Cleanup();
+        };
+
+        Application.Run(dynamicForm);
     }
 }
 ```

@@ -688,7 +688,6 @@
             this.treeViewPageControl1.Page = SpiralLab.Sirius3.Document.DocumentPages.Page1;
             this.treeViewPageControl1.Size = new System.Drawing.Size(220, 670);
             this.treeViewPageControl1.TabIndex = 2;
-            this.treeViewPageControl1.View = null;
             // 
             // tabDocPage2
             // 
@@ -714,7 +713,6 @@
             this.treeViewPageControl2.Page = SpiralLab.Sirius3.Document.DocumentPages.Page2;
             this.treeViewPageControl2.Size = new System.Drawing.Size(220, 670);
             this.treeViewPageControl2.TabIndex = 3;
-            this.treeViewPageControl2.View = null;
             // 
             // tabDocPage3
             // 
@@ -740,7 +738,6 @@
             this.treeViewPageControl3.Page = SpiralLab.Sirius3.Document.DocumentPages.Page3;
             this.treeViewPageControl3.Size = new System.Drawing.Size(220, 670);
             this.treeViewPageControl3.TabIndex = 3;
-            this.treeViewPageControl3.View = null;
             // 
             // tabDocPage4
             // 
@@ -766,7 +763,6 @@
             this.treeViewPageControl4.Page = SpiralLab.Sirius3.Document.DocumentPages.Page4;
             this.treeViewPageControl4.Size = new System.Drawing.Size(220, 670);
             this.treeViewPageControl4.TabIndex = 3;
-            this.treeViewPageControl4.View = null;
             // 
             // tabBlockPage
             // 
@@ -791,7 +787,6 @@
             this.treeViewBlockControl1.Name = "treeViewBlockControl1";
             this.treeViewBlockControl1.Size = new System.Drawing.Size(220, 670);
             this.treeViewBlockControl1.TabIndex = 0;
-            this.treeViewBlockControl1.View = null;
             // 
             // tlcPen
             // 

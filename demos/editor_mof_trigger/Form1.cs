@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Scanner;
@@ -34,15 +34,38 @@ namespace Demos
 {
     public partial class Form1 : Form
     {
+        // Maximum serial number limit
+        // ìµœëŒ€ ì¼ë ¨ë²ˆí˜¸ ì œí•œê°’
+        // æœ€å¤§åºåˆ—å·é™åˆ¶
         const uint maxSerialNo = 100;
 
-        // ½ÃÀÛ ÀÏ·Ã¹øÈ£
+        // Starting serial number
+        // ì‹œìž‘ ì¼ë ¨ë²ˆí˜¸
+        // èµ·å§‹åºåˆ—å·
         uint startingSerialNo = 1;
-        // ÀÏ·Æ¹øÈ£ Áõ°¡°ª
+
+        // Serial number increment step
+        // ì¼ë ¨ë²ˆí˜¸ ì¦ê°€ê°’
+        // åºåˆ—å·é€’å¢žå€¼
         const uint increment = 1;
-        // ÇöÀç ÀÏ·Ã¹øÈ£ : RTC ¸®½ºÆ® ¹öÆÛ¿¡ »ðÀÔµÈÈÄ ¾÷µ¥ÀÌÆ®µÊ (½ÇÁ¦ ¸¶Å· ÀÌÀü¿¡ ¾÷µ¥ÀÌÆ®µÊ)
+
+        // Current serial number
+        // - Updated when inserted into RTC list buffer (before actual marking)
+        // í˜„ìž¬ ì¼ë ¨ë²ˆí˜¸
+        // - RTC ë¦¬ìŠ¤íŠ¸ ë²„í¼ì— ì‚½ìž… ì‹œì ì— ì—…ë°ì´íŠ¸ë¨ (ì‹¤ì œ ë§ˆí‚¹ ì „ì— ì¦ê°€ë¨)
+        // å½“å‰åºåˆ—å·
+        // - åœ¨å†™å…¥RTCåˆ—è¡¨ç¼“å†²åŒºæ—¶æ›´æ–°ï¼ˆå®žé™…åŠ å·¥å‰æ›´æ–°ï¼‰
         uint currentSerialNo = 1;
-        // ½ÇÁ¦ ÀÏ·Ã¹øÈ£: ½ÇÁ¦ ¸®½ºÆ® ¸í·ÉÀÌ ½ÇÇàµÈÈÄ(ÅØ½ºÆ® ¸¶Å·ÀÌÈÄ) ½Ç½Ã°£ ¾÷µ¥ÀÌÆ®µÊ (¿©±â¿¡¼­´Â ÀÚÀ¯¹ø¼ö 0 À» »ç¿ëÇÔ)
+
+        // Real serial number
+        // - Updated in real-time after actual list execution (after text marking)
+        // - Uses free variable index 0
+        // ì‹¤ì œ ì¼ë ¨ë²ˆí˜¸
+        // - ì‹¤ì œ ë¦¬ìŠ¤íŠ¸ ëª…ë ¹ ì‹¤í–‰ ì´í›„(í…ìŠ¤íŠ¸ ë§ˆí‚¹ ì´í›„) ì‹¤ì‹œê°„ ì—…ë°ì´íŠ¸ë¨
+        // - ìžìœ  ë³€ìˆ˜ 0ë²ˆ ì‚¬ìš©
+        // å®žé™…åºåˆ—å·
+        // - åœ¨å®žé™…åˆ—è¡¨æ‰§è¡Œå®ŒæˆåŽï¼ˆæ–‡æœ¬æ ‡åˆ»åŽï¼‰å®žæ—¶æ›´æ–°
+        // - ä½¿ç”¨è‡ªç”±å˜é‡0
         uint realSerialNo;
 
 
@@ -86,8 +109,8 @@ namespace Demos
             siriusEditorControl1.Laser = laser;
 
             // Set D.IN0 name
-            // DIN0 À» ½ÃÀÛ Æ®¸®°Å·Î »ç¿ëÇÒ °ÍÀÌ¹Ç·Î
-            // DIN.0 À» 'External Trigger' ¶ó°í ¸í¸í
+            // DIN0 ì„ ì‹œìž‘ íŠ¸ë¦¬ê±°ë¡œ ì‚¬ìš©í•  ê²ƒì´ë¯€ë¡œ
+            // DIN.0 ì„ 'External Trigger' ë¼ê³  ëª…ëª…
             dInExt1.ChannelNames[0][0] = "External Trigger";
 
             siriusEditorControl1.DIExt1 = dInExt1;
@@ -246,16 +269,16 @@ namespace Demos
 
             // Create waiting D.IN0 ("External Trigger")
             // Condition: rising edge
-            // D.IN0 Æ®¸®°Å ½ÅÈ£°¡ High(Rising edge) µÉ¶§ ±îÁö ´ë±âÇÏ´Â Á¦¾î¿ë °´Ã¼ Ãß°¡
+            // D.IN0 íŠ¸ë¦¬ê±° ì‹ í˜¸ê°€ High(Rising edge) ë ë•Œ ê¹Œì§€ ëŒ€ê¸°í•˜ëŠ” ì œì–´ìš© ê°ì²´ ì¶”ê°€
             var waitExt16Cond = EntityFactory.CreateWaitDataExt16EdgeCond(
                 0, //D.IN0 ("External Trigger")
                 SignalEdges.High);
             document.ActivePage?.ActiveLayer?.AddChild(waitExt16Cond);
 
             // Create mof begin with encoder reset
-            // ÀÔ·Â ¿£ÄÚ´õ(ÀÌµ¿°Å¸®)°ªÀ» 0 À¸·Î ÃÊ±âÈ­ÇÏµµ·Ï ÇØÁÖ°í
-            // ÀÌÈÄ ½ºÄ³³ÊÀÇ ÀÌµ¿¿¡ ½Ç½Ã°£ ÀÔ·ÂµÇ´Â ¿ÜºÎ ¿£ÄÚ´õ°ªÀ» Ãß°¡(+) ÇØÁÖ´Â°ÍÀ» ½ÃÀÛÇÏ´Â
-            // Á¦¾î¿ë MoF ½ÃÀÛ °´Ã¼ Ãß°¡
+            // ìž…ë ¥ ì—”ì½”ë”(ì´ë™ê±°ë¦¬)ê°’ì„ 0 ìœ¼ë¡œ ì´ˆê¸°í™”í•˜ë„ë¡ í•´ì£¼ê³ 
+            // ì´í›„ ìŠ¤ìºë„ˆì˜ ì´ë™ì— ì‹¤ì‹œê°„ ìž…ë ¥ë˜ëŠ” ì™¸ë¶€ ì—”ì½”ë”ê°’ì„ ì¶”ê°€(+) í•´ì£¼ëŠ”ê²ƒì„ ì‹œìž‘í•˜ëŠ”
+            // ì œì–´ìš© MoF ì‹œìž‘ ê°ì²´ ì¶”ê°€
             // Also, need to MoF option at library option.
             //Debug.Assert(rtc.IsMoF);
             //Core.License(out var licenseInfo);
@@ -265,8 +288,8 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(mofBegin);
 
             // Create barcode
-            // ¹ÙÄÚµå °´Ã¼ Ãß°¡ ¹× IsAllowConvert À» true ·Î »ç¿ë½Ã °¡°ø Á÷Àü ¹ÙÄÚµå ÅØ½ºÆ® µ¥ÀÌÅ¸¸¦ ÁöÁ¤µÈ ÄÁ¹öÅÍ·Î º¯°æÇØÁÖ´Â ±â´É »ç¿ë
-            // ÀÌ ¿¹Á¦¿¡¼­´Â ÀÌº¥Æ® ÇÚµé·¯(IMarker ÀÇ OnTextConvert ÀÌº¥Æ® ÇÚµé·¯)¸¦ »ç¿ëÇÏ´Â ¹æ½Ä »ç¿ë
+            // ë°”ì½”ë“œ ê°ì²´ ì¶”ê°€ ë° IsAllowConvert ì„ true ë¡œ ì‚¬ìš©ì‹œ ê°€ê³µ ì§ì „ ë°”ì½”ë“œ í…ìŠ¤íŠ¸ ë°ì´íƒ€ë¥¼ ì§€ì •ëœ ì»¨ë²„í„°ë¡œ ë³€ê²½í•´ì£¼ëŠ” ê¸°ëŠ¥ ì‚¬ìš©
+            // ì´ ì˜ˆì œì—ì„œëŠ” ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬(IMarker ì˜ OnTextConvert ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬)ë¥¼ ì‚¬ìš©í•˜ëŠ” ë°©ì‹ ì‚¬ìš©
             var barcode = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 5, 5);
             barcode.CellLine.DotFactor = 1;
             barcode.Name = "MyBarcode";
@@ -277,8 +300,8 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(barcode);
 
             // Create text
-            // ÅØ½ºÆ® °´Ã¼ Ãß°¡ ¹× IsAllowConvert À» true ·Î »ç¿ë½Ã °¡°ø Á÷Àü ¹ÙÄÚµå ÅØ½ºÆ® µ¥ÀÌÅ¸¸¦ ÁöÁ¤µÈ ÄÁ¹öÅÍ·Î º¯°æÇØÁÖ´Â ±â´É »ç¿ë
-            // ÀÌ ¿¹Á¦¿¡¼­´Â ÀÌº¥Æ® ÇÚµé·¯(IMarker ÀÇ OnTextConvert ÀÌº¥Æ® ÇÚµé·¯)¸¦ »ç¿ëÇÏ´Â ¹æ½Ä »ç¿ë
+            // í…ìŠ¤íŠ¸ ê°ì²´ ì¶”ê°€ ë° IsAllowConvert ì„ true ë¡œ ì‚¬ìš©ì‹œ ê°€ê³µ ì§ì „ ë°”ì½”ë“œ í…ìŠ¤íŠ¸ ë°ì´íƒ€ë¥¼ ì§€ì •ëœ ì»¨ë²„í„°ë¡œ ë³€ê²½í•´ì£¼ëŠ” ê¸°ëŠ¥ ì‚¬ìš©
+            // ì´ ì˜ˆì œì—ì„œëŠ” ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬(IMarker ì˜ OnTextConvert ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬)ë¥¼ ì‚¬ìš©í•˜ëŠ” ë°©ì‹ ì‚¬ìš©
             var text = EntityFactory.CreateText("Arial", FontStyle.Regular, "0123456789", 2);
             text.Name = "MyText";
             text.IsAllowConvert = true;  
@@ -289,16 +312,16 @@ namespace Demos
             document.ActivePage?.ActiveLayer?.AddChild(text);
 
             // Create mof end with jump 0,0
-            // ÀÔ·Â ¿£ÄÚ´õ(ÀÌµ¿°Å¸®)¿¡ ÀÇÇÑ ½ºÄ³³Ê ÃßÁ¾ÀÌ Áß´Ü(MoF end) µÊ
-            // ÀÌÈÄ ½Ç½Ã°£ ÀÔ·ÂµÇ´Â ¿ÜºÎ ¿£ÄÚ´õÃ³¸®´Â Áß´ÜµÇ°í ½ºÄ³³Ê¸¦ ¹°¸®Àû ¿øÁ¡(0,0) À¸·Î Á¡ÇÁ
-            // Á¦¾î¿ë MoF ³¡ °´Ã¼ Ãß°¡
+            // ìž…ë ¥ ì—”ì½”ë”(ì´ë™ê±°ë¦¬)ì— ì˜í•œ ìŠ¤ìºë„ˆ ì¶”ì¢…ì´ ì¤‘ë‹¨(MoF end) ë¨
+            // ì´í›„ ì‹¤ì‹œê°„ ìž…ë ¥ë˜ëŠ” ì™¸ë¶€ ì—”ì½”ë”ì²˜ë¦¬ëŠ” ì¤‘ë‹¨ë˜ê³  ìŠ¤ìºë„ˆë¥¼ ë¬¼ë¦¬ì  ì›ì (0,0) ìœ¼ë¡œ ì í”„
+            // ì œì–´ìš© MoF ë ê°ì²´ ì¶”ê°€
             var mofEnd = EntityFactory.CreateMoFEnd(DVec2.Zero);
             document.ActivePage?.ActiveLayer?.AddChild(mofEnd);
 
             // Create user event
-            // »ç¿ëÀÚ ÀÌº¥Æ®¿ë Á¦¾î °´Ã¼ Ãß°¡
-            // »ç¿ëÀÚ ÀÌº¥Æ®°¡ ½ÇÇàµÇ¸é ÀÌº¥Æ® ÇÚµé·¯ (IMarker ÀÇ OnUserEvent ÀÌº¥Æ® ÇÚµé·¯) °¡ È£ÃâµÊ
-            // ÀÌ ¿¹Á¦¿¡¼­´Â OnUserEvent ÀÌº¥Æ® È£Ãâ½Ã ÀÏ·Ã¹øÈ£¸¦ Áõ°¡½ÃÅ°´Â ±â´ÉÀ» Ãß°¡ÇÔ
+            // ì‚¬ìš©ìž ì´ë²¤íŠ¸ìš© ì œì–´ ê°ì²´ ì¶”ê°€
+            // ì‚¬ìš©ìž ì´ë²¤íŠ¸ê°€ ì‹¤í–‰ë˜ë©´ ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬ (IMarker ì˜ OnUserEvent ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬) ê°€ í˜¸ì¶œë¨
+            // ì´ ì˜ˆì œì—ì„œëŠ” OnUserEvent ì´ë²¤íŠ¸ í˜¸ì¶œì‹œ ì¼ë ¨ë²ˆí˜¸ë¥¼ ì¦ê°€ì‹œí‚¤ëŠ” ê¸°ëŠ¥ì„ ì¶”ê°€í•¨
             var userEvent = EntityFactory.CreateUserEvent(); // marker.OnUserEvent event will be called
             
             document.ActivePage?.ActiveLayer?.AddChild(userEvent);
@@ -306,15 +329,15 @@ namespace Demos
             siriusEditorControl1.View?.DoRender();
             
             // Repeats 100 times
-            // ÃÖ´ë 100°³ÀÇ Æ®¸®°Å ÀÔ·ÂÀ» Ã³¸®ÇÏ±â À§ÇØ
-            // ·¹ÀÌ¾îÀÇ °¡°ø ¹Ýº¹È¸¼ö(Repeats) ¸¦ ÀÔ·ÂÇÔ
+            // ìµœëŒ€ 100ê°œì˜ íŠ¸ë¦¬ê±° ìž…ë ¥ì„ ì²˜ë¦¬í•˜ê¸° ìœ„í•´
+            // ë ˆì´ì–´ì˜ ê°€ê³µ ë°˜ë³µíšŒìˆ˜(Repeats) ë¥¼ ìž…ë ¥í•¨
             document.ActivePage.ActiveLayer.Repeats = 100;
 
 
             Debug.Assert(rtc.IsMoF);
             var rtcMoF = rtc as IRtcMoF;
             Debug.Assert(rtcMoF != null);
-            // ´ÜÀ§ mm ´ç ¹ß»ýÇÏ´Â ¿£ÄÚ´õ ÆÞ½ºÀÇ °³¼ö°¡ ÁöÁ¤µÇ¾î ÀÖ¾î¾ß ÇÔ
+            // ë‹¨ìœ„ mm ë‹¹ ë°œìƒí•˜ëŠ” ì—”ì½”ë” íŽ„ìŠ¤ì˜ ê°œìˆ˜ê°€ ì§€ì •ë˜ì–´ ìžˆì–´ì•¼ í•¨
             Debug.Assert(rtcMoF.EncXCountsPerMm != 0);
             //Debug.Assert(rtcMoF.EncYCountsPerMm != 0);
         }
@@ -326,15 +349,15 @@ namespace Demos
 
             if (marker.IsBusy)
             {
-                // ÀÌ¹Ì ¸¶Ä¿(IMarker)°¡ °¡°øÁßÀÌ¸é °­Á¦ Áß´Ü
+                // ì´ë¯¸ ë§ˆì»¤(IMarker)ê°€ ê°€ê³µì¤‘ì´ë©´ ê°•ì œ ì¤‘ë‹¨
                 marker.Stop();
                 marker.Reset();
                 txtCurrentSerialNo.Enabled = true;
             }
             else
             {
-                // ¸¶Ä¿(IMarker) °¡°ø½ÃÀÛÀ» À§ÇØ 
-                // ÃÊ±â ÀÏ·Ã¹øÈ£¸¦ ¼³Á¤
+                // ë§ˆì»¤(IMarker) ê°€ê³µì‹œìž‘ì„ ìœ„í•´ 
+                // ì´ˆê¸° ì¼ë ¨ë²ˆí˜¸ë¥¼ ì„¤ì •
                 currentSerialNo = uint.Parse(txtCurrentSerialNo.Text);
                 realSerialNo = currentSerialNo;
                 txtRealSerialNo.Text = txtCurrentSerialNo.Text;
@@ -349,8 +372,8 @@ namespace Demos
 
         private void BtnStartEncoderSimulation_Click(object sender, EventArgs e)
         {
-            // ¿ÜºÎ ¿£ÄÚ´õ ½ÅÈ£°¡ RTC Ä«µåÀÇ MOF ÀÔ·ÂÇÉÀ¸·Î ¿¬°áµÇ¾î ÀÖÀ¸¸é
-            // ¿£ÄÚ´õ ½Ã¹Ä·¹ÀÌ¼Ç ±â´ÉÀ» »ç¿ëÇÒ ÇÊ¿ä°¡ ¾øÀ½
+            // ì™¸ë¶€ ì—”ì½”ë” ì‹ í˜¸ê°€ RTC ì¹´ë“œì˜ MOF ìž…ë ¥í•€ìœ¼ë¡œ ì—°ê²°ë˜ì–´ ìžˆìœ¼ë©´
+            // ì—”ì½”ë” ì‹œë®¬ë ˆì´ì…˜ ê¸°ëŠ¥ì„ ì‚¬ìš©í•  í•„ìš”ê°€ ì—†ìŒ
             var rtc = siriusEditorControl1.Scanner as IRtc;
 
             Debug.Assert(rtc.IsMoF);
@@ -358,21 +381,21 @@ namespace Demos
 
             // Activated simulated encoders for test purpose (x= -1, y=0 mm/s)
             // DO NOT set simulated encoder speed if ENC 0,1 has connected
-            // ¿£ÄÚ´õ ÀÔ·Â ½Ã¹Ä·¹ÀÌ¼Ç ½ÃÀÛ (x Ãà ¹æÇâÀº -1mm/s °¡»ó ¼Óµµ, y ÃàÀº ¹Ì»ç¿ë)
+            // ì—”ì½”ë” ìž…ë ¥ ì‹œë®¬ë ˆì´ì…˜ ì‹œìž‘ (x ì¶• ë°©í–¥ì€ -1mm/s ê°€ìƒ ì†ë„, y ì¶•ì€ ë¯¸ì‚¬ìš©)
             rtcMoF.CtlMoFEncoderSpeed(-1, 0);
         }
 
         private void BtnStopEncoderSimulation_Click(object sender, EventArgs e)
         {
-            // ¿ÜºÎ ¿£ÄÚ´õ ½ÅÈ£°¡ RTC Ä«µåÀÇ MOF ÀÔ·ÂÇÉÀ¸·Î ¿¬°áµÇ¾î ÀÖÀ¸¸é
-            // ¿£ÄÚ´õ ½Ã¹Ä·¹ÀÌ¼Ç ±â´ÉÀ» »ç¿ëÇÒ ÇÊ¿ä°¡ ¾øÀ½
+            // ì™¸ë¶€ ì—”ì½”ë” ì‹ í˜¸ê°€ RTC ì¹´ë“œì˜ MOF ìž…ë ¥í•€ìœ¼ë¡œ ì—°ê²°ë˜ì–´ ìžˆìœ¼ë©´
+            // ì—”ì½”ë” ì‹œë®¬ë ˆì´ì…˜ ê¸°ëŠ¥ì„ ì‚¬ìš©í•  í•„ìš”ê°€ ì—†ìŒ
             var rtc = siriusEditorControl1.Scanner as IRtc;
 
             Debug.Assert(rtc.IsMoF);
             var rtcMoF = rtc as IRtcMoF;
 
             // Deactivated simulated encoders 
-            // ¿£ÄÚ´õ ÀÔ·Â ½Ã¹Ä·¹ÀÌ¼Ç ÁßÁö (°¡»ó ¼Óµµ¸¦ 0 À¸·Î ÇÏ´Â°ÍÀ¸·Î ÁßÁöµÊ)
+            // ì—”ì½”ë” ìž…ë ¥ ì‹œë®¬ë ˆì´ì…˜ ì¤‘ì§€ (ê°€ìƒ ì†ë„ë¥¼ 0 ìœ¼ë¡œ í•˜ëŠ”ê²ƒìœ¼ë¡œ ì¤‘ì§€ë¨)
             rtcMoF.CtlMoFEncoderSpeed(0, 0);
 
             // Reset encoders
@@ -383,15 +406,15 @@ namespace Demos
         {
             var marker = siriusEditorControl1.Marker;
 
-            // ¹ÙÄÚµå ¹× ÅØ½ºÆ® °´Ã¼ÀÇ µ¥ÀÌÅ¸ º¯°æ¿ë ÀÌº¥Æ® ÇÚµé·¯ µî·Ï
+            // ë°”ì½”ë“œ ë° í…ìŠ¤íŠ¸ ê°ì²´ì˜ ë°ì´íƒ€ ë³€ê²½ìš© ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬ ë“±ë¡
             marker.OnTextConvert -= Marker_OnTextConvert;
             marker.OnTextConvert += Marker_OnTextConvert;
 
-            // UserEvent °´Ã¼ ÅëÁö¿ë ÀÌº¥Æ® ÇÚµé·¯ µî·Ï
+            // UserEvent ê°ì²´ í†µì§€ìš© ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬ ë“±ë¡
             marker.OnUserEvent -= Marker_OnUserEvent;
             marker.OnUserEvent += Marker_OnUserEvent;
 
-            // ÀÚÀ¯¹ø¼ö º¯°æ ½ÃÁ¡À» ÅëÁö¹Þ±â À§ÇÑ ÀÌº¥Æ® ÇÚµé·¯ µî·Ï
+            // ìžìœ ë²ˆìˆ˜ ë³€ê²½ ì‹œì ì„ í†µì§€ë°›ê¸° ìœ„í•œ ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬ ë“±ë¡
             if (marker.Rtc is IRtcFreeVariable rtcFreeVariable)
             {
                 rtcFreeVariable.OnFreeVariableChanged -= OnFreeVariableChanged;
@@ -422,12 +445,12 @@ namespace Demos
             var currentOffset = marker.WorkingSet.Offset;
             var currentOffsetIndex = marker.WorkingSet.OffsetIndex;
 
-            // ¹ÙÄÚµå ¹× ÅØ½ºÆ® °´Ã¼ÀÇ ÀÌ¸§À» ÅëÇØ º¯°æµÉ µ¥ÀÌÅ¸ ¸®ÅÏ            
-            // °¡°ø µ¥ÀÌÅ¸ ÁÂÇ¥µéÀÌ RTC ÀÇ ¸®½ºÆ® ¹öÆÛ¿¡ ¹Ì¸® Ãß°¡µÇ¾î¾ß ÇÏ±â¿¡
-            // È­¸é»óÀÇ ÅØ½ºÆ®´Â ÀÌ¹Ì º¯°æµÇ¾î ÀÖÀ½ (¹öÆÛ Å©±â°¡ Å¬¼ö·Î ¸¹ÀÌ º¯°æµÊ)
-            // ÀÌÈÄ Æ®¸®°Å (D.IN0) ¹ß»ý½Ã ¸®½ºÆ® ¹öÆÛÀÇ µ¥ÀÌÅ¸°¡ ¼øÂ÷ÀûÀ¸·Î ½ÇÇà(°¡°ø)µÊ
-            // RTC ¸®½ºÆ® ¹öÆÛ¿¡¼­ µ¥ÀÌÅ¸°¡ Ã³¸®µÇ¸é ºó ¸®½ºÆ® ¹öÆÛ °ø°£ÀÌ »ý±æ¶§ ±îÁö ´ë±âÇÏ´Ù°¡
-            // ÀÌÈÄ ÅØ½ºÆ® µ¥ÀÌÅ¸ º¯°æÀÌ µÇ´Â ¹æ½ÄÀÌ ¹Ýº¹µÊ
+            // ë°”ì½”ë“œ ë° í…ìŠ¤íŠ¸ ê°ì²´ì˜ ì´ë¦„ì„ í†µí•´ ë³€ê²½ë  ë°ì´íƒ€ ë¦¬í„´            
+            // ê°€ê³µ ë°ì´íƒ€ ì¢Œí‘œë“¤ì´ RTC ì˜ ë¦¬ìŠ¤íŠ¸ ë²„í¼ì— ë¯¸ë¦¬ ì¶”ê°€ë˜ì–´ì•¼ í•˜ê¸°ì—
+            // í™”ë©´ìƒì˜ í…ìŠ¤íŠ¸ëŠ” ì´ë¯¸ ë³€ê²½ë˜ì–´ ìžˆìŒ (ë²„í¼ í¬ê¸°ê°€ í´ìˆ˜ë¡œ ë§Žì´ ë³€ê²½ë¨)
+            // ì´í›„ íŠ¸ë¦¬ê±° (D.IN0) ë°œìƒì‹œ ë¦¬ìŠ¤íŠ¸ ë²„í¼ì˜ ë°ì´íƒ€ê°€ ìˆœì°¨ì ìœ¼ë¡œ ì‹¤í–‰(ê°€ê³µ)ë¨
+            // RTC ë¦¬ìŠ¤íŠ¸ ë²„í¼ì—ì„œ ë°ì´íƒ€ê°€ ì²˜ë¦¬ë˜ë©´ ë¹ˆ ë¦¬ìŠ¤íŠ¸ ë²„í¼ ê³µê°„ì´ ìƒê¸¸ë•Œ ê¹Œì§€ ëŒ€ê¸°í•˜ë‹¤ê°€
+            // ì´í›„ í…ìŠ¤íŠ¸ ë°ì´íƒ€ ë³€ê²½ì´ ë˜ëŠ” ë°©ì‹ì´ ë°˜ë³µë¨
 
             switch (currentEntity.Name)
             {
@@ -444,7 +467,7 @@ namespace Demos
 
         private bool Marker_OnUserEvent(IMarker marker, EntityUserEvent entityUserEvent)
         {
-            // ÀÏ·Ã¹øÈ£ Áõ°¡ ¹× ÃÖ´ë°ª Ã³¸®
+            // ì¼ë ¨ë²ˆí˜¸ ì¦ê°€ ë° ìµœëŒ€ê°’ ì²˜ë¦¬
             currentSerialNo += increment;
             if (currentSerialNo > maxSerialNo)
                 currentSerialNo = startingSerialNo;

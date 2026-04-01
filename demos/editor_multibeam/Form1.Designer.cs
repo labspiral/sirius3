@@ -64,17 +64,17 @@
             // 
             // lblMode
             // 
-            this.lblMode.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMode.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMode.Location = new System.Drawing.Point(3, 0);
             this.lblMode.Name = "lblMode";
-            this.lblMode.Size = new System.Drawing.Size(141, 26);
+            this.lblMode.Size = new System.Drawing.Size(200, 29);
             this.lblMode.TabIndex = 5;
-            this.lblMode.Text = "Mode: ";
+            this.lblMode.Text = "MultiBeam Mode: ";
             this.lblMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnCheckPins
             // 
-            this.btnCheckPins.Location = new System.Drawing.Point(150, 3);
+            this.btnCheckPins.Location = new System.Drawing.Point(209, 3);
             this.btnCheckPins.Name = "btnCheckPins";
             this.btnCheckPins.Size = new System.Drawing.Size(47, 26);
             this.btnCheckPins.TabIndex = 6;
@@ -83,7 +83,7 @@
             // 
             // btnNone
             // 
-            this.btnNone.Location = new System.Drawing.Point(203, 3);
+            this.btnNone.Location = new System.Drawing.Point(262, 3);
             this.btnNone.Name = "btnNone";
             this.btnNone.Size = new System.Drawing.Size(98, 26);
             this.btnNone.TabIndex = 4;
@@ -92,7 +92,7 @@
             // 
             // btnHead1
             // 
-            this.btnHead1.Location = new System.Drawing.Point(307, 3);
+            this.btnHead1.Location = new System.Drawing.Point(366, 3);
             this.btnHead1.Name = "btnHead1";
             this.btnHead1.Size = new System.Drawing.Size(98, 26);
             this.btnHead1.TabIndex = 0;
@@ -101,7 +101,7 @@
             // 
             // btnHead2
             // 
-            this.btnHead2.Location = new System.Drawing.Point(411, 3);
+            this.btnHead2.Location = new System.Drawing.Point(470, 3);
             this.btnHead2.Name = "btnHead2";
             this.btnHead2.Size = new System.Drawing.Size(98, 26);
             this.btnHead2.TabIndex = 2;
@@ -110,7 +110,7 @@
             // 
             // btnHead12
             // 
-            this.btnHead12.Location = new System.Drawing.Point(515, 3);
+            this.btnHead12.Location = new System.Drawing.Point(574, 3);
             this.btnHead12.Name = "btnHead12";
             this.btnHead12.Size = new System.Drawing.Size(98, 26);
             this.btnHead12.TabIndex = 3;
@@ -119,7 +119,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(619, 3);
+            this.btnStop.Location = new System.Drawing.Point(678, 3);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(47, 26);
             this.btnStop.TabIndex = 1;
@@ -180,7 +180,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 32);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(992, 732);
+            this.tabPage2.Size = new System.Drawing.Size(1256, 793);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "EDITOR 2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -203,7 +203,7 @@
             this.siriusEditorControl2.Name = "siriusEditorControl2";
             this.siriusEditorControl2.PowerMeter = null;
             this.siriusEditorControl2.Scanner = null;
-            this.siriusEditorControl2.Size = new System.Drawing.Size(986, 726);
+            this.siriusEditorControl2.Size = new System.Drawing.Size(1250, 787);
             this.siriusEditorControl2.TabIndex = 4;
             // 
             // Form1

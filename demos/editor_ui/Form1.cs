@@ -713,7 +713,7 @@ namespace Demos
             var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\obj\\teapot.obj");
             if (!File.Exists(fileName)) return;
 
-            var mesh = new EntityMesh(fileName);
+            var mesh = new EntityMesh( fileName);
             mesh.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
             mesh.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, 0);
             document.ActivePage?.ActiveLayer?.AddChild(mesh);

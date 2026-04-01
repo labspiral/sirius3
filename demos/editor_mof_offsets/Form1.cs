@@ -13,7 +13,6 @@ using SpiralLab.Sirius3;
 using SpiralLab.Sirius3.Entity.Hatch;
 using SpiralLab.Sirius3.Mathematics;
 
-
 #if OPENTK3
 using OpenTK;
 using DVec2 = OpenTK.Vector2d;
@@ -35,16 +34,23 @@ namespace Demos
     public partial class Form1 : Form
     {
         const int offsetCounts = 1_000; 
-
         uint processCounts = 0;
-        uint tempCounts = 0;
+
 
         public Form1()
         {
             InitializeComponent();
+
+            // Form load event
+            // 폼 로드 이벤트
+            // 窗体加载事件
             this.Load += Form1_Load;
+
             this.FormClosing += (s, e) =>
             {
+                // Confirm before closing
+                // 종료 전 사용자 확인
+                // 关闭前确认
                 var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dlgResult != DialogResult.Yes)
                 {
@@ -52,10 +58,13 @@ namespace Demos
                     return;
                 }
 
-                // Dispose instances 
+                // Dispose hardware devices
+                // 장치 리소스 해제
+                // 释放设备资源
                 siriusEditorControl1.DisposeDevices();
-
-                // Clean up SIRIUS3 library
+                // Cleanup library
+                // 라이브러리 정리
+                // 清理库
                 SpiralLab.Sirius3.Core.Cleanup();
             };
 
@@ -67,43 +76,54 @@ namespace Demos
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Create all required hardware interfaces
+            // 장치 인터페이스 생성
+            // 创建硬件接口
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
-            // RTC 카드에 MoF (Processing on the fly) 옵션이 반드시 필수
+            // MoF option must be enabled
+            // MoF 기능 필수
+            // 必须启用 MoF 功能
             Debug.Assert(rtc.IsMoF);
             var rtcMoF = rtc as IRtcMoF;
             Debug.Assert(rtcMoF != null);
 
+            // Assign devices to editor control
+            // 장치들을 컨트롤에 할당
+            // 将设备绑定到控件
             siriusEditorControl1.Scanner = rtc;
-
             siriusEditorControl1.Laser = laser;
-
             siriusEditorControl1.DIExt1 = dInExt1;
             siriusEditorControl1.DOExt1 = dOutExt1;
             siriusEditorControl1.DOExt2 = dOutExt2;
             siriusEditorControl1.DILaserPort = dInLaserPort;
             siriusEditorControl1.DOLaserPort = dOutLaserPort;
-
             siriusEditorControl1.PowerMeter = powerMeter;
             siriusEditorControl1.Marker = marker;
 
-
-            // 자유 변수를 가공 회수 증가 용도로 사용함
-            // 때문에 자유 변수 변경 이벤트를 통지받기 위한 핸들러 등록
+            // Register event: free variable change (used as process counter)
+            // 자유 변수 변경 이벤트 등록 (가공 카운트용)
+            // 注册自由变量变化事件（用于加工计数）
             if (rtc is IRtcFreeVariable rtcFreeVariable)
                 rtcFreeVariable.OnFreeVariableChanged += OnFreeVariableChanged;
-
-            // 엔코더 신호 이상 감지를 통지받기 위한 핸들러 등록
+            // Encoder error event
+            // 엔코더 에러 이벤트
+            // 编码器错误事件
             rtcMoF.OnEncoderSignalError += OnEncoderSignalError;
 
-            // 가상 이미지 영역을 벋어나면 이를 통지 받기 위한 핸들러 등록
+            // Virtual field overflow event
+            // 가상 영역 벗어남 이벤트
+            // 虚拟区域越界事件
             rtcMoF.OnOutOfVirtualImageField += OnOutOfVirtualImageField;
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
+
         private void OnFreeVariableChanged(IRtcFreeVariable rtcFreeVariable, uint no, uint data)
         {
-            // 실시간 증가된 가공 회수를 출력
+            // Update processed count in UI
+            // UI에 가공 카운트 표시
+            // 在界面显示加工计数
             if (nudCounts.InvokeRequired)
             {
                 nudCounts.BeginInvoke((MethodInvoker)(() => nudCounts.Value = data));
@@ -113,9 +133,16 @@ namespace Demos
                 nudCounts.Value = data;
             }
         }
+
         private void OnEncoderSignalError(IRtcMoF rtcMoF, IRtcMarkingInfo rtcMarkingInfo)
         {
-            // 엔코더 신호 이상 감지시 처리용
+            // Handle encoder signal errors
+            // 엔코더 신호 오류 처리
+            // 处理编码器信号错误
+
+            // You can analyze each bit depending on RTC version
+            // RTC 버전에 따라 상세 분석 가능
+            // 根据RTC版本解析错误位
             if (rtcMarkingInfo is Rtc6MarkingInfo rtc6MarkingInfo)
             {
                 // For RTC6 card
@@ -187,9 +214,12 @@ namespace Demos
                 MessageBox.Show(this, $"Encoder Signal Error: {rtcMarkingInfo.ToString()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }));
         }
+
         private void OnOutOfVirtualImageField(IRtcMoF rtcMoF, IRtcMarkingInfo rtcMarkingInfo)
         {
-            // 가상 이미지 영역을 벋어났을때 이를 처리하기 위한 용도
+            // Handle out-of-range condition
+            // 가상 영역 벗어남 처리
+            // 处理越界情况
             if (rtcMarkingInfo is Rtc6MarkingInfo rtc6MarkingInfo)
             {
                 // For RTC6 card
@@ -238,7 +268,9 @@ namespace Demos
             }
 
             var rtc = rtcMoF as IRtc;
-            // Abort list executing by forcily
+            // Force stop marking
+            // 강제 정지
+            // 强制停止
             rtc.CtlAbort();
 
             this.Invoke(new MethodInvoker(() =>
@@ -293,8 +325,9 @@ namespace Demos
                 offsets.Add(new Offset(rnd.NextDouble() * 199.0 - 200.0, (rnd.NextDouble() * rtc.EffectiveFieldSize.Y  - rtc.EffectiveFieldSize.Y / 2.0) * 0.5));
             }
 
-            // X 값 DESC 기준으로 오프셋 순서를 정렬
-            // 스테이지(혹은 컨베이어)가 좌->우 지속적으로 이동중(스캐너 입장에서는 엔코더가 X+ 방향으로 증가) 
+            // Sort offsets by X descending (important for conveyor direction)
+            // X 기준 내림차순 정렬 (컨베이어 방향)
+            // 按X降序排序（对应传送带方向）
             marker.Offsets = offsets
                 .OrderByDescending(o => o.Translate.X)
                 .ToArray();
@@ -306,7 +339,7 @@ namespace Demos
             marker.OnAfterEntity += Marker_OnAfterEntity;
 
             // Zoom to fit for target entity
-            siriusEditorControl1.View?.Camera?.Fit(siriusEditorControl1.View, null, new IEntity[] { entity });
+            siriusEditorControl1.View?.ActiveCamera?.Fit(siriusEditorControl1.View, null, new IEntity[] { entity });
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -367,7 +400,9 @@ namespace Demos
 
             bool success = true;
 
-            // 첫번째 오프셋 가공 이전
+            // Start MoF at first offset
+            // 첫 오프셋에서 MoF 시작
+            // 第一个偏移开始MoF
             if (0 == marker.WorkingSet.OffsetIndex)
             {
                 // MoF 시작 및 Encoder reset
@@ -380,7 +415,7 @@ namespace Demos
             {
                 if (entity is ITransformable transformable)
                 {
-                    if (transformable.CalcuateRealMinMax(out var realMin, out var realMax))
+                    if (transformable.CalcuateRealMinMax(marker.View, out var realMin, out var realMax))
                     {
                         var offset = marker.WorkingSet.Offset.Translate;
 
@@ -388,6 +423,8 @@ namespace Demos
                         // X- 영역도 사용 되도록 대기 위치 조절용
                         var originXShift = -1;
 
+                        // Wait until object reaches scanner center
+                        // 等待物体到达扫描中心
                         // 개체의 우측끝이 스캐너 중심에 올떄 까지 기다리기
                         // 가공 데이타는 좌측 공간(X: -200mm ~ 0) 에 있고, 스테이지(혹은 컨베이어)가 좌->우 지속적으로 이동중(스캐너 입장에서는 엔코더가 X+ 방향으로 증가) 
                         // 최종 대기 위치는 개체의 최대 우측값(Max. x) - Offset 이 되어야 한다.
@@ -412,11 +449,15 @@ namespace Demos
 
             bool success = true;
 
-            tempCounts++;
-            // 자유변수 증가
-            success &= rtcFreeVariable.ListWriteVariable(0, tempCounts);
+            // Increase process count
+            // 가공 카운트 증가
+            // 加工计数增加
+            processCounts++;
+            success &= rtcFreeVariable.ListWriteVariable(0, processCounts);
 
-            // 마지막 오프셋 가공 이후
+            // End MoF after last offset
+            // 마지막 오프셋 이후 MoF 종료
+            // 最后一个偏移后结束MoF
             if (marker.WorkingSet.OffsetIndex == (marker.Offsets.Length - 1))
             {
                 // MoF 중지 및 원점으로 점프
@@ -443,6 +484,9 @@ namespace Demos
 
             if (marker.IsBusy)
             {
+                // Stop marking
+                // 가공 중지
+                // 停止加工
                 marker.Stop();
                 marker.Reset();
             }
@@ -454,15 +498,20 @@ namespace Demos
                 if (marker is MarkerRtc markerRtc)
                     markerRtc.MarkProcedure = MarkerRtc.MarkProcedures.OffsetFirst; // 개별 레이어에 대해 오프셋 개수만큼 반복 가공하는 모드 사용 필요
 
-                // Jump to origin
+                // Move scanner to origin
+                // 원점 이동
+                // 移动到原点
                 rtc.CtlMoveTo(DVec2.Zero);
 
-                // reset count 
-                tempCounts = processCounts = 0;
-                // reset count by set freevariable as 0
+                // Reset counter
+                // 카운트 초기화
+                // 计数清零
+                processCounts = 0;
                 rtcFreeVariable?.CtlWriteVariable(0, processCounts);
 
-                // Start to mark current page
+                // Start marking
+                // 가공 시작
+                // 开始加工
                 marker.Start(document.Page);
             }
         }
@@ -477,7 +526,9 @@ namespace Demos
             if (marker.IsBusy)
                 return;
 
-            // Simulated encoders are not activated ?
+            // Toggle simulated encoder
+            // 엔코더 시뮬레이션 토글
+            // 模拟编码器开关
             if (rtcMoF.EncXApproxSpeed == 0)
             {
                 // Start simulated encoders as x= +5, y=0 mm/s by rtcMoF.CtlMofEncoderSpeed(5, 0);
@@ -511,6 +562,9 @@ namespace Demos
             Debug.Assert(rtc.IsMoF);
             var rtcMoF = rtc as IRtcMoF;
 
+            // Reset encoder position
+            // 엔코더 위치 초기화
+            // 重置编码器位置
             rtcMoF.CtlMoFEncoderReset();
         }
     }

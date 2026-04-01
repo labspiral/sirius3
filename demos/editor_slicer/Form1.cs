@@ -101,7 +101,7 @@ namespace Demos
 
             document.ActSelect(mesh);
 
-            EntityModelBase.CalcuateRealMinMax(new IEntity[] { mesh }, out var realMin, out var realMax);
+            EntityModelBase.CalcuateRealMinMax(document.View, new IEntity[] { mesh }, out var realMin, out var realMax);
             
             nudMin.Value = (decimal)realMin.Z;
             nudMax.Value = (decimal)realMax.Z;
@@ -126,7 +126,7 @@ namespace Demos
 
             mesh.IsAllowSlice = true; // !mesh.IsAllowSlice;
 
-            mesh.CalcuateRealMinMax(out var min, out var max);
+            mesh.CalcuateRealMinMax(document.View, out var min, out var max);
             double sliceZ = (double)nudSlice.Value;
             mesh.SliceZ = sliceZ;
 
@@ -152,7 +152,7 @@ namespace Demos
             double z = mesh.SliceZ;
             if (document.ActSlice(mesh, z, out var group))
             {
-                mesh.CalcuateRealMinMax(out var min, out var max);
+                mesh.CalcuateRealMinMax(document.View, out var min, out var max);
                 var width = max.X - min.X;
                 var height = max.Y - min.Y;
                 group.Translate(0, height, 0);

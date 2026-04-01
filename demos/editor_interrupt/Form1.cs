@@ -116,7 +116,7 @@ namespace Demos
             {
                 if (foundedEntity is EntityArc entityArc)
                 { 
-                    if (entityArc.CalcuateRealMinMax(out var min, out var max))
+                    if (entityArc.CalcuateRealMinMax(document.View, out var min, out var max))
                     {
                         // Do something work before mark arc 
                         var realCenter = (min + max) * 0.5;
