@@ -146,6 +146,8 @@ namespace Demos
         /// <para>지원되는 최대 장치 세트 수입니다.</para>
         /// <para>支持的最大设备集数。</para>
         /// </summary>
+        [Browsable(true)]
+        [ReadOnly(false)]
         [Category("Sirius3")]
         [DisplayName("Max. Device")]
         [Description("Max. Device Counts")]
@@ -155,15 +157,20 @@ namespace Demos
             set
             {
                 if (value < 1 || value > DEFAULT_MAX_DEVICE_COUNTS) // allowed 1 ~ 4 only
-                    return;
+                    throw new ArgumentOutOfRangeException("MaxDeviceCounts must be between 1 and " + DEFAULT_MAX_DEVICE_COUNTS);
 
                 maxDeviceCounts = value;
 
                 // Update UI
-                rdDevice0.Enabled = maxDeviceCounts >= 1;
-                rdDevice1.Enabled = maxDeviceCounts >= 2;
-                rdDevice2.Enabled = maxDeviceCounts >= 3;
-                rdDevice3.Enabled = maxDeviceCounts >= 4;
+                try
+                {
+                    rdDevice0.Enabled = maxDeviceCounts >= 1;
+                    rdDevice1.Enabled = maxDeviceCounts >= 2;
+                    rdDevice2.Enabled = maxDeviceCounts >= 3;
+                    rdDevice3.Enabled = maxDeviceCounts >= 4;
+                }
+                catch (Exception)
+                { }
 
                 if (CurrentDeviceIndex >= maxDeviceCounts)
                     SwitchDevices(0); //reset to 0
@@ -176,6 +183,11 @@ namespace Demos
         /// <para>현재 장치 인덱스를 가져오거나 설정합니다.</para>
         /// <para>获取或设置当前设备索引。</para>
         /// </summary>
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Category("Sirius3")]
+        [DisplayName("Current Device")]
+        [Description("Current Device Index")]
         public int CurrentDeviceIndex { get; protected set; }
 
         /// <summary>
@@ -183,6 +195,11 @@ namespace Demos
         /// <para>현재 편집기의 이름을 가져오거나 설정합니다.</para>
         /// <para>获取或设置编辑器名称。</para>
         /// </summary>
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Category("Sirius3")]
+        [DisplayName("Alias")]
+        [Description("Alias Name at Bottom")]
         public string AliasName
         {
             get { return lblName.Text; }
@@ -198,7 +215,7 @@ namespace Demos
         [ReadOnly(false)]
         [Category("Sirius3")]
         [DisplayName("Document")]
-        [Description("Document")]
+        [Description("Document Instance")]
         public IDocument Document
         {
             get => document;
@@ -215,11 +232,10 @@ namespace Demos
                     document.OnAfterSave -= Document_OnAfterSave;
                 }
 
-                if (value != null && value.View == null)
-                    throw new InvalidOperationException("Document must be assigned target view !");
-
-                if (value != null && value.View != null && value.View != this.View)
-                    throw new InvalidOperationException("Current document has binded another view already. not supported multiple view targets !");
+                //if (value != null && value.View == null)
+                //    throw new InvalidOperationException("Document must be assigned target view !");
+                //if (value != null && value.View != null && value.View != this.View)
+                //    throw new InvalidOperationException("Current document has binded another view already. not supported multiple view targets !");
 
                 document = value;
 
@@ -242,6 +258,7 @@ namespace Demos
 
                 if (document != null)
                 {
+                    document.View = EditorCtrl.View;
                     document.OnNew += Document_OnNew;
                     document.OnBeforeOpen += Document_OnBeforeOpen;
                     document.OnAfterOpen += Document_OnAfterOpen;
@@ -261,7 +278,7 @@ namespace Demos
         [ReadOnly(false)]
         [Category("Sirius3")]
         [DisplayName("View")]
-        [Description("View")]
+        [Description("View Instance")]
         public IView View
         {
             get { return EditorCtrl.View; }
@@ -447,7 +464,7 @@ namespace Demos
         [ReadOnly(false)]
         [Category("Sirius3")]
         [DisplayName("DInput")]
-        [Description("IDInput Instance for RTC Extension1 Port")]
+        [Description("IDInput Instance (Extension1 Port)")]
         public IDInput DIExt1
         {
             get => dIExt1s[CurrentDeviceIndex];
@@ -468,7 +485,7 @@ namespace Demos
         [ReadOnly(false)]
         [Category("Sirius3")]
         [DisplayName("DInput")]
-        [Description("IDInput Instance for RTC LASER Port")]
+        [Description("IDInput Instance (LASER Port)")]
         public IDInput DILaserPort
         {
             get => dILaserPorts[CurrentDeviceIndex];
@@ -489,7 +506,7 @@ namespace Demos
         [ReadOnly(false)]
         [Category("Sirius3")]
         [DisplayName("DOutput")]
-        [Description("IDOutput Instance for RTC EXTENSION1 Port")]
+        [Description("IDOutput Instance (EXTENSION1 Port)")]
         public IDOutput DOExt1
         {
             get => dOExt1s[CurrentDeviceIndex];
@@ -510,7 +527,7 @@ namespace Demos
         [ReadOnly(false)]
         [Category("Sirius3")]
         [DisplayName("DOutput")]
-        [Description("IDOutput Instance for RTC EXTENSION2 Port")]
+        [Description("IDOutput Instance (EXTENSION2 Port)")]
         public IDOutput DOExt2
         {
             get => dOExt2s[CurrentDeviceIndex];
@@ -531,7 +548,7 @@ namespace Demos
         [ReadOnly(false)]
         [Category("Sirius3")]
         [DisplayName("DOutput")]
-        [Description("IDOutput Instance for RTC LASER Port")]
+        [Description("IDOutput Instance (LASER Port)")]
         public IDOutput DOLaserPort
         {
             get => dOLaserPorts[CurrentDeviceIndex];
@@ -547,11 +564,7 @@ namespace Demos
         /// <para><see cref="IDocumentData.Pages"/>에 대한 <see cref="TreeViewPageControl"/>을 가져옵니다.</para>
         /// <para>获取 <see cref="IDocumentData.Pages"/> 的 <see cref="TreeViewPageControl"/>。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("PageControls")]
-        [Description("Array of TreeViewPageControl UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl[] PageCtrls
         {
             get
@@ -571,11 +584,7 @@ namespace Demos
         /// <para><see cref="IDocumentData.Blocks"/>에 대한 <see cref="TreeViewBlockControl"/>을 가져옵니다.</para>
         /// <para>获取 <see cref="IDocumentData.Blocks"/> 的 <see cref="TreeViewBlockControl"/>。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("BlockControl")]
-        [Description("TreeViewBlockControl UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.TreeViewBlockControl BlockCtrl => treeViewBlockControl1;
         ///// <summary>
         ///// Get <see cref="TreeViewWaferControl"/> for <see cref="IDocumentData.Wafers"/>
@@ -606,11 +615,7 @@ namespace Demos
         /// <para>속성 그리드 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取属性网格控件包装器。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("PropertyGridControl")]
-        [Description("PropertyGrid UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.PropertyGridControl PropertyGridCtrl => propertyGridControl1;
 
         /// <summary>
@@ -618,11 +623,7 @@ namespace Demos
         /// <para>편집기(OpenGL) 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取编辑器（OpenGL）控件包装器。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("EditorUserControl")]
-        [Description("Editor UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.EditorControl EditorCtrl => editorControl1;
 
         /// <summary>
@@ -630,11 +631,7 @@ namespace Demos
         /// <para>레이저 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取激光控制器包装器。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("LaserControl")]
-        [Description("Laser UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.LaserControl LaserCtrl => laserControl1;
 
         /// <summary>
@@ -642,11 +639,7 @@ namespace Demos
         /// <para>RTC 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取 RTC 控制器包装器。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("RtcUserControl")]
-        [Description("Rtc UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.ScannerControl ScannerCtrl => scannerControl1;
 
         /// <summary>
@@ -654,11 +647,7 @@ namespace Demos
         /// <para>마커 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取标记控制器包装器。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("MarkerControl")]
-        [Description("Marker UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.MarkerControl MarkerCtrl => markerControl1;
 
         /// <summary>
@@ -666,11 +655,7 @@ namespace Demos
         /// <para>RTC DI 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取 RTC DI 控制器包装器。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("RtcDIControl")]
-        [Description("RtcDI UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.DIRtcControl RtcDICtrl => rtcDIControl1;
 
         /// <summary>
@@ -678,11 +663,7 @@ namespace Demos
         /// <para>RTC DO 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取 RTC DO 控制器包装器。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("RtcDOControl")]
-        [Description("RtcDO UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.DORtcControl RtcDOCtrl => rtcDOControl1;
 
         /// <summary>
@@ -690,11 +671,7 @@ namespace Demos
         /// <para>수동 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取手动控制器包装器。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("ManualControl (Customized)")]
-        [Description("Manual UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.ManualControl ManualCtrl => manualControl1;
 
         /// <summary>
@@ -702,11 +679,7 @@ namespace Demos
         /// <para>파워 미터 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取功率计控制器包装器。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("PowerMeterControl")]
-        [Description("PowerMeter UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.PowerMeterControl PowerMeterCtrl => powerMeterControl1;
 
         /// <summary>
@@ -714,22 +687,14 @@ namespace Demos
         /// <para>파워 맵 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取功率映射控件包装器。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("PowerMapControl")]
-        [Description("PowerMap UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.PowerMapControl PowerMapCtrl => powerMapControl1;
 
         /// <summary>
         /// Gets the stepper control wrapper.
         /// <para>스태퍼 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("StepperControl")]
-        [Description("Stepper UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.StepperControl StepperCtrl => stepperControl1;
 
         /// <summary>
@@ -737,11 +702,7 @@ namespace Demos
         /// <para>엔티티 펜 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取实体笔控件包装器。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("Entity PenUserControl")]
-        [Description("Entity Pen UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.EntityPenControl EntityPenCtrl => entityPenControl1;
 
         /// <summary>
@@ -749,11 +710,7 @@ namespace Demos
         /// <para>레이어 펜 컨트롤 래퍼를 가져옵니다.</para>
         /// <para>获取图层笔控件包装器。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("Layer PenUserControl")]
-        [Description("Layer Pen UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.LayerPenControl LayerPenCtrl => layerPenControl1;
 
         /// <summary>
@@ -761,11 +718,7 @@ namespace Demos
         /// <para>로그 컨트롤을 가져옵니다.</para>
         /// <para>获取日志控件。</para>
         /// </summary>
-        [Browsable(true)]
-        [ReadOnly(false)]
-        [Category("Sirius3")]
-        [DisplayName("LogUserControl")]
-        [Description("Log UserControl")]
+        [Browsable(false)]
         public SpiralLab.Sirius3.UI.WinForms.LogControl LogCtrl => logControl1;
         #endregion
 
@@ -909,21 +862,26 @@ namespace Demos
             OnBeforeChangeDevice?.Invoke(this);
 
             CurrentDeviceIndex = index;
-            var rdButton = new RadioButton[] { rdDevice0, rdDevice1, rdDevice2, rdDevice3 };
-            for (int i = 0; i < rdButton.Length; i++)
+            try
             {
-                if (null == rdButton[i]) continue;
-                if (i == CurrentDeviceIndex)
+                var rdButton = new RadioButton[] { rdDevice0, rdDevice1, rdDevice2, rdDevice3 };
+                for (int i = 0; i < rdButton.Length; i++)
                 {
-                    rdButton[i].Checked = true;
-                    rdButton[i].Text = $"Device {i + 1}";
+                    if (null == rdButton[i]) continue;
+                    if (i == CurrentDeviceIndex)
+                    {
+                        rdButton[i].Checked = true;
+                        rdButton[i].Text = $"Device {i + 1}";
 
-                }
-                else
-                {
-                    rdButton[i].Text = ""; // $"{i + 1}";
+                    }
+                    else
+                    {
+                        rdButton[i].Text = ""; // $"{i + 1}";
+                    }
                 }
             }
+            catch (Exception)
+            { }
 
             this.Scanner = scanners[CurrentDeviceIndex];
             this.Laser = lasers[CurrentDeviceIndex];

@@ -1,5 +1,10 @@
 ﻿# Sirius3 버전 이력
 
+## v1.5.4 (2026.4.2)
+- fixed) 핫픽스
+    - 디자인 타임에 SiriusEditorControl 사용자 컨트롤 생성시 발생하는 예외
+    - 디자인 타임에 SiriusMultiEditorControl 사용자 컨트롤 생성시 발생하는 예외     
+ 
 ## v1.5.3 (2026.4.1)
 - fixed) IDocument
     - IDocument 와 IView 간 상호 연결 설정 추가

@@ -1,5 +1,10 @@
 ﻿# Sirius3 version history
 
+## v1.5.4 (2026.4.2)
+- Fixed) Hotfix
+    - exception occurring when creating a SiriusEditorControl user control at design time
+    - exception occurring when creating a SiriusMultiEditorControl user control at design time
+
 ## v1.5.3 (2026.3.31)
 - fixed) IDocument
     - added IView connection settings
