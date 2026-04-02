@@ -60,7 +60,7 @@
 | 3D 메쉬 슬라이서              |PLY, OBJ, STL 메쉬용 슬라이서 내장          |없음                                   |
 | 거버 파일 (RS-274x)          |지원                                       |없음                                   |
 | 웨이퍼/기판 맵                |편집기 내장                                |없음                                   |
-| 외부 폰트 파일                |CXF, LFF 파일 포맷                        |커스텀 CXF, LFF 파일 포맷만 지원         |
+| 외부 폰트 파일                |CXF, LFF, FNT 파일 포맷                    |커스텀 CXF, LFF 파일 포맷만 지원         |
 | 펜                           |Entity 와 Layer 용 펜 속성 분리            |Entity 단일펜                           |
 | 라이브러리 업데이트           |Nuget 패키지 매니저 지원                    |수동                                   |
                                                                                                               
@@ -111,9 +111,6 @@
    - `SpiralLab.Sirius3.Dependencies` (https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
    - `SpiralLab.Sirius3` (https://www.nuget.org/packages/SpiralLab.Sirius3)
    - `SpiralLab.Sirius3.UI` (https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
-
-- 스캐너, 레이저, 파워메터, 마커등의 장치 객체를 생성하고 SiriusEditorControl 에 연결.
-- 예제 코드: https://github.com/labspiral/sirius3
 
 ## 빠른 시작
 프로젝트 설정
@@ -263,6 +260,10 @@ static class Program
     }
 }
 ```
+## 데모 프로그램
+- 프로그램 설명 [DEMOS.koKR.md](DEMOS.koKR.md) 
+- 스캐너, 레이저, 파워메터, 마커등의 장치 객체를 생성하고 SiriusEditorControl 에 연결.
+- 예제 코드: https://github.com/labspiral/sirius3/tree/main/demos
 
 ## 라이센스
 - 상업용 사용은 라이센스 구매가 필요합니다.

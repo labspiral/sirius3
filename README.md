@@ -61,7 +61,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 | 3D Mesh with slicer          |Built-in Slicer for PLY, OBJ, STL         |None                                   |
 | Gerber file(RS-274x)         |Supported                                 |None                                   |
 | Wafer/Substrate map          |Built-in editor                           |None                                   |
-| Font file                    |General CXF, LFF formats                  |Customized CXF, LFF formats            |
+| Font file                    |General CXF, LFF, FNT formats             |Customized CXF, LFF formats            |
 | Pen                          |Pens for Entity and Layer                 |Entity Pen                             |
 | Library update               |By Nuget Package Manager                  |Manual                                 |
                                                                                                               
@@ -112,10 +112,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - `SpiralLab.Sirius3.Dependencies` (https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
    - `SpiralLab.Sirius3` (https://www.nuget.org/packages/SpiralLab.Sirius3)
    - `SpiralLab.Sirius3.UI` (https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
-
-- Create your devices like as scanner, laser, powermeter, marker, ... and attach them to SiriusEditorControl.
-- Examples: https://github.com/labspiral/sirius3
-
+   
 ## Quick Start
 Project settings
 ```
@@ -265,6 +262,11 @@ static class Program
 }
 ```
 
+## Demo Programs
+- See [DEMOS.md](DEMOS.md) 
+- Create your devices like as scanner, laser, powermeter, marker, ... and attach them to SiriusEditorControl.
+- Examples: https://github.com/labspiral/sirius3/tree/main/demos
+ 
 ## License
 - Commercial license required for production use.
 - License : RTC instance count + [Options: MoF, MultiBeam or syncAXIS]
