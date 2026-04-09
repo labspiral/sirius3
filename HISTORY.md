@@ -9,11 +9,10 @@
 - fixed) IRtc3D
     - Support for enhanced 3D calibration procedures based on RtcCalibrationLibrary
         - 1. Beam tilt calibration: RtcCalibrationLibrary.BeamTiltCalibration
-        - 2. 2D field correction: RtcCalibrationLibrary.Convert
+        - 2. 2D field correction: RtcCalibrationLibrary.XyCalibration
         - 3. Focus calibration at z=0: RtcCalibrationLibrary.FocusCalibrationAtZ0
         - 4. Focus calibration for coefficients A, B, C: RtcCalibrationLibrary.FocusCalibrationCoeffABC
         - 5. Stretch calibration for Z volume: RtcCalibrationLibrary.StretchCalibration
-        - 6. Support for 3D focus (coefficients A, B, C) correction: A function that calculates the coefficients A, B, and C of a quadratic polynomial to compensate for the phenomenon where the focus forms a parabolic shape
     - RtcCorrection3D removed: Replaced by RtcCalibrationLibrary;
     - KZScale removed: Replaced by Focus compensation in RtcCalibrationLibrary;
     - ZOffset removed: Replaced by Translate Z in MatrixStack;

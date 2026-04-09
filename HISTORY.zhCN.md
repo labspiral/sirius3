@@ -9,12 +9,10 @@
 - 修复) IRtc3D
     - 支持基于 RtcCalibrationLibrary 的增强型 3D 校准流程
         - 1. 光束倾斜校准：RtcCalibrationLibrary.BeamTiltCalibration
-        - 2. 2D 场校正：RtcCalibrationLibrary.Convert
+        - 2. 2D 场校正：RtcCalibrationLibrary.XyCalibration
         - 3. z=0 处的焦距校准：RtcCalibrationLibrary.FocusCalibrationAtZ0
         - 4. 系数 A、B、C 的焦距校准：RtcCalibrationLibrary.FocusCalibrationCoeffABC
         - 5. Z 体积的拉伸校准：RtcCalibrationLibrary.StretchCalibration
-        - 6. 支持 3D 焦距（A、B、C 系数）校正：用于计算二次多项式的系数 A、B、C，以平面方式补偿焦距呈抛物线状聚焦的现象
-        - 7. 支持 3D 拉伸因子校正：用于补偿 Z-、Z+ 区域尺寸不一致的情况
     - 删除 RtcCorrection3D：改用 RtcCalibrationLibrary 代替
     - 删除 KZScale：改用 RtcCalibrationLibrary 的 Focus 补偿功能代替
     - 删除 ZOffset：改用 MatrixStack 的 Translate Z 代替
