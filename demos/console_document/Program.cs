@@ -8,6 +8,7 @@ using SpiralLab.Sirius3.Laser;
 using SpiralLab.Sirius3.Marker;
 using SpiralLab.Sirius3.PowerMeter;
 using SpiralLab.Sirius3.Scanner.Rtc;
+using SpiralLab.Sirius3.UI.WinForms;
 
 namespace Demos
 {
@@ -61,6 +62,8 @@ namespace Demos
                 Console.WriteLine("1. Marker start");
                 Console.WriteLine("2. Marker stop");
                 Console.WriteLine("3. Open document");
+                Console.WriteLine("4. Save document");
+                //Console.WriteLine("V. View document");
                 Console.WriteLine("Q. Quit");
                 Console.Write("Select Item : ");
 
@@ -73,17 +76,63 @@ namespace Demos
                         CreateMarkerStop();
                         break;
                     case ConsoleKey.D3:
-                        var dlg = new OpenFileDialog();
-                        dlg.Title = "Open Document File";
-                        dlg.Filter = "sirius3 file (*.sirius3)|*.sirius3";
-                        dlg.DefaultExt = "sirius3";
-                        DialogResult result = dlg.ShowDialog();
-                        if (result != DialogResult.OK)
-                            break;
-                        document.ActOpen(dlg.FileName);
-                        document.ActRegen();
-                        marker?.Ready(document);
+                        {
+                            var ofd = new OpenFileDialog();
+                            ofd.Title = "Open Sirius3 File";
+                            ofd.Filter = "sirius3 file (*.sirius3)|*.sirius3";
+                            ofd.DefaultExt = "sirius3";
+                            DialogResult result = ofd.ShowDialog();
+                            if (result != DialogResult.OK)
+                                break;
+                            document.ActOpen(ofd.FileName);
+                            document.ActRegen();
+                            marker?.Ready(document);
+                        }
                         break;
+                    case ConsoleKey.D4:
+                        {
+                            var sfd = new SaveFileDialog();
+                            sfd.Title = "Save Sirius3 File";
+                            sfd.Filter = "sirius3 file (*.sirius3)|*.sirius3";
+                            sfd.DefaultExt = "sirius3";
+                            DialogResult result = sfd.ShowDialog();
+                            if (result != DialogResult.OK)
+                                break;
+                            document.ActSave(sfd.FileName);
+                        }
+                        break;
+
+                    // It will be supported at soon
+                    //case ConsoleKey.V:
+                    //    {
+                    //        var uiThread = new Thread(() =>
+                    //        {
+                    //            Application.EnableVisualStyles();
+                    //            Application.SetCompatibleTextRenderingDefault(false);
+
+                    //            Form dynamicForm = new Form();
+                    //            dynamicForm.SuspendLayout();
+                    //            dynamicForm.AutoScaleDimensions = new SizeF(6F, 13F);
+                    //            dynamicForm.AutoScaleMode = AutoScaleMode.Font;
+                    //            dynamicForm.Font = new Font("Segoe UI", 8.25F);
+                    //            dynamicForm.Text = "ViewerControl - (c)SpiralLab";
+                    //            dynamicForm.Size = new Size(800, 600);
+                    //            dynamicForm.StartPosition = FormStartPosition.WindowsDefaultLocation;
+
+                    //            var viewerControl = new SpiralLab.Sirius3.UI.WinForms.ViewerControl();
+                    //            viewerControl.AliasName = "MyView";
+                    //            viewerControl.Dock = DockStyle.Fill;
+                    //            viewerControl.Document = document;
+                    //            dynamicForm.Controls.Add(viewerControl);
+                    //            dynamicForm.ResumeLayout(false);
+
+                    //            Application.Run(dynamicForm);  
+                    //        });
+                    //        uiThread.SetApartmentState(ApartmentState.STA); 
+                    //        uiThread.Start();
+                    //    }
+                    //    break;
+
                     case ConsoleKey.Q:
                         terminated = true;
                         break;
@@ -103,6 +152,22 @@ namespace Demos
         {
             document?.Dispose();
             document = DocumentFactory.CreateDefault();
+
+            document.OnAfterOpen -= Document_OnAfterOpen;
+            document.OnAfterOpen += Document_OnAfterOpen;
+
+            document.OnAfterSave -= Document_OnAfterSave;
+            document.OnAfterSave += Document_OnAfterSave;
+        }
+
+        private static void Document_OnAfterSave(IDocument document, string fileName)
+        {
+            Console.Title = $"Saved: {fileName}";
+        }
+
+        private static void Document_OnAfterOpen(IDocument document, string fileName)
+        {
+            Console.Title = $"Opened: {fileName}";
         }
 
         /// <summary>
@@ -167,7 +232,7 @@ namespace Demos
         /// <param name="marker"></param>
         private static void Marker_OnStarted(IMarker marker)
         {
-            Console.Title = "Started ...";
+            Console.Title = $"Started ...";
         }
 
         /// <summary>
@@ -178,7 +243,10 @@ namespace Demos
         /// <param name="timeSpan"></param>
         private static void Marker_OnEnded(IMarker marker, bool success, TimeSpan? timeSpan)
         {
-            Console.Title = "Ended !";
+            if (success)
+                Console.Title = $"Ended : {timeSpan.Value.TotalSeconds:F1} sec";
+            else
+                Console.Title = $"Failed";
         }
 
         /// <summary>
