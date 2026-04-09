@@ -1,6 +1,6 @@
 ﻿# Sirius3 version history
 
-## v1.6.0 (2026.4.9)
+## v1.6.1 (2026.4.9)
 - added) ViewerControl 
     - Added a user control 
     - Support for rendering a single document simultaneously in the viewer and editor 

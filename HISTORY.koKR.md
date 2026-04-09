@@ -1,6 +1,6 @@
 ﻿# Sirius3 버전 이력
 
-## v1.6.0 (2026.4.9)
+## v1.6.1 (2026.4.9)
 - added) ViewerControl 
     - 사용자 컨트롤 추가
     - 하나의 문서를 뷰어와 에디터에 동시 렌더링 지원
@@ -11,7 +11,7 @@
         - 1. Beam tile calibration: RtcCalibrationLibrary.BeamTiltCalibration
         - 2. 2D field correction: RtcCalibrationLibrary.Convert
         - 3. Focus calibration at z=0: RtcCalibrationLibrary.FocusCalibrationAtZ0
-        - 4. Focus calibration for coefficient A,B,C: RtcCalibrationLibrary.FocusCalibrationCoeffABC"
+        - 4. Focus calibration for coefficient A,B,C: RtcCalibrationLibrary.FocusCalibrationCoeffABC
         - 5. Stretch calibration for Z volume: RtcCalibrationLibrary.StretchCalibration
         - 6. 3D 포커스(A,B,C 계수) 보정 지원 : 포커스가 포물선 형태로 맺히는 현상을 평면으로 보상하기 위해 2차 다항식의 계수 A, B, C를 계산하는 기능
         - 7. 3D Stretch Factor 보정 지원 :  Z-, Z+ 영역에서 크기가 서로 달라지는 경우 이를 보상하기 위한 기능
