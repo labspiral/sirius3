@@ -14,11 +14,12 @@
 - 계측 및 프로파일링
    - 스캐너 운동 경로와 시그널 출력 로그를 이용한 그래프 출력 지원
 - 강력한 가공 옵션
-   - 가변 폴리곤, 점프 지연시간 설정 지원
-   - MoF (Marking on the Fly), 2nd 헤드, 3D 지원
+   - 가변 폴리곤, 가변 점프 지연시간 설정 지원
+   - 2nd 헤드, 3D 지원
+   - MoF (Marking on the Fly) 와 확장 MoF (Fly extension) 지원
    - Sky Writing Mode 1/2/3/4
-   - SCANAhead 를 이용한 지연값(Auto delays) 자동 설정 지원
-   - 멀티빔 (1개의 레이저 소스 + 2개의 AOM + 2개의 스캔헤드)을 통한 성능 향상 지원
+   - SCANAhead 를 이용한 자동 지연값(Auto delays) 지원
+   - 멀티빔 (1개의 레이저 소스 + 2개의 AOM + 2개의 스캔헤드) 제어 지원
 - ALC(Automatic Laser Control)
    - 벡터 정의형
       - 램프(Ramp)
@@ -31,7 +32,8 @@
       - 거리 및 스케일 값 기반 테이블
    - 또한 SCANAhead, Encoder Speed Addition, Inverse Speed Correction, Backward Transformation, SDC+Skywriting 조합 사용 가능
 - 스캐너 필드 보정
-   - 2D / 3D 보정
+   - 2D 보정
+   - 3D 보정 (포커스 및 Z 공간 스트레치 보상 지원)
 - 레이저 파워 제어
    - 주파수, 펄스폭, 아나로그, 디지털 출력
    - 레이저 소스 벤더 지원: AdvancedOptoWave, Coherent, IPG, JPT, Photonics Industry, Spectra Physics 등
@@ -45,8 +47,11 @@
    - Image, DXF, HPGL, ZPL
    - QR, DataMatrix, PDF417 Barcodes
    - STL, OBJ, PLY 등의 3D 메쉬 포맷 
+- 문서및 페이지
+   - 다중 문서 와 페이지 지원
+   - 하나의 문서를 복수개의 뷰 대상에 렌더링 지원
 - 오픈 아키텍쳐
-   - 편집기(Editor) 와 레이저 소스 제어용 코드가 오픈소스로 제공됨
+   - 편집기(Editor), 마커(Marker) 와 레이저 소스 제어용 코드가 오픈소스로 제공됨
 
 ## 주요 변경사항
 |                              |                SIRIUS3                   |              SIRIUS2                  |
@@ -85,6 +90,7 @@
 - Windows 10/11 (x64)
 - OpenGL 3.3 이상 지원의 GPU 필요
 - SCANLAB 드라이버/런타임 설치 필요
+- Visual Studio 2022 이상 버전
  
 ## 의존성
 - SCANLAB
@@ -246,12 +252,15 @@ static class Program
             var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dlgResult != DialogResult.Yes)
             {
+                //editorControl.Marker?.Stop();
                 e.Cancel = true;
                 return;
             }
+
+            // 문서 해제
+            editorControl.Document?.Dispose();
             // 장치 해제
             editorControl.DisposeDevices();
-
             // 시리우스3 라이브러리 정리
             SpiralLab.Sirius3.Core.Cleanup();
         };
@@ -268,7 +277,7 @@ static class Program
 ## 라이센스
 - 상업용 사용은 라이센스 구매가 필요합니다.
 - 라이센스: RTC 인스턴스 개수 + [옵션: MoF, MultiBeam 혹은 syncAXIS]
-- 라이센스 및 외부 라이브러리는 LICENSE.txt, THIRD-PARTY-NOTICES.txt 참고.
+- 라이센스 및 외부 라이브러리는 LICENSE.koKR.txt, THIRD-PARTY-NOTICES.koKR.txt 참고.
 - 이메일: hcchoi@spirallab.co.kr | https://spirallab.co.kr
 > 라이센스키가 없으면 30분간 사용이 가능한 평가모드로 실행됩니다.
 

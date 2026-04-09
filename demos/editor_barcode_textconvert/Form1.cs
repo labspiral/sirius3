@@ -33,7 +33,6 @@ namespace Demos
 {
     public partial class Form1 : Form
     {
-
         public Form1()
         {
             InitializeComponent();
@@ -46,6 +45,11 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+
+                // Dispose document
+                var doc = siriusEditorControl1.Document;
+                siriusEditorControl1.Document = null;
+                doc?.Dispose();
 
                 // Dispose instances 
                 siriusEditorControl1.DisposeDevices();

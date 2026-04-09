@@ -14,7 +14,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 - Measurement and Profiling
    - Log scanner trajectory and output signals with plotted graphs
 - Powerful Marking Options
-   - Variable Polygon(Jump) Delay 
+   - Variable Polygon and Variable Jump Delays 
    - 2nd head, 3D
    - MoF (Marking on the Fly) and MoF Extension(aka. Fly extension)
    - Sky Writing Mode 1/2/3 or 4
@@ -32,7 +32,8 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
       - Table by distance and scale factor
    - Also, SCANAhead, Encoder Speed Addition, Inverse Speed Correction, Backward Transformation, SDC+Skywriting combinations available
 - Scanner Field Correction
-   - 2D / 3D correction 
+   - 2D correction 
+   - 3D correction for stretch, focus calibration
 - Laser Power Control
    - Frequency, Duty Cycle, Analog, Digital
    - Built-in vendor integrations: AdvancedOptoWave, Coherent, IPG, JPT, Photonics Industry, Spectra Physics and more
@@ -46,8 +47,11 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - Image, DXF, HPGL, ZPL
    - QR, DataMatrix, PDF417 Barcodes
    - 3D Mesh Format like as STL, OBJ, PLY
+- Document and pages
+   - Multiple documents and pages
+   - One document can be rendered for multiple view targets
 - Open Architecture
-   - Editor and laser-source control code are open for customization
+   - Editor, Marker and laser-source control code are open for customization
 
 ## Major Changes
 |                              |                SIRIUS3                   |              SIRIUS2                  |
@@ -86,7 +90,8 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 - Windows 10/11 (x64)
 - GPU/Driver with OpenGL 3.3 support (latest drivers strongly recommended)
 - SCANLAB drivers/runtimes installed (see versions below)
- 
+- Visual Studio 2022 or higher version
+
 ## Dependencies
 - SCANLAB
    - RTC4: v2023.11.02
@@ -247,12 +252,15 @@ static class Program
             var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dlgResult != DialogResult.Yes)
             {
+                //editorControl.Marker?.Stop();
                 e.Cancel = true;
                 return;
             }
+
+            // Dispose document
+            editorControl.Document?.Dispose();
             // Dispose devices
             editorControl.DisposeDevices();
-
             // Clean-up sirius3 library
             SpiralLab.Sirius3.Core.Cleanup();
         };

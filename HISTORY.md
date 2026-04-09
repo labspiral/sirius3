@@ -1,5 +1,32 @@
 ﻿# Sirius3 version history
 
+## v1.6.0 (2026.4.9)
+- added) ViewerControl 
+    - Added a user control 
+    - Support for rendering a single document simultaneously in the viewer and editor 
+    - Removed the restriction on a 1:1 connection between a Document and a single View 
+    - Support for creating and modifying Documents externally 
+- fixed) IRtc3D
+    - Support for enhanced 3D calibration procedures based on RtcCalibrationLibrary
+        - 1. Beam tilt calibration: RtcCalibrationLibrary.BeamTiltCalibration
+        - 2. 2D field correction: RtcCalibrationLibrary.Convert
+        - 3. Focus calibration at z=0: RtcCalibrationLibrary.FocusCalibrationAtZ0
+        - 4. Focus calibration for coefficients A, B, C: RtcCalibrationLibrary.FocusCalibrationCoeffABC
+        - 5. Stretch calibration for Z volume: RtcCalibrationLibrary.StretchCalibration
+        - 6. Support for 3D focus (coefficients A, B, C) correction: A function that calculates the coefficients A, B, and C of a quadratic polynomial to compensate for the phenomenon where the focus forms a parabolic shape
+    - RtcCorrection3D removed: Replaced by RtcCalibrationLibrary;
+    - KZScale removed: Replaced by Focus compensation in RtcCalibrationLibrary;
+    - ZOffset removed: Replaced by Translate Z in MatrixStack;
+- added) EntityPoint object added;
+- added) EntityBarcode1D_V2 object added
+    - Supports various cell types, similar to 2D barcodes:
+    - Combinations of dots, lines, hatches, etc. are possible:
+- added) Support for opening and saving vertex lists for the following objects:
+    - EntityPoints:
+    - EntityPolyline2D:
+    - EntityPolyline3D:
+    - OffsetControl user control
+     
 ## v1.5.4 (2026.4.2)
 - Fixed) Hotfix
     - exception occurring when creating a SiriusEditorControl user control at design time

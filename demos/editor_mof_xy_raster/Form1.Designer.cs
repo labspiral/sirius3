@@ -29,71 +29,65 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnLoad3DModel = new System.Windows.Forms.Button();
-            this.btnGridCloud = new System.Windows.Forms.Button();
-            this.btnFieldCorrection3D = new System.Windows.Forms.Button();
-            this.btnRevertFieldCorrection = new System.Windows.Forms.Button();
+            this.btnCreateEntities_Eventhandler = new System.Windows.Forms.Button();
+            this.btnStartEncoderSimulation = new System.Windows.Forms.Button();
+            this.btnStopEncoderSimulation = new System.Windows.Forms.Button();
+            this.btnStartStop = new System.Windows.Forms.Button();
             this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.Controls.Add(this.btnLoad3DModel);
-            this.flowLayoutPanel1.Controls.Add(this.btnGridCloud);
-            this.flowLayoutPanel1.Controls.Add(this.btnFieldCorrection3D);
-            this.flowLayoutPanel1.Controls.Add(this.btnRevertFieldCorrection);
+            this.flowLayoutPanel1.Controls.Add(this.btnCreateEntities_Eventhandler);
+            this.flowLayoutPanel1.Controls.Add(this.btnStartEncoderSimulation);
+            this.flowLayoutPanel1.Controls.Add(this.btnStopEncoderSimulation);
+            this.flowLayoutPanel1.Controls.Add(this.btnStartStop);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1264, 38);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1264, 36);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
-            // btnLoad3DModel
+            // btnCreateEntities_Eventhandler
             // 
-            this.btnLoad3DModel.AutoSize = true;
-            this.btnLoad3DModel.Location = new System.Drawing.Point(3, 3);
-            this.btnLoad3DModel.Name = "btnLoad3DModel";
-            this.btnLoad3DModel.Size = new System.Drawing.Size(120, 32);
-            this.btnLoad3DModel.TabIndex = 0;
-            this.btnLoad3DModel.Text = "Load 3D Model";
-            this.btnLoad3DModel.UseVisualStyleBackColor = true;
+            this.btnCreateEntities_Eventhandler.Location = new System.Drawing.Point(3, 3);
+            this.btnCreateEntities_Eventhandler.Name = "btnCreateEntities_Eventhandler";
+            this.btnCreateEntities_Eventhandler.Size = new System.Drawing.Size(210, 30);
+            this.btnCreateEntities_Eventhandler.TabIndex = 0;
+            this.btnCreateEntities_Eventhandler.Text = "Create Entities and Event Handler";
+            this.btnCreateEntities_Eventhandler.UseVisualStyleBackColor = true;
             // 
-            // btnGridCloud
+            // btnStartEncoderSimulation
             // 
-            this.btnGridCloud.AutoSize = true;
-            this.btnGridCloud.Location = new System.Drawing.Point(129, 3);
-            this.btnGridCloud.Name = "btnGridCloud";
-            this.btnGridCloud.Size = new System.Drawing.Size(120, 32);
-            this.btnGridCloud.TabIndex = 1;
-            this.btnGridCloud.Text = "Extract Grid Cloud";
-            this.btnGridCloud.UseVisualStyleBackColor = true;
+            this.btnStartEncoderSimulation.Location = new System.Drawing.Point(219, 3);
+            this.btnStartEncoderSimulation.Name = "btnStartEncoderSimulation";
+            this.btnStartEncoderSimulation.Size = new System.Drawing.Size(157, 30);
+            this.btnStartEncoderSimulation.TabIndex = 1;
+            this.btnStartEncoderSimulation.Text = "Start Encoder (Simulation)";
+            this.btnStartEncoderSimulation.UseVisualStyleBackColor = true;
             // 
-            // btnFieldCorrection3D
+            // btnStopEncoderSimulation
             // 
-            this.btnFieldCorrection3D.AutoSize = true;
-            this.btnFieldCorrection3D.Location = new System.Drawing.Point(255, 3);
-            this.btnFieldCorrection3D.Name = "btnFieldCorrection3D";
-            this.btnFieldCorrection3D.Size = new System.Drawing.Size(220, 32);
-            this.btnFieldCorrection3D.TabIndex = 2;
-            this.btnFieldCorrection3D.Text = "Convert Field Correction (3D) and Apply";
-            this.btnFieldCorrection3D.UseVisualStyleBackColor = true;
+            this.btnStopEncoderSimulation.Location = new System.Drawing.Point(382, 3);
+            this.btnStopEncoderSimulation.Name = "btnStopEncoderSimulation";
+            this.btnStopEncoderSimulation.Size = new System.Drawing.Size(236, 30);
+            this.btnStopEncoderSimulation.TabIndex = 2;
+            this.btnStopEncoderSimulation.Text = "Stop (Simulation) and Reset Encoder";
+            this.btnStopEncoderSimulation.UseVisualStyleBackColor = true;
             // 
-            // btnRevertFieldCorrection
+            // btnStartStop
             // 
-            this.btnRevertFieldCorrection.AutoSize = true;
-            this.btnRevertFieldCorrection.Location = new System.Drawing.Point(481, 3);
-            this.btnRevertFieldCorrection.Name = "btnRevertFieldCorrection";
-            this.btnRevertFieldCorrection.Size = new System.Drawing.Size(134, 32);
-            this.btnRevertFieldCorrection.TabIndex = 3;
-            this.btnRevertFieldCorrection.Text = "Revert Field Correction";
-            this.btnRevertFieldCorrection.UseVisualStyleBackColor = true;
+            this.btnStartStop.Location = new System.Drawing.Point(624, 3);
+            this.btnStartStop.Name = "btnStartStop";
+            this.btnStartStop.Size = new System.Drawing.Size(157, 30);
+            this.btnStartStop.TabIndex = 3;
+            this.btnStartStop.Text = "Start/Stop";
+            this.btnStartStop.UseVisualStyleBackColor = true;
             // 
             // siriusEditorControl1
             // 
             this.siriusEditorControl1.AliasName = "NoName";
-            this.siriusEditorControl1.AutoSize = true;
             this.siriusEditorControl1.BackColor = System.Drawing.SystemColors.Control;
             this.siriusEditorControl1.DIExt1 = null;
             this.siriusEditorControl1.DILaserPort = null;
@@ -103,13 +97,13 @@
             this.siriusEditorControl1.DOLaserPort = null;
             this.siriusEditorControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.siriusEditorControl1.Laser = null;
-            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 38);
+            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 36);
             this.siriusEditorControl1.Margin = new System.Windows.Forms.Padding(0);
             this.siriusEditorControl1.Marker = null;
             this.siriusEditorControl1.Name = "siriusEditorControl1";
             this.siriusEditorControl1.PowerMeter = null;
             this.siriusEditorControl1.Scanner = null;
-            this.siriusEditorControl1.Size = new System.Drawing.Size(1264, 823);
+            this.siriusEditorControl1.Size = new System.Drawing.Size(1264, 825);
             this.siriusEditorControl1.TabIndex = 2;
             // 
             // Form1
@@ -124,19 +118,17 @@
             this.Name = "Form1";
             this.Text = "Sirius3 Demo - (c)SpiralLAB";
             this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private FlowLayoutPanel flowLayoutPanel1;
+        private Button btnCreateEntities_Eventhandler;
         private SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl siriusEditorControl1;
-        private Button btnLoad3DModel;
-        private Button btnGridCloud;
-        private Button btnFieldCorrection3D;
-        private Button btnRevertFieldCorrection;
+        private Button btnStartEncoderSimulation;
+        private Button btnStopEncoderSimulation;
+        private Button btnStartStop;
     }
 }

@@ -250,16 +250,6 @@ namespace Demos
                 }
             }
 
-            // 3D
-            var rtc3D = rtc as IRtc3D;
-            if (null != rtc3D)
-            {
-                var kzScaleStr = NativeMethods.ReadIni<string>(ConfigFileName, $"RTC{index}", "KZ_SCALE", "1,1");
-                var scaleTokens = kzScaleStr.Split(',');
-                Debug.Assert(2 == scaleTokens.Length);
-                rtc3D.KZScale = new DVec2(double.Parse(scaleTokens[0]), double.Parse(scaleTokens[1]));
-            }
-
             // MoF 
             var rtcMoF = rtc as IRtcMoF;
             if (null != rtcMoF)

@@ -50,6 +50,11 @@ namespace Demos
                     return;
                 }
 
+                // Dispose document
+                var doc = siriusEditorControl1.Document;
+                siriusEditorControl1.Document = null;
+                doc?.Dispose();
+
                 // Dispose instances 
                 siriusEditorControl1.DisposeDevices();
 
@@ -116,7 +121,7 @@ namespace Demos
             {
                 if (foundedEntity is EntityArc entityArc)
                 { 
-                    if (entityArc.CalcuateRealMinMax(document.View, out var min, out var max))
+                    if (entityArc.CalcuateRealMinMax(out var min, out var max))
                     {
                         // Do something work before mark arc 
                         var realCenter = (min + max) * 0.5;

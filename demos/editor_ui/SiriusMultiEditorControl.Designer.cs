@@ -53,7 +53,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.stsBottom = new System.Windows.Forms.StatusStrip();
-            this.lblName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblAliasName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblFileName = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel14 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -454,7 +454,7 @@
             this.stsBottom.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.stsBottom.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.stsBottom.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblName,
+            this.lblAliasName,
             this.toolStripStatusLabel2,
             this.lblFileName,
             this.toolStripStatusLabel14,
@@ -476,13 +476,13 @@
             // 
             // lblName
             // 
-            this.lblName.Image = global::Demos.Properties.Resources.Top_View2;
-            this.lblName.Margin = new System.Windows.Forms.Padding(8, 4, 0, 3);
-            this.lblName.Name = "lblName";
-            this.lblName.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.lblName.Size = new System.Drawing.Size(91, 24);
-            this.lblName.Text = "NoName";
-            this.lblName.ToolTipText = "Name";
+            this.lblAliasName.Image = global::Demos.Properties.Resources.Top_View2;
+            this.lblAliasName.Margin = new System.Windows.Forms.Padding(8, 4, 0, 3);
+            this.lblAliasName.Name = "lblName";
+            this.lblAliasName.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lblAliasName.Size = new System.Drawing.Size(91, 24);
+            this.lblAliasName.Text = "NoName";
+            this.lblAliasName.ToolTipText = "Name";
             // 
             // toolStripStatusLabel2
             // 
@@ -1377,7 +1377,7 @@
         private ImageList imageList1;
         private ToolStripButton btnLock;
         private StatusStrip stsBottom;
-        private ToolStripStatusLabel lblName;
+        private ToolStripStatusLabel lblAliasName;
         private ToolStripStatusLabel lblFileName;
         private ToolStripStatusLabel toolStripStatusLabel14;
         private ToolStripStatusLabel btnLogWindow;

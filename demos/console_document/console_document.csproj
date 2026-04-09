@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
+		<OutputType>Exe</OutputType>
 		<!--<TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>-->
 		<TargetFrameworks>net481;net8.0-windows;net9.0-windows</TargetFrameworks>
 		<LangVersion>latest</LangVersion>	  
@@ -22,7 +22,7 @@
 		<NoWarn>$(NoWarn);WFO1000</NoWarn>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 	</PropertyGroup>
-
+	
 	<PropertyGroup Condition="'$(TargetFramework)'=='net481'">
 		<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
 	</PropertyGroup>
@@ -38,7 +38,7 @@
 		<PackageReference Include="OpenTK" Version="4.9.4" />
 		<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
 	</ItemGroup>
-
+	
 	<ItemGroup>
 	  <Compile Include="..\helper.cs" Link="helper.cs" />
 	  <Compile Include="..\nativemethods.cs" Link="nativemethods.cs" />
@@ -50,7 +50,6 @@
 	  </None>
 	</ItemGroup>
 
-
 	<ItemGroup>
 		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
 		<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
@@ -59,7 +58,5 @@
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
-
-	
 	
 </Project>

@@ -50,6 +50,11 @@ namespace Demos
                     return;
                 }
 
+                // Dispose document
+                var doc = siriusEditorControl1.Document;
+                siriusEditorControl1.Document = null;
+                doc?.Dispose();
+
                 // Dispose instances 
                 siriusEditorControl1.DisposeDevices();
 
@@ -59,7 +64,7 @@ namespace Demos
 
             btnLoad3DModel.Click += BtnLoad3DModel_Click;
             btnGridCloud.Click += BtnGridCloud_Click;
-            btnFieldCorrection3D.Click += BtnFieldCorrection_Click;
+            btnPointsCloudCalibrationAndApply.Click += BtnPointsCloudCalibrationAndApply_Click;
             btnRevertFieldCorrection.Click += BtnRevertFieldCorrection_Click;
         }
 
@@ -67,27 +72,26 @@ namespace Demos
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
+            // Need to option for 3D
+            Debug.Assert(rtc is IRtc3D);
+            Debug.Assert(rtc.Is3D);
+
             var inputCtFileName = rtc.CorrectionFiles[(int)rtc.PrimaryHeadTable].FileName;
             Debug.Assert(inputCtFileName.Contains("D3_"));
 
             siriusEditorControl1.Scanner = rtc;
-
             siriusEditorControl1.Laser = laser;
-
             siriusEditorControl1.DIExt1 = dInExt1;
             siriusEditorControl1.DOExt1 = dOutExt1;
             siriusEditorControl1.DOExt2 = dOutExt2;
             siriusEditorControl1.DILaserPort = dInLaserPort;
             siriusEditorControl1.DOLaserPort = dOutLaserPort;
-
             siriusEditorControl1.PowerMeter = powerMeter;
-
             siriusEditorControl1.Marker = marker;
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
      
-
         private void BtnLoad3DModel_Click(object sender, EventArgs e)
         {
             var document = siriusEditorControl1.Document;
@@ -116,30 +120,33 @@ namespace Demos
             if (null == mesh) 
                 return;
 
-            //// by each vertex
+            // Extract pointscloud by each vertex
             //if (!document.ActPointCloud(mesh, -DVec3.UnitZ, out var rayOriginOffset, out List<DVec3> vertices)
             //    return;
 
-            // by grid interval
-            // grid interval for hit-test 
-            // smaller value cause performance drop during 'RtcCalibrationLibrary.PointsCloudCalibration'
+            // Extract pointscloud by using fixed grids interval
+            // Smaller value cause performance drop during 'RtcCalibrationLibrary.PointsCloudCalibration'
             const double interval = 1;// 0.3; 
 
             if (!document.ActGridCloud(mesh, interval, out DVec3[] vertices, out DVec3[] normals))
                 return;
 
-            // create points entity
+            // Create pointscloud as points entity
             //var points = new EntityPoints(vertices);
             var points = new EntityPoints(vertices, normals);
-            // get real dimension of points entity
-            mesh.CalcuateRealMinMax(document.View, out var realMin, out var realMax);
+            // Get real dimension of points entity
+            mesh.CalcuateRealMinMax(out var realMin, out var realMax);
             double width = realMax.X - realMin.X;
             double height = realMax.Y - realMin.Y;
             points.Translate(0, -height, 0);
 
+            // Not allow hit test 
+            points.IsAllowHitTest = false;
+
+            // Add points entity into layer
             document.ActivePage?.ActiveLayer?.AddChild(points);
 
-            // create(or prepare) mark entity hover cloud
+            // Create and prepare entity for mark hover pointscloud
             var text = new EntitySiriusText("ocra.cxf", EntitySiriusText.LetterSpaces.Variable, 0.2, 0.5, 1, "AaBbGg 012", 10);
             text.Translate(0, -height, 0);
             document.ActivePage?.ActiveLayer?.AddChild(text);
@@ -148,10 +155,10 @@ namespace Demos
             siriusEditorControl1.View?.DoRender();
         }
 
-        private void BtnFieldCorrection_Click(object sender, EventArgs e)
+        private void BtnPointsCloudCalibrationAndApply_Click(object sender, EventArgs e)
         {
             var rtc = siriusEditorControl1.Scanner as IRtc;
-            //Debug.Assert(rtc.Is3D); 
+            Debug.Assert(rtc.Is3D); 
 
             var document = siriusEditorControl1.Document;
             if (1 != document.Selected.Length)
@@ -171,10 +178,7 @@ namespace Demos
             try
             {
                 Cursor = Cursors.WaitCursor;
-                // It takes heavy time for calaulation. so do this operation as async if you want
-                // Also, need to 3D option at library option.
-                //Core.License(out var licenseInfo);
-                //Debug.Assert(licenseInfo.Is3DLicensed);
+                // It takes heavy time for calaulation if too many points are exist.
                 if (!RtcCalibrationLibrary.PointsCloudCalibration(vertices.ToArray(), inputCtFileName, null, newCtFileName, out var returnCode))
                     return;
             }
@@ -215,8 +219,13 @@ namespace Demos
                 default:
                     throw new InvalidOperationException();
             }
+            var rtc3D = rtc as IRtc3D;
             if (success)
-                MessageBox.Show(this, $"New 3D calibration has applied: {newCtFileName} at {targetTable}", "Warn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            {
+                var coeff = rtc3D.CoeffABC;
+                var stretchFactor = rtc3D.StretchFactor;
+                MessageBox.Show(this, $"New 3D calibration has applied: {newCtFileName} at {targetTable}{Environment.NewLine}Coefficient A,B,C: {coeff}{Environment.NewLine}Stretch factor: {rtc3D.StretchFactor}", "Warn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
             else
                 MessageBox.Show(this, $"Fail to load and select 3D calibration: {newCtFileName} at {targetTable}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 

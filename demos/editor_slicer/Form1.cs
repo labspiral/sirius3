@@ -46,6 +46,10 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+                // Dispose document
+                var doc = siriusEditorControl1.Document;
+                siriusEditorControl1.Document = null;
+                doc?.Dispose();
 
                 // Dispose instances 
                 siriusEditorControl1.DisposeDevices();
@@ -101,7 +105,7 @@ namespace Demos
 
             document.ActSelect(mesh);
 
-            EntityModelBase.CalcuateRealMinMax(document.View, new IEntity[] { mesh }, out var realMin, out var realMax);
+            EntityModelBase.CalcuateRealMinMax( new IEntity[] { mesh }, out var realMin, out var realMax);
             
             nudMin.Value = (decimal)realMin.Z;
             nudMax.Value = (decimal)realMax.Z;
@@ -126,7 +130,7 @@ namespace Demos
 
             mesh.IsAllowSlice = true; // !mesh.IsAllowSlice;
 
-            mesh.CalcuateRealMinMax(document.View, out var min, out var max);
+            mesh.CalcuateRealMinMax(out var min, out var max);
             double sliceZ = (double)nudSlice.Value;
             mesh.SliceZ = sliceZ;
 
@@ -152,7 +156,7 @@ namespace Demos
             double z = mesh.SliceZ;
             if (document.ActSlice(mesh, z, out var group))
             {
-                mesh.CalcuateRealMinMax(document.View, out var min, out var max);
+                mesh.CalcuateRealMinMax(out var min, out var max);
                 var width = max.X - min.X;
                 var height = max.Y - min.Y;
                 group.Translate(0, height, 0);
@@ -210,7 +214,7 @@ namespace Demos
             if (null == markerable)
                 return;
             
-            document.ActSimulateStart(new IEntity[] { entity }, marker, IDocument.SimulationSpeeds.Fast);
+            document.ActSimulateStart(siriusEditorControl1.View, new IEntity[] { entity }, marker, IDocument.SimulationSpeeds.Fast);
         }
         private void BtnSimulationStop_Click(object sender, EventArgs e)
         {

@@ -1,0 +1,225 @@
+第三方软件注意事项
+===================
+
+本产品包含下面列出的第三方组件。每个组件的版权和许可条款均予以保留。在
+需要时（例如 Apache-2.0），完整的许可文本包含在“许可文本”部分中。
+
+----------------------------------------------------------------
+NLog
+  版本   : 6.0.5
+  许可   : MIT
+  版权   : © NLog Project
+  源码   : https://github.com/NLog/NLog
+
+Newtonsoft.Json
+  版本   : 13.0.4
+  许可   : MIT
+  版权   : © James Newton-King
+  源码   : https://www.newtonsoft.com/json
+
+OpenTK
+  版本   : 3.3.3, 4.9.4
+  许可   : MIT
+  版权   : © The Open Toolkit Library
+  源码   : https://github.com/opentk/opentk
+
+Clipper2
+  版本   : 2.0.0
+  许可   : Boost Software License 1.0
+  版权   : © Angus Johnson
+  源码   : https://github.com/AngusJohnson/Clipper2
+
+netDxf
+  版本   : 2023.11.10
+  许可   : MIT
+  版权   : © Daniel Carvajal
+  源码   : https://github.com/haplokuon/netDxf
+
+StbImageSharp
+  版本   : 2.30.15
+  许可   : MIT (port of stb_image; original stb is public domain/Unlicense)
+  版权   : © StbImageSharp contributors
+  源码   : https://github.com/StbSharp/StbImageSharp
+
+ZXing.Net
+  版本   : 0.16.11
+  许可   : Apache License 2.0
+  版权   : © ZXing.Net contributors
+  源码   : https://github.com/micjahn/ZXing.Net
+  注意   : 除了 Apache-2.0 许可之外，没有提供额外的上游 NOTICE 内容。
+
+BouncyCastle.Cryptography
+  版本   : 2.6.2
+  许可   : MIT
+  版权   : © Legion of the Bouncy Castle Inc.
+  源码   : https://www.bouncycastle.org/download/bouncy-castle-c/
+
+GerberTools
+  版本   : 21/12/18
+  许可   : MIT
+  版权   : © 2016 This is not Rocket Science
+  源码   : https://github.com/ThisIsNotRocketScience/GerberTools
+
+LibTessDotNet
+  版本   : 1.1.15
+  许可   : SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008) 
+  源码   : https://github.com/speps/LibTessDotNet
+
+OxyPlot
+  版本   : 2.2.0
+  许可   : MIT
+  版权   : Copyright (c) 2014 OxyPlot contributors
+  源码   : https://github.com/oxyplot/oxyplot
+
+Be.HexEditor
+  版本   : 1.6.1
+  许可   : MIT
+  版权   : Copyright (c) 2011 Bernhard Elbl
+  源码   : https://sourceforge.net/projects/hexbox/
+
+Microsoft .NET / .NET 8 (目标平台)
+  许可   : MIT 
+  源码   : https://github.com/dotnet/runtime
+  注     : 此库针对 .NET；运行时本身不由此包分发。
+
+----------------------------------------------------------------
+许可文本
+----------------------------------------------------------------
+
+== MIT License ==
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+----------------------------------------------------------------
+
+== Apache License, Version 2.0 ==
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+1. Definitions.
+"License" shall mean the terms and conditions for use, reproduction,
+and distribution as defined by Sections 1 through 9 of this document.
+"Licensor" shall mean the copyright owner or entity authorized
+by the copyright owner that is granting the License.
+"Legal Entity" shall mean the union of the acting entity and all other
+entities that control, are controlled by, or are under common control with
+that entity. ...
+
+END OF TERMS AND CONDITIONS
+
+APPENDIX: How to apply the Apache License to your work.
+
+----------------------------------------------------------------
+
+== Boost Software License - Version 1.0 ==
+Boost Software License - Version 1.0 - August 17th, 2003
+
+Permission is hereby granted, free of charge, to any person or organization
+obtaining a copy of the software and accompanying documentation covered by
+this license (the "Software") to use, reproduce, display, distribute,
+execute, and transmit the Software, and to prepare derivative works of the
+Software, and to permit third-parties to whom the Software is furnished to
+do so, all subject to the following:
+
+The copyright notices in the Software and this entire statement,
+including the above license grant, this restriction and the following
+disclaimer, must be included in all copies of the Software, in whole or
+in part, and all derivative works of the Software, unless such copies or
+derivative works are solely in the form of machine-executable object code
+generated by a source language processor.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
+OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+----------------------------------------------------------------
+
+说明:
+- 对于上述 MIT 许可的组件，适用通用的 MIT 文本；请保留通知中特定组件的版权行。
+- 对于 Apache-2.0 (ZXing.Net)，请保留此许可文本以及任何上游 NOTICE（如果有）。
+- 对于 Boost (Clipper2)，请在重新分发时保留 Boost Software License 文本。
+
+
+----------------------------------------------------------------
+
+== gnuplot - Version 6.0 ==
+
+/*[
+ * Copyright 1986 - 1993, 1998, 2004   Thomas Williams, Colin Kelley
+ *
+ * Permission to use, copy, and distribute this software and its
+ * documentation for any purpose with or without fee is hereby granted,
+ * provided that the above copyright notice appear in all copies and
+ * that both that copyright notice and this permission notice appear
+ * in supporting documentation.
+ *
+ * Permission to modify the software is granted, but not the right to
+ * distribute the complete modified source code.  Modifications are to
+ * be distributed as patches to the released version.  Permission to
+ * distribute binaries produced by compiling modified sources is granted,
+ * provided you
+ *   1. distribute the corresponding source modifications from the
+ *    released version in the form of a patch file along with the binaries,
+ *   2. add special version identification to distinguish your version
+ *    in addition to the base release version number,
+ *   3. provide your name and address as the primary contact for the
+ *    support of your modified version, and
+ *   4. retain our contact information in regard to use of the base
+ *    software.
+ * Permission to distribute the released version of the source code along
+ * with corresponding source modifications in the form of a patch file is
+ * granted with same provisions 2 through 4 for binary distributions.
+ *
+ * This software is provided "as is" without express or implied warranty
+ * to the extent permitted by applicable law.
+]*/
+
+----------------------------------------------------------------
+
+** SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008) 
+** Copyright (C) 2011 Silicon Graphics, Inc.
+** All Rights Reserved.
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy
+** of this software and associated documentation files (the "Software"), to deal
+** in the Software without restriction, including without limitation the rights
+** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+** of the Software, and to permit persons to whom the Software is furnished to do so,
+** subject to the following conditions:
+** 
+** The above copyright notice including the dates of first publication and either this
+** permission notice or a reference to http://oss.sgi.com/projects/FreeB/ shall be
+** included in all copies or substantial portions of the Software. 
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+** INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+** PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL SILICON GRAPHICS, INC.
+** BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+** TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+** OR OTHER DEALINGS IN THE SOFTWARE.
+** 
+** Except as contained in this notice, the name of Silicon Graphics, Inc. shall not
+** be used in advertising or otherwise to promote the sale, use or other dealings in
+** this Software without prior written authorization from Silicon Graphics, Inc.

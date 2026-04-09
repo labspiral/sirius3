@@ -995,7 +995,7 @@ namespace Demos
             {
                 if (entity is EntityTransformBase entityTransformBase)
                 {
-                    if (entityTransformBase.CalcuateRealMinMax(document.View, out var realMin, out var realMax))
+                    if (entityTransformBase.CalcuateRealMinMax(out var realMin, out var realMax))
                         tuples.Add((realMin, realMax));
                 }
             }

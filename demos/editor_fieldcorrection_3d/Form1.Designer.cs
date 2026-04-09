@@ -29,71 +29,32 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnCreateGrids0 = new System.Windows.Forms.Button();
-            this.btnCreateGrids5 = new System.Windows.Forms.Button();
-            this.btnCorrection3D = new System.Windows.Forms.Button();
-            this.btnSelectTable = new System.Windows.Forms.Button();
+            this.btn3DCorrection = new System.Windows.Forms.Button();
             this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.Controls.Add(this.btnCreateGrids0);
-            this.flowLayoutPanel1.Controls.Add(this.btnCreateGrids5);
-            this.flowLayoutPanel1.Controls.Add(this.btnCorrection3D);
-            this.flowLayoutPanel1.Controls.Add(this.btnSelectTable);
+            this.flowLayoutPanel1.Controls.Add(this.btn3DCorrection);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1264, 38);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1436, 38);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
-            // btnCreateGrids0
+            // btn3DCorrection
             // 
-            this.btnCreateGrids0.AutoSize = true;
-            this.btnCreateGrids0.Location = new System.Drawing.Point(3, 3);
-            this.btnCreateGrids0.Name = "btnCreateGrids0";
-            this.btnCreateGrids0.Size = new System.Drawing.Size(120, 32);
-            this.btnCreateGrids0.TabIndex = 0;
-            this.btnCreateGrids0.Text = "Create Grids (Z=0)";
-            this.btnCreateGrids0.UseVisualStyleBackColor = true;
-            // 
-            // btnCreateGrids5
-            // 
-            this.btnCreateGrids5.AutoSize = true;
-            this.btnCreateGrids5.Location = new System.Drawing.Point(129, 3);
-            this.btnCreateGrids5.Name = "btnCreateGrids5";
-            this.btnCreateGrids5.Size = new System.Drawing.Size(120, 32);
-            this.btnCreateGrids5.TabIndex = 3;
-            this.btnCreateGrids5.Text = "Create Grids (Z=5)";
-            this.btnCreateGrids5.UseVisualStyleBackColor = true;
-            // 
-            // btnCorrection3D
-            // 
-            this.btnCorrection3D.AutoSize = true;
-            this.btnCorrection3D.Location = new System.Drawing.Point(255, 3);
-            this.btnCorrection3D.Name = "btnCorrection3D";
-            this.btnCorrection3D.Size = new System.Drawing.Size(120, 32);
-            this.btnCorrection3D.TabIndex = 1;
-            this.btnCorrection3D.Text = "Correction 3D";
-            this.btnCorrection3D.UseVisualStyleBackColor = true;
-            // 
-            // btnSelectTable
-            // 
-            this.btnSelectTable.AutoSize = true;
-            this.btnSelectTable.Location = new System.Drawing.Point(381, 3);
-            this.btnSelectTable.Name = "btnSelectTable";
-            this.btnSelectTable.Size = new System.Drawing.Size(120, 32);
-            this.btnSelectTable.TabIndex = 2;
-            this.btnSelectTable.Text = "Select Table";
-            this.btnSelectTable.UseVisualStyleBackColor = true;
+            this.btn3DCorrection.Location = new System.Drawing.Point(3, 3);
+            this.btn3DCorrection.Name = "btn3DCorrection";
+            this.btn3DCorrection.Size = new System.Drawing.Size(177, 32);
+            this.btn3DCorrection.TabIndex = 0;
+            this.btn3DCorrection.Text = "Show 3D Correction";
+            this.btn3DCorrection.UseVisualStyleBackColor = true;
             // 
             // siriusEditorControl1
             // 
             this.siriusEditorControl1.AliasName = "NoName";
-            this.siriusEditorControl1.AutoSize = true;
             this.siriusEditorControl1.BackColor = System.Drawing.SystemColors.Control;
             this.siriusEditorControl1.DIExt1 = null;
             this.siriusEditorControl1.DILaserPort = null;
@@ -109,14 +70,14 @@
             this.siriusEditorControl1.Name = "siriusEditorControl1";
             this.siriusEditorControl1.PowerMeter = null;
             this.siriusEditorControl1.Scanner = null;
-            this.siriusEditorControl1.Size = new System.Drawing.Size(1264, 823);
+            this.siriusEditorControl1.Size = new System.Drawing.Size(1436, 762);
             this.siriusEditorControl1.TabIndex = 2;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1264, 861);
+            this.ClientSize = new System.Drawing.Size(1436, 800);
             this.Controls.Add(this.siriusEditorControl1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -124,19 +85,14 @@
             this.Name = "Form1";
             this.Text = "Sirius3 Demo - (c)SpiralLAB";
             this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private FlowLayoutPanel flowLayoutPanel1;
-        private Button btnCreateGrids0;
+        private Button btn3DCorrection;
         private SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl siriusEditorControl1;
-        private Button btnCorrection3D;
-        private Button btnSelectTable;
-        private Button btnCreateGrids5;
     }
 }

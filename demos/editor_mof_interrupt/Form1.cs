@@ -45,6 +45,11 @@ namespace Demos
                     return;
                 }
 
+                // Dispose document
+                var doc = siriusEditorControl1.Document;
+                siriusEditorControl1.Document = null;
+                doc?.Dispose();
+
                 // Dispose instances 
                 siriusEditorControl1.DisposeDevices();
 
@@ -304,7 +309,7 @@ namespace Demos
 
             if (entity is EntityArc entityArc)
             {
-                if (entityArc.CalcuateRealMinMax(marker.View, out var realMin, out var realMax))
+                if (entityArc.CalcuateRealMinMax(out var realMin, out var realMax))
                 {
                     var realCenter = (realMin + realMax) * 0.5;
                     // breakpoint entity before arc with entity.Id
@@ -349,7 +354,7 @@ namespace Demos
             {
                 if (foundedEntity is EntityArc entityArc)
                 { 
-                    if (entityArc.CalcuateRealMinMax(document.View, out var min, out var max))
+                    if (entityArc.CalcuateRealMinMax(out var min, out var max))
                     {
                         var realCenter = (min + max) * 0.5;
                         // Move your stage to realCenter

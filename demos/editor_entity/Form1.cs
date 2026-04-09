@@ -46,6 +46,11 @@ namespace Demos
                     return;
                 }
 
+                // Dispose document
+                var doc = siriusEditorControl1.Document;
+                siriusEditorControl1.Document = null;
+                doc?.Dispose();
+
                 // Dispose instances 
                 siriusEditorControl1.DisposeDevices();
 
@@ -1043,8 +1048,8 @@ namespace Demos
             var rnd = new Random((int)DateTime.Now.Ticks);
 
             {
-                var entity = EntityFactory.CreateBarcode("1234567890", EntityBarcode1D.Barcode1DFormats.Code128, 5, 1);
-                entity.DotFactor = 5;
+                var entity = EntityFactory.CreateBarcodeV2("1234567890", EntityBarcode1D_v2.Barcode1DCells.Dots, EntityBarcode1D_v2.Barcode1DFormats.Code128, 5, 1);
+                entity.CellDot.DotFactor = 5;
                 entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 10.0 - 2.0);
                 document.ActivePage?.ActiveLayer?.AddChild(entity);
             }

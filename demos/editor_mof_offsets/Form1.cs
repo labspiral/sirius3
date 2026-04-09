@@ -58,6 +58,11 @@ namespace Demos
                     return;
                 }
 
+                // Dispose document
+                var doc = siriusEditorControl1.Document;
+                siriusEditorControl1.Document = null;
+                doc?.Dispose();
+
                 // Dispose hardware devices
                 // 장치 리소스 해제
                 // 释放设备资源
@@ -339,7 +344,7 @@ namespace Demos
             marker.OnAfterEntity += Marker_OnAfterEntity;
 
             // Zoom to fit for target entity
-            siriusEditorControl1.View?.ActiveCamera?.Fit(siriusEditorControl1.View, null, new IEntity[] { entity });
+            siriusEditorControl1.View?.ActiveCamera?.ZoomFit(siriusEditorControl1.View, entity );
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -415,7 +420,7 @@ namespace Demos
             {
                 if (entity is ITransformable transformable)
                 {
-                    if (transformable.CalcuateRealMinMax(marker.View, out var realMin, out var realMax))
+                    if (transformable.CalcuateRealMinMax(out var realMin, out var realMax))
                     {
                         var offset = marker.WorkingSet.Offset.Translate;
 

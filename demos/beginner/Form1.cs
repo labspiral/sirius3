@@ -51,9 +51,14 @@ namespace Demos
                 var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dlgResult != DialogResult.Yes)
                 {
+                    // is marker need to abort ?
                     e.Cancel = true;
                     return;
                 }
+                // Dispose document
+                var doc = siriusEditorControl1.Document;
+                siriusEditorControl1.Document = null;
+                doc?.Dispose();
 
                 // Dispose instances 
                 siriusEditorControl1.DisposeDevices();

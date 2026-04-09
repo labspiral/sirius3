@@ -79,6 +79,7 @@ namespace Demos
     /// <remarks>
     /// <img src="~/images/siriuseditorcontrol.png"/><br/>
     /// </remarks>
+    [ToolboxItem(true)]
     public partial class SiriusEditorControl : UserControl
     {
         #region Events
@@ -137,24 +138,33 @@ namespace Demos
         [Description("Alias Name at Bottom")]
         public string AliasName
         {
-            get { return lblName.Text; }
-            set { lblName.Text = value; }
+            get { return lblAliasName.Text; }
+            set { lblAliasName.Text = value; }
         }
         /// <summary>
         /// Gets or sets the current document and wires related UI/controls to it.
         /// <para>현재 문서를 가져오거나 설정하고 관련 UI/컨트롤을 연결합니다.</para>
         /// <para>获取或设置当前文档，并将相关的 UI/控件连接到它。</para>
         /// </summary>
-        [Browsable(true)]
+        [Browsable(false)]
         [ReadOnly(false)]
         [Category("Sirius3")]
         [DisplayName("Document")]
         [Description("Document Instance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IDocument Document
         {
             get => document;
-            internal set
+            set
             {
+                if (document == value) return;
+                if (null != Marker && Marker.IsBusy)
+                {
+                    SpiralLab.Sirius3.UI.WinForms.MessageBox.Show($"Not allowed to change document during {Marker.ToString()} is busy !", "Error", MessageBoxButtons.OK);
+                    //throw new InvalidOperationException($"Not allowed to change document during {marker.ToString()} is busy");
+                    return;
+                }
+
                 document?.ActSimulateStop(false);
                 if (document != null)
                 {
@@ -165,11 +175,6 @@ namespace Demos
                     document.OnBeforeSave -= Document_OnBeforeSave;
                     document.OnAfterSave -= Document_OnAfterSave;
                 }
-
-                //if (value != null && value.View == null)
-                //    throw new InvalidOperationException("Document must be assigned target view !");
-                //if (value != null && value.View != null && value.View != this.View)
-                //    throw new InvalidOperationException("Current document has binded another view already. not supported multiple view targets !");
 
                 document = value;
 
@@ -189,9 +194,14 @@ namespace Demos
                 //treeViewWaferControl1.Document = document;
                 //treeViewSubstrateControl1.Document = document;
 
+                treeViewPageControl1.View = View;
+                treeViewPageControl2.View = View;
+                treeViewPageControl3.View = View;
+                treeViewPageControl4.View = View;
+
+
                 if (document != null)
                 {
-                    document.View = EditorCtrl.View;
                     document.OnNew += Document_OnNew;
                     document.OnBeforeOpen += Document_OnBeforeOpen;
                     document.OnAfterOpen += Document_OnAfterOpen;
@@ -212,6 +222,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("View")]
         [Description("View Instance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IView View
         {
             get { return EditorCtrl.View; }
@@ -228,6 +239,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("Scanner")]
         [Description("Scanner Instance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IScanner Scanner
         {
             get => scanner;
@@ -285,6 +297,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("Laser")]
         [Description("Laser Instance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ILaser Laser
         {
             get => laser;
@@ -321,6 +334,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("Marker")]
         [Description("Marker Instance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IMarker Marker
         {
             get => marker;
@@ -363,6 +377,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("PowerMeter")]
         [Description("PowerMeter Instance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IPowerMeter PowerMeter
         {
             get => powerMeter;
@@ -407,6 +422,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("DInput")]
         [Description("IDInput Instance (Extension1 Port)")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IDInput DIExt1
         {
             get => dIExt1;
@@ -429,6 +445,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("DInput")]
         [Description("IDInput Instance (LASER Port)")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IDInput DILaserPort
         {
             get => dILaserPort;
@@ -451,6 +468,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("DOutput")]
         [Description("IDOutput Instance (EXTENSION1 Port)")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IDOutput DOExt1
         {
             get => dOExt1;
@@ -473,6 +491,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("DOutput")]
         [Description("IDOutput Instance (EXTENSION2 Port)")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IDOutput DOExt2
         {
             get => dOExt2;
@@ -495,6 +514,7 @@ namespace Demos
         [Category("Sirius3")]
         [DisplayName("DOutput")]
         [Description("IDOutput Instance (LASER Port)")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IDOutput DOLaserPort
         {
             get => dOLaserPort;
@@ -507,11 +527,58 @@ namespace Demos
         }
 
         /// <summary>
+        /// Show(or hide) <see cref="LogCtrl"/> window at bottom side
+        /// </summary>
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Category("Sirius3")]
+        [DisplayName("Show Log")]
+        [Description("Show(or Hide) Log Window")]
+
+        public bool IsShowLogWindow
+        {
+            get { return isShowLogWindow; }
+            set { ShowLogWindow(value); }
+        }
+        bool isShowLogWindow = true;
+
+        /// <summary>
+        /// Show(or hide) <see cref="EntityPenControl"/>, <see cref="LayerPenControl"/> and <see cref="TreeView"/> windows at botleft side
+        /// </summary>
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Category("Sirius3")]
+        [DisplayName("Show Treeview, Pen")]
+        [Description("Show(or Hide) TreeView and Pen")]
+        public bool IsShowTreeViewAndPen
+        {
+            get { return isShowTreeViewAndPen; }
+            set { ShowTreeViewAndPens(value); }
+        }
+        bool isShowTreeViewAndPen = true;
+
+        /// <summary>
+        /// Show(or hide) <see cref="PropertyGridCtrl"/> window at right side
+        /// </summary>
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Category("Sirius3")]
+        [DisplayName("Show PropertyGrid")]
+        [Description("Show(or Hide) PropertyGrid Window")]
+        public bool IsPropertyGridWindow
+        {
+            get { return isPropertyGridWindow; }
+            set { ShowPropertyWindow(value); }
+        }
+        bool isPropertyGridWindow = true;
+
+        /// <summary>
         /// Get <see cref="TreeViewPageControl"/> for <see cref="IDocumentData.Pages"/>
         /// <para><see cref="IDocumentData.Pages"/>에 대한 <see cref="TreeViewPageControl"/>을 가져옵니다.</para>
         /// <para>获取 <see cref="IDocumentData.Pages"/> 的 <see cref="TreeViewPageControl"/>。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.TreeViewPageControl[] PageCtrls
         {
             get
@@ -532,6 +599,7 @@ namespace Demos
         /// <para>获取 <see cref="IDocumentData.Blocks"/> 的 <see cref="TreeViewBlockControl"/>。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.TreeViewBlockControl BlockCtrl
         {
             get
@@ -582,6 +650,7 @@ namespace Demos
         /// <para>获取属性网格控件包装器。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.PropertyGridControl PropertyGridCtrl => propertyGridControl1;
 
         /// <summary>
@@ -590,6 +659,7 @@ namespace Demos
         /// <para>获取编辑器（OpenGL）控件包装器。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.EditorControl EditorCtrl => editorControl1;
 
         /// <summary>
@@ -598,6 +668,7 @@ namespace Demos
         /// <para>获取激光控制器包装器。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.LaserControl LaserCtrl => laserControl1;
 
         /// <summary>
@@ -606,6 +677,7 @@ namespace Demos
         /// <para>获取 RTC 控制器包装器。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.ScannerControl ScannerCtrl => scannerControl1;
 
         /// <summary>
@@ -614,6 +686,7 @@ namespace Demos
         /// <para>获取标记控制器包装器。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.MarkerControl MarkerCtrl => markerControl1;
 
         /// <summary>
@@ -622,6 +695,7 @@ namespace Demos
         /// <para>获取 RTC DI 控制器包装器。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.DIRtcControl RtcDICtrl => rtcDIControl1;
 
         /// <summary>
@@ -630,6 +704,7 @@ namespace Demos
         /// <para>获取 RTC DO 控制器包装器。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.DORtcControl RtcDOCtrl => rtcDOControl1;
 
         /// <summary>
@@ -638,6 +713,7 @@ namespace Demos
         /// <para>获取手动控制器包装器。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.ManualControl ManualCtrl => manualControl1;
 
         /// <summary>
@@ -646,6 +722,7 @@ namespace Demos
         /// <para>获取功率计控制器包装器。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.PowerMeterControl PowerMeterCtrl => powerMeterControl1;
 
         /// <summary>
@@ -654,6 +731,7 @@ namespace Demos
         /// <para>获取功率映射控件包装器。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.PowerMapControl PowerMapCtrl => powerMapControl1;
 
         /// <summary>
@@ -661,6 +739,7 @@ namespace Demos
         /// <para>스태퍼 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.StepperControl StepperCtrl => stepperControl1;
 
         /// <summary>
@@ -669,6 +748,7 @@ namespace Demos
         /// <para>获取实体笔控件包装器。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.EntityPenControl EntityPenCtrl => entityPenControl1;
 
         /// <summary>
@@ -677,6 +757,7 @@ namespace Demos
         /// <para>获取图层笔控件包装器。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.LayerPenControl LayerPenCtrl => layerPenControl1;
 
         /// <summary>
@@ -685,6 +766,7 @@ namespace Demos
         /// <para>获取日志控件。</para>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SpiralLab.Sirius3.UI.WinForms.LogControl LogCtrl => logControl1;
         #endregion
 
@@ -697,7 +779,6 @@ namespace Demos
         public SiriusEditorControl()
         {
             InitializeComponent();
-
 
             // Embed editor control into tab page
             tabEditor.Controls.Add(editorControl1);
@@ -734,9 +815,10 @@ namespace Demos
                 splitContainer2.Panel2Collapsed = !splitContainer2.Panel2Collapsed;
             };
 
-            var doc = new DocumentBase(EditorCtrl.View);
+            var doc = new DocumentBase();
             Document = doc;
         }
+
 
         /// <summary>
         /// Registers devices.
@@ -1300,8 +1382,9 @@ namespace Demos
         /// </param>
         public void ShowLogWindow(bool show)
         {
+            if (!IsHandleCreated || IsDisposed) return;
             splitContainer2.Panel2Collapsed = !show;
-
+            isShowLogWindow = show;
         }
         /// <summary>
         /// Show(or hide) <c>TreeView</c>, <see cref="EntityPenControl"/> and <see cref="LayerPenControl"/> windows at left side
@@ -1311,9 +1394,10 @@ namespace Demos
         /// </param>
         public void ShowTreeViewAndPens(bool show)
         {
+            if (!IsHandleCreated || IsDisposed) return;
             splitContainer12.Panel1Collapsed = !show;
+            isShowTreeViewAndPen = show;
         }
-
         /// <summary>
         /// Show(or hide) <see cref="PropertyGridControl"/> window at right side
         /// </summary>
@@ -1322,7 +1406,9 @@ namespace Demos
         /// </param>
         public void ShowPropertyWindow(bool show)
         {
+            if (!IsHandleCreated || IsDisposed) return;
             splitContainer123.Panel2Collapsed = !show;
+            isPropertyGridWindow = show;
         }
 
         #endregion
@@ -1348,40 +1434,40 @@ namespace Demos
                     Document.Page = DocumentPages.Page1;
                     Document.ActivePage = Document.DocumentData.Pages[0];
                     editorControl1.Document.ActRegen();
-                    editorControl1.View.ActiveCamera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
+                    editorControl1.View.ActiveCamera.ZoomFit(Document.ActivePage?.ActiveLayer);
                     break;
                 case 1:
                     Document.Page = DocumentPages.Page2;
                     Document.ActivePage = Document.DocumentData.Pages[1];
                     editorControl1.Document.ActRegen();
-                    editorControl1.View.ActiveCamera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
+                    editorControl1.View.ActiveCamera.ZoomFit(Document.ActivePage?.ActiveLayer);
                     break;
                 case 2:
                     Document.Page = DocumentPages.Page3;
                     Document.ActivePage = Document.DocumentData.Pages[2];
                     editorControl1.Document.ActRegen();
-                    editorControl1.View.ActiveCamera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
+                    editorControl1.View.ActiveCamera.ZoomFit(Document.ActivePage?.ActiveLayer);
                     break;
                 case 3:
                     Document.Page = DocumentPages.Page4;
                     Document.ActivePage = Document.DocumentData.Pages[3];
                     editorControl1.Document.ActRegen();
-                    editorControl1.View.ActiveCamera.Fit(editorControl1.View, null, new IEntity[] { Document.ActivePage?.ActiveLayer });
+                    editorControl1.View.ActiveCamera.ZoomFit(Document.ActivePage?.ActiveLayer);
                     break;
                 case 4:
                     Document.Page = DocumentPages.Block;
                     editorControl1.Document.ActRegen();
-                    editorControl1.View.ActiveCamera.Fit(editorControl1.View, null, Document.DocumentData.Blocks.Children.ToArray());
+                    editorControl1.View.ActiveCamera.ZoomFit(Document.DocumentData.Blocks.Children.ToArray());
                     break;
                     //case :
                     //    Document.Page = DocumentPages.Wafer;
                     //    editorControl1.Document.ActRegen();
-                    //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Wafers.Children.ToArray());
+                    //    editorControl1.View.Camera.ZoomFit(  Document.DocumentData.Wafers.Children.ToArray());
                     //    break;
                     //case :
                     //    Document.Page = DocumentPages.Substrate;
                     //    editorControl1.Document.ActRegen();
-                    //    editorControl1.View.Camera.Fit(editorControl1.View, null, Document.DocumentData.Substrates.Children.ToArray());
+                    //    editorControl1.View.Camera.ZoomFit( Document.DocumentData.Substrates.Children.ToArray());
                     //    break;
             }
 

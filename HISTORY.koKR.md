@@ -1,5 +1,33 @@
 ﻿# Sirius3 버전 이력
 
+## v1.6.0 (2026.4.9)
+- added) ViewerControl 
+    - 사용자 컨트롤 추가
+    - 하나의 문서를 뷰어와 에디터에 동시 렌더링 지원
+    - Document 와 단일 View 간 1:1 연결 제한 삭제   
+    - 외부에서 Document 생성 및 변경 지원
+- fixed) IRtc3D
+    - RtcCalibrationLibrary 기반의 향상된 3D 보정 절차 지원
+        - 1. Beam tile calibration: RtcCalibrationLibrary.BeamTiltCalibration
+        - 2. 2D field correction: RtcCalibrationLibrary.Convert
+        - 3. Focus calibration at z=0: RtcCalibrationLibrary.FocusCalibrationAtZ0
+        - 4. Focus calibration for coefficient A,B,C: RtcCalibrationLibrary.FocusCalibrationCoeffABC"
+        - 5. Stretch calibration for Z volume: RtcCalibrationLibrary.StretchCalibration
+        - 6. 3D 포커스(A,B,C 계수) 보정 지원 : 포커스가 포물선 형태로 맺히는 현상을 평면으로 보상하기 위해 2차 다항식의 계수 A, B, C를 계산하는 기능
+        - 7. 3D Stretch Factor 보정 지원 :  Z-, Z+ 영역에서 크기가 서로 달라지는 경우 이를 보상하기 위한 기능
+    - RtcCorrection3D 삭제 : RtcCalibrationLibrary 으로 대체 사용
+    - KZScale 삭제 : RtcCalibrationLibrary 의 Focus 보상 대체 사용
+    - ZOffset 삭제 : MatrixStack 의 Translate Z 로 대체 사용
+- added) EntityPoint 개체 추가
+- added) EntityBarcode1D_V2 개체 추가
+    - 2D 바코드와 유사하게 다양한 셀 타입 지원
+    - 도트, 라인, 해치 등 조합 가능
+- added) 아래 개체들의 정점 목록에 대한 Open, Save 지원
+    - EntityPoints
+    - EntityPolyline2D
+    - EntityPolyline3D
+    - OffsetControl 사용자 컨트롤
+
 ## v1.5.4 (2026.4.2)
 - fixed) 핫픽스
     - 디자인 타임에 SiriusEditorControl 사용자 컨트롤 생성시 발생하는 예외
