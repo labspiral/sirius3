@@ -41,10 +41,10 @@ namespace Demos
         bool isTerminated = false;
 
         /// <summary>
-        /// Constructor
+        /// Constructor.
         /// </summary>
-        /// <param name="index">Index (0,1,2,...)</param>
-        /// <param name="name">Name</param>
+        /// <param name="index">Zero-based unique identifier. <para>0부터 시작하는 고유 식별자입니다.</para><para>从 0 开始的唯一标识符。</para></param>
+        /// <param name="name">Descriptive name. <para>장치 이름입니다.</para><para>设备名称。</para></param>
         public MyPowerMap(int index, string name)
             : base(index, name)
         {
@@ -56,11 +56,11 @@ namespace Demos
         /// <inheritdoc/>
         public override bool CtlMapping(string[] categories, double[] xWatts)
         {
-            if (this.Rtc == null || this.Laser == null || this.PowerMeter == null)
+            if (this.Scanner == null || this.Laser == null || this.PowerMeter == null)
             {
                 this.IsError = true;
                 this.IsReady = false;
-                Logger.Log(LogLevel.Error, $"powermap [{this.Index}]: fail to start mapping power. assign rtc, laser and powermeter at first");
+                Logger.Log(LogLevel.Error, $"powermap [{this.Index}]: fail to start mapping power. assign scanner, laser and powermeter at first");
                 this.NotifyMappingFailed();
                 return false;
             }
@@ -116,7 +116,8 @@ namespace Demos
                 this.NotifyMappingFailed();
                 return false;
             }
-            if (Rtc.CtlGetStatus(RtcStatus.Busy))
+            var rtc = Scanner as IRtc;
+            if (rtc.CtlGetStatus(RtcStatus.Busy))
             {
                 this.IsError = true;
                 this.IsReady = false;
@@ -133,15 +134,19 @@ namespace Demos
                 this.NotifyMappingFailed();
                 return false;
             }
-			Array.Sort(xWatts); //ascending sort
+
+            Array.Sort(xWatts); //ascending sort
             return this.DoPowerMapping(categories, xWatts);
         }
+
         /// <summary>
-        /// Routine for power mapping
+        /// Internal routine to perform power mapping operation.
+        /// <para>파워 매핑 작업을 수행하는 내부 루틴입니다.</para>
+        /// <para>执行功率映射操作的内部例程。</para>
         /// </summary>
-        /// <param name="categories"></param>
-        /// <param name="xWatts">Array of x watt(W)</param>
-        /// <returns>Success or failed</returns>
+        /// <param name="categories">The array of category names (e.g., frequency values). <para>카테고리 이름 배열입니다(예: 주파수 값).</para></param>
+        /// <param name="xWatts">The array of target output power in Watts (X-axis). <para>목표 출력 파워 배열(와트 단위, X축)입니다.</para></param>
+        /// <returns><c>true</c> if the mapping operation was successful; otherwise, <c>false</c>.</returns>
         protected virtual bool DoPowerMapping(string[] categories, double[] xWatts)
         {
             bool success = true;
@@ -154,9 +159,11 @@ namespace Demos
                 isTerminated = false;
 
                 this.NotifyMappingStarted();
-                success &= Rtc.CtlMoveTo(Location);
+                var rtc = Scanner as IRtc;
+                success &= rtc.CtlMoveTo(Location);
                 Thread.Sleep(100);
                 PowerMeter.CtlClear();
+
                 double maxWatt = xWatts[xWatts.Length - 1];
 
                 foreach (var category in categories)
@@ -166,19 +173,20 @@ namespace Demos
                     success &= PowerMeter.CtlStart(category);
                     // For example, consider category as frequency
                     var hz = double.Parse(category);
-                    success &= Rtc.CtlFrequency(hz, 2);                    
+                    success &= rtc.CtlFrequency(hz, 2);
                     var sw = Stopwatch.StartNew();
                     bool isPreHeated = false;
+
                     foreach (var targetWatt in xWatts)
                     {
-                        if (this.isTerminated || Rtc.CtlGetStatus(RtcStatus.Aborted) || Laser.IsError || PowerMeter.IsError)
+                        if (this.isTerminated || rtc.CtlGetStatus(RtcStatus.Aborted) || Laser.IsError || PowerMeter.IsError)
                         {
                             success &= false;
                             break;
                         }
-                        success &= powerControl.CtlPower(targetWatt, string.Empty); //not mapped
+                        success &= powerControl.CtlPower(targetWatt, string.Empty); //set raw power without mapped power
                         if (!isTerminated)
-                            success &= Rtc.CtlLaserOn();
+                            success &= rtc.CtlLaserOn();
 
                         long delayTime = Config.PowerMapHoldTimeMs;
                         if (!isPreHeated)
@@ -195,9 +203,9 @@ namespace Demos
                                 break;
                             }
                             Thread.Sleep(50);
-                        } while (sw.ElapsedMilliseconds < delayTime); //use measured last data 
-                        double detectedWatt = PowerMeter.MeasuredPower;
-                        success &= Rtc.CtlLaserOff();
+                        } while (sw.ElapsedMilliseconds < delayTime);
+                        double detectedWatt = PowerMeter.MeasuredPower; //read last measured data 
+                        success &= rtc.CtlLaserOff();
                         if (!success)
                             break;
                         if (isTerminated)
@@ -221,10 +229,10 @@ namespace Demos
                     if (!success)
                         break;
                 }
-                success &= Rtc.CtlLaserOff();
+                success &= rtc.CtlLaserOff();
                 success &= PowerMeter.CtlStop();
 
-                Rtc.CtlMoveTo(DVec2.Zero);
+                rtc.CtlMoveTo(DVec2.Zero);
                 this.IsBusy = false;
                 if (success && !isTerminated)
                 {
@@ -242,17 +250,19 @@ namespace Demos
             });
             return success;
         }
+
         /// <inheritdoc/>
         public override bool CtlVerify(KeyValuePair<string, double>[] categoryAndYWatts)
         {
-            if (this.Rtc == null || this.Laser == null || this.PowerMeter == null)
+            if (this.Scanner == null || this.Laser == null || this.PowerMeter == null)
             {
                 this.IsError = true;
                 this.IsReady = false;
-                Logger.Log(LogLevel.Error, $"powermap [{this.Index}]: fail to start verify power. assign rtc, laser and powermeter at first");
+                Logger.Log(LogLevel.Error, $"powermap [{this.Index}]: fail to start verify power. assign scanner, laser and powermeter at first");
                 this.NotifyVerifyFailed();
                 return false;
             }
+            var rtc = Scanner as IRtc;
             if (this.IsBusy)
             {
                 this.IsError = true;
@@ -297,7 +307,7 @@ namespace Demos
                 this.NotifyVerifyFailed();
                 return false;
             }
-            if (Rtc.CtlGetStatus(RtcStatus.Busy))
+            if (rtc.CtlGetStatus(RtcStatus.Busy))
             {
                 this.IsError = true;
                 this.IsReady = false;
@@ -316,11 +326,14 @@ namespace Demos
             }
             return this.DoPowerVerify(categoryAndYWatts);
         }
+
         /// <summary>
-        /// Routine for power verification
+        /// Internal routine to perform power verification operation.
+        /// <para>파워 검증 작업을 수행하는 내부 루틴입니다.</para>
+        /// <para>执行功率验证操作的内部例程。</para>
         /// </summary>
-        /// <param name="categoryAndYWatts">Array of key(category) and value(target watt(W))</param>
-        /// <returns>Success or failed</returns>
+        /// <param name="categoryAndYWatts">The array of key-value pairs where key is the category and value is the target power in Watts. <para>키가 카테고리이고 값이 목표 파워(와트)인 키-값 쌍의 배열입니다.</para></param>
+        /// <returns><c>true</c> if the verification operation was successful; otherwise, <c>false</c>.</returns>
         protected virtual bool DoPowerVerify(KeyValuePair<string, double>[] categoryAndYWatts)
         {
             bool success = true;
@@ -333,7 +346,8 @@ namespace Demos
                 isTerminated = false;
 
                 this.NotifyVerifyStarted();
-                Rtc.CtlMoveTo(Location);
+                var rtc = Scanner as IRtc;
+                rtc.CtlMoveTo(Location);
                 Thread.Sleep(100);
                 PowerMeter.CtlClear();
 
@@ -341,7 +355,7 @@ namespace Demos
                 var oldIsEnableLookUp = this.IsEnableLookUp;
                 this.IsEnableLookUp = true;
                 bool isPreHeated = false;
-                foreach (var kv in categoryAndYWatts) 
+                foreach (var kv in categoryAndYWatts)
                 {
                     Logger.Log(LogLevel.Warning, $"powermap [{this.Index}]: trying to start power verify. target category: {kv.Key}");
                     string category = kv.Key;
@@ -350,10 +364,10 @@ namespace Demos
                     double detectedWatt = 0;
                     // For example, consider category as frequency
                     double hz = double.Parse(category);
-                    success &= Rtc.CtlFrequency(hz, 2); 
+                    success &= rtc.CtlFrequency(hz, 2);
                     if (powerControl.CtlPower(targetWatt, category))
                     {
-                        success &= Rtc.CtlLaserOn();
+                        success &= rtc.CtlLaserOn();
                         sw.Restart();
                         long delayTime = Config.PowerMapHoldTimeMs;
                         if (!isPreHeated)
@@ -363,7 +377,7 @@ namespace Demos
                         }
                         do
                         {
-                            if (Rtc.CtlGetStatus(RtcStatus.Aborted))
+                            if (rtc.CtlGetStatus(RtcStatus.Aborted))
                             {
                                 success &= false;
                                 break;
@@ -371,7 +385,7 @@ namespace Demos
                             Thread.Sleep(50);
                         } while (sw.ElapsedMilliseconds < delayTime);
                         detectedWatt = PowerMeter.MeasuredPower;
-                        success &= Rtc.CtlLaserOff();
+                        success &= rtc.CtlLaserOff();
                         if (success)
                         {
                             double inRangeWatt = targetWatt * Config.PowerMapInRangeThreshold / 100.0f;
@@ -397,9 +411,9 @@ namespace Demos
                     if (!success)
                         break;
                 }
-                success &= Rtc.CtlLaserOff();
-                success &= PowerMeter.CtlStop(); 
-                Rtc.CtlMoveTo(DVec2.Zero);
+                success &= rtc.CtlLaserOff();
+                success &= PowerMeter.CtlStop();
+                Scanner.CtlMoveTo(DVec2.Zero);
                 this.IsEnableLookUp = oldIsEnableLookUp;
                 this.IsBusy = false;
                 if (success)
@@ -416,14 +430,15 @@ namespace Demos
             });
             return success;
         }
+
         /// <inheritdoc/>
         public override bool CtlCompensate(KeyValuePair<string, double>[] categoryAndYWatts)
         {
-            if (this.Rtc == null || this.Laser == null || this.PowerMeter == null)
+            if (this.Scanner == null || this.Laser == null || this.PowerMeter == null)
             {
                 this.IsError = true;
                 this.IsReady = false;
-                Logger.Log(LogLevel.Error, $"powermap [{this.Index}]: fail to start compensate power. assign rtc, laser and powermeter at first");
+                Logger.Log(LogLevel.Error, $"powermap [{this.Index}]: fail to start compensate power. assign scanner, laser and powermeter at first");
                 this.NotifyCompensateFailed();
                 return false;
             }
@@ -471,7 +486,8 @@ namespace Demos
                 this.NotifyCompensateFailed();
                 return false;
             }
-            if (Rtc.CtlGetStatus(RtcStatus.Busy))
+            var rtc = Scanner as IRtc;
+            if (rtc.CtlGetStatus(RtcStatus.Busy))
             {
                 this.IsError = true;
                 this.IsReady = false;
@@ -490,6 +506,7 @@ namespace Demos
             }
             return this.DoPowerCompensate(categoryAndYWatts);
         }
+
         /// <summary>
         /// Internal routine to perform power compensation operation.
         /// <para>파워 보정 작업을 수행하는 내부 루틴입니다.</para>
@@ -509,7 +526,8 @@ namespace Demos
                 isTerminated = false;
 
                 this.NotifyCompensateStarted();
-                Rtc.CtlMoveTo(Location);
+                var rtc = Scanner as IRtc;
+                rtc.CtlMoveTo(Location);
                 Thread.Sleep(100);
                 PowerMeter.CtlClear();
                 var sw = Stopwatch.StartNew();
@@ -528,11 +546,11 @@ namespace Demos
                     double detectedWatt = 0;
                     // For example, consider category as frequency
                     double hz = double.Parse(category);
-                    success &= Rtc.CtlFrequency(hz, 2);
+                    success &= rtc.CtlFrequency(hz, 2);
                     success &= powerControl.CtlPower(targetWatt, category);
                     if (success)
                     {
-                        success &= Rtc.CtlLaserOn();
+                        success &= rtc.CtlLaserOn();
                         long delayTime = Config.PowerMapHoldTimeMs;
                         if (!isPreHeated)
                         {
@@ -542,7 +560,7 @@ namespace Demos
                         sw.Restart();
                         do
                         {
-                            if (Rtc.CtlGetStatus(RtcStatus.Aborted))
+                            if (rtc.CtlGetStatus(RtcStatus.Aborted))
                             {
                                 success &= false;
                                 break;
@@ -550,7 +568,7 @@ namespace Demos
                             Thread.Sleep(50);
                         } while (sw.ElapsedMilliseconds < delayTime);
                         detectedWatt = PowerMeter.MeasuredPower;
-                        success &= Rtc.CtlLaserOff();
+                        success &= rtc.CtlLaserOff();
                         if (success)
                         {
                             double inRangeWatt = targetWatt * Config.PowerMapInRangeThreshold / 100.0f;
@@ -562,8 +580,7 @@ namespace Demos
                             }
                             else
                             {
-                                // 여기에서는 기존 매핑 테이블을 검색해 해당 X 구간의 좌,우(xLeft, xRight)에 해당하는 구간을 
-                                // 각각 재 측정해서 매핑 테이블을 업데이트 하는 방식을 사용.
+                                // APC (Automatic Power Compensate) - Method 2: Adaptive Update
                                 double outOfRangeWatt = targetWatt * Config.PowerMapOutOfRangeThreshold / 100.0f;
                                 if (outOfRangeWatt > 0 && Math.Abs(targetWatt - detectedWatt) > outOfRangeWatt)
                                 {
@@ -577,22 +594,18 @@ namespace Demos
                                 }
                                 else
                                 {
-                                    // APC (Automatic Power Compensate) - Method 2: Adaptive Update
-                                    // Instead of measuring neighbors, we use the current measurement to refine the map immediately.
-                                    // 1. Find the X value we just used (or would use) for the target Y.
+                                    // Refine map based on latest measurement
                                     success &= powerControl.PowerMap.LookUp(category, targetWatt, out var currentXWatt, out var leftXWatt, out var rightXWatt);
                                     if (!success)
                                         break;
 
                                     Logger.Log(LogLevel.Warning, $"powermap [{this.Index}]: compensate out of range. target: {targetWatt:F3}W, detected: {detectedWatt:F3}W (diff > {Config.PowerMapInRangeThreshold}%) at category: {category}. Retry {++retryCounts}/{Config.PowerMapCompensateRetryCounts}");
 
-                                    // 2. Update the map: The X we sent (currentXWatt) resulted in the Y we measured (detectedWatt).
-                                    // This adds a new point or updates an existing one, "bending" the curve to reality.
                                     Logger.Log(LogLevel.Information, $"powermap [{this.Index}]: adaptive update x: {currentXWatt:F3} -> y: {detectedWatt:F3}W at category: {category}");
                                     success &= powerControl.PowerMap.Update(category, currentXWatt, detectedWatt);
                                     this.NotifyMappingProgress(category, currentXWatt);
 
-                                    // 3. Retry the target with the updated map
+                                    // Retry current target with refined map
                                     if (success)
                                         i--;
                                 }
@@ -609,9 +622,9 @@ namespace Demos
                     if (!success)
                         break;
                 }
-                success &= Rtc.CtlLaserOff();
+                success &= rtc.CtlLaserOff();
                 success &= PowerMeter.CtlStop();
-                Rtc.CtlMoveTo(DVec2.Zero);
+                rtc.CtlMoveTo(DVec2.Zero);
                 this.IsBusy = false;
                 this.IsEnableLookUp = oldIsEnableLookUp;
                 if (success)
@@ -636,16 +649,18 @@ namespace Demos
             isTerminated = true;
 
             Logger.Log(LogLevel.Debug, $"powermap [{this.Index}]: trying to stop");
-            if (null != Rtc && Rtc.IsBusy)
+            var rtc = Scanner as IRtc;
+            if (null != Scanner && rtc.IsBusy)
             {
-                success &= Rtc.CtlAbort();
-                success &= Rtc.CtlLaserOff();
+                success &= rtc.CtlAbort();
+                success &= rtc.CtlLaserOff();
             }
             if (null != Laser && Laser.IsBusy)
                 success &= Laser.CtlAbort();
 
             return success;
         }
+
         /// <inheritdoc/>
         public override bool CtlReset()
         {
@@ -654,8 +669,9 @@ namespace Demos
             this.IsError = false;
 
             Logger.Log(LogLevel.Warning, $"powermap [{this.Index}]: trying to reset");
-            if (null != Rtc)
-                success &= Rtc.CtlReset();
+            var rtc = Scanner as IRtc;
+            if (null != Scanner)
+                success &= rtc.CtlReset();
             if (null != Laser)
                 success &= Laser.CtlReset();
 

@@ -926,7 +926,7 @@
             this.markerControl1.Marker = null;
             this.markerControl1.Name = "markerControl1";
             this.markerControl1.PowerMeter = null;
-            this.markerControl1.Rtc = null;
+            this.markerControl1.Scanner = null;
             this.markerControl1.Size = new System.Drawing.Size(716, 722);
             this.markerControl1.TabIndex = 0;
             this.markerControl1.View = null;
@@ -953,7 +953,7 @@
             this.manualControl1.Margin = new System.Windows.Forms.Padding(0);
             this.manualControl1.Marker = null;
             this.manualControl1.Name = "manualControl1";
-            this.manualControl1.Rtc = null;
+            this.manualControl1.Scanner = null;
             this.manualControl1.Size = new System.Drawing.Size(716, 722);
             this.manualControl1.TabIndex = 1;
             // 
@@ -1132,7 +1132,7 @@
             this.powerMapControl1.Margin = new System.Windows.Forms.Padding(0);
             this.powerMapControl1.Name = "powerMapControl1";
             this.powerMapControl1.PowerMeter = null;
-            this.powerMapControl1.Rtc = null;
+            this.powerMapControl1.Scanner = null;
             this.powerMapControl1.Size = new System.Drawing.Size(708, 686);
             this.powerMapControl1.TabIndex = 0;
             // 
@@ -1155,7 +1155,7 @@
             this.stepperControl1.Location = new System.Drawing.Point(0, 0);
             this.stepperControl1.Margin = new System.Windows.Forms.Padding(0);
             this.stepperControl1.Name = "stepperControl1";
-            this.stepperControl1.RtcStepper = null;
+            this.stepperControl1.Stepper = null;
             this.stepperControl1.Size = new System.Drawing.Size(716, 722);
             this.stepperControl1.TabIndex = 1;
             // 
@@ -1164,7 +1164,6 @@
             this.logControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.logControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.logControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.logControl1.IsDetailLog = false;
             this.logControl1.Location = new System.Drawing.Point(0, 0);
             this.logControl1.Margin = new System.Windows.Forms.Padding(0);
             this.logControl1.Name = "logControl1";

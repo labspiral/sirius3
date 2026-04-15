@@ -45,13 +45,13 @@ namespace Demos
                     return;
                 }
 
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
+
                 // Dispose document
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
-
-                // Dispose instances 
-                siriusEditorControl1.DisposeDevices();
 
                 // Clean up SIRIUS3 library
                 SpiralLab.Sirius3.Core.Cleanup();
@@ -90,7 +90,6 @@ namespace Demos
             // 엔코더 보정이 필요한 경우 보정 테이블 설정
             //rtcMoF.CtlMoFCompensateTable( ... );
 
-
             siriusEditorControl1.Scanner = rtc;
             siriusEditorControl1.Laser = laser;
             siriusEditorControl1.DIExt1 = dInExt1;
@@ -98,9 +97,7 @@ namespace Demos
             siriusEditorControl1.DOExt2 = dOutExt2;
             siriusEditorControl1.DILaserPort = dInLaserPort;
             siriusEditorControl1.DOLaserPort = dOutLaserPort;
-
             siriusEditorControl1.PowerMeter = powerMeter;
-
             siriusEditorControl1.Marker = marker;
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
@@ -303,7 +300,7 @@ namespace Demos
         private bool Marker_OnBeforeEntity(IMarker marker, IEntity entity)
         {
             bool success = true;
-            var rtc = marker.Rtc;
+            var rtc = marker.Scanner as IRtc;
             var rtcMoF = rtc as IRtcMoF;
             var rtcInterrupt = rtc as IRtcInterrupt;
 
@@ -335,7 +332,7 @@ namespace Demos
         private bool Marker_OnAfterEntity(IMarker marker, IEntity entity)
         {
             bool success = true;
-            var rtc = marker.Rtc;
+            var rtc = marker.Scanner as IRtc;
             var rtcMoF = rtc as IRtcMoF;
 
             if (entity is EntityArc entityArc)

@@ -81,14 +81,14 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
 
                 // Dispose document
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
 
-                // Dispose instances 
-                siriusEditorControl1.DisposeDevices();
 
                 // Clean up SIRIUS3 library
                 SpiralLab.Sirius3.Core.Cleanup();
@@ -110,7 +110,6 @@ namespace Demos
             rtcMoF.OnOutOfVirtualImageField += OnOutOfVirtualImageField;
 
             siriusEditorControl1.Scanner = rtc;
-
             siriusEditorControl1.Laser = laser;
 
             // Set D.IN0 name
@@ -420,7 +419,7 @@ namespace Demos
             marker.OnUserEvent += Marker_OnUserEvent;
 
             // 자유번수 변경 시점을 통지받기 위한 이벤트 핸들러 등록
-            if (marker.Rtc is IRtcFreeVariable rtcFreeVariable)
+            if (marker.Scanner is IRtcFreeVariable rtcFreeVariable)
             {
                 rtcFreeVariable.OnFreeVariableChanged -= OnFreeVariableChanged;
                 rtcFreeVariable.OnFreeVariableChanged += OnFreeVariableChanged;
@@ -478,7 +477,7 @@ namespace Demos
                 currentSerialNo = startingSerialNo;
 
             bool success = true;
-            if (marker.Rtc is IRtcFreeVariable rtcFreeVariable)
+            if (marker.Scanner is IRtcFreeVariable rtcFreeVariable)
                 success &= rtcFreeVariable.ListWriteVariable(0, currentSerialNo);
 
             if (txtCurrentSerialNo.InvokeRequired)

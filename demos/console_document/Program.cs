@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Globalization;
 
 using SpiralLab.Sirius3.Document;
@@ -55,6 +56,8 @@ namespace Demos
 
             CreateEntities();
 
+            ApplyPenValues();
+
             while (!terminated)
             {
                 Console.WriteLine("");
@@ -63,20 +66,24 @@ namespace Demos
                 Console.WriteLine("2. Marker stop");
                 Console.WriteLine("3. Open document");
                 Console.WriteLine("4. Save document");
-                //Console.WriteLine("V. View document");
+                Console.WriteLine("V. Viewer");
+                Console.WriteLine("E. Editor");
                 Console.WriteLine("Q. Quit");
                 Console.Write("Select Item : ");
 
                 switch (Console.ReadKey().Key)
                 {
                     case ConsoleKey.D1:
+                        Console.WriteLine("");
                         CreateMarkerStart();
                         break;
                     case ConsoleKey.D2:
+                        Console.WriteLine("");
                         CreateMarkerStop();
                         break;
                     case ConsoleKey.D3:
                         {
+                            Console.WriteLine("");
                             var ofd = new OpenFileDialog();
                             ofd.Title = "Open Sirius3 File";
                             ofd.Filter = "sirius3 file (*.sirius3)|*.sirius3";
@@ -91,6 +98,7 @@ namespace Demos
                         break;
                     case ConsoleKey.D4:
                         {
+                            Console.WriteLine("");
                             var sfd = new SaveFileDialog();
                             sfd.Title = "Save Sirius3 File";
                             sfd.Filter = "sirius3 file (*.sirius3)|*.sirius3";
@@ -102,36 +110,50 @@ namespace Demos
                         }
                         break;
 
-                    // It will be supported at soon
-                    //case ConsoleKey.V:
-                    //    {
-                    //        var uiThread = new Thread(() =>
-                    //        {
-                    //            Application.EnableVisualStyles();
-                    //            Application.SetCompatibleTextRenderingDefault(false);
+                    case ConsoleKey.V:
+                        {
+                            Console.WriteLine("");
+                            var dynamicForm = new Form();
+                            dynamicForm.SuspendLayout();
+                            dynamicForm.AutoScaleDimensions = new SizeF(6F, 13F);
+                            dynamicForm.AutoScaleMode = AutoScaleMode.Font;
+                            dynamicForm.Font = new Font("Segoe UI", 8.25F);
+                            dynamicForm.Text = "ViewerControl - (c)SpiralLab";
+                            dynamicForm.Size = new Size(800, 600);
+                            dynamicForm.StartPosition = FormStartPosition.WindowsDefaultLocation;
 
-                    //            Form dynamicForm = new Form();
-                    //            dynamicForm.SuspendLayout();
-                    //            dynamicForm.AutoScaleDimensions = new SizeF(6F, 13F);
-                    //            dynamicForm.AutoScaleMode = AutoScaleMode.Font;
-                    //            dynamicForm.Font = new Font("Segoe UI", 8.25F);
-                    //            dynamicForm.Text = "ViewerControl - (c)SpiralLab";
-                    //            dynamicForm.Size = new Size(800, 600);
-                    //            dynamicForm.StartPosition = FormStartPosition.WindowsDefaultLocation;
+                            var viewerControl = new SpiralLab.Sirius3.UI.WinForms.ViewerControl();
+                            viewerControl.AliasName = "MyView";
+                            viewerControl.Dock = DockStyle.Fill;
+                            viewerControl.Document = document;
+                            dynamicForm.Controls.Add(viewerControl);
+                            dynamicForm.ResumeLayout(false);
 
-                    //            var viewerControl = new SpiralLab.Sirius3.UI.WinForms.ViewerControl();
-                    //            viewerControl.AliasName = "MyView";
-                    //            viewerControl.Dock = DockStyle.Fill;
-                    //            viewerControl.Document = document;
-                    //            dynamicForm.Controls.Add(viewerControl);
-                    //            dynamicForm.ResumeLayout(false);
+                            Application.Run(dynamicForm);
+                        }
+                        break;
 
-                    //            Application.Run(dynamicForm);  
-                    //        });
-                    //        uiThread.SetApartmentState(ApartmentState.STA); 
-                    //        uiThread.Start();
-                    //    }
-                    //    break;
+                    case ConsoleKey.E:
+                        {
+                            Console.WriteLine("");
+                            var dynamicForm = new Form();
+                            dynamicForm.SuspendLayout();
+                            dynamicForm.AutoScaleDimensions = new SizeF(6F, 13F);
+                            dynamicForm.AutoScaleMode = AutoScaleMode.Font;
+                            dynamicForm.Font = new Font("Segoe UI", 8.25F);
+                            dynamicForm.Text = "EditorControl - (c)SpiralLab";
+                            dynamicForm.Size = new Size(800, 600);
+                            dynamicForm.StartPosition = FormStartPosition.WindowsDefaultLocation;
+
+                            var editorControl = new SpiralLab.Sirius3.UI.WinForms.EditorControl();
+                            editorControl.Dock = DockStyle.Fill;
+                            editorControl.Document = document;
+                            dynamicForm.Controls.Add(editorControl);
+                            dynamicForm.ResumeLayout(false);
+
+                            Application.Run(dynamicForm);
+                        }
+                        break;
 
                     case ConsoleKey.Q:
                         terminated = true;
@@ -142,6 +164,9 @@ namespace Demos
             CreateMarkerStop();
 
             DestroyDevices();
+
+            document?.Dispose();
+
             SpiralLab.Sirius3.Core.Cleanup();
         }
 
@@ -150,13 +175,16 @@ namespace Demos
         /// </summary>
         static void CreateDocument()
         {
+            if (null != document)
+            {
+                document.OnAfterOpen -= Document_OnAfterOpen;
+                document.OnAfterSave -= Document_OnAfterSave;
+            }
+
             document?.Dispose();
             document = DocumentFactory.CreateDefault();
 
-            document.OnAfterOpen -= Document_OnAfterOpen;
             document.OnAfterOpen += Document_OnAfterOpen;
-
-            document.OnAfterSave -= Document_OnAfterSave;
             document.OnAfterSave += Document_OnAfterSave;
         }
 
@@ -191,8 +219,11 @@ namespace Demos
         /// </summary>
         static void CreateEntities()
         {
+            var color = SpiralLab.Sirius3.UI.Config.EntityPenColors[0];// Color.White; 
+
             {
                 var entity = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 10, 10);
+                entity.PenColor = color;  
                 entity.CellDot.DotFactor = 2;
                 entity.IsReversed = true;
                 entity.Translate(0, 10);
@@ -201,7 +232,9 @@ namespace Demos
 
             {
                 var entity = new EntitySiriusText("ocra.cxf", EntitySiriusText.LetterSpaces.Variable, 0.2, 0.5, 1, "0123456789", 2);
+                entity.PenColor = color;
                 var hatch = HatchFactory.CreateLine(90, 0.1);
+                entity.PenColor = Color.White;
                 hatch.Joint = HatchJoints.Miter;
                 hatch.Exclude = 0.05;
                 hatch.IsZigZag = true;
@@ -214,6 +247,38 @@ namespace Demos
             }
 
             document.ActRegen();
+        }
+
+        static void ApplyPenValues()
+        {
+            {
+                var color = SpiralLab.Sirius3.UI.Config.EntityPenColors[0];// Color.White; 
+
+                bool success = document.FindByEntityPenColor(color, out var pen);
+                Debug.Assert(success);
+
+                pen.Frequency = 50_000;
+                pen.PulseWidth = 2;
+                pen.Power = 2.0;
+                pen.JumpSpeed = 500;
+                pen.MarkSpeed = 500;
+
+                pen.RasterMode = RasterModes.JumpAndShoot;
+                pen.PixelTime = 200;
+            }
+
+            {
+                var color = document.ActivePage.ActiveLayer.PenColor;
+                bool success = document.FindByLayerPenColor(color, out var pen);
+                Debug.Assert(success);
+
+                pen.IsSkyWritingEnabled = false;
+
+                pen.IsALC = false;
+
+                pen.IsVariablePolygonDelay = true;
+                pen.VariablePolygonDelayEdgeLevel = 100;
+            }
         }
 
         /// <summary>

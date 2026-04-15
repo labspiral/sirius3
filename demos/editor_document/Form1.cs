@@ -30,8 +30,12 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 
 namespace Demos
 {
+    /// <summary>
+    /// How to use multiple <see cref="IDocument"/>s
+    /// </summary>
     public partial class Form1 : Form
     {
+        
         IDocument docOriginal = null;
         IDocument doc1 = null;
         IDocument doc2 = null;
@@ -51,14 +55,14 @@ namespace Demos
                     return;
                 }
 
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
+
                 // Dispose documents
                 siriusEditorControl1.Document = null;
                 docOriginal?.Dispose();
                 doc1?.Dispose();
                 doc2?.Dispose();
-
-                // Dispose instances 
-                siriusEditorControl1.DisposeDevices();
 
                 // Clean up SIRIUS3 library
                 SpiralLab.Sirius3.Core.Cleanup();
@@ -66,44 +70,70 @@ namespace Demos
 
             this.btnOriginal.Click += (s, e) =>
             {
+                // Revert to original document
                 siriusEditorControl1.Document = docOriginal;
                 viewerControl1.Document = docOriginal;
 
+                // Redraw at Editor 
                 siriusEditorControl1.View.DoRender();
+
+                // Zomm to fit 
                 viewerControl1.View.ActiveCamera?.ZoomFit(viewerControl1.View, docOriginal.ActivePage.ActiveLayer);
+                // Redraw at Viewer
                 viewerControl1.View.DoRender();
+
+                // Re-assign changed document at Marker
+                siriusEditorControl1.Marker.Ready(docOriginal);
             };
 
             this.btnDoc1.Click += (s, e) =>
             {
                 if (null == doc1)
                 {
+                    // Create test entity
                     doc1 = DocumentFactory.CreateDefault();
                     var entity = EntityFactory.CreateText("Tahoma", FontStyle.Bold, "DOCUMENT 1", 20);
                     doc1.ActAdd(entity);
                 }
+                // Change to document1 
                 siriusEditorControl1.Document = doc1;
                 viewerControl1.Document = doc1;
 
+                // Redraw at Editor 
                 siriusEditorControl1.View.DoRender();
+
+                // Zomm to fit 
                 viewerControl1.View.ActiveCamera?.ZoomFit(viewerControl1.View, doc1.ActivePage.ActiveLayer);
+                // Redraw at Viewer
                 viewerControl1.View.DoRender();
+
+                // Re-assign changed document at Marker
+                siriusEditorControl1.Marker.Ready(doc1);
             };
 
             this.btnDoc2.Click += (s, e) =>
             {
                 if (null == doc2)
                 {
+                    // Create test entity
                     doc2 = DocumentFactory.CreateDefault();
                     var entity = EntityFactory.CreateText("Arial", FontStyle.Bold, "DOCUMENT 2", 20);
                     doc2.ActAdd(entity);
                 }
+                // Change to document2 
                 siriusEditorControl1.Document = doc2;
                 viewerControl1.Document = doc2;
 
+                // Redraw at Editor 
                 siriusEditorControl1.View.DoRender();
+
+                // Zomm to fit 
                 viewerControl1.View.ActiveCamera?.ZoomFit(viewerControl1.View, doc2.ActivePage.ActiveLayer);
+                // Redraw at Viewer
                 viewerControl1.View.DoRender();
+
+                // Re-assign changed document at Marker
+                siriusEditorControl1.Marker.Ready(doc2);
             };
         }
 
@@ -121,14 +151,10 @@ namespace Demos
             siriusEditorControl1.PowerMeter = powerMeter;
             siriusEditorControl1.Marker = marker;
 
-            marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
-
             docOriginal = siriusEditorControl1.Document;
-
             viewerControl1.Document = docOriginal;
-        }
-  
 
-       
+            marker.Ready(docOriginal, siriusEditorControl1.View, rtc, laser, powerMeter);
+        }
     }
 }

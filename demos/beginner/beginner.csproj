@@ -8,8 +8,8 @@
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<OutputPath>..\..\bin\</OutputPath>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<ApplicationHighDpiMode>DpiUnaware</ApplicationHighDpiMode>
+		<SatelliteResourceLanguages>ko-KR;zh-CN;ja-JP;de-DE</SatelliteResourceLanguages>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework.StartsWith(`net9.0-windows`))' OR '$(TargetFramework.StartsWith(`net10.0-windows`))'">
@@ -35,6 +35,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AdditionalFiles Remove="app.manifest" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
 		<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
 		<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
@@ -42,5 +46,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
+
+
 
 </Project>

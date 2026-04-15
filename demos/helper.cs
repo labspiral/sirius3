@@ -45,7 +45,6 @@ using SpiralLab.Sirius3.Entity;
 using SpiralLab.Sirius3.Entity.Hatch;
 using SpiralLab.Sirius3.UI.WinForms;
 
-
 #if OPENTK3
 using OpenTK;
 using DVec2 = OpenTK.Vector2d;
@@ -470,9 +469,11 @@ namespace Demos
                 case "syncaxis":
                     marker = MarkerFactory.CreateSyncAxis(index);
                     break;
-            }            
+            }
+            success &= marker.Initialize();
             #endregion
 
+            Debug.Assert(success);
             return success;
         }
 

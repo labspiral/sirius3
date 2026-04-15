@@ -1,4 +1,27 @@
-﻿using System;
+﻿/*
+ * 
+ *                                                            ,--,      ,--,                              
+ *             ,-.----.                                     ,---.'|   ,---.'|                              
+ *   .--.--.   \    /  \     ,---,,-.----.      ,---,       |   | :   |   | :      ,---,           ,---,.  
+ *  /  /    '. |   :    \ ,`--.' |\    /  \    '  .' \      :   : |   :   : |     '  .' \        ,'  .'  \ 
+ * |  :  /`. / |   |  .\ :|   :  :;   :    \  /  ;    '.    |   ' :   |   ' :    /  ;    '.    ,---.' .' | 
+ * ;  |  |--`  .   :  |: |:   |  '|   | .\ : :  :       \   ;   ; '   ;   ; '   :  :       \   |   |  |: | 
+ * |  :  ;_    |   |   \ :|   :  |.   : |: | :  |   /\   \  '   | |__ '   | |__ :  |   /\   \  :   :  :  / 
+ *  \  \    `. |   : .   /'   '  ;|   |  \ : |  :  ' ;.   : |   | :.'||   | :.'||  :  ' ;.   : :   |    ;  
+ *   `----.   \;   | |`-' |   |  ||   : .  / |  |  ;/  \   \'   :    ;'   :    ;|  |  ;/  \   \|   :     \ 
+ *   __ \  \  ||   | ;    '   :  ;;   | |  \ '  :  | \  \ ,'|   |  ./ |   |  ./ '  :  | \  \ ,'|   |   . | 
+ *  /  /`--'  /:   ' |    |   |  '|   | ;\  \|  |  '  '--'  ;   : ;   ;   : ;   |  |  '  '--'  '   :  '; | 
+ * '--'.     / :   : :    '   :  |:   ' | \.'|  :  :        |   ,/    |   ,/    |  :  :        |   |  | ;  
+ *   `--'---'  |   | :    ;   |.' :   : :-'  |  | ,'        '---'     '---'     |  | ,'        |   :   /   
+ *             `---'.|    '---'   |   |.'    `--''                              `--''          |   | ,'    
+ *               `---`            `---'                                                        `----'   
+ * 
+ * 2026 Copyright to (c)SpiralLAB. All rights reserved.
+ * Description : MyMarkerRtcFast 
+ * Author : hong chan, choi / hcchoi@spirallab.co.kr (http://spirallab.co.kr)
+ */
+
+using System;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -229,11 +252,11 @@ namespace Demos
                     return 0;
                 //sec
                 double period = 1.0 / CurrentSession.MeasurementBegin.SamplingFrequency;
-                if (Rtc is Rtc4 || Rtc is Rtc4Ethernet)
+                if (Scanner is Rtc4 || Scanner is Rtc4Ethernet)
                     return 32768 * period;
-                else if (Rtc is Rtc5)
+                else if (Scanner is Rtc5)
                     return Math.Pow(2, 20) * period;
-                else if (Rtc is Rtc6)
+                else if (Scanner is Rtc6)
                     return Math.Pow(2, 24) * period;
 
                 return 0;
@@ -273,19 +296,18 @@ namespace Demos
         [LocalizedDescription("IsCheckPositionAck")]
         public virtual bool IsCheckPositionAck { get; set; }
 
-        /// <summary>
-        /// Internal marker thread 
-        /// <para>내부 마커 스레드<br/></para>
-        /// <para>内部标记器线程<br/></para>
-        /// </summary>
-        protected Thread thread;
+
         /// <summary>
         /// List of layers to mark
         /// <para>마킹할 레이어 목록<br/></para>
         /// <para>要标记的图层列表<br/></para>
         /// </summary>
         protected List<EntityLayer> layers;
-        private bool disposed = false;
+
+        /// <summary>
+        /// Target <c>IRtc</c> instance
+        /// </summary>
+        protected IRtc Rtc { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MyMarkerRtcFast"/> class.
@@ -322,29 +344,18 @@ namespace Demos
             Index = index;
             Name = name;
         }
-        /// <summary>
-        /// Finalizes an instance of the <see cref="MyMarkerRtcFast"/> class.
-        /// <para><see cref="MyMarkerRtcFast"/> 클래스의 인스턴스를 종료합니다.<br/></para>
-        /// <para>终止 <see cref="MyMarkerRtcFast"/> 类的一个实例。<br/></para>
-        /// <code>
-        /// </code>
-        /// </summary>
-        ~MyMarkerRtcFast()
+
+        /// <inheritdoc/>  
+        protected override void OnDisposeManaged()
         {
-            this.Dispose(false);
+            // myResource?.Dispose();
         }
         /// <inheritdoc/>  
-        protected override void Dispose(bool disposing)
+        protected override async Task OnDisposeManagedAsync()
         {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                }
-                this.disposed = true;
-            }
-            base.Dispose(disposing);
+            // await myResource.StopAsync();
         }
+
         /// <inheritdoc/>
         public override bool Initialize()
         {
@@ -352,7 +363,7 @@ namespace Demos
             return true;
         }
         /// <inheritdoc/>
-        public override bool Ready(IDocument document, IView view, IRtc rtc, ILaser laser, IPowerMeter powerMeter) //, IRemote remote)
+        public override bool Ready(IDocument document, IView view, IScanner scanner, ILaser laser, IPowerMeter powerMeter) //, IRemote remote)
         {
             if (this.IsBusy)
             {
@@ -362,19 +373,20 @@ namespace Demos
 
             base.Document = document;
             base.View = view;
-            base.Rtc = rtc;
+            base.Scanner = scanner;
+            Rtc = scanner as IRtc;
             base.Laser = laser;
             base.PowerMeter = powerMeter;
             //base.Remote = remote;
 
-            if (rtc is IRtcSyncAxis rtcSyncAxis)
+            if (scanner is IRtcSyncAxis rtcSyncAxis)
             {
-                this.Rtc = null;
+                this.Scanner = null;
                 Logger.Log(LogLevel.Error, $"marker [{Index}]: assigned invalid RTC instance");
                 return false;
             }
             document?.ActRegen();
-            Logger.Log(LogLevel.Debug, $"marker [{Index}]: ready with doc= {document?.FileName}, view= {view?.Name}, rtc= {rtc?.Name}, laser= {laser?.Name}, pm= {powerMeter?.Name}");//, remote= {remote?.Name}");
+            Logger.Log(LogLevel.Debug, $"marker [{Index}]: ready with doc= {document?.FileName}, view= {view?.Name}, rtc= {Rtc?.Name}, laser= {laser?.Name}, pm= {powerMeter?.Name}");//, remote= {remote?.Name}");
             return true;
         }
         /// <inheritdoc/>
@@ -393,81 +405,23 @@ namespace Demos
         }
 
         /// <inheritdoc/>
-        public override bool Start(DocumentPages page = DocumentPages.Page1)
+        protected override async Task<bool> OnStarting(DocumentPages page = DocumentPages.Page1)
         {
-            if (Document == null || Rtc == null || Laser == null)
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: document, rtc, laser is not assigned");
-                return false;
-            }
-            if (!Document.IsReady || Document.IsSimulationWorking)
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: document is not ready or simulating now");
-                return false;
-            }
-            if (this.IsBusy)
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: busy now !");
-                return false;
-            }
-            if (this.IsError)
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: has a error. reset at first");
-                return false;
-            }
-            if (!this.IsReady)
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: is not ready yet");
-                return false;
-            }
-
-            var rtc = this.Rtc;
-            var laser = this.Laser;
-            var doc = this.Document;
-
-            if (rtc.CtlGetStatus(RtcStatus.Busy))
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: busy now !");
-                return false;
-            }
-            if (!rtc.CtlGetStatus(RtcStatus.NoError))
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: rtc has a internal error. reset at first");
-                return false;
-            }
-            if (laser.IsError)
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: laser has a error status. reset at first");
-                return false;
-            }
-
-            if (IsCheckTempOk && !rtc.CtlGetStatus(RtcStatus.TempOK))
+            if (IsCheckTempOk && !Rtc.CtlGetStatus(RtcStatus.TempOK))
             {
                 Logger.Log(LogLevel.Error, $"marker: {this.Name} scanner temp is no ok");
                 return false;
             }
-            if (IsCheckPowerOk && !rtc.CtlGetStatus(RtcStatus.PowerOK))
+            if (IsCheckPowerOk && !Rtc.CtlGetStatus(RtcStatus.PowerOK))
             {
                 Logger.Log(LogLevel.Error, $"marker: {this.Name} scanner power is not ok !");
                 return false;
             }
-            if (IsCheckPositionAck && !rtc.CtlGetStatus(RtcStatus.PositionAckOK))
+            if (IsCheckPositionAck && !Rtc.CtlGetStatus(RtcStatus.PositionAckOK))
             {
                 Logger.Log(LogLevel.Error, $"marker: {this.Name} scanner position is not acked");
                 return false;
             }
-
-            if (null != thread)
-            {
-                if (!this.thread.Join(500))
-                {
-                    Logger.Log(LogLevel.Error, $"marker [{Index}]: previous works has not finished yet");
-                    return false;
-                }
-            }
-
-            if (null == Offsets || 0 == Offsets.Length)
-                this.Offsets = new Offset[1] { Offset.Zero };
 
             // Reset measurement session
             this.CurrentSession = null;
@@ -500,51 +454,12 @@ namespace Demos
             WorkingSet.PageIndex = (int)page;
 
             Logger.Log(LogLevel.Warning, $"marker [{Index}]: trying to start mark with target= {MarkTarget}, offset(s)= {this.Offsets.Length}");
-            this.thread = new Thread(this.MarkerThreadLayers);
-            this.thread.Name = $"Marker: {this.Name}";
-            this.thread.Start();
-            return true;
+            markerTask = Task.Run(() => this.MarkerThreadLayers());
+            return await markerTask;
         }
         /// <inheritdoc/>
-        public override bool Preview()
+        protected override async Task<bool> OnPreviewing()
         {
-            if (Document == null || Rtc == null || Laser == null)
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: document, rtc, laser is not assigned");
-                return false;
-            }
-            if (this.IsBusy)
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: busy now !");
-                return false;
-            }
-            if (this.IsError)
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: has a error. reset at first");
-                return false;
-            }
-            if (!this.IsReady)
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: is not ready yet");
-                return false;
-            }
-
-            if (Rtc.CtlGetStatus(RtcStatus.Busy))
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: busy now !");
-                return false;
-            }
-            if (!Rtc.CtlGetStatus(RtcStatus.NoError))
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: rtc has a internal error. reset at first");
-                return false;
-            }
-            if (Laser.IsError)
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: laser has a error status. reset at first");
-                return false;
-            }
-
             if (IsCheckTempOk && !Rtc.CtlGetStatus(RtcStatus.TempOK))
             {
                 Logger.Log(LogLevel.Error, $"marker: {this.Name} scanner temp is no ok");
@@ -572,9 +487,9 @@ namespace Demos
                 return false;
             }
 
-            if (null != thread)
+            if (null != markerTask && !markerTask.IsCompleted)
             {
-                if (!this.thread.Join(500))
+                if (!markerTask.Wait(500))
                 {
                     Logger.Log(LogLevel.Error, $"marker [{Index}]: previous works has not finished yet");
                     return false;
@@ -593,51 +508,23 @@ namespace Demos
             }
 
             Logger.Log(LogLevel.Warning, $"marker [{Index}]: trying to start preview mark");
-            this.thread = new Thread(this.MarkerThreadPreview);
-            this.thread.Name = $"Marker: {this.Name}";
-            this.thread.Start();
-            return true;
+            markerTask = Task.Run(() => this.MarkerThreadPreview());
+            return await markerTask;
         }
         /// <inheritdoc/>
-        public override bool Stop()
+        protected override async Task<bool> OnStopping()
         {
-            if (null == Rtc || null == Laser)
-                return false;
             bool success = true;
-            success &= Rtc.CtlAbort();
-            success &= Laser.CtlAbort();
 
-            if (null != thread)
-            {
-                var sw = Stopwatch.StartNew();
-                do
-                {
-                    Application.DoEvents();
-                    if (this.thread.Join(0))
-                    {
-                        thread = null;
-                        break;
-                    }
-                    if (sw.ElapsedMilliseconds > 500)
-                    {
-                        success = false;
-                        Logger.Log(LogLevel.Error, $"marker [{Index}]: waiting for stop but timed out");
-                        // Timed out
-                        break;
-                    }
-                }
-                while (true);
-            }
 
-            var rtc = this.Rtc;
-            var rtcExtension = rtc as IRtcExtension;
             this.isInternalBusy = false;
             return success;
         }
+
         /// <inheritdoc/>
         public override bool Reset()
         {
-            if (null == Rtc || null == Laser)
+            if (null == Scanner || null == Laser)
                 return false;
             bool success = true;
             success &= Rtc.CtlReset();
@@ -769,7 +656,7 @@ namespace Demos
         /// <remarks>        
         /// Move offset1 and Mark layers -> Move offset2 and Mark layers , ... <br/>
         /// </remarks>
-        protected virtual void MarkerThreadLayers()
+        protected virtual bool MarkerThreadLayers()
         {
             var rtc = this.Rtc;
             var laser = this.Laser;
@@ -796,114 +683,125 @@ namespace Demos
                 //rtcMoF.MofAngularCenter = DVec2.Zero;
             }
 
-            success &= rtc.ListBegin(ListBufferType);
-            success &= laser.ListBegin();
-            for (int i = 0; i < Offsets.Length; i++)
+            try
             {
-                WorkingSet.Offset = Offsets[i];
-                WorkingSet.OffsetIndex = i;
-                rtc.MatrixStack.Push(Offsets[i].ToMatrix);
-                Logger.Log(LogLevel.Debug, $"marker [{Index}]: offset index= {i}, xyzt= {Offsets[i].ToString()}");
-                for (int j = 0; j < layers.Count; j++)
-                {
-                    var layer = layers[j];
-                    if (!layer.IsAllowMark)
-                        continue;
-                    success &= NotifyBeforeLayer(layer);
-                    if (!success)
-                    {
-                        Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at before event handler");
-                        break;
-                    }
-                    success &= LayerWork(i, Offsets[i], j, layer);
-                    if (!success)
-                        break;
-                    success &= NotifyAfterLayer(layer);
-                    if (!success)
-                    {
-                        Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at after event handler");
-                        break;
-                    }
-                }
-                // Pop offset matrix
-                rtc.MatrixStack.Pop();
+                success &= rtc.ListBegin(ListBufferType);
                 if (!success)
-                    break;
-            }
-
-            if (success) //!rtc.CtlGetStatus(RtcStatus.Aborted))
-            {
-                success &= laser.ListEnd();
-                success &= rtc.ListEnd();
-                if (success) //!rtc.CtlGetStatus(RtcStatus.Aborted))
-                    success &= rtc.ListExecute(true);
-                if (success)
+                    return false;
+                success &= laser.ListBegin();
+                if (!success)
+                    return false;
+                for (int offsetIndex = 0; offsetIndex < Offsets.Length; offsetIndex++)
                 {
-                    if (null != CurrentSession && !CurrentSession.IsEmpty)
+                    WorkingSet.Offset = Offsets[offsetIndex];
+                    WorkingSet.OffsetIndex = offsetIndex;
+                    rtc.MatrixStack.Push(Offsets[offsetIndex].ToMatrix);
+                    Logger.Log(LogLevel.Debug, $"marker [{Index}]: offset index= {offsetIndex}, xyzt= {Offsets[offsetIndex].ToString()}");
+                    for (int layerIndex = 0; layerIndex < layers.Count; layerIndex++)
                     {
-                        if (CurrentSession.Save(this.Rtc as IRtcMeasurement))
+                        var layer = layers[layerIndex];
+                        if (!layer.IsAllowMark)
+                            continue;
+                        success &= NotifyBeforeLayer(layer);
+                        if (!success)
                         {
-                            sessionQueue.Enqueue(CurrentSession);
+                            Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at before event handler");
+                            break;
+                        }
+                        success &= LayerWork(offsetIndex, Offsets[offsetIndex], layerIndex, layer);
+                        if (!success)
+                            break;
+                        success &= NotifyAfterLayer(layer);
+                        if (!success)
+                        {
+                            Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at after event handler");
+                            break;
+                        }
+                    }
+                    // Pop offset matrix
+                    rtc.MatrixStack.Pop();
+                    if (!success)
+                        break;
+                }
+
+                if (success) //!rtc.CtlGetStatus(RtcStatus.Aborted))
+                {
+                    success &= laser.ListEnd();
+                    success &= rtc.ListEnd();
+                    if (success) //!rtc.CtlGetStatus(RtcStatus.Aborted))
+                        success &= rtc.ListExecute(true);
+                    if (success)
+                    {
+                        if (null != CurrentSession && !CurrentSession.IsEmpty)
+                        {
+                            if (CurrentSession.Save(this.Scanner as IRtcMeasurement))
+                            {
+                                sessionQueue.Enqueue(CurrentSession);
+                            }
                         }
                     }
                 }
-            }
 
-            if (null != rtcMoF)
-            {
-                if (rtc.CtlGetStatus(RtcStatus.MofOutOfRange))
+                if (null != rtcMoF)
                 {
-                    if (rtc is Rtc4 rtc4)
+                    if (rtc.CtlGetStatus(RtcStatus.MofOutOfRange))
                     {
-                        var info = rtc4.MarkingInfo;
-                        Logger.Log(LogLevel.Warning, $"marker [{Index}]: mof out of range. marking info= {info.Value}");
+                        if (rtc is Rtc4 rtc4)
+                        {
+                            var info = rtc4.MarkingInfo;
+                            Logger.Log(LogLevel.Warning, $"marker [{Index}]: mof out of range. marking info= {info.Value}");
+                        }
+                        else if (rtc is Rtc5 rtc5)
+                        {
+                            var info = rtc5.MarkingInfo;
+                            Logger.Log(LogLevel.Warning, $"marker [{Index}]: mof out of range. marking info= {info.Value}");
+                        }
+                        else if (rtc is Rtc6 rtc6)
+                        {
+                            var info = rtc6.MarkingInfo;
+                            Logger.Log(LogLevel.Warning, $"marker [{Index}]: mof out of range. marking info= {info.Value}");
+                        }
                     }
-                    else if (rtc is Rtc5 rtc5)
+                }
+                if (IsJumpToOriginAfterFinished)
+                {
+                    if (rtc.Is3D)
                     {
-                        var info = rtc5.MarkingInfo;
-                        Logger.Log(LogLevel.Warning, $"marker [{Index}]: mof out of range. marking info= {info.Value}");
+                        success &= rtc3D.CtlZDefocus(0);
+                        success &= rtc3D.CtlMoveTo(DVec3.Zero, 500);
                     }
-                    else if (rtc is Rtc6 rtc6)
+                    else
                     {
-                        var info = rtc6.MarkingInfo;
-                        Logger.Log(LogLevel.Warning, $"marker [{Index}]: mof out of range. marking info= {info.Value}");
+                        success &= rtc.CtlMoveTo(DVec2.Zero, 500);
+                    }
+                }
+                if (IsCheckPositionAck)
+                {
+                    if (!rtc.CtlGetStatus(RtcStatus.PositionAckOK))
+                    {
+                        var positionACKLimit = rtc is IRtcRangeCheck rtcRangeCheck ? rtcRangeCheck.PositionACKLimit : 0;
+                        Logger.Log(LogLevel.Error, $"marker [{Index}]: out of range trajectory error limit: {positionACKLimit:F6}mm");
                     }
                 }
             }
-            if (IsJumpToOriginAfterFinished)
+            finally
             {
-                if (rtc.Is3D)
+                rtc.MatrixStack = oldMatrixStack;
+                WorkingSet.EndTime = DateTime.Now;
+                this.isInternalBusy = false;
+                this.NotifyEnded(success);
+                if (success)
                 {
-                    success &= rtc3D.CtlZDefocus(0);
-                    success &= rtc3D.CtlMoveTo(DVec3.Zero, 500);
+                    Logger.Log(LogLevel.Information, $"marker [{Index}]: mark has finished with {WorkingSet.ExecuteTime.Value.TotalSeconds:F3}s");
+                    if (this.IsMeasurementPlot)
+                        this.NotifyPlot();
                 }
                 else
                 {
-                    success &= rtc.CtlMoveTo(DVec2.Zero, 500);
+                    Logger.Log(LogLevel.Error, $"marker [{Index}]: mark has failed with {WorkingSet.ExecuteTime.Value.TotalSeconds:F3}s");
                 }
             }
-            if (IsCheckPositionAck)
-            {
-                if (!rtc.CtlGetStatus(RtcStatus.PositionAckOK))
-                {
-                    var positionACKLimit = rtc is IRtcRangeCheck rtcRangeCheck ? rtcRangeCheck.PositionACKLimit : 0;
-                    Logger.Log(LogLevel.Error, $"marker [{Index}]: out of range trajectory error limit: {positionACKLimit:F6}mm");
-                }
-            }
-            rtc.MatrixStack = oldMatrixStack;
-            WorkingSet.EndTime = DateTime.Now;
-            this.isInternalBusy = false;
-            this.NotifyEnded(success);
-            if (success)
-            {
-                Logger.Log(LogLevel.Information, $"marker [{Index}]: mark has finished with {WorkingSet.ExecuteTime.Value.TotalSeconds:F3}s");
-                if (this.IsMeasurementPlot)
-                    this.NotifyPlot();
-            }
-            else
-            {
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: mark has failed with {WorkingSet.ExecuteTime.Value.TotalSeconds:F3}s");
-            }
+            return success;
         }
         /// <summary>
         /// Implements the marker thread for previewing marks.
@@ -915,7 +813,7 @@ namespace Demos
         /// <remarks>
         /// Mark bounding box with <see cref="ILaserGuideControl">ILaserGuideControl</see>
         /// </remarks>
-        protected virtual void MarkerThreadPreview()
+        protected virtual bool MarkerThreadPreview()
         {
             var rtc = this.Rtc;
             var laser = this.Laser;
@@ -934,14 +832,14 @@ namespace Demos
             bool success = true;
             success &= laserGuideControl.CtlGuide(true);
             if (!success)
-                return;
+                return false;
 
             var tuples = new List<(DVec3 realMin, DVec3 realMax)>(document.Selected.Length);
             foreach (var entity in document.Selected)
             {
                 if (entity is EntityTransformBase entityTransformBase)
                 {
-                    if (entityTransformBase.CalcuateRealMinMax( out var realMin, out var realMax))
+                    if (entityTransformBase.CalcuateRealMinMax(out var realMin, out var realMax))
                         tuples.Add((realMin, realMax));
                 }
             }
@@ -950,54 +848,68 @@ namespace Demos
             var oldMatrixStack = (IMatrixStack<DMat4>)rtc.MatrixStack.Clone();
             var oldSpeedJump = rtc.SpeedJump;
             var oldSpeedMark = rtc.SpeedMark;
-            success &= rtc.ListBegin(ListBufferTypes.Auto);
-            success &= laser.ListBegin();
-            success &= rtc.ListSpeed(SpiralLab.Sirius3.UI.Config.MarkPreviewSpeed, SpiralLab.Sirius3.UI.Config.MarkPreviewSpeed);
-            for (int j = 0; j < SpiralLab.Sirius3.UI.Config.MarkPreviewRepeats; j++)
-            {
-                for (int i = 0; i < Offsets.Length; i++)
-                {
-                    try
-                    {
-                        // Push offset matrix
-                        rtc.MatrixStack.Push(Offsets[i].ToMatrix);
 
-                        foreach (var tuple in tuples)
-                        {
-                            var realMin = tuple.realMin;
-                            var realMax = tuple.realMax;
-                            success &= rtc.ListJumpTo(new DVec2(realMax.X, realMax.Y));
-                            success &= rtc.ListMarkTo(new DVec2(realMin.X, realMax.Y));
-                            success &= rtc.ListMarkTo(new DVec2(realMin.X, realMin.Y));
-                            success &= rtc.ListMarkTo(new DVec2(realMax.X, realMin.Y));
-                            success &= rtc.ListMarkTo(new DVec2(realMax.X, realMax.Y));
-                            if (!success)
-                                break;
-                        }
-                    }
-                    finally
+            try
+            {
+                success &= rtc.ListBegin(ListBufferTypes.Auto);
+                if (!success)
+                    return false;
+                success &= laser.ListBegin();
+                if (!success)
+                    return false;
+                success &= rtc.ListSpeed(SpiralLab.Sirius3.UI.Config.MarkPreviewSpeed, SpiralLab.Sirius3.UI.Config.MarkPreviewSpeed);
+                if (!success)
+                    return false;
+                for (int j = 0; j < SpiralLab.Sirius3.UI.Config.MarkPreviewRepeats; j++)
+                {
+                    for (int offsetIndex = 0; offsetIndex < Offsets.Length; offsetIndex++)
                     {
-                        // Pop offset matrix
-                        rtc.MatrixStack.Pop();
+                        try
+                        {
+                            // Push offset matrix
+                            rtc.MatrixStack.Push(Offsets[offsetIndex].ToMatrix);
+
+                            foreach (var tuple in tuples)
+                            {
+                                var realMin = tuple.realMin;
+                                var realMax = tuple.realMax;
+                                success &= rtc.ListJumpTo(new DVec2(realMax.X, realMax.Y));
+                                success &= rtc.ListMarkTo(new DVec2(realMin.X, realMax.Y));
+                                success &= rtc.ListMarkTo(new DVec2(realMin.X, realMin.Y));
+                                success &= rtc.ListMarkTo(new DVec2(realMax.X, realMin.Y));
+                                success &= rtc.ListMarkTo(new DVec2(realMax.X, realMax.Y));
+                                if (!success)
+                                    break;
+                            }
+                        }
+                        finally
+                        {
+                            // Pop offset matrix
+                            rtc.MatrixStack.Pop();
+                        }
+                        if (!success)
+                            break;
                     }
                     if (!success)
                         break;
                 }
-                if (!success)
-                    break;
-            }
 
-            if (success)
-            {
-                success &= rtc.ListJumpTo(DVec2.Zero);
-                success &= laser.ListEnd();
-                success &= rtc.ListEnd();
-                success &= rtc.ListExecute(true);
+                if (success)
+                {
+                    success &= rtc.ListJumpTo(DVec2.Zero);
+                    success &= laser.ListEnd();
+                    success &= rtc.ListEnd();
+                    success &= rtc.ListExecute(true);
+                }
             }
-            success &= rtc.CtlSpeed(oldSpeedJump, oldSpeedMark);
-            success &= laserGuideControl.CtlGuide(false);
-            rtc.MatrixStack = oldMatrixStack;
-            this.isInternalBusy = false;
+            finally
+            {
+                success &= rtc.CtlSpeed(oldSpeedJump, oldSpeedMark);
+                success &= laserGuideControl.CtlGuide(false);
+                rtc.MatrixStack = oldMatrixStack;
+                this.isInternalBusy = false;
+            }
+            return success;
         }
 
         /// <summary>

@@ -47,14 +47,14 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
 
                 // Dispose document
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
 
-                // Dispose instances 
-                siriusEditorControl1.DisposeDevices();
 
                 // Clean up SIRIUS3 library
                 SpiralLab.Sirius3.Core.Cleanup();

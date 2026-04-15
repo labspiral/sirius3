@@ -12,9 +12,8 @@
 		<OutputPath>..\..\bin\</OutputPath>
 		<IncludeSymbols>False</IncludeSymbols>
 		<NeutralResourcesLanguage>en-US</NeutralResourcesLanguage>
-		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<ApplicationHighDpiMode>DpiUnaware</ApplicationHighDpiMode>
+		<SatelliteResourceLanguages>ko-KR;zh-CN;ja-JP;de-DE</SatelliteResourceLanguages>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework.StartsWith(`net9.0-windows`))' OR '$(TargetFramework.StartsWith(`net10.0-windows`))'">
@@ -38,6 +37,10 @@
 		<PackageReference Include="OpenTK" Version="4.9.4" />
 		<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <AdditionalFiles Remove="app.manifest" />
+	</ItemGroup>
 	
 	<ItemGroup>
 	  <Compile Include="..\helper.cs" Link="helper.cs" />
@@ -53,7 +56,7 @@
 	<ItemGroup>
 		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
 		<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
-		<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.5.4" />
+		<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />

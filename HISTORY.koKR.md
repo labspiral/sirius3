@@ -1,5 +1,27 @@
 ﻿# Sirius3 버전 이력
 
+## v1.7.0 (2026.4.16)
+- updated) RTC6 v1.24.0 패키지
+    - 2026.3.31 릴리즈 버전으로 업데이트
+- fixed) IMarker 
+    - 비동기 처리 지원 (오픈 소스 변경됨)
+    - 쓰레드 대신 태스크 사용으로 변경 및 상속 구현하는 방식으로 리팩토링
+- fixed) IRtcMultiBeam
+    - RTC 간 배타적 동기 제어 검증 완료
+    - SiriusEditorContol 검증 완료
+        - 2개의 서로 다른 가공 데이타 + 2개의 서로 다른 펜 조합 지원 
+    - SiriusMultiEditorControl 검증 완료
+        - 1개의 동일한 가공 데이타 + 1개의 서로 다른 펜 조합 
+- added) LogControl
+    - 로그 메시지 필터 및 검색 기능 추가
+- fixed) Shader
+    - 콘솔 환경에서 뷰(View)에 개체가 렌더링 되지 않는 문제
+    - 다중 뷰 대상 별 Shader 관리 지원
+- fixed) Correction 3D 
+    - Coeff A,B,C 계수에 대한 16, 20 비트 해상도 처리
+    - Correction3DRtcForm 을 이용한 데이타 조작 개선
+- fixed) 메모리 누수 
+
 ## v1.6.1 (2026.4.9)
 - added) ViewerControl 
     - 사용자 컨트롤 추가

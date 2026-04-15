@@ -49,14 +49,14 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
+
 
                 // Dispose document
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
-
-                // Dispose instances 
-                siriusEditorControl1.DisposeDevices();
 
                 // Clean up SIRIUS3 library
                 SpiralLab.Sirius3.Core.Cleanup();
@@ -77,9 +77,7 @@ namespace Demos
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
             siriusEditorControl1.Scanner = rtc;
-
             siriusEditorControl1.Laser = laser;
-
             siriusEditorControl1.DIExt1 = dInExt1;
             siriusEditorControl1.DOExt1 = dOutExt1;
             siriusEditorControl1.DOExt2 = dOutExt2;
@@ -260,7 +258,7 @@ namespace Demos
         private bool Marker_OnMarkLayerPen(IMarker marker, EntityLayerPen pen)
         {
             // mark for each layer pen
-            var rtc = marker.Rtc;
+            var rtc = marker.Scanner as IRtc;
             Debug.Assert(null != rtc);
             var laser = marker.Laser;
             Debug.Assert(null != laser);
@@ -350,7 +348,7 @@ namespace Demos
         private bool Marker_OnMarkEntityPen(IMarker marker, EntityPen pen)
         {
             // mark for each scanner pen
-            var rtc = marker.Rtc;
+            var rtc = marker.Scanner as IRtc;
             Debug.Assert(null != rtc);
             var laser = marker.Laser;
             Debug.Assert(null != laser);
@@ -362,23 +360,8 @@ namespace Demos
             var rtcAlc = rtc as IRtcAutoLaserControl;
 
             bool success = true;
-            if (null != laser)
-            {
-                if (laser is ILaserPowerControl laserPowerControl)
-                {
-                    switch (laser.PowerControlMethod)
-                    {
-                        case PowerControlMethods.Frequency:
-                        case PowerControlMethods.DutyCycle:
-                            success &= laserPowerControl.ListPower(pen.Power, pen.PowerMapCategory);
-                            break;
-                        default:
-                            success &= laserPowerControl.ListPower(pen.Power, pen.PowerMapCategory);
-                            success &= rtc.ListFrequency(pen.Frequency, pen.PulseWidth);
-                            break;
-                    }
-                }
-            }
+
+            success &= rtc.ListLaserPower(laser, pen.Frequency, pen.PulseWidth, pen.Power, pen.PowerMapCategory);
             success &= rtc.ListDelay(
                  pen.LaserOnDelay,
                  pen.LaserOffDelay,

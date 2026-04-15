@@ -96,7 +96,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 - SCANLAB
    - RTC4: v2023.11.02
    - RTC5: v2024.09.27
-   - RTC6: 2025.10.30 v1.22.1
+   - RTC6: 2026.3.31 v1.24.0
    - syncAXIS: v1.8.2 (2023.03.09)
 
 - .NET / OpenTK

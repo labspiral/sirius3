@@ -57,16 +57,17 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+                // Dispose hardware devices
+                // 장치 리소스 해제
+                // 释放设备资源
+                siriusEditorControl1.DisposeDevices();
 
                 // Dispose document
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
 
-                // Dispose hardware devices
-                // 장치 리소스 해제
-                // 释放设备资源
-                siriusEditorControl1.DisposeDevices();
+
                 // Cleanup library
                 // 라이브러리 정리
                 // 清理库
@@ -399,7 +400,7 @@ namespace Demos
 
         private bool Marker_OnBeforeEntity(IMarker marker, IEntity entity)
         {
-            var rtc = marker.Rtc;
+            var rtc = marker.Scanner as IRtc;
             var rtcMoF = rtc as IRtcMoF;
             Debug.Assert(rtcMoF != null);
 
@@ -447,7 +448,7 @@ namespace Demos
 
         private bool Marker_OnAfterEntity(IMarker marker, IEntity entity)
         {
-            var rtc = marker.Rtc;
+            var rtc = marker.Scanner as IRtc;
             var rtcMoF = rtc as IRtcMoF;
             var rtcFreeVariable = rtc as IRtcFreeVariable;
             Debug.Assert(rtcMoF != null);

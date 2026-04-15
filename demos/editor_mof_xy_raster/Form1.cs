@@ -46,13 +46,14 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
+
                 // Dispose document
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
 
-                // Dispose instances 
-                siriusEditorControl1.DisposeDevices();
 
                 // Clean up SIRIUS3 library
                 SpiralLab.Sirius3.Core.Cleanup();
@@ -74,17 +75,13 @@ namespace Demos
             rtcMoF.OnOutOfVirtualImageField += OnOutOfVirtualImageField;
 
             siriusEditorControl1.Scanner = rtc;
-
             siriusEditorControl1.Laser = laser;
-
             siriusEditorControl1.DIExt1 = dInExt1;
             siriusEditorControl1.DOExt1 = dOutExt1;
             siriusEditorControl1.DOExt2 = dOutExt2;
             siriusEditorControl1.DILaserPort = dInLaserPort;
             siriusEditorControl1.DOLaserPort = dOutLaserPort;
-
             siriusEditorControl1.PowerMeter = powerMeter;
-
             siriusEditorControl1.Marker = marker;
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
@@ -333,7 +330,7 @@ namespace Demos
         private bool Marker_OnBeforeRasterLine(IMarker marker, IEntity entity, EntityPen.RasterDirections dir, RasterModes mode, double usec, DVec2 start, DVec2 pitch, uint arg8, ExtensionChannels channel)
         {
             bool success = true;
-            var rtc = marker.Rtc;
+            var rtc = marker.Scanner as IRtc;
             var rtcMoF = rtc as IRtcMoF;
             var transformedStart = start.Transform(rtc.MatrixStack.ToResult); // 실제(행렬 스택이 모두 적용된) 시작 위치
             var transformedPitch = pitch.Transform(rtc.MatrixStack.ToResult); // 실제(행렬 스택이 모두 적용된) 픽셀 피치
@@ -348,7 +345,7 @@ namespace Demos
         private bool Marker_OnAfterRasterLine(IMarker marker, IEntity entity, EntityPen.RasterDirections dir, RasterModes mode)
         {
             bool success = true;
-            var rtc = marker.Rtc;
+            var rtc = marker.Scanner as IRtc;
             var rtcMoF = rtc as IRtcMoF;
 
             // 다음 가공 시작 지점으로 미리 점프 시켜 놓을수도 있다

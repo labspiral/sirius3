@@ -311,24 +311,27 @@ namespace Demos
                     oldMof.OnEncoderChanged -= MoF_OnEncoderChanged;
 
                 scanners[CurrentDeviceIndex] = value;
+                var scanner = scanners[CurrentDeviceIndex];
 
                 if (lasers[CurrentDeviceIndex] != null)
-                    lasers[CurrentDeviceIndex].Scanner = scanners[CurrentDeviceIndex];
+                    lasers[CurrentDeviceIndex].Scanner = scanner;
 
-                ScannerCtrl.Scanner = scanners[CurrentDeviceIndex];
-                LaserCtrl.Scanner = scanners[CurrentDeviceIndex];
-                var rtc = value as IRtc;
-                MarkerCtrl.Rtc = rtc;
-                ManualCtrl.Rtc = rtc;
-                EditorCtrl.Rtc = rtc;
-                PowerMapCtrl.Rtc = rtc;
-                StepperCtrl.RtcStepper = rtc as IRtcStepper;
+                ScannerCtrl.Scanner = scanner;
+                LaserCtrl.Scanner = scanner;
+                MarkerCtrl.Scanner = scanner;
+                ManualCtrl.Scanner = scanner;
+                EditorCtrl.Scanner = scanner;
+                DIRtcCtrl.Scanner = scanner;
+                DORtcCtrl.Scanner = scanner;
+                PowerMapCtrl.Scanner = scanner;
+                StepperCtrl.Stepper = scanner as IRtcStepper;
 
-                if (scanners[CurrentDeviceIndex] != null)
+                if (scanner != null)
                 {
                     PropertyVisibility();
                     MenuVisibility();
 
+                    var rtc = value as IRtc;
                     if (rtc.IsMoF)
                     {
                         if (scanners[CurrentDeviceIndex] is IRtcMoF newMof)
@@ -403,26 +406,14 @@ namespace Demos
                 {
 
                 }
-                MultiBeamRtcControl.Markers[CurrentDeviceIndex] = null;
 
                 markers[CurrentDeviceIndex] = value;
 
                 MarkerCtrl.Marker = markers[CurrentDeviceIndex];
                 ManualCtrl.Marker = markers[CurrentDeviceIndex];
-                RtcDOCtrl.Marker = markers[CurrentDeviceIndex];
+                DORtcCtrl.Marker = markers[CurrentDeviceIndex];
                 EditorCtrl.Marker = markers[CurrentDeviceIndex];
                 PropertyGridCtrl.Marker = markers[CurrentDeviceIndex];
-
-                if (markers[CurrentDeviceIndex] != null)
-                {
-                    markers[CurrentDeviceIndex].OnStarted -= Marker_OnStarted;
-                    markers[CurrentDeviceIndex].OnStarted += Marker_OnStarted;
-
-                    markers[CurrentDeviceIndex].OnEnded -= Marker_OnEnded;
-                    markers[CurrentDeviceIndex].OnEnded += Marker_OnEnded;
-
-                    MultiBeamRtcControl.Markers[CurrentDeviceIndex] = markers[CurrentDeviceIndex];
-                }
             }
         }
 
@@ -480,7 +471,7 @@ namespace Demos
             private set
             {
                 dIExt1s[CurrentDeviceIndex] = value;
-                RtcDICtrl.DIExt1 = dIExt1s[CurrentDeviceIndex];
+                DIRtcCtrl.DIExt1 = dIExt1s[CurrentDeviceIndex];
             }
         }
 
@@ -502,7 +493,7 @@ namespace Demos
             private set
             {
                 dILaserPorts[CurrentDeviceIndex] = value;
-                RtcDICtrl.DILaserPort = dILaserPorts[CurrentDeviceIndex];
+                DIRtcCtrl.DILaserPort = dILaserPorts[CurrentDeviceIndex];
             }
         }
 
@@ -524,7 +515,7 @@ namespace Demos
             private set
             {
                 dOExt1s[CurrentDeviceIndex] = value;
-                RtcDOCtrl.DOExt1 = dOExt1s[CurrentDeviceIndex];
+                DORtcCtrl.DOExt1 = dOExt1s[CurrentDeviceIndex];
             }
         }
 
@@ -546,7 +537,7 @@ namespace Demos
             private set
             {
                 dOExt2s[CurrentDeviceIndex] = value;
-                RtcDOCtrl.DOExt2 = dOExt2s[CurrentDeviceIndex];
+                DORtcCtrl.DOExt2 = dOExt2s[CurrentDeviceIndex];
             }
         }
 
@@ -568,7 +559,7 @@ namespace Demos
             private set
             {
                 dOLaserPorts[CurrentDeviceIndex] = value;
-                RtcDOCtrl.DOLaserPort = dOLaserPorts[CurrentDeviceIndex];
+                DORtcCtrl.DOLaserPort = dOLaserPorts[CurrentDeviceIndex];
             }
         }
 
@@ -722,7 +713,7 @@ namespace Demos
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public SpiralLab.Sirius3.UI.WinForms.DIRtcControl RtcDICtrl => rtcDIControl1;
+        public SpiralLab.Sirius3.UI.WinForms.DIRtcControl DIRtcCtrl => rtcDIControl1;
 
         /// <summary>
         /// Gets the RTC DO control wrapper.
@@ -731,7 +722,7 @@ namespace Demos
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public SpiralLab.Sirius3.UI.WinForms.DORtcControl RtcDOCtrl => rtcDOControl1;
+        public SpiralLab.Sirius3.UI.WinForms.DORtcControl DORtcCtrl => rtcDOControl1;
 
         /// <summary>
         /// Gets the manual control wrapper.
@@ -813,7 +804,6 @@ namespace Demos
             editorControl1.Margin = new Padding(0);
             editorControl1.Name = "Editor";
 
-            Load += SiriusEditorControl_Load;
             Disposed += SiriusEditorControl_Disposed;
             VisibleChanged += SiriusEditorControl_VisibleChanged;
 
@@ -881,6 +871,12 @@ namespace Demos
             dOExt2s[index] = dOExt2;
             dOLaserPorts[index] = dOLaserPort;
             markers[index] = marker;
+            MultiBeamRtcControl.Markers[index] = marker;
+
+            markers[index].OnStarted -= Marker_OnStarted;
+            markers[index].OnStarted += Marker_OnStarted;
+            markers[index].OnEnded -= Marker_OnEnded;
+            markers[index].OnEnded += Marker_OnEnded;
 
             marker.Ready(Document, View, scanner as IRtc, laser, powerMeter);
         }
@@ -905,6 +901,13 @@ namespace Demos
 
             for (int i = 0; i < MaxDeviceCounts; i++)
             {
+                MultiBeamRtcControl.Markers[i] = null;
+                if (null != markers[i])
+                {
+                    markers[i].OnStarted -= Marker_OnStarted;
+                    markers[i].OnEnded -= Marker_OnEnded;
+                }
+
                 markers[i]?.Dispose();
                 powerMeters[i]?.Dispose();
                 dIExt1s[i]?.Dispose();
@@ -993,17 +996,6 @@ namespace Demos
         }
 
         /// <summary>
-        /// Initializes core components, editor surface, document, and default virtual devices.
-        /// <para>핵심 구성 요소, 편집기 화면, 문서 및 기본 가상 장치를 초기화합니다.</para>
-        /// <para>初始化核心组件、编辑器表面、文档和默认虚拟设备。</para>
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
-        private void SiriusEditorControl_Load(object sender, EventArgs e)
-        {
-            SwitchDevices(CurrentDeviceIndex);
-        }
-        /// <summary>
         /// Handles form closing; disposes timers.
         /// <para>폼 닫기를 처리하고 타이머를 해제합니다.</para>
         /// <para>处理窗体关闭；释放计时器。</para>
@@ -1026,6 +1018,8 @@ namespace Demos
         private void SiriusEditorControl_VisibleChanged(object sender, EventArgs e)
         {
             timerStatus.Enabled = Visible;
+            if (Visible)
+                SwitchDevices(CurrentDeviceIndex);
         }
         #endregion
 
@@ -1334,7 +1328,7 @@ namespace Demos
             Invoke(new MethodInvoker(() =>
             {
                 btnNew.Enabled = isEnable;
-                //btnOpen.Enabled = isEnable;
+                btnOpen.Enabled = isEnable;
                 ddbOpenNewOptions.Enabled = isEnable;
                 btnSave.Enabled = isEnable;
 
@@ -1356,12 +1350,12 @@ namespace Demos
                 // Keep enables for debugging
 
 #else
-                ManualCtrl.Enabled = isEnable;
-                ScannerCtrl.Enabled = isEnable;
+                //ManualCtrl.Enabled = isEnable;
+                //ScannerCtrl.Enabled = isEnable;
                 LaserCtrl.Enabled = isEnable;
                 PowerMeterCtrl.Enabled = isEnable;
                 PowerMapCtrl.Enabled = isEnable;
-                RtcDOCtrl.Enabled = isEnable;
+                //DORtcCtrl.Enabled = isEnable;
                 EntityPenCtrl.Enabled = isEnable;
                 LayerPenCtrl.Enabled = isEnable;
                 //MarkerCtrl.Enabled = isEnable;
@@ -1554,7 +1548,8 @@ namespace Demos
             {
                 Filter = SpiralLab.Sirius3.UI.Config.FileOpenFilters,
                 Title = "Open File",
-                InitialDirectory = SpiralLab.Sirius3.Config.RecipePath
+                InitialDirectory = SpiralLab.Sirius3.Config.RecipePath,
+                FileName = Document.FileName,
             };
 
             if (dlg.ShowDialog() != DialogResult.OK) return;

@@ -46,14 +46,46 @@ namespace Demos
         /// <param name="key">Key name</param>
         /// <param name="defaultValue">Default T value</param>
         /// <returns></returns>
-        public static T ReadIni<T>(string fileName, string section, string key, T defaultValue = default(T))
+        public static T ReadIni<T>(string fileName, string section, string key, T defaultValue = default)
         {
             const int size = 255;
             var sb = new StringBuilder(size);
             GetPrivateProfileString(section, key, string.Empty, sb, size, fileName);
-            if (string.IsNullOrEmpty(sb.ToString()))
+
+            string value = sb.ToString();
+
+            if (string.IsNullOrWhiteSpace(value))
                 return defaultValue;
-            return (T)Convert.ChangeType(sb.ToString(), typeof(T));
+
+            Type t = typeof(T);
+
+            try
+            {
+
+                // Enum 처리
+                if (t.IsEnum)
+                {
+                    try
+                    {
+                        // 문자열 → enum
+                        return (T)Enum.Parse(t, value, true);
+                    }
+                    catch
+                    {
+                        // 숫자 → enum
+                        if (int.TryParse(value, out int intVal))
+                            return (T)Enum.ToObject(t, intVal);
+
+                        return defaultValue;
+                    }
+                }
+         
+                return (T)Convert.ChangeType(value, t);
+            }
+            catch
+            {
+                return defaultValue;
+            }
         }
 
         /// <summary>

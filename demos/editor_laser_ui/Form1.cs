@@ -44,14 +44,14 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
 
                 // Dispose document
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
 
-                // Dispose instances 
-                siriusEditorControl1.DisposeDevices();
 
                 // Clean up SIRIUS3 library
                 SpiralLab.Sirius3.Core.Cleanup();
@@ -78,9 +78,7 @@ namespace Demos
             siriusEditorControl1.DOExt2 = dOutExt2;
             siriusEditorControl1.DILaserPort = dInLaserPort;
             siriusEditorControl1.DOLaserPort = dOutLaserPort;
-
             siriusEditorControl1.PowerMeter = powerMeter;
-
             siriusEditorControl1.Marker = marker;
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);

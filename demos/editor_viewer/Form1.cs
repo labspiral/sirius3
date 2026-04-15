@@ -47,13 +47,13 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
+
                 // Dispose document
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
-
-                // Dispose instances 
-                siriusEditorControl1.DisposeDevices();
 
                 // Clean up SIRIUS3 library
                 SpiralLab.Sirius3.Core.Cleanup();
@@ -62,7 +62,7 @@ namespace Demos
             this.btnCreateView.Click += (s, e) => {
                 var document = siriusEditorControl1.Document;
                 
-                Form dynamicForm = new Form();
+                var dynamicForm = new Form();
                 dynamicForm.SuspendLayout();
                 dynamicForm.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
                 dynamicForm.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -70,6 +70,7 @@ namespace Demos
                 dynamicForm.Text = "ViewerControl - (c)SpiralLab";
                 dynamicForm.Size = new Size(800, 600);
                 dynamicForm.StartPosition = FormStartPosition.WindowsDefaultLocation;
+
                 var viewerControl = new SpiralLab.Sirius3.UI.WinForms.ViewerControl();
                 viewerControl.Document = document;
                 viewerControl.AliasName = $"MyView{++viewCounts}";
@@ -79,8 +80,6 @@ namespace Demos
                 dynamicForm.ResumeLayout(false);
                 dynamicForm.TopLevel = true;
                 dynamicForm.Show();
-
-
             };
 
 

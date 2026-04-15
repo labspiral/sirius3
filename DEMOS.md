@@ -26,10 +26,10 @@ The formatting of barcode and text objects is configured using the Entity pen.
 ## editor_barcode_textconvert
 
 This is a demo program that demonstrates how to create 2D barcode objects and modify their data.
-Event-based: The user modifies the text just before processing via the marker’s event handler, and this text is dynamically updated and applied during processing.
-Script: The user writes and specifies C# script code. During rendering, the marker dynamically modifies the text of the barcode using the script just before rendering and applies it.
-External File: The user specifies an external file. Just before each rendering, the marker reads the first line of the text file to dynamically modify the data and apply it to the rendering. Additionally, the first line of the text file used is automatically removed.
-Offset: The user specifies text content along with multiple position (offset) values. During processing, the marker dynamically changes the text content at each offset position immediately before processing and applies it to the barcode.
+- Event-based: The user modifies the text just before processing via the marker’s event handler, and this text is dynamically updated and applied during processing.
+- Script: The user writes and specifies C# script code. During rendering, the marker dynamically modifies the text of the barcode using the script just before rendering and applies it.
+- External File: The user specifies an external file. Just before each rendering, the marker reads the first line of the text file to dynamically modify the data and apply it to the rendering. Additionally, the first line of the text file used is automatically removed.
+- Offset: The user specifies text content along with multiple position (offset) values. During processing, the marker dynamically changes the text content at each offset position immediately before processing and applies it to the barcode.
 
 ## editor_dio
 
@@ -55,14 +55,12 @@ This compensates for nonlinear distortions in 2D space. It also demonstrates how
 
 ## editor_fieldcorrection_3d
 
-This is a demonstration programme that utilises the scanner’s 3D field calibration function.
-This is a demonstration programme that utilises the scanner’s 3D field calibration function using the RtcCalibrationLibrary.
-Specifically,
-Calibration of beam tilt in response to Z-axis movement
-Calibration to find the optimal focus position at Z=0
-Calibration to find the optimal focus at various positions in Z-space and determine the coefficients (A, B, C) of the equation Zout = A + Bl + Cl²
-Calibration to compensate for stretch size errors in the vertical Z-space
-This programme demonstrates how to use these functions.
+This is a demo program that utilizes the scanner's 3D field calibration feature.
+It demonstrates a procedural calibration method using the RtcCalibrationLibrary to leverage the scanner's 3D field calibration feature.
+- Calibration of beam tilt in response to Z-axis movement
+- Calibration to find the optimal focus position at Z=0
+- Calibration to find the optimal focus at various positions in Z-space and determine the coefficients (A, B, C) of the equation Zout = A + Bl + Cl²
+- Calibration to compensate for stretch size errors in the vertical Z-space
 
 ## editor_fieldcorrection_3d_pointscloud
 
@@ -102,8 +100,8 @@ This example demonstrates how to create and integrate a custom UI designed by th
 
 ## editor_marker
 
-Sirius3 includes built-in markers that inherit and implement the IMarker interface. Specifically, these are MarkerRtc, MarkerRtcFast, and MarkerSyncAxis.
-By modifying the open-source marker implementation code and connecting it directly to Sirius3, users can customize the processing method to suit their needs.
+This is the open-source code for MarkerRtc, MarkerRtcFast, and MarkerSyncAxis, which are provided within the Sirius3 library.
+By modifying this open-source code and connecting it directly to Sirius3, users can customize the processing method to suit their needs.
 
 ## editor_measurement_skywriting_wobbel
 
@@ -121,19 +119,19 @@ This example waits until the encoder reaches that position, then starts MoF (sca
 
 ## editor_mof_offsets
 
-The MoF (Marking on the Fly) function allows the scanner to track and process a moving object in real time by inputting the encoder signal from the moving object into the RTC card.
-To perform MoF processing of a single shape over a very large area, a virtual image field is used.
-This method involves waiting until the encoder value corresponds to one of 1,000 offset positions, and then immediately performing machining when the conditions are met.
-Here, we assume that the X-coordinate of the offset is within the range of -200 to 0, and that the stage (or conveyor) moves to the right,
-i.e., in the direction where the scanner’s X value increases.
-It also demonstrates how to use the SCANAhead option feature of the RTC6 + excelliSCAN combination, as well as processing conditions such as speed and power, via the Entity Pen.
+The MoF (Marking on the Fly) function allows the scanner to track and machine in real time by inputting encoder signals generated by an external moving object into the RTC card.
+A virtual image field is used to perform MoF machining of a single machining pattern across a very large area.
+- This method involves waiting until the encoder value corresponds to one of 1,000 offset positions, and then immediately performing machining if the condition is met.
+- Here, we assume that the X-coordinate of the offset lies within the range of -200 to 0, and that the stage (or conveyor) moves to the right, 
+- that is, in the direction where the scanner’s X value increases.
+- Using the Entity Pen, this demonstrates not only machining conditions such as speed and power but also how to use the SCANAhead option feature in the RTC6 + excelliSCAN combination.
 
 ## editor_mof_trigger
 
-The MoF (Marking on the Fly) function allows the scanner to process data in real time by tracking an encoder signal generated by an external moving object, which is input to the RTC card.
-This example demonstrates waiting for an external trigger at the RTC’s extended D.IN input port and immediately starting MoF processing when the trigger is received. 
-Additionally, you can generate the desired barcode data just before each barcode processing and pre-insert it into the RTC buffer to process dynamic data.
-It also demonstrates how to use Free Variables to accumulate the count each time an actual barcode object is processed after the trigger is received.
+The MoF (Marking on the Fly) function allows the scanner to process data in real time by tracking it based on encoder signals generated by an external moving object, which are input to the RTC card.
+- This example demonstrates how the system waits for an external trigger at the RTC’s extended D.IN input port and immediately starts MoF processing when the trigger is received. 
+- You can generate the desired barcode data immediately before each barcode processing and pre-insert it into the RTC buffer to process dynamic data.
+- It also demonstrates a method of using Free Variables to accumulate the number of times the actual barcode object is processed after the trigger is received.
 
 ## editor_mof_xy
 
@@ -142,16 +140,17 @@ This example demonstrates how to create an encoder wait condition and configure 
 
 ## editor_mof_xy_raster
 
-The MoF (Marking on the fly) function enables the scanner to process data in real time by tracking an encoder signal generated by an external moving object, which is fed into the RTC card.
-Here, for applications where raster processing is possible—such as images, 1D and 2D barcodes, and ImageText—the function ensures that raster processing is performed from the centre position of the scanner (or lens) after detecting the encoder position immediately before each line of processing.
-so that raster processing can be performed. This is particularly effective for MoF + raster processing of logos and similar designs on the side of a cylinder whilst the cylinder is laid flat and rotated.
+The MoF (Marking on the Fly) function allows the scanner to process data in real time by tracking an encoder signal generated by an external moving object and inputting it into the RTC card.
+- For raster processing applications such as images, 1D and 2D barcodes, and ImageText, the encoder position is detected immediately before each line of processing.
+- Once the wait is over, this feature ensures that raster processing occurs at the center of the scanner (or lens). 
+- This is effective for MoF + raster processing of logos and other markings on the side of a cylinder while the cylinder is laid flat and rotated.
 
 ## editor_multibeam
 
-This is a demo program that utilizes the Multibeam function, which splits a single laser source into two scan heads and two AOMs for processing.
-When one scan head begins a jump during processing, the laser output is turned off; 
-at this point, the opposite scan head is released from standby to handle the processing, and when it encounters a jump section, it returns control—this cycle repeats.
-Overall, this method maximizes the utilization of the laser source to increase productivity.
+This is a demo program that utilizes the Multibeam function, which splits a single laser source into a combination of two scan heads and two AOMs for processing.
+- When one scan head begins a jump during machining, the laser output is turned off, 
+- at which point the opposite scan head is released from standby to handle the machining, and this process repeats as the scan head returns control upon reaching the jump section. 
+- Overall, this method maximizes the utilization of the laser source to increase productivity.
 
 ## editor_multiple
 
@@ -178,9 +177,10 @@ It also demonstrates how to apply different Entity Pens to various objects to va
 
 ## editor_points_sync_pulses_count
 
-When processing points (or dots), a processing method is typically used in which the laser is activated (LASER ON) for a specified duration.
-This demo program demonstrates how to input the SYNC OUT signal from the laser source into the RTC card to use it as a synchronization signal, and how to control the duration that the laser is activated (LASER ON) for a given dot using the number of pulses in the SYNC OUT signal.
-It is also a demo program that illustrates how to use various other available synchronization signals.
+When processing dots (or pixels), a processing method is typically used in which the laser is activated (LASER ON) for a specified duration.
+- The SYNC OUT signal output from the laser source is input to the RTC card and used as a synchronization signal, and;
+- The time during which the laser is activated (LASER ON) for the corresponding point (or dot) is synchronized with the output pulse using the input pulse of the SYNC OUT signal.
+- This is a demo program that demonstrates how to use various other available synchronization signals.
 
 ## editor_powermap
 

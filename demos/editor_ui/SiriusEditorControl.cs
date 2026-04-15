@@ -258,17 +258,19 @@ namespace Demos
 
                 ScannerCtrl.Scanner = scanner;
                 LaserCtrl.Scanner = scanner;
-                var rtc = value as IRtc;
-                MarkerCtrl.Rtc = rtc;
-                ManualCtrl.Rtc = rtc;
-                EditorCtrl.Rtc = rtc;
-                PowerMapCtrl.Rtc = rtc;
-                StepperCtrl.RtcStepper = rtc as IRtcStepper;
+                MarkerCtrl.Scanner = scanner;
+                ManualCtrl.Scanner = scanner;
+                EditorCtrl.Scanner = scanner;
+                DIRtcCtrl.Scanner = scanner;
+                DORtcCtrl.Scanner = scanner;
+                PowerMapCtrl.Scanner = scanner;
+                StepperCtrl.Stepper = scanner as IRtcStepper;
 
                 if (scanner != null)
                 {
                     PropertyVisibility();
                     MenuVisibility();
+                    var rtc = value as IRtc;
 
                     if (rtc.IsMoF)
                     {
@@ -346,14 +348,13 @@ namespace Demos
                 {
                     marker.OnStarted -= Marker_OnStarted;
                     marker.OnEnded -= Marker_OnEnded;
-                    MultiBeamRtcControl.Markers[marker.Index] = null;
                 }
 
                 marker = value;
 
                 MarkerCtrl.Marker = marker;
                 ManualCtrl.Marker = marker;
-                RtcDOCtrl.Marker = marker;
+                DORtcCtrl.Marker = marker;
                 EditorCtrl.Marker = marker;
                 PropertyGridCtrl.Marker = marker;
 
@@ -361,7 +362,6 @@ namespace Demos
                 {
                     marker.OnStarted += Marker_OnStarted;
                     marker.OnEnded += Marker_OnEnded;
-                    MultiBeamRtcControl.Markers[marker.Index] = marker;
                 }
             }
         }
@@ -430,7 +430,7 @@ namespace Demos
             {
                 if (dIExt1 == value) return;
                 dIExt1 = value;
-                RtcDICtrl.DIExt1 = dIExt1;
+                DIRtcCtrl.DIExt1 = dIExt1;
             }
         }
 
@@ -453,7 +453,7 @@ namespace Demos
             {
                 if (dILaserPort == value) return;
                 dILaserPort = value;
-                RtcDICtrl.DILaserPort = dILaserPort;
+                DIRtcCtrl.DILaserPort = dILaserPort;
             }
         }
 
@@ -476,7 +476,7 @@ namespace Demos
             {
                 if (dOExt1 == value) return;
                 dOExt1 = value;
-                RtcDOCtrl.DOExt1 = dOExt1;
+                DORtcCtrl.DOExt1 = dOExt1;
             }
         }
 
@@ -499,7 +499,7 @@ namespace Demos
             {
                 if (dOExt2 == value) return;
                 dOExt2 = value;
-                RtcDOCtrl.DOExt2 = dOExt2;
+                DORtcCtrl.DOExt2 = dOExt2;
             }
         }
 
@@ -522,7 +522,7 @@ namespace Demos
             {
                 if (dOLaserPort == value) return;
                 dOLaserPort = value;
-                RtcDOCtrl.DOLaserPort = dOLaserPort;
+                DORtcCtrl.DOLaserPort = dOLaserPort;
             }
         }
 
@@ -696,7 +696,7 @@ namespace Demos
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public SpiralLab.Sirius3.UI.WinForms.DIRtcControl RtcDICtrl => rtcDIControl1;
+        public SpiralLab.Sirius3.UI.WinForms.DIRtcControl DIRtcCtrl => rtcDIControl1;
 
         /// <summary>
         /// Gets the RTC DO control wrapper.
@@ -705,7 +705,7 @@ namespace Demos
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public SpiralLab.Sirius3.UI.WinForms.DORtcControl RtcDOCtrl => rtcDOControl1;
+        public SpiralLab.Sirius3.UI.WinForms.DORtcControl DORtcCtrl => rtcDOControl1;
 
         /// <summary>
         /// Gets the manual control wrapper.
@@ -845,6 +845,7 @@ namespace Demos
             DOLaserPort = dOLaserPort;
             Marker = marker;
 
+            MultiBeamRtcControl.Markers[marker.Index] = marker;
             marker.Ready(Document, View, scanner as IRtc, laser, powerMeter);
         }
         /// <summary>
@@ -854,6 +855,7 @@ namespace Demos
         public void DisposeDevices()
         {
             Document?.ActSimulateStop(false);
+            MultiBeamRtcControl.Markers[marker.Index] = null;
             Marker?.Dispose();
             Marker = null;
 
@@ -1301,7 +1303,7 @@ namespace Demos
             Invoke(new MethodInvoker(() =>
             {
                 btnNew.Enabled = isEnable;
-                //btnOpen.Enabled = isEnable;
+                btnOpen.Enabled = isEnable;
                 ddbOpenNewOptions.Enabled = isEnable;
                 btnSave.Enabled = isEnable;
 
@@ -1323,12 +1325,12 @@ namespace Demos
                 // Keep enables for debugging
 
 #else
-                ManualCtrl.Enabled = isEnable;
-                ScannerCtrl.Enabled = isEnable;
+                //ManualCtrl.Enabled = isEnable;
+                //ScannerCtrl.Enabled = isEnable;
                 LaserCtrl.Enabled = isEnable;
                 PowerMeterCtrl.Enabled = isEnable;
                 PowerMapCtrl.Enabled = isEnable;
-                RtcDOCtrl.Enabled = isEnable;
+                //DORtcCtrl.Enabled = isEnable;
                 EntityPenCtrl.Enabled = isEnable;
                 LayerPenCtrl.Enabled = isEnable;
                 //MarkerCtrl.Enabled = isEnable;
@@ -1523,7 +1525,8 @@ namespace Demos
             {
                 Filter = SpiralLab.Sirius3.UI.Config.FileOpenFilters,
                 Title = "Open File",
-                InitialDirectory = SpiralLab.Sirius3.Config.RecipePath
+                InitialDirectory = SpiralLab.Sirius3.Config.RecipePath,
+                FileName = Document.FileName,
             };
 
             if (dlg.ShowDialog() != DialogResult.OK) return;

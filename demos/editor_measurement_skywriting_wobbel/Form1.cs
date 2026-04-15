@@ -46,14 +46,14 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
 
                 // Dispose document
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
 
-                // Dispose instances 
-                siriusEditorControl1.DisposeDevices();
 
                 // Clean up SIRIUS3 library
                 SpiralLab.Sirius3.Core.Cleanup();
@@ -75,17 +75,13 @@ namespace Demos
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
             siriusEditorControl1.Scanner = rtc;
-
             siriusEditorControl1.Laser = laser;
-
             siriusEditorControl1.DIExt1 = dInExt1;
             siriusEditorControl1.DOExt1 = dOutExt1;
             siriusEditorControl1.DOExt2 = dOutExt2;
             siriusEditorControl1.DILaserPort = dInLaserPort;
             siriusEditorControl1.DOLaserPort = dOutLaserPort;
-
             siriusEditorControl1.PowerMeter = powerMeter;
-
             siriusEditorControl1.Marker = marker;
 
             MarkerOption();
@@ -168,7 +164,7 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
-            Debug.Assert(marker.Rtc is not Rtc4);
+            Debug.Assert(marker.Scanner is not Rtc4);
 
             CreateRectangleAndMeasurement("skywriting 1");
 
@@ -194,7 +190,7 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
-            Debug.Assert(marker.Rtc is not Rtc4);
+            Debug.Assert(marker.Scanner is not Rtc4);
 
             CreateRectangleAndMeasurement("skywriting 2");
 
@@ -220,7 +216,7 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
-            Debug.Assert(marker.Rtc is not Rtc4);
+            Debug.Assert(marker.Scanner is not Rtc4);
 
             CreateRectangleAndMeasurement("skywriting 3");
 
@@ -246,8 +242,8 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
-            Debug.Assert(marker.Rtc is not Rtc4);
-            Debug.Assert(marker.Rtc is Rtc6);
+            Debug.Assert(marker.Scanner is not Rtc4);
+            Debug.Assert(marker.Scanner is Rtc6);
 
             CreateRectangleAndMeasurement("skywriting 4");
 
@@ -295,7 +291,7 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
-            Debug.Assert(marker.Rtc is not Rtc4);
+            Debug.Assert(marker.Scanner is not Rtc4);
 
             CreateRectangleAndMeasurement("wobbel (parallel8)");
 
@@ -319,7 +315,7 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
-            Debug.Assert(marker.Rtc is not Rtc4);
+            Debug.Assert(marker.Scanner is not Rtc4);
 
             CreateRectangleAndMeasurement("wobbel (perpendicular8)");
 

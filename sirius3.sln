@@ -82,7 +82,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_mof_interrupt", "dem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "beginner", "demos\beginner\beginner.csproj", "{F370D5BD-7248-46A3-9EDC-5E1CCB7190C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_multibeam", "demos\editor_multibeam\editor_multibeam.csproj", "{99AF2A4A-0BC2-283E-8A06-5AB12914B83C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_multibeam2", "demos\editor_multibeam\editor_multibeam2.csproj", "{99AF2A4A-0BC2-283E-8A06-5AB12914B83C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_points_sync_pulses_count", "demos\editor_points_sync_pulses_count\editor_points_sync_pulses_count.csproj", "{298A8C0D-0AB6-486A-F048-CB2DA266257C}"
 EndProject
@@ -99,6 +99,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "console_document", "demos\console_document\console_document.csproj", "{9A378AB2-3EF2-1D88-72AC-AB4DD503173A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_fieldcorrection_3d", "demos\editor_fieldcorrection_3d\editor_fieldcorrection_3d.csproj", "{E4E58B3A-3B03-ADB2-4CB0-F6E6A79FBAD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_multibeam", "demos\editor_multibeam_\editor_multibeam.csproj", "{E640D04B-A332-8E3D-213C-4702C090601C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -258,6 +260,10 @@ Global
 		{E4E58B3A-3B03-ADB2-4CB0-F6E6A79FBAD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4E58B3A-3B03-ADB2-4CB0-F6E6A79FBAD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4E58B3A-3B03-ADB2-4CB0-F6E6A79FBAD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E640D04B-A332-8E3D-213C-4702C090601C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E640D04B-A332-8E3D-213C-4702C090601C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E640D04B-A332-8E3D-213C-4702C090601C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E640D04B-A332-8E3D-213C-4702C090601C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -49,14 +49,14 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+                // Dispose instances 
+                siriusEditorControl1.DisposeDevices();
 
                 // Dispose document
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
 
-                // Dispose instances 
-                siriusEditorControl1.DisposeDevices();
 
                 // Clean up SIRIUS3 library
                 SpiralLab.Sirius3.Core.Cleanup();
@@ -75,7 +75,6 @@ namespace Demos
             rtcInterrupt.OnInterrupt += RtcInterrupt_OnInterrupt;
 
             siriusEditorControl1.Scanner = rtc;
-
             siriusEditorControl1.Laser = laser;
             siriusEditorControl1.DIExt1 = dInExt1;
             siriusEditorControl1.DOExt1 = dOutExt1;
