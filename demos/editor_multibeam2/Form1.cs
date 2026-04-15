@@ -53,17 +53,12 @@ namespace Demos
                 }
 
                 // Dispose instances 
-                siriusEditorControl1.DisposeDevices();
-                siriusEditorControl2.DisposeDevices();
+                siriusMultiEditorControl1.DisposeDevices();
 
                 // Dispose document
-                var doc1 = siriusEditorControl1.Document;
-                siriusEditorControl1.Document = null;
-                doc1?.Dispose();
-
-                var doc2 = siriusEditorControl2.Document;
-                siriusEditorControl2.Document = null;
-                doc2?.Dispose();
+                var doc = siriusMultiEditorControl1.Document;
+                siriusMultiEditorControl1.Document = null;
+                doc?.Dispose();
 
                 // Clean up SIRIUS3 library
                 SpiralLab.Sirius3.Core.Cleanup();
@@ -89,6 +84,11 @@ namespace Demos
             Debug.Assert(licenseInfo.RtcLicenseMax == 2);
             Debug.Assert(licenseInfo.IsMultiBeamLicensed);
 
+            // Initialize RTC MultiBeam instances (MultiBeamIndex: 0, 1 for Pair 0)
+            // RTC 멀티빔 인스턴스 초기화 (멀티빔 인덱스 0, 1은 페어 0을 형성함) (멀티빔 인덱스 2, 3은 페어 1을 형성함)
+            // 初始化 RTC 多光束实例（多光束索引 0、1 组成第 0 对）
+            siriusMultiEditorControl1.MaxDeviceCounts = instanceCount;
+
 
             // single laser source
             ILaser laser = null;
@@ -98,15 +98,15 @@ namespace Demos
             {
                 int index = 0;
                 EditorHelper.CreateDevices(index, 0, laser, out var rtcMultiBeam, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
-                siriusEditorControl1.RegisterDevices(rtcMultiBeam, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
-                marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtcMultiBeam, laser, null);
+                siriusMultiEditorControl1.RegisterDevices(index, rtcMultiBeam, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
+                marker.Ready(siriusMultiEditorControl1.Document, siriusMultiEditorControl1.View, rtcMultiBeam, laser, null);
             }
 
             {
                 int index = 1;
                 EditorHelper.CreateDevices(index, 1, laser, out var rtcMultiBeam, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
-                siriusEditorControl2.RegisterDevices(rtcMultiBeam, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
-                marker.Ready(siriusEditorControl2.Document, siriusEditorControl2.View, rtcMultiBeam, laser, null);
+                siriusMultiEditorControl1.RegisterDevices(index, rtcMultiBeam, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
+                marker.Ready(siriusMultiEditorControl1.Document, siriusMultiEditorControl1.View, rtcMultiBeam, laser, null);
             }
 
             // To get notification for 'RtcMultiBeamHelper.Modes' has changed
@@ -205,7 +205,7 @@ namespace Demos
                         if (DialogResult.Yes != form.ShowDialog(this))
                             return;
                     }
-                    success &= await siriusEditorControl1.Marker?.Start();
+                    success &= await siriusMultiEditorControl1.Markers[0]?.Start();
                     break;
                 case RtcMultiBeamHelper.MultiBeamModes.Head2:
                     {
@@ -216,7 +216,7 @@ namespace Demos
                         if (DialogResult.Yes != form.ShowDialog(this))
                             return;
                     }
-                    success &= await siriusEditorControl2.Marker?.Start();
+                    success &= await siriusMultiEditorControl1.Markers[1]?.Start();
                     break;
                 case RtcMultiBeamHelper.MultiBeamModes.Both:
                     {
@@ -227,8 +227,8 @@ namespace Demos
                         if (DialogResult.Yes != form.ShowDialog(this))
                             return;
                     }
-                    var task1 = siriusEditorControl1.Marker?.Start();
-                    var task2 = siriusEditorControl2.Marker?.Start();
+                    var task1 = siriusMultiEditorControl1.Markers[0]?.Start();
+                    var task2 = siriusMultiEditorControl1.Markers[1]?.Start();
                     
                     await Task.WhenAll(task1, task2); // 둘 다 끝날 때까지 대기
                     bool result1 = await task1;
@@ -249,15 +249,15 @@ namespace Demos
                 case RtcMultiBeamHelper.MultiBeamModes.None:
                     break;
                 case RtcMultiBeamHelper.MultiBeamModes.Head1:
-                    success &= await siriusEditorControl1.Marker?.Stop();
+                    success &= await siriusMultiEditorControl1.Markers[0]?.Stop();
                     break;
                 case RtcMultiBeamHelper.MultiBeamModes.Head2:
 
-                    success &= await siriusEditorControl2.Marker?.Stop();
+                    success &= await siriusMultiEditorControl1.Markers[1]?.Stop();
                     break;
                 case RtcMultiBeamHelper.MultiBeamModes.Both:
-                    var t1 = siriusEditorControl1.Marker?.Stop();
-                    var t2 = siriusEditorControl2.Marker?.Stop();
+                    var t1 = siriusMultiEditorControl1.Markers[0]?.Stop();
+                    var t2 = siriusMultiEditorControl1.Markers[1]?.Stop();
 
                     await Task.WhenAll(t1, t2);
 
@@ -278,14 +278,18 @@ namespace Demos
                 case RtcMultiBeamHelper.MultiBeamModes.None:
                     break;
                 case RtcMultiBeamHelper.MultiBeamModes.Head1:
-                    success &= siriusEditorControl1.Marker.Reset();
+                    if (null != siriusMultiEditorControl1.Markers[0])
+                        success &= siriusMultiEditorControl1.Markers[0].Reset();
                     break;
                 case RtcMultiBeamHelper.MultiBeamModes.Head2:
-                    success &= siriusEditorControl2.Marker.Reset();
+                    if (null != siriusMultiEditorControl1.Markers[1])
+                        success &= siriusMultiEditorControl1.Markers[1].Reset();
                     break;
                 case RtcMultiBeamHelper.MultiBeamModes.Both:
-                    success &= siriusEditorControl1.Marker.Reset();
-                    success &= siriusEditorControl2.Marker.Reset();
+                    if (null != siriusMultiEditorControl1.Markers[0])
+                        success &= siriusMultiEditorControl1.Markers[0].Reset();
+                    if (null != siriusMultiEditorControl1.Markers[1])
+                        success &= siriusMultiEditorControl1.Markers[1].Reset();
                     break;
             }
         }
