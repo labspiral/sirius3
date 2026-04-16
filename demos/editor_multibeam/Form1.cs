@@ -100,6 +100,8 @@ namespace Demos
                 EditorHelper.CreateDevices(index, 0, laser, out var rtcMultiBeam, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
                 siriusEditorControl1.RegisterDevices(rtcMultiBeam, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
                 marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtcMultiBeam, laser, null);
+
+                RenameDIOs(dInExt1, dOutExt1);
             }
 
             {
@@ -107,11 +109,58 @@ namespace Demos
                 EditorHelper.CreateDevices(index, 1, laser, out var rtcMultiBeam, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
                 siriusEditorControl2.RegisterDevices(rtcMultiBeam, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
                 marker.Ready(siriusEditorControl2.Document, siriusEditorControl2.View, rtcMultiBeam, laser, null);
+
+                RenameDIOs(dInExt1, dOutExt1);
             }
 
             // To get notification for 'RtcMultiBeamHelper.Modes' has changed
             RtcMultiBeamHelper.PropertyChanged += RtcMultiBeamHelper_PropertyChanged;
             RtcMultiBeamHelper_PropertyChanged(null, null);
+        }
+
+
+        void RenameDIOs(IDInput dInExt1, IDOutput dOutExt1)
+        {
+            dInExt1.ChannelNames = new string[1][] {
+                new string[16] {
+                    "TOKEN",
+                    "D01",
+                    "D02",
+                    "D03",
+                    "D04",
+                    "D05",
+                    "D06",
+                    "D07",
+                    "D08",
+                    "D09",
+                    "D10",
+                    "D11",
+                    "D12",
+                    "D13",
+                    "D14",
+                    "D15",
+                }};
+
+            dOutExt1.ChannelNames = new string[1][] {
+                new string[16] {
+                    "TOKEN",
+                    "AOM",
+                    "D02",
+                    "D03",
+                    "D04",
+                    "D05",
+                    "D06",
+                    "D07",
+                    "D08",
+                    "D09",
+                    "D10",
+                    "D11",
+                    "D12",
+                    "D13",
+                    "D14",
+                    "D15",
+                }};
+
         }
 
         private void RtcMultiBeamHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

@@ -33,7 +33,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - Also, SCANAhead, Encoder Speed Addition, Inverse Speed Correction, Backward Transformation, SDC+Skywriting combinations available
 - Scanner Field Correction
    - 2D correction 
-   - 3D correction for stretch, focus calibration
+   - 3D correction for tilt, focus, coefficient a,b,c and stretch factors
 - Laser Power Control
    - Frequency, Duty Cycle, Analog, Digital
    - Built-in vendor integrations: AdvancedOptoWave, Coherent, IPG, JPT, Photonics Industry, Spectra Physics and more
@@ -48,7 +48,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - QR, DataMatrix, PDF417 Barcodes
    - 3D Mesh Format like as STL, OBJ, PLY
 - Document and pages
-   - Multiple documents and pages
+   - Single document has multiple pages 
    - One document can be rendered for multiple view targets
 - Open Architecture
    - Editor, Marker and laser-source control code are open for customization

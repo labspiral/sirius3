@@ -33,7 +33,7 @@
    - 또한 SCANAhead, Encoder Speed Addition, Inverse Speed Correction, Backward Transformation, SDC+Skywriting 조합 사용 가능
 - 스캐너 필드 보정
    - 2D 보정
-   - 3D 보정 (포커스 및 Z 공간 스트레치 보상 지원)
+   - 3D 보정 (기울어짐, 포커스, a,b,c 계수 및 스트레치 보정 지원)
 - 레이저 파워 제어
    - 주파수, 펄스폭, 아나로그, 디지털 출력
    - 레이저 소스 벤더 지원: AdvancedOptoWave, Coherent, IPG, JPT, Photonics Industry, Spectra Physics 등

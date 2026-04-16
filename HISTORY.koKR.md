@@ -1,8 +1,10 @@
 ﻿# Sirius3 버전 이력
 
-## v1.7.0 (2026.4.16)
+## v1.7.1 (2026.4.16)
 - updated) RTC6 v1.24.0 패키지
     - 2026.3.31 릴리즈 버전으로 업데이트
+- added) Rtc4MultiBeam
+    - RTC4 도 멀티빔 옵션 지원
 - fixed) IMarker 
     - 비동기 처리 지원 (오픈 소스 변경됨)
     - 쓰레드 대신 태스크 사용으로 변경 및 상속 구현하는 방식으로 리팩토링
@@ -21,6 +23,8 @@
     - Coeff A,B,C 계수에 대한 16, 20 비트 해상도 처리
     - Correction3DRtcForm 을 이용한 데이타 조작 개선
 - fixed) 메모리 누수 
+- fixed) SnapShot 을 통한 뷰 이미지 저장 버그 수정
+- fixed) C# 스크립트 실행 속도 개선
 
 ## v1.6.1 (2026.4.9)
 - added) ViewerControl 

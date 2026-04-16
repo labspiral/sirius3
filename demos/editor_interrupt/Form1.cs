@@ -74,15 +74,7 @@ namespace Demos
             rtcInterrupt.OnInterrupt -= RtcInterrupt_OnInterrupt;
             rtcInterrupt.OnInterrupt += RtcInterrupt_OnInterrupt;
 
-            siriusEditorControl1.Scanner = rtc;
-            siriusEditorControl1.Laser = laser;
-            siriusEditorControl1.DIExt1 = dInExt1;
-            siriusEditorControl1.DOExt1 = dOutExt1;
-            siriusEditorControl1.DOExt2 = dOutExt2;
-            siriusEditorControl1.DILaserPort = dInLaserPort;
-            siriusEditorControl1.DOLaserPort = dOutLaserPort;
-            siriusEditorControl1.PowerMeter = powerMeter;
-            siriusEditorControl1.Marker = marker;
+            siriusEditorControl1.RegisterDevices(rtc, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
             CreateEntities(siriusEditorControl1.Document);
 

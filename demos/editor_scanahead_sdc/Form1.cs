@@ -53,7 +53,6 @@ namespace Demos
                 // Dispose instances 
                 siriusEditorControl1.DisposeDevices();
 
-
                 // Dispose document
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
@@ -100,7 +99,6 @@ namespace Demos
             // 이 값을 Actual-Command 차이값이 범위를 넘는지 여부를 모니터링 할기 위해 더 작게 설정할 수 있습니다.
             rtc6.PositionACKLimit = 0.01; //10um
 
-
             // 이 상태(Rtc6 + SCANAhead + Auto delays)로 SiriusEditorControl 에 Rtc 가 할당되면,
             // 아래 항목들이 사용되지 않으므로 속성창에서 Invisible 상태가 됩니다. 
             //
@@ -110,16 +108,8 @@ namespace Demos
             // EntityLayerPen :
             //  IsVariablePolygonDelay, VariablePolygonDelayEdgeLevel 않보임
             //  IsVariableJumpDelay, VariableJumpDelayMin, VariableJumpDelayLimitLength 않보임
-            //
-            siriusEditorControl1.Scanner = rtc;
-            siriusEditorControl1.Laser = laser;
-            siriusEditorControl1.DIExt1 = dInExt1;
-            siriusEditorControl1.DOExt1 = dOutExt1;
-            siriusEditorControl1.DOExt2 = dOutExt2;
-            siriusEditorControl1.DILaserPort = dInLaserPort;
-            siriusEditorControl1.DOLaserPort = dOutLaserPort;
-            siriusEditorControl1.PowerMeter = powerMeter;
-            siriusEditorControl1.Marker = marker;
+            
+            siriusEditorControl1.RegisterDevices(rtc, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
             var document = siriusEditorControl1.Document;
 

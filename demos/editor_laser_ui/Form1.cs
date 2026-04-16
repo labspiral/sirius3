@@ -62,7 +62,6 @@ namespace Demos
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
-            siriusEditorControl1.Scanner = rtc;
 
             // register create laser ui event to create custom laser ui control at laser tab page
             // do before set 'SiriusEditorControl.Laser = laser' 
@@ -71,15 +70,8 @@ namespace Demos
             // create my custom laser but built-in laser 
             //siriusEditorControl1.Laser = laser;
             var myLaser = new MyLaserSource();
-            siriusEditorControl1.Laser = myLaser;
 
-            siriusEditorControl1.DIExt1 = dInExt1;
-            siriusEditorControl1.DOExt1 = dOutExt1;
-            siriusEditorControl1.DOExt2 = dOutExt2;
-            siriusEditorControl1.DILaserPort = dInLaserPort;
-            siriusEditorControl1.DOLaserPort = dOutLaserPort;
-            siriusEditorControl1.PowerMeter = powerMeter;
-            siriusEditorControl1.Marker = marker;
+            siriusEditorControl1.RegisterDevices(rtc, myLaser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }

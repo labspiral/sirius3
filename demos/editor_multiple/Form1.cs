@@ -76,24 +76,10 @@ namespace Demos
             {
                 EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker, i);
 
-                EditorControls[i].Scanner = rtc;
-
-                EditorControls[i].Laser = laser;
-
-                EditorControls[i].DIExt1 = dInExt1;
-                EditorControls[i].DOExt1 = dOutExt1;
-                EditorControls[i].DOExt2 = dOutExt2;
-                EditorControls[i].DILaserPort = dInLaserPort;
-                EditorControls[i].DOLaserPort = dOutLaserPort;
-
-                EditorControls[i].PowerMeter = powerMeter;
-
-                EditorControls[i].Marker = marker;
+                EditorControls[i].RegisterDevices(rtc, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
                 marker.Ready(EditorControls[i].Document, EditorControls[i].View, rtc, laser, powerMeter);
-
             }
         }
-
     }
 }

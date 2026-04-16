@@ -264,6 +264,8 @@ namespace Demos
             success &= rtc.CtlFrequency(50 * 1000, 2);
             // Default jump and mark speed: 500 mm/s
             success &= rtc.CtlSpeed(500, 500);
+
+            rtc.OnCorrectionTable += Rtc_OnCorrectionTable;
             #endregion
 
             #region Initialize Powermeter
@@ -475,6 +477,16 @@ namespace Demos
 
             Debug.Assert(success);
             return success;
+        }
+
+        private static void Rtc_OnCorrectionTable(IRtc rtc, CorrectionTables correctionTable, string fileName)
+        {
+            //if (correctionTable == CorrectionTables.Table1)
+            //{
+            //    var index = rtc.Index;
+            //    var fileNameOnly = Path.GetFileName(fileName);
+            //    NativeMethods.WriteIni<string>(ConfigFileName, $"RTC{index}", "CORRECTION", fileNameOnly);
+            //}
         }
 
         /// <summary>

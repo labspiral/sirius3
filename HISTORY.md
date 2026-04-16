@@ -1,6 +1,6 @@
 ﻿# Sirius3 version history
 
-## v1.7.0 (2026.4.16)
+## v1.7.1 (2026.4.16)
 - updated) RTC6 v1.24.0 package
     - Release version: March 31, 2026
 - fixed) IMarker
@@ -21,6 +21,8 @@
     - 16-bit and 20-bit resolution processing for coefficients A, B, and C
     - Improvements to data manipulation using Correction3DRtcForm
 - fixed) memory leak
+- fixed) Fixed a bug related to saving view images via Snapshot
+- fixed) Improved C# script execution speed
  
 ## v1.6.1 (2026.4.9)
 - added) ViewerControl 

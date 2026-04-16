@@ -111,7 +111,7 @@ namespace Demos
             bool success = true;
 
             #region Initialize RTC controller
-            string rtcType = NativeMethods.ReadIni(ConfigFileName, $"RTC{index}", "TYPE", "Rtc6");
+            string rtcType = NativeMethods.ReadIni(ConfigFileName, $"RTC{index}", "TYPE", "rtcvirtualmultimeam");
             int rtcId = NativeMethods.ReadIni<int>(ConfigFileName, $"RTC{index}", "ID", index);
 
             // FOV size (mm)
@@ -134,7 +134,11 @@ namespace Demos
                 default:
                 case "rtcvirtualmultimeam":
                     rtcMultiBeam = ScannerFactory.CreateRtcVirtualMultiBeam(index, multiBeamIndex, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath); 
-                    break;               
+                    break;
+                case "rtc4multibeam":
+                    // Invalid name :) will be fixed. ASAP !
+                    rtcMultiBeam = ScannerFactory.CreateRt45MultiBeam(index, multiBeamIndex, kfactor, laserMode, correctionPath);
+                    break;
                 case "rtc5multibeam":
                     rtcMultiBeam = ScannerFactory.CreateRtc5MultiBeam(index, multiBeamIndex, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath);
                     break;
@@ -200,6 +204,8 @@ namespace Demos
             success &= rtc.CtlFrequency(50 * 1000, 2);
             // Default jump and mark speed: 500 mm/s
             success &= rtc.CtlSpeed(500, 500);
+
+            rtc.OnCorrectionTable += Rtc_OnCorrectionTable;
             #endregion
 
             #region Initialize Powermeter
@@ -289,6 +295,7 @@ namespace Demos
                 case "rtcvirtualmultibeam":
                     marker = MarkerFactory.CreateVirtual(index);
                     break;
+                case "rtc4multibeam":
                 case "rtc5multibeam":
                 case "rtc6multibeam":
                 case "rtc6ethernetmultibeam":
@@ -425,6 +432,17 @@ namespace Demos
             return success;
         }
 
+        private static void Rtc_OnCorrectionTable(IRtc rtc, CorrectionTables correctionTable, string fileName)
+        {
+            //if (correctionTable == CorrectionTables.Table1)
+            //{
+            //    var index = rtc.Index;
+            //    var fileNameOnly = Path.GetFileName(fileName);
+            //    NativeMethods.WriteIni<string>(ConfigFileName, $"RTC{index}", "CORRECTION", fileNameOnly);
+            //}
+        }
+
+
         internal static void PowerMap_OnMappingOpened(IPowerMap powerMap, string fileName)
         {
             //var index = powerMap.Index;
@@ -438,7 +456,8 @@ namespace Demos
             var index = powerMap.Index;
             // File path should be in "powermap\"
             var fileNameOnly = Path.GetFileName(fileName);
-            NativeMethods.WriteIni<string>(ConfigFileName, $"LASER{index}", "POWERMAP_FILE", fileNameOnly);
+            //NativeMethods.WriteIni<string>(ConfigFileName, $"LASER{index}", "POWERMAP_FILE", fileNameOnly);
+            NativeMethods.WriteIni<string>(ConfigFileName, $"LASER0", "POWERMAP_FILE", fileNameOnly);
         }
 
     }

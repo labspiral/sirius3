@@ -16,7 +16,6 @@ using SpiralLab.Sirius3.Mathematics;
 using System.Diagnostics;
 using SpiralLab.Sirius3;
 
-
 #if OPENTK3
 using OpenTK;
 using DVec2 = OpenTK.Vector2d;
@@ -79,15 +78,7 @@ namespace Demos
             var inputCtFileName = rtc.CorrectionFiles[(int)rtc.PrimaryHeadTable].FileName;
             Debug.Assert(inputCtFileName.Contains("D3_"));
 
-            siriusEditorControl1.Scanner = rtc;
-            siriusEditorControl1.Laser = laser;
-            siriusEditorControl1.DIExt1 = dInExt1;
-            siriusEditorControl1.DOExt1 = dOutExt1;
-            siriusEditorControl1.DOExt2 = dOutExt2;
-            siriusEditorControl1.DILaserPort = dInLaserPort;
-            siriusEditorControl1.DOLaserPort = dOutLaserPort;
-            siriusEditorControl1.PowerMeter = powerMeter;
-            siriusEditorControl1.Marker = marker;
+            siriusEditorControl1.RegisterDevices(rtc, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }

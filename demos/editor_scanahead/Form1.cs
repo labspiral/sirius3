@@ -84,7 +84,6 @@ namespace Demos
             // 활성화 되었는지 재차 확인
             Debug.Assert(rtc6.IsActivateAutoDelays);
 
-
             // Trajectory Acknowledge 
             // Trajectory Acknowledge OK 여부를 rtc.CtlGetStatus(RtcStatus.PositionAckOK) 함수로 확인할 수 있습니다.
             // (참고) SCANAhead 의 경우 Position Ack OK 상태가 Trajectory ACK Ok 로 처리됩니다.
@@ -108,16 +107,8 @@ namespace Demos
             // EntityLayerPen :
             //  IsVariablePolygonDelay, VariablePolygonDelayEdgeLevel 않보임
             //  IsVariableJumpDelay, VariableJumpDelayMin, VariableJumpDelayLimitLength 않보임
-            //
-            siriusEditorControl1.Scanner = rtc;
-            siriusEditorControl1.Laser = laser;
-            siriusEditorControl1.DIExt1 = dInExt1;
-            siriusEditorControl1.DOExt1 = dOutExt1;
-            siriusEditorControl1.DOExt2 = dOutExt2;
-            siriusEditorControl1.DILaserPort = dInLaserPort;
-            siriusEditorControl1.DOLaserPort = dOutLaserPort;
-            siriusEditorControl1.PowerMeter = powerMeter;
-            siriusEditorControl1.Marker = marker;
+            
+            siriusEditorControl1.RegisterDevices(rtc, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
