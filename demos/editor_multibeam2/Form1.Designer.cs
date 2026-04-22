@@ -28,120 +28,226 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblMode = new System.Windows.Forms.Label();
-            this.btnCheckPins = new System.Windows.Forms.Button();
-            this.btnNone = new System.Windows.Forms.Button();
-            this.btnHead1 = new System.Windows.Forms.Button();
-            this.btnHead2 = new System.Windows.Forms.Button();
-            this.btnHead12 = new System.Windows.Forms.Button();
-            this.btnStart = new System.Windows.Forms.Button();
-            this.btnStop = new System.Windows.Forms.Button();
-            this.btnReset = new System.Windows.Forms.Button();
-            this.siriusMultiEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusMultiEditorControl();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rbModeNone = new System.Windows.Forms.RadioButton();
+            this.rbModeHead1 = new System.Windows.Forms.RadioButton();
+            this.rbModeHead2 = new System.Windows.Forms.RadioButton();
+            this.rbModeBoth = new System.Windows.Forms.RadioButton();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rbHead1Side = new System.Windows.Forms.RadioButton();
+            this.rbHead2Side = new System.Windows.Forms.RadioButton();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnReady = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.btnCheckPins = new System.Windows.Forms.Button();
+            this.siriusMultiEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusMultiEditorControl();
             this.flowLayoutPanel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.lblMode);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox1);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox2);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox3);
             this.flowLayoutPanel1.Controls.Add(this.btnCheckPins);
-            this.flowLayoutPanel1.Controls.Add(this.btnNone);
-            this.flowLayoutPanel1.Controls.Add(this.btnHead1);
-            this.flowLayoutPanel1.Controls.Add(this.btnHead2);
-            this.flowLayoutPanel1.Controls.Add(this.btnHead12);
-            this.flowLayoutPanel1.Controls.Add(this.btnReady);
-            this.flowLayoutPanel1.Controls.Add(this.btnStart);
-            this.flowLayoutPanel1.Controls.Add(this.btnStop);
-            this.flowLayoutPanel1.Controls.Add(this.btnReset);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1264, 38);
-            this.flowLayoutPanel1.TabIndex = 6;
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1264, 85);
+            this.flowLayoutPanel1.TabIndex = 11;
             // 
-            // lblMode
+            // groupBox1
             // 
-            this.lblMode.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMode.Location = new System.Drawing.Point(3, 0);
-            this.lblMode.Name = "lblMode";
-            this.lblMode.Size = new System.Drawing.Size(123, 35);
-            this.lblMode.TabIndex = 5;
-            this.lblMode.Text = "Mode : ";
-            this.lblMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.groupBox1.Controls.Add(this.rbModeNone);
+            this.groupBox1.Controls.Add(this.rbModeHead1);
+            this.groupBox1.Controls.Add(this.rbModeHead2);
+            this.groupBox1.Controls.Add(this.rbModeBoth);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(296, 76);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Mode";
             // 
-            // btnCheckPins
+            // rbModeNone
             // 
-            this.btnCheckPins.Location = new System.Drawing.Point(132, 3);
-            this.btnCheckPins.Name = "btnCheckPins";
-            this.btnCheckPins.Size = new System.Drawing.Size(100, 32);
-            this.btnCheckPins.TabIndex = 6;
-            this.btnCheckPins.Text = "Check Pins";
-            this.btnCheckPins.UseVisualStyleBackColor = true;
+            this.rbModeNone.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbModeNone.Checked = true;
+            this.rbModeNone.Location = new System.Drawing.Point(10, 24);
+            this.rbModeNone.Name = "rbModeNone";
+            this.rbModeNone.Size = new System.Drawing.Size(64, 42);
+            this.rbModeNone.TabIndex = 12;
+            this.rbModeNone.TabStop = true;
+            this.rbModeNone.Text = "None";
+            this.rbModeNone.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rbModeNone.UseVisualStyleBackColor = true;
             // 
-            // btnNone
+            // rbModeHead1
             // 
-            this.btnNone.Location = new System.Drawing.Point(238, 3);
-            this.btnNone.Name = "btnNone";
-            this.btnNone.Size = new System.Drawing.Size(100, 32);
-            this.btnNone.TabIndex = 4;
-            this.btnNone.Text = "Select NONE";
-            this.btnNone.UseVisualStyleBackColor = true;
+            this.rbModeHead1.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbModeHead1.Location = new System.Drawing.Point(80, 24);
+            this.rbModeHead1.Name = "rbModeHead1";
+            this.rbModeHead1.Size = new System.Drawing.Size(64, 42);
+            this.rbModeHead1.TabIndex = 13;
+            this.rbModeHead1.TabStop = true;
+            this.rbModeHead1.Text = "Head 1";
+            this.rbModeHead1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rbModeHead1.UseVisualStyleBackColor = true;
             // 
-            // btnHead1
+            // rbModeHead2
             // 
-            this.btnHead1.Location = new System.Drawing.Point(344, 3);
-            this.btnHead1.Name = "btnHead1";
-            this.btnHead1.Size = new System.Drawing.Size(100, 32);
-            this.btnHead1.TabIndex = 0;
-            this.btnHead1.Text = "Select HEAD1";
-            this.btnHead1.UseVisualStyleBackColor = true;
+            this.rbModeHead2.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbModeHead2.Location = new System.Drawing.Point(150, 24);
+            this.rbModeHead2.Name = "rbModeHead2";
+            this.rbModeHead2.Size = new System.Drawing.Size(64, 42);
+            this.rbModeHead2.TabIndex = 14;
+            this.rbModeHead2.TabStop = true;
+            this.rbModeHead2.Text = "Head 2";
+            this.rbModeHead2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rbModeHead2.UseVisualStyleBackColor = true;
             // 
-            // btnHead2
+            // rbModeBoth
             // 
-            this.btnHead2.Location = new System.Drawing.Point(450, 3);
-            this.btnHead2.Name = "btnHead2";
-            this.btnHead2.Size = new System.Drawing.Size(100, 32);
-            this.btnHead2.TabIndex = 2;
-            this.btnHead2.Text = "Select HEAD2";
-            this.btnHead2.UseVisualStyleBackColor = true;
+            this.rbModeBoth.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbModeBoth.Location = new System.Drawing.Point(220, 24);
+            this.rbModeBoth.Name = "rbModeBoth";
+            this.rbModeBoth.Size = new System.Drawing.Size(64, 42);
+            this.rbModeBoth.TabIndex = 15;
+            this.rbModeBoth.TabStop = true;
+            this.rbModeBoth.Text = "Both";
+            this.rbModeBoth.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rbModeBoth.UseVisualStyleBackColor = true;
             // 
-            // btnHead12
+            // groupBox2
             // 
-            this.btnHead12.Location = new System.Drawing.Point(556, 3);
-            this.btnHead12.Name = "btnHead12";
-            this.btnHead12.Size = new System.Drawing.Size(100, 32);
-            this.btnHead12.TabIndex = 3;
-            this.btnHead12.Text = "Select BOTH";
-            this.btnHead12.UseVisualStyleBackColor = true;
+            this.groupBox2.Controls.Add(this.rbHead1Side);
+            this.groupBox2.Controls.Add(this.rbHead2Side);
+            this.groupBox2.Location = new System.Drawing.Point(305, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(162, 76);
+            this.groupBox2.TabIndex = 13;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Prefer (Both Only)";
             // 
-            // btnStart
+            // rbHead1Side
             // 
-            this.btnStart.Location = new System.Drawing.Point(768, 3);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(100, 32);
-            this.btnStart.TabIndex = 7;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
+            this.rbHead1Side.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbHead1Side.Checked = true;
+            this.rbHead1Side.Image = ((System.Drawing.Image)(resources.GetObject("rbHead1Side.Image")));
+            this.rbHead1Side.Location = new System.Drawing.Point(16, 24);
+            this.rbHead1Side.Name = "rbHead1Side";
+            this.rbHead1Side.Size = new System.Drawing.Size(64, 42);
+            this.rbHead1Side.TabIndex = 6;
+            this.rbHead1Side.TabStop = true;
+            this.rbHead1Side.Text = "Head 1";
+            this.rbHead1Side.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.rbHead1Side.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.rbHead1Side.UseVisualStyleBackColor = true;
             // 
-            // btnStop
+            // rbHead2Side
             // 
-            this.btnStop.Location = new System.Drawing.Point(874, 3);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(100, 32);
-            this.btnStop.TabIndex = 1;
-            this.btnStop.Text = "Stop";
-            this.btnStop.UseVisualStyleBackColor = true;
+            this.rbHead2Side.Appearance = System.Windows.Forms.Appearance.Button;
+            this.rbHead2Side.Image = ((System.Drawing.Image)(resources.GetObject("rbHead2Side.Image")));
+            this.rbHead2Side.Location = new System.Drawing.Point(86, 24);
+            this.rbHead2Side.Name = "rbHead2Side";
+            this.rbHead2Side.Size = new System.Drawing.Size(64, 42);
+            this.rbHead2Side.TabIndex = 7;
+            this.rbHead2Side.TabStop = true;
+            this.rbHead2Side.Text = "Head 2";
+            this.rbHead2Side.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.rbHead2Side.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.rbHead2Side.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btnReady);
+            this.groupBox3.Controls.Add(this.btnReset);
+            this.groupBox3.Controls.Add(this.btnStop);
+            this.groupBox3.Controls.Add(this.btnStart);
+            this.groupBox3.Location = new System.Drawing.Point(473, 3);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(313, 76);
+            this.groupBox3.TabIndex = 14;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Control";
+            // 
+            // btnReady
+            // 
+            this.btnReady.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnReady.Image = ((System.Drawing.Image)(resources.GetObject("btnReady.Image")));
+            this.btnReady.Location = new System.Drawing.Point(16, 24);
+            this.btnReady.Name = "btnReady";
+            this.btnReady.Size = new System.Drawing.Size(64, 42);
+            this.btnReady.TabIndex = 72;
+            this.btnReady.Text = "Ready";
+            this.btnReady.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnReady.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnReady.UseVisualStyleBackColor = false;
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(980, 3);
+            this.btnReset.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnReset.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnReset.Image = ((System.Drawing.Image)(resources.GetObject("btnReset.Image")));
+            this.btnReset.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnReset.Location = new System.Drawing.Point(231, 24);
+            this.btnReset.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(100, 32);
-            this.btnReset.TabIndex = 8;
+            this.btnReset.Size = new System.Drawing.Size(64, 42);
+            this.btnReset.TabIndex = 71;
             this.btnReset.Text = "Reset";
-            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnReset.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnReset.UseVisualStyleBackColor = false;
+            // 
+            // btnStop
+            // 
+            this.btnStop.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnStop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
+            this.btnStop.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnStop.Location = new System.Drawing.Point(159, 24);
+            this.btnStop.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(64, 42);
+            this.btnStop.TabIndex = 70;
+            this.btnStop.Text = "Stop";
+            this.btnStop.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnStop.UseVisualStyleBackColor = false;
+            // 
+            // btnStart
+            // 
+            this.btnStart.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnStart.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStart.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnStart.Image = ((System.Drawing.Image)(resources.GetObject("btnStart.Image")));
+            this.btnStart.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnStart.Location = new System.Drawing.Point(87, 24);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(64, 42);
+            this.btnStart.TabIndex = 69;
+            this.btnStart.Text = "Start";
+            this.btnStart.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnStart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnStart.UseVisualStyleBackColor = false;
+            // 
+            // btnCheckPins
+            // 
+            this.btnCheckPins.Location = new System.Drawing.Point(792, 3);
+            this.btnCheckPins.Name = "btnCheckPins";
+            this.btnCheckPins.Size = new System.Drawing.Size(64, 76);
+            this.btnCheckPins.TabIndex = 17;
+            this.btnCheckPins.Text = "Check Pins";
+            this.btnCheckPins.UseVisualStyleBackColor = true;
             // 
             // siriusMultiEditorControl1
             // 
@@ -151,21 +257,12 @@
             this.siriusMultiEditorControl1.IsPropertyGridWindow = true;
             this.siriusMultiEditorControl1.IsShowLogWindow = true;
             this.siriusMultiEditorControl1.IsShowTreeViewAndPen = true;
-            this.siriusMultiEditorControl1.Location = new System.Drawing.Point(0, 38);
+            this.siriusMultiEditorControl1.Location = new System.Drawing.Point(0, 85);
             this.siriusMultiEditorControl1.Margin = new System.Windows.Forms.Padding(0);
             this.siriusMultiEditorControl1.MaxDeviceCounts = 4;
             this.siriusMultiEditorControl1.Name = "siriusMultiEditorControl1";
-            this.siriusMultiEditorControl1.Size = new System.Drawing.Size(1264, 823);
-            this.siriusMultiEditorControl1.TabIndex = 8;
-            // 
-            // btnReady
-            // 
-            this.btnReady.Location = new System.Drawing.Point(662, 3);
-            this.btnReady.Name = "btnReady";
-            this.btnReady.Size = new System.Drawing.Size(100, 32);
-            this.btnReady.TabIndex = 9;
-            this.btnReady.Text = "Ready";
-            this.btnReady.UseVisualStyleBackColor = true;
+            this.siriusMultiEditorControl1.Size = new System.Drawing.Size(1264, 776);
+            this.siriusMultiEditorControl1.TabIndex = 12;
             // 
             // Form1
             // 
@@ -179,6 +276,9 @@
             this.Name = "Form1";
             this.Text = "Sirius3 Demo - (c)SpiralLAB";
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -186,16 +286,20 @@
         #endregion
 
         private FlowLayoutPanel flowLayoutPanel1;
-        private Button btnHead1;
-        private Button btnHead2;
-        private Button btnHead12;
+        private GroupBox groupBox1;
+        private RadioButton rbModeNone;
+        private RadioButton rbModeHead1;
+        private RadioButton rbModeHead2;
+        private RadioButton rbModeBoth;
+        private GroupBox groupBox2;
+        private RadioButton rbHead1Side;
+        private RadioButton rbHead2Side;
+        private GroupBox groupBox3;
+        private Button btnReady;
+        private Button btnReset;
         private Button btnStop;
-        private Button btnNone;
-        private Label lblMode;
+        private Button btnStart;
         private Button btnCheckPins;
         private SpiralLab.Sirius3.UI.WinForms.SiriusMultiEditorControl siriusMultiEditorControl1;
-        private Button btnStart;
-        private Button btnReset;
-        private Button btnReady;
     }
 }

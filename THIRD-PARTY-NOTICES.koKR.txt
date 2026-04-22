@@ -78,6 +78,11 @@ Be.HexEditor
   저작권  : Copyright (c) 2011 Bernhard Elbl
   소스    : https://sourceforge.net/projects/hexbox/
 
+MQTTnet 
+  버전   : 3.1.2, 5.1.0
+  라이선스: MIT
+  소스    : https://github.com/dotnet/MQTTnet
+
 Microsoft .NET / .NET 8 (대상 플랫폼)
   라이선스: MIT 
   소스    : https://github.com/dotnet/runtime

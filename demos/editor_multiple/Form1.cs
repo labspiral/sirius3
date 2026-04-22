@@ -59,7 +59,7 @@ namespace Demos
 
                 // Dispose instances 
                 for (int i = 0; i < editorCount; i++)
-                    EditorHelper.DestroyDevices(EditorControls[i]);
+                    EditorControls[i].DisposeDevices();
 
                 // Clean up SIRIUS3 library
                 SpiralLab.Sirius3.Core.Cleanup();

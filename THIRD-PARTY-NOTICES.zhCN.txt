@@ -77,6 +77,11 @@ Be.HexEditor
   版权   : Copyright (c) 2011 Bernhard Elbl
   源码   : https://sourceforge.net/projects/hexbox/
 
+MQTTnet 
+  版本   : 3.1.2, 5.1.0
+  许可   : MIT
+  源码   : https://github.com/dotnet/MQTTnet
+
 Microsoft .NET / .NET 8 (目标平台)
   许可   : MIT 
   源码   : https://github.com/dotnet/runtime

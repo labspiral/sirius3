@@ -44,6 +44,9 @@ namespace Demos
     {
         public Form1()
         {
+            // Initialize SIRIUS3 library
+            SpiralLab.Sirius3.Core.Initialize();
+
             InitializeComponent();
             this.Load += Form1_Load;
             this.FormClosing += (s, e) =>
@@ -79,8 +82,7 @@ namespace Demos
             Thread.CurrentThread.CurrentCulture = cultureInfo;
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
-            // Initialize SIRIUS3 library
-            SpiralLab.Sirius3.Core.Initialize();
+      
 
             // Create devices
             CreateDevices();

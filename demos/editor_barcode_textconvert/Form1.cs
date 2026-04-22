@@ -151,8 +151,11 @@ namespace Demos
                 {
                     // set text converter as event handler
                     textConvertible.IsAllowConvert = true;
+                    var expr1 = "DateTime.Now.ToString(\"yyyy-MM-dd HH:mm:ss\")";
+                    //var expr2 = $"\"ABC 123 \" + DateTime.Now.ToString(\"yyyy-MM-dd HH:mm:ss\")";
+                    var expr3 = $"\"ABC 123 {DateTime.Now:yyyy-MM-dd HH:mm:ss}\"";
+                    textConvertible.SourceText = expr1;
                     textConvertible.TextConverter = TextConverters.SimpleScript;
-                    textConvertible.SourceText = @"$""SCRIPT {DateTime.Now.ToString(""HH:mm:ss"")}""";
                 }
             }
 

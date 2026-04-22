@@ -1,0 +1,30 @@
+# SiriusEditorControl User Manual
+
+
+## 1. 개요 (Overview)
+
+SiriusEditorControl은 Sirius3 프레임워크의 가장 핵심적인 WinForms 컨트롤입니다. OpenGL 기반의 고성능 2D/3D 그래픽 편집 화면과 레이저 가공에 필요한 모든 하드웨어 제어(Scanner, Laser, Marker 등) UI가 통합되어 있습니다. 
+
+## 2. 주요 UI 구성 (UI Components)
+
+- 중앙 편집기 (Editor): OpenGL을 사용하여 도면 엔티티를 시각화하고 마우스로 직접 편집(선택, 이동, 회전, 스케일)할 수 있는 화면입니다.
+- 좌측 탭 (Left Tabs): 
+  - Page 1~4: 문서 내의 논리적 페이지를 전환합니다.
+  - Block: 재사용 가능한 블록(Block) 엔티티들을 관리합니다.
+- 하단 상태바 및 로그: 실시간 가공 시간, 인코더 위치, 측정 파워 등을 표시하며 'Log' 버튼을 통해 시스템 로그 창을 토글할 수 있습니다.
+- 우측 속성창 (PropertyGrid): 선택된 엔티티의 상세 파라미터(좌표, 펜 설정, 지연 시간 등)를 수정합니다.
+- 펜 제어 (Pens): 가공 조건을 결정하는 Entity Pen과 Layer Pen을 관리합니다.
+
+## 3. 하드웨어 및 마커 연동 (Device Integration)
+
+이 컨트롤은 단일 문서(`IDocument`)에 대해 하나의 하드웨어 세트(Scanner, Laser, PowerMeter, DIOs, ...)를 바인딩하여 사용합니다. 
+- RegisterDevices: 외부에서 생성된 하드웨어 인스턴스들을 이 컨트롤에 등록하면 내부의 모든 하위 컨트롤(ScannerControl, LaserControl 등)이 자동으로 해당 하드웨어에 연결됩니다.
+
+## 4. 주요 기능 (Key Features)
+
+- 문서 관리: New, Open, Save 버튼을 통해 가공 레시피(*.sirius3)를 관리합니다.
+- 가공 잠금 (Lock): 상단의 'Lock' 버튼을 클릭하면 뷰에서의 실수에 의한 편집을 방지할 수 있습니다.
+- 실시간 모니터링: 가공 중에는 하단의 프로그레스 바와 타이머가 활성화되어 현재 진행 상태를 시각적으로 보여줍니다.
+
+---
+2026 Copyright (c) SpiralLAB. All rights reserved.

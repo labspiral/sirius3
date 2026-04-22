@@ -1,5 +1,28 @@
 ﻿# Sirius3 version history
 
+## v1.8.1  (2026.4.22)
+- added) Remote
+    - Added the IRemote interface to support recipe changes, object property queries and modifications, and commands to start, stop, and reset marker processing via external communication, as well as the setting of processing offsets
+    - Serial communication supported
+    - TCP/IP communication supported
+    - WebSocket communication supported
+    - MQTT communication supported
+- added) Script
+    - Support for real-time modification of text data during machining using external C# script files
+    - Works with TextConverter.SimpleScript
+    - User-written C# scripts can be used in the Script folder
+    - ScriptInstance at IMarker 
+- added) SEMI OCR fonts
+    - Added .dot font files
+    - Support for dot fonts using the SiriusText 
+- fixed) IDocument
+    - Fixed a search error in FindByName
+- fixed) MultiBeamControl
+    - Fixed an error with button toggle states
+- fixed) Microsoft.Bcl.AsyncInterfaces dependency 
+    - Version 10.0.6
+    - Add the following: <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.6" />
+     
 ## v1.7.1 (2026.4.16)
 - updated) RTC6 v1.24.0 package
     - Release version: March 31, 2026

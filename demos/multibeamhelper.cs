@@ -43,6 +43,7 @@ using SpiralLab.Sirius3.PowerMap;
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Entity;
 using SpiralLab.Sirius3.Entity.Hatch;
+using SpiralLab.Sirius3.Remote;
 using SpiralLab.Sirius3.UI.WinForms;
 
 #if OPENTK3
@@ -136,8 +137,7 @@ namespace Demos
                     rtcMultiBeam = ScannerFactory.CreateRtcVirtualMultiBeam(index, multiBeamIndex, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath); 
                     break;
                 case "rtc4multibeam":
-                    // Invalid name :) will be fixed. ASAP !
-                    rtcMultiBeam = ScannerFactory.CreateRt45MultiBeam(index, multiBeamIndex, kfactor, laserMode, correctionPath);
+                    rtcMultiBeam = ScannerFactory.CreateRtc4MultiBeam(index, multiBeamIndex, kfactor, laserMode, correctionPath);
                     break;
                 case "rtc5multibeam":
                     rtcMultiBeam = ScannerFactory.CreateRtc5MultiBeam(index, multiBeamIndex, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath);
@@ -317,6 +317,12 @@ namespace Demos
             return success;
         }
 
+        /// <summary>
+        /// Create laser source by ini file configuration
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="laser"></param>
+        /// <returns></returns>
         public static bool CreateLaser(int index, out ILaser laser)
         {
             laser = null;
@@ -432,6 +438,65 @@ namespace Demos
             return success;
         }
 
+        /// <summary>
+        /// Create remote device
+        /// </summary>
+        /// <param name="marker"><c>IMarker</c></param>
+        /// <param name="remote">Created <c>IRemote</c></param>
+        /// <param name="index">Index (assign value if using multiple devices) (0,1,2,...)</param>
+        /// <returns>Success or failed</returns>
+        public static bool CreateRemote(IMarker marker, out IRemote remote, int index = 0)
+        {
+            remote = null;
+
+            bool success = true;
+
+            #region Remote
+            //var enableRemote = NativeMethods.ReadIni<int>(ConfigFileName, $"REMOTE{index}", "ENABLE", 0);
+            //if (0 != enableRemote)
+            {
+                string protocol = NativeMethods.ReadIni<string>(ConfigFileName, $"REMOTE{index}", $"PROTOCOL", "tcpip");
+                switch (protocol.ToLower().Trim())
+                {
+                    default:
+                    case "virtual":
+                        remote = RemoteFactory.CreateVirtual(index, "Virtual", marker);
+                        break;
+                    case "tcp":
+                    case "tcpip":
+                        int tcpPort = NativeMethods.ReadIni<int>(ConfigFileName, $"REMOTE{index}", $"TCP_PORT", 5001);
+                        remote = RemoteFactory.CreateTcpServer(index, "TCP/IP", marker, tcpPort);
+                        break;
+                    case "rs232":
+                    case "rs232c":
+                    case "serial":
+                        int serialPort = NativeMethods.ReadIni<int>(ConfigFileName, $"REMOTE{index}", $"SERIAL_PORT", 1);
+                        int serialBaudRate = NativeMethods.ReadIni<int>(ConfigFileName, $"REMOTE{index}", $"SERIAL_BAUDRATE", 57600);
+                        remote = RemoteFactory.CreateSerial(index, "Serial", marker, serialPort, serialBaudRate);
+                        break;
+                    case "web":
+                    case "websocket":
+                        string prefix = NativeMethods.ReadIni<string>(ConfigFileName, $"REMOTE{index}", $"WEB_PREFIX", "http://*:8080");
+                        remote = RemoteFactory.CreateWebSocket(index, "Web", marker, new string[] { prefix });
+                        break;
+                    case "mqtt":
+                    case "iot":
+                        string brokerAddress = NativeMethods.ReadIni<string>(ConfigFileName, $"REMOTE{index}", $"BROKER_ADDRESS", "127.0.0.1");
+                        int brokerPort = NativeMethods.ReadIni<int>(ConfigFileName, $"REMOTE{index}", $"BROKER_PORT", 1883);
+                        string topicSubject = NativeMethods.ReadIni<string>(ConfigFileName, $"REMOTE{index}", $"TOPIC_SUBJECT", "sirius3/cmd");
+                        string topicPublish = NativeMethods.ReadIni<string>(ConfigFileName, $"REMOTE{index}", $"TOPIC_PUBLISH", "sirius3/response");
+                        remote = RemoteFactory.CreateMqtt(index, "Web", marker, brokerAddress, brokerPort, topicSubject, topicPublish);
+                        break;
+                }
+
+                //success = await remote.Start();
+                _ = remote.Start();
+            }
+            #endregion
+
+            return success;
+        }
+
         private static void Rtc_OnCorrectionTable(IRtc rtc, CorrectionTables correctionTable, string fileName)
         {
             //if (correctionTable == CorrectionTables.Table1)
@@ -441,7 +506,6 @@ namespace Demos
             //    NativeMethods.WriteIni<string>(ConfigFileName, $"RTC{index}", "CORRECTION", fileNameOnly);
             //}
         }
-
 
         internal static void PowerMap_OnMappingOpened(IPowerMap powerMap, string fileName)
         {

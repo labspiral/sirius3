@@ -1,5 +1,29 @@
 ﻿# Sirius3 버전 이력
 
+## v1.8.1 (2026.4.22)
+- added) Remote 통신 지원
+    - 외부 통신으로 레시피 변경, 개체의 속성 조회 및 변경, 마커 가공 시작, 정지, 리셋 명령, 가공 오프셋 설정을 지원하기 위한 IRemote 인터페이스 추가
+    - 시리얼 통신 지원됨
+    - TCP/IP 통신 지원됨
+    - 웹소켓 통신 지원됨
+    - MQTT 통신 지원됨
+- added) Script 데이타 변환 지원
+    - 외부 C# 스크립트 파일을 이용해 가공중 Text 데이타 실시간 변경지원
+    - TextConverter.SimpleScript 인 경우 동작
+    - Script 폴더에 사용자 작성 C# 스크립트 사용 가능    
+    - IMarker 에 ScriptInstance 항목추가
+- added) SEMI OCR 폰트
+    - .dot 폰트 파일 추가
+    - SiriusText 개체를 이용한 도트 폰트 지원
+- fixed) IDocument
+    - FindByName 검색 오류 수정
+- fixed) MultiBeamControl
+    - 버튼 토글 상태 오류 수정
+- fixed) 시뮬레이션 중 PropertyGrid 컨트롤 편집 제한
+- fixed) Microsoft.Bcl.AsyncInterfaces 의존성이 추가됨
+    - 10.0.6 버전
+    - <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.6" /> 추가 필요
+
 ## v1.7.1 (2026.4.16)
 - updated) RTC6 v1.24.0 패키지
     - 2026.3.31 릴리즈 버전으로 업데이트

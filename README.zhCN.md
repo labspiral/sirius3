@@ -6,6 +6,7 @@
 ---
 
 ## 亮点
+![sirius3_logo1](https://spirallab.co.kr/sirius3/sirius3_logo1.png)
 ![sirius3_editor](https://spirallab.co.kr/sirius3/sirius3_editor.png)
 
 - SCANLAB RTC 控制器
@@ -143,13 +144,26 @@
 	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
 </ItemGroup>
 
+<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' OR '$(TargetFramework)' == 'net481'">
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+</ItemGroup>
+	
+<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-windows'">
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.15" />
+</ItemGroup>
+	
+<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.7" />
+</ItemGroup>
+	
 <ItemGroup>
-	<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
-	<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
-	<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
-	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
-	<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
-	<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 </ItemGroup>
 ```
 
@@ -171,6 +185,8 @@ static class Program
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
 
+        // 初始化 Sirius3 库
+        SpiralLab.Sirius3.Core.Initialize();
         // 创建 WinForm
         CreateAndExecuteMainForm();
     }
@@ -193,9 +209,6 @@ static class Program
 
         dynamicForm.Load += (s, e) =>
         {
-            // 初始化 Sirius3 库
-            SpiralLab.Sirius3.Core.Initialize();
-
             // 创建并初始化设备后注册到 EditorControl
             bool success = true;
 
@@ -276,7 +289,7 @@ static class Program
 
 ## 许可
 - 商业使用需要购买许可。
-- 许可：RTC 实例数量 + [选项：MoF, MultiBeam 或 syncAXIS]
+- 许可：RTC 实例数量 + [选项：MoF, MultiBeam, syncAXIS 或 Remote]
 - 许可及外部库请参考 LICENSE.zhCN.txt, THIRD-PARTY-NOTICES.zhCN.txt。
 - 电子邮件：hcchoi@spirallab.co.kr | https://spirallab.co.kr
 > 如果没有许可密钥，将以可使用 30 分钟的评估模式运行。

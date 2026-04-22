@@ -38,9 +38,6 @@
 		<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <AdditionalFiles Remove="app.manifest" />
-	</ItemGroup>
 	
 	<ItemGroup>
 	  <Compile Include="..\helper.cs" Link="helper.cs" />
@@ -53,12 +50,25 @@
 	  </None>
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' OR '$(TargetFramework)' == 'net481'">
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-windows'">
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.15" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.15" />
+	</ItemGroup>
+	<!--
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.7" />
+	</ItemGroup>
+	-->
+	<!-- For all targets -->
 	<ItemGroup>
 		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
 		<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
 		<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 

@@ -1,5 +1,28 @@
 # Sirius3 版本历史
 
+## v1.8.1 (2026.4.22)
+- 新增) 远程功能
+    - 添加了 IRemote 接口，用于支持通过外部通信更改加工方案、查询和修改对象属性、启动、停止和重置标记加工命令，以及设置加工偏移量
+    - 支持串行通信
+    - 支持 TCP/IP 通信
+    - 支持 WebSocket 通信
+    - 支持 MQTT 通信
+- 新增) 支持脚本数据转换
+    - 支持通过外部 C# 脚本文件实时修改处理中的文本数据;```
+    - 仅在 TextConverter.SimpleScript 模式下生效;```
+    - 可在 Script 文件夹中使用用户编写的 C# 脚本;```
+    - 在 IMarker 中新增 ScriptInstance 项
+- 新增) SEMI OCR 字体
+    - 添加 .dot 字体文件
+    - 支持通过 SiriusText 对象使用点阵字体
+- 修复) IDocument
+    - 修复 FindByName 搜索错误
+- 修复) MultiBeamControl
+    - 修复按钮切换状态错误
+- 已修复) 已添加 Microsoft.Bcl.AsyncInterfaces 依赖项;
+    - 版本 10.0.6;
+    - 需添加 <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.6" />
+     
 ## v1.7.1 (2026.4.16)
 - 更新) RTC6 v1.24.0 包
     - 2026-3-31 发布版本

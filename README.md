@@ -6,6 +6,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 ---
 
 ## Highlights
+![sirius3_logo1](https://spirallab.co.kr/sirius3/sirius3_logo1.png)
 ![sirius3_editor](https://spirallab.co.kr/sirius3/sirius3_editor.png)
 
 - SCANLAB RTC Controllers
@@ -143,13 +144,26 @@ Project settings
 	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
 </ItemGroup>
 
+<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' OR '$(TargetFramework)' == 'net481'">
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+</ItemGroup>
+	
+<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-windows'">
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.15" />
+</ItemGroup>
+	
+<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.7" />
+</ItemGroup>
+	
 <ItemGroup>
-	<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
-	<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
-	<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
-	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
-	<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
-	<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 </ItemGroup>
 ```
 
@@ -170,6 +184,9 @@ static class Program
     {
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
+
+        // Initialize sirius3 library
+        SpiralLab.Sirius3.Core.Initialize();
 
         // Create winforms
         CreateAndExecuteMainForm();    
@@ -193,8 +210,6 @@ static class Program
 
         dynamicForm.Load += (s, e) =>
         {
-            // Initialize sirius3 library
-            SpiralLab.Sirius3.Core.Initialize();
 
             // Create devices and initialize them, then register to editor control
             bool success = true;
@@ -277,7 +292,7 @@ static class Program
  
 ## License
 - Commercial license required for production use.
-- License : RTC instance count + [Options: MoF, MultiBeam or syncAXIS]
+- License : RTC instance count + [Options: MoF, MultiBeam, syncAXIS or Remote]
 - See LICENSE.txt and THIRD-PARTY-NOTICES.txt.
 - Contact: hcchoi@spirallab.co.kr | https://spirallab.co.kr
 > Without a license key, the library runs in 30-minute evaluation mode.

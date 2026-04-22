@@ -1,0 +1,54 @@
+# Laser Processing Pen & Layer Pen User Manual
+
+
+## 1. 개요 (Overview)
+
+Sirius3 프레임워크는 가공 파라미터를 두 가지 수준으로 관리합니다.
+- Entity Pen: 각 도형(Entity)의 색상별로 할당되는 기본 가공 조건 (파워, 속도, 주파수, 래스터 등).
+- Layer Pen: 레이어 수준에서 적용되는 고급 제어 기술 (ALC, Skywriting, 가변 지연, syncAXIS 모션 등).
+
+## 2. 하드웨어별 지원 기능 매트릭스 (Hardware Support Matrix)
+
+## 기능 그룹	파라미터 명칭			RTC4	RTC5	RTC6	syncAXIS
+
+기본 마킹	Speed, Power, Freq, Delay	O	O	O	O
+래스터/이미지	Pixel Time, Raster Mode	O	O	O	O
+지연 시간 보정	Skywriting (스카이라이팅)	X	O	O	X
+자동 파워 제어	ALC (Auto Laser Control)X	O	O	X(But Active Channel)
+가변 지연	Variable Polygon/Jump Delay	X	O	O	X
+초고속 제어	SCANAhead (excelliSCAN)	X	X	O	X
+특수 패턴	Wobbel (워블)			X	O	O	X
+동기화 모션	MotionType, BandWidth	X	X	X	O
+
+## 3. 주요 기능 및 역할 설명 (Roles & Features)
+
+
+[Entity Pen - 기본 가공 조건]
+- Laser Power: 레이저의 세기를 결정합니다. (W 단위 또는 Max 대비 % 입력 가능)
+- Frequency / Pulse Width: 레이저의 반복률과 에너지 밀도를 조절합니다.
+- Mark/Jump Speed: 스캐너의 이동 속도를 mm/s 단위로 제어합니다.
+- Scanner Delays (Jump, Mark, Polygon): 스캐너 미러의 관성으로 인한 오차를 보정하기 위한 기계적 대기 시간입니다.
+- Wobbel: 용접이나 클리닝 시 경로에 미세한 진동(원, 8자 등)을 추가하여 가공 폭을 넓힙니다. (RTC5/6 지원)
+
+[Layer Pen - 고급 제어 기술]
+- Skywriting: 벡터의 시작과 끝점에서 스캐너가 목표 속도에 도달할 때까지 가속/감속 구간을 추가하여 코너의 입열 과다(Burn-in)를 방지합니다. (RTC5/6 지원)
+- ALC (Automatic Laser Control): 스캐너의 실제 이동 속도에 맞춰 레이저 출력(전압, 주파수 등)을 실시간으로 변조하여, 속도가 느려지는 코너에서도 균일한 에너지를 유지합니다. (RTC5/6 지원)
+- SCANAhead (RTC6 전용): excelliSCAN 스캐너와 결합하여 가공 경로를 미리 분석하고 지연 시간을 '제로(Zero Delay)'에 가깝게 자동 최적화하는 차세대 기술입니다.
+- syncAXIS (syncAXIS 전용):
+  - MotionType: 스캐너만 움직일지(ScannerOnly), 스테이지와 동시 이송할지(StageAndScanner)를 결정합니다.
+  - BandWidth: 스캐너와 스테이지 사이의 부하 분담 비율을 조정합니다.
+
+## 4. 하드웨어별 특이 사항 (Hardware Specifics)
+
+- RTC4: 가장 기본적인 제어만 지원하며, 고급 보정 로직(Skywriting 등)이 소프트웨어적으로 표시되지 않습니다.
+- RTC5: 현대적인 레이저 가공에 필요한 대부분의 기능(ALC, Skywriting, Wobbel)을 지원합니다.
+- RTC6: RTC5의 모든 기능을 포함하며, SCANAhead와 같은 고성능 스캐너 제어 및 64비트 기반의 정밀한 타임베이스를 제공합니다.
+- syncAXIS: 스캐너 단독의 고급 기능보다는 모션 스테이지와의 '완벽한 동기화'에 집중하며, 전용 모션 파라미터를 사용합니다.
+
+## 5. 주의 사항 (Cautions)
+
+- 하드웨어 해상도(Timebase): RTC4는 10µs, RTC5/6는 약 1/64µs의 분해능을 가집니다. 입력한 값이 이 단위에 맞춰 자동으로 정렬(Align)되어 표시될 수 있습니다.
+- 속성 가시성: 특정 기능이 보이지 않는다면, 현재 연결된 하드웨어(IScanner) 인스턴스가 해당 기능을 지원하지 않는 모델인지 확인하십시오.
+
+---
+2026 Copyright (c) SpiralLAB. All rights reserved.

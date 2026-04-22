@@ -187,6 +187,11 @@ When processing dots (or pixels), a processing method is typically used in which
 This demonstrates how to create and use a compensation map (or table) to compensate for the difference between the laser source’s output and the user’s desired actual output.
 Additionally, `my_powermap.cs` is open-source code for the actual mapping, verification, and compensation procedures; users can modify this code to utilize the compensation map in their preferred manner.
 
+## editor_remote
+
+This is a demo program that attempts to establish a connection via remote communication (serial, TCP/IP, WebSockets, MQTT) and handles operations such as reading and writing markers, offsets, and object values through external systems.
+Here, we are showing an example that uses WebSockets.
+
 ## editor_scanahead
 
 This is a demo program that utilizes the SCANAhead feature supported by RTC6.

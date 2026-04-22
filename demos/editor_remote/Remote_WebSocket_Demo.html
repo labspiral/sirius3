@@ -1,0 +1,641 @@
+<!-- ws_test.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sirius3 Remote Console</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --panel-bg: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --primary: #38bdf8;
+            --primary-hover: #0ea5e9;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --success: #22c55e;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'Consolas', 'Fira Code', 'Courier New', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.1) 0px, transparent 50%);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .layout-wrapper {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+            min-height: 0;
+        }
+
+        main {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-height: 0;
+        }
+
+        aside {
+            flex: 1;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+        }
+
+        .aside-header {
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .help-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-dim);
+        }
+
+        .help-content h3 {
+            color: var(--primary);
+            margin: 16px 0 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .help-content code {
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-main);
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+        }
+
+        .help-content ul {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: var(--panel-bg);
+            border-radius: 9999px;
+            border: 1px solid var(--border-color);
+            font-size: 0.875rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-dim);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .status-dot.connected {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        .status-dot.disconnected {
+            background: var(--error);
+        }
+
+        .status-dot.connecting {
+            background: var(--warning);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        #log-container {
+            flex: 1;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        #log-header {
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #log-header span {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-dim);
+        }
+
+        #log {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+        }
+
+        #log::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #log::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .log-entry {
+            margin-bottom: 4px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .log-time {
+            color: var(--text-dim);
+            margin-right: 8px;
+            user-select: none;
+            font-size: 0.8rem;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-top: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px 16px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+        }
+
+        button {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @media (max-width: 900px) {
+            .layout-wrapper {
+                flex-direction: column;
+            }
+            aside {
+                flex: none;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .input-group {
+                flex-direction: column;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sirius3 Remote Console</h1>
+        <div class="status-badge">
+            <div id="status-dot" class="status-dot"></div>
+            <span id="status-text">Disconnected</span>
+        </div>
+    </header>
+
+    <div class="layout-wrapper">
+        <main>
+            <div id="log-container">
+                <div id="log-header">
+                    <span>Output Stream</span>
+                    <button class="secondary" style="padding: 4px 10px; font-size: 0.7rem;" onclick="clearLog()">Clear</button>
+                </div>
+                <div id="log"></div>
+                <div class="quick-actions">
+                    <button class="action-btn" onclick="quickSend('status')">Status</button>
+                    <button class="action-btn" onclick="quickSend('controlmode')">ControlMode</button>
+                    <button class="action-btn" onclick="quickSend('marker')">Marker</button>
+                    <button class="action-btn" onclick="quickSend('marker', 'start')">Start</button>
+                    <button class="action-btn" onclick="quickSend('marker', 'stop')">Stop</button>
+                    <button class="action-btn" onclick="quickSend('marker', 'reset')">Reset</button>
+                    <button class="action-btn" onclick="quickSend('recipe')">Recipe?</button>
+                    <button class="action-btn" onclick="quickSend('offset')">Offset?</button>
+                    <button class="action-btn" onclick="quickSend('select')">Select?</button>
+                    <button class="action-btn" onclick="quickSend('deselect')">Deselect</button>
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="input-group">
+                    <input id="url" type="text" value="ws://localhost:8080/" placeholder="WebSocket URL" />
+                    <input id="sep" type="text" value="|" placeholder="Sep" title="Protocol Separator" style="width: 45px; flex: none; text-align: center;" />
+                    <input id="term" type="text" value=";" placeholder="Term" title="Protocol Terminator" style="width: 45px; flex: none; text-align: center;" />
+                    <button id="btn-connect" onclick="toggleConnect()">Connect</button>
+                </div>
+                <div class="input-group">
+                    <input id="cmd" type="text" placeholder="Enter command" onkeypress="if(event.keyCode==13) send()" />
+                    <button id="btn-send" onclick="send()">Send Command</button>
+                </div>
+            </div>
+        </main>
+
+        <aside>
+            <div class="aside-header">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                </svg>
+                Protocol Manual
+            </div>
+            <div class="help-content">
+                <h3>System Info</h3>
+                <ul>
+                    <li>Separator: <code class="dynamic-sep">,</code></li>
+                    <li>Terminator: <code class="dynamic-term">;</code></li>
+                    <li>Success: <code class="dynamic-ok">OK;</code></li>
+                    <li>Error: <code class="dynamic-ng">NG;</code></li>
+                </ul>
+                
+                <h3>Marker Control</h3>
+                <ul>
+                    <li>Start: <code class="dynamic-cmd" data-base="marker" data-action="start">marker,start;</code></li>
+                    <li>Stop: <code class="dynamic-cmd" data-base="marker" data-action="stop">marker,stop;</code></li>
+                    <li>Reset: <code class="dynamic-cmd" data-base="marker" data-action="reset">marker,reset;</code></li>
+                </ul>
+                
+                <h3>Status & Recipe</h3>
+                <ul>
+                    <li>Status: <code class="dynamic-cmd" data-base="status">status;</code></li>
+                    <li>Recipe: <code class="dynamic-cmd" data-base="recipe">recipe;</code></li>
+                    <li>Load Recipe: <code class="dynamic-cmd" data-base="recipe" data-action="{Name}">recipe,{Name};</code></li>
+                </ul>
+ 
+                <h3>Offset & Select</h3>
+                <ul>
+                    <li>Get Offset: <code class="dynamic-cmd" data-base="offset">offset;</code></li>
+                    <li>Set Offset: <code class="dynamic-cmd" data-base="offset" data-action="1,X,Y,Z,A">offset,1,X,Y,Z,A;</code></li>
+                    <li>Get Selected: <code class="dynamic-cmd" data-base="select">select;</code></li>
+                    <li>Select: <code class="dynamic-cmd" data-base="select" data-action="1,{Name}">select,1,{Name};</code></li>
+                    <li>Deselect: <code class="dynamic-cmd" data-base="deselect">deselect;</code></li>
+                </ul>
+ 
+                <h3>Property Control</h3>
+                <ul>
+                    <li>Read: <code class="dynamic-cmd" data-base="target" data-action="name,prop">target,name,prop;</code></li>
+                    <li>Write: <code class="dynamic-cmd" data-base="target" data-action="name,prop,val">target,name,prop,val;</code></li>
+                    <li>List: <code class="dynamic-cmd" data-base="target" data-action="name,properties">target,name,properties;</code></li>
+                </ul>
+                <p style="font-size: 0.75rem; border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 10px;">
+                    * <code>target</code> can be <i>layer, entity, entitypen</i>.
+                </p>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        let ws;
+        let commandHistory = [];
+        let historyIndex = -1;
+        
+        const logDiv = document.getElementById('log');
+        const statusDot = document.getElementById('status-dot');
+        const statusText = document.getElementById('status-text');
+        const urlInput = document.getElementById('url');
+        const sepInput = document.getElementById('sep');
+        const termInput = document.getElementById('term');
+        const cmdInput = document.getElementById('cmd');
+        const btnConnect = document.getElementById('btn-connect');
+
+        // Command history navigation
+        cmdInput.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    cmdInput.value = commandHistory[commandHistory.length - 1 - historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    cmdInput.value = commandHistory[commandHistory.length - 1 - historyIndex];
+                } else if (historyIndex === 0) {
+                    historyIndex = -1;
+                    cmdInput.value = '';
+                }
+            }
+        });
+
+        function updateStatus(state, message) {
+            statusDot.className = 'status-dot ' + state;
+            statusText.innerText = message || state.charAt(0).toUpperCase() + state.slice(1);
+            
+            const isConnected = state === 'connected';
+            const isConnecting = state === 'connecting';
+
+            urlInput.disabled = isConnected || isConnecting;
+            sepInput.disabled = isConnected || isConnecting;
+            termInput.disabled = isConnected || isConnecting;
+
+            if (isConnected) {
+                btnConnect.innerText = 'Disconnect';
+                btnConnect.classList.add('secondary');
+            } else if (state === 'disconnected') {
+                btnConnect.innerText = 'Connect';
+                btnConnect.classList.remove('secondary');
+            } else if (isConnecting) {
+                btnConnect.innerText = 'Cancel';
+            }
+        }
+
+        function log(msg, type = 'info') {
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-GB', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const ms = now.getMilliseconds().toString().padStart(3, '0');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            
+            let color = 'var(--text-main)';
+            
+            if (/NG;/m.test(msg) || /NG$/m.test(msg)) {
+                type = 'error';
+            }
+
+            if (type === 'success') color = 'var(--success)';
+            if (type === 'error') color = 'var(--error)';
+            if (type === 'warning') color = 'var(--warning)';
+            if (type === 'sent') color = 'var(--info)';
+
+            const isMultiLine = msg.includes('\n') || msg.includes('\r');
+            
+            if (isMultiLine) {
+                entry.innerHTML = `
+                    <span class="log-time">[${time}.${ms}]</span>
+                    <div style="color:${color}; margin-top: 4px; padding: 8px 12px; background: rgba(0,0,0,0.2); border-radius: 4px; border-left: 3px solid ${color}; white-space: pre-wrap;">${msg}</div>
+                `;
+            } else {
+                entry.innerHTML = `<span class="log-time">[${time}.${ms}]</span><span style="color:${color}">${msg}</span>`;
+            }
+
+            logDiv.appendChild(entry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function clearLog() {
+            logDiv.innerHTML = '';
+            log("Log cleared", "warning");
+        }
+
+        function toggleConnect() {
+            if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) {
+                ws.close();
+            } else {
+                connect();
+            }
+        }
+
+        function getSep() { return sepInput.value || '|'; }
+        function getTerm() { return termInput.value || ';'; }
+
+        function connect() {
+            const url = urlInput.value;
+            localStorage.setItem('sirius3_remote_url', url);
+            try {
+                updateStatus('connecting', 'Connecting...');
+                log(`Connecting to ${url}...`, 'warning');
+                
+                ws = new WebSocket(url);
+                
+                ws.onopen = () => {
+                    updateStatus('connected');
+                    log("Connected to Sirius3", "success");
+                };
+
+                ws.onmessage = (e) => {
+                    log("Received: " + e.data);
+                };
+
+                ws.onclose = (e) => {
+                    updateStatus('disconnected');
+                    log(`Disconnected (${e.code})`, "error");
+                    ws = null;
+                };
+
+                ws.onerror = (e) => {
+                    log("Connection error", "error");
+                };
+            } catch (err) {
+                log("Error: " + err.message, "error");
+                updateStatus('disconnected');
+            }
+        }
+
+        function send() {
+            const cmd = cmdInput.value.trim();
+            if (!cmd) return;
+
+            let finalCmd = cmd;
+            const term = getTerm();
+            if (!finalCmd.endsWith(term)) {
+                finalCmd += term;
+            }
+
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(finalCmd);
+                log("Sent: " + finalCmd, "sent");
+                
+                if (commandHistory.length === 0 || commandHistory[commandHistory.length - 1] !== cmd) {
+                    commandHistory.push(cmd);
+                    if (commandHistory.length > 50) commandHistory.shift();
+                }
+                historyIndex = -1;
+                cmdInput.value = '';
+            } else {
+                log("Not connected! Cannot send command.", "error");
+            }
+        }
+
+        function quickSend(...tokens) {
+            const sep = getSep();
+            const term = getTerm();
+            cmdInput.value = tokens.join(sep) + term;
+            cmdInput.focus();
+        }
+
+        function updateManual() {
+            const s = getSep();
+            const t = getTerm();
+            document.querySelectorAll('.dynamic-sep').forEach(el => el.innerText = s);
+            document.querySelectorAll('.dynamic-term').forEach(el => el.innerText = t);
+            document.querySelectorAll('.dynamic-ok').forEach(el => el.innerText = 'OK' + t);
+            document.querySelectorAll('.dynamic-ng').forEach(el => el.innerText = 'NG' + t);
+            
+            document.querySelectorAll('.dynamic-cmd').forEach((el) => {
+                const base = el.getAttribute('data-base');
+                const action = el.getAttribute('data-action') || '';
+                if (action) el.innerText = `${base}${s}${action.replace(/,/g, s)}${t}`;
+                else el.innerText = `${base}${t}`;
+            });
+        }
+
+        sepInput.addEventListener('input', () => {
+            localStorage.setItem('sirius3_remote_sep', sepInput.value);
+            updateManual();
+        });
+        termInput.addEventListener('input', () => {
+            localStorage.setItem('sirius3_remote_term', termInput.value);
+            updateManual();
+        });
+
+        const savedUrl = localStorage.getItem('sirius3_remote_url');
+        if (savedUrl) urlInput.value = savedUrl;
+        
+        const savedSep = localStorage.getItem('sirius3_remote_sep');
+        if (savedSep) sepInput.value = savedSep;
+
+        const savedTerm = localStorage.getItem('sirius3_remote_term');
+        if (savedTerm) termInput.value = savedTerm;
+
+        updateManual();
+        log("Console ready. Enter WebSocket URL and connect.", "info");
+    </script>
+</body>
+</html>

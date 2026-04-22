@@ -44,8 +44,8 @@ using SpiralLab.Sirius3.PowerMeter;
 using SpiralLab.Sirius3.Scanner;
 using SpiralLab.Sirius3.Scanner.Rtc;
 using SpiralLab.Sirius3.View;
+using SpiralLab.Sirius3.Remote;
 using SpiralLab.Sirius3.UI.WinForms;
-
 
 #if OPENTK3
 using OpenTK;
@@ -134,6 +134,7 @@ namespace Demos
         private IDOutput[] dOExt1s = new IDOutput[DEFAULT_MAX_DEVICE_COUNTS];
         private IDOutput[] dOExt2s = new IDOutput[DEFAULT_MAX_DEVICE_COUNTS];
         private IDOutput[] dOLaserPorts = new IDOutput[DEFAULT_MAX_DEVICE_COUNTS];
+        private IRemote[] remotes = new IRemote[DEFAULT_MAX_DEVICE_COUNTS];
 
         private readonly SpiralLab.Sirius3.UI.WinForms.EditorControl editorControl1 = new SpiralLab.Sirius3.UI.WinForms.EditorControl();
         private readonly System.Windows.Forms.Timer timerStatus = new System.Windows.Forms.Timer();
@@ -157,9 +158,10 @@ namespace Demos
             get { return maxDeviceCounts; }
             set
             {
+#if DEBUG
                 if (value < 1 || value > DEFAULT_MAX_DEVICE_COUNTS) // allowed 1 ~ 4 only
                     throw new ArgumentOutOfRangeException("MaxDeviceCounts must be between 1 and " + DEFAULT_MAX_DEVICE_COUNTS);
-
+#endif
                 maxDeviceCounts = value;
 
                 // Update UI
@@ -178,6 +180,67 @@ namespace Demos
             }
         }
         int maxDeviceCounts = 4;
+
+        /// <summary>
+        /// Gets registered scanners
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IScanner[] Scanners => scanners;
+        /// <summary>
+        /// Gets registered lasers
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public ILaser[] Lasers => lasers;
+        /// <summary>
+        /// Gets registered markers
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IMarker[] Markers => markers;
+        /// <summary>
+        /// Gets registered power meters
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IPowerMeter[] PowerMeters => powerMeters;
+        /// <summary>
+        /// Gets registered DInput (Ext1)
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IDInput[] DIExt1s => dIExt1s;
+        /// <summary>
+        /// Gets registered DInput (Laser Port)
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IDInput[] DILaserPorts => dILaserPorts;
+        /// <summary>
+        /// Gets registered DOutput (Ext1)
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IDOutput[] DOExt1s => dOExt1s;
+        /// <summary>
+        /// Gets registered DOutput (Ext2)
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IDOutput[] DOExt2s => dOExt2s;
+        /// <summary>
+        /// Gets registered DOutput (Laser Port)
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IDOutput[] DOLaserPorts => dOLaserPorts;
+        /// <summary>
+        /// Gets registered Remotes 
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IRemote[] Remotes => remotes;
 
         /// <summary>
         /// Gets or sets the current device index.
@@ -244,21 +307,25 @@ namespace Demos
 
                 document = value;
 
-                MarkerCtrl.Document = document;
-                PropertyGridCtrl.Document = document;
-                EditorCtrl.Document = document;
-                EntityPenCtrl.Document = document;
-                LayerPenCtrl.Document = document;
-                PowerMapCtrl.Document = document;
+                MarkerCtrl?.Document = document;
+                PropertyGridCtrl?.Document = document;
+                EditorCtrl?.Document = document;
+                EntityPenCtrl?.Document = document;
+                LayerPenCtrl?.Document = document;
+                PowerMapCtrl?.Document = document;
 
-                treeViewPageControl1.Document = document;
-                treeViewPageControl2.Document = document;
-                treeViewPageControl3.Document = document;
-                treeViewPageControl4.Document = document;
+                treeViewPageControl1?.Page = DocumentPages.Page1;
+                treeViewPageControl1?.Document = document;
+                treeViewPageControl2?.Page = DocumentPages.Page2;
+                treeViewPageControl2?.Document = document;
+                treeViewPageControl3?.Page = DocumentPages.Page3;
+                treeViewPageControl3?.Document = document;
+                treeViewPageControl4?.Page = DocumentPages.Page4;
+                treeViewPageControl4?.Document = document;
 
-                treeViewBlockControl1.Document = document;
-                //treeViewWaferControl1.Document = document;
-                //treeViewSubstrateControl1.Document = document;
+                treeViewBlockControl1?.Document = document;
+                //treeViewWaferControl1?.Document = document;
+                //treeViewSubstrateControl1?.Document = document;
 
                 if (document != null)
                 {
@@ -285,7 +352,7 @@ namespace Demos
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IView View
         {
-            get { return EditorCtrl.View; }
+            get { return EditorCtrl?.View; }
         }
 
         /// <summary>
@@ -305,7 +372,6 @@ namespace Demos
             get => scanners[CurrentDeviceIndex];
             private set
             {
-
                 Document?.ActSimulateStop(false);
                 if (scanners[CurrentDeviceIndex] is IRtcMoF oldMof)
                     oldMof.OnEncoderChanged -= MoF_OnEncoderChanged;
@@ -316,15 +382,15 @@ namespace Demos
                 if (lasers[CurrentDeviceIndex] != null)
                     lasers[CurrentDeviceIndex].Scanner = scanner;
 
-                ScannerCtrl.Scanner = scanner;
-                LaserCtrl.Scanner = scanner;
-                MarkerCtrl.Scanner = scanner;
-                ManualCtrl.Scanner = scanner;
-                EditorCtrl.Scanner = scanner;
-                DIRtcCtrl.Scanner = scanner;
-                DORtcCtrl.Scanner = scanner;
-                PowerMapCtrl.Scanner = scanner;
-                StepperCtrl.Stepper = scanner as IRtcStepper;
+                ScannerCtrl?.Scanner = scanner;
+                LaserCtrl?.Scanner = scanner;
+                MarkerCtrl?.Scanner = scanner;
+                ManualCtrl?.Scanner = scanner;
+                EditorCtrl?.Scanner = scanner;
+                DIRtcCtrl?.Scanner = scanner;
+                DORtcCtrl?.Scanner = scanner;
+                PowerMapCtrl?.Scanner = scanner;
+                StepperCtrl?.Stepper = scanner as IRtcStepper;
 
                 if (scanner != null)
                 {
@@ -374,13 +440,13 @@ namespace Demos
                     PropertyVisibility();
                 }
 
-                LaserCtrl.Laser = lasers[CurrentDeviceIndex];
-                EditorCtrl.Laser = lasers[CurrentDeviceIndex];
-                MarkerCtrl.Laser = lasers[CurrentDeviceIndex];
-                ManualCtrl.Laser = lasers[CurrentDeviceIndex];
-                PowerMeterCtrl.Laser = lasers[CurrentDeviceIndex];
-                PowerMapCtrl.Laser = lasers[CurrentDeviceIndex];
-                EntityPenCtrl.Document = document;
+                LaserCtrl?.Laser = lasers[CurrentDeviceIndex];
+                EditorCtrl?.Laser = lasers[CurrentDeviceIndex];
+                MarkerCtrl?.Laser = lasers[CurrentDeviceIndex];
+                ManualCtrl?.Laser = lasers[CurrentDeviceIndex];
+                PowerMeterCtrl?.Laser = lasers[CurrentDeviceIndex];
+                PowerMapCtrl?.Laser = lasers[CurrentDeviceIndex];
+                EntityPenCtrl?.Document = document;
             }
         }
 
@@ -410,10 +476,10 @@ namespace Demos
                 markers[CurrentDeviceIndex] = value;
 
                 MarkerCtrl.Marker = markers[CurrentDeviceIndex];
-                ManualCtrl.Marker = markers[CurrentDeviceIndex];
-                DORtcCtrl.Marker = markers[CurrentDeviceIndex];
-                EditorCtrl.Marker = markers[CurrentDeviceIndex];
-                PropertyGridCtrl.Marker = markers[CurrentDeviceIndex];
+                ManualCtrl?.Marker = markers[CurrentDeviceIndex];
+                DORtcCtrl?.Marker = markers[CurrentDeviceIndex];
+                EditorCtrl?.Marker = markers[CurrentDeviceIndex];
+                PropertyGridCtrl?.Marker = markers[CurrentDeviceIndex];
             }
         }
 
@@ -560,6 +626,41 @@ namespace Demos
             {
                 dOLaserPorts[CurrentDeviceIndex] = value;
                 DORtcCtrl.DOLaserPort = dOLaserPorts[CurrentDeviceIndex];
+            }
+        }
+
+        /// <summary>
+        /// <see cref="IRemote">IRemote</see>
+        /// </summary>
+        /// <remarks>
+        /// Created by <see cref="RemoteFactory">RemoteFactory</see>. <br/>
+        /// </remarks>
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [Category("Sirius3")]
+        [DisplayName("Remote")]
+        [Description("Remote Instance")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IRemote Remote
+        {
+            get => remotes[CurrentDeviceIndex];
+            private set
+            {
+                if (remotes[CurrentDeviceIndex] != null)
+                {
+                    if (tbcMain.TabPages.Contains(tabRemote))
+                        tbcMain.TabPages.Remove(tabRemote);
+                }
+
+                remotes[CurrentDeviceIndex] = value;
+                RemoteCtrl.Remote = remotes[CurrentDeviceIndex];
+                RemoteCtrl.Marker = markers[CurrentDeviceIndex];
+
+                if (remotes[CurrentDeviceIndex] != null)
+                {
+                    if (!tbcMain.TabPages.Contains(tabRemote))
+                        tbcMain.TabPages.Add(tabRemote);
+                }
             }
         }
 
@@ -778,6 +879,14 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.LayerPenControl LayerPenCtrl => layerPenControl1;
 
         /// <summary>
+        /// Gets the remote control wrapper.
+        /// <para>리모트 컨트롤 래퍼를 가져옵니다.</para>
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public SpiralLab.Sirius3.UI.WinForms.RemoteControl RemoteCtrl => remoteControl1;
+
+        /// <summary>
         /// Gets the log control.
         /// <para>로그 컨트롤을 가져옵니다.</para>
         /// <para>获取日志控件。</para>
@@ -796,6 +905,9 @@ namespace Demos
         public SiriusMultiEditorControl()
         {
             InitializeComponent();
+
+            if (EditorControl.IsDesigner())
+                return;
 
             // Embed editor control into tab page
             tabEditor.Controls.Add(editorControl1);
@@ -837,6 +949,9 @@ namespace Demos
                 splitContainer2.Panel2Collapsed = !splitContainer2.Panel2Collapsed;
             };
 
+            // Hide remote control tab by default
+            tbcMain.TabPages.Remove(tabRemote);
+
             var doc = new DocumentBase();
             Document = doc;
         }
@@ -857,11 +972,13 @@ namespace Demos
         /// <param name="dOExt2">The digital output extension 2.</param>
         /// <param name="dOLaserPort">The digital output laser port.</param>
         /// <param name="marker">The marker instance.</param>
-        public void RegisterDevices(int index, IScanner scanner, ILaser laser, IPowerMeter powerMeter, IDInput dIExt1, IDInput dILaserPort, IDOutput dOExt1, IDOutput dOExt2, IDOutput dOLaserPort, IMarker marker)
+        /// <param name="remote">The remote instance.</param>
+        public void RegisterDevices(int index, IScanner scanner, ILaser laser, IPowerMeter powerMeter, IDInput dIExt1, IDInput dILaserPort, IDOutput dOExt1, IDOutput dOExt2, IDOutput dOLaserPort, IMarker marker, IRemote remote = null)
         {
+#if DEBUG
             if (MaxDeviceCounts <= index)
                 throw new ArgumentOutOfRangeException(nameof(index), $"CurrentDeviceIndex must be less than {MaxDeviceCounts}.");
-
+#endif
             scanners[index] = scanner;
             lasers[index] = laser;
             powerMeters[index] = powerMeter;
@@ -878,6 +995,7 @@ namespace Demos
             markers[index].OnEnded -= Marker_OnEnded;
             markers[index].OnEnded += Marker_OnEnded;
 
+            remotes[index] = remote;
             marker.Ready(Document, View, scanner as IRtc, laser, powerMeter);
         }
 
@@ -901,6 +1019,9 @@ namespace Demos
 
             for (int i = 0; i < MaxDeviceCounts; i++)
             {
+                remotes[i]?.Dispose();
+                remotes[i] = null;
+
                 MultiBeamRtcControl.Markers[i] = null;
                 if (null != markers[i])
                 {
@@ -927,8 +1048,10 @@ namespace Demos
         /// <param name="index">Target device index. <br/>Allowed range: 0 ~ MaxDeviceCounts - 1 </param>
         public bool SwitchDevices(int index)
         {
+#if DEBUG
             if (MaxDeviceCounts <= CurrentDeviceIndex)
                 throw new ArgumentOutOfRangeException(nameof(index), $"CurrentDeviceIndex must be less than {MaxDeviceCounts}.");
+#endif
 
             if (null == scanners[index] || null == lasers[index] || null == markers[index])
             {
@@ -974,6 +1097,7 @@ namespace Demos
             if (null != this.Marker && !this.Marker.IsBusy)
                 this.Marker?.Ready(Document, View, Scanner as IRtc, Laser, PowerMeter);
 
+            this.Remote = remotes[CurrentDeviceIndex];
             OnAfterChangeDevice?.Invoke(this);
             return true;
         }
@@ -1190,6 +1314,34 @@ namespace Demos
                 lblError.ForeColor = Color.White;
                 lblError.BackColor = Color.Maroon;
             }
+
+            if (null == Remote)
+            {
+                if (lblRemote.Visible)
+                    lblRemote.Visible = false;
+            }
+            else
+            {
+                if (!lblRemote.Visible)
+                    lblRemote.Visible = true;
+
+                if (Remote.ControlMode == RemoteControlModes.Local)
+                {
+                    if (Remote.IsConnected)
+                        lblRemote.Text = " LOCAL: CONNECTED ";
+                    else
+                        lblRemote.Text = " LOCAL ";
+                    lblRemote.BackColor = Color.MidnightBlue;
+                }
+                else
+                {
+                    if (Remote.IsConnected)
+                        lblRemote.Text = " REMOTE: CONNECTED ";
+                    else
+                        lblRemote.Text = " REMOTE ";
+                    lblRemote.BackColor = Color.DodgerBlue;
+                }
+            }
         }
 
         /// <summary>
@@ -1247,7 +1399,7 @@ namespace Demos
             {
                 ControlEnableOrNot(!isBusy && !btnLock.Checked);
                 if (!isBusy)
-                    EditorCtrl.Focus();
+                    EditorCtrl?.Focus();
             }));
         }
 
@@ -1337,11 +1489,11 @@ namespace Demos
                 //splitContainer123.Panel2Collapsed = !isEnable;
                 PropertyGridCtrl.Enabled = isEnable;
 
-                EditorCtrl.IsAllowEdit = isEnable;
+                EditorCtrl?.IsAllowEdit = isEnable;
                 foreach (var pc in PageCtrls)
-                    pc.Enabled = isEnable;
+                    pc?.Enabled = isEnable;
 
-                BlockCtrl.Enabled = isEnable;
+                BlockCtrl?.Enabled = isEnable;
                 //WaferCtrl.Enabled = isEnable;
                 //SubstrateCtrl.Enabled = isEnable;
 
@@ -1606,8 +1758,16 @@ namespace Demos
             };
 
             if (dlg.ShowDialog() != DialogResult.OK) return;
-            Document.ActSave(dlg.FileName);
-
+            bool success = Document.ActSave(dlg.FileName);
+#if DEBUG
+            if (success && SpiralLab.Sirius3.UI.Config.IsFileSaveWithImage)
+            {
+                var bitmap = View?.SnapShot(Document);
+                string filePath = $"{Path.GetDirectoryName(dlg.FileName)}\\{Path.GetFileNameWithoutExtension(dlg.FileName)}.bmp";
+                bitmap?.Save(filePath, System.Drawing.Imaging.ImageFormat.Bmp);
+                bitmap?.Dispose();
+            }
+#endif
             OnAfterSave?.Invoke(this, dlg.FileName);
         }
 

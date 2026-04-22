@@ -34,9 +34,11 @@ namespace Demos
 {
     public partial class Form1 : Form
     {
-
         const int instanceCount = 2;
         const int multibeamPairIndex = 0;
+
+        readonly RadioButton[] modeRadioButtons;
+        readonly RadioButton[] sideRadioButtons;
 
         public Form1()
         {
@@ -64,12 +66,21 @@ namespace Demos
                 SpiralLab.Sirius3.Core.Cleanup();
             };
 
-            this.btnCheckPins.Click += BtnCheckPins_Click;
-            this.btnNone.Click += BtnHeadNone_Click;
-            this.btnHead1.Click += BtnHead1_Click;
-            this.btnHead2.Click += BtnHead2_Click;
-            this.btnHead12.Click += BtnHead12_Click;
 
+            modeRadioButtons = new[] { rbModeNone, rbModeHead1, rbModeHead2, rbModeBoth };
+            for (int i = 0; i < modeRadioButtons.Length; i++)
+            {
+                modeRadioButtons[i].CheckedChanged += RbMode_CheckedChanged;
+            }
+
+
+            sideRadioButtons = new[] { rbHead1Side, rbHead2Side };
+            for (int i = 0; i < sideRadioButtons.Length; i++)
+            {
+                sideRadioButtons[i].CheckedChanged += RbSide_CheckedChanged;
+            }
+
+            this.btnCheckPins.Click += BtnCheckPins_Click;
             this.btnReady.Click += BtnReady_Click;
             this.btnStart.Click += BtnStart_Click;
             this.btnStop.Click += BtnStop_Click;
@@ -80,7 +91,7 @@ namespace Demos
         {
             // Need to equipped with 2instances and multibeam option at library option.
             Core.License(out var licenseInfo);
-            Debug.Assert(licenseInfo.RtcLicenseMax == 2);
+            Debug.Assert(licenseInfo.RtcLicenseMax == instanceCount);
             Debug.Assert(licenseInfo.IsMultiBeamLicensed);
 
             // Initialize RTC MultiBeam instances (MultiBeamIndex: 0, 1 for Pair 0)
@@ -112,9 +123,6 @@ namespace Demos
                 RenameDIOs(dInExt1, dOutExt1);
             }
 
-            // To get notification for 'RtcMultiBeamHelper.Modes' has changed
-            RtcMultiBeamHelper.PropertyChanged += RtcMultiBeamHelper_PropertyChanged;
-            RtcMultiBeamHelper_PropertyChanged(null, null);
         }
 
         void RenameDIOs(IDInput dInExt1, IDOutput dOutExt1)
@@ -158,13 +166,73 @@ namespace Demos
                     "D14",
                     "D15",
                 }};
+        }
 
-        }
-        private void RtcMultiBeamHelper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+           private void RbMode_CheckedChanged(object sender, EventArgs e)
         {
-            RtcMultiBeamHelper.MultiBeamModes mode = RtcMultiBeamHelper.GetMode(multibeamPairIndex);
-            lblMode.Text = $"Mode : {mode.ToString()}"; 
+            var rb = sender as RadioButton;
+            if (rb == null || !rb.Checked) return;
+
+            RtcMultiBeamHelper.MultiBeamModes mode = RtcMultiBeamHelper.MultiBeamModes.None;
+            if (rb == rbModeNone)
+                // Safety State (Route laser to Beam Dump)
+                // 안전 상태 (레이저를 빔 덤프 경로로 설정)
+                // 安全状态（将激光引导至光束卸载区路径）
+                mode = RtcMultiBeamHelper.MultiBeamModes.None;
+            else if (rb == rbModeHead1)
+                // Manual Head Selection (Switch AOM to Head 1 path)
+                // 수동 헤드 선택 (AOM을 헤드 1 경로로 스위칭)
+                // 手动选择头（将 AOM 切换到 1 号头路径）
+                mode = RtcMultiBeamHelper.MultiBeamModes.Head1;
+            else if (rb == rbModeHead2)
+                // Manual Head Selection (Switch AOM to Head 2 path)
+                // 수동 헤드 선택 (AOM을 헤드 2 경로로 스위칭)
+                // 手动选择头（将 AOM 切换到 2 号头路径）
+                mode = RtcMultiBeamHelper.MultiBeamModes.Head2;
+            else if (rb == rbModeBoth)
+                // Set Multi-Beam Processing Mode (Pair Index: 0, Mode: Both for exclusive sequential marking)
+                // 멀티빔 가공 모드 설정 (페어 인덱스: 0, 모드: Both - 배타적 순차 가공)
+                // 设置多光束加工模式（对索引：0，模式：Both - 互斥顺序加工）
+
+                // Exclusive Marking Logic (Each RTC board exchanges tokens via 4-Way Handshake)
+                // 배타적 가공 로직 (각 RTC 보드는 4-Way Handshake를 통해 토큰을 교환함)
+                // 互斥加工逻辑（每个 RTC 板卡通过 4-Way Handshake 交换令牌）
+
+                // Note: RtcMultiBeamHelper.Modes.Both ensures that ListJumpTo internally handles token acquisition/release.
+                // 참고: Modes.Both 설정 시 ListJumpTo 내부에서 토큰 획득/해제 핸드셰이크가 자동으로 수행됩니다.
+                // 注意：设置 Modes.Both 时，ListJumpTo 内部会自动执行令牌获取/释放握手。
+                mode = RtcMultiBeamHelper.MultiBeamModes.Both;
+
+
+            RtcMultiBeamHelper.MultiBeamPreperSides side = RtcMultiBeamHelper.MultiBeamPreperSides.Head1;
+            if (rbHead1Side.Checked) 
+                side = RtcMultiBeamHelper.MultiBeamPreperSides.Head1;
+            else if (rbHead2Side.Checked) 
+                side = RtcMultiBeamHelper.MultiBeamPreperSides.Head2;
+
+
+            if (!RtcMultiBeamHelper.SetMode(multibeamPairIndex, mode, side))
+            {
+
+            }
         }
+
+        private void RbSide_CheckedChanged(object sender, EventArgs e)
+        {
+            var rb = sender as RadioButton;
+            if (rb == null || !rb.Checked) return;
+
+            var mode = RtcMultiBeamHelper.GetMode(multibeamPairIndex);
+
+            RtcMultiBeamHelper.MultiBeamPreperSides side = RtcMultiBeamHelper.MultiBeamPreperSides.Head1;
+            if (rbHead1Side.Checked) side = RtcMultiBeamHelper.MultiBeamPreperSides.Head1;
+            else if (rbHead2Side.Checked) side = RtcMultiBeamHelper.MultiBeamPreperSides.Head2;
+
+            if (!RtcMultiBeamHelper.SetMode(multibeamPairIndex, mode, side))
+            {
+            }
+        }
+
 
         private void BtnCheckPins_Click(object sender, EventArgs e)
         {
@@ -174,61 +242,25 @@ namespace Demos
                 System.Windows.Forms.MessageBox.Show(this, $"PIN CONNECTION ARE NOT OK !", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void BtnHeadNone_Click(object sender, EventArgs e)
-        {
-            // Safety State (Route laser to Beam Dump)
-            // 안전 상태 (레이저를 빔 덤프 경로로 설정)
-            // 安全状态（将激光引导至光束卸载区路径）
-           if (!RtcMultiBeamHelper.SetMode(multibeamPairIndex, RtcMultiBeamHelper.MultiBeamModes.None))
-               return;       
-        }
-
-        private void BtnHead1_Click(object sender, EventArgs e)
-        {
-            // Manual Head Selection (Switch AOM to Head 1 path)
-            // 수동 헤드 선택 (AOM을 헤드 1 경로로 스위칭)
-            // 手动选择头（将 AOM 切换到 1 号头路径）
-            if (!RtcMultiBeamHelper.SetMode(multibeamPairIndex, RtcMultiBeamHelper.MultiBeamModes.Head1))
-                return;
-        }
-
-        private void BtnHead2_Click(object sender, EventArgs e)
-        {
-            // Manual Head Selection (Switch AOM to Head 2 path)
-            // 수동 헤드 선택 (AOM을 헤드 2 경로로 스위칭)
-            // 手动选择头（将 AOM 切换到 2 号头路径）
-            if (!RtcMultiBeamHelper.SetMode(multibeamPairIndex, RtcMultiBeamHelper.MultiBeamModes.Head2))
-                return;
-        }
-
-        private void BtnHead12_Click(object sender, EventArgs e)
-        {
-            // Set Multi-Beam Processing Mode (Pair Index: 0, Mode: Both for exclusive sequential marking)
-            // 멀티빔 가공 모드 설정 (페어 인덱스: 0, 모드: Both - 배타적 순차 가공)
-            // 设置多光束加工模式（对索引：0，模式：Both - 互斥顺序加工）
-
-            // Exclusive Marking Logic (Each RTC board exchanges tokens via 4-Way Handshake)
-            // 배타적 가공 로직 (각 RTC 보드는 4-Way Handshake를 통해 토큰을 교환함)
-            // 互斥加工逻辑（每个 RTC 板卡通过 4-Way Handshake 交换令牌）
-
-            // Note: RtcMultiBeamHelper.Modes.Both ensures that ListJumpTo internally handles token acquisition/release.
-            // 참고: Modes.Both 설정 시 ListJumpTo 내부에서 토큰 획득/해제 핸드셰이크가 자동으로 수행됩니다.
-            // 注意：设置 Modes.Both 时，ListJumpTo 内部会自动执行令牌获取/释放握手。
-            if (!RtcMultiBeamHelper.SetMode(0, RtcMultiBeamHelper.MultiBeamModes.Both))
-                return;
-        }
 
         private void BtnReady_Click(object sender, EventArgs e)
         {
-            RtcMultiBeamHelper.ReadyMode(multibeamPairIndex);
+            if (!RtcMultiBeamHelper.ReadyMode(multibeamPairIndex))
+            {
+                var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
+                          $"Fail to ready multibeam pair",
+                          "MultiBeam",
+                          MessageBoxButtons.OK);
+                form.ShowDialog(this);
+            }
         }
 
         private async void BtnStart_Click(object sender, EventArgs e)
         {
             if (!RtcMultiBeamHelper.IsReady(multibeamPairIndex))
             {
-                using var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
-                          $"Multibeam Pair is not ready yet. Try ready at first",
+                var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
+                          $"Multibeam Pair is not ready ?.\rTry ready at first",
                           "MultiBeam",
                           MessageBoxButtons.OK);
                 form.ShowDialog(this);
@@ -251,7 +283,7 @@ namespace Demos
                         if (DialogResult.Yes != form.ShowDialog(this))
                             return;
                     }
-                    success &= await siriusMultiEditorControl1.Markers[0]?.Start();
+                    success &= await siriusMultiEditorControl1.Markers[0].Start();
                     break;
                 case RtcMultiBeamHelper.MultiBeamModes.Head2:
                     {
@@ -324,18 +356,14 @@ namespace Demos
                 case RtcMultiBeamHelper.MultiBeamModes.None:
                     break;
                 case RtcMultiBeamHelper.MultiBeamModes.Head1:
-                    if (null != siriusMultiEditorControl1.Markers[0])
-                        success &= siriusMultiEditorControl1.Markers[0].Reset();
+                    success &= siriusMultiEditorControl1.Markers[0].Reset();
                     break;
                 case RtcMultiBeamHelper.MultiBeamModes.Head2:
-                    if (null != siriusMultiEditorControl1.Markers[1])
-                        success &= siriusMultiEditorControl1.Markers[1].Reset();
+                    success &= siriusMultiEditorControl1.Markers[1].Reset();
                     break;
                 case RtcMultiBeamHelper.MultiBeamModes.Both:
-                    if (null != siriusMultiEditorControl1.Markers[0])
-                        success &= siriusMultiEditorControl1.Markers[0].Reset();
-                    if (null != siriusMultiEditorControl1.Markers[1])
-                        success &= siriusMultiEditorControl1.Markers[1].Reset();
+                    success &= siriusMultiEditorControl1.Markers[0].Reset();
+                    success &= siriusMultiEditorControl1.Markers[1].Reset();
                     break;
             }
         }
