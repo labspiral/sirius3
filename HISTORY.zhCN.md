@@ -19,9 +19,6 @@
     - 修复 FindByName 搜索错误
 - 修复) MultiBeamControl
     - 修复按钮切换状态错误
-- 已修复) 已添加 Microsoft.Bcl.AsyncInterfaces 依赖项;
-    - 版本 10.0.6;
-    - 需添加 <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.6" />
      
 ## v1.7.1 (2026.4.16)
 - 更新) RTC6 v1.24.0 包

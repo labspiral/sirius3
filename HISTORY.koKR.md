@@ -20,9 +20,6 @@
 - fixed) MultiBeamControl
     - 버튼 토글 상태 오류 수정
 - fixed) 시뮬레이션 중 PropertyGrid 컨트롤 편집 제한
-- fixed) Microsoft.Bcl.AsyncInterfaces 의존성이 추가됨
-    - 10.0.6 버전
-    - <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.6" /> 추가 필요
 
 ## v1.7.1 (2026.4.16)
 - updated) RTC6 v1.24.0 패키지

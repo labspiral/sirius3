@@ -105,6 +105,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_multibeam2", "demos\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_remote", "demos\editor_remote\editor_remote.csproj", "{2890A39B-4E45-5CA4-62A0-22EBD84A93EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_script", "demos\editor_script\editor_script.csproj", "{6C358132-B7F2-19E8-7DB7-812D49C2EC09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -271,6 +273,10 @@ Global
 		{2890A39B-4E45-5CA4-62A0-22EBD84A93EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2890A39B-4E45-5CA4-62A0-22EBD84A93EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2890A39B-4E45-5CA4-62A0-22EBD84A93EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C358132-B7F2-19E8-7DB7-812D49C2EC09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C358132-B7F2-19E8-7DB7-812D49C2EC09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C358132-B7F2-19E8-7DB7-812D49C2EC09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C358132-B7F2-19E8-7DB7-812D49C2EC09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

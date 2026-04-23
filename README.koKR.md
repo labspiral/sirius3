@@ -13,14 +13,15 @@
    - RTC4 / RTC4e / RTC5 / RTC6 / RTC6e
    - XL-SCAN (syncAXIS 기반의 RTC6 + ACS 조합)
 - 계측 및 프로파일링
-   - 스캐너 운동 경로와 시그널 출력 로그를 이용한 그래프 출력 지원
+   - 스캐너 운동 경로와 시그널 출력 로그를 이용한 그래프 출력 지원 [Measurement Manual](doc/MeasurementUserManual.md)
+   - 경로 시뮬레이션 을 통한 시각화 지원 [Simulation Manual](doc/SimulationUserManual.md)
 - 강력한 가공 옵션
    - 가변 폴리곤, 가변 점프 지연시간 설정 지원
    - 2nd 헤드, 3D 지원
    - MoF (Marking on the Fly) 와 확장 MoF (Fly extension) 지원
    - Sky Writing Mode 1/2/3/4
    - SCANAhead 를 이용한 자동 지연값(Auto delays) 지원
-   - 멀티빔 (1개의 레이저 소스 + 2개의 AOM + 2개의 스캔헤드) 제어 지원
+   - 멀티빔 (1개의 레이저 소스 + 2개의 AOM + 2개의 스캔헤드) 제어 지원 [MultiBeam Manual](doc/MultibeamSystemManual.md)
 - ALC(Automatic Laser Control)
    - 벡터 정의형
       - 램프(Ramp)
@@ -33,8 +34,8 @@
       - 거리 및 스케일 값 기반 테이블
    - 또한 SCANAhead, Encoder Speed Addition, Inverse Speed Correction, Backward Transformation, SDC+Skywriting 조합 사용 가능
 - 스캐너 필드 보정
-   - 2D 보정
-   - 3D 보정 (기울어짐, 포커스, a,b,c 계수 및 스트레치 보정 지원)
+   - 2D 보정 [2D Correction Manual](doc/Correction2dUserManual.md)
+   - 3D 보정 (기울어짐, 포커스, a,b,c 계수 및 스트레치 보정 지원) [3D Correction Manual](doc/Correction3dUserManual.md)
 - 레이저 파워 제어
    - 주파수, 펄스폭, 아나로그, 디지털 출력
    - 레이저 소스 벤더 지원: AdvancedOptoWave, Coherent, IPG, JPT, Photonics Industry, Spectra Physics 등
@@ -48,7 +49,16 @@
    - Image, DXF, HPGL, ZPL
    - QR, DataMatrix, PDF417 Barcodes
    - STL, OBJ, PLY 등의 3D 메쉬 포맷 
-- 문서및 페이지
+- 원격 통신 지원
+    - 통신을 통한 개체 정보, 펜 정보의 조회 및 설정, 파일 열기, 마커 및 오프셋 설정 등 지원 [Remote Protocol Manual](doc/RemoteProtocolManual.md)
+    - TCP/IP 소켓 통신
+    - 시리얼 (RS-232) 통신
+    - 웹 소켓 통신 [Remote WebSocket Demo](doc/Remote_WebSocket_Demo.html)
+    - MQTT 통신
+- 스크립트 지원
+    - C# 스크립트를 통한 텍스트 및 바코드 개체의 데이타 실시간 업데이트 지원
+    - 다양한 스크립트 확장 지원 [Script Manual](doc/ScriptUserManual.md)
+- 문서 및 페이지
    - 다중 문서 와 페이지 지원
    - 하나의 문서를 복수개의 뷰 대상에 렌더링 지원
 - 오픈 아키텍쳐
@@ -270,11 +280,12 @@ static class Program
                 e.Cancel = true;
                 return;
             }
+            // 장치 해제
+            editorControl.DisposeDevices();
 
             // 문서 해제
             editorControl.Document?.Dispose();
-            // 장치 해제
-            editorControl.DisposeDevices();
+         
             // 시리우스3 라이브러리 정리
             SpiralLab.Sirius3.Core.Cleanup();
         };

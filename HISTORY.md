@@ -19,9 +19,6 @@
     - Fixed a search error in FindByName
 - fixed) MultiBeamControl
     - Fixed an error with button toggle states
-- fixed) Microsoft.Bcl.AsyncInterfaces dependency 
-    - Version 10.0.6
-    - Add the following: <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.6" />
      
 ## v1.7.1 (2026.4.16)
 - updated) RTC6 v1.24.0 package

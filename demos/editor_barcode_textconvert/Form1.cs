@@ -151,9 +151,19 @@ namespace Demos
                 {
                     // set text converter as event handler
                     textConvertible.IsAllowConvert = true;
-                    var expr1 = "DateTime.Now.ToString(\"yyyy-MM-dd HH:mm:ss\")";
-                    //var expr2 = $"\"ABC 123 \" + DateTime.Now.ToString(\"yyyy-MM-dd HH:mm:ss\")";
-                    var expr3 = $"\"ABC 123 {DateTime.Now:yyyy-MM-dd HH:mm:ss}\"";
+
+                    // Script documentation : https://github.com/labspiral/sirius3/blob/main/doc/ScriptUserManual.md
+
+                    var expr1 = @"NextSerialNo(1)";
+                    /*
+                    var expr2 = @"string prf = LotCode.Substring(0, Math.Min(LotCode.Length, 3)); 
+string dt = Date(""yyMMdd"");
+string tm = Time(""HHmm"");
+string sn = NextSerialNo(""D5"");
+string sh = Shift(""A"", ""B"", ""C"");
+return $""{prf}-{dt}-{tm}-{sn}-{sh}"";
+                    ";
+                    */
                     textConvertible.SourceText = expr1;
                     textConvertible.TextConverter = TextConverters.SimpleScript;
                 }

@@ -270,10 +270,12 @@ static class Program
                 return;
             }
 
-            // 释放文档
-            editorControl.Document?.Dispose();
             // 释放设备
             editorControl.DisposeDevices();
+
+            // 释放文档
+            editorControl.Document?.Dispose();
+         
             // 清理 Sirius3 库
             SpiralLab.Sirius3.Core.Cleanup();
         };

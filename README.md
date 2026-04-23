@@ -187,7 +187,6 @@ static class Program
 
         // Initialize sirius3 library
         SpiralLab.Sirius3.Core.Initialize();
-
         // Create winforms
         CreateAndExecuteMainForm();    
     }
@@ -210,7 +209,6 @@ static class Program
 
         dynamicForm.Load += (s, e) =>
         {
-
             // Create devices and initialize them, then register to editor control
             bool success = true;
 
@@ -272,10 +270,12 @@ static class Program
                 return;
             }
 
-            // Dispose document
-            editorControl.Document?.Dispose();
             // Dispose devices
             editorControl.DisposeDevices();
+
+            // Dispose document
+            editorControl.Document?.Dispose();
+          
             // Clean-up sirius3 library
             SpiralLab.Sirius3.Core.Cleanup();
         };

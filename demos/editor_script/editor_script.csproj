@@ -72,11 +72,6 @@
 		<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
-	<ItemGroup>
-	  <None Update="Remote_WebSocket_Demo.html">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
 
 
 </Project>
