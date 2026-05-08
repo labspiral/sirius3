@@ -238,7 +238,7 @@ namespace Demos
                 double ty = rnd.NextDouble() * 80.0 - 40.0;
                 arc.Translate(tx, ty, 0);
                
-                document.ActivePage?.ActiveLayer?.AddChild(arc);
+                document.ActAdd(arc);
             }
 
             marker.OnBeforeEntity -= Marker_OnBeforeEntity;

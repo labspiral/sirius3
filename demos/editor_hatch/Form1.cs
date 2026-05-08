@@ -88,9 +88,8 @@ namespace Demos
             text.FontHorizontalAlignment = StringAlignment.Center;
             text.FontVerticalAlignment = StringAlignment.Center;
             
-            document.ActivePage?.ActiveLayer?.AddChild(text);
+            document.ActAdd(text);
             document.ActSelect(text);
-            siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnAddHatch1_Click(object sender, EventArgs e)
@@ -114,9 +113,10 @@ namespace Demos
          
             hatch.ModelColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[index].ToDVec3();
             hatchable.AddHatch(hatch);
+            //or
+            // document.ActAddHatch(hatchable, hatch);
 
             document.ActRegen();
-
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -140,7 +140,8 @@ namespace Demos
             var index = 1; //1 means Color.Yellow
             hatch.ModelColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[index].ToDVec3();
             hatchable.AddHatch(hatch);
-
+            //or
+            // document.ActAddHatch(hatchable, hatch);
             document.ActRegen();
 
             siriusEditorControl1.View?.DoRender();
@@ -163,7 +164,8 @@ namespace Demos
             var index = 2; //2 means Color.Orange
             hatch.ModelColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[index].ToDVec3();
             hatchable.AddHatch(hatch);
-
+            //or
+            // document.ActAddHatch(hatchable, hatch);
             document.ActRegen();
 
             siriusEditorControl1.View?.DoRender();

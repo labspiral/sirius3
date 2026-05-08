@@ -121,7 +121,7 @@ namespace Demos
                 entity.IsAllowConvert = true;
 
                 entity.Translate(0, -10);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
             {
                 //var entity = new EntityText("Arial", FontStyle.Regular, "0123456789", 2);
@@ -141,7 +141,7 @@ namespace Demos
                 entity.AddHatch(hatch);
 
                 entity.Translate(0, -12.5);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
             siriusEditorControl1.View?.DoRender();
         }

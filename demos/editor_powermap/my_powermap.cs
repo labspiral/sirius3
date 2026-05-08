@@ -352,8 +352,8 @@ namespace Demos
                 PowerMeter.CtlClear();
 
                 var sw = Stopwatch.StartNew();
-                var oldIsEnableLookUp = this.IsEnableLookUp;
-                this.IsEnableLookUp = true;
+                var oldIsEnableLookUp = this.IsLookUpEnable;
+                this.IsLookUpEnable = true;
                 bool isPreHeated = false;
                 foreach (var kv in categoryAndYWatts)
                 {
@@ -414,7 +414,7 @@ namespace Demos
                 success &= rtc.CtlLaserOff();
                 success &= PowerMeter.CtlStop();
                 Scanner.CtlMoveTo(DVec2.Zero);
-                this.IsEnableLookUp = oldIsEnableLookUp;
+                this.IsLookUpEnable = oldIsEnableLookUp;
                 this.IsBusy = false;
                 if (success)
                 {
@@ -532,8 +532,8 @@ namespace Demos
                 PowerMeter.CtlClear();
                 var sw = Stopwatch.StartNew();
                 bool isPreHeated = false;
-                var oldIsEnableLookUp = this.IsEnableLookUp;
-                this.IsEnableLookUp = true;
+                var oldIsEnableLookUp = this.IsLookUpEnable;
+                this.IsLookUpEnable = true;
                 int retryCounts = 0;
 
                 for (int i = 0; i < categoryAndYWatts.Length; i++)
@@ -626,7 +626,7 @@ namespace Demos
                 success &= PowerMeter.CtlStop();
                 rtc.CtlMoveTo(DVec2.Zero);
                 this.IsBusy = false;
-                this.IsEnableLookUp = oldIsEnableLookUp;
+                this.IsLookUpEnable = oldIsEnableLookUp;
                 if (success)
                 {
                     this.IsReady = true;

@@ -116,8 +116,7 @@ namespace Demos
             }
 
             var group = EntityFactory.CreateMixedGroup($"{rows}x{cols} {rowInterval}x{colInterval}mm", entities);
-            document?.ActivePage?.ActiveLayer?.AddChild(group);
-            siriusEditorControl1.View?.DoRender();
+            document?.ActAdd(group);
         }
 
         private void BtnCorrection2D_Click(object sender, EventArgs e)

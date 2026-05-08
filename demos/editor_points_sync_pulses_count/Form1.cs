@@ -220,8 +220,7 @@ namespace Demos
             points.ColorMode = EntityModelBase.ColorModes.Model;
             points.ModelColor = color.ToDVec3();
 
-            document.ActivePage?.ActiveLayer?.AddChild(points);
-            siriusEditorControl1.View?.DoRender();
+            document.ActAdd(points);
         }
 
         void EditPenValues()

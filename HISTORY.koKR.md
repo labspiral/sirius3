@@ -1,5 +1,31 @@
 ﻿# Sirius3 버전 이력
 
+## v1.8.5 (2026.5.8)
+- added) Undo, Redo 지원
+    - IDocument 에서 ActUndo, ActRedo 지원
+    - IDocument.Act 이름의 일부 함수에서만 유효
+    - Config.IsUnReDoEnable 으로 비활성화 가능 
+    - Config.UnReDoSize 으로 이력 개수(기본값: 30) 변경 가능
+- added) 바코드
+    - Aztec 2D 바코드 추가
+    - PLESSEY 1D 바코드 추가
+    - 픽셀 크기(Dimension) 편집 지원
+- added) CreateGrid 폼
+    - 점, 원, 십자선, 격자 패턴 선택 생성 지원
+- added) Rtc6
+    - 펨토초 레이저를 위한 펄스 피킹 지원
+- fixed) IRtcStepper
+    - 초기화 및 대기 함수에 비동기 처리 지원
+- fixed) DIO 폼
+    - Output 아나로그 값 표시 오류 수정
+- fixed) MultiBeam
+    - 레스터 가공시 점프(토큰 교환) 구간 변경
+    - 기존: 매 줄 마다 점프(ListRasterLine)시 토큰 교환에서
+    - 변경: 매 픽셀(ListRasterPixel)간 점프시 토큰 교환으로 변경
+- fixed) semi ocr font
+    - 레스터(Raster) 가공 방식 적용
+- renamed) IPowerMap 의 IsEnableLookUp 을 IsLookUpEnable 으로 개명
+
 ## v1.8.1 (2026.4.22)
 - added) Remote 통신 지원
     - 외부 통신으로 레시피 변경, 개체의 속성 조회 및 변경, 마커 가공 시작, 정지, 리셋 명령, 가공 오프셋 설정을 지원하기 위한 IRemote 인터페이스 추가

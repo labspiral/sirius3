@@ -13,15 +13,15 @@
    - RTC4 / RTC4e / RTC5 / RTC6 / RTC6e
    - XL-SCAN (syncAXIS 기반의 RTC6 + ACS 조합)
 - 계측 및 프로파일링
-   - 스캐너 운동 경로와 시그널 출력 로그를 이용한 그래프 출력 지원 [Measurement Manual](doc/MeasurementUserManual.md)
-   - 경로 시뮬레이션 을 통한 시각화 지원 [Simulation Manual](doc/SimulationUserManual.md)
+   - 스캐너 운동 경로와 시그널 출력 로그를 이용한 그래프 출력 지원
+   - 경로 시뮬레이션 을 통한 시각화 지원
 - 강력한 가공 옵션
    - 가변 폴리곤, 가변 점프 지연시간 설정 지원
    - 2nd 헤드, 3D 지원
    - MoF (Marking on the Fly) 와 확장 MoF (Fly extension) 지원
    - Sky Writing Mode 1/2/3/4
    - SCANAhead 를 이용한 자동 지연값(Auto delays) 지원
-   - 멀티빔 (1개의 레이저 소스 + 2개의 AOM + 2개의 스캔헤드) 제어 지원 [MultiBeam Manual](doc/MultibeamSystemManual.md)
+   - 멀티빔 (1개의 레이저 소스 + 2개의 AOM + 2개의 스캔헤드) 제어 지원
 - ALC(Automatic Laser Control)
    - 벡터 정의형
       - 램프(Ramp)
@@ -34,8 +34,8 @@
       - 거리 및 스케일 값 기반 테이블
    - 또한 SCANAhead, Encoder Speed Addition, Inverse Speed Correction, Backward Transformation, SDC+Skywriting 조합 사용 가능
 - 스캐너 필드 보정
-   - 2D 보정 [2D Correction Manual](doc/Correction2dUserManual.md)
-   - 3D 보정 (기울어짐, 포커스, a,b,c 계수 및 스트레치 보정 지원) [3D Correction Manual](doc/Correction3dUserManual.md)
+   - 2D 보정
+   - 3D 보정 (기울어짐, 포커스, a,b,c 계수 및 스트레치 보정 지원)
 - 레이저 파워 제어
    - 주파수, 펄스폭, 아나로그, 디지털 출력
    - 레이저 소스 벤더 지원: AdvancedOptoWave, Coherent, IPG, JPT, Photonics Industry, Spectra Physics 등
@@ -50,14 +50,14 @@
    - QR, DataMatrix, PDF417 Barcodes
    - STL, OBJ, PLY 등의 3D 메쉬 포맷 
 - 원격 통신 지원
-    - 통신을 통한 개체 정보, 펜 정보의 조회 및 설정, 파일 열기, 마커 및 오프셋 설정 등 지원 [Remote Protocol Manual](doc/RemoteProtocolManual.md)
+    - 통신을 통한 개체 정보, 펜 정보의 조회 및 설정, 파일 열기, 마커 및 오프셋 설정 등 지원
     - TCP/IP 소켓 통신
     - 시리얼 (RS-232) 통신
-    - 웹 소켓 통신 [Remote WebSocket Demo](doc/Remote_WebSocket_Demo.html)
+    - 웹 소켓 통신
     - MQTT 통신
 - 스크립트 지원
     - C# 스크립트를 통한 텍스트 및 바코드 개체의 데이타 실시간 업데이트 지원
-    - 다양한 스크립트 확장 지원 [Script Manual](doc/ScriptUserManual.md)
+    - 다양한 스크립트 확장 지원
 - 문서 및 페이지
    - 다중 문서 와 페이지 지원
    - 하나의 문서를 복수개의 뷰 대상에 렌더링 지원
@@ -110,18 +110,29 @@
    - RTC6: 2026.3.31 v1.24.0
    - syncAXIS: v1.8.2 (2023.03.09)
 
-- .NET / OpenTK
+- .NET
    - `net481`
       - OpenTK 3.3.3
+      - Microsoft.Extensions.Logging 8.0.1
+      - Microsoft.Extensions.Logging.Abstractions 8.0.3 
    - `net8.0-windows`
-   - `net9.0-windows`
+      - OpenTK 4.9.4
+      - OpenTK.Mathematics 4.9.4
+      - Microsoft.Extensions.Logging 8.0.1
+      - Microsoft.Extensions.Logging.Abstractions 8.0.3 
+  - `net9.0-windows`
+      - OpenTK 4.9.4
+      - OpenTK.Mathematics 4.9.4
+      - Microsoft.Extensions.Logging 9.0.15
+      - Microsoft.Extensions.Logging.Abstractions 9.0.15  
    - `net10.0-windows`
       - OpenTK 4.9.4
       - OpenTK.Mathematics 4.9.4
+      - Microsoft.Extensions.Logging 10.0.7
+      - Microsoft.Extensions.Logging.Abstractions 10.0.7
    - Common
       - Newtonsoft.Json 13.0.4
-      - Microsoft.Extensions.Logging 8.0.1
-      - Microsoft.Extensions.Logging.Abstractions 8.0.3
+
 
 ## 패키지 설치
 - 참조 추가 (NuGet 패키지 관리자 이용 권장)
@@ -141,32 +152,31 @@
 <PropertyGroup Condition="'$(TargetFramework)'=='net481'">
 	<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
 </PropertyGroup>
-<PropertyGroup Condition="'$(TargetFramework.StartsWith(`net8.0-windows`))' OR '$(TargetFramework.StartsWith(`net9.0-windows`))' OR '$(TargetFramework.StartsWith(`net10.0-windows`))'">
+<PropertyGroup Condition="'$(TargetFramework)'!='net481'">
 	<DefineConstants>$(DefineConstants);OPENTK4</DefineConstants>
 </PropertyGroup>
 
 <ItemGroup Condition="'$(TargetFramework)'=='net481'">
 	<PackageReference Include="OpenTK" Version="3.3.3" />
 </ItemGroup>
-
-<ItemGroup Condition="'$(TargetFramework.StartsWith(`net8.0-windows`))' OR '$(TargetFramework.StartsWith(`net9.0-windows`))' OR '$(TargetFramework.StartsWith(`net10.0-windows`))'">
+<ItemGroup Condition="'$(TargetFramework)'!='net481'">
 	<PackageReference Include="OpenTK" Version="4.9.4" />
 	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
 </ItemGroup>
 
-<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' OR '$(TargetFramework)' == 'net481'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
+<ItemGroup Condition="'$(TargetFramework)'=='net481' OR '$(TargetFramework)'=='net8.0-windows'">
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
 </ItemGroup>
 	
-<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-windows'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.15" />
+<ItemGroup Condition="'$(TargetFramework)'=='net9.0-windows'">
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.15" />
 </ItemGroup>
 	
-<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
+<ItemGroup Condition="'$(TargetFramework)'=='net10.0-windows'">
     <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
 </ItemGroup>
 	
 <ItemGroup>
@@ -276,7 +286,6 @@ static class Program
             var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dlgResult != DialogResult.Yes)
             {
-                //editorControl.Marker?.Stop();
                 e.Cancel = true;
                 return;
             }
@@ -301,8 +310,12 @@ static class Program
 
 ## 라이센스
 - 상업용 사용은 라이센스 구매가 필요합니다.
-- 라이센스: RTC 인스턴스 개수 + [옵션: MoF, MultiBeam, syncAXIS 혹은 Remote]
-- 라이센스 및 외부 라이브러리는 LICENSE.koKR.txt, THIRD-PARTY-NOTICES.koKR.txt 참고.
+- 라이센스: RTC 인스턴스 개수 + [옵션]
+    - MoF 옵션: 외부 엔코더를 이용한(실시간 추종 및 대기 등) Fly 가공 기능 (Processing on the fly).
+    - MultiBeam 옵션: 1개의 레이저 소스 + 2개의 AOM + 2개의 스캔헤드 구성으로 점프 구간에서 레이저 빔 경로를 실시간 변경해 처리하는 기능.
+    - syncAXIS 옵션: ACS 모션 제어기 + excelliSCAN 스캔헤드 구성으로 스캐헤드와 스테이지의 동기화를 이용한 대면적 가공(XL-SCAN 솔류션).
+    - Remote 옵션: 소켓, 시리얼, 웹, MQTT 프로토콜을 이용한 외부 통신으로 레시피 변경, 가공 제어, 데이타 조회및 변경을 지원.
+- 라이센스 정책 및 외부 라이브러리는 [LICENSE.koKR.txt](LICENSE.koKR.txt), [THIRD-PARTY-NOTICES.koKR.txt](THIRD-PARTY-NOTICES.koKR.txt) 참고.
 - 이메일: hcchoi@spirallab.co.kr | https://spirallab.co.kr
 > 라이센스키가 없으면 30분간 사용이 가능한 평가모드로 실행됩니다.
 

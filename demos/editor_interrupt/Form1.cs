@@ -14,7 +14,6 @@ using Microsoft.Extensions.Logging;
 using SpiralLab.Sirius3;
 using System.Diagnostics;
 
-
 #if OPENTK3
 using OpenTK;
 using DVec2 = OpenTK.Vector2d;
@@ -35,7 +34,6 @@ namespace Demos
 {
     public partial class Form1 : Form
     {
-
 
         public Form1()
         {
@@ -96,10 +94,10 @@ namespace Demos
                 var breakPoint = EntityFactory.CreateBreakPoint(arc);
    
                 // breakpoint entity before arc
-                document.ActivePage?.ActiveLayer?.AddChild(breakPoint);
+                document.ActAdd(breakPoint);
 
                 // arc entity
-                document.ActivePage?.ActiveLayer?.AddChild(arc); 
+                document.ActAdd(arc); 
             }
         }
 

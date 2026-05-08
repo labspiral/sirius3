@@ -201,7 +201,7 @@ namespace Demos
             double tz = rnd.NextDouble() * 10.0;
             points.Translate(tx, ty, tz);
 
-            document.ActivePage?.ActiveLayer?.AddChild(points);
+            document.ActAdd(points);
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -214,7 +214,7 @@ namespace Demos
 
             {
                 var entity = EntityFactory.CreateLine(new DVec3(0, 0, 0), new DVec3(10, 10, 1));
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
@@ -229,7 +229,7 @@ namespace Demos
                 double tz = rnd.NextDouble() * 100.0 - 10.0;
                 entity.Translate(tx, ty, tz);
 
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
@@ -239,7 +239,7 @@ namespace Demos
                 double tz = rnd.NextDouble() * 10.0;
                 entity.Translate(tx, ty, tz);
 
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
             siriusEditorControl1.View?.DoRender();
         }
@@ -255,20 +255,20 @@ namespace Demos
                 var entity = EntityFactory.CreateTriangle(new DVec3(0, 0, 0), 3, 2);
                 entity.Rotate(rnd.NextDouble() * 10 - 5.0, rnd.NextDouble() * 10 - 5.0, rnd.NextDouble() * 10 - 5.0);
                 entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
                 var entity = EntityFactory.CreateRectangle(new DVec3(0, 0, 0), 4, 3);
                 entity.Rotate(rnd.NextDouble() * 10 - 5.0, rnd.NextDouble() * 10 - 5.0, rnd.NextDouble() * 10 - 5.0);
                 entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
                 var entity = EntityFactory.CreateCross(new DVec3(0, 0, 0), 10, 10, 2);
                 entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 10.0);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
             siriusEditorControl1.View?.DoRender();
         }
@@ -300,7 +300,7 @@ namespace Demos
                 poly.Scale(rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5);
                 poly.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
 
-                document.ActivePage?.ActiveLayer?.AddChild(poly);
+                document.ActAdd(poly);
             }
             siriusEditorControl1.View?.DoRender();
         }
@@ -332,7 +332,7 @@ namespace Demos
                 poly.Scale(rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5, rnd.NextDouble() * 2.0 + 0.5);
                 poly.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
 
-                document.ActivePage?.ActiveLayer?.AddChild(poly);
+                document.ActAdd(poly);
             }
             siriusEditorControl1.View?.DoRender();
         }
@@ -369,7 +369,7 @@ namespace Demos
                                  rnd.NextDouble() * 100.0 - 50.0,
                                  rnd.NextDouble() * 100.0 - 10.0);
 
-                document.ActivePage?.ActiveLayer?.AddChild(spline);
+                document.ActAdd(spline);
             }
 
             siriusEditorControl1.View?.DoRender();
@@ -468,7 +468,7 @@ namespace Demos
                                  rnd.NextDouble() * 100.0 - 50.0,
                                  rnd.NextDouble() * 100.0 - 10.0);
 
-                document.ActivePage?.ActiveLayer?.AddChild(spline);
+                document.ActAdd(spline);
             }
 
             siriusEditorControl1.View?.DoRender();           
@@ -523,7 +523,7 @@ namespace Demos
                                  rnd.NextDouble() * 100.0 - 50.0,
                                  rnd.NextDouble() * 100.0 - 10.0);
 
-                document.ActivePage?.ActiveLayer?.AddChild(spline);
+                document.ActAdd(spline);
             }
 
             siriusEditorControl1.View?.DoRender();
@@ -598,7 +598,7 @@ namespace Demos
                     rnd.NextDouble() * 100.0 - 50.0,
                     rnd.NextDouble() * 100.0 - 10.0);
 
-                document.ActivePage?.ActiveLayer?.AddChild(spline);
+                document.ActAdd(spline);
             }
 
             siriusEditorControl1.View?.DoRender();
@@ -643,7 +643,7 @@ namespace Demos
                     rnd.NextDouble() * 100.0 - 50.0,
                     rnd.NextDouble() * 100.0 - 10.0);
 
-                document.ActivePage?.ActiveLayer?.AddChild(spline);
+                document.ActAdd(spline);
             }
 
             siriusEditorControl1.View?.DoRender();
@@ -706,14 +706,14 @@ namespace Demos
             {
                 var text = EntityFactory.CreateText("Arial", FontStyle.Regular, $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+", 10);
                 text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 10.0);
-                document.ActivePage?.ActiveLayer?.AddChild(text);
+                document.ActAdd(text);
             }
 
             {
                 var text = EntityFactory.CreateText("Segoe UI", FontStyle.Regular, $"스파이럴랩{Environment.NewLine}SIRIUS3{Environment.NewLine}개발자 버전", 12);
                 text.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
                 text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
-                document.ActivePage?.ActiveLayer?.AddChild(text);
+                document.ActAdd(text);
             }
 
             {
@@ -724,7 +724,7 @@ namespace Demos
                     50, 1, 20);
                 text.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
                 text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
-                document.ActivePage?.ActiveLayer?.AddChild(text);
+                document.ActAdd(text);
             }
 
             {
@@ -733,7 +733,7 @@ namespace Demos
                     $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+", 5);
 
                 text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
-                document.ActivePage?.ActiveLayer?.AddChild(text);
+                document.ActAdd(text);
             }
 
             {
@@ -742,7 +742,7 @@ namespace Demos
                     $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+", 10);
 
                 text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
-                document.ActivePage?.ActiveLayer?.AddChild(text);
+                document.ActAdd(text);
             }
             siriusEditorControl1.View?.DoRender();
         }
@@ -805,7 +805,7 @@ namespace Demos
             var group = EntityFactory.CreateMixedGroup("TestGroup", list);
             group.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 5);
 
-            document.ActivePage?.ActiveLayer?.AddChild(group);
+            document.ActAdd(group);
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -838,7 +838,7 @@ namespace Demos
                 entities.Add(poly);
             }
             var group = EntityFactory.CreateUniformGroup("Group", entities);
-            document.ActivePage?.ActiveLayer?.AddChild(group);
+            document.ActAdd(group);
 
             siriusEditorControl1.View?.DoRender();
         }
@@ -870,7 +870,7 @@ namespace Demos
             var group = EntityFactory.CreateUniformGroup("Group", list);
             group.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0 + 100, rnd.NextDouble() * 2);
             
-            document.ActivePage?.ActiveLayer?.AddChild(group);
+            document.ActAdd(group);
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -889,14 +889,14 @@ namespace Demos
                 cube.ModelColor = new DVec3(rnd.NextDouble() + 0.8, rnd.NextDouble() * 0.5, rnd.NextDouble());
                 cube.Rotate(rnd.NextDouble() * 60.0 - 30.0, rnd.NextDouble() * 60.0 - 30.0, rnd.NextDouble() * 60.0 - 30.0);
                 cube.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
-                document.ActivePage?.ActiveLayer?.AddChild(cube);
+                document.ActAdd(cube);
 
                 var cyl = EntityFactory.CreateCylinder(DVec3.Zero, rnd.NextDouble() * 10, rnd.NextDouble() * 10);
                 cyl.ColorMode = EntityModelBase.ColorModes.Model;
                 cyl.ModelColor = new DVec3(rnd.NextDouble() * 0.5, rnd.NextDouble() * 0.7, rnd.NextDouble() + 0.5);
                 cyl.Rotate((rnd.NextDouble() * 60.0 - 30.0), (rnd.NextDouble() * 60.0 - 30.0), (rnd.NextDouble() * 60.0 - 30.0));
                 cyl.Translate((rnd.NextDouble() * 100.0 - 50.0), (rnd.NextDouble() * 100.0 - 50.0), (rnd.NextDouble() * 100.0 - 10.0));
-                document.ActivePage?.ActiveLayer?.AddChild(cyl);
+                document.ActAdd(cyl);
             }
             siriusEditorControl1.View?.DoRender();
         }
@@ -913,7 +913,7 @@ namespace Demos
 
             mesh.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
             mesh.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, 0);
-            document.ActivePage?.ActiveLayer?.AddChild(mesh);
+            document.ActAdd(mesh);
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -929,7 +929,7 @@ namespace Demos
 
             mesh.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
             mesh.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, 0);
-            document.ActivePage?.ActiveLayer?.AddChild(mesh);
+            document.ActAdd(mesh);
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -966,7 +966,7 @@ namespace Demos
             var pointsCloud = EntityFactory.CreateGridCloud(ROWS, COLS, INTERVAL, zDepths, new DVec2(minZ, maxZ));
             pointsCloud.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, 0);
 
-            document.ActivePage?.ActiveLayer?.AddChild(pointsCloud);
+            document.ActAdd(pointsCloud);
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -1003,7 +1003,7 @@ namespace Demos
                 dy += 11;
             }
 
-            document.ActivePage?.ActiveLayer?.AddChildren(entities.ToArray());
+            document.ActAdd(entities.ToArray());
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -1020,7 +1020,7 @@ namespace Demos
             image.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
             image.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
 
-            document.ActivePage?.ActiveLayer?.AddChild(image);
+            document.ActAdd(image);
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -1048,7 +1048,7 @@ namespace Demos
             var entity = EntityFactory.CreateLines(lines);
             entity.Alpha = 0.9;
             entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 5);
-            document.ActivePage?.ActiveLayer?.AddChild(entity);
+            document.ActAdd(entity);
 
             siriusEditorControl1.View?.DoRender();
         }
@@ -1064,7 +1064,7 @@ namespace Demos
             //    var entity = EntityFactory.CreateBarcodeV2("1234567890", EntityBarcode1D_v2.Barcode1DCells.Dots, EntityBarcode1D_v2.Barcode1DFormats.Code128, 5, 1);
             //    entity.CellDot.DotFactor = 5;
             //    entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 10.0 - 2.0);
-            //    document.ActivePage?.ActiveLayer?.AddChild(entity);
+            //    document.ActAdd(entity);
             //}
 
             //{
@@ -1072,7 +1072,7 @@ namespace Demos
             //    entity.CellLine.DotFactor = 5;
             //    entity.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
             //    entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 10.0 - 2.0);
-            //    document.ActivePage?.ActiveLayer?.AddChild(entity);
+            //    document.ActAdd(entity);
             //}
 
             //{
@@ -1080,7 +1080,7 @@ namespace Demos
             //    entity.CellDot.DotFactor = 5;
             //    entity.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
             //    entity.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 10.0 - 2.0);
-            //    document.ActivePage?.ActiveLayer?.AddChild(entity);
+            //    document.ActAdd(entity);
             //}
 
             {
@@ -1090,7 +1090,7 @@ namespace Demos
 
                 var hatch = HatchFactory.CreateLine(45, 0.1);
                 entity.AddHatch(hatch);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
             siriusEditorControl1.View?.DoRender();
         }
@@ -1144,7 +1144,7 @@ namespace Demos
 
             var entity = EntityFactory.CreateImageZPL(4 * 25.4, 6 * 25.4, zplText, EntityImageZPL.DotsPerMMs.Dots8_203DPI);
             entity.Translate(rnd.NextDouble() * 100.0 - 50, rnd.NextDouble() * 100.0 - 50, 0);
-            document.ActivePage?.ActiveLayer?.AddChild(entity);
+            document.ActAdd(entity);
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -1154,7 +1154,7 @@ namespace Demos
             
             var entity = EntityFactory.CreateLissajous(DVec3.Zero, 10, 2, 12, EntityLissajous.LissajousTypes.π, EntityLissajous.Directions.Cw);
             entity.Translate(rnd.NextDouble() * 100.0 - 50, rnd.NextDouble() * 100.0 - 50, 0);
-            document.ActivePage?.ActiveLayer?.AddChild(entity);
+            document.ActAdd(entity);
             siriusEditorControl1.View?.DoRender();
         }
 
@@ -1165,13 +1165,13 @@ namespace Demos
             {
                 var entity = EntityFactory.CreateSpiralClassic(DVec3.Zero, 10, 8, 2, 10, true);
                 entity.Translate(rnd.NextDouble() * 100.0 - 50, rnd.NextDouble() * 100.0 - 50, 0);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
                 var entity = EntityFactory.CreateSpiral(DVec3.Zero, 10, 2, 12, EntitySpiral.SpiralTypes.Archimedean, true);
                 entity.Translate(rnd.NextDouble() * 100.0 - 50, rnd.NextDouble() * 100.0 - 50, 0);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
             siriusEditorControl1.View?.DoRender();
         }
@@ -1194,7 +1194,7 @@ namespace Demos
                 bool success = EntityFactory.CreateGerber(fileName, SpiralLab.Sirius3.UI.Config.EntityPenColors[0], out var gerber);
                 Debug.Assert(success);
                 gerber.Translate(rnd.NextDouble() * 100.0 - 50, rnd.NextDouble() * 100.0 - 50, 0);
-                document.ActivePage?.ActiveLayer?.AddChild(gerber);
+                document.ActAdd(gerber);
             }
 
             {
@@ -1204,7 +1204,7 @@ namespace Demos
                 bool success = EntityFactory.CreateGerber(fileName, SpiralLab.Sirius3.UI.Config.EntityPenColors[1], out var gerber);
                 Debug.Assert(success);
                 gerber.Translate(rnd.NextDouble() * 100.0 - 50, rnd.NextDouble() * 100.0 - 50, 0);
-                document.ActivePage?.ActiveLayer?.AddChild(gerber);
+                document.ActAdd(gerber);
             }
 
             // or by path
@@ -1212,7 +1212,7 @@ namespace Demos
             //    var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\gerber\\");
             //    bool success = EntityFactory.CreateGerbers(filePath, "*.*", out EntityGerber[] gerberEntities);
             //    Debug.Assert(success);
-            //    document.ActivePage?.ActiveLayer?.AddChildren(gerberEntities);
+            //    document.ActAdd(gerberEntities);
             //}
             siriusEditorControl1.View?.DoRender();
         }

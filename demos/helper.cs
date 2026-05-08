@@ -318,7 +318,6 @@ namespace Demos
             var laserMaxPower = NativeMethods.ReadIni<double>(ConfigFileName, $"LASER{index}", "MAXPOWER", 10);
             var laserCOMPort = NativeMethods.ReadIni<int>(ConfigFileName, $"LASER{index}", "COM_PORT", 1);
             var laserIPaddress = NativeMethods.ReadIni<string>(ConfigFileName, $"LASER{index}", "IP_ADDRESS", string.Empty);
-            var rtcAnalogPort = NativeMethods.ReadIni<int>(ConfigFileName, $"LASER{index}", "ANALOG_PORT", 1);
             var virtuaLaserPowerControl = NativeMethods.ReadIni(ConfigFileName, $"LASER{index}", "POWERCONTROL", "Unknown");
             switch (laserType.Trim().ToLower())
             {
@@ -391,6 +390,7 @@ namespace Demos
                     laser = LaserFactory.CreateIPGYLPULPN(index, $"LASER{index}", laserCOMPort, laserMaxPower);
                     break;
                 case "ipgylpn":
+                    var rtcAnalogPort = NativeMethods.ReadIni<int>(ConfigFileName, $"LASER{index}", "ANALOG_PORT", 1);
                     laser = LaserFactory.CreateIPGYLPN(index, $"LASER{index}", laserCOMPort, laserMaxPower, rtcAnalogPort);
                     break;
                 case "jpttypee":
@@ -439,7 +439,7 @@ namespace Demos
                 {
                     powerControl.PowerMap = powerMap;
                     // Enable lookup powermap table 
-                    powerMap.IsEnableLookUp = true;
+                    powerMap.IsLookUpEnable = true;
                 }
             }
             // Assign RTC into laser source

@@ -227,7 +227,7 @@ namespace Demos
                 entity.CellDot.DotFactor = 2;
                 entity.IsReversed = true;
                 entity.Translate(0, 10);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
@@ -243,7 +243,7 @@ namespace Demos
                 entity.HatchMarkOption = HatchMarkOptions.HatchFirst;
                 entity.AddHatch(hatch);
                 entity.Translate(0, -12.5);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             document.ActRegen();

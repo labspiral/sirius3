@@ -67,7 +67,6 @@ namespace Demos
             nudSlice.ValueChanged += NudSlice_ValueChanged;
         }
 
-
         private void Form1_Load(object sender, EventArgs e)
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
@@ -184,6 +183,9 @@ namespace Demos
             hatch.ModelColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[index].ToDVec3();
 
             hatchable.AddHatch(hatch);
+            //or
+            //document.ActAddHatch(hatchable, hatch);
+
             hatchable.HatchMarkOption = HatchMarkOptions.HatchFirst;
 
             // regenerate hatch within entity

@@ -183,8 +183,7 @@ namespace Demos
                 },
                 @"X,Y, LaserON, PulseLength(usec)"
                 );
-            document.ActivePage?.ActiveLayer?.AddChild(begin);
-
+            document.ActAdd(begin);
 
             double width = 50;
             double height = 40;
@@ -199,32 +198,29 @@ namespace Demos
             top.Name = "Top";
             top.LineWidth = 3;
             top.PenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[0]; //White
-            document.ActivePage?.ActiveLayer?.AddChild(top);
+            document.ActAdd(top);
 
             var right = EntityFactory.CreateLine(width / 2.0, height / 2.0, width / 2.0, -height / 2.0);
             right.Name = "Right";
             right.LineWidth = 3;
             right.PenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[1]; //Yellow
-            document.ActivePage?.ActiveLayer?.AddChild(right);
+            document.ActAdd(right);
 
             var bottom = EntityFactory.CreateLine(width / 2.0, -height / 2.0, -width / 2.0, -height / 2.0);
             bottom.Name = "Bottom";
             bottom.LineWidth = 3;
             bottom.PenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[2]; //Orange
-            document.ActivePage?.ActiveLayer?.AddChild(bottom);
+            document.ActAdd(bottom);
 
             var left = EntityFactory.CreateLine(-width / 2.0, -height / 2.0, -width / 2.0, height / 2.0);
             left.Name = "Left";
             left.LineWidth = 3;
             left.PenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[3]; //Red
-            document.ActivePage?.ActiveLayer?.AddChild(left);
-
+            document.ActAdd(left);
 
             // create measurement end
             var end = EntityFactory.CreateMeasurementEnd();
-            document.ActivePage?.ActiveLayer?.AddChild(end);
-
-            siriusEditorControl1.View?.DoRender();
+            document.ActAdd(end);
         }
 
         private void BtnPen_Click(object sender, EventArgs e)

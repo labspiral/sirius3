@@ -1,6 +1,31 @@
 ﻿# Sirius3 version history
 
-## v1.8.1  (2026.4.22)
+## v1.8.5 (2026.5.8)
+- added) Undo and Redo support
+    - Support for ActUndo and ActRedo in IDocument
+    - Valid only for certain functions named IDocument.Act
+    - Can be disabled via Config.IsUnReDoEnable
+    - The number of history entries (default: 30) can be changed via Config.UnReDoSize
+- added) Barcodes
+    - Added Aztec 2D barcodes
+    - Added PLESSEY 1D barcodes
+    - Support for editing pixel size (Dimension)
+- added) CreateGrid form
+    - Support for creating dots, circles, crosshairs, and grid patterns
+- added) Rtc6
+    - Added support for pulse picking for femtosecond lasers
+- fixed) IRtcStepper
+    - Added support for asynchronous processing in initialization and wait functions
+- fixed) DIO Form
+    - Fixed an error in displaying analog output values
+- fixed) MultiBeam
+    - Changed the jump (token exchange) interval during raster machining
+    - Previous: Token exchange upon jump (ListRasterLine) at the end of each line
+    - Changed: Token exchange upon jump (ListRasterPixel) between each pixel
+- fixed) semi ocr font
+    - Applied raster machining method
+ 
+## v1.8.1 (2026.4.22)
 - added) Remote
     - Added the IRemote interface to support recipe changes, object property queries and modifications, and commands to start, stop, and reset marker processing via external communication, as well as the setting of processing offsets
     - Serial communication supported

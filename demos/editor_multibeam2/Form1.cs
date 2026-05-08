@@ -111,7 +111,7 @@ namespace Demos
                 siriusMultiEditorControl1.RegisterDevices(index, rtcMultiBeam, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
                 marker.Ready(siriusMultiEditorControl1.Document, siriusMultiEditorControl1.View, rtcMultiBeam, laser, null);
 
-                RenameDIOs(dInExt1, dOutExt1);
+                RenameDIOs(dInExt1, dOutExt1, siriusMultiEditorControl1);
             }
 
             {
@@ -120,16 +120,16 @@ namespace Demos
                 siriusMultiEditorControl1.RegisterDevices(index, rtcMultiBeam, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
                 marker.Ready(siriusMultiEditorControl1.Document, siriusMultiEditorControl1.View, rtcMultiBeam, laser, null);
 
-                RenameDIOs(dInExt1, dOutExt1);
+                RenameDIOs(dInExt1, dOutExt1, siriusMultiEditorControl1);
             }
 
         }
 
-        void RenameDIOs(IDInput dInExt1, IDOutput dOutExt1)
+        void RenameDIOs(IDInput dInExt1, IDOutput dOutExt1, SiriusMultiEditorControl siriusMultiEditorControl)
         {
             dInExt1.ChannelNames = new string[1][] {
                 new string[16] {
-                    "TOKEN",
+                 "MY TOKEN",
                     "D01",
                     "D02",
                     "D03",
@@ -149,7 +149,7 @@ namespace Demos
 
             dOutExt1.ChannelNames = new string[1][] {
                 new string[16] {
-                    "TOKEN",
+                    "PEER TOKEN",
                     "AOM",
                     "D02",
                     "D03",
@@ -166,9 +166,15 @@ namespace Demos
                     "D14",
                     "D15",
                 }};
+
+            //siriusMultiEditorControl.DIRtcCtrl.AnalogNames[0] = 
+            //siriusMultiEditorControl.DIRtcCtrl.AnalogNames[1] = 
+
+            siriusMultiEditorControl.DORtcCtrl.AnalogNames[0] = "AOM";
+            siriusMultiEditorControl.DORtcCtrl.AnalogNames[1] = "LASER POWER";
         }
 
-           private void RbMode_CheckedChanged(object sender, EventArgs e)
+        private void RbMode_CheckedChanged(object sender, EventArgs e)
         {
             var rb = sender as RadioButton;
             if (rb == null || !rb.Checked) return;
@@ -233,7 +239,6 @@ namespace Demos
             }
         }
 
-
         private void BtnCheckPins_Click(object sender, EventArgs e)
         {
             if (RtcMultiBeamHelper.CheckPins(multibeamPairIndex))
@@ -241,7 +246,6 @@ namespace Demos
             else
                 System.Windows.Forms.MessageBox.Show(this, $"PIN CONNECTION ARE NOT OK !", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
 
         private void BtnReady_Click(object sender, EventArgs e)
         {

@@ -106,7 +106,7 @@ namespace Demos
                 },
                 title
                 );
-            document.ActivePage?.ActiveLayer?.AddChild(begin);
+            document.ActAdd(begin);
             var layerPenColor = SpiralLab.Sirius3.UI.Config.LayerPenColors[1]; // Color.Yellow
             document.ActivePage.ActiveLayer.PenColor = layerPenColor;
 
@@ -114,18 +114,18 @@ namespace Demos
             // create rectangle
             var rectangle = EntityFactory.CreateRectangle(DVec2.Zero, 50, 50);
             rectangle.PenColor = entityPenColor;
-            document.ActivePage?.ActiveLayer?.AddChild(rectangle);
+            document.ActAdd(rectangle);
 
             // create circle
             var circle = EntityFactory.CreateArc(DVec2.Zero, 25, 0, 360);
             circle.PenColor = entityPenColor;
-            document.ActivePage?.ActiveLayer?.AddChild(circle);
+            document.ActAdd(circle);
 
             siriusEditorControl1.View?.DoRender();
 
             // create measurement end
             var end = EntityFactory.CreateMeasurementEnd();
-            document.ActivePage?.ActiveLayer?.AddChild(end);
+            document.ActAdd(end);
 
             // config entity pen parameters
             document.FindByEntityPenColor(entityPenColor, out var entityPen);

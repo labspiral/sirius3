@@ -14,7 +14,6 @@ using Microsoft.Extensions.Logging;
 using SpiralLab.Sirius3;
 using System.Diagnostics;
 
-
 #if OPENTK3
 using OpenTK;
 using DVec2 = OpenTK.Vector2d;
@@ -85,7 +84,6 @@ namespace Demos
                 OpenHtml(filePath);
             }
         }
-
 
         public static void OpenHtml(string path)
         {

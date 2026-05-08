@@ -15,7 +15,6 @@ using SpiralLab.Sirius3;
 using System.Diagnostics;
 using SpiralLab.Sirius3.Scripting;
 
-
 #if OPENTK3
 using OpenTK;
 using DVec2 = OpenTK.Vector2d;
@@ -72,8 +71,6 @@ namespace Demos
             this.btnLoadCompile.Click += BtnLoadCompile_Click;
         }
 
-
-
         private void Form1_Load(object sender, EventArgs e)
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
@@ -93,7 +90,7 @@ namespace Demos
                  $"01234{Environment.NewLine}ABCDEF", 10);
 
             // Add into document
-            siriusEditorControl1.Document.ActivePage?.ActiveLayer?.AddChild(text);
+            siriusEditorControl1.Document.ActAdd(text);
             // And then config ...
 
             // Use simple script converter at Marker

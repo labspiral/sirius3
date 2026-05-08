@@ -224,7 +224,7 @@ namespace Demos
             //Debug.Assert(licenseInfo.IsMoFLicensed);
 
             var mofBegin = EntityFactory.CreateMoFBegin(RtcMoFModes.XY, true);
-            document.ActivePage?.ActiveLayer?.AddChild(mofBegin);
+            document.ActAdd(mofBegin);
 
             /*      
              *      
@@ -252,45 +252,45 @@ namespace Demos
             // Adjust RtcEncoderWaitConditions condition to marks at scanner center area
             double x1 = -1;
             var mofWait1 = EntityFactory.CreateMoFWait(RtcEncoders.EncX, RtcEncoderWaitConditions.Over, -x1);
-            document.ActivePage?.ActiveLayer?.AddChild(mofWait1);
+            document.ActAdd(mofWait1);
             var line1 = EntityFactory.CreateLine(x1, 10, x1, -10);
-            document.ActivePage?.ActiveLayer?.AddChild(line1);
+            document.ActAdd(line1);
 
             double x2 = -5;
             var mofWait2 = EntityFactory.CreateMoFWait(RtcEncoders.EncX, RtcEncoderWaitConditions.Over, -x2);
-            document.ActivePage?.ActiveLayer?.AddChild(mofWait2);
+            document.ActAdd(mofWait2);
             var line2 = EntityFactory.CreateLine(x2, 15, x2, -15);
-            document.ActivePage?.ActiveLayer?.AddChild(line2);
+            document.ActAdd(line2);
 
             double x3 = -10;
             var mofWait3 = EntityFactory.CreateMoFWait(RtcEncoders.EncX, RtcEncoderWaitConditions.Over, -x3);
-            document.ActivePage?.ActiveLayer?.AddChild(mofWait3);
+            document.ActAdd(mofWait3);
             var line3 = EntityFactory.CreateLine(x3, 20, x3, -20);
-            document.ActivePage?.ActiveLayer?.AddChild(line3);
+            document.ActAdd(line3);
 
             double x4 = -15;
             var mofWait4 = EntityFactory.CreateMoFWait(RtcEncoders.EncX, RtcEncoderWaitConditions.Over, -x4);
-            document.ActivePage?.ActiveLayer?.AddChild(mofWait4);
+            document.ActAdd(mofWait4);
             var spiral = EntityFactory.CreateSpiral(x4, 0, 2, 0, 5, EntitySpiral.SpiralTypes.Archimedean, true);
-            document.ActivePage?.ActiveLayer?.AddChild(spiral);
+            document.ActAdd(spiral);
 
             double x5 = -20;
             var mofWait5 = EntityFactory.CreateMoFWait(RtcEncoders.EncX, RtcEncoderWaitConditions.Over, -x5);
-            document.ActivePage?.ActiveLayer?.AddChild(mofWait5);
+            document.ActAdd(mofWait5);
             var dataMatrix = EntityFactory.CreateDataMatrix("SIRIUS3", EntityBarcode2DBase.Barcode2DCells.Outline, 4, 4);
             dataMatrix.RotateZ(90);
             dataMatrix.Name = "MyBarcode1";
             dataMatrix.Translate(x5, -10);
-            document.ActivePage?.ActiveLayer?.AddChild(dataMatrix);
+            document.ActAdd(dataMatrix);
 
             var text = EntityFactory.CreateText("Arial", FontStyle.Bold, "SIRIUS3", 4);
             text.RotateZ(90);
             text.Translate(x5, 10);
-            document.ActivePage?.ActiveLayer?.AddChild(text);
+            document.ActAdd(text);
 
             double x6 = -40;
             var mofWait6 = EntityFactory.CreateMoFWait(RtcEncoders.EncX, RtcEncoderWaitConditions.Over, -x6);
-            document.ActivePage?.ActiveLayer?.AddChild(mofWait6);
+            document.ActAdd(mofWait6);
             double xRange = 2;
             double yRange = 30;
             var rnd = new Random();
@@ -302,10 +302,10 @@ namespace Demos
                 pts.Add(new DVec2(x, y));
             }
             var points = EntityFactory.CreatePoints(pts);
-            document.ActivePage?.ActiveLayer?.AddChild(points);
+            document.ActAdd(points);
 
             var mofEnd = EntityFactory.CreateMoFEnd(DVec2.Zero);
-            document.ActivePage?.ActiveLayer?.AddChild(mofEnd);
+            document.ActAdd(mofEnd);
 
             siriusEditorControl1.View?.DoRender();
 

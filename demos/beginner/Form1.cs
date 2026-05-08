@@ -73,17 +73,6 @@ namespace Demos
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string locale = "en-US";
-            //string locale = "ko-KR";
-            //string locale = "zh-CN";
-            //string locale = "ja-JP";
-            //string locale = "de-DE";
-            var cultureInfo = new CultureInfo(locale);
-            Thread.CurrentThread.CurrentCulture = cultureInfo;
-            Thread.CurrentThread.CurrentUICulture = cultureInfo;
-
-      
-
             // Create devices
             CreateDevices();
 
@@ -179,25 +168,26 @@ namespace Demos
         void CreateEntities()
         {
             var document = siriusEditorControl1.Document;
+            //document.ActNew();
 
             {
                 var entity = EntityFactory.CreateArc(DVec2.Zero, 1, 0, 360);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
                 var entity = EntityFactory.CreateLine(new DVec3(10, 1, 0), new DVec3(12, 10, 1));
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
                 var entity = EntityFactory.CreateArc(new DVec3(-15, 25, 0), 3, 0, 180);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
                 var entity = EntityFactory.CreateRectangle(new DVec3(12, 8, 0), 3, 2);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
@@ -212,20 +202,20 @@ namespace Demos
                     vertices.Add(new Vertex2D(x, y, b));
                 }
                 var entity = EntityFactory.CreatePolyline2D(vertices, true);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
                 var entity = EntityFactory.CreateText("Arial", FontStyle.Regular, $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+", 3);
                 entity.Translate(5, -30);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
                 var entity = EntityFactory.CreateQRCode("01234567890123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 5, 5);
                 entity.CellLine.DotFactor = 5;
                 entity.Translate(10, 20);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
@@ -235,13 +225,13 @@ namespace Demos
                 var hatch = HatchFactory.CreateLine(45, 0.02, 0.02);
                 entity.AddHatch(hatch);
                 entity.HatchMarkOption = HatchMarkOptions.HatchFirst;
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
 
             {
                 var entity = EntityFactory.CreateSpiralClassic(DVec3.Zero, 10, 8, 2, 10, true);
                 entity.Translate(-20, -30);
-                document.ActivePage?.ActiveLayer?.AddChild(entity);
+                document.ActAdd(entity);
             }
         }
 
@@ -261,6 +251,7 @@ namespace Demos
 
             marker.Start(document.Page);
         }
+
         void StopMarker()
         {
             var marker = siriusEditorControl1.Marker;

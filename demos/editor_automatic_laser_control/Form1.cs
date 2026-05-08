@@ -88,7 +88,7 @@ namespace Demos
             {
                 double startingVoltage = 5.0;
                 var rampBegin = EntityFactory.CreateRampBegin(AutoLaserControlSignals.Analog1, startingVoltage);
-                document.ActivePage.ActiveLayer.AddChild(rampBegin);
+                document.ActAdd(rampBegin);
             }
 
             var line = EntityFactory.CreateLine(0, 0, 20, 0);
@@ -98,12 +98,12 @@ namespace Demos
                 line.EndRampFactor = 2;
             }
 
-            document.ActivePage.ActiveLayer.AddChild(line);
+            document.ActAdd(line);
 
             if (withRampEntity)
             {
                 var rampEnd = EntityFactory.CreateRampEnd();
-                document.ActivePage.ActiveLayer.AddChild(rampEnd);
+                document.ActAdd(rampEnd);
             }
 
             siriusEditorControl1.View?.DoRender();
@@ -125,12 +125,12 @@ namespace Demos
                 },
                 "Defined vector (scale: 0.5 -> 2.0) + analog1"
                 );
-            document.ActivePage.ActiveLayer.AddChild(begin);
+            document.ActAdd(begin);
 
             CreateEntity(true);
 
             var end = EntityFactory.CreateMeasurementEnd();
-            document.ActivePage.ActiveLayer.AddChild(end);
+            document.ActAdd(end);
 
             Debug.Assert(document.ActivePage.ActiveLayer.PenColor == Color.White);
 
@@ -168,7 +168,7 @@ namespace Demos
             CreateEntity();
 
             var end = EntityFactory.CreateMeasurementEnd();
-            document.ActivePage.ActiveLayer.AddChild(end);
+            document.ActAdd(end);
 
             Debug.Assert(document.ActivePage.ActiveLayer.PenColor == Color.White);
 
@@ -205,12 +205,12 @@ namespace Demos
                 },
                 "Actual velocity + frequency"
                 );
-            document.ActivePage.ActiveLayer.AddChild(begin);
+            document.ActAdd(begin);
 
             CreateEntity();
 
             var end = EntityFactory.CreateMeasurementEnd();
-            document.ActivePage.ActiveLayer.AddChild(end);
+            document.ActAdd(end);
 
             Debug.Assert(document.ActivePage.ActiveLayer.PenColor == Color.White);
 
@@ -249,12 +249,12 @@ namespace Demos
                 },
                 $"Spot distance control: {spotDistance:F3}mm"
                 );
-            document.ActivePage.ActiveLayer.AddChild(begin);
+            document.ActAdd(begin);
 
             CreateEntity();
 
             var end = EntityFactory.CreateMeasurementEnd();
-            document.ActivePage.ActiveLayer.AddChild(end);
+            document.ActAdd(end);
 
             Debug.Assert(document.ActivePage.ActiveLayer.PenColor == Color.White);
 
@@ -311,12 +311,12 @@ namespace Demos
                 },
                 "position dependent + analog1"
                 );
-            document.ActivePage.ActiveLayer.AddChild(begin);
+            document.ActAdd(begin);
 
             CreateEntity();
 
             var end = EntityFactory.CreateMeasurementEnd();
-            document.ActivePage.ActiveLayer.AddChild(end);
+            document.ActAdd(end);
 
             Debug.Assert(document.ActivePage.ActiveLayer.PenColor == Color.White);
 

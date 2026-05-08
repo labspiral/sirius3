@@ -125,14 +125,14 @@ namespace Demos
             outterPolyline2D = new EntityPolyline2D(outterPts, true);
             outterPolyline2D.Name = "Outter";
             outterPolyline2D.IsAllowMark = false;
-            document.ActivePage?.ActiveLayer?.AddChild(outterPolyline2D);
+            document.ActAdd(outterPolyline2D);
 
             // Create inner rectangle with cw direction (for hole)
             var innerPts = CreateRectangle(new DVec2(0, 0), 80, 80, ccw: false);  
             innerPolyline2D = new EntityPolyline2D(innerPts, true);
             innerPolyline2D.Name = "Inner";
             innerPolyline2D.IsAllowMark = false;
-            document.ActivePage?.ActiveLayer?.AddChild(innerPolyline2D);
+            document.ActAdd(innerPolyline2D);
 
             Random rnd = new Random((int)DateTime.Now.Ticks);
             double cx = rnd.NextDouble() * 120 - 60;
@@ -146,7 +146,7 @@ namespace Demos
             fovPolyline2D.Name = "Fov";
             fovPolyline2D.IsAllowMark = false;
             fovPolyline2D.Alpha = 0.4; 
-            document.ActivePage?.ActiveLayer?.AddChild(fovPolyline2D);
+            document.ActAdd(fovPolyline2D);
 
             siriusEditorControl1.View?.DoRender();
         }
@@ -199,7 +199,7 @@ namespace Demos
             resultPolyline2D.AddHatch(hatch);
 
             // Add polyline 2D 
-            document.ActivePage?.ActiveLayer?.AddChild(resultPolyline2D);
+            document.ActAdd(resultPolyline2D);
             //document.ActAdd(resultPolyline2D);
 
             siriusEditorControl1.View?.DoRender();

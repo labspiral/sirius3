@@ -95,10 +95,9 @@ namespace Demos
             document.ActImport(fileName, out var mesh);
             //or
             //EntityFactory.CreateMesh(fileName, out var mesh);
-            //document.ActivePage.ActiveLayer.AddChild(mesh);
+            //document.ActAdd(mesh);
 
             document.ActSelect(mesh);
-            siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnGridCloud_Click(object sender, EventArgs e)
@@ -135,15 +134,14 @@ namespace Demos
             points.IsAllowHitTest = false;
 
             // Add points entity into layer
-            document.ActivePage?.ActiveLayer?.AddChild(points);
+            document.ActAdd(points);
 
             // Create and prepare entity for mark hover pointscloud
             var text = new EntitySiriusText("ocra.cxf", EntitySiriusText.LetterSpaces.Variable, 0.2, 0.5, 1, "AaBbGg 012", 10);
             text.Translate(0, -height, 0);
-            document.ActivePage?.ActiveLayer?.AddChild(text);
+            document.ActAdd(text);
 
             document.ActSelect(points);
-            siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnPointsCloudCalibrationAndApply_Click(object sender, EventArgs e)
@@ -180,7 +178,6 @@ namespace Demos
 
             LoadAndSelectCorrectionFile(rtc, newCtFileName);
             document.ActRemove(points);
-            siriusEditorControl1.View?.DoRender();
         }
 
         private void BtnRevertFieldCorrection_Click(object sender, EventArgs e)

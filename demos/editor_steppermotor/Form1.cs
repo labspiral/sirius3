@@ -174,7 +174,6 @@ namespace Demos
             rtcStepper.CtlStepperMoveStop(StepperCombinedAxes.Axis1);
         }
 
-
         private void BtnPrepare_Click(object sender, EventArgs e)
         {
             var document = siriusEditorControl1.Document;
@@ -187,28 +186,27 @@ namespace Demos
                 double pos = 10; //mm or deg
                 double vel = 5; // mm/s or deg/s
                 var stepperMove = EntityFactory.CreateStepperMove(StepperAxes.Axis1, StepperMoveTypes.Absolute, pos, vel);
-                document.ActivePage?.ActiveLayer?.AddChild(stepperMove);
+                document.ActAdd(stepperMove);
 
                 var stepperWait = EntityFactory.CreateStepperWait(StepperCombinedAxes.Axis1, 2_000);
-                document.ActivePage?.ActiveLayer?.AddChild(stepperWait);
+                document.ActAdd(stepperWait);
 
                 var rect = EntityFactory.CreateRectangle(0, 0, 10, 10);
-                document.ActivePage?.ActiveLayer?.AddChild(rect);
+                document.ActAdd(rect);
             }
 
             {
                 double pos = 20; //mm or deg
                 double vel = 5; // mm/s or deg/s
                 var stepperMove = EntityFactory.CreateStepperMove(StepperAxes.Axis1, StepperMoveTypes.Absolute, pos, vel);
-                document.ActivePage?.ActiveLayer?.AddChild(stepperMove);
+                document.ActAdd(stepperMove);
 
                 var stepperWait = EntityFactory.CreateStepperWait(StepperCombinedAxes.Axis1, 2_000);
-                document.ActivePage?.ActiveLayer?.AddChild(stepperWait);
+                document.ActAdd(stepperWait);
 
                 var circle = EntityFactory.CreateArc(0, 0, 5, 0, 360);
-                document.ActivePage?.ActiveLayer?.AddChild(circle);
+                document.ActAdd(circle);
             }
-
 
             siriusEditorControl1.View?.DoRender();
 

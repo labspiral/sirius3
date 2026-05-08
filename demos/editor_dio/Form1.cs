@@ -12,6 +12,8 @@ using System.Text;
 using SpiralLab.Sirius3.Entity.Hatch;
 using Microsoft.Extensions.Logging;
 using SpiralLab.Sirius3;
+using SpiralLab.Sirius3.UI.WinForms;
+
 
 #if OPENTK3
 using OpenTK;
@@ -42,7 +44,7 @@ namespace Demos
             this.Load += Form1_Load;
             this.FormClosing += (s, e) =>
             {
-                var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                var dlgResult = System.Windows.Forms.MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dlgResult != DialogResult.Yes)
                 {
                     e.Cancel = true;
@@ -68,7 +70,7 @@ namespace Demos
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
-            RenameDIOs(dInExt1, dOutExt1);
+            RenameDIOs(dInExt1, dOutExt1, siriusEditorControl1);
 
             siriusEditorControl1.RegisterDevices(rtc, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
@@ -90,7 +92,7 @@ namespace Demos
             timer.Dispose();
         }
 
-        void RenameDIOs(IDInput dInExt1, IDOutput dOutExt1)
+        void RenameDIOs(IDInput dInExt1, IDOutput dOutExt1, SiriusEditorControl siriusEditorControl)
         {
             dInExt1.ChannelNames = new string[1][] {
                 new string[16] {
@@ -131,6 +133,12 @@ namespace Demos
                     "D14",
                     "D15",
                 }};
+
+            //siriusEditorControl.DIRtcCtrl.AnalogNames[0] = ""
+            //siriusEditorControl.DIRtcCtrl.AnalogNames[1] = "";
+
+            siriusEditorControl.DORtcCtrl.AnalogNames[0] = "AO1";
+            siriusEditorControl.DORtcCtrl.AnalogNames[1] = "AO2";
         }
 
         void CreateSampleData()
@@ -144,7 +152,7 @@ namespace Demos
             var hatch = HatchFactory.CreateLine(90, 0.02);
             entity.AddHatch(hatch);
 
-            document.ActivePage?.ActiveLayer?.AddChild(entity);
+            document.ActAdd(entity);
             siriusEditorControl1.View?.DoRender();
         }
 

@@ -270,7 +270,7 @@ namespace Demos
             var waitExt16Cond = EntityFactory.CreateWaitDataExt16EdgeCond(
                 0, //D.IN0 ("External Trigger")
                 SignalEdges.High);
-            document.ActivePage?.ActiveLayer?.AddChild(waitExt16Cond);
+            document.ActAdd(waitExt16Cond);
 
             // Create mof begin with encoder reset
             // 입력 엔코더(이동거리)값을 0 으로 초기화하도록 해주고
@@ -282,7 +282,7 @@ namespace Demos
             //Debug.Assert(licenseInfo.IsMoFLicensed);
 
             var mofBegin = EntityFactory.CreateMoFBegin(RtcMoFModes.XY, true);
-            document.ActivePage?.ActiveLayer?.AddChild(mofBegin);
+            document.ActAdd(mofBegin);
 
             // Create barcode
             // 바코드 객체 추가 및 IsAllowConvert 을 true 로 사용시 가공 직전 바코드 텍스트 데이타를 지정된 컨버터로 변경해주는 기능 사용
@@ -294,7 +294,7 @@ namespace Demos
             barcode.TextConverter = TextConverters.Event; // marker.OnTextConvert event will be called
             barcode.SourceText = "SERIAL NO";
 
-            document.ActivePage?.ActiveLayer?.AddChild(barcode);
+            document.ActAdd(barcode);
 
             // Create text
             // 텍스트 객체 추가 및 IsAllowConvert 을 true 로 사용시 가공 직전 바코드 텍스트 데이타를 지정된 컨버터로 변경해주는 기능 사용
@@ -306,14 +306,14 @@ namespace Demos
             text.SourceText = "SERIAL NO";
 
             text.Translate(0, -2.5);
-            document.ActivePage?.ActiveLayer?.AddChild(text);
+            document.ActAdd(text);
 
             // Create mof end with jump 0,0
             // 입력 엔코더(이동거리)에 의한 스캐너 추종이 중단(MoF end) 됨
             // 이후 실시간 입력되는 외부 엔코더처리는 중단되고 스캐너를 물리적 원점(0,0) 으로 점프
             // 제어용 MoF 끝 객체 추가
             var mofEnd = EntityFactory.CreateMoFEnd(DVec2.Zero);
-            document.ActivePage?.ActiveLayer?.AddChild(mofEnd);
+            document.ActAdd(mofEnd);
 
             // Create user event
             // 사용자 이벤트용 제어 객체 추가
@@ -321,7 +321,7 @@ namespace Demos
             // 이 예제에서는 OnUserEvent 이벤트 호출시 일련번호를 증가시키는 기능을 추가함
             var userEvent = EntityFactory.CreateUserEvent(); // marker.OnUserEvent event will be called
             
-            document.ActivePage?.ActiveLayer?.AddChild(userEvent);
+            document.ActAdd(userEvent);
 
             siriusEditorControl1.View?.DoRender();
             

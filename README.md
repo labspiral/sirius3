@@ -100,18 +100,28 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - RTC6: 2026.3.31 v1.24.0
    - syncAXIS: v1.8.2 (2023.03.09)
 
-- .NET / OpenTK
+- .NET 
    - `net481`
       - OpenTK 3.3.3
+      - Microsoft.Extensions.Logging 8.0.1
+      - Microsoft.Extensions.Logging.Abstractions 8.0.3 
    - `net8.0-windows`
-   - `net9.0-windows` 
+      - OpenTK 4.9.4
+      - OpenTK.Mathematics 4.9.4
+      - Microsoft.Extensions.Logging 8.0.1
+      - Microsoft.Extensions.Logging.Abstractions 8.0.3 
+   - `net9.0-windows`
+      - OpenTK 4.9.4
+      - OpenTK.Mathematics 4.9.4
+      - Microsoft.Extensions.Logging 9.0.15
+      - Microsoft.Extensions.Logging.Abstractions 9.0.15  
    - `net10.0-windows`
       - OpenTK 4.9.4
       - OpenTK.Mathematics 4.9.4
+      - Microsoft.Extensions.Logging 10.0.7
+      - Microsoft.Extensions.Logging.Abstractions 10.0.7
    - Common
       - Newtonsoft.Json 13.0.4
-      - Microsoft.Extensions.Logging 8.0.1
-      - Microsoft.Extensions.Logging.Abstractions 8.0.3
 
 ## Install Packages
 - Add references 
@@ -131,32 +141,31 @@ Project settings
 <PropertyGroup Condition="'$(TargetFramework)'=='net481'">
 	<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
 </PropertyGroup>
-<PropertyGroup Condition="'$(TargetFramework.StartsWith(`net8.0-windows`))' OR '$(TargetFramework.StartsWith(`net9.0-windows`))' OR '$(TargetFramework.StartsWith(`net10.0-windows`))'">
+<PropertyGroup Condition="'$(TargetFramework)'!='net481'">
 	<DefineConstants>$(DefineConstants);OPENTK4</DefineConstants>
 </PropertyGroup>
 
 <ItemGroup Condition="'$(TargetFramework)'=='net481'">
 	<PackageReference Include="OpenTK" Version="3.3.3" />
 </ItemGroup>
-
-<ItemGroup Condition="'$(TargetFramework.StartsWith(`net8.0-windows`))' OR '$(TargetFramework.StartsWith(`net9.0-windows`))' OR '$(TargetFramework.StartsWith(`net10.0-windows`))'">
+<ItemGroup Condition="'$(TargetFramework)'!='net481'">
 	<PackageReference Include="OpenTK" Version="4.9.4" />
 	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
 </ItemGroup>
 
-<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' OR '$(TargetFramework)' == 'net481'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
+<ItemGroup Condition="'$(TargetFramework)'=='net481' OR '$(TargetFramework)'=='net8.0-windows'">
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
 </ItemGroup>
 	
-<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-windows'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.15" />
+<ItemGroup Condition="'$(TargetFramework)'=='net9.0-windows'">
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.15" />
 </ItemGroup>
 	
-<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
+<ItemGroup Condition="'$(TargetFramework)'=='net10.0-windows'">
     <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
 </ItemGroup>
 	
 <ItemGroup>
@@ -265,7 +274,6 @@ static class Program
             var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dlgResult != DialogResult.Yes)
             {
-                //editorControl.Marker?.Stop();
                 e.Cancel = true;
                 return;
             }
@@ -291,11 +299,15 @@ static class Program
 - Examples: https://github.com/labspiral/sirius3/tree/main/demos
  
 ## License
-- Commercial license required for production use.
-- License : RTC instance count + [Options: MoF, MultiBeam, syncAXIS or Remote]
-- See LICENSE.txt and THIRD-PARTY-NOTICES.txt.
-- Contact: hcchoi@spirallab.co.kr | https://spirallab.co.kr
-> Without a license key, the library runs in 30-minute evaluation mode.
+- A license must be purchased for commercial use.
+- License: Number of RTC instances + [Options]
+    - MoF Option: Fly processing functionality (real-time tracking, standby, etc.) using an external encoder.
+    - MultiBeam Option: A configuration consisting of 1 laser source + 2 AOMs + 2 scan heads, enabling real-time modification of the laser beam path during jump sections.
+    - syncAXIS Option: A large-area processing solution (XL-SCAN Solution) utilizing synchronization between the scan head and stage via an ACS motion controller and excelliSCAN scan head configuration.
+    - Remote Option: Supports recipe changes, processing control, and data read/write via external communication using socket, serial, web, and MQTT protocols.
+- For license policies and third-party libraries, refer to [LICENSE.txt](LICENSE.txt) and [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt).
+- Email: hcchoi@spirallab.co.kr | https://spirallab.co.kr
+> If no license key is provided, the software will run in evaluation mode, which is limited to 30 minutes of use.
 
 ## Version history
 - See [HISTORY.md](HISTORY.md)

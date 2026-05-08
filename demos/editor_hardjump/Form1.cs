@@ -78,15 +78,14 @@ namespace Demos
         {
             var document = siriusEditorControl1.Document;
             var text = EntityFactory.CreateText("Arial",
-              FontStyle.Regular,
-              $"Aa{Environment.NewLine}01{Environment.NewLine}!@",
-              10);
+                FontStyle.Regular,
+                $"Aa{Environment.NewLine}01{Environment.NewLine}!@",
+                10);
             text.FontHorizontalAlignment = StringAlignment.Center;
             text.FontVerticalAlignment = StringAlignment.Center;
             text.PenColor = Color.White;
 
-            document.ActivePage.ActiveLayer.AddChild(text);
-            siriusEditorControl1.View?.DoRender();
+            document.ActAdd(text);
         }
         private void BtnNormalJump_Click(object sender, EventArgs e)
         {
@@ -104,12 +103,12 @@ namespace Demos
                 },
                 "Normal Jump"
                 );
-            document.ActivePage.ActiveLayer.AddChild(begin);
+            document.ActAdd(begin);
 
             CreateEntity();
 
             var end = EntityFactory.CreateMeasurementEnd();
-            document.ActivePage.ActiveLayer.AddChild(end);
+            document.ActAdd(end);
 
             // Find entity pen for 'White'
             document.FindByEntityPenColor(System.Drawing.Color.White, out var entityPen);
@@ -136,12 +135,12 @@ namespace Demos
                 },
                 "Hard Jump"
                 );
-            document.ActivePage.ActiveLayer.AddChild(begin);
+            document.ActAdd(begin);
 
             CreateEntity();
 
             var end = EntityFactory.CreateMeasurementEnd();
-            document.ActivePage.ActiveLayer.AddChild(end);
+            document.ActAdd(end);
 
             // Find entity pen for 'White'
             document.FindByEntityPenColor(System.Drawing.Color.White, out var entityPen);

@@ -82,13 +82,10 @@ namespace Demos
             // create entity
             var entity = EntityFactory.CreateDataMatrix("SIRIUS3", EntityBarcode2DBase.Barcode2DCells.Dots, 10, 10);
             entity.CellDot.DotFactor = 3;
-
             entity.Name = "MyBarcode";
             entity.IsAllowConvert = true;
 
-            document.ActivePage?.ActiveLayer?.AddChild(entity);
-
-            siriusEditorControl1.View?.DoRender();
+            document.ActAdd(entity);
 
             // assign marker ended event handler
             marker.OnEnded += Marker_OnEnded;

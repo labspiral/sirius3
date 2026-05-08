@@ -108,7 +108,7 @@ namespace Demos
             {
                 powerControl.PowerMap = powerMap;
                 // Enable lookup powermap table 
-                powerMap.IsEnableLookUp = true;
+                powerMap.IsLookUpEnable = true;
             }
 
             return success;

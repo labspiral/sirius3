@@ -98,7 +98,7 @@ namespace Demos
         {
             // Need to equipped with 2instances and multibeam option at library option.
             Core.License(out var licenseInfo);
-            Debug.Assert(licenseInfo.RtcLicenseMax == 2);
+            Debug.Assert(licenseInfo.RtcLicenseMax == instanceCount);
             Debug.Assert(licenseInfo.IsMultiBeamLicensed);
 
 
@@ -113,7 +113,7 @@ namespace Demos
                 siriusEditorControl1.RegisterDevices(rtcMultiBeam, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
                 marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtcMultiBeam, laser, null);
 
-                RenameDIOs(dInExt1, dOutExt1);
+                RenameDIOs(dInExt1, dOutExt1, siriusEditorControl1);
             }
 
             {
@@ -122,15 +122,15 @@ namespace Demos
                 siriusEditorControl2.RegisterDevices(rtcMultiBeam, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
                 marker.Ready(siriusEditorControl2.Document, siriusEditorControl2.View, rtcMultiBeam, laser, null);
 
-                RenameDIOs(dInExt1, dOutExt1);
+                RenameDIOs(dInExt1, dOutExt1, siriusEditorControl2);
             }
         }
 
-        void RenameDIOs(IDInput dInExt1, IDOutput dOutExt1)
+        void RenameDIOs(IDInput dInExt1, IDOutput dOutExt1, SiriusEditorControl siriusEditorControl)
         {
             dInExt1.ChannelNames = new string[1][] {
                 new string[16] {
-                    "TOKEN",
+                    "MY TOKEN",
                     "D01",
                     "D02",
                     "D03",
@@ -150,7 +150,7 @@ namespace Demos
 
             dOutExt1.ChannelNames = new string[1][] {
                 new string[16] {
-                    "TOKEN",
+                    "PEER TOKEN",
                     "AOM",
                     "D02",
                     "D03",
@@ -168,8 +168,12 @@ namespace Demos
                     "D15",
                 }};
 
-        }
+            //siriusEditorControl.DIRtcCtrl.AnalogNames[0] = 
+            //siriusEditorControl.DIRtcCtrl.AnalogNames[1] = 
 
+            siriusEditorControl.DORtcCtrl.AnalogNames[0] = "AOM";
+            siriusEditorControl.DORtcCtrl.AnalogNames[1] = "LASER POWER";
+        }
     
         private void RbMode_CheckedChanged(object sender, EventArgs e)
         {
@@ -236,7 +240,6 @@ namespace Demos
             }
         }
 
-
         private void BtnCheckPins_Click(object sender, EventArgs e)
         {
             if (RtcMultiBeamHelper.CheckPins(multibeamPairIndex))
@@ -244,7 +247,6 @@ namespace Demos
             else
                 System.Windows.Forms.MessageBox.Show(this, $"PIN CONNECTION ARE NOT OK !", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
 
         private void BtnReady_Click(object sender, EventArgs e)
         {

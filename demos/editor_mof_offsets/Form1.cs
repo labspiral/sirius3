@@ -303,7 +303,7 @@ namespace Demos
             //var entity = EntityFactory.CreateSpiralClassic(DVec3.Zero, 0.5, 1, 0, 2, true);
             var entity = EntityFactory.CreateArc(DVec2.Zero, 0.2, 0, 360);
             entity.PenColor = Color.White;
-            document.ActivePage?.ActiveLayer?.AddChild(entity);
+            document.ActAdd(entity);
 
             siriusEditorControl1.View?.DoRender();
 

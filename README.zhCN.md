@@ -100,18 +100,28 @@
    - RTC6: 2026.3.31 v1.24.0
    - syncAXIS: v1.8.2 (2023.03.09)
 
-- .NET / OpenTK
+- .NET
    - `net481`
       - OpenTK 3.3.3
+      - Microsoft.Extensions.Logging 8.0.1
+      - Microsoft.Extensions.Logging.Abstractions 8.0.3 
    - `net8.0-windows`
+      - OpenTK 4.9.4
+      - OpenTK.Mathematics 4.9.4
+      - Microsoft.Extensions.Logging 8.0.1
+      - Microsoft.Extensions.Logging.Abstractions 8.0.3 
    - `net9.0-windows`
+      - OpenTK 4.9.4
+      - OpenTK.Mathematics 4.9.4
+      - Microsoft.Extensions.Logging 9.0.15
+      - Microsoft.Extensions.Logging.Abstractions 9.0.15  
    - `net10.0-windows`
       - OpenTK 4.9.4
       - OpenTK.Mathematics 4.9.4
+      - Microsoft.Extensions.Logging 10.0.7
+      - Microsoft.Extensions.Logging.Abstractions 10.0.7
    - Common
       - Newtonsoft.Json 13.0.4
-      - Microsoft.Extensions.Logging 8.0.1
-      - Microsoft.Extensions.Logging.Abstractions 8.0.3
 
 ## 软件包安装
 - 添加引用 (建议使用 NuGet 包管理器)
@@ -131,32 +141,31 @@
 <PropertyGroup Condition="'$(TargetFramework)'=='net481'">
 	<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
 </PropertyGroup>
-<PropertyGroup Condition="'$(TargetFramework.StartsWith(`net8.0-windows`))' OR '$(TargetFramework.StartsWith(`net9.0-windows`))' OR '$(TargetFramework.StartsWith(`net10.0-windows`))'">
+<PropertyGroup Condition="'$(TargetFramework)'!='net481'">
 	<DefineConstants>$(DefineConstants);OPENTK4</DefineConstants>
 </PropertyGroup>
 
 <ItemGroup Condition="'$(TargetFramework)'=='net481'">
 	<PackageReference Include="OpenTK" Version="3.3.3" />
 </ItemGroup>
-
-<ItemGroup Condition="'$(TargetFramework.StartsWith(`net8.0-windows`))' OR '$(TargetFramework.StartsWith(`net9.0-windows`))' OR '$(TargetFramework.StartsWith(`net10.0-windows`))'">
+<ItemGroup Condition="'$(TargetFramework)'!='net481'">
 	<PackageReference Include="OpenTK" Version="4.9.4" />
 	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
 </ItemGroup>
 
-<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows' OR '$(TargetFramework)' == 'net481'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
+<ItemGroup Condition="'$(TargetFramework)'=='net481' OR '$(TargetFramework)'=='net8.0-windows'">
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
 </ItemGroup>
 	
-<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-windows'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.15" />
+<ItemGroup Condition="'$(TargetFramework)'=='net9.0-windows'">
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.15" />
 </ItemGroup>
 	
-<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
+<ItemGroup Condition="'$(TargetFramework)'=='net10.0-windows'">
     <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
 </ItemGroup>
 	
 <ItemGroup>
@@ -265,7 +274,6 @@ static class Program
             var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dlgResult != DialogResult.Yes)
             {
-                //editorControl.Marker?.Stop();
                 e.Cancel = true;
                 return;
             }
@@ -289,12 +297,16 @@ static class Program
 - 创建振镜、激光、功率计、标记器等设备对象并连接到 SiriusEditorControl。
 - 示例代码: https://github.com/labspiral/sirius3/tree/main/demos
 
-## 许可
-- 商业使用需要购买许可。
-- 许可：RTC 实例数量 + [选项：MoF, MultiBeam, syncAXIS 或 Remote]
-- 许可及外部库请参考 LICENSE.zhCN.txt, THIRD-PARTY-NOTICES.zhCN.txt。
-- 电子邮件：hcchoi@spirallab.co.kr | https://spirallab.co.kr
-> 如果没有许可密钥，将以可使用 30 分钟的评估模式运行。
+## 许可证
+- 商业用途需购买许可证。
+- 许可证：RTC 实例数量 + [选项]
+    - MoF 选项：利用外部编码器（实时跟踪及待机等）实现的飞行加工功能（Processing on the fly）。
+    - MultiBeam 选项：由 1 个激光源 + 2 个 AOM + 2 个扫描头组成的配置，可在跳跃区间实时更改激光束路径进行加工的功能。
+    - syncAXIS 选项：采用 ACS 运动控制器 + excelliSCAN 扫描头配置，利用扫描头与工作台的同步实现大面积加工（XL-SCAN 解决方案）。
+    - Remote 选项：支持通过套接字、串行、Web、MQTT 协议进行外部通信，实现配方更改、加工控制、数据查询及修改。
+- 许可政策及第三方库请参阅 [LICENSE.zhCN.txt](LICENSE.zhCN.txt)、[THIRD-PARTY-NOTICES.zhCN.txt](THIRD-PARTY-NOTICES.zhCN.txt)。
+- 邮箱：hcchoi@spirallab.co.kr | https://spirallab.co.kr
+> 若无许可密钥，将以仅限使用30分钟的评估模式运行。
 
 ## 版本历史
 - 历史信息 [HISTORY.zhCN.md](HISTORY.zhCN.md)

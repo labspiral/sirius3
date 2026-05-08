@@ -64,7 +64,6 @@ namespace Demos
             this.btnOffset.Click += BtnOffset_Click;
         }
 
-
         private void Form1_Load(object sender, EventArgs e)
         {
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
@@ -96,7 +95,7 @@ namespace Demos
             entity.TextConverter = TextConverters.Event; // used event handler by default 
 
             entity.Translate(0, -10);
-            document.ActivePage?.ActiveLayer?.AddChild(entity);
+            document.ActAdd(entity);
           
             siriusEditorControl1.View?.DoRender();
         }

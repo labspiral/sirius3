@@ -1,5 +1,30 @@
 # Sirius3 版本历史
 
+## v1.8.5 (2026.5.8)
+- 新增) 支持撤销、重做功能
+    - IDocument 支持 ActUndo、ActRedo 方法
+    - 仅在部分名为 IDocument.Act 的函数中有效
+    - 可通过 Config.IsUnReDoEnable 禁用此功能 
+    - 可通过 Config.UnReDoSize 更改历史记录条数（默认值：30）
+- 新增) 条形码
+    - 添加 Aztec 2D 条形码
+    - 添加 PLESSEY 1D 条形码
+    - 支持编辑像素尺寸（Dimension）
+- 新增) CreateGrid 表单
+    - 支持选择生成点、圆、十字线、网格图案
+- 新增) Rtc6
+    - 支持飞秒激光的脉冲峰值检测
+- 修复) IRtcStepper
+    - 初始化和等待函数支持异步处理
+- 修复) DIO 表单
+    - 修正了模拟输出值显示错误
+- 修复) MultiBeam
+    - 修改了光栅加工时的跳转（令牌交换）区间
+    - 原设置：每行跳转（ListRasterLine）时进行令牌交换；
+    - 修改：改为每像素（ListRasterPixel）跳转时进行令牌交换；
+- 修复) semi ocr 字体；
+    - 应用光栅（Raster）加工方式
+ 
 ## v1.8.1 (2026.4.22)
 - 新增) 远程功能
     - 添加了 IRemote 接口，用于支持通过外部通信更改加工方案、查询和修改对象属性、启动、停止和重置标记加工命令，以及设置加工偏移量

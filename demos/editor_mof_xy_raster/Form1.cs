@@ -250,7 +250,7 @@ namespace Demos
 
 
             var mofBegin = EntityFactory.CreateMoFBegin(RtcMoFModes.XY, true);
-            document.ActivePage?.ActiveLayer?.AddChild(mofBegin);
+            document.ActAdd(mofBegin);
 
             var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\image\\imagekorea.jpg");
             if (!File.Exists(fileName)) return;
@@ -259,13 +259,13 @@ namespace Demos
             image.PenColor = penColor;
             image.AlignmentXY = AlignmentXYs.MiddleLeft;
             image.MajorColor = MajorColors.Black;
-            document.ActivePage?.ActiveLayer?.AddChild(image);
+            document.ActAdd(image);
             // X 방향으로 +1mm 위치로 이동
             image.Translate(1, 0); 
 
 
             var mofEnd = EntityFactory.CreateMoFEnd(DVec2.Zero);
-            document.ActivePage?.ActiveLayer?.AddChild(mofEnd);
+            document.ActAdd(mofEnd);
 
             siriusEditorControl1.View?.DoRender();
 

@@ -52,7 +52,6 @@ namespace Demos
                 // Dispose instances 
                 siriusEditorControl1.DisposeDevices();
 
-
                 // Dispose document
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
@@ -188,7 +187,7 @@ namespace Demos
                 var index = 0; //0 means Color.White
                 text.PenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[index];
 
-                document.ActivePage?.ActiveLayer?.AddChild(text);
+                document.ActAdd(text);
             }
             {
                 document.ActivePage = document.DocumentData.Pages[1];
@@ -202,7 +201,7 @@ namespace Demos
                 var index = 1; //1 means Color.Yellow
                 text.PenColor = SpiralLab.Sirius3.UI.Config.EntityPenColors[index];
 
-                document.ActivePage?.ActiveLayer?.AddChild(text);
+                document.ActAdd(text);
             }
 
             document.ActivePage = oldPage;
