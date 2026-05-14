@@ -171,29 +171,29 @@ namespace Demos
 
                 document = value;
 
-                MarkerCtrl?.Document = document;
-                PropertyGridCtrl?.Document = document;
-                EditorCtrl?.Document = document;
-                EntityPenCtrl?.Document = document;
-                LayerPenCtrl?.Document = document;
-                PowerMapCtrl?.Document = document;
+                MarkerCtrl.Document = document;
+                PropertyGridCtrl.Document = document;
+                EditorCtrl.Document = document;
+                EntityPenCtrl.Document = document;
+                LayerPenCtrl.Document = document;
+                PowerMapCtrl.Document = document;
 
-                treeViewPageControl1?.Page = DocumentPages.Page1;
-                treeViewPageControl1?.Document = document;
-                treeViewPageControl2?.Page = DocumentPages.Page2;
-                treeViewPageControl2?.Document = document;
-                treeViewPageControl3?.Page = DocumentPages.Page3;
-                treeViewPageControl3?.Document = document;
-                treeViewPageControl4?.Page = DocumentPages.Page4;
-                treeViewPageControl4?.Document = document;
+                treeViewPageControl1.Page = DocumentPages.Page1;
+                treeViewPageControl1.Document = document;
+                treeViewPageControl2.Page = DocumentPages.Page2;
+                treeViewPageControl2.Document = document;
+                treeViewPageControl3.Page = DocumentPages.Page3;
+                treeViewPageControl3.Document = document;
+                treeViewPageControl4.Page = DocumentPages.Page4;
+                treeViewPageControl4.Document = document;
 
-                treeViewBlockControl1?.Document = document;
-                //treeViewWaferControl1?.Document = document;
-                //treeViewSubstrateControl1?.Document = document;
-                treeViewPageControl1?.View = View;
-                treeViewPageControl2?.View = View;
-                treeViewPageControl3?.View = View;
-                treeViewPageControl4?.View = View;
+                treeViewBlockControl1.Document = document;
+                //treeViewWaferControl1.Document = document;
+                //treeViewSubstrateControl1.Document = document;
+                treeViewPageControl1.View = View;
+                treeViewPageControl2.View = View;
+                treeViewPageControl3.View = View;
+                treeViewPageControl4.View = View;
 
                 if (document != null)
                 {
@@ -249,15 +249,15 @@ namespace Demos
                 if (laser != null)
                     laser.Scanner = scanner;
 
-                ScannerCtrl?.Scanner = scanner;
-                LaserCtrl?.Scanner = scanner;
-                MarkerCtrl?.Scanner = scanner;
-                ManualCtrl?.Scanner = scanner;
-                EditorCtrl?.Scanner = scanner;
-                DIRtcCtrl?.Scanner = scanner;
-                DORtcCtrl?.Scanner = scanner;
-                PowerMapCtrl?.Scanner = scanner;
-                StepperCtrl?.Stepper = scanner as IRtcStepper;
+                ScannerCtrl.Scanner = scanner;
+                LaserCtrl.Scanner = scanner;
+                MarkerCtrl.Scanner = scanner;
+                ManualCtrl.Scanner = scanner;
+                EditorCtrl.Scanner = scanner;
+                DIRtcCtrl.Scanner = scanner;
+                DORtcCtrl.Scanner = scanner;
+                PowerMapCtrl.Scanner = scanner;
+                StepperCtrl.Stepper = scanner as IRtcStepper;
 
                 if (scanner != null)
                 {
@@ -271,11 +271,11 @@ namespace Demos
                         {
                             newMof.OnEncoderChanged += MoF_OnEncoderChanged;
                         }
-                        lblEncoder?.Visible = true;
+                        lblEncoder.Visible = true;
                     }
                     else
                     {
-                        lblEncoder?.Visible = false;
+                        lblEncoder.Visible = false;
                     }
                 }
             }
@@ -307,13 +307,13 @@ namespace Demos
                     PropertyVisibility();
                 }
 
-                LaserCtrl?.Laser = laser;
-                EditorCtrl?.Laser = laser;
-                MarkerCtrl?.Laser = laser;
-                ManualCtrl?.Laser = laser;
-                PowerMeterCtrl?.Laser = laser;
-                PowerMapCtrl?.Laser = laser;
-                EntityPenCtrl?.Document = document;
+                LaserCtrl.Laser = laser;
+                EditorCtrl.Laser = laser;
+                MarkerCtrl.Laser = laser;
+                ManualCtrl.Laser = laser;
+                PowerMeterCtrl.Laser = laser;
+                PowerMapCtrl.Laser = laser;
+                EntityPenCtrl.Document = document;
             }
         }
 
@@ -344,11 +344,11 @@ namespace Demos
                 marker = value;
 
                 MarkerCtrl.Marker = marker;
-                ManualCtrl?.Marker = marker;
-                DORtcCtrl?.Marker = marker;
-                EditorCtrl?.Marker = marker;
-                PropertyGridCtrl?.Marker = marker;
-                RemoteCtrl?.Marker = marker;
+                ManualCtrl.Marker = marker;
+                DORtcCtrl.Marker = marker;
+                EditorCtrl.Marker = marker;
+                PropertyGridCtrl.Marker = marker;
+                RemoteCtrl.Marker = marker;
 
                 if (marker != null)
                 {
@@ -1376,13 +1376,13 @@ namespace Demos
                 tbcLeft.Enabled = isEnable;
                 //splitContainer12.Panel1Collapsed = !isEnable;
                 //splitContainer123.Panel2Collapsed = !isEnable;
-                PropertyGridCtrl?.Enabled = isEnable;
+                PropertyGridCtrl.Enabled = isEnable;
 
-                EditorCtrl?.IsAllowEdit = isEnable;
+                EditorCtrl.IsAllowEdit = isEnable;
                 foreach (var pc in PageCtrls)
                     pc.Enabled = isEnable;
 
-                BlockCtrl?.Enabled = isEnable;
+                BlockCtrl.Enabled = isEnable;
                 //WaferCtrl.Enabled = isEnable;
                 //SubstrateCtrl.Enabled = isEnable;
 

@@ -294,25 +294,25 @@ namespace Demos
 
                 document = value;
 
-                MarkerCtrl?.Document = document;
-                PropertyGridCtrl?.Document = document;
-                EditorCtrl?.Document = document;
-                EntityPenCtrl?.Document = document;
-                LayerPenCtrl?.Document = document;
-                PowerMapCtrl?.Document = document;
+                MarkerCtrl.Document = document;
+                PropertyGridCtrl.Document = document;
+                EditorCtrl.Document = document;
+                EntityPenCtrl.Document = document;
+                LayerPenCtrl.Document = document;
+                PowerMapCtrl.Document = document;
 
-                treeViewPageControl1?.Page = DocumentPages.Page1;
-                treeViewPageControl1?.Document = document;
-                treeViewPageControl2?.Page = DocumentPages.Page2;
-                treeViewPageControl2?.Document = document;
-                treeViewPageControl3?.Page = DocumentPages.Page3;
-                treeViewPageControl3?.Document = document;
-                treeViewPageControl4?.Page = DocumentPages.Page4;
-                treeViewPageControl4?.Document = document;
+                treeViewPageControl1.Page = DocumentPages.Page1;
+                treeViewPageControl1.Document = document;
+                treeViewPageControl2.Page = DocumentPages.Page2;
+                treeViewPageControl2.Document = document;
+                treeViewPageControl3.Page = DocumentPages.Page3;
+                treeViewPageControl3.Document = document;
+                treeViewPageControl4.Page = DocumentPages.Page4;
+                treeViewPageControl4.Document = document;
 
-                treeViewBlockControl1?.Document = document;
-                //treeViewWaferControl1?.Document = document;
-                //treeViewSubstrateControl1?.Document = document;
+                treeViewBlockControl1.Document = document;
+                //treeViewWaferControl1.Document = document;
+                //treeViewSubstrateControl1.Document = document;
 
                 if (document != null)
                 {
@@ -367,15 +367,15 @@ namespace Demos
                 if (lasers[CurrentDeviceIndex] != null)
                     lasers[CurrentDeviceIndex].Scanner = scanner;
 
-                ScannerCtrl?.Scanner = scanner;
-                LaserCtrl?.Scanner = scanner;
-                MarkerCtrl?.Scanner = scanner;
-                ManualCtrl?.Scanner = scanner;
-                EditorCtrl?.Scanner = scanner;
-                DIRtcCtrl?.Scanner = scanner;
-                DORtcCtrl?.Scanner = scanner;
-                PowerMapCtrl?.Scanner = scanner;
-                StepperCtrl?.Stepper = scanner as IRtcStepper;
+                ScannerCtrl.Scanner = scanner;
+                LaserCtrl.Scanner = scanner;
+                MarkerCtrl.Scanner = scanner;
+                ManualCtrl.Scanner = scanner;
+                EditorCtrl.Scanner = scanner;
+                DIRtcCtrl.Scanner = scanner;
+                DORtcCtrl.Scanner = scanner;
+                PowerMapCtrl.Scanner = scanner;
+                StepperCtrl.Stepper = scanner as IRtcStepper;
 
                 if (scanner != null)
                 {
@@ -424,13 +424,13 @@ namespace Demos
                     PropertyVisibility();
                 }
 
-                LaserCtrl?.Laser = lasers[CurrentDeviceIndex];
-                EditorCtrl?.Laser = lasers[CurrentDeviceIndex];
-                MarkerCtrl?.Laser = lasers[CurrentDeviceIndex];
-                ManualCtrl?.Laser = lasers[CurrentDeviceIndex];
-                PowerMeterCtrl?.Laser = lasers[CurrentDeviceIndex];
-                PowerMapCtrl?.Laser = lasers[CurrentDeviceIndex];
-                EntityPenCtrl?.Document = document;
+                LaserCtrl.Laser = lasers[CurrentDeviceIndex];
+                EditorCtrl.Laser = lasers[CurrentDeviceIndex];
+                MarkerCtrl.Laser = lasers[CurrentDeviceIndex];
+                ManualCtrl.Laser = lasers[CurrentDeviceIndex];
+                PowerMeterCtrl.Laser = lasers[CurrentDeviceIndex];
+                PowerMapCtrl.Laser = lasers[CurrentDeviceIndex];
+                EntityPenCtrl.Document = document;
             }
         }
 
@@ -459,10 +459,10 @@ namespace Demos
                 markers[CurrentDeviceIndex] = value;
 
                 MarkerCtrl.Marker = markers[CurrentDeviceIndex];
-                ManualCtrl?.Marker = markers[CurrentDeviceIndex];
-                DORtcCtrl?.Marker = markers[CurrentDeviceIndex];
-                EditorCtrl?.Marker = markers[CurrentDeviceIndex];
-                PropertyGridCtrl?.Marker = markers[CurrentDeviceIndex];
+                ManualCtrl.Marker = markers[CurrentDeviceIndex];
+                DORtcCtrl.Marker = markers[CurrentDeviceIndex];
+                EditorCtrl.Marker = markers[CurrentDeviceIndex];
+                PropertyGridCtrl.Marker = markers[CurrentDeviceIndex];
             }
         }
 
@@ -1439,11 +1439,11 @@ namespace Demos
                 //splitContainer123.Panel2Collapsed = !isEnable;
                 PropertyGridCtrl.Enabled = isEnable;
 
-                EditorCtrl?.IsAllowEdit = isEnable;
+                EditorCtrl.IsAllowEdit = isEnable;
                 foreach (var pc in PageCtrls)
-                    pc?.Enabled = isEnable;
+                    pc.Enabled = isEnable;
 
-                BlockCtrl?.Enabled = isEnable;
+                BlockCtrl.Enabled = isEnable;
                 //WaferCtrl.Enabled = isEnable;
                 //SubstrateCtrl.Enabled = isEnable;
 
