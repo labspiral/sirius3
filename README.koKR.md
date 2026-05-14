@@ -1,7 +1,7 @@
 ﻿# Sirius3
 .NET 기반, 정밀 레이저 가공을 위한 올인원 플랫폼
 
-![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo3.png)
+![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo.png)
 
 ---
 
@@ -61,6 +61,7 @@
 - 문서 및 페이지
    - 다중 문서 와 페이지 지원
    - 하나의 문서를 복수개의 뷰 대상에 렌더링 지원
+   - 무제한의 되돌리기(UnDo, ReDo) 지원
 - 오픈 아키텍쳐
    - 편집기(Editor), 마커(Marker) 와 레이저 소스 제어용 코드가 오픈소스로 제공됨
 
@@ -76,7 +77,7 @@
 | 3D 메쉬 슬라이서              |PLY, OBJ, STL 메쉬용 슬라이서 내장          |없음                                   |
 | 거버 파일 (RS-274x)          |지원                                       |없음                                   |
 | 웨이퍼/기판 맵                |편집기 내장                                |없음                                   |
-| 외부 폰트 파일                |CXF, LFF, FNT 파일 포맷                    |커스텀 CXF, LFF 파일 포맷만 지원         |
+| 외부 폰트 파일                |CXF, LFF, FNT, DOT 파일 포맷               |커스텀 CXF, LFF 파일 포맷만 지원         |
 | 펜                           |Entity 와 Layer 용 펜 속성 분리            |Entity 단일펜                           |
 | 라이브러리 업데이트           |Nuget 패키지 매니저 지원                    |수동                                   |
                                                                                                               

@@ -1,7 +1,7 @@
 # Sirius3
 基于 .NET 的精密激光加工全能平台
 
-![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo3.png)
+![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo.png)
 
 ---
 
@@ -66,7 +66,7 @@
 | 3D 网格切片机                 | 内置 PLY, OBJ, STL 网格切片机             | 无                                    |
 | Gerber 文件 (RS-274x)        | 支持                                     | 无                                    |
 | 晶圆/基板映射 (Map)           | 编辑器内置                               | 无                                    |
-| 外部字体文件                  | CXF, LFF, FNT 文件格式                    | 仅支持自定义 CXF, LFF 文件格式         |
+| 外部字体文件                  | CXF, LFF, FNT, DOT 文件格式               | 仅支持自定义 CXF, LFF 文件格式         |
 | 画笔 (Pen)                    | 分离 Entity 和 Layer 的画笔属性           | Entity 单一画笔                        |
 | 库更新                        | 支持 NuGet 包管理器                      | 手动                                   |
                                                                                                               

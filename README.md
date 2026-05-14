@@ -1,7 +1,7 @@
 ﻿# Sirius3
 A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 
-![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo3.png)
+![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo.png)
 
 ---
 
@@ -66,7 +66,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 | 3D Mesh with slicer          |Built-in Slicer for PLY, OBJ, STL         |None                                   |
 | Gerber file(RS-274x)         |Supported                                 |None                                   |
 | Wafer/Substrate map          |Built-in editor                           |None                                   |
-| Font file                    |General CXF, LFF, FNT formats             |Customized CXF, LFF formats            |
+| Font file                    |General CXF, LFF, FNT, DOT formats        |Customized CXF, LFF formats            |
 | Pen                          |Pens for Entity and Layer                 |Entity Pen                             |
 | Library update               |By Nuget Package Manager                  |Manual                                 |
                                                                                                               
@@ -78,7 +78,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 ## Packages / DLLs
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS runtime, fonts, sample data
 - `SpiralLab.Sirius3` — HAL controllers (scanner/laser/powermeter, etc.)
-- `SpiralLab.Sirius3.UI` — Entities, 3D renderer, WinForms UI controls
+- `SpiralLab.Sirius3.UI` — Various Entities, 3D render engine, WinForms UI controls
  > Easy to update library files by NuGet package manager.
 
 ## Platform targets

@@ -1,5 +1,4 @@
-using System;
-
+﻿using System;
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Scanner;
 using SpiralLab.Sirius3.IO;
@@ -31,11 +30,23 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 
 namespace Demos
 {
+    /// <summary>
+    /// syncAXIS demo
+    /// syncAXIS 데모
+    /// </summary>
     public partial class Form1 : Form
     {
 
+        /// <summary>
+        /// Form constructor
+        /// 폼 생성자
+        /// </summary>
         public Form1()
         {
+            // Initialize SIRIUS3 library
+            // SIRIUS3 라이브러리 초기화
+            SpiralLab.Sirius3.Core.Initialize();
+
             InitializeComponent();
             this.Load += Form1_Load;
             this.FormClosing += (s, e) =>
@@ -47,32 +58,52 @@ namespace Demos
                     return;
                 }
                 // Dispose instances 
+                // 인스턴스 해제 
                 siriusEditorControl1.DisposeDevices();
 
                 // Dispose document
+                // 문서 해제
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
 
                 // Clean up SIRIUS3 library
+                // SIRIUS3 라이브러리 정리
                 SpiralLab.Sirius3.Core.Cleanup();
             };
         }
 
+        /// <summary>
+        /// Form load
+        /// 폼 로드
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Set configuration file name for syncAXIS
+            // syncAXIS용 설정 파일 이름 지정
             EditorHelper.ConfigFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config_syncaxis.ini");
-            // Edit : <cfg:BaseDirectoryPath> YOUR WORKING DIRECTORY </cfg:BaseDirectoryPath>
-            // at syncAXISConfig.xml 
+
+            // Note: You must edit <cfg:BaseDirectoryPath> to your working directory at syncAXISConfig.xml 
+            // 참고: syncAXISConfig.xml 파일의 <cfg:BaseDirectoryPath>를 실제 작업 디렉토리로 수정해야 합니다.
             // For example : <cfg:BaseDirectoryPath>C:\git\sirius3\bin\net481</cfg:BaseDirectoryPath>
 
             // Also, need to syncaxis license at sirius3 library option.
+            // 또한 SIRIUS3 라이브러리 옵션에 syncAXIS 라이선스가 필요합니다.
             //Core.License(out var licenseInfo);
             //Debug.Assert(licenseInfo.IsRtcSyncAxisLicensed);
 
+            // Create devices
+            // 장치 생성
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
+            
+            // Register devices to control
+            // 컨트롤에 장치 등록
             siriusEditorControl1.RegisterDevices(rtc, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
+            // Ready marker
+            // 마커 준비
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
      

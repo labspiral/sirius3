@@ -1,5 +1,4 @@
-using System;
-
+﻿using System;
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Scanner;
 using SpiralLab.Sirius3.IO;
@@ -32,6 +31,9 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 
 namespace Demos
 {
+    /// <summary>
+    /// Form1
+    /// </summary>
     public partial class Form1 : Form
     {
 
@@ -47,6 +49,10 @@ namespace Demos
         private IPowerMeter[] powerMeters = new IPowerMeter[MaxDeviceCount];
         private IMarker[] markers = new IMarker[MaxDeviceCount];
 
+        /// <summary>
+        /// Form constructor
+        /// 폼 생성자
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -62,14 +68,21 @@ namespace Demos
                 }
 
                 // Dispose instances 
+                // 인스턴스 해제 
                 siriusMultiEditorControl1.DisposeDevices();
 
                 // Clean up SIRIUS3 library
+                // SIRIUS3 라이브러리 정리
                 SpiralLab.Sirius3.Core.Cleanup();
             };
         }
 
-
+        /// <summary>
+        /// Form load
+        /// 폼 로드
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
             // Also, must be equipped multiple instances at sirius 3 library option.
@@ -80,6 +93,8 @@ namespace Demos
 
             for (int index= 0; index < MaxDeviceCount; index++)
             {
+                // Create devices
+                // 장치 생성
                 EditorHelper.CreateDevices(out rtcs[index], out lasers[index], out dInExt1s[index], out dInLaserPorts[index], out dOutExt1s[index], out dOutExt2s[index], out dOutLaserPorts[index], out powerMeters[index], out markers[index], index);
                 siriusMultiEditorControl1.RegisterDevices(index, rtcs[index], lasers[index], powerMeters[index], dInExt1s[index], dInLaserPorts[index], dOutExt1s[index], dOutExt2s[index], dOutLaserPorts[index], markers[index]);
             }

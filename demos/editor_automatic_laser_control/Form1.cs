@@ -1,5 +1,4 @@
-using System;
-
+ï»¿using System;
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Scanner;
 using SpiralLab.Sirius3.IO;
@@ -34,11 +33,22 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 
 namespace Demos
 {
+    /// <summary>
+    /// Automatic Laser Control (ALC) demo
+    /// ìë™ ë ˆì´ì € ì œì–´ (ALC) ë°ëª¨
+    /// </summary>
     public partial class Form1 : Form
     {
-
+        /// <summary>
+        /// Form constructor
+        /// í¼ ìƒì„±ì
+        /// </summary>
         public Form1()
         {
+            // Initialize SIRIUS3 library
+            // SIRIUS3 ë¼ì´ë¸ŒëŸ¬ë¦¬ ì´ˆê¸°í™”
+            SpiralLab.Sirius3.Core.Initialize();
+
             InitializeComponent();
             this.Load += Form1_Load;
             this.FormClosing += (s, e) =>
@@ -46,54 +56,82 @@ namespace Demos
                 var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dlgResult != DialogResult.Yes)
                 {
+                    // is marker need to abort ?
+                    // ë§ˆí‚¹ ì¤‘ë‹¨ ì—¬ë¶€ í™•ì¸ ?
                     e.Cancel = true;
                     return;
                 }
 
                 // Dispose instances 
+                // ì¸ìŠ¤í„´ìŠ¤ í•´ì œ 
                 siriusEditorControl1.DisposeDevices();
 
                 // Dispose document
+                // ë¬¸ì„œ í•´ì œ
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
 
                 // Clean up SIRIUS3 library
+                // SIRIUS3 ë¼ì´ë¸ŒëŸ¬ë¦¬ ì •ë¦¬
                 SpiralLab.Sirius3.Core.Cleanup();
             };
 
+            // Attach button click events
+            // ë²„íŠ¼ í´ë¦­ ì´ë²¤íŠ¸ ì—°ê²°
             btnDefinedVector.Click += BtnDefinedVector_Click;
-
             btnSetVelocity.Click += BtnSetVelocity_Click;
             btnActualVelocity.Click += BtnActualVelocity_Click;
             btnSpotDistanceControl.Click += BtnSpotDistanceControl_Click;
-
             btnPositionDependent.Click += BtnPositionDependent_Click;
         }
 
+        /// <summary>
+        /// Form load
+        /// í¼ ë¡œë“œ
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Create devices
+            // ì¥ì¹˜ ìƒì„±
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
+            // Register devices to control
+            // ì»¨íŠ¸ë¡¤ì— ì¥ì¹˜ ë“±ë¡
             siriusEditorControl1.RegisterDevices(rtc, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
+            // Ready marker
+            // ë§ˆì»¤ ì¤€ë¹„
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
         }
 
+        /// <summary>
+        /// Create test entities (Line with optional Ramp)
+        /// í…ŒìŠ¤íŠ¸ìš© ì—”í‹°í‹° ìƒì„± (ì„  ë° ì„ íƒì  ë¨í”„)
+        /// </summary>
+        /// <param name="withRampEntity"></param>
         private void CreateEntity(bool withRampEntity = false)
         {
             var document = siriusEditorControl1.Document;
 
             if (withRampEntity)
             {
+                // Create Ramp Begin entity (Analog1)
+                // ë¨í”„ ì‹œì‘ ì—”í‹°í‹° ìƒì„± (ì•„ë‚ ë¡œê·¸1)
                 double startingVoltage = 5.0;
                 var rampBegin = EntityFactory.CreateRampBegin(AutoLaserControlSignals.Analog1, startingVoltage);
                 document.ActAdd(rampBegin);
             }
 
+            // Create test line
+            // í…ŒìŠ¤íŠ¸ìš© ì„  ìƒì„±
             var line = EntityFactory.CreateLine(0, 0, 20, 0);
             if (withRampEntity)
             {
+                // Apply ramp factors to line
+                // ì„ ì— ë¨í”„ ê³„ìˆ˜ ì ìš©
                 line.StartRampFactor = 0.5;
                 line.EndRampFactor = 2;
             }
@@ -102,6 +140,8 @@ namespace Demos
 
             if (withRampEntity)
             {
+                // Create Ramp End entity
+                // ë¨í”„ ì¢…ë£Œ ì—”í‹°í‹° ìƒì„±
                 var rampEnd = EntityFactory.CreateRampEnd();
                 document.ActAdd(rampEnd);
             }
@@ -109,12 +149,19 @@ namespace Demos
             siriusEditorControl1.View?.DoRender();
         }
 
+        /// <summary>
+        /// Defined Vector mode: Manual scaling with Ramp entities
+        /// Defined Vector ëª¨ë“œ: ë¨í”„ ì—”í‹°í‹°ë¥¼ ì‚¬ìš©í•œ ìˆ˜ë™ ìŠ¤ì¼€ì¼ë§
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnDefinedVector_Click(object sender, EventArgs e)
         {
             var document = siriusEditorControl1.Document;
             document.ActNew();
 
-            // create measurement begin
+            // Create measurement begin for data logging
+            // ë°ì´í„° ë¡œê¹…ì„ ìœ„í•œ ì¸¡ì • ì‹œì‘ ì—”í‹°í‹° ìƒì„±
             var begin = EntityFactory.CreateMeasurementBegin(
                 10 * 1000,
                 new MeasurementChannels[] {
@@ -127,17 +174,23 @@ namespace Demos
                 );
             document.ActAdd(begin);
 
+            // Create entities with ramp
+            // ë¨í”„ë¥¼ í¬í•¨í•œ ì—”í‹°í‹° ìƒì„±
             CreateEntity(true);
 
+            // Create measurement end
+            // ì¸¡ì • ì¢…ë£Œ ì—”í‹°í‹° ìƒì„±
             var end = EntityFactory.CreateMeasurementEnd();
             document.ActAdd(end);
 
             Debug.Assert(document.ActivePage.ActiveLayer.PenColor == Color.White);
 
             // Find layer pen for 'White'
+            // 'White' ë ˆì´ì–´ íœ ì°¾ê¸°
             document.FindByLayerPenColor(System.Drawing.Color.White, out var layerPenWhite);
 
-            //Set veloticy + analog output
+            // Disable ALC on pen (using manual Ramp entities instead)
+            // íœì˜ ALC ë¹„í™œì„±í™” (ëŒ€ì‹  ìˆ˜ë™ ë¨í”„ ì—”í‹°í‹° ì‚¬ìš©)
             layerPenWhite.IsALC = false;
             layerPenWhite.AlcSignal = AutoLaserControlSignals.Disabled;
             layerPenWhite.AlcMode = AutoLaserControlModes.Disabled;
@@ -146,12 +199,19 @@ namespace Demos
             siriusEditorControl1.PropertyGridCtrl.Refresh();
         }
 
+        /// <summary>
+        /// Speed Dependent mode: Set Velocity
+        /// ì†ë„ ì¢…ì† ëª¨ë“œ: ì„¤ì • ì†ë„ ê¸°ì¤€ (Set Velocity)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnSetVelocity_Click(object sender, EventArgs e)
         {
             var document = siriusEditorControl1.Document;
             document.ActNew();
 
-            // create measurement begin
+            // Create measurement begin
+            // ì¸¡ì • ì‹œì‘ ìƒì„±
             var begin = EntityFactory.CreateMeasurementBegin(
                 10 * 1000,
                 new MeasurementChannels[] 
@@ -173,27 +233,36 @@ namespace Demos
             Debug.Assert(document.ActivePage.ActiveLayer.PenColor == Color.White);
 
             // Find layer pen for 'White'
+            // 'White' ë ˆì´ì–´ íœ ì°¾ê¸°
             document.FindByLayerPenColor(System.Drawing.Color.White, out var layerPenWhite);
 
-            //Set veloticy + analog output
+            // Enable ALC: Set velocity + analog output
+            // ALC í™œì„±í™”: ì„¤ì • ì†ë„ + ì•„ë‚ ë¡œê·¸ ì¶œë ¥
             layerPenWhite.IsALC = true;
             layerPenWhite.AlcSignal = AutoLaserControlSignals.Analog1;
             layerPenWhite.AlcMode = AutoLaserControlModes.SetVelocity;
             layerPenWhite.AlcModeExtension.Clear();
-            layerPenWhite.AlcPercentage100 = 5; //5V
-            layerPenWhite.AlcMinValue = 4; // 4V
-            layerPenWhite.AlcMaxValue = 6; //6V
+            layerPenWhite.AlcPercentage100 = 5; // 5V at 100% speed
+            layerPenWhite.AlcMinValue = 4; // 4V min
+            layerPenWhite.AlcMaxValue = 6; // 6V max
             layerPenWhite.AlcByPositionTable.Clear();
 
             siriusEditorControl1.PropertyGridCtrl.Refresh();
         }
 
+        /// <summary>
+        /// Speed Dependent mode: Actual Velocity (Frequency control)
+        /// ì†ë„ ì¢…ì† ëª¨ë“œ: ì‹¤ì œ ì†ë„ í”¼ë“œë°± ê¸°ì¤€ (ì£¼íŒŒìˆ˜ ì œì–´)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnActualVelocity_Click(object sender, EventArgs e)
         {
             var document = siriusEditorControl1.Document;
             document.ActNew();
 
-            // create measurement begin
+            // Create measurement begin
+            // ì¸¡ì • ì‹œì‘ ìƒì„±
             var begin = EntityFactory.CreateMeasurementBegin(
                 10 * 1000,
                 new MeasurementChannels[] 
@@ -215,29 +284,38 @@ namespace Demos
             Debug.Assert(document.ActivePage.ActiveLayer.PenColor == Color.White);
 
             // Find layer pen for 'White'
+            // 'White' ë ˆì´ì–´ íœ ì°¾ê¸°
             document.FindByLayerPenColor(System.Drawing.Color.White, out var layerPenWhite);
 
-            // Actual velocity + frequency
+            // Enable ALC: Actual velocity + frequency control
+            // ALC í™œì„±í™”: ì‹¤ì œ ì†ë„ í”¼ë“œë°± + ì£¼íŒŒìˆ˜ ì œì–´
             layerPenWhite.IsALC = true;
             layerPenWhite.AlcSignal = AutoLaserControlSignals.Frequency;
-            layerPenWhite.AlcMode = AutoLaserControlModes.ActualVelocity; // Only for iDRIVE scanner products 
+            layerPenWhite.AlcMode = AutoLaserControlModes.ActualVelocity; // Only for iDRIVE scanner products / iDRIVE ìŠ¤ìºë„ˆ ì œí’ˆ ì „ìš©
             layerPenWhite.AlcModeExtension.Clear();
-            //layerPenWhite.AlcModeExtension.Add(AutoLaserControlModeExtensions.Bit.SCANAhead);
-            layerPenWhite.AlcPercentage100 = 50 * 1000; //50KHz
-            layerPenWhite.AlcMinValue = 40 * 1000; //Lower cut off frequency : 40KHz
-            layerPenWhite.AlcMaxValue = 60 * 1000; //Upper cut off frequency : 60KHz
+            // layerPenWhite.AlcModeExtension.Add(AutoLaserControlModeExtensions.Bit.SCANAhead);
+            layerPenWhite.AlcPercentage100 = 50 * 1000; // 50KHz at 100% speed
+            layerPenWhite.AlcMinValue = 40 * 1000; // Lower cut off frequency : 40KHz
+            layerPenWhite.AlcMaxValue = 60 * 1000; // Upper cut off frequency : 60KHz
             layerPenWhite.AlcByPositionTable.Clear();
 
             siriusEditorControl1.PropertyGridCtrl.Refresh();
         }
 
+        /// <summary>
+        /// Speed Dependent mode: Spot Distance Control (SDC)
+        /// ì†ë„ ì¢…ì† ëª¨ë“œ: ë“±ê°„ê²© ì œì–´ (SDC - Spot Distance Control)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnSpotDistanceControl_Click(object sender, EventArgs e)
         {
             var document = siriusEditorControl1.Document;
             document.ActNew();
 
             double spotDistance = 0.1;
-            // create measurement begin
+            // Create measurement begin
+            // ì¸¡ì • ì‹œì‘ ìƒì„±
             var begin = EntityFactory.CreateMeasurementBegin(
                 10 * 1000,
                 new MeasurementChannels[] 
@@ -245,7 +323,7 @@ namespace Demos
                     MeasurementChannels.SampleX,
                     MeasurementChannels.SampleY,
                     MeasurementChannels.LaserOn,
-                    //MeasurementChannels.SpotDistance,
+                    // MeasurementChannels.SpotDistance,
                 },
                 $"Spot distance control: {spotDistance:F3}mm"
                 );
@@ -259,48 +337,46 @@ namespace Demos
             Debug.Assert(document.ActivePage.ActiveLayer.PenColor == Color.White);
 
             // Find layer pen for 'White'
+            // 'White' ë ˆì´ì–´ íœ ì°¾ê¸°
             document.FindByLayerPenColor(System.Drawing.Color.White, out var layerPenWhite);
 
-            // Actual velocity + spot distance control
+            // Enable ALC: Actual velocity + spot distance control
+            // ALC í™œì„±í™”: ì‹¤ì œ ì†ë„ í”¼ë“œë°± + ë“±ê°„ê²© ì œì–´
             layerPenWhite.IsALC = true;
             layerPenWhite.AlcByPositionTable.Clear();
-            layerPenWhite.AlcSignal = AutoLaserControlSignals.SpotDistance; //RTC6 + SCANAhead
+            layerPenWhite.AlcSignal = AutoLaserControlSignals.SpotDistance; // RTC6 + SCANAhead required / RTC6 + SCANAhead í•„ìš”
             layerPenWhite.AlcMode = AutoLaserControlModes.ActualVelocity;
             layerPenWhite.AlcModeExtension.Clear();
 
-            // excelliSCAN Çìµå ¹× SDC(µî°£°İ Á¦¾î) »ç¿ë ½Ã ÇÊ¼ö.
-            // Tracking Error ´ë½Å ÇÁ¸®ºä Å¸ÀÓ(Preview Time)À» ±â¹İÀ¸·Î Á¦¾î.
+            // SCANAhead extension for excelliSCAN/intelliSCAN IV
+            // excelliSCAN í—¤ë“œ ë° SDC(ë“±ê°„ê²© ì œì–´) ì‚¬ìš© ì‹œ í•„ìˆ˜
             layerPenWhite.AlcModeExtension.Add(AutoLaserControlModeExtensions.Bit.SCANAhead);
 
-            // Sky Writing Áß SDC À¯Áö. ½ºÄ«ÀÌ ¶óÀÌÆÃ(°¡°¨¼Ó ±¸°£) µ¿ÀÛ Áß¿¡µµ SDC ¾Ë°í¸®ÁòÀ» À¯Áö.
-            // º¤ÅÍÀÇ ½ÃÀÛ°ú ³¡ºÎºĞ¿¡¼­µµ ÆŞ½º °£°İÀ» Á¤¹ĞÇÏ°Ô À¯ÁöÇÕ´Ï´Ù. SCANahead È°¼ºÈ­°¡ ÇÊ¿ä. (RTC6 Àü¿ë).
+            // Enable SDC during Sky Writing
+            // Sky Writing ì¤‘ SDC ì•Œê³ ë¦¬ì¦˜ ìœ ì§€ (RTC6 ì „ìš©)
             layerPenWhite.AlcModeExtension.Add(AutoLaserControlModeExtensions.Bit.SkyWritingSDC);
 
-            // ¿£ÄÚ´õ ¼Óµµ ÇÕ»ê. ½ºÄ³³Ê ¼Óµµ¿¡ ¿£ÄÚ´õ ¼Óµµ¸¦ º¤ÅÍ ÇÕ»ê.
-            // ÀÌµ¿ÇÏ´Â ¹°Ã¼¸¦ °¡°øÇÏ´Â MoF(Marking On-the-Fly) °øÁ¤¿¡¼­ »ç¿ë.
-            //layerPenWhite.AlcModeExtension.Add(AutoLaserControlModeExtensions.Bit.EncoderSpeedAddition); 
-
-            // ¿ª ¼Óµµ º¸Á¤. F-Theta ·»Áî ¿Ö°îÀ¸·Î ÀÎÇØ ¹ß»ıÇÏ´Â À§Ä¡º° ¼±¼Óµµ Â÷ÀÌ¸¦ º¸Á¤.
-            // º¸Á¤ Å×ÀÌºíÀ» »ç¿ëÇÏ¿© °¢¼Óµµ¸¦ ½ÇÁ¦ ÇÊµå »óÀÇ ¼Óµµ·Î º¯È¯.
-            //layerPenWhite.AlcModeExtension.Add(AutoLaserControlModeExtensions.Bit.InverseSpeedCorrection); 
-
-            // ¿ª ÁÂÇ¥ º¯È¯. ÁÂÇ¥ º¯È¯(È¸Àü, Çà·Ä µî)ÀÌ Àû¿ëµÈ °æ¿ì, ÇÇµå¹é ¼Óµµ¸¦ ¿ªº¯È¯.
-            // ·¹ÀÌÀú Á¦¾î°¡ º¯È¯ ÀüÀÇ ¿øº» µµ¸é ¼Óµµ¸¦ ±âÁØÀ¸·Î ¼öÇàµÇµµ·Ï º¸Àå. (RTC6 Àü¿ë)
-            //layerPenWhite.AlcModeExtension.Add(AutoLaserControlModeExtensions.Bit.BackwardTransformation); 
-
             // Find entity pen for 'White'
+            // 'White' ì—”í‹°í‹° íœ ì°¾ê¸°
             document.FindByEntityPenColor(System.Drawing.Color.White, out var entityPenWhite);
-            entityPenWhite.SpotDistanceSCANa = 0.02; //20um
+            entityPenWhite.SpotDistanceSCANa = 0.02; // 20um pitch
 
             siriusEditorControl1.PropertyGridCtrl.Refresh();
         }
 
+        /// <summary>
+        /// Position Dependent mode: Power scaling by distance from center
+        /// ìœ„ì¹˜ ì¢…ì† ëª¨ë“œ: ì¤‘ì‹¬ìœ¼ë¡œë¶€í„°ì˜ ê±°ë¦¬ì— ë”°ë¥¸ íŒŒì›Œ ìŠ¤ì¼€ì¼ë§
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnPositionDependent_Click(object sender, EventArgs e)
         {
             var document = siriusEditorControl1.Document;
             document.ActNew();
 
-            // create measurement begin
+            // Create measurement begin
+            // ì¸¡ì • ì‹œì‘ ìƒì„±
             var begin = EntityFactory.CreateMeasurementBegin(
                 10 * 1000,
                 new MeasurementChannels[] {
@@ -321,27 +397,31 @@ namespace Demos
             Debug.Assert(document.ActivePage.ActiveLayer.PenColor == Color.White);
 
             // Find layer pen for 'White'
+            // 'White' ë ˆì´ì–´ íœ ì°¾ê¸°
             document.FindByLayerPenColor(System.Drawing.Color.White, out var layerPenWhite);
 
-            // Mode Disable + analog output 
+            // Enable ALC with position dependent table
+            // ALC í™œì„±í™” ë° ìœ„ì¹˜ ì¢…ì† í…Œì´ë¸” ì„¤ì •
             layerPenWhite.IsALC = true;
             layerPenWhite.AlcSignal = AutoLaserControlSignals.Analog1;
             layerPenWhite.AlcMode = AutoLaserControlModes.SetVelocity;
             layerPenWhite.AlcModeExtension.Clear();
-            layerPenWhite.AlcPercentage100 = 5; //5V
-            layerPenWhite.AlcMinValue = 0; // 0V
-            layerPenWhite.AlcMaxValue = 10; //10V
+            layerPenWhite.AlcPercentage100 = 5; // 5V base
+            layerPenWhite.AlcMinValue = 0; // 0V min
+            layerPenWhite.AlcMaxValue = 10; // 10V max
 
-            // Distance(or radius) (mm), scale (0~4)
+            // Define Position Table: Distance(mm), Scale factor (0~4)
+            // ìœ„ì¹˜ í…Œì´ë¸” ì •ì˜: ê±°ë¦¬(mm), ìŠ¤ì¼€ì¼ ê³„ìˆ˜ (0~4)
             var kvList = new List<KeyValuePair<double, double>>();
-            kvList.Add(new KeyValuePair<double, double>(2, 1));
-            kvList.Add(new KeyValuePair<double, double>(3, 0.8));
-            kvList.Add(new KeyValuePair<double, double>(4, 0.6));
-            kvList.Add(new KeyValuePair<double, double>(5, 0.5));
-            kvList.Add(new KeyValuePair<double, double>(20, 0.4));
-            kvList.Add(new KeyValuePair<double, double>(50, 0.1));
+            kvList.Add(new KeyValuePair<double, double>(2, 1));     // 100% scale at 2mm
+            kvList.Add(new KeyValuePair<double, double>(3, 0.8));   // 80% scale at 3mm
+            kvList.Add(new KeyValuePair<double, double>(4, 0.6));   // 60% scale at 4mm
+            kvList.Add(new KeyValuePair<double, double>(5, 0.5));   // 50% scale at 5mm
+            kvList.Add(new KeyValuePair<double, double>(20, 0.4));  // 40% scale at 20mm
+            kvList.Add(new KeyValuePair<double, double>(50, 0.1));  // 10% scale at 50mm
 
-            // Position dependent
+            // Assign position dependent table
+            // ìœ„ì¹˜ ì¢…ì† í…Œì´ë¸” í• ë‹¹
             layerPenWhite.AlcByPositionTable = kvList;
 
             siriusEditorControl1.PropertyGridCtrl.Refresh();

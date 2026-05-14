@@ -90,7 +90,7 @@ namespace Demos
 
             // scanner card controller
             var fov = 100.0;    // field of view (100mm)
-            var kfactor = Math.Pow(2, 20) / fov; // kfactor = bits/mm (20bits resolution = 2^20 for RTC6)
+            var kfactor = Math.Round(Math.Pow(2, 20) / fov); // kfactor = bits/mm (20bits resolution = 2^20 for RTC6)
             LaserModes laserMode = LaserModes.Yag1; // output signals timing for LASER1, LASER2 and LASER ON at RTC card
             RtcSignalLevels signalLevelLaser12 = RtcSignalLevels.ActiveHigh; // output signal level for LASER1 and LASER2 at RTC card
             RtcSignalLevels signalLevelLaserOn = RtcSignalLevels.ActiveHigh; // output signal level for LASER ON at RTC card
@@ -165,31 +165,45 @@ namespace Demos
             siriusEditorControl1.RegisterDevices(rtc, laser, powerMeter, dIExt1, dILaserPort, dOExt1, dOExt2, dOLaserPort, marker);
         }
 
+        /// <summary>
+        /// Create entities
+        /// 엔티티 생성
+        /// </summary>
         void CreateEntities()
         {
             var document = siriusEditorControl1.Document;
             //document.ActNew();
 
+            // Create Arc
+            // 호 생성
             {
                 var entity = EntityFactory.CreateArc(DVec2.Zero, 1, 0, 360);
                 document.ActAdd(entity);
             }
 
+            // Create Line
+            // 선 생성
             {
                 var entity = EntityFactory.CreateLine(new DVec3(10, 1, 0), new DVec3(12, 10, 1));
                 document.ActAdd(entity);
             }
 
+            // Create Arc
+            // 호 생성
             {
                 var entity = EntityFactory.CreateArc(new DVec3(-15, 25, 0), 3, 0, 180);
                 document.ActAdd(entity);
             }
 
+            // Create Rectangle
+            // 사각형 생성
             {
                 var entity = EntityFactory.CreateRectangle(new DVec3(12, 8, 0), 3, 2);
                 document.ActAdd(entity);
             }
 
+            // Create Polyline
+            // 폴리라인 생성
             {
                 var rnd = new Random((int)DateTime.Now.Ticks);
                 int count = 3 + (int)(rnd.NextDouble() * 5);
@@ -205,12 +219,16 @@ namespace Demos
                 document.ActAdd(entity);
             }
 
+            // Create Text
+            // 텍스트 생성
             {
                 var entity = EntityFactory.CreateText("Arial", FontStyle.Regular, $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+", 3);
                 entity.Translate(5, -30);
                 document.ActAdd(entity);
             }
 
+            // Create QR Code
+            // QR 코드 생성
             {
                 var entity = EntityFactory.CreateQRCode("01234567890123456789", EntityBarcode2DBase.Barcode2DCells.Lines, 5, 5);
                 entity.CellLine.DotFactor = 5;
@@ -218,6 +236,8 @@ namespace Demos
                 document.ActAdd(entity);
             }
 
+            // Create Data Matrix
+            // 데이터 매트릭스 생성
             {
                 var entity = EntityFactory.CreateDataMatrix("01234567890123456789", EntityBarcode2DBase.Barcode2DCells.Squares, 10, 10);
                 entity.CellDot.DotFactor = 1;
@@ -228,6 +248,8 @@ namespace Demos
                 document.ActAdd(entity);
             }
 
+            // Create Spiral
+            // 나선 생성
             {
                 var entity = EntityFactory.CreateSpiralClassic(DVec3.Zero, 10, 8, 2, 10, true);
                 entity.Translate(-20, -30);

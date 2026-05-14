@@ -1,5 +1,4 @@
 ﻿using System;
-
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Scanner;
 using SpiralLab.Sirius3.IO;
@@ -32,6 +31,9 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 
 namespace Demos
 {
+    /// <summary>
+    /// Form1
+    /// </summary>
     public partial class Form1 : Form
     {
         const int instanceCount = 2;
@@ -40,6 +42,10 @@ namespace Demos
         readonly RadioButton[] modeRadioButtons;
         readonly RadioButton[] sideRadioButtons;
 
+        /// <summary>
+        /// Form constructor
+        /// 폼 생성자
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -55,24 +61,25 @@ namespace Demos
                 }
 
                 // Dispose instances 
+                // 인스턴스 해제 
                 siriusMultiEditorControl1.DisposeDevices();
 
                 // Dispose document
+                // 문서 해제
                 var doc = siriusMultiEditorControl1.Document;
                 siriusMultiEditorControl1.Document = null;
                 doc?.Dispose();
 
                 // Clean up SIRIUS3 library
+                // SIRIUS3 라이브러리 정리
                 SpiralLab.Sirius3.Core.Cleanup();
             };
-
 
             modeRadioButtons = new[] { rbModeNone, rbModeHead1, rbModeHead2, rbModeBoth };
             for (int i = 0; i < modeRadioButtons.Length; i++)
             {
                 modeRadioButtons[i].CheckedChanged += RbMode_CheckedChanged;
             }
-
 
             sideRadioButtons = new[] { rbHead1Side, rbHead2Side };
             for (int i = 0; i < sideRadioButtons.Length; i++)
@@ -87,18 +94,23 @@ namespace Demos
             this.btnReset.Click += BtnReset_Click;
         }
 
+        /// <summary>
+        /// Form load
+        /// 폼 로드
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
             // Need to equipped with 2instances and multibeam option at library option.
-            Core.License(out var licenseInfo);
-            Debug.Assert(licenseInfo.RtcLicenseMax == instanceCount);
-            Debug.Assert(licenseInfo.IsMultiBeamLicensed);
+            //Core.License(out var licenseInfo);
+            //Debug.Assert(licenseInfo.RtcLicenseMax == instanceCount);
+            //Debug.Assert(licenseInfo.IsMultiBeamLicensed);
 
             // Initialize RTC MultiBeam instances (MultiBeamIndex: 0, 1 for Pair 0)
             // RTC 멀티빔 인스턴스 초기화 (멀티빔 인덱스 0, 1은 페어 0을 형성함) (멀티빔 인덱스 2, 3은 페어 1을 형성함)
             // 初始化 RTC 多光束实例（多光束索引 0、1 组成第 0 对）
             siriusMultiEditorControl1.MaxDeviceCounts = instanceCount;
-
 
             // single laser source
             ILaser laser = null;
@@ -107,6 +119,8 @@ namespace Demos
             // two scanheads (with 2 rtc cards)
             {
                 int index = 0;
+                // Create devices
+                // 장치 생성
                 EditorHelper.CreateDevices(index, 0, laser, out var rtcMultiBeam, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
                 siriusMultiEditorControl1.RegisterDevices(index, rtcMultiBeam, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
                 marker.Ready(siriusMultiEditorControl1.Document, siriusMultiEditorControl1.View, rtcMultiBeam, laser, null);
@@ -116,6 +130,8 @@ namespace Demos
 
             {
                 int index = 1;
+                // Create devices
+                // 장치 생성
                 EditorHelper.CreateDevices(index, 1, laser, out var rtcMultiBeam, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
                 siriusMultiEditorControl1.RegisterDevices(index, rtcMultiBeam, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
                 marker.Ready(siriusMultiEditorControl1.Document, siriusMultiEditorControl1.View, rtcMultiBeam, laser, null);
@@ -209,13 +225,11 @@ namespace Demos
                 // 注意：设置 Modes.Both 时，ListJumpTo 内部会自动执行令牌获取/释放握手。
                 mode = RtcMultiBeamHelper.MultiBeamModes.Both;
 
-
             RtcMultiBeamHelper.MultiBeamPreperSides side = RtcMultiBeamHelper.MultiBeamPreperSides.Head1;
             if (rbHead1Side.Checked) 
                 side = RtcMultiBeamHelper.MultiBeamPreperSides.Head1;
             else if (rbHead2Side.Checked) 
                 side = RtcMultiBeamHelper.MultiBeamPreperSides.Head2;
-
 
             if (!RtcMultiBeamHelper.SetMode(multibeamPairIndex, mode, side))
             {

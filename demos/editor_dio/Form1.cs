@@ -1,5 +1,4 @@
 ﻿using System;
-
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Scanner;
 using SpiralLab.Sirius3.IO;
@@ -13,7 +12,6 @@ using SpiralLab.Sirius3.Entity.Hatch;
 using Microsoft.Extensions.Logging;
 using SpiralLab.Sirius3;
 using SpiralLab.Sirius3.UI.WinForms;
-
 
 #if OPENTK3
 using OpenTK;
@@ -33,11 +31,18 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 
 namespace Demos
 {
+    /// <summary>
+    /// Form1
+    /// </summary>
     public partial class Form1 : Form
     {
 
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
 
+        /// <summary>
+        /// Form constructor
+        /// 폼 생성자
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -52,22 +57,33 @@ namespace Demos
                 }
 
                  // Dispose instances 
+                // 인스턴스 해제 
                 siriusEditorControl1.DisposeDevices();
 
                 // Dispose document
+                // 문서 해제
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
 
                 // Clean up SIRIUS3 library
+                // SIRIUS3 라이브러리 정리
                 SpiralLab.Sirius3.Core.Cleanup();
             };
 
             this.FormClosed += Form1_FormClosed;
         }
 
+        /// <summary>
+        /// Form load
+        /// 폼 로드
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Create devices
+            // 장치 생성
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
             RenameDIOs(dInExt1, dOutExt1, siriusEditorControl1);

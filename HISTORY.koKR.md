@@ -1,5 +1,15 @@
 ﻿# Sirius3 버전 이력
 
+## v1.8.6 (2026.5.14)
+- fixed) 해치
+    - 선분 해치에 HatchFills 옵션 제공
+    - 바코드 개체를 외곽선(Outline) 셀 타입 사용시 해치 적용이 올바르게 적용되도록 개선
+- added) 배경 체커 그리드 크기 
+    - IView.CheckerSize 을 통해 크기 설정 지원
+- fixed) UnDo, ReDo 
+    - EditorControl에서 키보드 단축키를 통한 동작시에도 UnDo 지원
+    - 안정성 향상
+
 ## v1.8.5 (2026.5.8)
 - added) Undo, Redo 지원
     - IDocument 에서 ActUndo, ActRedo 지원

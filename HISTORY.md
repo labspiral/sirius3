@@ -1,5 +1,15 @@
 ﻿# Sirius3 version history
 
+## v1.8.6 (2026.5.14)
+- fixed) Hatch
+    - Added the HatchFills option for line hatch
+    - Improved: Hatching is now applied correctly when using the Outline cell type for barcode objects
+- added) Background checker grid size
+    - Supports size configuration via IView.CheckerSize
+- fixed) Undo, Redo
+    - Undo is now supported when using keyboard shortcuts in EditorControl
+    - Improved stability
+     
 ## v1.8.5 (2026.5.8)
 - added) Undo and Redo support
     - Support for ActUndo and ActRedo in IDocument

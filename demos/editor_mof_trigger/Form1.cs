@@ -1,5 +1,4 @@
 ﻿using System;
-
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Scanner;
 using SpiralLab.Sirius3.IO;
@@ -31,29 +30,28 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 
 namespace Demos
 {
+    /// <summary>
+    /// Marking On-The-Fly (MoF) with external trigger and serial number demo
+    /// 외부 트리거 및 일련번호를 이용한 MoF(이동 중 가공) 데모
+    /// </summary>
     public partial class Form1 : Form
     {
         // Maximum serial number limit
         // 최대 일련번호 제한값
-        // 最大序列号限制
         const uint maxSerialNo = 100;
 
         // Starting serial number
         // 시작 일련번호
-        // 起始序列号
         uint startingSerialNo = 1;
 
         // Serial number increment step
         // 일련번호 증가값
-        // 序列号递增值
         const uint increment = 1;
 
         // Current serial number
         // - Updated when inserted into RTC list buffer (before actual marking)
         // 현재 일련번호
         // - RTC 리스트 버퍼에 삽입 시점에 업데이트됨 (실제 마킹 전에 증가됨)
-        // 当前序列号
-        // - 在写入RTC列表缓冲区时更新（实际加工前更新）
         uint currentSerialNo = 1;
 
         // Real serial number
@@ -62,14 +60,18 @@ namespace Demos
         // 실제 일련번호
         // - 실제 리스트 명령 실행 이후(텍스트 마킹 이후) 실시간 업데이트됨
         // - 자유 변수 0번 사용
-        // 实际序列号
-        // - 在实际列表执行完成后（文本标刻后）实时更新
-        // - 使用自由变量0
         uint realSerialNo;
 
-
+        /// <summary>
+        /// Form constructor
+        /// 폼 생성자
+        /// </summary>
         public Form1()
         {
+            // Initialize SIRIUS3 library
+            // SIRIUS3 라이브러리 초기화
+            SpiralLab.Sirius3.Core.Initialize();
+
             InitializeComponent();
             this.Load += Form1_Load;
             this.FormClosing += (s, e) =>
@@ -80,167 +82,112 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+
                 // Dispose instances 
+                // 인스턴스 해제 
                 siriusEditorControl1.DisposeDevices();
 
                 // Dispose document
+                // 문서 해제
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
 
-
                 // Clean up SIRIUS3 library
+                // SIRIUS3 라이브러리 정리
                 SpiralLab.Sirius3.Core.Cleanup();
             };
 
+            // Attach button click events
+            // 버튼 클릭 이벤트 연결
             this.btnCreateEntities.Click += BtnCreateEntities_Click;
             this.btnStartStop.Click += BtnStartStop_Click;
             this.btnStartEncoderSimulation.Click += BtnStartEncoderSimulation_Click;
             this.btnStopEncoderSimulation.Click += BtnStopEncoderSimulation_Click;
         }
 
+        /// <summary>
+        /// Form load
+        /// 폼 로드
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Create devices
+            // 장치 생성
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
             var rtcMoF = rtc as IRtcMoF;
             Debug.Assert(rtcMoF != null);
+            // Register MoF related event handlers
+            // MoF 관련 이벤트 핸들러 등록
             rtcMoF.OnEncoderSignalError += OnEncoderSignalError;
             rtcMoF.OnOutOfVirtualImageField += OnOutOfVirtualImageField;
 
             siriusEditorControl1.Scanner = rtc;
             siriusEditorControl1.Laser = laser;
 
-            // Set D.IN0 name
-            // DIN0 을 시작 트리거로 사용할 것이므로
-            // DIN.0 을 'External Trigger' 라고 명명
+            // Set D.IN0 name as 'External Trigger'
+            // D.IN0 을 시작 트리거로 사용할 것이므로 'External Trigger' 라고 명명
             dInExt1.ChannelNames[0][0] = "External Trigger";
 
+            // Register devices to control
+            // 컨트롤에 장치 등록
             siriusEditorControl1.RegisterDevices(rtc, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
+            // Ready marker
+            // 마커 준비
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
 
+            // Update serial number display
+            // 일련번호 표시 업데이트
             txtCurrentSerialNo.Text = $"{currentSerialNo}";
             txtRealSerialNo.Text = $"{realSerialNo}";
         }
+
+        /// <summary>
+        /// Event handler for encoder signal errors
+        /// 엔코더 신호 오류 이벤트 핸들러
+        /// </summary>
+        /// <param name="rtcMoF"></param>
+        /// <param name="rtcMarkingInfo"></param>
         private void OnEncoderSignalError(IRtcMoF rtcMoF, IRtcMarkingInfo rtcMarkingInfo)
         {
+            // Analyze error bits depending on RTC card version
+            // RTC 버전에 따른 에러 비트 분석 및 처리
             if (rtcMarkingInfo is Rtc6MarkingInfo rtc6MarkingInfo)
             {
-                // For RTC6 card
-                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.Signal1EncoderXTooShort))
-                {
-
-                }
-                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.Signal1EncoderYTooShort))
-                {
-
-                }
-                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.Signal2EncoderXTooShort))
-                {
-
-                }
-                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.Signal2EncoderYTooShort))
-                {
-
-                }
-                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.WrongSignalSequenceEncoderX))
-                {
-
-                }
-                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.WrongSignalSequenceEncoderY))
-                {
-
-                }
+                // RTC6 specific error bits / RTC6 전용 에러 비트
             }
             else if (rtcMarkingInfo is Rtc5MarkingInfo rtc5MarkingInfo)
             {
-                // For RTC5 card
-                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.Signal1EncoderXTooShort))
-                {
-
-                }
-                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.Signal1EncoderYTooShort))
-                {
-
-                }
-                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.Signal2EncoderXTooShort))
-                {
-
-                }
-                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.Signal2EncoderYTooShort))
-                {
-
-                }
-                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.WrongSignalSequenceEncoderX))
-                {
-
-                }
-                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.WrongSignalSequenceEncoderY))
-                {
-
-                }
-            }
-            else if (rtcMarkingInfo is Rtc4MarkingInfo rtc4MarkingInfo)
-            {
-                // For RTC4 card
-                // Not supported  
+                // RTC5 specific error bits / RTC5 전용 에러 비트
             }
 
             this.Invoke(new MethodInvoker(() =>
             {
                 MessageBox.Show(this, $"Encoder Signal Error: {rtcMarkingInfo.ToString()}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);                
             }));
-
         }
 
+        /// <summary>
+        /// Event handler for virtual image field overflow/underflow
+        /// 가상 이미지 필드 범위 초과 오류 이벤트 핸들러
+        /// </summary>
+        /// <param name="rtcMoF"></param>
+        /// <param name="rtcMarkingInfo"></param>
         private void OnOutOfVirtualImageField(IRtcMoF rtcMoF, IRtcMarkingInfo rtcMarkingInfo)
         {
+            // Analyze out-of-range status bits
+            // 범위 초과 상태 비트 분석
             if (rtcMarkingInfo is Rtc6MarkingInfo rtc6MarkingInfo)
             {
-                // For RTC6 card
-                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.MoFOverflowInXDirection))
-                {
-
-                }
-                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.MoFUnderflowInXDirection))
-                {
-
-                }
-                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.MoFOverflowInYDirection))
-                {
-
-                }
-                if (rtc6MarkingInfo.Contains(Rtc6MarkingInfo.Bit.MoFUnderflowInYDirection))
-                {
-
-                }
-              
+                // RTC6 specific range errors / RTC6 전용 범위 오류
             }
             else if (rtcMarkingInfo is Rtc5MarkingInfo rtc5MarkingInfo)
             {
-                // For RTC5 card
-                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.MoFOverflowInXDirection))
-                {
-
-                }
-                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.MoFUnderflowInXDirection))
-                {
-
-                }
-                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.MoFOverflowInYDirection))
-                {
-
-                }
-                if (rtc5MarkingInfo.Contains(Rtc5MarkingInfo.Bit.MoFUnderflowInYDirection))
-                {
-
-                }
-            }
-            else if (rtcMarkingInfo is Rtc4MarkingInfo rtc4MarkingInfo)
-            {
-                // For RTC4 card
-                // Not supported (no virtual image field)
+                // RTC5 specific range errors / RTC5 전용 범위 오류
             }
 
             this.Invoke(new MethodInvoker(() =>
@@ -249,96 +196,102 @@ namespace Demos
             }));
         }
 
+        /// <summary>
+        /// Create test entities and initialize event handlers
+        /// 테스트용 엔티티 생성 및 이벤트 핸들러 초기화
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnCreateEntities_Click(object sender, EventArgs e)
         {
             var document = siriusEditorControl1.Document;
             document.ActNew();
 
+            // Create sample entities
+            // 샘플 엔티티 생성
             CreateEntities();
+            // Initialize marker event handlers
+            // 마커 이벤트 핸들러 초기화
             CreateEventHandlers();
         }
 
+        /// <summary>
+        /// Create entities with MoF and external trigger wait logic
+        /// MoF 및 외부 트리거 대기 로직을 포함한 엔티티 생성
+        /// </summary>
         void CreateEntities()
         {
             var document = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
             var rtc = siriusEditorControl1.Scanner as IRtc;
 
-            // Create waiting D.IN0 ("External Trigger")
-            // Condition: rising edge
-            // D.IN0 트리거 신호가 High(Rising edge) 될때 까지 대기하는 제어용 객체 추가
+            // Create control entity to wait for D.IN0 ("External Trigger") rising edge
+            // D.IN0 트리거 신호가 High(Rising edge) 될 때까지 대기하는 제어용 객체 추가
             var waitExt16Cond = EntityFactory.CreateWaitDataExt16EdgeCond(
-                0, //D.IN0 ("External Trigger")
+                0, // D.IN0 ("External Trigger")
                 SignalEdges.High);
             document.ActAdd(waitExt16Cond);
 
-            // Create mof begin with encoder reset
-            // 입력 엔코더(이동거리)값을 0 으로 초기화하도록 해주고
-            // 이후 스캐너의 이동에 실시간 입력되는 외부 엔코더값을 추가(+) 해주는것을 시작하는
-            // 제어용 MoF 시작 객체 추가
-            // Also, need to MoF option at library option.
+            // Create MoF Begin entity with encoder reset
+            // 외부 엔코더 추종을 시작하고 현재 위치를 0으로 리셋하는 MoF 시작 객체 추가
+            // Also, MoF option must be enabled on library license / MoF 라이선스 옵션이 필요합니다.
             //Debug.Assert(rtc.IsMoF);
             //Core.License(out var licenseInfo);
             //Debug.Assert(licenseInfo.IsMoFLicensed);
-
             var mofBegin = EntityFactory.CreateMoFBegin(RtcMoFModes.XY, true);
             document.ActAdd(mofBegin);
 
-            // Create barcode
-            // 바코드 객체 추가 및 IsAllowConvert 을 true 로 사용시 가공 직전 바코드 텍스트 데이타를 지정된 컨버터로 변경해주는 기능 사용
-            // 이 예제에서는 이벤트 핸들러(IMarker 의 OnTextConvert 이벤트 핸들러)를 사용하는 방식 사용
+            // Create Barcode with text conversion enabled
+            // 가공 직전 텍스트를 변경할 수 있도록 설정된 바코드 객체 추가
             var barcode = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 5, 5);
             barcode.CellLine.DotFactor = 1;
             barcode.Name = "MyBarcode";
             barcode.IsAllowConvert = true;
-            barcode.TextConverter = TextConverters.Event; // marker.OnTextConvert event will be called
+            barcode.TextConverter = TextConverters.Event; // marker.OnTextConvert event will be called / 이벤트 핸들러 호출
             barcode.SourceText = "SERIAL NO";
-
             document.ActAdd(barcode);
 
-            // Create text
-            // 텍스트 객체 추가 및 IsAllowConvert 을 true 로 사용시 가공 직전 바코드 텍스트 데이타를 지정된 컨버터로 변경해주는 기능 사용
-            // 이 예제에서는 이벤트 핸들러(IMarker 의 OnTextConvert 이벤트 핸들러)를 사용하는 방식 사용
+            // Create Text with text conversion enabled
+            // 가공 직전 텍스트를 변경할 수 있도록 설정된 텍스트 객체 추가
             var text = EntityFactory.CreateText("Arial", FontStyle.Regular, "0123456789", 2);
             text.Name = "MyText";
             text.IsAllowConvert = true;  
-            text.TextConverter = TextConverters.Event; // marker.OnTextConvert event will be called
+            text.TextConverter = TextConverters.Event; // marker.OnTextConvert event will be called / 이벤트 핸들러 호출
             text.SourceText = "SERIAL NO";
-
             text.Translate(0, -2.5);
             document.ActAdd(text);
 
-            // Create mof end with jump 0,0
-            // 입력 엔코더(이동거리)에 의한 스캐너 추종이 중단(MoF end) 됨
-            // 이후 실시간 입력되는 외부 엔코더처리는 중단되고 스캐너를 물리적 원점(0,0) 으로 점프
-            // 제어용 MoF 끝 객체 추가
+            // Create MoF End entity with jump to 0,0
+            // 외부 엔코더 추종을 중단하고 스캐너를 물리적 원점(0,0)으로 이동하는 MoF 종료 객체 추가
             var mofEnd = EntityFactory.CreateMoFEnd(DVec2.Zero);
             document.ActAdd(mofEnd);
 
-            // Create user event
-            // 사용자 이벤트용 제어 객체 추가
-            // 사용자 이벤트가 실행되면 이벤트 핸들러 (IMarker 의 OnUserEvent 이벤트 핸들러) 가 호출됨
-            // 이 예제에서는 OnUserEvent 이벤트 호출시 일련번호를 증가시키는 기능을 추가함
-            var userEvent = EntityFactory.CreateUserEvent(); // marker.OnUserEvent event will be called
-            
+            // Create User Event entity
+            // 사용자 이벤트가 실행될 때 marker.OnUserEvent 를 호출하는 제어 객체 추가
+            // This is used to increment serial number after marking / 이 예제에서는 마킹 후 일련번호 증가용으로 사용됨
+            var userEvent = EntityFactory.CreateUserEvent(); 
             document.ActAdd(userEvent);
 
             siriusEditorControl1.View?.DoRender();
             
-            // Repeats 100 times
-            // 최대 100개의 트리거 입력을 처리하기 위해
-            // 레이어의 가공 반복회수(Repeats) 를 입력함
+            // Set layer repeats to handle up to 100 trigger inputs
+            // 최대 100개의 트리거 입력을 처리하기 위해 레이어 반복 회수 설정
             document.ActivePage.ActiveLayer.Repeats = 100;
-
 
             Debug.Assert(rtc.IsMoF);
             var rtcMoF = rtc as IRtcMoF;
             Debug.Assert(rtcMoF != null);
-            // 단위 mm 당 발생하는 엔코더 펄스의 개수가 지정되어 있어야 함
+            // Ensure encoder counts per mm is configured
+            // 단위 mm 당 엔코더 펄스 수가 설정되어 있어야 함
             Debug.Assert(rtcMoF.EncXCountsPerMm != 0);
-            //Debug.Assert(rtcMoF.EncYCountsPerMm != 0);
         }
 
+        /// <summary>
+        /// Start or Stop marking process
+        /// 마킹 시작 또는 중지
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnStartStop_Click(object sender, EventArgs e)
         {
             var document = siriusEditorControl1.Document;
@@ -346,72 +299,88 @@ namespace Demos
 
             if (marker.IsBusy)
             {
-                // 이미 마커(IMarker)가 가공중이면 강제 중단
+                // Force stop marking process
+                // 가공 중이면 강제 중단
                 marker.Stop();
                 marker.Reset();
                 txtCurrentSerialNo.Enabled = true;
             }
             else
             {
-                // 마커(IMarker) 가공시작을 위해 
-                // 초기 일련번호를 설정
+                // Initialize serial numbers and start marking
+                // 일련번호 초기화 및 가공 시작
                 currentSerialNo = uint.Parse(txtCurrentSerialNo.Text);
                 realSerialNo = currentSerialNo;
                 txtRealSerialNo.Text = txtCurrentSerialNo.Text;
 
                 marker.Reset();
                 marker.Ready(siriusEditorControl1.Document);
-                marker.Start(document.Page); // current page
+                marker.Start(document.Page); // Start current page / 현재 페이지 시작
 
                 txtCurrentSerialNo.Enabled = false;
             }
         }
 
+        /// <summary>
+        /// Toggle simulated encoder movement for testing
+        /// 엔코더 시뮬레이션(가상 이동) 시작
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnStartEncoderSimulation_Click(object sender, EventArgs e)
         {
-            // 외부 엔코더 신호가 RTC 카드의 MOF 입력핀으로 연결되어 있으면
-            // 엔코더 시뮬레이션 기능을 사용할 필요가 없음
+            // Simulated encoder is not needed if physical encoder is connected
+            // 물리적 엔코더가 연결된 경우에는 시뮬레이션이 필요 없습니다.
             var rtc = siriusEditorControl1.Scanner as IRtc;
-
             Debug.Assert(rtc.IsMoF);
             var rtcMoF = rtc as IRtcMoF;
 
-            // Activated simulated encoders for test purpose (x= -1, y=0 mm/s)
-            // DO NOT set simulated encoder speed if ENC 0,1 has connected
-            // 엔코더 입력 시뮬레이션 시작 (x 축 방향은 -1mm/s 가상 속도, y 축은 미사용)
+            // Start simulated X movement at -1mm/s
+            // X 축 방향 -1mm/s 가상 속도로 엔코더 시뮬레이션 시작
             rtcMoF.CtlMoFEncoderSpeed(-1, 0);
         }
 
+        /// <summary>
+        /// Stop simulated encoder and reset positions
+        /// 엔코더 시뮬레이션 중지 및 위치 리셋
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnStopEncoderSimulation_Click(object sender, EventArgs e)
         {
-            // 외부 엔코더 신호가 RTC 카드의 MOF 입력핀으로 연결되어 있으면
-            // 엔코더 시뮬레이션 기능을 사용할 필요가 없음
             var rtc = siriusEditorControl1.Scanner as IRtc;
-
             Debug.Assert(rtc.IsMoF);
             var rtcMoF = rtc as IRtcMoF;
 
-            // Deactivated simulated encoders 
-            // 엔코더 입력 시뮬레이션 중지 (가상 속도를 0 으로 하는것으로 중지됨)
+            // Stop simulated movement (set speed to 0)
+            // 가상 속도를 0으로 하여 엔코더 시뮬레이션 중지
             rtcMoF.CtlMoFEncoderSpeed(0, 0);
 
-            // Reset encoders
+            // Reset encoders to origin
+            // 엔코더 위치 리셋
             rtcMoF.CtlMoFEncoderReset();
         }
 
+        /// <summary>
+        /// Initialize event handlers for marker and RTC
+        /// 마커 및 RTC를 위한 이벤트 핸들러 등록
+        /// </summary>
         void CreateEventHandlers()
         {
             var marker = siriusEditorControl1.Marker;
 
-            // 바코드 및 텍스트 객체의 데이타 변경용 이벤트 핸들러 등록
+            // Register event handler for dynamic text conversion (Serial numbers, etc.)
+            // 바코드 및 텍스트 객체의 실시간 데이터 변경용 이벤트 핸들러 등록
             marker.OnTextConvert -= Marker_OnTextConvert;
             marker.OnTextConvert += Marker_OnTextConvert;
 
-            // UserEvent 객체 통지용 이벤트 핸들러 등록
+            // Register event handler for UserEvent notifications
+            // UserEvent 객체 실행 통지용 이벤트 핸들러 등록
             marker.OnUserEvent -= Marker_OnUserEvent;
             marker.OnUserEvent += Marker_OnUserEvent;
 
-            // 자유번수 변경 시점을 통지받기 위한 이벤트 핸들러 등록
+            // Register event handler for free variable changes
+            // 실시간 가공 카운트 통지용 이벤트 핸들러 등록
             if (marker.Scanner is IRtcFreeVariable rtcFreeVariable)
             {
                 rtcFreeVariable.OnFreeVariableChanged -= OnFreeVariableChanged;
@@ -419,6 +388,13 @@ namespace Demos
             }
         }
 
+        /// <summary>
+        /// Update real-time process counter in UI
+        /// UI에 실시간 가공 카운트 업데이트
+        /// </summary>
+        /// <param name="rtcFreeVariable"></param>
+        /// <param name="no"></param>
+        /// <param name="data"></param>
         private void OnFreeVariableChanged(IRtcFreeVariable rtcFreeVariable, uint no, uint data)
         {
             if (txtRealSerialNo.InvokeRequired)
@@ -431,16 +407,19 @@ namespace Demos
             }
         }
 
+        /// <summary>
+        /// Handle dynamic text conversion before marking
+        /// 마킹 직전 텍스트 데이터 변환 처리
+        /// </summary>
+        /// <param name="marker"></param>
+        /// <param name="textConvertible"></param>
+        /// <returns></returns>
         private string Marker_OnTextConvert(IMarker marker, ITextConvertible textConvertible)
         {
-            var entity = textConvertible as IEntity;
-
-            var currentLayer = marker.WorkingSet.Layer;
-            var currentLayerIndex = marker.WorkingSet.LayerIndex;
+            // Note: Data is processed into RTC list buffer in advance.
+            // Screen display will update as soon as data enters the buffer.
+            // 실제 마킹은 트리거 발생 시점에 버퍼 순서대로 진행됩니다.
             var currentEntity = marker.WorkingSet.Entity;
-            var currentEntityIndex = marker.WorkingSet.EntityIndex;
-            var currentOffset = marker.WorkingSet.Offset;
-            var currentOffsetIndex = marker.WorkingSet.OffsetIndex;
 
             // 바코드 및 텍스트 객체의 이름을 통해 변경될 데이타 리턴            
             // 가공 데이타 좌표들이 RTC 의 리스트 버퍼에 미리 추가되어야 하기에
@@ -448,7 +427,6 @@ namespace Demos
             // 이후 트리거 (D.IN0) 발생시 리스트 버퍼의 데이타가 순차적으로 실행(가공)됨
             // RTC 리스트 버퍼에서 데이타가 처리되면 빈 리스트 버퍼 공간이 생길때 까지 대기하다가
             // 이후 텍스트 데이타 변경이 되는 방식이 반복됨
-
             switch (currentEntity.Name)
             {
                 case "MyBarcode":
@@ -456,20 +434,30 @@ namespace Demos
                 case "MyText":
                     return $"Text {currentSerialNo}";
                 default:
-                    // Not modified
+                    // Not modified / 변경 없음
                     return textConvertible.SourceText;
             }
             
         }
 
+        /// <summary>
+        /// Handle User Event to update serial number after marking
+        /// 마킹 완료 후 일련번호 업데이트를 위한 사용자 이벤트 처리
+        /// </summary>
+        /// <param name="marker"></param>
+        /// <param name="entityUserEvent"></param>
+        /// <returns></returns>
         private bool Marker_OnUserEvent(IMarker marker, EntityUserEvent entityUserEvent)
         {
-            // 일련번호 증가 및 최대값 처리
+            // Increment serial number and handle overflow
+            // 일련번호 증가 및 최대값 도달 시 시작 번호로 리셋
             currentSerialNo += increment;
             if (currentSerialNo > maxSerialNo)
                 currentSerialNo = startingSerialNo;
 
             bool success = true;
+            // Write current serial number to RTC free variable index 0
+            // 현재 일련번호를 RTC 자유 변수 0번에 기록
             if (marker.Scanner is IRtcFreeVariable rtcFreeVariable)
                 success &= rtcFreeVariable.ListWriteVariable(0, currentSerialNo);
 

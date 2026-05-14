@@ -1,5 +1,4 @@
-using System;
-
+﻿using System;
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Scanner;
 using SpiralLab.Sirius3.IO;
@@ -29,9 +28,16 @@ using DMat4 = OpenTK.Mathematics.Matrix4d;
 
 namespace Demos
 {
+    /// <summary>
+    /// Form1
+    /// </summary>
     public partial class Form1 : Form
     {
 
+        /// <summary>
+        /// Form constructor
+        /// 폼 생성자
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -45,18 +51,19 @@ namespace Demos
                     return;
                 }
                 // Dispose instances 
+                // 인스턴스 해제 
                 siriusEditorControl1.DisposeDevices();
 
-
                 // Dispose document
+                // 문서 해제
                 var doc = siriusEditorControl1.Document;
                 siriusEditorControl1.Document = null;
                 doc?.Dispose();
 
                 // Clean up SIRIUS3 library
+                // SIRIUS3 라이브러리 정리
                 SpiralLab.Sirius3.Core.Cleanup();
             };
-
 
             this.btnPoints.Click += (s, e) => {
                 var document = siriusEditorControl1.Document;
@@ -137,8 +144,16 @@ namespace Demos
             };
         }
 
+        /// <summary>
+        /// Form load
+        /// 폼 로드
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Create devices
+            // 장치 생성
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
             siriusEditorControl1.RegisterDevices(rtc, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
@@ -525,7 +540,7 @@ namespace Demos
             }
 
             {
-                var text = new EntityText("Segoe UI", FontStyle.Regular, $"�����̷���{Environment.NewLine}SIRIUS3{Environment.NewLine}������ ����", 12);
+                var text = new EntityText("Segoe UI", FontStyle.Regular, $"스파이럴랩{Environment.NewLine}SIRIUS3{Environment.NewLine}개발자 버전", 12);
                 text.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
                 text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
                 document.ActAdd(text);
@@ -934,7 +949,7 @@ namespace Demos
         private void lissajous_testcase(IDocument document)
         {
             var rnd = new Random((int)DateTime.Now.Ticks);
-            var entity = new EntityLissajous(DVec3.Zero, 10, 2, 12, EntityLissajous.LissajousTypes.��, EntityLissajous.Directions.Cw);
+            var entity = new EntityLissajous(DVec3.Zero, 10, 2, 12, EntityLissajous.LissajousTypes.π, EntityLissajous.Directions.Cw);
             entity.Translate(rnd.NextDouble() * 100.0 - 50, rnd.NextDouble() * 100.0 - 50, 0);
             document.ActAdd(entity);
             siriusEditorControl1.View?.DoRender();
