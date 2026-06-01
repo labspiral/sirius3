@@ -1,5 +1,18 @@
 ﻿# Sirius3 version history
 
+## v1.9.0 (2026.6.1)
+- added) Support for importing G-code
+    - File extensions: .gocde or .ngc files
+- fixed) Improvements to the TextConverter's TextConverters.Offset
+    - Previous: Used the ExtensionData value of Offset as the converted text
+    - Changed: When the ExtensionData value of Offset is an extended string in the format "Entity1|Value1|Entity2|Value2;...", TextConverter now supports parsing and using the corresponding keys and values
+    - Added) Remote
+        - added text command
+        - command format: text|count|Name1|Text1|Name2|Text2|...;
+- updated) Ophir StarLab v4.00 
+- fixed) Support for creating external entities
+    - See the editor_entity_custom demo project
+     
 ## v1.8.6 (2026.5.14)
 - fixed) Hatch
     - Added the HatchFills option for line hatch

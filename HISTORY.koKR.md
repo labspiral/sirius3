@@ -1,5 +1,18 @@
 ﻿# Sirius3 버전 이력
 
+## v1.9.0 (2026.6.1)
+- added) gcode 가져오기 지원
+    - .gocde 혹은 .ngc 확장자 파일 
+- fixed) 텍스트 컨버터 TextConverters.Offset 개선
+    - 기존: Offset 의 ExtensionData 값을 변환 텍스트로 사용
+    - 변경: Offset 의 ExtensionData 값이 "Entity1|Value1|Entity2|Value2;..." 형태의 확장된 문자열 일때, TextConverter 가 해당 키와 값을 파싱해서 사용할 수 있도록 지원
+    - added) Remote 
+        - text 명령 추가
+        - 명령 포맷: text|개수|Name1|Text1|Name2|Text2|...;
+- updated) Ophir StarLab v4.00 지원
+- fixed) 외부 엔티티 생성 사용 지원
+    - editor_entity_custom 데모 프로젝트 참고
+
 ## v1.8.6 (2026.5.14)
 - fixed) 해치
     - 선분 해치에 HatchFills 옵션 제공

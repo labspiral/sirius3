@@ -168,7 +168,7 @@ namespace Demos
             
             // Calculate dimensions and translate for visualization
             // 크기 계산 및 시각화를 위한 이동
-            mesh.CalcuateRealMinMax(out var realMin, out var realMax);
+            mesh.CalculateRealMinMax(out var realMin, out var realMax);
             double width = realMax.X - realMin.X;
             double height = realMax.Y - realMin.Y;
             points.Translate(0, -height, 0);

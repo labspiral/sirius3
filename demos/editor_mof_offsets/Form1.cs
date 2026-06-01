@@ -350,7 +350,7 @@ namespace Demos
             {
                 if (entity is ITransformable transformable)
                 {
-                    if (transformable.CalcuateRealMinMax(out var realMin, out var realMax))
+                    if (transformable.CalculateRealMinMax(out var realMin, out var realMax))
                     {
                         var offset = marker.WorkingSet.Offset.Translate;
                         var originXShift = -1; // origin shift for wait condition / 대기 조건을 위한 원점 시프트

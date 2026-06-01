@@ -408,23 +408,29 @@
                     <li>Load Recipe: <code class="dynamic-cmd" data-base="recipe" data-action="{Name}">recipe,{Name};</code></li>
                 </ul>
  
-                <h3>Offset & Select</h3>
+                <h3>Offset</h3>
                 <ul>
                     <li>Get Offset: <code class="dynamic-cmd" data-base="offset">offset;</code></li>
                     <li>Set Offset: <code class="dynamic-cmd" data-base="offset" data-action="1,X,Y,Z,A">offset,1,X,Y,Z,A;</code></li>
-                    <li>Get Selected: <code class="dynamic-cmd" data-base="select">select;</code></li>
-                    <li>Select: <code class="dynamic-cmd" data-base="select" data-action="1,{Name}">select,1,{Name};</code></li>
-                    <li>Deselect: <code class="dynamic-cmd" data-base="deselect">deselect;</code></li>
+                    <li>Set Offsets: <code class="dynamic-cmd" data-base="offset" data-action="2,X1,Y1,Z1,A1,X2,Y2,Z2,A2">offset,2,X1,Y1,Z1,A1,X2,Y2,Z2,A2;</code></li>
+                </ul>
+
+                <h3>Text</h3>
+                <ul>
+                    <li>Get Text: <code class="dynamic-cmd" data-base="text">text;</code></li>
+                    <li>Set Text: <code class="dynamic-cmd" data-base="text" data-action="1,{Text}">text,1,{Text};</code></li>
+                    <li>Set Text (K|V): <code class="dynamic-cmd" data-base="text" data-action="1,K,V">text,1,K,V;</code></li>
+                    <li>Batch Text: <code class="dynamic-cmd" data-base="text" data-action="2,K1,V1,K2,V2">text,2,K1,V1,K2,V2;</code></li>
                 </ul>
  
                 <h3>Property Control</h3>
                 <ul>
-                    <li>Read: <code class="dynamic-cmd" data-base="target" data-action="name,prop">target,name,prop;</code></li>
-                    <li>Write: <code class="dynamic-cmd" data-base="target" data-action="name,prop,val">target,name,prop,val;</code></li>
-                    <li>List: <code class="dynamic-cmd" data-base="target" data-action="name,properties">target,name,properties;</code></li>
+                    <li>Read: <code class="dynamic-cmd" data-base="target" data-action="{Name},{PropertyName}">target,{Name},{PropertyName};</code></li>
+                    <li>Write: <code class="dynamic-cmd" data-base="target" data-action="{Name},{PropertyName},{Value}">target,{Name},{PropertyName},{Value};</code></li>
+                    <li>List: <code class="dynamic-cmd" data-base="target" data-action="{Name},properties">target,{Name},properties;</code></li>
                 </ul>
                 <p style="font-size: 0.75rem; border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 10px;">
-                    * <code>target</code> can be <i>layer, entity, entitypen</i>.
+                    * <code>target</code>: <i>layer, entity, entitypen, layerpen</i>.
                 </p>
             </div>
         </aside>

@@ -157,10 +157,10 @@ namespace Demos
             //offsets.Add(offset)
 
             // or simply
-            offsets.Add(new Offset(-20, 20, 0));
-            offsets.Add(new Offset(20, 20, 90));
-            offsets.Add(new Offset(-20, -20, 180));
-            offsets.Add(new Offset(20, -20, 270));
+            offsets.Add(new Offset(-20, 20, 0, ""));
+            offsets.Add(new Offset(20, 20, 90, ""));
+            offsets.Add(new Offset(-20, -20, 180, ""));
+            offsets.Add(new Offset(20, -20, 270, ""));
 
             // assign offsets to marker
             marker.Offsets = offsets.ToArray();

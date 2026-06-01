@@ -1,5 +1,18 @@
 # Sirius3 版本历史
 
+## v1.9.0 (2026.6.1)
+- 新增) 支持导入 G-code
+    - 文件扩展名：.gocde 或 .ngc 文件
+- 修复) 改进文本转换器 TextConverters.Offset
+    - 原版：将 Offset 的 ExtensionData 值用作转换后的文本
+    - 变更：当 Offset 的 ExtensionData 值为 "Entity1|Value1|Entity2|Value2;..." 形式的扩展字符串时，支持 TextConverter 解析并使用相应的键值对
+    - 新增) Remote 
+        - 添加 text 命令
+        - 命令格式：text|数量|Name1|Text1|Name2|Text2|...;
+- 更新) Ophir StarLab v4.00 
+- 修复) 支持创建外部实体
+    - 请参考 editor_entity_custom 演示项目
+     
 ## v1.8.6 (2026.5.14)
 - 修复) 填充图案
     - 为线段填充图案提供 HatchFills 选项

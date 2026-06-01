@@ -318,7 +318,7 @@ namespace Demos
 
             if (entity is EntityArc entityArc)
             {
-                if (entityArc.CalcuateRealMinMax(out var realMin, out var realMax))
+                if (entityArc.CalculateRealMinMax(out var realMin, out var realMax))
                 {
                     var realCenter = (realMin + realMax) * 0.5;
                     // Create breakpoint before arc using entity ID
@@ -390,7 +390,7 @@ namespace Demos
             {
                 if (foundedEntity is EntityArc entityArc)
                 { 
-                    if (entityArc.CalcuateRealMinMax(out var min, out var max))
+                    if (entityArc.CalculateRealMinMax(out var min, out var max))
                     {
                         var realCenter = (min + max) * 0.5;
                         // Move your external stage to the entity's real center

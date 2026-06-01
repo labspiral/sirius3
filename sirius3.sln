@@ -107,6 +107,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_remote", "demos\edit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_script", "demos\editor_script\editor_script.csproj", "{6C358132-B7F2-19E8-7DB7-812D49C2EC09}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editor_entity_custom", "demos\editor_entity_custom\editor_entity_custom.csproj", "{CEF4DC70-1357-0637-FA43-BCD8C3CF6C41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -277,6 +279,10 @@ Global
 		{6C358132-B7F2-19E8-7DB7-812D49C2EC09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C358132-B7F2-19E8-7DB7-812D49C2EC09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C358132-B7F2-19E8-7DB7-812D49C2EC09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEF4DC70-1357-0637-FA43-BCD8C3CF6C41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEF4DC70-1357-0637-FA43-BCD8C3CF6C41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEF4DC70-1357-0637-FA43-BCD8C3CF6C41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEF4DC70-1357-0637-FA43-BCD8C3CF6C41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

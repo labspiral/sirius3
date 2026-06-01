@@ -161,7 +161,7 @@ namespace Demos
             {
                 if (foundedEntity is EntityArc entityArc)
                 { 
-                    if (entityArc.CalcuateRealMinMax(out var min, out var max))
+                    if (entityArc.CalculateRealMinMax(out var min, out var max))
                     {
                         // Perform some external work before resuming marking
                         // 예: 가공 전 스테이지 이동이나 상태 확인 등 외부 작업 수행

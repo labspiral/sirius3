@@ -71,19 +71,46 @@
 - 현재 레시피 확인: recipe;
   - 응답: OK; 후 Recipe|{FileName};
 
-## 4.5 오프셋 설정 (Offset)
+## 4.5 오프셋 제어 (Offset)
 
-- 오프셋 설정: offset|{Count}|{X}|{Y}|{Z}|{Angle}|{ExtData}|...;
-  - {X}, {Y}, {Z}, {Angle}: 전이(Translation) 및 회전 정보
-  - {ExtData}: (선택 사항) 사용자 정의 확장 문자열 데이터
-  - 예 (기본): offset|1|10|0|0|45;
-  - 예 (확장 데이터 포함): offset|1|10|0|0|45|MyData_123;
-  - 응답: OK; 또는 NG;
-- 현재 오프셋 조회: offset;
-  - 응답: OK; 후 Offset|{Count}|{X}|{Y}|{Z}|{Angle}|{ExtData}|...;
-  - (단, 확장 데이터는 설정된 값이 있는 경우에만 각 오프셋 항목 뒤에 추가됨)
+마커에 설정된 오프셋 배열(좌표 및 회전)을 일괄 설정합니다. 
 
-## 4.6 개체 선택 및 해제 (Select/Deselect)
+- **오프셋 배열 설정 (Batch Set)**: `offset|{Count}|{X1}|{Y1}|{Z1}|{Angle1}|...|{Xn}|{Yn}|{Zn}|{Angle n};`
+  - `{Count}`: 설정할 오프셋의 총 개수
+  - `{X}, {Y}, {Z}, {Angle}`: 이동(Translation) 및 회전(Rotate Z) 정보. 이 세트가 `{Count}`만큼 반복됩니다.
+  - 응답: `OK;` 또는 `NG;`
+- **오프셋 조회**: `offset;`
+  - 응답: `OK;` 후 `Offset|{Count}|{X1}|{Y1}|{Z1}|{Angle1}|...;`
+  - 현재 설정된 모든 오프셋의 좌표 정보를 반환합니다.
+- **주의**: `offset` 명령을 실행하면 마커의 오프셋 배열이 새로 초기화되므로, `text` 명령으로 이전에 설정했던 모든 확장 데이터(ExtensionData)가 리셋됩니다. 오프셋 설정 후 텍스트 데이터를 다시 설정해야 합니다.
+
+## 4.6 동적 텍스트 데이터 제어 (Text)
+
+각 오프셋 인덱스에 할당된 확장 데이터(`ExtensionData`)를 개별적으로 설정하거나 조회합니다. 텍스트 엔티티의 `TextConverter` 속성이 `Offset`으로 설정된 경우, 이 확장 데이터에서 엔티티 이름에 해당하는 값을 자동으로 찾아 치환합니다.
+
+- **주의**: 이 명령은 반드시 **`offset` 명령이 선행**되어 오프셋 정보가 정의된 후에 실행되어야 하며, 오프셋 개수(`Count`)는 동일해야 합니다.
+- **텍스트 데이터 일괄 설정**: `text|{Count}|{Text1}|...|{Text n};`
+  - `{Count}`: 설정할 오프셋의 개수 (앞서 설정된 `offset` 명령의 `{Count}`와 일치해야 함)
+  - `{Text}`: Key-Value 쌍 (`Name|Value`) 또는 단순 문자열. 
+    - **주의**: 오직 Key|Value 구분자 형식 지원
+  - 응답: `OK;` 또는 `NG;` (오프셋 개수 불일치 시 `NG;` 반환)
+- **텍스트 데이터 조회**: `text;`
+  - 응답: `OK;` 후 `Text|{Count}|{Text1}|...;`
+  - 현재 설정된 모든 오프셋의 확장 데이터를 반환합니다.
+
+**상세 사용 예시**:
+
+1. **오프셋 및 텍스트 데이터 개별 설정**:
+   - `offset|1|10|20|0|0;`
+   - `text|1|Text_1|Hello;`
+2. **오프셋 2개 및 각 텍스트 데이터 일괄 설정**:
+   - `offset|2|0|0|0|0|10|10|0|0;`
+   - `text|2|ID|001|ID|002;`
+3. **텍스트 데이터 조회**:
+   - `text;`
+   - (응답: `Text|2|ID|001|ID|002;`)
+
+## 4.7 개체 선택 및 해제 (Select/Deselect)
 
 - 개체 이름으로 선택: select|{Count}|{Name1}|{Name2},...;
   - 예: select|1|Circle_1;
@@ -93,7 +120,7 @@
 - 선택된 개체 조회: select;
   - 응답: OK; 후 Select|{Count}|{Name1}|...;
 
-## 4.7 레이어/개체/개체펜 속성 제어 (Layer/Entity/EntityPen)
+## 4.8 레이어/개체/개체펜 속성 제어 (Layer/Entity/EntityPen/LayerPen)
 
 특정 속성의 값을 읽거나 쓸 수 있습니다. 속성 이름은 영문 대소문자를 구분할 수 있습니다.
 
@@ -108,7 +135,7 @@
   - 예: entitypen|White|properties;
   - 응답: OK; 보낸 후 줄바꿈 과 함께 {propertyName}|{currentValue}; 가 연속 전송됨
 
-## 4.8 스캐너 필드 보정 (Field Correction)
+## 4.9 스캐너 필드 보정 (Field Correction)
 
 - 2D 보정 데이터 적용: fieldcorrection|{Rows}|{Cols}|{Interval}|{ErrX1}|{ErrY1}|...;
   - 응답: OK; 또는 NG;
@@ -194,6 +221,8 @@ remote.RegisterCommandHandler("recipe", async (r, tokens) =>
 - 개체 속성 전체 조회: entity|Circle_1|properties;
 - 펜 파워 변경: entitypen|White|Power|50.0;
 - 오프셋 1개 설정: offset|1|10|0|0|0; (X축 10mm 이동)
+- 오프셋 1개 및 텍스트 데이터 설정: offset|1|0|0|0|0|Text_1|Value_1;
+- 특정 오프셋의 텍스트만 변경: offset|0|Text_1|NewValue;
 - 개체 복수 선택: select|2|Circle_1|Rect_1; (2개 개체 선택)
 - 선택 해제: deselect;
 
