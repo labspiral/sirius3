@@ -39,6 +39,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Include="..\config.ini" Link="config.ini">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
 	  <Compile Include="..\multibeamhelper.cs" Link="multibeamhelper.cs" />
 	  <Compile Include="..\nativemethods.cs" Link="nativemethods.cs" />
 	</ItemGroup>

@@ -17,6 +17,12 @@
 		<NoWarn>$(NoWarn);WFO1000</NoWarn>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\config.ini" Link="config.ini">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 	
 	<PropertyGroup Condition="'$(TargetFramework)'=='net481'">
 		<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
@@ -42,6 +48,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.15" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.15" />
 	</ItemGroup>
+
 	<!--
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-windows'">
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />

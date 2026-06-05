@@ -171,12 +171,18 @@ namespace Demos
 
                 document = value;
 
-                MarkerCtrl.Document = document;
-                PropertyGridCtrl.Document = document;
-                EditorCtrl.Document = document;
-                EntityPenCtrl.Document = document;
-                LayerPenCtrl.Document = document;
-                PowerMapCtrl.Document = document;
+                if (MarkerCtrl != null)
+                    MarkerCtrl.Document = document;
+                if (PropertyGridCtrl != null)
+                    PropertyGridCtrl.Document = document;
+                if (EditorCtrl != null)
+                    EditorCtrl.Document = document;
+                if (EntityPenCtrl != null)
+                    EntityPenCtrl.Document = document;
+                if (LayerPenCtrl != null)
+                    LayerPenCtrl.Document = document;
+                if (PowerMapCtrl != null)
+                    PowerMapCtrl.Document = document;
 
                 treeViewPageControl1.Page = DocumentPages.Page1;
                 treeViewPageControl1.Document = document;
@@ -249,15 +255,24 @@ namespace Demos
                 if (laser != null)
                     laser.Scanner = scanner;
 
-                ScannerCtrl.Scanner = scanner;
-                LaserCtrl.Scanner = scanner;
-                MarkerCtrl.Scanner = scanner;
-                ManualCtrl.Scanner = scanner;
-                EditorCtrl.Scanner = scanner;
-                DIRtcCtrl.Scanner = scanner;
-                DORtcCtrl.Scanner = scanner;
-                PowerMapCtrl.Scanner = scanner;
-                StepperCtrl.Stepper = scanner as IRtcStepper;
+                if (ScannerCtrl != null)
+                    ScannerCtrl.Scanner = scanner;
+                if (LaserCtrl != null)
+                    LaserCtrl.Scanner = scanner;
+                if (MarkerCtrl != null)
+                    MarkerCtrl.Scanner = scanner;
+                if (ManualCtrl != null)
+                    ManualCtrl.Scanner = scanner;
+                if (EditorCtrl != null)
+                    EditorCtrl.Scanner = scanner;
+                if (DIRtcCtrl != null)
+                    DIRtcCtrl.Scanner = scanner;
+                if (DORtcCtrl != null)
+                    DORtcCtrl.Scanner = scanner;
+                if (PowerMapCtrl != null)
+                    PowerMapCtrl.Scanner = scanner;
+                if (StepperCtrl != null)
+                    StepperCtrl.Stepper = scanner as IRtcStepper;
 
                 if (scanner != null)
                 {
@@ -307,13 +322,20 @@ namespace Demos
                     PropertyVisibility();
                 }
 
-                LaserCtrl.Laser = laser;
-                EditorCtrl.Laser = laser;
-                MarkerCtrl.Laser = laser;
-                ManualCtrl.Laser = laser;
-                PowerMeterCtrl.Laser = laser;
-                PowerMapCtrl.Laser = laser;
-                EntityPenCtrl.Document = document;
+                if (LaserCtrl != null)
+                    LaserCtrl.Laser = laser;
+                if (EditorCtrl != null)
+                    EditorCtrl.Laser = laser;
+                if (MarkerCtrl != null)
+                    MarkerCtrl.Laser = laser;
+                if (ManualCtrl != null)
+                    ManualCtrl.Laser = laser;
+                if (PowerMeterCtrl != null)
+                    PowerMeterCtrl.Laser = laser;
+                if (PowerMapCtrl != null)
+                    PowerMapCtrl.Laser = laser;
+                if (EntityPenCtrl != null)
+                    EntityPenCtrl.Document = document;
             }
         }
 
@@ -343,12 +365,18 @@ namespace Demos
 
                 marker = value;
 
-                MarkerCtrl.Marker = marker;
-                ManualCtrl.Marker = marker;
-                DORtcCtrl.Marker = marker;
-                EditorCtrl.Marker = marker;
-                PropertyGridCtrl.Marker = marker;
-                RemoteCtrl.Marker = marker;
+                if (MarkerCtrl != null)
+                    MarkerCtrl.Marker = marker;
+                if (ManualCtrl != null)
+                    ManualCtrl.Marker = marker;
+                if (DORtcCtrl != null)
+                    DORtcCtrl.Marker = marker;
+                if (EditorCtrl != null)
+                    EditorCtrl.Marker = marker;
+                if (PropertyGridCtrl != null)
+                    PropertyGridCtrl.Marker = marker;
+                if (RemoteCtrl != null)
+                    RemoteCtrl.Marker = marker;
 
                 if (marker != null)
                 {
@@ -387,9 +415,12 @@ namespace Demos
                 powerMeter = value;
                 UpdateLaser();
 
-                PowerMeterCtrl.PowerMeter = powerMeter;
-                PowerMapCtrl.PowerMeter = powerMeter;
-                MarkerCtrl.PowerMeter = powerMeter;
+                if (PowerMeterCtrl != null)
+                    PowerMeterCtrl.PowerMeter = powerMeter;
+                if (PowerMapCtrl != null)
+                    PowerMapCtrl.PowerMeter = powerMeter;
+                if (MarkerCtrl != null)
+                    MarkerCtrl.PowerMeter = powerMeter;
 
                 if (powerMeter != null)
                 {
@@ -420,7 +451,8 @@ namespace Demos
             {
                 if (dIExt1 == value) return;
                 dIExt1 = value;
-                DIRtcCtrl.DIExt1 = dIExt1;
+                if (DIRtcCtrl != null)
+                    DIRtcCtrl.DIExt1 = dIExt1;
             }
         }
 
@@ -442,7 +474,8 @@ namespace Demos
             {
                 if (dILaserPort == value) return;
                 dILaserPort = value;
-                DIRtcCtrl.DILaserPort = dILaserPort;
+                if (DIRtcCtrl != null)
+                    DIRtcCtrl.DILaserPort = dILaserPort;
             }
         }
 
@@ -464,7 +497,8 @@ namespace Demos
             {
                 if (dOExt1 == value) return;
                 dOExt1 = value;
-                DORtcCtrl.DOExt1 = dOExt1;
+                if (DORtcCtrl != null)
+                    DORtcCtrl.DOExt1 = dOExt1;
             }
         }
 
@@ -486,7 +520,8 @@ namespace Demos
             {
                 if (dOExt2 == value) return;
                 dOExt2 = value;
-                DORtcCtrl.DOExt2 = dOExt2;
+                if (DORtcCtrl != null)
+                    DORtcCtrl.DOExt2 = dOExt2;
             }
         }
 
@@ -508,7 +543,8 @@ namespace Demos
             {
                 if (dOLaserPort == value) return;
                 dOLaserPort = value;
-                DORtcCtrl.DOLaserPort = dOLaserPort;
+                if (DORtcCtrl != null)
+                    DORtcCtrl.DOLaserPort = dOLaserPort;
             }
         }
 
@@ -539,8 +575,10 @@ namespace Demos
                 }
 
                 remote = value;
-                RemoteCtrl.Remote = remote;
-                RemoteCtrl.Marker = marker;
+                if (RemoteCtrl != null)
+                    RemoteCtrl.Remote = remote;
+                if (RemoteCtrl != null)
+                    RemoteCtrl.Marker = marker;
                 if (remote != null)
                 {
                     remote.OnModeChanged += Remote_OnModeChanged;

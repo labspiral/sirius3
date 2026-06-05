@@ -294,12 +294,18 @@ namespace Demos
 
                 document = value;
 
-                MarkerCtrl.Document = document;
-                PropertyGridCtrl.Document = document;
-                EditorCtrl.Document = document;
-                EntityPenCtrl.Document = document;
-                LayerPenCtrl.Document = document;
-                PowerMapCtrl.Document = document;
+                if (MarkerCtrl != null)
+                    MarkerCtrl.Document = document;
+                if (PropertyGridCtrl != null)
+                    PropertyGridCtrl.Document = document;
+                if (EditorCtrl != null)
+                    EditorCtrl.Document = document;
+                if (EntityPenCtrl != null)
+                    EntityPenCtrl.Document = document;
+                if (LayerPenCtrl != null)
+                    LayerPenCtrl.Document = document;
+                if (PowerMapCtrl != null)
+                    PowerMapCtrl.Document = document;
 
                 treeViewPageControl1.Page = DocumentPages.Page1;
                 treeViewPageControl1.Document = document;
@@ -367,15 +373,24 @@ namespace Demos
                 if (lasers[CurrentDeviceIndex] != null)
                     lasers[CurrentDeviceIndex].Scanner = scanner;
 
-                ScannerCtrl.Scanner = scanner;
-                LaserCtrl.Scanner = scanner;
-                MarkerCtrl.Scanner = scanner;
-                ManualCtrl.Scanner = scanner;
-                EditorCtrl.Scanner = scanner;
-                DIRtcCtrl.Scanner = scanner;
-                DORtcCtrl.Scanner = scanner;
-                PowerMapCtrl.Scanner = scanner;
-                StepperCtrl.Stepper = scanner as IRtcStepper;
+                if (ScannerCtrl != null)
+                    ScannerCtrl.Scanner = scanner;
+                if (LaserCtrl != null)
+                    LaserCtrl.Scanner = scanner;
+                if (MarkerCtrl != null)
+                    MarkerCtrl.Scanner = scanner;
+                if (ManualCtrl != null)
+                    ManualCtrl.Scanner = scanner;
+                if (EditorCtrl != null)
+                    EditorCtrl.Scanner = scanner;
+                if (DIRtcCtrl != null)
+                    DIRtcCtrl.Scanner = scanner;
+                if (DORtcCtrl != null)
+                    DORtcCtrl.Scanner = scanner;
+                if (PowerMapCtrl != null)
+                    PowerMapCtrl.Scanner = scanner;
+                if (StepperCtrl != null)
+                    StepperCtrl.Stepper = scanner as IRtcStepper;
 
                 if (scanner != null)
                 {
@@ -424,13 +439,20 @@ namespace Demos
                     PropertyVisibility();
                 }
 
-                LaserCtrl.Laser = lasers[CurrentDeviceIndex];
-                EditorCtrl.Laser = lasers[CurrentDeviceIndex];
-                MarkerCtrl.Laser = lasers[CurrentDeviceIndex];
-                ManualCtrl.Laser = lasers[CurrentDeviceIndex];
-                PowerMeterCtrl.Laser = lasers[CurrentDeviceIndex];
-                PowerMapCtrl.Laser = lasers[CurrentDeviceIndex];
-                EntityPenCtrl.Document = document;
+                if (LaserCtrl != null)
+                    LaserCtrl.Laser = lasers[CurrentDeviceIndex];
+                if (EditorCtrl != null)
+                    EditorCtrl.Laser = lasers[CurrentDeviceIndex];
+                if (MarkerCtrl != null)
+                    MarkerCtrl.Laser = lasers[CurrentDeviceIndex];
+                if (ManualCtrl != null)
+                    ManualCtrl.Laser = lasers[CurrentDeviceIndex];
+                if (PowerMeterCtrl != null)
+                    PowerMeterCtrl.Laser = lasers[CurrentDeviceIndex];
+                if (PowerMapCtrl != null)
+                    PowerMapCtrl.Laser = lasers[CurrentDeviceIndex];
+                if (EntityPenCtrl != null)
+                    EntityPenCtrl.Document = document;
             }
         }
 
@@ -458,11 +480,18 @@ namespace Demos
 
                 markers[CurrentDeviceIndex] = value;
 
-                MarkerCtrl.Marker = markers[CurrentDeviceIndex];
-                ManualCtrl.Marker = markers[CurrentDeviceIndex];
-                DORtcCtrl.Marker = markers[CurrentDeviceIndex];
-                EditorCtrl.Marker = markers[CurrentDeviceIndex];
-                PropertyGridCtrl.Marker = markers[CurrentDeviceIndex];
+                if (MarkerCtrl != null)
+                    MarkerCtrl.Marker = markers[CurrentDeviceIndex];
+                if (ManualCtrl != null)
+                    ManualCtrl.Marker = markers[CurrentDeviceIndex];
+                if (DORtcCtrl != null)
+                    DORtcCtrl.Marker = markers[CurrentDeviceIndex];
+                if (EditorCtrl != null)
+                    EditorCtrl.Marker = markers[CurrentDeviceIndex];
+                if (PropertyGridCtrl != null)
+                    PropertyGridCtrl.Marker = markers[CurrentDeviceIndex];
+                if (RemoteCtrl != null)
+                    RemoteCtrl.Marker = markers[CurrentDeviceIndex];
             }
         }
 
@@ -488,11 +517,14 @@ namespace Demos
                 }
 
                 powerMeters[CurrentDeviceIndex] = value;
-
-                PowerMeterCtrl.PowerMeter = powerMeters[CurrentDeviceIndex];
-                PowerMapCtrl.PowerMeter = powerMeters[CurrentDeviceIndex];
-                MarkerCtrl.PowerMeter = powerMeters[CurrentDeviceIndex];
                 UpdateLaser();
+
+                if (PowerMeterCtrl != null)
+                    PowerMeterCtrl.PowerMeter = powerMeters[CurrentDeviceIndex];
+                if (PowerMapCtrl != null)
+                    PowerMapCtrl.PowerMeter = powerMeters[CurrentDeviceIndex];
+                if (MarkerCtrl != null)
+                    MarkerCtrl.PowerMeter = powerMeters[CurrentDeviceIndex];
 
                 if (powerMeters[CurrentDeviceIndex] != null)
                 {
@@ -518,7 +550,8 @@ namespace Demos
             private set
             {
                 dIExt1s[CurrentDeviceIndex] = value;
-                DIRtcCtrl.DIExt1 = dIExt1s[CurrentDeviceIndex];
+                if (DIRtcCtrl != null)
+                    DIRtcCtrl.DIExt1 = dIExt1s[CurrentDeviceIndex];
             }
         }
 
@@ -539,7 +572,8 @@ namespace Demos
             private set
             {
                 dILaserPorts[CurrentDeviceIndex] = value;
-                DIRtcCtrl.DILaserPort = dILaserPorts[CurrentDeviceIndex];
+                if (DIRtcCtrl != null)
+                    DIRtcCtrl.DILaserPort = dILaserPorts[CurrentDeviceIndex];
             }
         }
 
@@ -560,7 +594,8 @@ namespace Demos
             private set
             {
                 dOExt1s[CurrentDeviceIndex] = value;
-                DORtcCtrl.DOExt1 = dOExt1s[CurrentDeviceIndex];
+                if (DORtcCtrl != null)
+                    DORtcCtrl.DOExt1 = dOExt1s[CurrentDeviceIndex];
             }
         }
 
@@ -581,7 +616,8 @@ namespace Demos
             private set
             {
                 dOExt2s[CurrentDeviceIndex] = value;
-                DORtcCtrl.DOExt2 = dOExt2s[CurrentDeviceIndex];
+                if (DORtcCtrl != null)
+                    DORtcCtrl.DOExt2 = dOExt2s[CurrentDeviceIndex];
             }
         }
 
@@ -602,7 +638,8 @@ namespace Demos
             private set
             {
                 dOLaserPorts[CurrentDeviceIndex] = value;
-                DORtcCtrl.DOLaserPort = dOLaserPorts[CurrentDeviceIndex];
+                if (DORtcCtrl != null)
+                    DORtcCtrl.DOLaserPort = dOLaserPorts[CurrentDeviceIndex];
             }
         }
 
@@ -630,8 +667,10 @@ namespace Demos
                 }
 
                 remotes[CurrentDeviceIndex] = value;
-                RemoteCtrl.Remote = remotes[CurrentDeviceIndex];
-                RemoteCtrl.Marker = markers[CurrentDeviceIndex];
+                if (RemoteCtrl != null)
+                    RemoteCtrl.Remote = remotes[CurrentDeviceIndex];
+                if (RemoteCtrl != null)
+                    RemoteCtrl.Marker = markers[CurrentDeviceIndex];
 
                 if (remotes[CurrentDeviceIndex] != null)
                 {
