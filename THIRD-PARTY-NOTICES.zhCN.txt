@@ -82,6 +82,11 @@ MQTTnet
   许可   : MIT
   源码   : https://github.com/dotnet/MQTTnet
 
+BinaryKits.Zpl.Viewer
+  版本   : 1.3.1
+  许可   : MIT
+  源码   : https://github.com/BinaryKits/BinaryKits.Zpl
+
 Microsoft .NET / .NET 8 (目标平台)
   许可   : MIT 
   源码   : https://github.com/dotnet/runtime

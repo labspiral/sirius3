@@ -45,8 +45,8 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - Point(s), Line, Arc, Polyline, Triangle, Rectangle, Spiral, Trepan, Spline
    - Layer, Group, Block and BlockInsert
    - Text, SiriusText, ImageText, Circular Text
-   - Image, DXF, HPGL, ZPL
-   - QR, DataMatrix, PDF417 Barcodes
+   - Image, DXF, DWG, HPGL, ZPL and Gerber files
+   - QR, DataMatrix, PDF417, Aztec and 1D 
    - 3D Mesh Format like as STL, OBJ, PLY
 - Document and pages
    - Single document has multiple pages 

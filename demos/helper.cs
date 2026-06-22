@@ -227,7 +227,7 @@ namespace Demos
                 var dx1 = NativeMethods.ReadIni<double>(ConfigFileName, $"RTC{index}", "PRIMARY_BASE_OFFSET_X");
                 var dy1 = NativeMethods.ReadIni<double>(ConfigFileName, $"RTC{index}", "PRIMARY_BASE_OFFSET_Y");
                 var angle1 = NativeMethods.ReadIni<double>(ConfigFileName, $"RTC{index}", "PRIMARY_BASE_OFFSET_ANGLE");
-                rtc2ndHead.PrimaryHeadBaseOffset = new SpiralLab.Sirius3.Mathematics.Offset(dx1, dy1, 0, angle1);
+                rtc2ndHead.PrimaryHeadBaseOffset = new SpiralLab.Sirius3.Mathematics.Offset(dx1, dy1, angle1);
 
                 int enable2ndHead = NativeMethods.ReadIni<int>(ConfigFileName, $"RTC{index}", $"SECONDARY_HEAD_ENABLE");
                 if (0 != enable2ndHead)
@@ -247,7 +247,7 @@ namespace Demos
                     var dx2 = NativeMethods.ReadIni<double>(ConfigFileName, $"RTC{index}", "SECONDARY_BASE_OFFSET_X");
                     var dy2 = NativeMethods.ReadIni<double>(ConfigFileName, $"RTC{index}", "SECONDARY_BASE_OFFSET_Y");
                     var angle2 = NativeMethods.ReadIni<double>(ConfigFileName, $"RTC{index}", "SECONDARY_BASE_OFFSET_ANGLE");
-                    rtc2ndHead.SecondaryHeadBaseOffset = new SpiralLab.Sirius3.Mathematics.Offset(dx2, dy2, 0, angle2);
+                    rtc2ndHead.SecondaryHeadBaseOffset = new SpiralLab.Sirius3.Mathematics.Offset(dx2, dy2, angle2);
                 }
             }
 

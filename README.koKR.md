@@ -47,7 +47,7 @@
    - 레이어, 그룹, 블럭, 블럭 삽입 등
    - Text, SiriusText, ImageText, Circular Text 등
    - Image, DXF, HPGL, ZPL
-   - QR, DataMatrix, PDF417 Barcodes
+   - QR, DataMatrix, PDF417, Aztec Barcodes
    - STL, OBJ, PLY 등의 3D 메쉬 포맷 
 - 원격 통신 지원
     - 통신을 통한 개체 정보, 펜 정보의 조회 및 설정, 파일 열기, 마커 및 오프셋 설정 등 지원

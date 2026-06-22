@@ -1092,14 +1092,52 @@ namespace Demos
         {
             if (Scanner is not IRtcMoF rtcMoF) return;
 
+            bool isCtrlPressed = (Control.ModifierKeys & Keys.Control) == Keys.Control;
+
             var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
                 "Do you want to reset encoder values ?",
                 "Warning",
                 MessageBoxButtons.YesNo);
 
-            var dialogResult = form.ShowDialog(this);
-            if (dialogResult == DialogResult.Yes)
-                rtcMoF.CtlMoFEncoderReset();
+            if (isCtrlPressed)
+            {
+                form.TextLabel.LabelText = "OFFSET X";
+                form.TextLabel.Text = "0";
+                form.TextLabel.Visible = true;
+                form.TextLabel2.LabelText = "OFFSET Y";
+                form.TextLabel2.Text = "0";
+                form.TextLabel2.Visible = true;
+
+                var dialogResult = form.ShowDialog(this);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    switch (rtcMoF.MoFMode)
+                    {
+                        default:
+                        case RtcMoFModes.XY:
+                            double encX = 0, encY = 0;
+                            double.TryParse(form.TextLabel.Text, out encX);
+                            double.TryParse(form.TextLabel2.Text, out encY);
+
+                            rtcMoF.CtlMoFEncoderReset(encX, encY);
+                            break;
+                        case RtcMoFModes.Rotary:
+                            //rtcMoF.CtlMoFEncoderReset(encX, );
+                            double encAngle = 0;
+                            double.TryParse(form.TextLabel.Text, out encAngle);
+                            rtcMoF.CtlMoFEncoderReset(encAngle);
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                var dialogResult = form.ShowDialog(this);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    rtcMoF.CtlMoFEncoderReset();
+                }
+            }
         }
 
         /// <summary>
@@ -1272,6 +1310,7 @@ namespace Demos
         {
             if (!stsBottom.IsHandleCreated || IsDisposed) return;
 
+            rtcMoF.CtlMoFGetEncoderOffset(out var offsetEncX, out int offsetEncY, out double offsetEncXmmOrAngle, out double offsetEncYmm);
             try
             {
                 switch (rtcMoF.MoFMode)
@@ -1280,14 +1319,20 @@ namespace Demos
                     case RtcMoFModes.XY:
                         stsBottom.Invoke(new MethodInvoker(() =>
                         {
-                            lblEncoder.Text = string.Format("ENC: {0:F3}, {1:F3}mm ({2}, {3})", encXmmOrAngle, encYmm, encX, encY);
+                            if (offsetEncX != 0 || offsetEncY != 0)
+                                lblEncoder.Text = string.Format("ENC: {0:F3}({1:F3}), {2:F3}({3:F3})mm ({4}, {5})", encXmmOrAngle, offsetEncXmmOrAngle, encYmm, offsetEncYmm, encX, encY);
+                            else
+                                lblEncoder.Text = string.Format("ENC: {0:F3}, {1:F3}mm ({2}, {3})", encXmmOrAngle, encYmm, encX, encY);
                         }));
                         break;
 
                     case RtcMoFModes.Rotary:
                         stsBottom.Invoke(new MethodInvoker(() =>
                         {
-                            lblEncoder.Text = string.Format("ENC: {0:F3}° ({1})", encXmmOrAngle, encX);
+                            if (offsetEncX != 0)
+                                lblEncoder.Text = string.Format("ENC: {0:F3}({1:F3})° ({2})", encXmmOrAngle, offsetEncXmmOrAngle, encX);
+                            else
+                                lblEncoder.Text = string.Format("ENC: {0:F3}° ({1})", encXmmOrAngle, encX);
                         }));
                         break;
                 }
@@ -1627,7 +1672,6 @@ namespace Demos
         /// <summary>
         /// Opens a document from file with selected include flags.
         /// <para>선택된 포함 플래그로 파일에서 문서를 엽니다.</para>
-        /// <para>使用选定的包含标志从磁盘打开文档。</para>
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>

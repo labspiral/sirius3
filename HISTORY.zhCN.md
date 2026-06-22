@@ -1,5 +1,40 @@
 # Sirius3 版本历史
 
+## v1.10.9 (2026.6.22)
+- 新增）支持文本对象的固定全宽功能
+    - 目标对象：EntityText、EntitySiriusText
+    - 新增 Target width 属性
+    - 当值为 0 时，将像以前一样生成最佳字号； 
+    - 若大于 0，则根据 Target width 值自动调整比例
+- 新增) 支持本地 ZPL 图像转换服务
+    - EntityImageZPL 对象
+    - 原有：支持通过 Labelry 网络服务进行在线转换
+    - 变更：支持通过外部 BinaryKits 库进行离线转换
+    - 默认值：更改为使用 BinaryKits
+    - 可通过 UI.Config.ZPLService 更改生成服务
+- 新增) 支持整体尺寸转换
+    - OriginalDimension：输出原始实体的尺寸
+    - ModelDimension：支持修改实体在本地空间中的尺寸（宽度、高度、深度）
+    - RealDimension：输出在累积应用了所有父实体 ModelMatrix（全部运算）后的世界（Real）空间中的尺寸（宽度、高度、深度）
+- 新增）支持填充对齐
+    - 在 HatchLine 对象中添加 Alignment 属性
+    - None：无对齐
+    - Center（默认）：居中对齐
+    - Fit：均匀重新计算并调整间距
+- 新增）支持 GS1 格式
+    - 支持对 GS1 格式中的 &lt;GS&gt; 及 (,) 分隔符进行转换处理
+- 修复）图像多视图纹理渲染
+    - 目标对象：EntityImage、EntityImageText、EntityImageZPL
+    - 修复了使用多视图时纹理无法渲染的问题
+- 已修复) EntityUniformGroup
+    - 限制可转换为统一组的对象的条件限制
+    - 禁止添加包含控制对象以及 ITextConvertible、IHatch 的对象
+- 已修复) 2D 扫描仪校准
+    - 使用 RtcCorrection2D 时，支持最多 99x99 个校准点
+- 已修复) RtcCalibrationLibrary 校准
+    - 添加了在使用矩阵（MatrixPrimaryInternal）时自动对测量坐标进行逆变换处理的函数 
+    - 用于旋转扫描仪时自动计算原始数据的功能
+     
 ## v1.9.0 (2026.6.1)
 - 新增) 支持导入 G-code
     - 文件扩展名：.gocde 或 .ngc 文件

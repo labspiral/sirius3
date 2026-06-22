@@ -1,5 +1,40 @@
 ﻿# Sirius3 version history
 
+## v1.10.9 (2026.6.22)
+- added: Support for fixing the full width of text objects
+    - Target objects: EntityText, EntitySiriusText
+    - Added the "Target width" property
+    - When set to 0, the text is generated at the optimal font size as before; 
+    - If set to a value greater than 0, the scale is automatically adjusted based on the `Target width` value.
+- added) Support for local ZPL image conversion service.
+    - `EntityImageZPL` object.
+    - Previous: Supported online conversion via the Labelry web service.
+    - Change: Supports offline conversion using the external BinaryKits library.
+    - Default: Changed to use BinaryKits;
+    - The generation service can be changed via UI.Config.ZPLService;
+- added) Support for full-size conversion;
+    - OriginalDimension: Outputs the size of the original entity;
+    - ModelDimension: Supports changing the entity’s size (width, height, depth) in local space;
+    - RealDimension: Outputs the dimensions (width, height, depth) in world (Real) space after applying the cumulative (full) ModelMatrix of all parent entities
+- added) Hatch alignment support
+    - Added Alignment to the HatchLine object
+    - None: No alignment
+    - Center (Default): Center alignment
+    - Fit: Recalculates and adjusts spacing to be uniform
+- added) GS1 format support
+    - Support for converting &lt;GS&gt; and (,) delimiters in the GS1 format
+- fixed) Image multi-view texture rendering
+    - Affected objects: EntityImage, EntityImageText, EntityImageZPL
+    - Fixed an issue where textures were not rendered when using multiple views
+- fixed) EntityUniformGroup
+    - Added constraints on objects that can be converted to uniform groups
+    - Prohibited the addition of control objects and objects containing ITextConvertible or IHatch
+- fixed) 2D scanner calibration
+    - Supports up to 99x99 calibration points when using RtcCorrection2D
+- fixed) RtcCalibrationLibrary calibration
+    - Added a function to automatically perform inverse transformation on measured coordinates when using a matrix (MatrixPrimaryInternal) 
+    - Functionality for automatically calculating original data when using a rotated scanner
+     
 ## v1.9.0 (2026.6.1)
 - added) Support for importing G-code
     - File extensions: .gocde or .ngc files

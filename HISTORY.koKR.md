@@ -1,5 +1,40 @@
 ﻿# Sirius3 버전 이력
 
+## v1.10.9 (2026.6.22)
+- added) 텍스트 개체의 고정폭 지원
+    - 대상 개체: EntityText, EntitySiriusText
+    - Target width 속성 추가
+    - 0 일때는 기존과 같이 최적의 글자 크기로 생성되고, 
+    - 0 보다 큰 경우 Target width 값으로 비율을 자동 조절
+- added) 로컬에서 ZPL 이미지 변환 서비시 지원
+    - EntityImageZPL 개체
+    - 기존: Labelry 웹서비스를 통한 온라인 변환 지원
+    - 변경: 외부 BinaryKits 라이브러리를 통한 오프라인 변환 지원
+    - 기본값: BinaryKits 사용으로 변경
+    - UI.Config.ZPLService 을 통한 생성 서비스 변경 가능
+- added) 전체 크기 변환 지원
+    - OriginalDimension: 원본 엔티티의 크기 출력
+    - ModelDimension: 로컬 공간에서의 엔티티의 크기(너비, 높이, 깊이) 변경 지원
+    - RealDimension: 부모 엔티티들의 모든 ModelMatrix 가 누적(모두 연산) 적용된 월드(Real) 공간에서의 크기(너비, 높이, 깊이) 출력
+- added) 해치 정렬지원
+    - HatchLine 객체에 Alignment 추가
+    - None: 정렬 없음
+    - Center(기본): 중앙 정렬
+    - Fit: 간격을 균등하게 재 계산조정
+- added) GS1 포맷 지원
+    - GS1 포맷에 대한 &lt;GS&gt; 및 (,) 구분자 변환 처리 지원
+- fixed) 이미지 멀티뷰 텍스쳐 렌더링
+    - 대상 개체: EntityImage, EntityImageText, EntityImageZPL
+    - 다중 뷰 사용시 텍스쳐 렌더링이 되지 않는 문제 수정
+- fixed) EntityUniformGroup
+    - 유니폼 그룹으로 변환 가능한 개체의 조건 제약
+    - 제어 개체 및 ITextConvertible, IHatch 를 포함하고 있는 개체의 추가 금지
+- fixed) 2D 스캐너 보정
+    - RtcCorrection2D 측정 데이타 최대 99x99 개의 데이타 변환 지원
+- fixed) RtcCalibrationLibrary 보정
+    - 행렬(MatrixPrimaryInternal) 사용시 측정 좌표를 자동적으로 역변환 처리하는 함수 추가 
+    - 스캐너를 회전시켜 사용시 원본 데이타 자동 계산을 위한 기능
+
 ## v1.9.0 (2026.6.1)
 - added) gcode 가져오기 지원
     - .gocde 혹은 .ngc 확장자 파일 
