@@ -1,6 +1,28 @@
 # Sirius3 版本历史
 
-## v1.10.9 (2026.6.22)
+## v1.10.11 (2026.7.1)
+- 重构) 文本
+    - EntityText、EntityImageText、EntityCircularText：应用字间距调整（Kerning），使用 Fixed 时应用居中对齐
+    - EntitySiriusText：使用 Fixed 时应用居中对齐。支持外部二进制格式（.fnt 字体文件）
+    - EntityImageText：支持使用 TargetWidthPixels 设置整体宽度。支持可变（Variable）和固定（Fixed）宽度
+    - EntityCircularText：支持可变（Variable）和固定（Fixed）宽度
+- 新增) Config.IsConvertToControllerResolution
+    - 是否将 EntityPen、EntityLayerPen 设置的值（时间、频率等）输出为 RTC 控制器的实际转换值
+    - False：默认值（按用户输入的值直接输出）
+    - True：根据 RTC 控制器的控制分辨率，将值转换为相应数值
+- 已修复) EntityImageZPL
+    - 使用 BinaryKits 进行转换时支持韩文字体（默认值：Malgun Gothic）
+    - 支持通过 Config.ZPLBinaryKitsFonts 更改转换字体
+- 已修复) Remote
+    - 修复了 text 命令处理多个数据的错误
+    - 示例1) text|1|Text_1|ABCD123;
+    - 示例2) text|2|Text_1|ABCD1|Text_2|ABCD2|Text_1|ABCD3|Text_2|ABCD4;
+- fixed) 错误
+    - 针对大小为 0 的对象无法执行 ZoomFit 的问题
+    - 使用 TextConverters.File 时无法删除第一行数据的问题
+    - 撤销操作后编辑对象属性时发生异常的问题
+     
+## v1.10.10 (2026.6.22)
 - 新增）支持文本对象的固定全宽功能
     - 目标对象：EntityText、EntitySiriusText
     - 新增 Target width 属性

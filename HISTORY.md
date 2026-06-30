@@ -1,12 +1,34 @@
 ﻿# Sirius3 version history
 
-## v1.10.9 (2026.6.22)
+## v1.10.11 (2026.7.1)
+- refactoring) Text
+    - EntityText, EntityImageText, EntityCircularText: Applied kerning; center alignment applied when "Fixed" is used
+    - EntitySiriusText: Center alignment applied when using "Fixed." Support for external binary formats (.fnt font files) added
+    - EntityImageText: Support for setting the total width using TargetWidthPixels. Support for variable and fixed widths
+    - EntityCircularText: Supports variable and fixed widths
+- added) Config.IsConvertToControllerResolution
+    - Determines whether the values set for EntityPen and EntityLayerPen (time, frequency, etc.) should be output as the actual converted values for the RTC controller
+    - False: Default (outputs the values entered by the user as-is)
+    - True: Values are converted to match the RTC controller’s control resolution
+- fixed) EntityImageZPL
+    - Support for Korean fonts when converting using BinaryKits (default: Malgun Gothic)
+    - Support for changing the conversion font via Config.ZPLBinaryKitsFonts
+- fixed) Remote
+    - Fixed a bug in handling multiple data entries with the text command
+    - Example 1) text|1|Text_1|ABCD123;
+    - Example 2) text|2|Text_1|ABCD1|Text_2|ABCD2|Text_1|ABCD3|Text_2|ABCD4;
+- fixed) Bug
+    - Issue where ZoomFit did not work for objects with a size of 0
+    - Issue where the first line of data was not deleted when using TextConverters.File
+    - Issue where an exception occurred when editing object properties after an Undo
+     
+## v1.10.10 (2026.6.22)
 - added: Support for fixing the full width of text objects
     - Target objects: EntityText, EntitySiriusText
     - Added the "Target width" property
     - When set to 0, the text is generated at the optimal font size as before; 
     - If set to a value greater than 0, the scale is automatically adjusted based on the `Target width` value.
-- added) Support for local ZPL image conversion service.
+- added) Support for local ZPL image conversion.
     - `EntityImageZPL` object.
     - Previous: Supported online conversion via the Labelry web service.
     - Change: Supports offline conversion using the external BinaryKits library.

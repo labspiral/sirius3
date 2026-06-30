@@ -1,12 +1,34 @@
 ﻿# Sirius3 버전 이력
 
-## v1.10.9 (2026.6.22)
+## v1.10.11 (2026.7.1)
+- refactor) Text
+    - EntityText, EntityImageText, EntityCircularText: 자간조정(Kerning) 적용, Fixed 사용시 중앙정렬 적용
+    - EntitySiriusText: Fixed 사용시 중앙정렬 적용. 외부 바이너리 포맷(.fnt 폰트 파일) 지원
+    - EntityImageText: TargetWidthPixels 을 이용한 전체 폭 크기 설정 지원. 가변(Variable)및 고정(Fixed)폭 지원
+    - EntityCircularText: 가변(Variable)및 고정(Fixed)폭 지원
+- added) Config.IsConvertToControllerResolution
+    - EntityPen, EntityLayerPen 설정된 값(시간, 주파수 등)이 RTC 제어기의 실제 변환값으로 출력시킬지 여부 
+    - False: 기본값 (사용자가 입력한 값 그대로 출력)
+    - True: RTC 제어기의 제어 해상도에 맞추어 변경된 값으로 변환
+- fixed) EntityImageZPL
+    - BinaryKits 이용한 변환시 한글 폰트 지원 (기본값: 맑은 고딕)
+    - Config.ZPLBinaryKitsFonts 을 통한 변환 폰트 변경 지원
+- fixed) Remote
+    - text 명령어에 복수 데이타 처리 버그 수정
+    - 예제1) text|1|Text_1|ABCD123;
+    - 예제2) text|2|Text_1|ABCD1|Text_2|ABCD2|Text_1|ABCD3|Text_2|ABCD4;
+- fixed) 버그
+    - 크기가 0 인 개체에 대한 ZoomFit 이 되지 않는 문제
+    - TextConverters.File 사용시 첫줄 데이타 삭제가 되지 않는 문제
+    - UnDo 이후 객체의 속성 편집시 예외가 발생되는 문제
+
+## v1.10.10 (2026.6.22)
 - added) 텍스트 개체의 고정폭 지원
     - 대상 개체: EntityText, EntitySiriusText
     - Target width 속성 추가
     - 0 일때는 기존과 같이 최적의 글자 크기로 생성되고, 
     - 0 보다 큰 경우 Target width 값으로 비율을 자동 조절
-- added) 로컬에서 ZPL 이미지 변환 서비시 지원
+- added) 로컬에서 ZPL 이미지 변환 지원
     - EntityImageZPL 개체
     - 기존: Labelry 웹서비스를 통한 온라인 변환 지원
     - 변경: 외부 BinaryKits 라이브러리를 통한 오프라인 변환 지원
