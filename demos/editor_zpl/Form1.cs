@@ -98,50 +98,57 @@ namespace Demos
             document.ActNew();
 
             var zplText = @"^XA
-^FX Top section with logo, name and address.
-^CF0,60
+^MNN         
+^LL800       
+^PW576       
 
-^FO50,50^GB100,100,100^FS
-^FO75,75^FR^GB100,100,100^FS
-^FO93,93^GB40,40,40^FS
-^FO220,50^FDIntershipping, Inc.^FS
-^CF0,30
+^CI28        
+^CW1,E:SIMSUN.FNT 
 
-^FO220,115^FD1000 Shipping Lane^FS
-^FO220,155^FDShelbyville TN 38102^FS
-^FO220,195^FDUnited States (USA)^FS
-^FO50,250^GB700,3,3^FS
-^FX Second section with recipient address and permit information.
-^CFA,30
+       
+^FO180,40^A1N,40,40^FD销售结账单^FS
 
-^FO50,300^FDJohn Doe^FS
-^FO50,340^FD100 Main Street^FS
-^FO50,380^FDSpringfield TN 39021^FS
-^FO50,420^FDUnited States (USA)^FS
-^CFA,15
+       
+^FO30,100^GB516,2,2^FS
 
-^FO600,300^GB150,150,3^FS
-^FO638,340^FDPermit^FS
-^FO638,390^FD123456^FS
-^FO50,500^GB700,3,3^FS
-^FX Third section with bar code.
-^BY5,2,270
-^FO100,550^BC^FD12345678^FS
-^FX Fourth section (the two boxes on the bottom).
+^FO30,120^A1N,24,24^FD订单编号: TXN20260701001^FS
+^FO30,150^A1N,24,24^FD交易时间: 2026-07-01 15:30:22^FS
+^FO30,180^A1N,24,24^FD收银员: 张三^FS
 
-^FO50,900^GB700,250,3^FS
-^FO400,900^GB3,250,3^FS
-^CF0,40
+^FO30,220^GB516,2,2^FS
 
-^FO100,960^FDCtr. X34B-1^FS
-^FO100,1010^FDREF1 F00B47^FS
-^FO100,1060^FDREF2 BL4H8^FS
-^CF0,190
+^FO30,240^A1N,24,24^FD商品名称^FS
+^FO320,240^A1N,24,24^FD数量^FS
+^FO440,240^A1N,24,24^FD金额^FS
 
-^FO470,955^FDCA^FS
-^XZ";
+^FO30,280^A1N,24,24^FD冰美式咖啡 (L)^FS
+^FO330,280^A1N,24,24^FD1^FS
+^FO440,280^A1N,24,24^FD28.00^FS
 
-            var entity = EntityFactory.CreateImageZPL(4 * 25.4, 6 * 25.4, zplText, EntityImageZPL.DotsPerMMs.Dots8_203DPI);
+^FO30,315^A1N,24,24^FD芝士蛋糕^FS
+^FO330,315^A1N,24,24^FD2^FS
+^FO440,315^A1N,24,24^FD76.00^FS
+
+^FO30,360^GB516,2,2^FS
+
+^FO30,390^A1N,26,26^FD合计数量:^FS
+^FO150,390^A1N,26,26^FD3^FS
+^FO320,390^A1N,30,30^FD应付金额:^FS
+^FO440,390^A1N,30,30^FD¥104.00^FS
+
+^FO320,430^A1N,26,26^FD微信支付:^FS
+^FO440,430^A1N,26,26^FD¥104.00^FS
+
+^FO30,480^GB516,1,1^FS
+
+^FO150,510^A1N,24,24^FD谢谢惠顾，欢迎下次光临！^FS
+
+^FO138,560^BY2,3,60^BCN,60,Y,N,N^FDTXN20260701001^FS
+
+^XZ
+";
+
+            var entity = EntityFactory.CreateImageZPL(3 * 25.4, 3.5 * 25.4, zplText, EntityImageZPL.DotsPerMMs.Dots8_203DPI);
             entity.AlignmentXY = AlignmentXYs.MiddleCenter;
             document.ActAdd(entity);
 
@@ -304,15 +311,16 @@ Footer
         private void BtnFontLoader_Click(object sender, EventArgs e)
         {
             // BinaryKits: offline library (BinaryKits 라이브러리: 오프라인 지원)
-            SpiralLab.Sirius3.UI.Config.ZPLService = SpiralLab.Sirius3.UI.Config.ZPLServices.BinaryKits;
+            //SpiralLab.Sirius3.UI.Config.ZPLService = SpiralLab.Sirius3.UI.Config.ZPLServices.BinaryKits;
 
             // Used when the ZPL font identifier is '0'. Multiple candidates can be separated with ';', '|', or ','. 
             // ZPL 폰트 식별자가 '0'일 때 사용됩니다. 여러 후보는 ';', '|', ','로 구분할 수 있습니다.
             SpiralLab.Sirius3.UI.Config.ZPLBinaryKitsDefaultFont = "Arial Narrow;Arial;Helvetica";
 
-            SpiralLab.Sirius3.UI.Config.ZPLBinaryKitsFonts.Clear();
-            SpiralLab.Sirius3.UI.Config.ZPLBinaryKitsFonts["K"] = "Malgun Gothic;Microsoft YaHei UI;Noto Sans CJK KR";
-            SpiralLab.Sirius3.UI.Config.ZPLBinaryKitsFonts["A"] = "Consolas;Cascadia Mono;D2Coding;Noto Sans Mono CJK KR;Noto Sans Mono CJK SC";
+            //SpiralLab.Sirius3.UI.Config.ZPLBinaryKitsFonts.Clear();
+            //SpiralLab.Sirius3.UI.Config.ZPLBinaryKitsFonts["K"] = ;
+            //SpiralLab.Sirius3.UI.Config.ZPLBinaryKitsFonts["A"] = ;
+            //SpiralLab.Sirius3.UI.Config.ZPLBinaryKitsFonts["1"] = ;
         }
 
     }

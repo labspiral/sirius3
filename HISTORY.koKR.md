@@ -11,7 +11,7 @@
     - False: 기본값 (사용자가 입력한 값 그대로 출력)
     - True: RTC 제어기의 제어 해상도에 맞추어 변경된 값으로 변환
 - fixed) EntityImageZPL
-    - BinaryKits 이용한 변환시 한글 폰트 지원 (기본값: 맑은 고딕)
+    - BinaryKits 이용한 변환시 한글 폰트 지원 
     - Config.ZPLBinaryKitsFonts 을 통한 변환 폰트 변경 지원
 - fixed) Remote
     - text 명령어에 복수 데이타 처리 버그 수정

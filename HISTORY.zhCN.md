@@ -11,7 +11,7 @@
     - False：默认值（按用户输入的值直接输出）
     - True：根据 RTC 控制器的控制分辨率，将值转换为相应数值
 - 已修复) EntityImageZPL
-    - 使用 BinaryKits 进行转换时支持韩文字体（默认值：Malgun Gothic）
+    - 使用 BinaryKits 进行转换时支持韩文字体
     - 支持通过 Config.ZPLBinaryKitsFonts 更改转换字体
 - 已修复) Remote
     - 修复了 text 命令处理多个数据的错误

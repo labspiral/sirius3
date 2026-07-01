@@ -80,7 +80,7 @@ A.OUT1 (AOM 2 Volt)                   A.OUT1 (AOM 1 Volt)
 
 4) Both (배타적 상호 가공 모드):
    - 두 헤드가 동시에 가공 데이터를 처리하되, 레이저 소스는 한 번에 하나씩만 사용합니다.
-   - 토큰 신호(Token Signal)를 통해 매우 고속드로 가공 권한(Token)을 주고받습니다.
+   - 토큰 신호(Token Signal)를 통해 매우 고속으로 가공 권한(Token)을 주고받습니다.
 
 
 ## 5. 배타적 가공 순서 (Exclusive Processing Sequence)

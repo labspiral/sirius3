@@ -114,7 +114,13 @@ namespace Demos
             var fov = NativeMethods.ReadIni<double>(ConfigFileName, $"RTC{index}", "FOV", 100.0);
             // Resolution : bits/mm (= kfactor)
             // RTC5,6 using 20 bits resolution
-            var kfactor = Math.Pow(2, 20) / fov;
+            // Recommend to use integer value for kfactor
+            var kfactor = Math.Ceiling( Math.Pow(2, 20) / fov );
+
+            // Field size limit
+            var fovLimitXy = NativeMethods.ReadIni<double>(ConfigFileName, $"RTC{index}", "FOV_LIMIT_XY", 0);
+            var fovLimitZ = NativeMethods.ReadIni<double>(ConfigFileName, $"RTC{index}", "FOV_LIMIT_Z", 0);
+
             // Field correction file path: \correction\cor_1to1.ct5
             // Default (1:1) correction file
             string correctionFile = NativeMethods.ReadIni(ConfigFileName, $"RTC{index}", "CORRECTION", "cor_1to1.ct5");
@@ -158,7 +164,9 @@ namespace Demos
                     string configXmlFilePath = Path.Combine(SpiralLab.Sirius3.Config.SyncAxisPath, configXmlFileName);
                     rtc = ScannerFactory.CreateRtc6SyncAxis(rtcId, configXmlFilePath);
                     break;
-            }        
+            }
+            if (fovLimitXy > 0)
+                rtc.FieldSizeLimit = new DVec3(fovLimitXy, fovLimitXy, fovLimitZ);
 
             // Initialize RTC controller
             success &= rtc.Initialize();

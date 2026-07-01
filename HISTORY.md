@@ -11,7 +11,7 @@
     - False: Default (outputs the values entered by the user as-is)
     - True: Values are converted to match the RTC controller’s control resolution
 - fixed) EntityImageZPL
-    - Support for Korean fonts when converting using BinaryKits (default: Malgun Gothic)
+    - Support for Korean fonts when converting using BinaryKits 
     - Support for changing the conversion font via Config.ZPLBinaryKitsFonts
 - fixed) Remote
     - Fixed a bug in handling multiple data entries with the text command
