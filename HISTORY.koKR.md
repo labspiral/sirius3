@@ -1,5 +1,11 @@
 ﻿# Sirius3 버전 이력
 
+## v1.10.12 (2026.7.9)
+- added) TextConverters.Link 추가
+    - LinkEntity 이름을 이용해 TextConverter 가 링크된 개체의 속성값을 가져와서 텍스트로 변환
+- fixed) UnDo, ReDo 안정성 향상
+    - Config.UnReDoSize 를 초과해 ReDo 를 수행시 발생하는 예외 수정
+
 ## v1.10.11 (2026.7.1)
 - refactor) Text
     - EntityText, EntityImageText, EntityCircularText: 자간조정(Kerning) 적용, Fixed 사용시 중앙정렬 적용

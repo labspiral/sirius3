@@ -35,6 +35,7 @@
             this.btnExternalFile = new System.Windows.Forms.Button();
             this.btnOffset = new System.Windows.Forms.Button();
             this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
+            this.btnLink = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +47,7 @@
             this.flowLayoutPanel1.Controls.Add(this.btnSimpleScript);
             this.flowLayoutPanel1.Controls.Add(this.btnExternalFile);
             this.flowLayoutPanel1.Controls.Add(this.btnOffset);
+            this.flowLayoutPanel1.Controls.Add(this.btnLink);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -97,7 +99,7 @@
             this.btnOffset.AutoSize = true;
             this.btnOffset.Location = new System.Drawing.Point(507, 3);
             this.btnOffset.Name = "btnOffset";
-            this.btnOffset.Size = new System.Drawing.Size(155, 32);
+            this.btnOffset.Size = new System.Drawing.Size(163, 32);
             this.btnOffset.TabIndex = 4;
             this.btnOffset.Text = "Offset with Extension Data";
             this.btnOffset.UseVisualStyleBackColor = true;
@@ -107,22 +109,27 @@
             this.siriusEditorControl1.AliasName = "NoName";
             this.siriusEditorControl1.AutoSize = true;
             this.siriusEditorControl1.BackColor = System.Drawing.SystemColors.Control;
-            this.siriusEditorControl1.DIExt1 = null;
-            this.siriusEditorControl1.DILaserPort = null;
             this.siriusEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.siriusEditorControl1.DOExt1 = null;
-            this.siriusEditorControl1.DOExt2 = null;
-            this.siriusEditorControl1.DOLaserPort = null;
             this.siriusEditorControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.siriusEditorControl1.Laser = null;
+            this.siriusEditorControl1.IsPropertyGridWindow = true;
+            this.siriusEditorControl1.IsShowLogWindow = true;
+            this.siriusEditorControl1.IsShowPen = true;
+            this.siriusEditorControl1.IsShowTreeViewAndPen = true;
             this.siriusEditorControl1.Location = new System.Drawing.Point(0, 38);
             this.siriusEditorControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.siriusEditorControl1.Marker = null;
             this.siriusEditorControl1.Name = "siriusEditorControl1";
-            this.siriusEditorControl1.PowerMeter = null;
-            this.siriusEditorControl1.Scanner = null;
             this.siriusEditorControl1.Size = new System.Drawing.Size(1264, 823);
             this.siriusEditorControl1.TabIndex = 2;
+            // 
+            // btnLink
+            // 
+            this.btnLink.AutoSize = true;
+            this.btnLink.Location = new System.Drawing.Point(676, 3);
+            this.btnLink.Name = "btnLink";
+            this.btnLink.Size = new System.Drawing.Size(120, 32);
+            this.btnLink.TabIndex = 5;
+            this.btnLink.Text = "Link";
+            this.btnLink.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -151,5 +158,6 @@
         private Button btnSimpleScript;
         private Button btnExternalFile;
         private Button btnOffset;
+        private Button btnLink;
     }
 }

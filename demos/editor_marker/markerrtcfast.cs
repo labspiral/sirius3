@@ -77,9 +77,6 @@ namespace Demos
     /// <para>
     /// <see cref="IRtc.ListBegin">IRtc.ListBegin</see>과 <see cref="IRtc.ListEnd">IRtc.ListEnd</see> 사이의 전체 <see cref="EntityLayer">EntityLayer</see>를 처리하여 성능을 높입니다(총 마킹 시간도 단축). <br/>
     /// </para>
-    /// <para>
-    /// 在一对 <see cref="IRtc.ListBegin">IRtc.ListBegin</see> 和 <see cref="IRtc.ListEnd">IRtc.ListEnd</see> 之间处理整个 <see cref="EntityLayer">EntityLayer</see> 以提高性能（同时减少总标记时间）。<br/>
-    /// </para>
     /// </summary>
     /// <remarks>
     /// Used with RTC4,4e,5,6,6e <br/>
@@ -90,20 +87,17 @@ namespace Demos
         /// <summary>
         /// Mark targets
         /// <para>마크 대상<br/></para>
-        /// <para>标记目标<br/></para>
         /// </summary>
         public enum MarkTargets
         {
             /// <summary>
             /// All entities
             /// <para>모든 엔티티<br/></para>
-            /// <para>所有实体<br/></para>
             /// </summary>
             All = 0,
             /// <summary>
             /// Selected entities
             /// <para>선택된 엔티티<br/></para>
-            /// <para>选定的实体<br/></para>
             /// </summary>
             Selected = 1,
         }
@@ -111,7 +105,6 @@ namespace Demos
         /// <summary>
         /// Target entities to mark
         /// <para>마크할 대상 엔티티<br/></para>
-        /// <para>要标记的目标实体<br/></para>
         /// </summary>
         /// <remarks>
         /// Default: <see cref="MarkTargets.All">MarkTargets.All</see> <br/>
@@ -134,19 +127,17 @@ namespace Demos
                 var oldMarkTarget = markTarget;
                 markTarget = value;
                 if (markTarget != oldMarkTarget)
-                    this.NotifyPropertyChanged();
+                    this.NotifyPropertyChanged(nameof(MarkTarget));
             }
         }
         /// <summary>
         /// Internal <c>MarkTargets</c>
         /// <para>내부 <c>MarkTargets</c><br/></para>
-        /// <para>内部 <c>MarkTargets</c><br/></para>
         /// </summary>
         protected MarkTargets markTarget = MarkTargets.All;
 
         /// <summary>
         /// <c>ListBufferTypes</c>
-        /// <para><c>ListBufferTypes</c></para>
         /// <para><c>ListBufferTypes</c></para>
         /// </summary>
         [Browsable(true)]
@@ -165,6 +156,7 @@ namespace Demos
                     return;
                 }
                 listType = value;
+                this.NotifyPropertyChanged(nameof(ListBufferType));
             }
         }
         private ListBufferTypes listType;
@@ -172,7 +164,6 @@ namespace Demos
         /// <summary>
         /// Array of <see cref="MeasurementSession">MeasurementSession</see> 
         /// <para><see cref="MeasurementSession">MeasurementSession</see> 배열<br/></para>
-        /// <para><see cref="MeasurementSession">MeasurementSession</see> 数组<br/></para>
         /// </summary>
         /// <remarks>
         /// Session = <see cref="EntityMeasurementBegin">EntityMeasurementBegin</see> + <see cref="EntityMeasurementEnd">EntityMeasurementEnd</see> <br/>
@@ -191,13 +182,11 @@ namespace Demos
         /// <summary>
         /// Queue for <see cref="MeasurementSession">MeasurementSession</see> 
         /// <para><see cref="MeasurementSession">MeasurementSession</see> 큐<br/></para>
-        /// <para><see cref="MeasurementSession">MeasurementSession</see> 队列<br/></para>
         /// </summary>
         protected ConcurrentQueue<MeasurementSession> sessionQueue = new ConcurrentQueue<MeasurementSession>();
         /// <summary>
         /// Current (or last measurement session)
         /// <para>현재(또는 마지막) 측정 세션<br/></para>
-        /// <para>当前（或上一个）测量会话<br/></para>
         /// </summary>
         /// <remarks>
         /// Valid when a pair of <see cref="EntityMeasurementBegin">EntityMeasurementBegin</see> and <see cref="EntityMeasurementEnd">EntityMeasurementEnd</see> has executed. <br/>
@@ -208,7 +197,6 @@ namespace Demos
         /// <summary>
         /// Is plot measurement session to graph or not
         /// <para>측정 세션을 그래프로 그릴지 여부<br/></para>
-        /// <para>是否将测量会话绘制到图表<br/></para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -221,19 +209,18 @@ namespace Demos
             set
             {
                 isMeasurementPlot = value;
+                this.NotifyPropertyChanged(nameof(IsMeasurementPlot));
             }
         }
         /// <summary>
         /// Is plot measurement session to graph or not
         /// <para>측정 세션을 그래프로 그릴지 여부<br/></para>
-        /// <para>是否将测量会话绘制到图表<br/></para>
         /// </summary>
         protected bool isMeasurementPlot;
 
         /// <summary>
         /// Max measurement time
         /// <para>최대 측정 시간<br/></para>
-        /// <para>最大测量时间<br/></para>
         /// </summary>
         /// <remarks>
         /// RTC Max measurement time
@@ -265,7 +252,6 @@ namespace Demos
         /// <summary>
         /// Check scanner temperature when start of mark
         /// <para>마크 시작 시 스캐너 온도 확인<br/></para>
-        /// <para>标记开始时检查扫描仪温度<br/></para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -276,7 +262,6 @@ namespace Demos
         /// <summary>
         /// Check scanner power supply when start of mark
         /// <para>마크 시작 시 스캐너 전원 공급 확인<br/></para>
-        /// <para>标记开始时检查扫描仪电源<br/></para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -287,7 +272,6 @@ namespace Demos
         /// <summary>
         /// Check scanner position acknowledge when start of mark
         /// <para>마크 시작 시 스캐너 위치 확인<br/></para>
-        /// <para>标记开始时检查扫描仪位置确认<br/></para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -300,7 +284,6 @@ namespace Demos
         /// <summary>
         /// List of layers to mark
         /// <para>마킹할 레이어 목록<br/></para>
-        /// <para>要标记的图层列表<br/></para>
         /// </summary>
         protected List<EntityLayer> layers;
 
@@ -312,7 +295,6 @@ namespace Demos
         /// <summary>
         /// Initializes a new instance of the <see cref="MyMarkerRtcFast"/> class.
         /// <para><see cref="MyMarkerRtcFast"/> 클래스의 새 인스턴스를 초기화합니다.<br/></para>
-        /// <para>初始化 <see cref="MyMarkerRtcFast"/> 类的新实例。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -332,12 +314,11 @@ namespace Demos
         /// <summary>
         /// Initializes a new instance of the <see cref="MyMarkerRtcFast"/> class with the specified index and name.
         /// <para>지정된 인덱스와 이름으로 <see cref="MyMarkerRtcFast"/> 클래스의 새 인스턴스를 초기화합니다.<br/></para>
-        /// <para>使用指定的索引和名称初始化 <see cref="MyMarkerRtcFast"/> 类的新实例。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
-        /// <param name="index">The index of the marker. <para>마커의 인덱스입니다.</para> <para>标记的索引。</para></param>
-        /// <param name="name">The name of the marker. <para>마커의 이름입니다.</para> <para>标记的名称。</para></param>
+        /// <param name="index">The index of the marker. <para>마커의 인덱스입니다.</para></param>
+        /// <param name="name">The name of the marker. <para>마커의 이름입니다.</para> </param>
         public MyMarkerRtcFast(int index, string name)
             : this()
         {
@@ -535,7 +516,6 @@ namespace Demos
         /// <summary>
         /// Marks each <see cref="EntityLayer"/>.
         /// <para>각 <see cref="EntityLayer"/>를 마킹합니다.<br/></para>
-        /// <para>标记每个 <see cref="EntityLayer"/>。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -604,7 +584,6 @@ namespace Demos
         /// <summary>
         /// Marks each <see cref="IEntity"/>.
         /// <para>각 <see cref="IEntity"/>를 마킹합니다.<br/></para>
-        /// <para>标记每个 <see cref="IEntity"/>。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -649,7 +628,6 @@ namespace Demos
         /// <summary>
         /// Implements the marker thread for processing layers.
         /// <para>레이어 처리를 위한 마커 스레드를 구현합니다.<br/></para>
-        /// <para>实现处理图层的标记器线程。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -806,7 +784,6 @@ namespace Demos
         /// <summary>
         /// Implements the marker thread for previewing marks.
         /// <para>마크 미리보기를 위한 마커 스레드를 구현합니다.<br/></para>
-        /// <para>实现标记预览的标记器线程。<br/></para>
         /// <code>
         /// </code>
         /// </summary>
@@ -915,7 +892,6 @@ namespace Demos
         /// <summary>
         /// Plot measurement to graph 
         /// <para>측정 세션 데이터를 그래프로 그립니다.<br/></para>
-        /// <para>将测量会话数据绘制到图表。<br/></para>
         /// </summary>
         protected virtual void NotifyPlot()
         {

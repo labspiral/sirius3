@@ -10,6 +10,8 @@ using SpiralLab.Sirius3.Entity;
 using System.Text;
 using SpiralLab.Sirius3.Entity.Hatch;
 using SpiralLab.Sirius3.Mathematics;
+using System.Diagnostics;
+
 
 #if OPENTK3
 using OpenTK;
@@ -71,6 +73,7 @@ namespace Demos
             this.btnSimpleScript.Click += BtnSimpleScript_Click;
             this.btnExternalFile.Click += BtnExternalFile_Click;
             this.btnOffset.Click += BtnOffset_Click;
+            this.btnLink.Click += BtnLink_Click;
         }
 
         /// <summary>
@@ -85,6 +88,8 @@ namespace Demos
             // 장치 생성
             EditorHelper.CreateDevices(out IRtc rtc, out ILaser laser, out IDInput dInExt1, out IDInput dInLaserPort, out IDOutput dOutExt1, out IDOutput dOutExt2, out IDOutput dOutLaserPort, out IPowerMeter powerMeter, out IMarker marker);
 
+            // Register devices to SiriusEditorControl
+            // 장치들을 SiriusEditorControl에 등록
             siriusEditorControl1.RegisterDevices(rtc, laser, powerMeter, dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
             marker.Ready(siriusEditorControl1.Document, siriusEditorControl1.View, rtc, laser, powerMeter);
@@ -92,52 +97,63 @@ namespace Demos
       
         private void BtnCreateBarcode_Click(object sender, EventArgs e)
         {
-            var document = siriusEditorControl1.Document;
-            document.ActNew();
-
+            // Create sample entities with barcode and text 
             CreateEntities();
         }
 
         /// <summary>
-        /// Create entities
+        /// Create sample entities with barcode and text 
         /// 엔티티 생성
         /// </summary>
         void CreateEntities()
         {
+            // New document
             var document = siriusEditorControl1.Document;
             document.ActNew();
 
-            var entity = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 10, 10);
-            entity.CellDot.DotFactor = 2;
-            entity.IsReversed = true;
+            // Create datamatrix barcode entity
+            {
+                var entity = EntityFactory.CreateDataMatrix("0123456789", EntityBarcode2DBase.Barcode2DCells.Dots, 10, 10);
+                entity.CellDot.DotFactor = 2;
+                entity.IsReversed = true;
+                entity.Name = "MyBarcode";
+                entity.IsAllowConvert = true;
+                entity.Translate(0, 10);
+                document.ActAdd(entity);
+            }
 
-            entity.Name = "MyBarcode";
-            entity.IsAllowConvert = true;
-            entity.TextConverter = TextConverters.Event; // used event handler by default 
-
-            entity.Translate(0, -10);
-            document.ActAdd(entity);
-          
-            siriusEditorControl1.View?.DoRender();
+            // Create text entity
+            {
+                var entity = EntityFactory.CreateText("Arial",  FontStyle.Regular, "0123456789", 5);
+                entity.Name = "MyText";
+                entity.IsAllowConvert = true;
+                //entity.Translate(0, 0);
+                document.ActAdd(entity);
+            }
         }
 
         private void BtnEventHandler_Click(object sender, EventArgs e)
         {
-            var layer = siriusEditorControl1.Document.ActivePage.ActiveLayer;
-
-            foreach(var entity in layer.Children)
-            {
-                if (entity is ITextConvertible textConvertible)
-                {
-                    // set text converter as event handler
-                    textConvertible.IsAllowConvert = true;
-                    textConvertible.TextConverter = TextConverters.Event;
-                }
-            }
+            var doc = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
+
+            doc.FindByName("MyBarcode", out IEntity entityBarcode);
+            doc.FindByName("MyText", out IEntity entityText);
+            Debug.Assert(entityBarcode != null && entityText != null);
+
+            var textConvertibleBarcode = entityBarcode as ITextConvertible;
+            // set text converter as event handler
+            textConvertibleBarcode.IsAllowConvert = true;
+            textConvertibleBarcode.TextConverter = TextConverters.Event;
+
+            var textConvertibleText = entityText as ITextConvertible;
+            // set text converter as event handler
+            textConvertibleText.IsAllowConvert = true;
+            textConvertibleText.TextConverter = TextConverters.Event;
+
+            // detach IMarker.OnTextConvert event
             marker.OnTextConvert -= Marker_OnTextConvert;
-            
-            // now attach IMarker.OnTextConvert event
+            // attach IMarker.OnTextConvert event
             marker.OnTextConvert += Marker_OnTextConvert;
         }
 
@@ -154,7 +170,9 @@ namespace Demos
             switch (currentEntity.Name)
             {
                 case "MyBarcode":
-                    return $"EVENT {DateTime.Now.ToString("HH:mm:ss")}";
+                    return $"{DateTime.Now.ToString("HH:mm:ss")}";
+                case "MyText":
+                    return $"{DateTime.Now.ToString("HH:mm:ss")}";
                 default:
                     // Not modified
                     return textConvertible.SourceText;
@@ -163,31 +181,42 @@ namespace Demos
 
         private void BtnSimpleScript_Click(object sender, EventArgs e)
         {
-            var layer = siriusEditorControl1.Document.ActivePage.ActiveLayer;
+            var doc = siriusEditorControl1.Document;
+            var marker = siriusEditorControl1.Marker;
 
-            foreach (var entity in layer.Children)
-            {
-                if (entity is ITextConvertible textConvertible)
-                {
-                    // set text converter as event handler
-                    textConvertible.IsAllowConvert = true;
+            doc.FindByName("MyBarcode", out IEntity entityBarcode);
+            doc.FindByName("MyText", out IEntity entityText);
+            Debug.Assert(entityBarcode != null && entityText != null);
 
-                    // Script documentation : https://github.com/labspiral/sirius3/blob/main/doc/ScriptUserManual.md
+            var textConvertibleBarcode = entityBarcode as ITextConvertible;
+            // set text converter as simple script
+            textConvertibleBarcode.IsAllowConvert = true;
+            textConvertibleBarcode.TextConverter = TextConverters.SimpleScript;
+            // Script code examples: https://github.com/labspiral/sirius3/blob/main/doc/ScriptUserManual.md
 
-                    var expr1 = @"NextSerialNo(1)";
-                    /*
-                    var expr2 = @"string prf = LotCode.Substring(0, Math.Min(LotCode.Length, 3)); 
+            var expr1 = @"NextSerialNo(1)";
+            // or 
+            /*
+            var expr2 = @"string prf = LotCode.Substring(0, Math.Min(LotCode.Length, 3)); 
 string dt = Date(""yyMMdd"");
 string tm = Time(""HHmm"");
 string sn = NextSerialNo(""D5"");
 string sh = Shift(""A"", ""B"", ""C"");
 return $""{prf}-{dt}-{tm}-{sn}-{sh}"";
-                    ";
-                    */
-                    textConvertible.SourceText = expr1;
-                    textConvertible.TextConverter = TextConverters.SimpleScript;
-                }
-            }
+            ";
+            */
+            textConvertibleBarcode.SourceText = expr1;
+
+            var textConvertibleText = entityText as ITextConvertible;
+            // set text converter as event handler
+            textConvertibleText.IsAllowConvert = true;
+            textConvertibleText.IsAllowConvert = true;
+            textConvertibleText.TextConverter = TextConverters.SimpleScript;
+            // Script code examples: https://github.com/labspiral/sirius3/blob/main/doc/ScriptUserManual.md
+
+            var expr2 = @"Time(""HH:mm:ss"")";
+            
+            textConvertibleText.SourceText = expr2;
 
             siriusEditorControl1.View?.DoRender();
             siriusEditorControl1.PropertyGridCtrl.Refresh();
@@ -195,45 +224,85 @@ return $""{prf}-{dt}-{tm}-{sn}-{sh}"";
 
         private void BtnExternalFile_Click(object sender, EventArgs e)
         {
-            var layer = siriusEditorControl1.Document.ActivePage.ActiveLayer;
+            var doc = siriusEditorControl1.Document;
+            var marker = siriusEditorControl1.Marker;
 
-            foreach (var entity in layer.Children)
-            {
-                if (entity is ITextConvertible textConvertible)
-                {
-                    // set text converter as event handler
-                    textConvertible.IsAllowConvert = true;
-                    textConvertible.TextConverter = TextConverters.File;
-                    
-                    var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.txt");
-                    textConvertible.ExternalFile = filePath;
-                }
-            }
+            doc.FindByName("MyBarcode", out IEntity entityBarcode);
+            doc.FindByName("MyText", out IEntity entityText);
+            Debug.Assert(entityBarcode != null && entityText != null);
+
+            var textConvertibleBarcode = entityBarcode as ITextConvertible;
+            // set text converter as external file
+            textConvertibleBarcode.IsAllowConvert = true;
+            textConvertibleBarcode.TextConverter = TextConverters.File;
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.txt");
+            textConvertibleBarcode.ExternalFile = filePath;
+
+            var textConvertibleText = entityText as ITextConvertible;
+            // set text converter as external file
+            textConvertibleText.IsAllowConvert = true;
+            textConvertibleText.TextConverter = TextConverters.File;
+            textConvertibleText.ExternalFile = filePath;
 
             siriusEditorControl1.PropertyGridCtrl.Refresh();
         }
 
         private void BtnOffset_Click(object sender, EventArgs e)
         {
-            var layer = siriusEditorControl1.Document.ActivePage.ActiveLayer;
+            var doc = siriusEditorControl1.Document;
             var marker = siriusEditorControl1.Marker;
 
-            foreach (var entity in layer.Children)
-            {
-                if (entity is ITextConvertible textConvertible)
-                {
-                    // set text converter as event handler
-                    textConvertible.IsAllowConvert = true;
-                    textConvertible.TextConverter = TextConverters.Offset;
-                }
-            }
+            doc.FindByName("MyBarcode", out IEntity entityBarcode);
+            doc.FindByName("MyText", out IEntity entityText);
+            Debug.Assert(entityBarcode != null && entityText != null);
+
+            var textConvertibleBarcode = entityBarcode as ITextConvertible;
+            // set text converter as offset
+            textConvertibleBarcode.IsAllowConvert = true;
+            textConvertibleBarcode.TextConverter = TextConverters.Offset;
+
+            var textConvertibleText = entityText as ITextConvertible;
+            // set text converter as offset
+            textConvertibleText.IsAllowConvert = true;
+            textConvertibleText.TextConverter = TextConverters.Offset;
+
 
             var offsets = new List<Offset>();
-            offsets.Add(new Offset(-10, 0) { ExtensionData = "OFFSET 1" });
-            offsets.Add(new Offset(10, 0) { ExtensionData = "OFFSET 2" });
+            offsets.Add(new Offset(-10, 0) { ExtensionData = "MyBarcode|OFFSET 11|MyText|OFFSET 12" }); // EntityName|Text|...
+            offsets.Add(new Offset(10, 0) { ExtensionData = "MyBarcode|OFFSET 21|MyText|OFFSET 22" });
             marker.Offsets = offsets.ToArray();
 
             siriusEditorControl1.PropertyGridCtrl.Refresh();
+        }
+
+
+        private void BtnLink_Click(object sender, EventArgs e)
+        {
+            var doc = siriusEditorControl1.Document;
+            var marker = siriusEditorControl1.Marker;
+
+            doc.FindByName("MyBarcode", out IEntity entityBarcode);
+            doc.FindByName("MyText", out IEntity entityText);
+            Debug.Assert(entityBarcode != null && entityText != null);
+
+            var textConvertibleBarcode = entityBarcode as ITextConvertible;
+            // set text converter as event handler
+            textConvertibleBarcode.IsAllowConvert = true;
+            textConvertibleBarcode.TextConverter = TextConverters.Event;
+            // detach IMarker.OnTextConvert event
+            marker.OnTextConvert -= Marker_OnTextConvert;
+
+            // attach IMarker.OnTextConvert event
+            marker.OnTextConvert += Marker_OnTextConvert;
+
+            var textConvertibleText = entityText as ITextConvertible;
+            // set text converter as link
+            textConvertibleText.IsAllowConvert = true;
+            textConvertibleText.TextConverter = TextConverters.Link;
+            textConvertibleText.LinkEntity = "MyBarcode";
+
+
+           siriusEditorControl1.PropertyGridCtrl.Refresh();
         }
 
     }

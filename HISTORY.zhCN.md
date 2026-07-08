@@ -1,5 +1,11 @@
 # Sirius3 版本历史
 
+## v1.10.12 (2026.7.9)
+- 新增) 添加了 TextConverters.Link
+    - TextConverter 通过 LinkEntity 的名称获取链接对象的属性值并将其转换为文本
+- 修复) 提高了 UnDo、ReDo 的稳定性
+    - 修复了执行 ReDo 时超过 Config.UnReDoSize 限制而引发的异常
+     
 ## v1.10.11 (2026.7.1)
 - 重构) 文本
     - EntityText、EntityImageText、EntityCircularText：应用字间距调整（Kerning），使用 Fixed 时应用居中对齐

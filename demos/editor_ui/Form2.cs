@@ -561,7 +561,7 @@ namespace Demos
             }
 
             {
-                var text = new EntityCircularText("Segoe UI", FontStyle.Regular, TextCircularDirections.ClockWise, 30, 90,
+                var text = new EntityCircularText("Segoe UI", FontStyle.Regular, EntityCircularText.TextCircularDirections.ClockWise, 30, 90,
                     $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+", 5);
 
                 text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
