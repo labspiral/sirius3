@@ -1,6 +1,6 @@
 ﻿# Sirius3 version history
 
-## v1.10.12 (2026.7.9)
+## v1.10.13 (2026.7.9)
 - added) TextConverters.Link
     - TextConverter retrieves the property values of a linked object using the LinkEntity name and converts them to text.
 - fixed) Improved stability of Undo and Redo.

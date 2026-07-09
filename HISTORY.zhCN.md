@@ -1,6 +1,6 @@
 # Sirius3 版本历史
 
-## v1.10.12 (2026.7.9)
+## v1.10.13 (2026.7.9)
 - 新增) 添加了 TextConverters.Link
     - TextConverter 通过 LinkEntity 的名称获取链接对象的属性值并将其转换为文本
 - 修复) 提高了 UnDo、ReDo 的稳定性
