@@ -5,7 +5,9 @@
     - TextConverter retrieves the property values of a linked object using the LinkEntity name and converts them to text.
 - fixed) Improved stability of Undo and Redo.
     - fixed an exception that occurred when performing Redo beyond the Config.UnReDoSize limit.
-     
+- fixed) Improved stability of OpenGL initialization
+    - "Not Responding" Issue When Using Intel Integrated Graphics
+ 
 ## v1.10.11 (2026.7.1)
 - refactoring) Text
     - EntityText, EntityImageText, EntityCircularText: Applied kerning; center alignment applied when "Fixed" is used
