@@ -1,12 +1,16 @@
 # Sirius3 版本历史
 
-## v1.10.13 (2026.7.9)
+## v1.10.14 (2026.7.10)
 - 新增) 添加了 TextConverters.Link
     - TextConverter 通过 LinkEntity 的名称获取链接对象的属性值并将其转换为文本
 - 修复) 提高了 UnDo、ReDo 的稳定性
     - 修复了执行 ReDo 时超过 Config.UnReDoSize 限制而引发的异常
 - 修复）提高了 OpenGL 初始化的稳定性
     - 解决使用英特尔集成显卡时出现无响应的问题
+- 已修复) EntityBarcode1D_V2
+    - 将QuiteZone值处理为左右宽度边距
+- 已添加) UI.Config.MaxDegreeOfParallelism
+    - 支持限制并行处理时使用的最大任务数量（默认值：逻辑处理器数量的50%）
      
 ## v1.10.11 (2026.7.1)
 - 重构) 文本

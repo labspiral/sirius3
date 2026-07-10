@@ -1,12 +1,16 @@
 ﻿# Sirius3 버전 이력
 
-## v1.10.13 (2026.7.9)
+## v1.10.14 (2026.7.10)
 - added) TextConverters.Link 추가
     - LinkEntity 이름을 이용해 TextConverter 가 링크된 개체의 속성값을 가져와서 텍스트로 변환
 - fixed) UnDo, ReDo 안정성 향상
     - Config.UnReDoSize 를 초과해 ReDo 를 수행시 발생하는 예외 수정
 - fixed) OpenGL 초기화 안정성 향상
     - 인텔 내장 그래픽 카드 사용시 응답없음 문제 해결
+- fixed) EntityBarcode1D_V2
+    - QuiteZone 값이 좌우 폭 여백으로 처리
+- added) UI.Config.MaxDegreeOfParallelism
+    - 병렬 처리시 사용되는 최대 태스크 개수 제한 지원 (기본값:논리 프로세서 수의 50%)
 
 ## v1.10.11 (2026.7.1)
 - refactor) Text

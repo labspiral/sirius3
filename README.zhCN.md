@@ -89,7 +89,7 @@
 
 ## 系统要求
 - Windows 10/11 (x64)
-- 需要支持 OpenGL 3.3 或更高版本的 GPU
+- GPU/驱动程序至少支持 OpenGL 3.3（强烈建议使用最新驱动程序）
 - 需要安装 SCANLAB 驱动程序/运行时
 - Visual Studio 2022 或更高版本
  
@@ -178,6 +178,20 @@
 
 示例代码
 ```
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
+
+using SpiralLab.Sirius3.IO;
+using SpiralLab.Sirius3.Laser;
+using SpiralLab.Sirius3.Marker;
+using SpiralLab.Sirius3.PowerMap;
+using SpiralLab.Sirius3.PowerMeter;
+using SpiralLab.Sirius3.Scanner;
+using SpiralLab.Sirius3.Scanner.Rtc;
+
 #if OPENTK3
     using OpenTK;
     using DVec3 = OpenTK.Vector3d;
@@ -200,7 +214,7 @@ static class Program
         CreateAndExecuteMainForm();
     }
 
-    public CreateAndExecuteMainForm()
+    static void CreateAndExecuteMainForm()
     {
         // 创建动态窗体并添加 SiriusEditorControl
         Form dynamicForm = new Form();
@@ -224,7 +238,7 @@ static class Program
             // 振镜控制
             string correctionFile = "cor_1to1.ct5";
             string correctionPath = Path.Combine(SpiralLab.Sirius3.Config.CorrectionPath, correctionFile);
-            const var fov = 100.0;
+            const double fov = 100.0;
             var kfactor = Math.Pow(2, 20) / fov;
             var index = 0;
             var rtc = ScannerFactory.CreateRtc5(index, kfactor, LaserModes.Yag1, RtcSignalLevels.ActiveHigh, RtcSignalLevels.ActiveHigh, correctionPath);
@@ -271,7 +285,7 @@ static class Program
 
        dynamicForm.FormClosing += (s, e) =>
         {
-            var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var dlgResult = MessageBox.Show(dynamicForm, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dlgResult != DialogResult.Yes)
             {
                 e.Cancel = true;
