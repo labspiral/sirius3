@@ -1,5 +1,15 @@
 # Sirius3 版本历史
 
+## v1.11.0 (2026.7.27)
+- 新增) 添加 EntityStitchedImage 对象
+    - 可作为 IView.StitchedImage 使用
+- 新增) 支持 IEntityCloneable 接口
+- 修复) 选择实体时，部分对象未以粗体显示的问题
+- 重构) 分离了实体的 OpenGL 渲染，并改进了选择显示效果
+    - 将 OpenGL 调用分离至渲染器层级
+- 修复) PropertyGrid 的输入值问题
+    - 当输入值超出范围时，不再显示警告，而是将数值调整至最大值与最小值之间
+     
 ## v1.10.14 (2026.7.10)
 - 新增) 添加了 TextConverters.Link
     - TextConverter 通过 LinkEntity 的名称获取链接对象的属性值并将其转换为文本

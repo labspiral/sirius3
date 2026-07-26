@@ -1,12 +1,22 @@
 ﻿# Sirius3 version history
 
+## v1.11.0 (2026.7.27)
+- added) Added the EntityStitchedImage object
+    - Can be used as IView.StitchedImage
+- added) Added support for the IEntityCloneable interface
+- fixed) Issue where some objects were not highlighted in bold when selecting entities
+- refactor) Separated entity OpenGL rendering and improved selection indicators
+    - Moved OpenGL calls to the renderer layer
+- fixed) PropertyGrid input values
+    - When values exceed the input range, resize them to fit between the maximum and minimum values instead of displaying a warning
+     
 ## v1.10.14 (2026.7.10)
 - added) TextConverters.Link
     - TextConverter retrieves the property values of a linked object using the LinkEntity name and converts them to text.
 - fixed) Improved stability of Undo and Redo.
     - fixed an exception that occurred when performing Redo beyond the Config.UnReDoSize limit.
 - fixed) Improved stability of OpenGL initialization
-    - "Not Responding" Issue When Using Intel Integrated Graphics
+    - "Not Responding" Issue When Using Intel GPU
 - fixed) EntityBarcode1D_V2
     - The "QuiteZone" value is now treated as left and right margins
 - added) UI.Config.MaxDegreeOfParallelism

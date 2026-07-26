@@ -1,0 +1,117 @@
+﻿namespace Demos
+{
+    partial class Form1
+    {
+        /// <summary>
+        ///  Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        ///  Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnCreateStitchedImage = new System.Windows.Forms.Button();
+            this.siriusEditorControl1 = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
+            this.btnGrabImage = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.btnCreateStitchedImage);
+            this.flowLayoutPanel1.Controls.Add(this.btnGrabImage);
+            this.flowLayoutPanel1.Controls.Add(this.btnClear);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1264, 38);
+            this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // btnCreateStitchedImage
+            // 
+            this.btnCreateStitchedImage.Location = new System.Drawing.Point(3, 3);
+            this.btnCreateStitchedImage.Name = "btnCreateStitchedImage";
+            this.btnCreateStitchedImage.Size = new System.Drawing.Size(140, 30);
+            this.btnCreateStitchedImage.TabIndex = 0;
+            this.btnCreateStitchedImage.Text = "Create Stitched Image";
+            this.btnCreateStitchedImage.UseVisualStyleBackColor = true;
+            // 
+            // siriusEditorControl1
+            // 
+            this.siriusEditorControl1.AliasName = "NoName";
+            this.siriusEditorControl1.BackColor = System.Drawing.SystemColors.Control;
+            this.siriusEditorControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.siriusEditorControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.siriusEditorControl1.IsPropertyGridWindow = true;
+            this.siriusEditorControl1.IsShowLogWindow = true;
+            this.siriusEditorControl1.IsShowPen = true;
+            this.siriusEditorControl1.IsShowTreeViewAndPen = true;
+            this.siriusEditorControl1.Location = new System.Drawing.Point(0, 38);
+            this.siriusEditorControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.siriusEditorControl1.Name = "siriusEditorControl1";
+            this.siriusEditorControl1.Size = new System.Drawing.Size(1264, 823);
+            this.siriusEditorControl1.TabIndex = 2;
+            // 
+            // btnGrabImage
+            // 
+            this.btnGrabImage.Location = new System.Drawing.Point(149, 3);
+            this.btnGrabImage.Name = "btnGrabImage";
+            this.btnGrabImage.Size = new System.Drawing.Size(100, 30);
+            this.btnGrabImage.TabIndex = 1;
+            this.btnGrabImage.Text = "Continous Grab";
+            this.btnGrabImage.UseVisualStyleBackColor = true;
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(255, 3);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(100, 30);
+            this.btnClear.TabIndex = 2;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1264, 861);
+            this.Controls.Add(this.siriusEditorControl1);
+            this.Controls.Add(this.flowLayoutPanel1);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Name = "Form1";
+            this.Text = "Sirius3 Demo - (c)SpiralLAB";
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Button btnCreateStitchedImage;
+        private SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl siriusEditorControl1;
+        private Button btnGrabImage;
+        private Button btnClear;
+    }
+}

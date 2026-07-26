@@ -1,12 +1,22 @@
 ﻿# Sirius3 버전 이력
 
+## v1.11.0 (2026.7.27)
+- added) EntityStitchedImage 개체 추가
+    - IView.StitchedImage 으로 사용 가능
+- added) IEntityCloneable 인터페이스 지원
+- fixed) 엔티티 선택시 일부 개체들에서 Bold로 강조되지 않는 문제
+- refactor) 엔티티 OpenGL 렌더링 분리 및 선택 표시 개선
+    - OpenGL 호출을 renderer 계층으로 분리
+- fixed) PropertyyGrid 입력값
+    - 입력값 범위를 벋어난 경우 경고 대신 최대, 최소값 사이로 크기 조정
+
 ## v1.10.14 (2026.7.10)
 - added) TextConverters.Link 추가
     - LinkEntity 이름을 이용해 TextConverter 가 링크된 개체의 속성값을 가져와서 텍스트로 변환
 - fixed) UnDo, ReDo 안정성 향상
     - Config.UnReDoSize 를 초과해 ReDo 를 수행시 발생하는 예외 수정
 - fixed) OpenGL 초기화 안정성 향상
-    - 인텔 내장 그래픽 카드 사용시 응답없음 문제 해결
+    - 인텔 GPU 사용시 응답없음 문제 해결
 - fixed) EntityBarcode1D_V2
     - QuiteZone 값이 좌우 폭 여백으로 처리
 - added) UI.Config.MaxDegreeOfParallelism
