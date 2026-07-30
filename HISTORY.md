@@ -1,5 +1,12 @@
 ﻿# Sirius3 version history
 
+## v1.11.1 (2026.7.30)
+- fixed) Corrected the aspect ratio of 2D barcode cell outlines
+    - Affected objects: EntityDataMatrix (Square and Rectangle), EntityQRCode, EntityPDF417, EntityAztec
+    - Removed epsilon expansion from Outline generation and performed unions in integer cell coordinates
+    - Preserved the exact aspect ratio of non-square matrices when IsFixedAspectRatio is true
+    - Regenerated barcode geometry when IsFixedAspectRatio changes
+
 ## v1.11.0 (2026.7.27)
 - added) Added the EntityStitchedImage object
     - Can be used as IView.StitchedImage

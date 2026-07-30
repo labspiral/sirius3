@@ -1,5 +1,12 @@
 # Sirius3 版本历史
 
+## v1.11.1 (2026.7.30)
+- 修复) 修正二维条码单元格轮廓的宽高比问题
+    - 适用对象：EntityDataMatrix（Square、Rectangle）、EntityQRCode、EntityPDF417、EntityAztec
+    - 生成 Outline 时移除 epsilon 扩展，并在整数单元格坐标中执行 Union
+    - IsFixedAspectRatio 为 true 时，保持非正方形矩阵的精确宽高比
+    - IsFixedAspectRatio 更改时重新生成条码几何图形
+
 ## v1.11.0 (2026.7.27)
 - 新增) 添加 EntityStitchedImage 对象
     - 可作为 IView.StitchedImage 使用

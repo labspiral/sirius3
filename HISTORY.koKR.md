@@ -1,5 +1,12 @@
 ﻿# Sirius3 버전 이력
 
+## v1.11.1 (2026.7.30)
+- fixed) 2D 바코드 셀 외곽선의 가로/세로 비율 문제 수정
+    - 대상 개체: EntityDataMatrix (Square, Rectangle), EntityQRCode, EntityPDF417, EntityAztec
+    - Outline 생성 시 epsilon 확장을 제거하고 정수 셀 좌표에서 Union 처리
+    - IsFixedAspectRatio 가 true 일 때 비정사각 행렬의 정확한 종횡비 적용
+    - IsFixedAspectRatio 변경 시 바코드 형상 재생성
+
 ## v1.11.0 (2026.7.27)
 - added) EntityStitchedImage 개체 추가
     - IView.StitchedImage 으로 사용 가능
