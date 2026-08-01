@@ -1,235 +1,150 @@
 第三方软件注意事项
-===================
+==================
 
-本产品包含下面列出的第三方组件。每个组件的版权和许可条款均予以保留。在
-需要时（例如 Apache-2.0），完整的许可文本包含在“许可文本”部分中。
+本说明介绍截至 2026-07-31 随 SpiralLab.Sirius3、SpiralLab.Sirius3.UI 和
+SpiralLab.Sirius3.Dependencies NuGet 包分发的第三方软件。未经修改的许可全文
+请参阅始终与本文件一起分发的 THIRD-PARTY-NOTICES.txt。供应商可再分发文件仍受
+各供应商的单独条款约束；本说明不会授予新的使用或再分发权利。
 
-----------------------------------------------------------------
+重要：发布前必须审查
+--------------------
+
+SpiralLab.Sirius3.Dependencies 将原生驱动、设备 SDK 库、固件、工具、字体、
+手册和示例数据安装到使用者应用程序的输出目录。该组合中的每个供应商文件并未
+全部附带完整再分发条款。以下标记为需要审查的文件，在取得有效的供应商/源代码
+许可材料或从包中移除之前不得发布。
+
+托管及运行时开源组件
+--------------------
+
 NLog
-  版本   : 6.0.5
-  许可   : MIT
-  版权   : © NLog Project
-  源码   : https://github.com/NLog/NLog
+  版本: 6.0.5
+  许可: BSD 3-Clause
+  版权: Copyright (c) 2004-2024 Jaroslaw Kowalski, Kim Christensen,
+        Julian Verdurmen
+  源码: https://github.com/NLog/NLog
 
-Newtonsoft.Json
-  版本   : 13.0.4
-  许可   : MIT
-  版权   : © James Newton-King
-  源码   : https://www.newtonsoft.com/json
+NLog.Extensions.Logging
+  版本: 6.0.5
+  许可: BSD 2-Clause
+  版权: Copyright (c) 2004-2025 NLog Project
+  源码: https://github.com/NLog/NLog.Extensions.Logging
 
-OpenTK
-  版本   : 3.3.3, 4.9.4
-  许可   : MIT
-  版权   : © The Open Toolkit Library
-  源码   : https://github.com/opentk/opentk
+Newtonsoft.Json 13.0.4
+  许可: MIT
+  源码: https://www.newtonsoft.com/json
 
-Clipper2
-  版本   : 2.0.0
-  许可   : Boost Software License 1.0
-  版权   : © Angus Johnson
-  源码   : https://github.com/AngusJohnson/Clipper2
+OpenTK 及控件
+  版本: OpenTK 3.3.3/4.9.4，GLControl 3.3.3/4.0.2，
+        GLWpfControl 3.3.0/4.3.6
+  许可: MIT
+  源码: https://github.com/opentk/opentk
+  说明: Sirius3 UI 构建排除了 WPF 实现，但仍保留 GLWpfControl 包引用。
 
-netDxf
-  版本   : 2023.11.10
-  许可   : MIT
-  版权   : © Daniel Carvajal
-  源码   : https://github.com/haplokuon/netDxf
+GLFW（通过 OpenTK.redist.glfw）
+  版本: 3.4.0.44
+  许可: GLFW zlib/libpng 风格许可
+  源码: https://github.com/glfw/glfw
 
-StbImageSharp
-  版本   : 2.30.15
-  许可   : MIT (port of stb_image; original stb is public domain/Unlicense)
-  版权   : © StbImageSharp contributors
-  源码   : https://github.com/StbSharp/StbImageSharp
+Clipper2 2.0.0
+  许可: Boost Software License 1.0
+  源码: https://github.com/AngusJohnson/Clipper2
 
-ZXing.Net
-  版本   : 0.16.11
-  许可   : Apache License 2.0
-  版权   : © ZXing.Net contributors
-  源码   : https://github.com/micjahn/ZXing.Net
-  注意   : 除了 Apache-2.0 许可之外，没有提供额外的上游 NOTICE 内容。
+netDxf 2023.11.10
+  许可: MIT
+  源码: https://github.com/haplokuon/netDxf
 
-BouncyCastle.Cryptography
-  版本   : 2.6.2
-  许可   : MIT
-  版权   : © Legion of the Bouncy Castle Inc.
-  源码   : https://www.bouncycastle.org/download/bouncy-castle-c/
+StbImageSharp 2.30.15
+  许可: NuGet 包未声明许可证元数据；其中的 stb_image 实现为 Public Domain 或 MIT
+  源码: https://github.com/StbSharp/StbImageSharp
+  状态: 发布前须确认包装库的再分发条款
 
-GerberTools
-  版本   : 21/12/18
-  许可   : MIT
-  版权   : © 2016 This is not Rocket Science
-  源码   : https://github.com/ThisIsNotRocketScience/GerberTools
+ZXing.Net 0.16.11
+  许可: Apache-2.0
+  源码: https://github.com/micjahn/ZXing.Net
 
-LibTessDotNet
-  版本   : 1.1.15
-  许可   : SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008) 
-  源码   : https://github.com/speps/LibTessDotNet
+BouncyCastle.Cryptography 2.6.2
+  许可: MIT
+  源码: https://www.bouncycastle.org/
+
+GerberTools/GerberLibrary
+  版本: 2018-12-21 构建
+  许可: MIT
+  版权: Copyright (c) 2016 This is not Rocket Science
+  源码: https://github.com/ThisIsNotRocketScience/GerberTools
+
+LibTessDotNet 1.1.15
+  许可: SGI Free Software License B 2.0
+  源码: https://github.com/speps/LibTessDotNet
+  说明: 尽管 NuGet 元数据标为 MIT，上游 LICENSE 使用 SGI 许可。
 
 OxyPlot
-  版本   : 2.2.0
-  许可   : MIT
-  版权   : Copyright (c) 2014 OxyPlot contributors
-  源码   : https://github.com/oxyplot/oxyplot
+  版本: 2.2.0（托管包），1.0.0（SCANLAB 工具文件）
+  许可: MIT
+  源码: https://github.com/oxyplot/oxyplot
 
-Be.HexEditor
-  版本   : 1.6.1, 2.1.0
-  许可   : MIT
-  版权   : Copyright (c) 2011 Bernhard Elbl
-  源码   : https://sourceforge.net/projects/hexbox/
+Be.Windows.Forms.HexBox 1.6.1 / 2.1.0、MQTTnet 3.1.2 / 5.1.0.1559、
+BinaryKits.Zpl.Viewer 1.3.1 / BinaryKits.Zpl.Label 3.3.1
+  许可: MIT
 
-MQTTnet 
-  版本   : 3.1.2, 5.1.0
-  许可   : MIT
-  源码   : https://github.com/dotnet/MQTTnet
+SkiaSharp 与 HarfBuzzSharp
+  版本: SkiaSharp 3.119.1，HarfBuzzSharp 8.3.1.2
+  许可: MIT，以及原生资产的上游第三方注意事项
+  源码: https://github.com/mono/SkiaSharp
+  包含: ANGLE、HarfBuzz、Skia、etc1、gif、libpng、DNG SDK、expat、
+        FreeType、ICU、imgui、jsoncpp、libjpeg-turbo、libwebp、
+        libmicrohttpd、piex、SDL、sfntly、SPIR-V Headers/Tools、zlib
+  注意: 未修改的上游说明作为 THIRD-PARTY-NOTICES.SkiaSharp.txt 一起分发。
 
-BinaryKits.Zpl.Viewer
-  版本   : 1.3.1
-  许可   : MIT
-  源码   : https://github.com/BinaryKits/BinaryKits.Zpl
+SixLabors.ImageSharp
+  版本: 2.1.12、3.1.12（传递依赖）
+  许可: 此传递依赖用法适用 Apache-2.0。ImageSharp 3.x 的
+        Six Labors Split License 对传递依赖授予 Apache-2.0。
+  源码: https://github.com/SixLabors/ImageSharp
 
-Microsoft .NET / .NET 8 (目标平台)
-  许可   : MIT 
-  源码   : https://github.com/dotnet/runtime
-  注     : 此库针对 .NET；运行时本身不由此包分发。
+Microsoft Roslyn 4.8.0、WinForms.DataVisualization 1.10.0 及 Microsoft .NET 包
+  许可: MIT
+  范围: 为 net481、net8.0-windows、net9.0-windows 和 net10.0-windows
+        解析的 Microsoft.CodeAnalysis.*、Microsoft.Extensions.*、Microsoft.Bcl.*、
+        Microsoft.Windows.Compatibility、System.* 及运行时资产
 
-----------------------------------------------------------------
-许可文本
-----------------------------------------------------------------
+Dependencies NuGet 包分发内容
+-----------------------------
 
-== MIT License ==
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Apache Xerces-C++ 3.2.3
+  许可: Apache-2.0
+  源码: https://xerces.apache.org/xerces-c/
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+SharpDX 4.2.0
+  许可: MIT
+  源码: https://github.com/sharpdx/SharpDX
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+Microsoft Windows API Code Pack 1.1.x 与 Xceed WPF Toolkit/AvalonDock 3.5.0.0
+  许可: Microsoft Public License（MS-PL）
+  说明: 作为 SCANLAB 工具的依赖项安装。
 
-----------------------------------------------------------------
+需要单独供应商条款的可再分发文件
 
-== Apache License, Version 2.0 ==
-                                 Apache License
-                           Version 2.0, January 2004
-                        http://www.apache.org/licenses/
+  - SCANLAB：RTC4/RTC5/RTC6、CalibrationLibrary、校正工具、syncAXIS 1.8.2、
+    固件/数据及 syncAXIS Configurator/Viewer
+  - ACS Motion Control：SPiiPlus .NET/COM/C 3.11.01
+  - Thorlabs：PM100D/TLPM/TLPMX/TLSPCNT
+  - Ophir：OphirLMMeasurement 10.4.0.0
+  - SCANLAB 工具依赖：SciChart 5.2.1.11757
+  - 该包安装的设备驱动、WDF 安装文件、固件、校正数据、示例和手册
 
-TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+必须保留各供应商的 EULA/许可文件，并且只再分发相应协议明确允许的文件。
 
-1. Definitions.
-"License" shall mean the terms and conditions for use, reproduction,
-and distribution as defined by Sections 1 through 9 of this document.
-"Licensor" shall mean the copyright owner or entity authorized
-by the copyright owner that is granting the License.
-"Legal Entity" shall mean the union of the acting entity and all other
-entities that control, are controlled by, or are under common control with
-that entity. ...
+需要审查：GPL Ghostscript
+------------------------
 
-END OF TERMS AND CONDITIONS
+根据内部字符串，该包中的 gsdll32.dll 与 gsdll64.dll 是 GPL Ghostscript 9.05。
+这些 DLL 未附带 Ghostscript 许可全文、对应源代码提供材料或 Artifex 商业许可
+信息。在移除这些 DLL，或记录其分发依据和义务之前，不得再分发。
 
-APPENDIX: How to apply the Apache License to your work.
+准确的许可全文
+--------------
 
-----------------------------------------------------------------
-
-== Boost Software License - Version 1.0 ==
-Boost Software License - Version 1.0 - August 17th, 2003
-
-Permission is hereby granted, free of charge, to any person or organization
-obtaining a copy of the software and accompanying documentation covered by
-this license (the "Software") to use, reproduce, display, distribute,
-execute, and transmit the Software, and to prepare derivative works of the
-Software, and to permit third-parties to whom the Software is furnished to
-do so, all subject to the following:
-
-The copyright notices in the Software and this entire statement,
-including the above license grant, this restriction and the following
-disclaimer, must be included in all copies of the Software, in whole or
-in part, and all derivative works of the Software, unless such copies or
-derivative works are solely in the form of machine-executable object code
-generated by a source language processor.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
-SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
-FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
-OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-----------------------------------------------------------------
-
-说明:
-- 对于上述 MIT 许可的组件，适用通用的 MIT 文本；请保留通知中特定组件的版权行。
-- 对于 Apache-2.0 (ZXing.Net)，请保留此许可文本以及任何上游 NOTICE（如果有）。
-- 对于 Boost (Clipper2)，请在重新分发时保留 Boost Software License 文本。
-
-
-----------------------------------------------------------------
-
-== gnuplot - Version 6.0 ==
-
-/*[
- * Copyright 1986 - 1993, 1998, 2004   Thomas Williams, Colin Kelley
- *
- * Permission to use, copy, and distribute this software and its
- * documentation for any purpose with or without fee is hereby granted,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.
- *
- * Permission to modify the software is granted, but not the right to
- * distribute the complete modified source code.  Modifications are to
- * be distributed as patches to the released version.  Permission to
- * distribute binaries produced by compiling modified sources is granted,
- * provided you
- *   1. distribute the corresponding source modifications from the
- *    released version in the form of a patch file along with the binaries,
- *   2. add special version identification to distinguish your version
- *    in addition to the base release version number,
- *   3. provide your name and address as the primary contact for the
- *    support of your modified version, and
- *   4. retain our contact information in regard to use of the base
- *    software.
- * Permission to distribute the released version of the source code along
- * with corresponding source modifications in the form of a patch file is
- * granted with same provisions 2 through 4 for binary distributions.
- *
- * This software is provided "as is" without express or implied warranty
- * to the extent permitted by applicable law.
-]*/
-
-----------------------------------------------------------------
-
-** SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008) 
-** Copyright (C) 2011 Silicon Graphics, Inc.
-** All Rights Reserved.
-**
-** Permission is hereby granted, free of charge, to any person obtaining a copy
-** of this software and associated documentation files (the "Software"), to deal
-** in the Software without restriction, including without limitation the rights
-** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-** of the Software, and to permit persons to whom the Software is furnished to do so,
-** subject to the following conditions:
-** 
-** The above copyright notice including the dates of first publication and either this
-** permission notice or a reference to http://oss.sgi.com/projects/FreeB/ shall be
-** included in all copies or substantial portions of the Software. 
-**
-** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-** INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-** PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL SILICON GRAPHICS, INC.
-** BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-** TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
-** OR OTHER DEALINGS IN THE SOFTWARE.
-** 
-** Except as contained in this notice, the name of Silicon Graphics, Inc. shall not
-** be used in advertising or otherwise to promote the sale, use or other dealings in
-** this Software without prior written authorization from Silicon Graphics, Inc.
+MIT、BSD 2-Clause、BSD 3-Clause、Apache-2.0、Boost 1.0、GLFW、MS-PL 和
+SGI Free Software License B 2.0 的未经修改全文位于随本文件分发的
+THIRD-PARTY-NOTICES.txt。法律条件以该英文原文及各供应商的原始许可/EULA为准。

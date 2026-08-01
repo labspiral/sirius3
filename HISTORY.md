@@ -1,11 +1,12 @@
 ﻿# Sirius3 version history
 
-## v1.11.1 (2026.7.30)
-- fixed) Corrected the aspect ratio of 2D barcode cell outlines
-    - Affected objects: EntityDataMatrix (Square and Rectangle), EntityQRCode, EntityPDF417, EntityAztec
-    - Removed epsilon expansion from Outline generation and performed unions in integer cell coordinates
-    - Preserved the exact aspect ratio of non-square matrices when IsFixedAspectRatio is true
-    - Regenerated barcode geometry when IsFixedAspectRatio changes
+## v1.11.10 (2026.7.31)
+- fixed) Barcodes now stay within the requested size, and their machining paths, supplemental codes, hatching, and dot-cell simulation line up correctly
+- fixed) 3D mesh slicing is faster and more reliable, with clearer warnings for broken or incomplete meshes
+- fixed) AABB hit testing is more stable and faster, without changing the entity geometry
+- fixed) Hatch, ALC, pen, and other list editors now update their values and previews more reliably
+- added) Laser-path simulation now uses fixed-size markers, a visible beam, and lightweight fading debris
+- fixed) Vector, Gerber, and Excellon imports now join nearby paths automatically, detect file contents, and skip unsupported files safely
 
 ## v1.11.0 (2026.7.27)
 - added) Added the EntityStitchedImage object

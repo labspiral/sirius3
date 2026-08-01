@@ -1,237 +1,157 @@
 제3자 소프트웨어 고지 사항
-=======================
+=========================
 
-본 제품은 아래에 나열된 제3자 구성 요소를 포함하고 있습니다. 각 구성 요소에 대한
-저작권 및 라이선스 약관은 유지됩니다. 필요한 경우(예: Apache-2.0), 전체 라이선스
-텍스트가 “라이선스 텍스트” 섹션에 포함되어 있습니다.
+이 문서는 2026-07-31 기준 SpiralLab.Sirius3, SpiralLab.Sirius3.UI 및
+SpiralLab.Sirius3.Dependencies NuGet 패키지와 함께 배포되는 제3자 소프트웨어를
+설명합니다. 변경하지 않은 라이선스 전문은 이 파일과 항상 함께 배포되는
+THIRD-PARTY-NOTICES.txt를 참조하십시오. 공급사 재배포물은 각 공급사의 별도 계약을
+따르며 이 문서가 새로운 사용 또는 재배포 권한을 부여하지 않습니다.
 
-----------------------------------------------------------------
+중요: 배포 전 검토 필요
+------------------------
+
+SpiralLab.Sirius3.Dependencies는 네이티브 드라이버, 장치 SDK 라이브러리, 펌웨어,
+도구, 폰트, 매뉴얼 및 샘플 데이터를 사용자 응용 프로그램의 출력 폴더에 설치합니다.
+이 번들의 모든 공급사 파일에 완전한 재배포 조건이 함께 제공되지는 않습니다.
+아래에서 "검토 필요"로 표시한 파일은 유효한 공급사/소스 라이선스 자료를 확보하거나
+패키지에서 제거하기 전까지 배포하면 안 됩니다.
+
+관리형 및 런타임 오픈소스 구성 요소
+-----------------------------------
+
 NLog
-  버전   : 6.0.5
-  라이선스: MIT
-  저작권  : © NLog Project
+  버전    : 6.0.5
+  라이선스: BSD 3-Clause
+  저작권  : Copyright (c) 2004-2024 Jaroslaw Kowalski, Kim Christensen,
+            Julian Verdurmen
   소스    : https://github.com/NLog/NLog
 
-Newtonsoft.Json
-  버전   : 13.0.4
+NLog.Extensions.Logging
+  버전    : 6.0.5
+  라이선스: BSD 2-Clause
+  저작권  : Copyright (c) 2004-2025 NLog Project
+  소스    : https://github.com/NLog/NLog.Extensions.Logging
+
+Newtonsoft.Json 13.0.4
   라이선스: MIT
-  저작권  : © James Newton-King
   소스    : https://www.newtonsoft.com/json
 
-OpenTK
-  버전   : 3.3.3, 4.9.4
+OpenTK 및 컨트롤
+  버전    : OpenTK 3.3.3/4.9.4, GLControl 3.3.3/4.0.2,
+            GLWpfControl 3.3.0/4.3.6
   라이선스: MIT
-  저작권  : © The Open Toolkit Library
   소스    : https://github.com/opentk/opentk
+  참고    : WPF 구현은 Sirius3 UI 빌드에서 제외되지만 GLWpfControl 패키지 참조는 남아 있습니다.
 
-Clipper2
-  버전   : 2.0.0
+GLFW (OpenTK.redist.glfw)
+  버전    : 3.4.0.44
+  라이선스: GLFW zlib/libpng 형식 라이선스
+  소스    : https://github.com/glfw/glfw
+
+Clipper2 2.0.0
   라이선스: Boost Software License 1.0
-  저작권  : © Angus Johnson
   소스    : https://github.com/AngusJohnson/Clipper2
 
-netDxf
-  버전   : 2023.11.10
+netDxf 2023.11.10
   라이선스: MIT
-  저작권  : © Daniel Carvajal
   소스    : https://github.com/haplokuon/netDxf
 
-StbImageSharp
-  버전   : 2.30.15
-  라이선스: MIT (port of stb_image; original stb is public domain/Unlicense)
-  저작권  : © StbImageSharp contributors
+StbImageSharp 2.30.15
+  라이선스: NuGet 패키지에 라이선스 메타데이터가 없으며, 포함된 stb_image
+            구현은 Public Domain 또는 MIT
   소스    : https://github.com/StbSharp/StbImageSharp
+  상태    : 배포 전 래퍼 라이브러리의 재배포 조건 확인 필요
 
-ZXing.Net
-  버전   : 0.16.11
-  라이선스: Apache License 2.0
-  저작권  : © ZXing.Net contributors
+ZXing.Net 0.16.11
+  라이선스: Apache-2.0
   소스    : https://github.com/micjahn/ZXing.Net
-  고지    : Apache-2.0 라이선스 이외의 추가 업스트림 고지 사항은 제공되지 않았습니다.
 
-BouncyCastle.Cryptography
-  버전   : 2.6.2
+BouncyCastle.Cryptography 2.6.2
   라이선스: MIT
-  저작권  : © Legion of the Bouncy Castle Inc.
-  소스    : https://www.bouncycastle.org/download/bouncy-castle-c/
+  소스    : https://www.bouncycastle.org/
 
-GerberTools
-  버전   : 21/12/18
+GerberTools/GerberLibrary
+  버전    : 2018-12-21 빌드
   라이선스: MIT
-  저작권  : © 2016 This is not Rocket Science
+  저작권  : Copyright (c) 2016 This is not Rocket Science
   소스    : https://github.com/ThisIsNotRocketScience/GerberTools
 
-LibTessDotNet
-  버전   : 1.1.15
-  라이선스: SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008) 
+LibTessDotNet 1.1.15
+  라이선스: SGI Free Software License B 2.0
   소스    : https://github.com/speps/LibTessDotNet
+  참고    : NuGet 메타데이터의 MIT 표기와 달리 업스트림 LICENSE는 SGI 라이선스입니다.
 
 OxyPlot
-  버전   : 2.2.0
+  버전    : 2.2.0(관리형 패키지), 1.0.0(SCANLAB 도구 파일)
   라이선스: MIT
-  저작권  : Copyright (c) 2014 OxyPlot contributors
   소스    : https://github.com/oxyplot/oxyplot
 
-Be.HexEditor
-  버전   : 1.6.1, 2.1.0
+Be.Windows.Forms.HexBox 1.6.1 / 2.1.0, MQTTnet 3.1.2 / 5.1.0.1559,
+BinaryKits.Zpl.Viewer 1.3.1 / BinaryKits.Zpl.Label 3.3.1
   라이선스: MIT
-  저작권  : Copyright (c) 2011 Bernhard Elbl
-  소스    : https://sourceforge.net/projects/hexbox/
 
-MQTTnet 
-  버전   : 3.1.2, 5.1.0
+SkiaSharp 및 HarfBuzzSharp
+  버전    : SkiaSharp 3.119.1, HarfBuzzSharp 8.3.1.2
+  라이선스: MIT 및 네이티브 자산의 업스트림 제3자 고지
+  소스    : https://github.com/mono/SkiaSharp
+  포함    : ANGLE, HarfBuzz, Skia, etc1, gif, libpng, DNG SDK, expat,
+            FreeType, ICU, imgui, jsoncpp, libjpeg-turbo, libwebp,
+            libmicrohttpd, piex, SDL, sfntly, SPIR-V Headers/Tools, zlib
+  고지    : 변경하지 않은 업스트림 고지를 THIRD-PARTY-NOTICES.SkiaSharp.txt로
+            함께 배포합니다.
+
+SixLabors.ImageSharp
+  버전    : 2.1.12, 3.1.12(전이 의존성)
+  라이선스: 이 전이 의존성 사용에는 Apache-2.0 적용. ImageSharp 3.x의
+            Six Labors Split License가 전이 의존성에 Apache-2.0을 부여합니다.
+  소스    : https://github.com/SixLabors/ImageSharp
+
+Microsoft Roslyn 4.8.0, WinForms.DataVisualization 1.10.0 및 Microsoft .NET 패키지
   라이선스: MIT
-  소스    : https://github.com/dotnet/MQTTnet
+  범위    : net481, net8.0-windows, net9.0-windows, net10.0-windows에서 해결된
+            Microsoft.CodeAnalysis.*, Microsoft.Extensions.*, Microsoft.Bcl.*,
+            Microsoft.Windows.Compatibility, System.* 및 런타임 자산
 
-BinaryKits.Zpl.Viewer
-  버전    : 1.3.1
-  라이선스 : MIT
-  소스    : https://github.com/BinaryKits/BinaryKits.Zpl
+Dependencies NuGet 패키지의 배포 파일
+--------------------------------------
 
-Microsoft .NET / .NET 8 (대상 플랫폼)
-  라이선스: MIT 
-  소스    : https://github.com/dotnet/runtime
-  참고    : 이 라이브러리는 .NET을 대상으로 하며, 런타임 자체는 본 패키지에 의해 재배포되지 않습니다.
+Apache Xerces-C++ 3.2.3
+  라이선스: Apache-2.0
+  소스    : https://xerces.apache.org/xerces-c/
 
-----------------------------------------------------------------
-라이선스 텍스트
-----------------------------------------------------------------
+SharpDX 4.2.0
+  라이선스: MIT
+  소스    : https://github.com/sharpdx/SharpDX
 
-== MIT License ==
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Microsoft Windows API Code Pack 1.1.x 및 Xceed WPF Toolkit/AvalonDock 3.5.0.0
+  라이선스: Microsoft Public License(MS-PL)
+  참고    : SCANLAB 도구의 의존성으로 설치됩니다.
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+별도 공급사 조건이 필요한 재배포물
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+  - SCANLAB: RTC4/RTC5/RTC6, CalibrationLibrary, 교정 도구, syncAXIS 1.8.2,
+    펌웨어/데이터 및 syncAXIS Configurator/Viewer
+  - ACS Motion Control: SPiiPlus .NET/COM/C 3.11.01
+  - Thorlabs: PM100D/TLPM/TLPMX/TLSPCNT
+  - Ophir: OphirLMMeasurement 10.4.0.0
+  - SCANLAB 도구 의존성: SciChart 5.2.1.11757
+  - 패키지가 설치하는 장치 드라이버, WDF 설치 파일, 펌웨어, 교정 데이터, 샘플 및 매뉴얼
 
-----------------------------------------------------------------
+각 공급사의 EULA/라이선스 파일을 유지하고 해당 계약에서 명시적으로 허용한 파일만
+재배포해야 합니다.
 
-== Apache License, Version 2.0 ==
-                                 Apache License
-                           Version 2.0, January 2004
-                        http://www.apache.org/licenses/
+검토 필요: GPL Ghostscript
+--------------------------
 
-TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+패키지에 포함된 gsdll32.dll 및 gsdll64.dll은 내부 문자열상 GPL Ghostscript
+9.05입니다. 이 DLL과 함께 Ghostscript 라이선스 전문, 대응 소스 제공 자료 또는
+Artifex 상용 라이선스 정보가 제공되지 않습니다. 제거하거나 배포 근거와 의무를
+문서화하기 전까지 재배포하면 안 됩니다.
 
-1. Definitions.
-"License" shall mean the terms and conditions for use, reproduction,
-and distribution as defined by Sections 1 through 9 of this document.
-"Licensor" shall mean the copyright owner or entity authorized
-by the copyright owner that is granting the License.
-"Legal Entity" shall mean the union of the acting entity and all other
-entities that control, are controlled by, or are under common control with
-that entity. ...
+정확한 라이선스 전문
+--------------------
 
-END OF TERMS AND CONDITIONS
-
-APPENDIX: How to apply the Apache License to your work.
-
-----------------------------------------------------------------
-
-== Boost Software License - Version 1.0 ==
-Boost Software License - Version 1.0 - August 17th, 2003
-
-Permission is hereby granted, free of charge, to any person or organization
-obtaining a copy of the software and accompanying documentation covered by
-this license (the "Software") to use, reproduce, display, distribute,
-execute, and transmit the Software, and to prepare derivative works of the
-Software, and to permit third-parties to whom the Software is furnished to
-do so, all subject to the following:
-
-The copyright notices in the Software and this entire statement,
-including the above license grant, this restriction and the following
-disclaimer, must be included in all copies of the Software, in whole or
-in part, and all derivative works of the Software, unless such copies or
-derivative works are solely in the form of machine-executable object code
-generated by a source language processor.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
-SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
-FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
-OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-----------------------------------------------------------------
-
-참고 사항:
-- 상기 MIT 라이선스 구성 요소의 경우, 일반적인 MIT 텍스트가 적용됩니다. 
-  고지 사항에 각 구성 요소별 저작권 문구를 유지하십시오.
-- Apache-2.0 (ZXing.Net)의 경우, 이 라이선스 텍스트와 업스트림 NOTICE(있는 경우)를 보존하십시오.
-- Boost (Clipper2)의 경우, 재배포 시 Boost Software License 텍스트를 보존하십시오.
-
-
-----------------------------------------------------------------
-
-== gnuplot - Version 6.0 ==
-
-/*[
- * Copyright 1986 - 1993, 1998, 2004   Thomas Williams, Colin Kelley
- *
- * Permission to use, copy, and distribute this software and its
- * documentation for any purpose with or without fee is hereby granted,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.
- *
- * Permission to modify the software is granted, but not the right to
- * distribute the complete modified source code.  Modifications are to
- * be distributed as patches to the released version.  Permission to
- * distribute binaries produced by compiling modified sources is granted,
- * provided you
- *   1. distribute the corresponding source modifications from the
- *    released version in the form of a patch file along with the binaries,
- *   2. add special version identification to distinguish your version
- *    in addition to the base release version number,
- *   3. provide your name and address as the primary contact for the
- *    support of your modified version, and
- *   4. retain our contact information in regard to use of the base
- *    software.
- * Permission to distribute the released version of the source code along
- * with corresponding source modifications in the form of a patch file is
- * granted with same provisions 2 through 4 for binary distributions.
- *
- * This software is provided "as is" without express or implied warranty
- * to the extent permitted by applicable law.
-]*/
-
-----------------------------------------------------------------
-
-** SGI FREE SOFTWARE LICENSE B (Version 2.0, Sept. 18, 2008) 
-** Copyright (C) 2011 Silicon Graphics, Inc.
-** All Rights Reserved.
-**
-** Permission is hereby granted, free of charge, to any person obtaining a copy
-** of this software and associated documentation files (the "Software"), to deal
-** in the Software without restriction, including without limitation the rights
-** to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-** of the Software, and to permit persons to whom the Software is furnished to do so,
-** subject to the following conditions:
-** 
-** The above copyright notice including the dates of first publication and either this
-** permission notice or a reference to http://oss.sgi.com/projects/FreeB/ shall be
-** included in all copies or substantial portions of the Software. 
-**
-** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-** INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-** PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL SILICON GRAPHICS, INC.
-** BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-** TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
-** OR OTHER DEALINGS IN THE SOFTWARE.
-** 
-** Except as contained in this notice, the name of Silicon Graphics, Inc. shall not
-** be used in advertising or otherwise to promote the sale, use or other dealings in
-** this Software without prior written authorization from Silicon Graphics, Inc.
+MIT, BSD 2-Clause, BSD 3-Clause, Apache-2.0, Boost 1.0, GLFW, MS-PL 및
+SGI Free Software License B 2.0의 변경하지 않은 전문은 이 파일과 함께 배포되는
+THIRD-PARTY-NOTICES.txt에 있습니다. 법적 조건은 해당 영문 원문과 각 공급사의
+원본 라이선스/EULA를 기준으로 합니다.

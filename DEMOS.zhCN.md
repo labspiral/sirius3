@@ -9,7 +9,12 @@ Sirius3 库初始化
 
 在控制台环境中初始化各种设备（扫描仪、激光设备等）以及使用文档（Document）的标记（Marker）示例
 
-## editor_alc
+## console_syncaxis_setup
+
+这是一个使用 syncAXIS 对基于 RTC6 的 XL-SCAN 系统进行底层设置和诊断的控制台示例。
+它会加载 `syncAXISConfig.xml`，切换仿真/硬件模式及 Follow/Unfollow 运动模式，控制扫描头和平台移动，并执行方形、圆形、扫描仪校正、激光延迟和系统延迟测试任务。
+
+## editor_automatic_laser_control
 
 这是一个利用自动激光控制（ALC）功能自动调节激光输出的演示程序。
 - 基于定义向量（Defined Vector）的ALC功能，可在图层（Layer）笔中进行设置；通过加工开始和结束时的起始斜坡、结束斜坡比例值，可设置输出值呈线性变化。
@@ -46,6 +51,11 @@ Sirius3 库初始化
 
 这是一个利用Sirius3生成的各种加工数据和矢量数据，并将其添加到文档（Document）和页面（Page）中的示例。
 该示例展示了如何通过“块（Block）”和“插入块（Insert）”功能复用对象（Entity），同时也展示了如何通过“组（Group）”将多个对象（Entity）进行分组管理。	
+
+## editor_entity_custom
+
+此示例展示如何向 Sirius3 添加应用程序专用的自定义实体类型。
+它实现了菱形、基准标记和钻孔实体，并演示属性编辑、几何重建、渲染、克隆、填充、加工以及添加到文档的完整过程。
 
 ## editor_fieldcorrection_2d
 
@@ -153,6 +163,11 @@ MoF（Marking on the fly）功能是将外部移动物体产生的编码器信�
 - 此时另一侧扫描头将解除待机状态并接管加工任务，当遇到跳跃（Jump）区间时再将控制权交还，以此循环往复。 
 - 该控制方式旨在最大限度地提高激光光源的利用率，从而提升生产效率。
 
+## editor_multibeam2
+
+这是一个用于操作共享同一激光源的一对 RTC MultiBeam 实例的界面示例。
+它可以检查两个扫描头之间的信号连接，选择 Head 1、Head 2 或 Both 模式及准备侧，并控制单个或两个扫描头的 Ready、Start、Stop 和 Reset。
+
 ## editor_multiple
 
 这是一个演示程序，通过分别创建2个系统（扫描仪、激光装置等）+ 2个编辑器及数据（文档），利用多头系统对不同的数据进行加工。
@@ -205,6 +220,11 @@ MoF（Marking on the fly）功能是将外部移动物体产生的编码器信�
 它展示了如何通过图层笔 (Layer Pen) 组合并启用 SCANAhead 功能与 ALC 功能，
 以及如何通过实体笔 (Entity Pen) 设置 SDC（点距控制）距离值。
 
+## editor_script
+
+此示例展示如何使用标记器脚本在加工前即时更新实体数据。
+它创建使用 `TextConverters.SimpleScript` 的 SiriusText，通过脚本表达式生成序列号，并演示查看、保存、恢复、加载及编译来自 `.script`、C# 源文件或 DLL 的脚本实例。
+
 ## editor_slicer
 
 这是一个演示程序，用于加载3D网格模型，将其沿指定的Z平面进行切片（Slicing）以提取轮廓（Contours），
@@ -214,6 +234,10 @@ MoF（Marking on the fly）功能是将外部移动物体产生的编码器信�
 
 这是一个利用RTC卡提供的步进电机（Stepper Motor）扩展端口进行控制功能的演示程序。
 
+## editor_stitchedimage
+
+此示例根据相机网格、图像分辨率和视场参数创建 `EntityStitchedImage`。
+它模拟扫描头移动到各个图块位置并从文件获取相机图像，通过 `View.StitchedImage` 显示拼接结果，同时演示清除和重新构建拼接图像。
 
 ## editor_syncaxis
 
@@ -230,3 +254,8 @@ MoF（Marking on the fly）功能是将外部移动物体产生的编码器信�
 
 处理后的数据（即 Recipe）由名为 Document 的对象进行管理，并会生成各种实体（Entity）并将其存储在此 Document 中。
 本示例展示了如何将该 Document 与编辑器和查看器关联以进行渲染。即提供了一个“一个 Document，多个视图”的示例。
+
+## editor_zpl
+
+此示例使用离线 BinaryKits 渲染器，根据多个 ZPL 标签样例创建 `EntityImageZPL`。
+它演示标签尺寸和打印密度设置、Unicode ZPL 数据、`^CW` 字体映射，以及用于本地预览和激光加工的后备字体配置。

@@ -1,5 +1,5 @@
 ﻿# Sirius3
-A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
+A Windows/.NET platform for precision laser processing that combines SCANLAB control, device integration, geometry processing, OpenGL visualization, document editing, simulation, and marking execution.
 
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo.png)
 
@@ -14,6 +14,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
    - XL-SCAN (RTC6 + ACS via syncAXIS)
 - Measurement and Profiling
    - Log scanner trajectory and output signals with plotted graphs
+   - Visualize machining paths with real-time simulation
 - Powerful Marking Options
    - Variable Polygon and Variable Jump Delays 
    - 2nd head, 3D
@@ -41,31 +42,42 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 - Powermeters & Powermap
    - Coherent (PowerMax), Thorlabs (via OPM), Ophir (via StarLab)
    - Powermap-based output compensation
-- Various Entities and Formats
+- Rendering and Geometry Processing
+   - OpenGL 3.3+ 2D/3D renderer with one orthographic and five perspective cameras
+   - AABB acceleration for point, line, line-strip, and triangle hit testing
+   - Topology-aware 3D mesh slicing with closed/open contour diagnostics
+   - Winding-aware multiple hatches for outlines, nested regions, and connected barcode cells
+- Entities, Text and Barcodes
    - Point(s), Line, Arc, Polyline, Triangle, Rectangle, Spiral, Trepan, Spline
-   - Layer, Group, Block and BlockInsert
-   - Text, SiriusText, ImageText, Circular Text
-   - Image, DXF, DWG, HPGL, ZPL and Gerber files
-   - QR, DataMatrix, PDF417, Aztec and 1D 
-   - 3D Mesh Format like as STL, OBJ, PLY
-- Document and pages
-   - Single document has multiple pages 
-   - One document can be rendered for multiple view targets
+   - Cube, Sphere, Cylinder, Cone, Mesh, Layer, Group, Block and BlockInsert
+   - Text, SiriusText, ImageText, Circular Text, linked text, and ZPL rendering entities
+   - 1D, QR, DataMatrix, PDF417, and Aztec barcodes with outline, hatch, and dot-cell processing
+- File Import and Interoperability
+   - Native Sirius3 documents, DXF/DWG, HPGL/PLT, Gerber/Excellon, and G-code/NGC
+   - Raster images and STL, OBJ, PLY, STP/STEP 3D models
+   - Tolerance-based path joining for vector files and content-based Gerber/Excellon detection
+- Remote Communication and Dynamic Data
+   - TCP/IP, Serial (RS-232), WebSocket, and MQTT endpoints for marker control and data access
+   - Event, file, offset, linked-entity, and C# script conversion for text and barcode data
+- Documents, Editors and Simulation
+   - Four document pages with layers, pens, groups, blocks, and configurable Undo/Redo
+   - WinForms editor/viewer controls; one document can be rendered to multiple views
+   - Real-time laser-path visualization with screen-sized markers, beam effects, and optional debris
+   - Grid-based stitched-image visualization for camera and inspection workflows
 - Open Architecture
-   - Editor, Marker and laser-source control code are open for customization
+   - Extensible editor, entity, marker, scanner, laser, power-meter, and remote interfaces
 
 ## Major Changes
 |                              |                SIRIUS3                   |              SIRIUS2                  |
 |:-----------------------------|:-----------------------------------------|:--------------------------------------|
 | Multiple page                |4 Pages                                   |No Page / Single Document              |
 | Camera                       |6 Built-in Cameras                        |Perspective                            |
-| Render speed                 |Fastest by updated shader engine          |Faster                                 |
+| Render speed                 |GPU-accelerated OpenGL shader engine       |Built-in shader engine                 |
 | Render mode                  |Model, PerVertex, Normal, ZDepth          |None                                   |
-| HitTest speed                |Faster by AABBTree                        |Slow                                   |
-| Hatch                        |Multiple Hatches                          |Single Hatch                           |
-| 3D Mesh with slicer          |Built-in Slicer for PLY, OBJ, STL         |None                                   |
-| Gerber file(RS-274x)         |Supported                                 |None                                   |
-| Wafer/Substrate map          |Built-in editor                           |None                                   |
+| HitTest speed                |AABB-accelerated point/line/triangle tests|Slow                                   |
+| Hatch                        |Winding-aware multiple hatches            |Single Hatch                           |
+| 3D Mesh with slicer          |Built-in slicer for STL, OBJ, PLY, STEP   |None                                   |
+| Gerber / Excellon            |Content-detected import                   |None                                   |
 | Font file                    |General CXF, LFF, FNT, DOT formats        |Customized CXF, LFF formats            |
 | Pen                          |Pens for Entity and Layer                 |Entity Pen                             |
 | Library update               |By Nuget Package Manager                  |Manual                                 |
@@ -78,7 +90,7 @@ A .NET-Based, All-IN-ONE Platform for Precision Laser Processing.
 ## Packages / DLLs
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS runtime, fonts, sample data
 - `SpiralLab.Sirius3` — HAL controllers (scanner/laser/powermeter, etc.)
-- `SpiralLab.Sirius3.UI` — Various Entities, 3D render engine, WinForms UI controls
+- `SpiralLab.Sirius3.UI` — Entities, geometry processing, OpenGL rendering, and WinForms UI controls
  > Easy to update library files by NuGet package manager.
 
 ## Platform targets

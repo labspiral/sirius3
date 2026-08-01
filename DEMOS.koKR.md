@@ -10,7 +10,12 @@
 
 콘솔 환경에서 각종 장치 (스캐너, 레이저 장치 등) 초기화 및 문서(Document) 를 이용한 마커(Marker) 예제
 
-## editor_alc
+## console_syncaxis_setup
+
+RTC6 기반 XL-SCAN 시스템을 syncAXIS로 직접 설정하고 점검하는 콘솔 데모입니다.
+`syncAXISConfig.xml`을 불러와 시뮬레이션/하드웨어 모드와 Follow/Unfollow 동작을 전환하고, 스캐너와 스테이지 이동, 사각형·원 가공, 스캐너 보정, 레이저 지연 및 시스템 지연 확인 작업을 실행합니다.
+
+## editor_automatic_laser_control
 
 Automatic Laser Control (ALC) 기능을 사용하여 레이저 출력을 자동으로 조절하는 데모 프로그램입니다. 
 - Defined Vector 기반의 ALC 기능으로 활성화는 레이어(Layer) 펜에서 설정할 수 있으며, 가공 시작과 끝에서 시작 램프, 종료 램프 비율값을 통해 출력값이 선형적으로 변화하도록 설정합니다.
@@ -48,6 +53,11 @@ DIO 의 핀 번호에 사용자가 이름을 지정할 수 있으며, 시스템�
 
 시리우스3에서 제공되는 다양한 가공 데이타 및 벡터 데이타들을 생성해 문서(Document) 및 페이지(Page)에 추가하는 예제입니다.
 블럭(Block)과 블럭 삽입(Insert) 을 통해 개체(Entity)를 재사용하는 방법을 보여주고, 그룹을 통해 여러 개체(Entity)를 묶어 관리하는 방법도 보여줍니다.	
+
+## editor_entity_custom
+
+응용 프로그램에서 필요한 사용자 정의 엔티티를 Sirius3에 추가하는 방법을 보여주는 데모입니다.
+마름모, 피듀셜, 드릴 홀 엔티티를 직접 구현해 속성 편집, 형상 재생성, 렌더링, 복제, 해칭, 가공 및 문서 추가 과정을 보여줍니다.
 
 ## editor_fieldcorrection_2d
 
@@ -154,6 +164,11 @@ MoF(Marking on the fly) 기능은 외부 이동물체에서 발생하는 엔코�
 - 이때 반대편 스캔헤드가 대기가 풀리면서 가공을 처리하고, 점프(Jump) 구간을 만나면 다시 제어권한을 반납하기를 반복하는 제어 방식입니다.
 - 전체적으로 레이저 소스의 사용율을 극대화해 생산성을 높히는 방식입니다.
 
+## editor_multibeam2
+
+하나의 레이저 소스를 공유하는 한 쌍의 RTC MultiBeam 인스턴스를 운용하는 UI 데모입니다.
+헤드 간 신호 배선을 확인하고 Head 1, Head 2, Both 모드와 준비 헤드를 선택하며, 각 헤드 또는 두 헤드의 Ready, Start, Stop, Reset 동작을 제어합니다.
+
 ## editor_multiple
 
 2개의 시스템(스캐너, 레이저 장치 등) + 2개의 편집기 및 데이타(Document) 을 각각 생성해 서로 다른 데이타를 멀티 헤드 시스템을 사용해 가공하는 데모 프로그램입니다.
@@ -206,6 +221,11 @@ RTC6에서 지원되는 SCANAhead 기능을 활용하는 데모 프로그램입�
 레이어 펜(Layer Pen)을 통해 SCANAhead 기능 및 ALC 기능을 조합하고 이를 활성화 하는 방법과,
 개체 펜(Entity Pen)을 통해 SDC(Spot Distance Control) 거리값을 설정하는 방법을 보여줍니다.
 
+## editor_script
+
+마커 스크립트로 가공 직전에 엔티티 데이터를 바꾸는 방법을 보여주는 데모입니다.
+`TextConverters.SimpleScript`를 사용하는 SiriusText를 만들고 스크립트 식으로 일련번호를 생성하며, `.script`, C# 소스 또는 DLL 파일의 스크립트 인스턴스를 확인, 저장, 초기화, 로드 및 컴파일하는 방법을 제공합니다.
+
 ## editor_slicer
 
 3D 메쉬 모델을 불러와 지정된 Z 평면으로 슬라이싱(Slicing) 해 그 경로(Contours)를 추출하고,
@@ -214,6 +234,11 @@ RTC6에서 지원되는 SCANAhead 기능을 활용하는 데모 프로그램입�
 ## editor_steppermotor
 
 RTC 카드에서 제공되는  스테퍼 모터(Stepper Motor) 확장포트를 사용한 제어 기능을 활용하는 데모 프로그램입니다.
+
+## editor_stitchedimage
+
+카메라 격자, 이미지 해상도와 시야각 정보를 이용해 `EntityStitchedImage`를 만드는 데모입니다.
+스캐너를 각 타일 위치로 이동하고 파일에서 카메라 이미지를 취득하는 과정을 모사해 `View.StitchedImage`에 합성 결과를 표시하며, 이미지를 지우고 다시 구성하는 방법도 보여줍니다.
 
 ## editor_syncaxis
 
@@ -230,3 +255,8 @@ syncAXIS 라이브러리를 활용해 스캐너와 모션 컨트롤러의 동기
 
 가공 데이타(즉 Recipe) 는 Document 라는 객체에서 관리되며, 다양한 개체(Entity)들을 생성해 이 Document 에 저장하게 됩니다.
 이 Document 를 에디터 및 뷰어와 연결하여 출력(렌더링) 하는 예를 보여줍니다. 즉 One Document, Multiple View 예제를 제공합니다.
+
+## editor_zpl
+
+오프라인 BinaryKits 렌더러를 이용해 여러 ZPL 라벨 예제로 `EntityImageZPL`을 만드는 데모입니다.
+라벨 크기와 인쇄 해상도 설정, 유니코드 ZPL 데이터, `^CW` 폰트 매핑 및 로컬 미리보기와 레이저 가공에 사용할 대체 폰트 설정 방법을 보여줍니다.

@@ -9,7 +9,12 @@ Initializing various devices (scanners, laser devices, etc.) and connecting to t
 
 Initializing various devices (such as scanners and laser devices) and using markers with documents in a console environment
 
-## editor_alc
+## console_syncaxis_setup
+
+This console demo performs low-level setup and diagnostics for an RTC6-based XL-SCAN system using syncAXIS.
+It loads `syncAXISConfig.xml`, switches between simulation and hardware modes, controls Follow/Unfollow motion, moves the scanner and stage, and runs square, circle, calibration, laser-delay, and system-delay test jobs.
+
+## editor_automatic_laser_control
 
 This demo program automatically adjusts laser output using the Automatic Laser Control (ALC) feature. 
 - The Defined Vector-based ALC function can be enabled via the Layer pen, and the start and end ramp values are set to ensure the output changes linearly at the beginning and end of machining.
@@ -46,6 +51,11 @@ At this point, the Editor renders the specified Document. Alongside methods for 
 
 This example demonstrates how to generate various processed data and vector data provided by Sirius3 and add them to documents and pages.
 It demonstrates how to reuse entities using Blocks and Insert, and also shows how to group and manage multiple entities.    
+
+## editor_entity_custom
+
+This demo shows how to add application-specific entity types to Sirius3.
+It implements custom rhombus, fiducial, and drill-hole entities and demonstrates property editing, geometry regeneration, rendering, cloning, hatching, marking, and insertion into a document.
 
 ## editor_fieldcorrection_2d
 
@@ -152,6 +162,11 @@ This is a demo program that utilizes the Multibeam function, which splits a sing
 - at which point the opposite scan head is released from standby to handle the machining, and this process repeats as the scan head returns control upon reaching the jump section. 
 - Overall, this method maximizes the utilization of the laser source to increase productivity.
 
+## editor_multibeam2
+
+This demo provides an operating UI for a pair of RTC MultiBeam instances that share one laser source.
+It checks the inter-head signal wiring, selects Head 1, Head 2, or Both mode, chooses the preparation side, and controls Ready, Start, Stop, and Reset for either head or both heads together.
+
 ## editor_multiple
 
 This is a demo program that creates two systems (scanners, laser units, etc.) and two editors and data (documents) to process different data using a multi-head system.
@@ -203,6 +218,11 @@ Additionally, the property lists of the Entity Pen are automatically shown or hi
 This is a demo program that utilizes the SCANAhead feature supported by RTC6.
 It demonstrates how to combine SCANAhead and ALC functions using the Layer Pen and activate them, as well as how to set the SDC (Spot Distance Control) distance value using the Entity Pen.
 
+## editor_script
+
+This demo shows how marker scripts can update entity data immediately before marking.
+It creates a SiriusText entity using `TextConverters.SimpleScript`, uses script expressions to generate serial numbers, and demonstrates inspecting, saving, restoring, loading, and compiling script instances from `.script`, C# source, or DLL files.
+
 ## editor_slicer
 
 This is a demo program that demonstrates AM (Additive Manufacturing) functions, such as loading a 3D mesh model, slicing it along a specified Z-plane to extract contours, and inserting hatching into the resulting area.
@@ -211,6 +231,10 @@ This is a demo program that demonstrates AM (Additive Manufacturing) functions, 
 
 This is a demo program that utilizes the control functions provided by the stepper motor expansion port on the RTC card.
 
+## editor_stitchedimage
+
+This demo creates an `EntityStitchedImage` from a camera grid, image resolution, and field-of-view settings.
+It simulates moving the scanner to each tile and acquiring camera images from files, displays the combined result through `View.StitchedImage`, and demonstrates clearing and rebuilding the stitched image.
 
 ## editor_syncaxis
 
@@ -226,3 +250,8 @@ You can use this open-source code to design and customize the UI to your liking.
 
 Processed data (i.e. Recipes) is managed within an object called a Document, which creates various entities and stores them within this Document.
 This demonstrates how this Document is linked to an editor and a viewer for rendering. In other words, it provides an example of a ‘One Document, Multiple Views’ scenario.
+
+## editor_zpl
+
+This demo creates `EntityImageZPL` objects from several ZPL label samples using the offline BinaryKits renderer.
+It demonstrates label size and print-density settings, Unicode ZPL data, `^CW` font mapping, and fallback font configuration for local preview and laser processing.

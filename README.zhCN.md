@@ -1,5 +1,5 @@
 # Sirius3
-基于 .NET 的精密激光加工全能平台
+面向 Windows/.NET 的精密激光加工平台，集成 SCANLAB 控制、设备连接、几何处理、OpenGL 可视化、文档编辑、模拟和加工执行
 
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo.png)
 
@@ -14,6 +14,7 @@
    - XL-SCAN (基于 syncAXIS 的 RTC6 + ACS 组合)
 - 测量与分析
    - 支持利用振镜运动路径和信号输出日志进行图形输出
+   - 支持实时模拟加工路径
 - 强大的加工选项
    - 支持设置可变多边形、可变跳跃延迟时间
    - 支持双头、3D
@@ -41,31 +42,42 @@
 - 功率计和功率映射 (PowerMap)
    - Coherent (PowerMax), Thorlabs (基于 OPM), Ophir (基于 StarLab)
    - 支持基于功率映射的输出补偿
-- 支持多种实体和格式
-   - 点、线、弧、多段线、三角形、矩形、螺旋、Trépannage、样条曲线等
-   - 图层、组、块、块插入等
-   - Text, SiriusText, ImageText, Circular Text 等
-   - Image, DXF, HPGL, ZPL
-   - QR, DataMatrix, PDF417 条码
-   - STL, OBJ, PLY 等 3D 网格格式 
-- 文档及页面
-   - 支持多文档和页面
-   - 支持将一个文档渲染到多个视图目标
+- 渲染与几何处理
+   - 基于 OpenGL 3.3+ 的 2D/3D 渲染器，提供一个正交相机和五个透视相机
+   - 用于点、线、线带和三角形命中测试的 AABB 加速结构
+   - 带闭合/开放轮廓诊断的拓扑感知三维网格切片
+   - 基于绕组规则处理轮廓、嵌套区域和相邻条码单元的多重填充
+- 实体、文本与条码
+   - 点、线、弧、多段线、三角形、矩形、螺旋、Trépannage 和样条曲线
+   - 立方体、球体、圆柱体、圆锥体、网格、图层、组、块和块插入
+   - Text、SiriusText、ImageText、Circular Text、链接文本及 ZPL 渲染实体
+   - 支持轮廓、填充和点阵单元加工的一维、QR、DataMatrix、PDF417 及 Aztec 条码
+- 文件导入与互操作
+   - Sirius3 文档、DXF/DWG、HPGL/PLT、Gerber/Excellon 及 G-code/NGC
+   - 光栅图像以及 STL、OBJ、PLY、STP/STEP 三维模型
+   - 矢量文件的容差路径连接和基于内容的 Gerber/Excellon 识别
+- 远程通信与动态数据
+   - 用于标记控制和数据访问的 TCP/IP、Serial（RS-232）、WebSocket 及 MQTT
+   - 面向文本和条码数据的事件、文件、偏移、链接实体及 C# 脚本转换
+- 文档、编辑器与模拟
+   - 四个文档页面，支持图层、画笔、组、块及可配置数量的 Undo/Redo
+   - WinForms 编辑器/查看器控件，并支持将一个文档渲染到多个视图
+   - 使用屏幕固定尺寸标记、光束效果和可选碎屑效果的实时加工路径可视化
+   - 面向相机及检测流程的网格化拼接图像可视化
 - 开放架构
-   - 用于编辑器 (Editor)、标记器 (Marker) 和激光源控制的代码以开源形式提供
+   - 可扩展的编辑器、实体、标记器、振镜、激光器、功率计和远程通信接口
 
 ## 主要变更事项
 |                              |                SIRIUS3                   |              SIRIUS2                  |
 |:-----------------------------|:-----------------------------------------|:--------------------------------------|
 | 多页面支持                    | 支持 4 个页面的交叉编辑                   | 单页面编辑                             |
 | 摄像头                        | 6 个 (2D + 5 个 3D) 摄像头                | 单个 3D 摄像头                         |
-| 渲染速度                      | 改进的着色器引擎                         | 内置着色器引擎                         |
+| 渲染速度                      | GPU 加速 OpenGL 着色器引擎                | 内置着色器引擎                         |
 | 渲染模式                      | Model, PerVertex, Normal, ZDepth          | 无                                    |
-| 选择功能                      | 搭载改进的算法                           | 低速                                   |
-| 填充 (Hatch)                  | 填充模式可重复应用                       | 单个填充                               |
-| 3D 网格切片机                 | 内置 PLY, OBJ, STL 网格切片机             | 无                                    |
-| Gerber 文件 (RS-274x)        | 支持                                     | 无                                    |
-| 晶圆/基板映射 (Map)           | 编辑器内置                               | 无                                    |
+| 选择功能                      | 点/线/三角形 AABB 加速                    | 低速                                  |
+| 填充 (Hatch)                  | 基于绕组规则的多重填充                    | 单个填充                               |
+| 3D 网格切片机                 | 内置 STL、OBJ、PLY、STEP 网格切片机       | 无                                    |
+| Gerber / Excellon            | 基于内容识别的导入                        | 无                                    |
 | 外部字体文件                  | CXF, LFF, FNT, DOT 文件格式               | 仅支持自定义 CXF, LFF 文件格式         |
 | 画笔 (Pen)                    | 分离 Entity 和 Layer 的画笔属性           | Entity 单一画笔                        |
 | 库更新                        | 支持 NuGet 包管理器                      | 手动                                   |
@@ -78,7 +90,7 @@
 ## 软件包 / DLLs
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS 运行时, 字体, 示例文件
 - `SpiralLab.Sirius3` — 硬件控制 (振镜/激光/功率计等)
-- `SpiralLab.Sirius3.UI` — 多种实体, 3D 渲染引擎, WinForms 等 UI 控件
+- `SpiralLab.Sirius3.UI` — 实体、几何处理、OpenGL 渲染及 WinForms UI 控件
  > 支持通过 NuGet 包管理器进行便捷的安装及更新。
 
 ## 目标平台

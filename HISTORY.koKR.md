@@ -1,11 +1,12 @@
 ﻿# Sirius3 버전 이력
 
-## v1.11.1 (2026.7.30)
-- fixed) 2D 바코드 셀 외곽선의 가로/세로 비율 문제 수정
-    - 대상 개체: EntityDataMatrix (Square, Rectangle), EntityQRCode, EntityPDF417, EntityAztec
-    - Outline 생성 시 epsilon 확장을 제거하고 정수 셀 좌표에서 Union 처리
-    - IsFixedAspectRatio 가 true 일 때 비정사각 행렬의 정확한 종횡비 적용
-    - IsFixedAspectRatio 변경 시 바코드 형상 재생성
+## v1.11.10 (2026.7.31)
+- fixed) 바코드가 지정한 크기를 넘지 않도록 맞추고, 가공 경로와 보조 코드, 해칭, Dots 셀 시뮬레이션 위치도 바로잡음
+- fixed) 3D 메쉬를 더 빠르고 안정적으로 슬라이스하며, 깨지거나 누락된 메쉬는 알아보기 쉬운 경고를 남김
+- fixed) 엔티티 형상은 건드리지 않으면서 AABB 히트 테스트를 더 안정적이고 빠르게 처리
+- fixed) 해치, ALC, 펜 같은 목록 편집기에서 값과 미리보기가 안정적으로 갱신되도록 수정
+- added) 가공 경로 시뮬레이션에 화면 크기가 일정한 마커와 눈에 잘 보이는 빔, 가볍게 사라지는 파편 효과 추가
+- fixed) 벡터, Gerber, Excellon 파일을 가져올 때 가까운 경로는 자동으로 잇고, 파일 내용을 판별해 미지원 파일은 안전하게 건너뜀
 
 ## v1.11.0 (2026.7.27)
 - added) EntityStitchedImage 개체 추가
