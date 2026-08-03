@@ -1,6 +1,12 @@
 ﻿# Sirius3 version history
 
-## v1.11.10 (2026.7.31)
+## v1.11.11 (2026.8.3)
+- fixed) RTC6 now reads status and analog I/O through the correct controller API, detects Ethernet connection errors correctly, and shuts down without racing its status timers
+- fixed) syncAXIS jobs now clear their busy state reliably after completion and report configuration errors consistently
+- fixed) StreamParser connection, reconnection, and shutdown are more stable, including safe cleanup of pending receive work
+- fixed) Barcode encoding is now optional, requested dot dimensions are preserved with the actual matrix size available separately, and Data Matrix shape switching no longer shrinks the requested size
+
+## v1.11.10 (2026.8.1)
 - fixed) Barcodes now stay within the requested size, and their machining paths, supplemental codes, hatching, and dot-cell simulation line up correctly
 - fixed) 3D mesh slicing is faster and more reliable, with clearer warnings for broken or incomplete meshes
 - fixed) AABB hit testing is more stable and faster, without changing the entity geometry
