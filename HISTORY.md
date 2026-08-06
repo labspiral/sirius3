@@ -1,6 +1,16 @@
 ﻿# Sirius3 version history
 
-## v1.11.11 (2026.8.3)
+## v1.11.13 (2026.8.7)
+- fixed) OpenTK 4 now reads and restores both polygon-mode values safely, preventing Release-mode memory access failures and disappearing bound boxes while drawing axes, the FOV, bounds, and text
+- fixed) PropertyGrid descriptions again show related settings, cautions, and setup order on separate lines instead of dropping them during localization
+- fixed) In multi-beam Both-mode JumpAndShoot, token-release waits now overlap real jumps while only cheaper short jumps are kept in small batches
+- fixed) Editor and tree-view shortcuts, including CTRL+R, CTRL+M, camera, simulation, and marker keys, now work reliably while every arrow-key combination remains available for tree navigation
+- fixed) Editor zoom and panning remain available during marking and remote-desktop use while selection stays locked
+- changed) DXF, DWG, HPGL, and PLT path imports now share the user-configurable endpoint merge distance `Config.ImportMergeDistance`
+- changed) Core and UI configuration labels now follow the selected language, and DXF, DWG, and Gerber imports can preserve source colors or map them to the nearest entity-pen color
+- added) PropertyGrid properties can now be searched by name, category, or description, with CTRL+F focus and one-click clearing
+
+## v1.11.11 (2026.8.5)
 - fixed) RTC6 now reads status and analog I/O through the correct controller API, detects Ethernet connection errors correctly, and shuts down without racing its status timers
 - fixed) syncAXIS jobs now clear their busy state reliably after completion and report configuration errors consistently
 - fixed) StreamParser connection, reconnection, and shutdown are more stable, including safe cleanup of pending receive work
