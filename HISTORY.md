@@ -1,7 +1,9 @@
 ﻿# Sirius3 version history
 
-## v1.11.13 (2026.8.7)
-- fixed) OpenTK 4 now reads and restores both polygon-mode values safely, preventing Release-mode memory access failures and disappearing bound boxes while drawing axes, the FOV, bounds, and text
+## v1.11.14 (2026.8.7)
+- fixed) OpenTK 3 and 4 now read and restore polygon modes safely for their context type, preventing Release-mode memory access failures, disappearing bound boxes, and an incorrect OpenTK 3 debug assertion
+- fixed) Laser-path simulation now stops promptly with ESC without a PropertyGrid timeout, repeated virtual-RTC aborts during cleanup, or a normal virtual-laser abort being reported as an error
+- fixed) Cancelling the F5 marker-start confirmation from the editor surface or a focused tree view no longer opens the same dialog a second time
 - fixed) PropertyGrid descriptions again show related settings, cautions, and setup order on separate lines instead of dropping them during localization
 - fixed) In multi-beam Both-mode JumpAndShoot, token-release waits now overlap real jumps while only cheaper short jumps are kept in small batches
 - fixed) Editor and tree-view shortcuts, including CTRL+R, CTRL+M, camera, simulation, and marker keys, now work reliably while every arrow-key combination remains available for tree navigation
