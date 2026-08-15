@@ -52,6 +52,11 @@ Sirius3 库初始化
 这是一个利用Sirius3生成的各种加工数据和矢量数据，并将其添加到文档（Document）和页面（Page）中的示例。
 该示例展示了如何通过“块（Block）”和“插入块（Insert）”功能复用对象（Entity），同时也展示了如何通过“组（Group）”将多个对象（Entity）进行分组管理。	
 
+## wpf_editor_entity
+
+此 WPF 版本在正式 Material `SiriusEditorControl` 中运行与 `editor_entity` 相同的实体创建示例，并支持 .NET Framework 4.8.1、Windows .NET 8 和 .NET 9。
+其专用 `config.ini` 默认选择虚拟扫描仪、激光器和标记器，因此不会探测已安装的加工硬件。
+
 ## editor_entity_custom
 
 此示例展示如何向 Sirius3 添加应用程序专用的自定义实体类型。

@@ -52,6 +52,11 @@ At this point, the Editor renders the specified Document. Alongside methods for 
 This example demonstrates how to generate various processed data and vector data provided by Sirius3 and add them to documents and pages.
 It demonstrates how to reuse entities using Blocks and Insert, and also shows how to group and manage multiple entities.    
 
+## wpf_editor_entity
+
+This WPF version of `editor_entity` hosts the supported Material `SiriusEditorControl` and runs the same entity-creation samples on .NET Framework 4.8.1, .NET 8 and .NET 9 for Windows.
+Its dedicated `config.ini` selects virtual scanner, laser and marker devices so the demo does not probe installed machining hardware by default.
+
 ## editor_entity_custom
 
 This demo shows how to add application-specific entity types to Sirius3.

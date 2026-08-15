@@ -1,7 +1,7 @@
 第三方软件注意事项
 ==================
 
-本说明介绍截至 2026-07-31 随 SpiralLab.Sirius3、SpiralLab.Sirius3.UI 和
+本说明介绍截至 2026-08-09 随 SpiralLab.Sirius3、SpiralLab.Sirius3.UI 和
 SpiralLab.Sirius3.Dependencies NuGet 包分发的第三方软件。未经修改的许可全文
 请参阅始终与本文件一起分发的 THIRD-PARTY-NOTICES.txt。供应商可再分发文件仍受
 各供应商的单独条款约束；本说明不会授予新的使用或再分发权利。
@@ -39,7 +39,22 @@ OpenTK 及控件
         GLWpfControl 3.3.0/4.3.6
   许可: MIT
   源码: https://github.com/opentk/opentk
-  说明: Sirius3 UI 构建排除了 WPF 实现，但仍保留 GLWpfControl 包引用。
+  说明: GLWpfControl 仅用于开发中的 Debug WPF 渲染界面，并从 Release 软件包中排除。
+
+PropertyTools.Wpf
+  版本: 3.1.0
+  许可: MIT
+  版权: Copyright (c) 2014 PropertyTools contributors
+  源码: https://github.com/PropertyTools/PropertyTools
+  用途: Sirius3 自有适配器后的 Debug 专用 WPF 属性表和 TreeListBox
+  分发: 仅嵌入 Debug WPF 构建，并从 Release 软件包中排除
+
+Material Design In XAML Toolkit（MaterialDesignThemes 与 MaterialDesignColors）
+  版本: 5.3.2
+  许可: MIT
+  版权: Copyright (c) James Willock, Mulholland Software and Contributors
+  源码: https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit
+  用途: Debug 专用 Material Design WPF 主题、控件与图标包；从 Release 软件包中排除
 
 GLFW（通过 OpenTK.redist.glfw）
   版本: 3.4.0.44
@@ -82,6 +97,7 @@ OxyPlot
   版本: 2.2.0（托管包），1.0.0（SCANLAB 工具文件）
   许可: MIT
   源码: https://github.com/oxyplot/oxyplot
+  分发: 托管 WPF 2.2.0 组件仅嵌入 Debug WPF 构建并从 Release 软件包中排除；SCANLAB 工具文件另行提供
 
 Be.Windows.Forms.HexBox 1.6.1 / 2.1.0、MQTTnet 3.1.2 / 5.1.0.1559、
 BinaryKits.Zpl.Viewer 1.3.1 / BinaryKits.Zpl.Label 3.3.1

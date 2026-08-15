@@ -1,5 +1,13 @@
 ﻿# Sirius3 version history
 
+## v1.12.0 (2026.8.15)
+- fixed) `TextConverters.Link` now rejects a linked target that also uses `Link`, records an error, and stops marking instead of following a consecutive link chain
+- changed) Gentec-EO initialization no longer enables auto-scale when `scaleIndex` is `null`; it leaves the device's current scale and auto-scale setting unchanged
+- changed) Release UI builds now remove stale Debug host executable and configuration files from the shared output folder so DLL and NuGet deployment remain host-config free
+- fixed) Invalid or empty barcode text now reports an encoding error and clears the previous Data Matrix, QR, PDF417, Aztec, or 1D rendered shape instead of leaving stale geometry in the editor
+- fixed) Fixed text spacing now keeps character cells stable when content changes, preserves both end-cell margins, provides configurable multilingual font-metric samples, and selects fallbacks with Unicode 17 script ranges
+- added) `EntitySiriusText.IsAutoKerning` can now tighten adjacent glyphs from cached font outlines in Variable spacing mode while keeping `LetterSpacing` fixed in output millimeters
+
 ## v1.11.14 (2026.8.7)
 - fixed) OpenTK 3 and 4 now read and restore polygon modes safely for their context type, preventing Release-mode memory access failures, disappearing bound boxes, and an incorrect OpenTK 3 debug assertion
 - fixed) Laser-path simulation now stops promptly with ESC without a PropertyGrid timeout, repeated virtual-RTC aborts during cleanup, or a normal virtual-laser abort being reported as an error

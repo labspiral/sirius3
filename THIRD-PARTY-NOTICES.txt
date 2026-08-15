@@ -2,7 +2,7 @@
 ===================
 
 This notice describes third-party software distributed with the SpiralLab.Sirius3,
-SpiralLab.Sirius3.UI, and SpiralLab.Sirius3.Dependencies NuGet packages as of 2026-07-31.
+SpiralLab.Sirius3.UI, and SpiralLab.Sirius3.Dependencies NuGet packages as of 2026-08-09.
 Open-source license texts used by the managed libraries are reproduced below. Vendor
 redistributables remain subject to their vendors' separate terms and are not relicensed
 by this notice.
@@ -40,8 +40,22 @@ OpenTK, OpenTK.GLControl, OpenTK.GLWpfControl and OpenTK 4.x modules
   License : MIT
   Copyright: © The Open Toolkit contributors
   Source  : https://github.com/opentk/opentk
-  Note    : Sirius3 excludes its WPF implementation from compilation, but the
-            GLWpfControl package references are still present in the project.
+  Note    : GLWpfControl is used only by the in-development Debug WPF surface and is excluded from Release packages.
+
+PropertyTools.Wpf
+  Version : 3.1.0
+  License : MIT
+  Copyright: Copyright (c) 2014 PropertyTools contributors
+  Source  : https://github.com/PropertyTools/PropertyTools
+  Use     : Debug-only WPF PropertyGrid and TreeListBox controls behind Sirius3-owned adapters
+  Delivery: Embedded only in Debug WPF builds and excluded from Release packages
+
+Material Design In XAML Toolkit (MaterialDesignThemes and MaterialDesignColors)
+  Version : 5.3.2
+  License : MIT
+  Copyright: Copyright (c) James Willock, Mulholland Software and Contributors
+  Source  : https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit
+  Use     : Debug-only Material Design WPF theme, controls and icon pack; excluded from Release packages
 
 GLFW (via OpenTK.redist.glfw)
   Version : 3.4.0.44
@@ -98,6 +112,7 @@ OxyPlot
   License : MIT
   Copyright: Copyright (c) 2014 OxyPlot contributors
   Source  : https://github.com/oxyplot/oxyplot
+  Delivery: Managed WPF 2.2.0 components are embedded only in Debug WPF builds and excluded from Release packages; the SCANLAB tool payload is separate
 
 Be.HexEditor
   Version : 1.6.1, 2.1.0
@@ -201,6 +216,56 @@ GPL Ghostscript
 
 ----------------------------------------------------------------
 License Texts
+----------------------------------------------------------------
+
+== PropertyTools MIT License ==
+The MIT License (MIT)
+
+Copyright (c) 2014 PropertyTools contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+----------------------------------------------------------------
+
+== Material Design In XAML Toolkit MIT License ==
+The MIT License (MIT)
+
+Copyright (c) James Willock, Mulholland Software and Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
 ----------------------------------------------------------------
 
 == MIT License ==

@@ -54,6 +54,11 @@ DIO 의 핀 번호에 사용자가 이름을 지정할 수 있으며, 시스템�
 시리우스3에서 제공되는 다양한 가공 데이타 및 벡터 데이타들을 생성해 문서(Document) 및 페이지(Page)에 추가하는 예제입니다.
 블럭(Block)과 블럭 삽입(Insert) 을 통해 개체(Entity)를 재사용하는 방법을 보여주고, 그룹을 통해 여러 개체(Entity)를 묶어 관리하는 방법도 보여줍니다.	
 
+## wpf_editor_entity
+
+`editor_entity`와 같은 엔티티 생성 예제를 정식 Material WPF `SiriusEditorControl`에서 실행하며 .NET Framework 4.8.1, Windows용 .NET 8과 .NET 9를 지원합니다.
+전용 `config.ini`가 가상 스캐너·레이저·마커를 선택하므로 기본 실행 시 설치된 가공 장비를 탐색하지 않습니다.
+
 ## editor_entity_custom
 
 응용 프로그램에서 필요한 사용자 정의 엔티티를 Sirius3에 추가하는 방법을 보여주는 데모입니다.
