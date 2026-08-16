@@ -1,6 +1,8 @@
 ﻿# Sirius3
 A Windows/.NET platform for precision laser processing that combines SCANLAB control, device integration, geometry processing, OpenGL visualization, document editing, simulation, and marking execution.
 
+Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文](README.zhCN.md) · [日本語](README.jaJP.md) · [Deutsch](README.deDE.md)
+
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo.png)
 
 ---
@@ -61,7 +63,7 @@ A Windows/.NET platform for precision laser processing that combines SCANLAB con
    - Event, file, offset, linked-entity, and C# script conversion for text and barcode data
 - Documents, Editors and Simulation
    - Four document pages with layers, pens, groups, blocks, and configurable Undo/Redo
-   - Stable WinForms controls and an in-development WPF editor/viewer port enabled in Debug builds; one document can be rendered to multiple views
+   - Stable WinForms controls; one document can be rendered to multiple views
    - Real-time laser-path visualization with screen-sized markers, beam effects, and optional debris
    - Grid-based stitched-image visualization for camera and inspection workflows
 - Open Architecture
@@ -90,7 +92,7 @@ A Windows/.NET platform for precision laser processing that combines SCANLAB con
 ## Packages / DLLs
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS runtime, fonts, sample data
 - `SpiralLab.Sirius3` — HAL controllers (scanner/laser/powermeter, etc.)
-- `SpiralLab.Sirius3.UI` — Entities, geometry processing, OpenGL rendering, and WinForms controls; the WPF port is currently Debug-only
+- `SpiralLab.Sirius3.UI` — Entities, geometry processing, OpenGL rendering, and WinForms controls
  > Easy to update library files by NuGet package manager.
 
 ## Platform targets
@@ -134,39 +136,6 @@ A Windows/.NET platform for precision laser processing that combines SCANLAB con
       - Microsoft.Extensions.Logging.Abstractions 10.0.7
    - Common package dependencies
       - Newtonsoft.Json 13.0.4
-   - Debug WPF development dependencies
-      - MaterialDesignThemes 5.3.2
-      - OpenTK.GLWpfControl 3.3.0 / 4.3.6
-   - Debug WPF embedded implementation
-      - PropertyTools.Wpf 3.1.0
-      - OxyPlot.Wpf 2.2.0
-
-## WPF
-
-`SpiralLab.Sirius3.UI.WPF` is an in-development port compiled by Debug builds.
-Release binaries and the official `SpiralLab.Sirius3.UI` NuGet package exclude
-its source, XAML, resources, public types, and WPF-only dependencies until the
-port is complete. Debug builds provide `ViewerControl`, `EditorControl`,
-`SiriusEditorControl`, `SiriusMultiEditorControl`, a native WPF PropertyGrid,
-native trees, and native device/editing panels. Its single process-wide visual
-theme uses Material Design with a compact, HiDPI-aware industrial layout.
-A resizable pane below the WPF PropertyGrid shows the selected property's
-localized description. The WPF implementation does not use
-`WindowsFormsHost` or expose WinForms UI controls. Its executable host must opt
-into Per-Monitor V2 before creating the first window; a Release library does not
-change the consuming process DPI mode. Legacy WinForms remains validated at its
-DPI-unaware baseline. OpenGL 3.3 or later is required; build success does not
-replace interactive DPI and GPU checks.
-
-```xml
-<wpf:SiriusEditorControl x:Name="editor"
-    xmlns:wpf="clr-namespace:SpiralLab.Sirius3.UI.WPF;assembly=SpiralLab.Sirius3.UI" />
-```
-
-Assigned documents and devices remain caller-owned. `Unloaded` only pauses
-screen work, so call `Dispose()` when the control is permanently closed. Call
-`DisposeDevices()` only when the control should explicitly dispose registered
-devices, then dispose the detached document separately.
 
 ## Install Packages
 - Add references 

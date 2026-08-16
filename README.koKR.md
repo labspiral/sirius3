@@ -1,6 +1,8 @@
 ﻿# Sirius3
 SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 편집, 시뮬레이션 및 가공 실행을 통합한 Windows/.NET 기반 정밀 레이저 가공 플랫폼
 
+언어: [English](README.md) · [한국어](README.koKR.md) · [简体中文](README.zhCN.md) · [日本語](README.jaJP.md) · [Deutsch](README.deDE.md)
+
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo.png)
 
 ---
@@ -61,7 +63,7 @@ SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 
    - 텍스트와 바코드 데이터용 이벤트, 파일, 오프셋, 링크 엔티티 및 C# 스크립트 변환
 - 문서, 편집기 및 시뮬레이션
    - 레이어, 펜, 그룹, 블록 및 개수 설정형 Undo/Redo를 갖는 4개 문서 페이지
-   - 안정화된 WinForms 컨트롤과 Debug에서 활성화되는 개발 중 WPF 편집기/뷰어 포트 및 하나의 문서를 복수 뷰에 렌더링하는 기능
+   - 안정화된 WinForms 컨트롤 및 하나의 문서를 복수 뷰에 렌더링하는 기능
    - 화면 고정 크기 마커, 빔 효과 및 선택적 파편 효과를 제공하는 실시간 가공 경로 시각화
    - 카메라 및 검사 작업용 격자 기반 스티치 이미지 시각화
 - 오픈 아키텍쳐
@@ -90,7 +92,7 @@ SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 
 ## 패키지 / DLLs
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS 런타임, 폰트, 샘플 파일들
 - `SpiralLab.Sirius3` — 하드웨어 제어 (스캐너/레이저/파워메터 등)
-- `SpiralLab.Sirius3.UI` — 엔티티, 지오메트리 처리, OpenGL 렌더링 및 WinForms 컨트롤. WPF 포트는 현재 Debug 전용
+- `SpiralLab.Sirius3.UI` — 엔티티, 지오메트리 처리, OpenGL 렌더링 및 WinForms 컨트롤
  > NuGet 패키지 관리자를 이용한 손쉬운 설치 및 업데이트가 지원됩니다.
 
 ## 대상 플랫폼
@@ -134,38 +136,6 @@ SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 
       - Microsoft.Extensions.Logging.Abstractions 10.0.7
    - 공통 패키지 의존성
       - Newtonsoft.Json 13.0.4
-   - Debug WPF 개발 의존성
-      - MaterialDesignThemes 5.3.2
-      - OpenTK.GLWpfControl 3.3.0 / 4.3.6
-   - Debug WPF 내장 구현
-      - PropertyTools.Wpf 3.1.0
-      - OxyPlot.Wpf 2.2.0
-
-## WPF
-
-`SpiralLab.Sirius3.UI.WPF`는 Debug 빌드에서 컴파일되는 개발 중 포트입니다.
-완료되기 전까지 Release 바이너리와 공식 `SpiralLab.Sirius3.UI` NuGet 패키지는
-WPF 소스, XAML, 리소스, 공개 형식 및 WPF 전용 의존성을 포함하지 않습니다.
-Debug 빌드는 `ViewerControl`, `EditorControl`, `SiriusEditorControl`,
-`SiriusMultiEditorControl`, 네이티브 WPF 속성 표, 트리 및 장치/편집 패널을
-제공합니다. 화면은 프로세스 전체에서 Material Design 단일 테마와 HiDPI 대응
-공간 절약형 산업 레이아웃을 사용합니다. WPF 속성 표 하단에는 선택한 속성의
-지역화된 설명을 표시하는 크기 조절 영역이 있습니다. WPF 구현은 `WindowsFormsHost`를
-사용하거나 WinForms UI 컨트롤을 노출하지 않습니다. 실행 호스트는 첫 창을 만들기
-전에 Per-Monitor V2를 설정해야 하며, Release DLL은 소비자 프로세스의 DPI 모드를
-변경하지 않습니다. 기존 WinForms는 DpiUnaware 기준 동작을 유지합니다. OpenGL 3.3
-이상이 필요하며 빌드 성공만으로 실제 DPI 및 GPU 동작이 확인되는 것은 아닙니다.
-
-```xml
-<wpf:SiriusEditorControl x:Name="editor"
-    xmlns:wpf="clr-namespace:SpiralLab.Sirius3.UI.WPF;assembly=SpiralLab.Sirius3.UI" />
-```
-
-할당한 문서와 장치의 소유권은 호출자에게 있습니다. `Unloaded`는 화면 작업만
-일시 중단하므로 컨트롤을 완전히 닫을 때 `Dispose()`를 호출합니다. 등록한 장치도
-컨트롤에서 명시적으로 폐기하려는 경우에만 `DisposeDevices()`를 호출하고, 분리한
-문서는 호출자가 별도로 폐기합니다.
-
 
 ## 패키지 설치
 - 참조 추가 (NuGet 패키지 관리자 이용 권장)

@@ -1,12 +1,14 @@
 ﻿# Sirius3 버전 이력
 
-## v1.12.0 (2026.8.15)
+## v1.12.1 (2026.8.16)
+- added) `EntitySiriusText.IsAutoKerning`으로 Variable 글자 간격에서 캐시된 폰트 윤곽을 기준으로 인접 글리프를 자동 커닝 지원
+- fixed) Fixed 글자 간격에서 내용이 바뀌어도 문자 셀 위치를 유지하고 양쪽 끝 셀 여백을 보존하며, 다국어 폰트 메트릭 샘플을 설정하고 Unicode 17 문자권 범위로 폴백을 선택하도록 개선
 - fixed) `TextConverters.Link`의 연결 대상도 `Link`를 사용하면 연속 링크를 따라가지 않고 오류를 기록한 뒤 마킹을 중지하도록 수정
 - changed) Gentec-EO 초기화 시 `scaleIndex`가 `null`이면 오토 스케일을 켜지 않고 장치의 현재 스케일 및 오토 스케일 설정을 그대로 유지하도록 변경
-- changed) Release UI 빌드 시 공유 출력 폴더에 남은 Debug 호스트 실행 파일과 설정 파일을 제거하여 DLL 및 NuGet 배포에 호스트 설정이 섞이지 않도록 변경
 - fixed) 비어 있거나 잘못된 바코드 문자를 입력하면 인코딩 오류를 기록하고, 편집 화면에 이전 Data Matrix, QR, PDF417, Aztec 또는 1D 바코드 형상이 남지 않도록 수정
-- fixed) Fixed 글자 간격에서 내용이 바뀌어도 문자 셀 위치를 유지하고 양쪽 끝 셀 여백을 보존하며, 다국어 폰트 메트릭 샘플을 설정하고 Unicode 17 문자권 범위로 폴백을 선택하도록 개선
-- added) `EntitySiriusText.IsAutoKerning`으로 Variable 글자 간격에서 캐시된 폰트 윤곽을 기준으로 인접 글리프를 자동 커닝 지원
+- added) `ITransformable`에서 원본, 자체 모델 변환, 부모까지 누적한 월드 좌표의 경로 시작·끝점을 `OriginalIn/Out`, `ModelIn/Out`, `RealIn/Out`으로 제공
+- changed) RTC 2D/3D 보정 대화 상자, 공통 검증 오류와 사용자 정의 메시지 상자 버튼을 Sirius3 리소스로 통합하여 영어, 한국어, 중국어 간체, 일본어, 독일어로 표시
+
 
 ## v1.11.14 (2026.8.7)
 - fixed) OpenTK 3과 4에서 컨텍스트 종류에 맞게 폴리곤 모드를 안전하게 읽고 복원하여 Release 빌드의 메모리 접근 오류, 경계 상자 사라짐과 OpenTK 3의 잘못된 디버그 중단을 수정
@@ -439,4 +441,30 @@
    - fixed) UI.Config.IsGerberTessellation 사용시 테셀레이션 문제 
 - renamed) scanner pen 이름을 entity pen 으로 개명
 
-## 이하 이력 정보는 HISTORY.md 파일 참고
+## v0.9.2 (2025.11.25)
+- added) 메뉴에 블록 및 블록 삽입으로 변환 기능 추가
+- renamed) EntityGroup을 EntityMixedGroup으로 개명
+- fixed) ActUngroup 오류 수정
+- fixed) ActMixedGroup, ActUniformGroup 성능 개선
+- fixed) 거버 파일 가져오기 로딩 시간 개선
+- fixed) 파일 저장 시 스택 오버플로 예외 수정
+
+## v0.9.1 (2025.11.18)
+- added) SpiralLab.Sirius3.Dependencies 패키지에 `gnuplot` 프로그램 포함
+- added) 편집기에 균일 그룹 생성 버튼 추가
+- fixed) EntityUniformGroup 렌더링 오류 수정
+- fixed) 메모리 누수 수정
+- fixed) 잘못된 스플라인 정점 수정
+- fixed) 트리 노드를 과도하게 생성할 때 발생하는 메모리 부족 문제 수정
+- changed) Core.Initialize 시그니처 변경
+
+## v0.8.2 (2025.11.11)
+- fixed) HPGL 형식 파싱 실패 수정
+- fixed) 스캐너 펜이 적용되지 않는 문제 수정
+- fixed) ActNew 실행 시 스캐너/레이어 펜 개체 새로 고침
+
+## v0.8.0 (2025.11.7)
+- 개발자 미리보기 버전
+
+## v0.1 (2025.03.06)
+- 최초 릴리스

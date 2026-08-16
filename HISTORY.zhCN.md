@@ -1,12 +1,13 @@
 # Sirius3 版本历史
 
-## v1.12.0 (2026.8.15)
+## v1.12.1 (2026.8.16)
+- 新增) `EntitySiriusText.IsAutoKerning` 可在 Variable 字符间距模式下，根据缓存的字体轮廓自动调整相邻字形的字距
+- 修复) Fixed 字符间距模式现在会在内容变化时保持字符单元格位置及首尾单元格边距，支持配置多语言字体度量样本，并按 Unicode 17 文字范围选择后备字体
 - 修复) 当 `TextConverters.Link` 的目标也使用 `Link` 时，不再继续追踪连续链接，而是记录错误并停止打标
 - 变更) Gentec-EO 初始化时，如果 `scaleIndex` 为 `null`，不再启用自动量程，而是保留设备当前的量程和自动量程设置
-- 变更) Release UI 构建会从共享输出目录中删除残留的 Debug 主机可执行文件和配置文件，确保 DLL 与 NuGet 部署不携带主机配置
 - 修复) 输入空白或无效条码内容时会记录编码错误，并清除编辑器中先前的 Data Matrix、QR、PDF417、Aztec 或一维条码图形
-- 修复) Fixed 字符间距现在会在内容变化时保持字符单元格位置，保留首尾单元格边距，支持配置多语言字体度量样本，并按 Unicode 17 文字范围选择后备样本
-- 新增) `EntitySiriusText.IsAutoKerning` 可在 Variable 字符间距模式下根据缓存的字体轮廓自动收紧相邻字形
+- 新增) `ITransformable` 通过 `OriginalIn/Out`、`ModelIn/Out` 和 `RealIn/Out` 提供原始坐标、自身模型变换坐标及父级累计后的世界坐标路径起点和终点
+- 变更) RTC 2D/3D 校正对话框、共享验证错误以及自定义消息框按钮现统一使用 Sirius3 资源，并支持英语、韩语、简体中文、日语和德语
 
 ## v1.11.14 (2026.8.7)
 - 修复) OpenTK 3 和 4 现在会按上下文类型安全读取并恢复多边形模式，避免 Release 版本出现内存访问错误、边界框消失以及 OpenTK 3 的错误调试断言
@@ -435,4 +436,30 @@
    - fixed) 修复使用 UI.Config.IsGerberTessellation 时的细分（Tessellation）问题 
 - renamed) 将 scanner pen 更名为 entity pen
 
-## 更多历史信息请参考 HISTORY.md 文件
+## v0.9.2 (2025.11.25)
+- added) 在菜单中添加转换为块和块插入功能
+- renamed) 将 EntityGroup 重命名为 EntityMixedGroup
+- fixed) 修复 ActUngroup 错误
+- fixed) 改进 ActMixedGroup、ActUniformGroup 的性能
+- fixed) 缩短导入 Gerber 文件的加载时间
+- fixed) 修复保存文件时的堆栈溢出异常
+
+## v0.9.1 (2025.11.18)
+- added) 在 SpiralLab.Sirius3.Dependencies 包中包含 `gnuplot` 程序
+- added) 在编辑器中添加创建统一组按钮
+- fixed) 修复 EntityUniformGroup 的错误渲染问题
+- fixed) 修复内存泄漏
+- fixed) 修复无效的样条曲线顶点
+- fixed) 修复创建过多树节点时的内存不足问题
+- changed) 更改 Core.Initialize 签名
+
+## v0.8.2 (2025.11.11)
+- fixed) 修复 HPGL 格式解析失败
+- fixed) 修复未应用扫描器笔的问题
+- fixed) 执行 ActNew 时刷新扫描器/图层笔对象
+
+## v0.8.0 (2025.11.7)
+- 开发者预览版
+
+## v0.1 (2025.03.06)
+- 首次发布

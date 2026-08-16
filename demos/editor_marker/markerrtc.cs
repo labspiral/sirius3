@@ -486,7 +486,7 @@ namespace Demos
         /// <inheritdoc/>
         protected override async Task<bool> OnStarting(DocumentPages page = DocumentPages.Page1)
         {
-            if (IsCheckTempOk && !Rtc.CtlGetStatus(RtcStatus.TempOK))
+            if (IsCheckTempOk && !Rtc.CtlGetStatus(RtcStatus.TemperatureOK))
             {
                 Logger.Log(LogLevel.Error, $"marker: {this.Name} scanner temp is no ok");
                 return false;
@@ -551,7 +551,7 @@ namespace Demos
         protected override async Task<bool> OnPreviewing()
         {
 
-            if (IsCheckTempOk && !Rtc.CtlGetStatus(RtcStatus.TempOK))
+            if (IsCheckTempOk && !Rtc.CtlGetStatus(RtcStatus.TemperatureOK))
             {
                 Logger.Log(LogLevel.Error, $"marker: {this.Name} scanner temp is no ok");
                 return false;
@@ -834,7 +834,7 @@ namespace Demos
 
                 if (null != rtcMoF)
                 {
-                    if (rtc.CtlGetStatus(RtcStatus.MofOutOfRange))
+                    if (rtc.CtlGetStatus(RtcStatus.MoFOutOfRange))
                     {
                         if (rtc is Rtc4 rtc4)
                         {
@@ -1018,7 +1018,7 @@ namespace Demos
 
                 if (null != rtcMoF)
                 {
-                    if (rtc.CtlGetStatus(RtcStatus.MofOutOfRange))
+                    if (rtc.CtlGetStatus(RtcStatus.MoFOutOfRange))
                     {
                         if (rtc is Rtc4 rtc4)
                         {

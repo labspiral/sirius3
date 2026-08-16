@@ -1,6 +1,8 @@
 # Sirius3
 面向 Windows/.NET 的精密激光加工平台，集成 SCANLAB 控制、设备连接、几何处理、OpenGL 可视化、文档编辑、模拟和加工执行
 
+语言：[English](README.md) · [한국어](README.koKR.md) · [简体中文](README.zhCN.md) · [日本語](README.jaJP.md) · [Deutsch](README.deDE.md)
+
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo.png)
 
 ---
@@ -61,7 +63,7 @@
    - 面向文本和条码数据的事件、文件、偏移、链接实体及 C# 脚本转换
 - 文档、编辑器与模拟
    - 四个文档页面，支持图层、画笔、组、块及可配置数量的 Undo/Redo
-   - 稳定版 WinForms 控件，以及仅在 Debug 中启用的开发中 WPF 编辑器/查看器移植，并支持将一个文档渲染到多个视图
+   - 稳定版 WinForms 控件，并支持将一个文档渲染到多个视图
    - 使用屏幕固定尺寸标记、光束效果和可选碎屑效果的实时加工路径可视化
    - 面向相机及检测流程的网格化拼接图像可视化
 - 开放架构
@@ -90,7 +92,7 @@
 ## 软件包 / DLLs
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS 运行时, 字体, 示例文件
 - `SpiralLab.Sirius3` — 硬件控制 (振镜/激光/功率计等)
-- `SpiralLab.Sirius3.UI` — 实体、几何处理、OpenGL 渲染及 WinForms 控件；WPF 移植目前仅用于 Debug
+- `SpiralLab.Sirius3.UI` — 实体、几何处理、OpenGL 渲染及 WinForms 控件
  > 支持通过 NuGet 包管理器进行便捷的安装及更新。
 
 ## 目标平台
@@ -134,35 +136,6 @@
       - Microsoft.Extensions.Logging.Abstractions 10.0.7
    - 通用软件包依赖项
       - Newtonsoft.Json 13.0.4
-   - Debug WPF 开发依赖项
-      - MaterialDesignThemes 5.3.2
-      - OpenTK.GLWpfControl 3.3.0 / 4.3.6
-   - Debug WPF 内嵌实现
-      - PropertyTools.Wpf 3.1.0
-      - OxyPlot.Wpf 2.2.0
-
-## WPF
-
-`SpiralLab.Sirius3.UI.WPF` 是仅由 Debug 构建编译的开发中移植。在完成之前，
-Release 二进制文件和官方 `SpiralLab.Sirius3.UI` NuGet 包不包含 WPF 源代码、
-XAML、资源、公共类型及 WPF 专用依赖项。Debug 构建提供 `ViewerControl`、
-`EditorControl`、`SiriusEditorControl`、`SiriusMultiEditorControl`、原生 WPF
-属性表、树以及设备/编辑面板。界面在整个进程中使用单一 Material Design 主题和适配 HiDPI 的紧凑工业布局。
-WPF 属性表下方的可调整区域会显示当前属性的本地化说明。WPF 实现不使用
-`WindowsFormsHost`，也不公开
-WinForms UI 控件。可执行宿主必须在创建第一个窗口之前启用 Per-Monitor V2；
-Release DLL 不会更改使用方进程的 DPI 模式。原有 WinForms 保持经过验证的
-DpiUnaware 基线。需要 OpenGL 3.3 或更高版本；编译成功不能替代真实 DPI 与 GPU
-交互验证。
-
-```xml
-<wpf:SiriusEditorControl x:Name="editor"
-    xmlns:wpf="clr-namespace:SpiralLab.Sirius3.UI.WPF;assembly=SpiralLab.Sirius3.UI" />
-```
-
-分配的文档和设备仍由调用方拥有。`Unloaded` 只暂停屏幕工作，因此控件永久关闭时
-应调用 `Dispose()`。仅当控件应显式释放已注册设备时调用 `DisposeDevices()`，并由
-调用方单独释放已分离的文档。
 
 ## 软件包安装
 - 添加引用 (建议使用 NuGet 包管理器)
