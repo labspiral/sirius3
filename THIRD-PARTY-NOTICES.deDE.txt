@@ -1,0 +1,202 @@
+Hinweise zu Software von Drittanbietern
+========================================
+
+Dieses Dokument beschreibt mit Stand vom 18.08.2026 die Software von Drittanbietern,
+die mit den NuGet-Paketen SpiralLab.Sirius3, SpiralLab.Sirius3.UI,
+SpiralLab.Sirius3.MCP und SpiralLab.Sirius3.Dependencies ausgeliefert wird. Die unveränderten vollständigen
+Lizenztexte befinden sich in der stets zusammen mit dieser Datei ausgelieferten Datei
+THIRD-PARTY-NOTICES.txt. Weiterverteilte Herstellerdateien unterliegen den jeweiligen
+gesonderten Vereinbarungen der Hersteller. Dieses Dokument gewährt keine neuen
+Nutzungs- oder Weiterverteilungsrechte.
+
+Wichtig: Prüfung vor der Weiterverteilung erforderlich
+-------------------------------------------------------
+
+SpiralLab.Sirius3.Dependencies installiert native Treiber, Geräte-SDK-Bibliotheken,
+Firmware, Werkzeuge, Schriftarten, Handbücher und Beispieldaten in den Ausgabeordner
+der Benutzeranwendung. Nicht für alle Herstellerdateien dieses Pakets liegen
+vollständige Weiterverteilungsbedingungen bei. Dateien, die unten mit „Prüfung
+erforderlich“ gekennzeichnet sind, dürfen nicht weiterverteilt werden, bevor gültige
+Lizenzunterlagen des Herstellers beziehungsweise der Quelle beschafft oder die Dateien
+aus dem Paket entfernt wurden.
+
+Verwaltete und quelloffene Laufzeitkomponenten
+----------------------------------------------
+
+NLog
+  Version  : 6.0.5
+  Lizenz   : BSD 3-Clause
+  Copyright: Copyright (c) 2004-2024 Jaroslaw Kowalski, Kim Christensen,
+             Julian Verdurmen
+  Quelle   : https://github.com/NLog/NLog
+
+NLog.Extensions.Logging
+  Version  : 6.0.5
+  Lizenz   : BSD 2-Clause
+  Copyright: Copyright (c) 2004-2025 NLog Project
+  Quelle   : https://github.com/NLog/NLog.Extensions.Logging
+
+Newtonsoft.Json 13.0.4
+  Lizenz: MIT
+  Quelle: https://www.newtonsoft.com/json
+
+OpenTK und Steuerelemente
+  Version: OpenTK 3.3.3/4.9.4, GLControl 3.3.3/4.0.2,
+           GLWpfControl 3.3.0/4.3.6
+  Lizenz : MIT
+  Quelle : https://github.com/opentk/opentk
+  Hinweis: GLWpfControl wird nur in der in Entwicklung befindlichen Debug-WPF-
+           Darstellung verwendet und ist aus Release-Paketen ausgeschlossen.
+
+PropertyTools.Wpf
+  Version  : 3.1.0
+  Lizenz   : MIT
+  Copyright: Copyright (c) 2014 PropertyTools contributors
+  Quelle   : https://github.com/PropertyTools/PropertyTools
+  Zweck    : Nur für Debug verwendetes WPF-Eigenschaftenraster und TreeListBox
+             hinter dem Sirius3-spezifischen Adapter
+  Verteilung: Nur in Debug-WPF-Builds enthalten; aus Release-Paketen ausgeschlossen
+
+Material Design In XAML Toolkit (MaterialDesignThemes und MaterialDesignColors)
+  Version  : 5.3.2
+  Lizenz   : MIT
+  Copyright: Copyright (c) James Willock, Mulholland Software and Contributors
+  Quelle   : https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit
+  Zweck    : Nur für Debug verwendetes Material-Design-WPF-Theme, Steuerelemente
+             und Symbolpaket; aus Release-Paketen ausgeschlossen
+
+GLFW (OpenTK.redist.glfw)
+  Version: 3.4.0.44
+  Lizenz : GLFW-Lizenz im zlib/libpng-Stil
+  Quelle : https://github.com/glfw/glfw
+
+Clipper2 2.0.0
+  Lizenz: Boost Software License 1.0
+  Quelle: https://github.com/AngusJohnson/Clipper2
+
+netDxf 2023.11.10
+  Lizenz: MIT
+  Quelle: https://github.com/haplokuon/netDxf
+
+StbImageSharp 2.30.15
+  Lizenz: Das NuGet-Paket enthält keine Lizenzmetadaten; die enthaltene
+          stb_image-Implementierung steht unter Public Domain oder MIT.
+  Quelle: https://github.com/StbSharp/StbImageSharp
+  Status: Prüfung der Weiterverteilungsbedingungen der Wrapper-Bibliothek
+          vor der Verteilung erforderlich
+
+ZXing.Net 0.16.11
+  Lizenz: Apache-2.0
+  Quelle: https://github.com/micjahn/ZXing.Net
+
+BouncyCastle.Cryptography 2.6.2
+  Lizenz: MIT
+  Quelle: https://www.bouncycastle.org/
+
+GerberTools/GerberLibrary
+  Version  : Build vom 21.12.2018
+  Lizenz   : MIT
+  Copyright: Copyright (c) 2016 This is not Rocket Science
+  Quelle   : https://github.com/ThisIsNotRocketScience/GerberTools
+
+LibTessDotNet 1.1.15
+  Lizenz : SGI Free Software License B 2.0
+  Quelle : https://github.com/speps/LibTessDotNet
+  Hinweis: Im Gegensatz zur MIT-Angabe in den NuGet-Metadaten verwendet die
+           Upstream-Datei LICENSE die SGI-Lizenz.
+
+OxyPlot
+  Version: 2.2.0 (verwaltetes Paket), 1.0.0 (SCANLAB-Werkzeugdatei)
+  Lizenz : MIT
+  Quelle : https://github.com/oxyplot/oxyplot
+  Verteilung: Die verwaltete WPF-Komponente 2.2.0 ist nur in Debug-WPF-Builds
+              enthalten und aus Release-Paketen ausgeschlossen. Die SCANLAB-
+              Werkzeugdatei wird gesondert behandelt.
+
+Be.Windows.Forms.HexBox 1.6.1 / 2.1.0, MQTTnet 3.1.2 / 5.1.0.1559,
+BinaryKits.Zpl.Viewer 1.3.1 / BinaryKits.Zpl.Label 3.3.1
+  Lizenz: MIT
+
+SkiaSharp und HarfBuzzSharp
+  Version: SkiaSharp 3.119.1, HarfBuzzSharp 8.3.1.2
+  Lizenz : MIT sowie Upstream-Hinweise der nativen Bestandteile
+  Quelle : https://github.com/mono/SkiaSharp
+  Enthält: ANGLE, HarfBuzz, Skia, etc1, gif, libpng, DNG SDK, expat,
+           FreeType, ICU, imgui, jsoncpp, libjpeg-turbo, libwebp,
+           libmicrohttpd, piex, SDL, sfntly, SPIR-V Headers/Tools, zlib
+  Hinweis: Die unveränderten Upstream-Hinweise werden in
+           THIRD-PARTY-NOTICES.SkiaSharp.txt mitgeliefert.
+
+SixLabors.ImageSharp
+  Version: 2.1.12, 3.1.12 (transitive Abhängigkeit)
+  Lizenz : Für diese Nutzung als transitive Abhängigkeit gilt Apache-2.0.
+           Die Six Labors Split License von ImageSharp 3.x gewährt für
+           transitive Abhängigkeiten Apache-2.0.
+  Quelle : https://github.com/SixLabors/ImageSharp
+
+Microsoft Roslyn 4.8.0, WinForms.DataVisualization 1.10.0 und Microsoft-.NET-Pakete
+  Lizenz: MIT
+  Umfang: Unter net481, net8.0-windows, net9.0-windows und net10.0-windows
+          aufgelöste Microsoft.CodeAnalysis.*, Microsoft.Extensions.*,
+          Microsoft.Bcl.*, Microsoft.Windows.Compatibility, System.* und
+          Laufzeitbestandteile
+
+Model Context Protocol C# SDK
+  Version  : ModelContextProtocol 2.2.0, ModelContextProtocol.AspNetCore 2.2.0
+  Lizenz   : Apache License 2.0
+  Copyright: © Model Context Protocol, a Series of LF Projects, LLC
+  Quelle   : https://github.com/modelcontextprotocol/csharp-sdk
+
+PdfPig
+  Version: 0.1.15
+  Lizenz : Apache License 2.0
+  Quelle : https://github.com/UglyToad/PdfPig
+
+Verteilte Dateien des NuGet-Pakets Dependencies
+-----------------------------------------------
+
+Apache Xerces-C++ 3.2.3
+  Lizenz: Apache-2.0
+  Quelle: https://xerces.apache.org/xerces-c/
+
+SharpDX 4.2.0
+  Lizenz: MIT
+  Quelle: https://github.com/sharpdx/SharpDX
+
+Microsoft Windows API Code Pack 1.1.x und Xceed WPF Toolkit/AvalonDock 3.5.0.0
+  Lizenz : Microsoft Public License (MS-PL)
+  Hinweis: Werden als Abhängigkeiten von SCANLAB-Werkzeugen installiert.
+
+Weiterverteilte Dateien mit gesonderten Herstellerbedingungen
+
+  - SCANLAB: RTC4/RTC5/RTC6, CalibrationLibrary, Kalibrierungswerkzeuge,
+    syncAXIS 1.8.2, Firmware/Daten sowie syncAXIS Configurator/Viewer
+  - ACS Motion Control: SPiiPlus .NET/COM/C 3.11.01
+  - Thorlabs: PM100D/TLPM/TLPMX/TLSPCNT
+  - Ophir: OphirLMMeasurement 10.4.0.0
+  - Abhängigkeit eines SCANLAB-Werkzeugs: SciChart 5.2.1.11757
+  - Vom Paket installierte Gerätetreiber, WDF-Installationsdateien, Firmware,
+    Kalibrierungsdaten, Beispiele und Handbücher
+
+Bewahren Sie die EULA-/Lizenzdateien jedes Herstellers auf und verteilen Sie
+ausschließlich Dateien weiter, die in der betreffenden Vereinbarung ausdrücklich
+zugelassen sind.
+
+Prüfung erforderlich: GPL Ghostscript
+--------------------------------------
+
+Die im Paket enthaltenen Dateien gsdll32.dll und gsdll64.dll identifizieren sich
+anhand interner Zeichenfolgen als GPL Ghostscript 9.05. Für diese DLLs werden weder
+der vollständige Ghostscript-Lizenztext noch Materialien zum Angebot des
+korrespondierenden Quellcodes oder Angaben zu einer kommerziellen Artifex-Lizenz
+bereitgestellt. Sie dürfen nicht weiterverteilt werden, bevor sie entfernt oder die
+Grundlage und Verpflichtungen der Verteilung dokumentiert wurden.
+
+Maßgebliche vollständige Lizenztexte
+-------------------------------------
+
+Die unveränderten vollständigen Texte von MIT, BSD 2-Clause, BSD 3-Clause,
+Apache-2.0, Boost 1.0, GLFW, MS-PL und SGI Free Software License B 2.0 befinden
+sich in der zusammen mit dieser Datei verteilten Datei THIRD-PARTY-NOTICES.txt.
+Maßgeblich sind der jeweilige englische Originaltext und die ursprüngliche
+Lizenz beziehungsweise EULA des Herstellers.

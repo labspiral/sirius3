@@ -1,5 +1,9 @@
 ﻿# Sirius3 버전 이력
 
+## v1.12.2 (2026.8.18)
+- added) `EntityCircularSiriusText` 엔티티 추가
+- fixed) SiriusText AutoKerning이 사선을 포함한 글리프 선분 간 실제 최단거리로 글자 간격을 계산하도록 수정
+
 ## v1.12.1 (2026.8.16)
 - added) `EntitySiriusText.IsAutoKerning`으로 Variable 글자 간격에서 캐시된 폰트 윤곽을 기준으로 인접 글리프를 자동 커닝 지원
 - fixed) Fixed 글자 간격에서 내용이 바뀌어도 문자 셀 위치를 유지하고 양쪽 끝 셀 여백을 보존하며, 다국어 폰트 메트릭 샘플을 설정하고 Unicode 17 문자권 범위로 폴백을 선택하도록 개선
@@ -8,7 +12,6 @@
 - fixed) 비어 있거나 잘못된 바코드 문자를 입력하면 인코딩 오류를 기록하고, 편집 화면에 이전 Data Matrix, QR, PDF417, Aztec 또는 1D 바코드 형상이 남지 않도록 수정
 - added) `ITransformable`에서 원본, 자체 모델 변환, 부모까지 누적한 월드 좌표의 경로 시작·끝점을 `OriginalIn/Out`, `ModelIn/Out`, `RealIn/Out`으로 제공
 - changed) RTC 2D/3D 보정 대화 상자, 공통 검증 오류와 사용자 정의 메시지 상자 버튼을 Sirius3 리소스로 통합하여 영어, 한국어, 중국어 간체, 일본어, 독일어로 표시
-
 
 ## v1.11.14 (2026.8.7)
 - fixed) OpenTK 3과 4에서 컨텍스트 종류에 맞게 폴리곤 모드를 안전하게 읽고 복원하여 Release 빌드의 메모리 접근 오류, 경계 상자 사라짐과 OpenTK 3의 잘못된 디버그 중단을 수정

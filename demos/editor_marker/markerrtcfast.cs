@@ -326,17 +326,6 @@ namespace Demos
             Name = name;
         }
 
-        /// <inheritdoc/>  
-        protected override void OnDisposeManaged()
-        {
-            // myResource?.Dispose();
-        }
-        /// <inheritdoc/>  
-        protected override async Task OnDisposeManagedAsync()
-        {
-            // await myResource.StopAsync();
-        }
-
         /// <inheritdoc/>
         public override bool Initialize()
         {
@@ -346,43 +335,129 @@ namespace Demos
         /// <inheritdoc/>
         public override bool Ready(IDocument document, IView view, IScanner scanner, ILaser laser, IPowerMeter powerMeter) //, IRemote remote)
         {
-            if (this.IsBusy)
+            if (IsBusy)
             {
                 Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to ready. marker status is busy");
                 return false;
             }
-
-            base.Document = document;
-            base.View = view;
-            base.Scanner = scanner;
-            Rtc = scanner as IRtc;
-            base.Laser = laser;
-            base.PowerMeter = powerMeter;
-            //base.Remote = remote;
-
-            if (scanner is IRtcSyncAxis rtcSyncAxis)
+            if (document == null || scanner == null || laser == null)
             {
-                this.Scanner = null;
-                Logger.Log(LogLevel.Error, $"marker [{Index}]: assigned invalid RTC instance");
+                Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to ready. document, scanner and laser are required");
                 return false;
             }
-            document?.ActRegen();
-            Logger.Log(LogLevel.Debug, $"marker [{Index}]: ready with doc= {document?.FileName}, view= {view?.Name}, rtc= {Rtc?.Name}, laser= {laser?.Name}, pm= {powerMeter?.Name}");//, remote= {remote?.Name}");
+            if (!(scanner is IRtc) || scanner is IRtcSyncAxis)
+            {
+                Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to ready. scanner {scanner.GetType().Name} is incompatible; expected a non-syncAXIS IRtc");
+                return false;
+            }
+
+            Document = document;
+            View = view;
+            Scanner = scanner;
+            Rtc = (IRtc)scanner;
+            Laser = laser;
+            PowerMeter = powerMeter;
+            document.ActRegen();
+            Logger.Log(LogLevel.Debug, $"marker [{Index}]: ready with doc= {document.FileName}, view= {view?.Name}, rtc= {Rtc.Name}, laser= {laser.Name}, pm= {powerMeter?.Name}");
             return true;
         }
         /// <inheritdoc/>
         public override bool Ready(IDocument document)
         {
-            if (this.IsBusy)
+            if (IsBusy)
             {
                 Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to ready. marker status is busy");
                 return false;
             }
+            if (document == null)
+            {
+                Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to ready. document is required");
+                return false;
+            }
 
-            base.Document = document;
-            document?.ActRegen();
-            Logger.Log(LogLevel.Debug, $"marker [{Index}]: ready with doc= {document?.FileName}");
+            Document = document;
+            document.ActRegen();
+            Logger.Log(LogLevel.Debug, $"marker [{Index}]: ready with doc= {document.FileName}");
             return true;
+        }
+
+
+        private void PreparePage(DocumentPages page)
+        {
+            switch (page)
+            {
+                case DocumentPages.Page1:
+                case DocumentPages.Page2:
+                case DocumentPages.Page3:
+                case DocumentPages.Page4:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(page), page, "Invalid target page.");
+            }
+
+            int pageIndex = (int)page;
+            var targetPage = Document.DocumentData.Pages[pageIndex];
+            SnapshotLayers(targetPage);
+
+            WorkingSet.Reset();
+            WorkingSet.DocumentPage = page;
+            WorkingSet.Page = targetPage;
+            WorkingSet.PageIndex = pageIndex;
+        }
+
+        // Preview follows the document's active page, which may have been assigned directly without
+        // updating IDocument.Page. Resolve the actual page reference before publishing the working set.
+        private void PrepareActivePage()
+        {
+            var activePage = Document.ActivePage;
+            for (int pageIndex = 0; pageIndex < Document.DocumentData.Pages.Count; pageIndex++)
+            {
+                if (ReferenceEquals(Document.DocumentData.Pages[pageIndex], activePage))
+                {
+                    PreparePage((DocumentPages)pageIndex);
+                    return;
+                }
+            }
+            throw new InvalidOperationException("The active page does not belong to the marker document.");
+        }
+
+        // The list object is worker-owned; only layer references are copied from the document.
+        private void SnapshotLayers(IPage page)
+        {
+            layers.Clear();
+            foreach (var child in page.Layers.Children)
+            {
+                if (child is EntityLayer layer)
+                    layers.Add(layer);
+            }
+        }
+
+        // Each cleanup attempt is isolated so an RTC failure never skips laser cleanup.
+        private void AbortIncompleteList(IRtc rtc, ILaser laser, string operation)
+        {
+            bool rtcAborted = false;
+            bool laserAborted = false;
+            try
+            {
+                rtcAborted = rtc.CtlAbort();
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(LogLevel.Warning, ex, $"marker [{Index}]: exception while aborting incomplete RTC list for {operation}");
+            }
+            try
+            {
+                laserAborted = laser.CtlAbort();
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(LogLevel.Warning, ex, $"marker [{Index}]: exception while aborting incomplete laser list for {operation}");
+            }
+            if (!rtcAborted || !laserAborted)
+            {
+                Logger.Log(LogLevel.Warning,
+                    $"marker [{Index}]: incomplete list cleanup failed for {operation}. rtc abort= {rtcAborted}, laser abort= {laserAborted}");
+            }
         }
 
         /// <inheritdoc/>
@@ -411,28 +486,7 @@ namespace Demos
             while (sessionQueue.Count > 0)
                 sessionQueue.TryDequeue(out var dummy);
 
-            // Shallow copy 
-            layers.Clear();
-            switch (page)
-            {
-                case DocumentPages.Page1:
-                case DocumentPages.Page2:
-                case DocumentPages.Page3:
-                case DocumentPages.Page4:
-                    foreach (var child in Document.DocumentData.Pages[(int)page].Layers.Children)
-                    {
-                        var layer = child as EntityLayer;
-                        layers.Add(layer);
-                    }
-                    break;
-                default:
-                    throw new Exception("Invalid target page !");
-            }
-
-            WorkingSet.Reset();
-            WorkingSet.DocumentPage = page;
-            WorkingSet.Page = Document.DocumentData.Pages[(int)page];
-            WorkingSet.PageIndex = (int)page;
+            PreparePage(page);
 
             Logger.Log(LogLevel.Warning, $"marker [{Index}]: trying to start mark with target= {MarkTarget}, offset(s)= {this.Offsets.Length}");
             markerTask = Task.Run(() => this.MarkerThreadLayers());
@@ -480,13 +534,7 @@ namespace Demos
             if (null == Offsets || 0 == Offsets.Length)
                 this.Offsets = new Offset[1] { Offset.Zero };
 
-            // Shallow copy for cross-thread issue
-            layers.Clear();
-            foreach (var child in Document.ActivePage.Layers.Children)
-            {
-                var layer = child as EntityLayer;
-                layers.Add(layer);
-            }
+            PrepareActivePage();
 
             Logger.Log(LogLevel.Warning, $"marker [{Index}]: trying to start preview mark");
             markerTask = Task.Run(() => this.MarkerThreadPreview());
@@ -505,13 +553,12 @@ namespace Demos
         /// <inheritdoc/>
         public override bool Reset()
         {
-            if (null == Scanner || null == Laser)
+            if (Rtc == null || Laser == null)
                 return false;
-            bool success = true;
-            success &= Rtc.CtlReset();
-            success &= Laser.CtlReset();
 
-            return success;
+            bool rtcReset = Rtc.CtlReset();
+            bool laserReset = Laser.CtlReset();
+            return rtcReset && laserReset;
         }
         /// <summary>
         /// Marks each <see cref="EntityLayer"/>.
@@ -535,9 +582,9 @@ namespace Demos
             WorkingSet.Layer = layer;
             for (int i = 0; i < layer.Repeats; i++)
             {
-                for (int j = 0; j < layer.Children.Count(); j++)
+                for (int j = 0; j < layer.Children.Count; j++)
                 {
-                    var entity = layer.Children.ElementAt(j);
+                    var entity = layer.Children[j];
                     WorkingSet.EntityIndex = j;
                     WorkingSet.Entity = entity;
                     if (entity is IMarkerable markerable)
@@ -651,8 +698,9 @@ namespace Demos
             Debug.Assert(null == rtcSyncAxis);
             this.isInternalBusy = true;
 
+            WorkingSet.StartTime = DateTime.Now;
+            WorkingSet.EndTime = null;
             this.NotifyStarted();
-            WorkingSet.StartTime = WorkingSet.EndTime = DateTime.Now;
             bool success = true;
             var oldMatrixStack = (IMatrixStack<DMat4>)rtc.MatrixStack.Clone();
             if (null != rtcMoF && rtc.IsMoF)
@@ -663,59 +711,82 @@ namespace Demos
 
             try
             {
-                success &= rtc.ListBegin(ListBufferType);
-                if (!success)
-                    return false;
-                success &= laser.ListBegin();
-                if (!success)
-                    return false;
-                for (int offsetIndex = 0; offsetIndex < Offsets.Length; offsetIndex++)
+                const string listOperation = "all layers and offsets";
+                bool listBeginAttempted = false;
+                bool listCompleted = false;
+                try
                 {
-                    WorkingSet.Offset = Offsets[offsetIndex];
-                    WorkingSet.OffsetIndex = offsetIndex;
-                    rtc.MatrixStack.Push(Offsets[offsetIndex].ToMatrix);
-                    Logger.Log(LogLevel.Debug, $"marker [{Index}]: offset index= {offsetIndex}, xyzt= {Offsets[offsetIndex].ToString()}");
-                    for (int layerIndex = 0; layerIndex < layers.Count; layerIndex++)
-                    {
-                        var layer = layers[layerIndex];
-                        if (!layer.IsAllowMark)
-                            continue;
-                        success &= NotifyBeforeLayer(layer);
-                        if (!success)
-                        {
-                            Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at before event handler");
-                            break;
-                        }
-                        success &= LayerWork(offsetIndex, Offsets[offsetIndex], layerIndex, layer);
-                        if (!success)
-                            break;
-                        success &= NotifyAfterLayer(layer);
-                        if (!success)
-                        {
-                            Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at after event handler");
-                            break;
-                        }
-                    }
-                    // Pop offset matrix
-                    rtc.MatrixStack.Pop();
-                    if (!success)
-                        break;
-                }
-
-                if (success) //!rtc.CtlGetStatus(RtcStatus.Aborted))
-                {
-                    success &= laser.ListEnd();
-                    success &= rtc.ListEnd();
-                    if (success) //!rtc.CtlGetStatus(RtcStatus.Aborted))
-                        success &= rtc.ListExecute(true);
+                    listBeginAttempted = true;
+                    success = rtc.ListBegin(ListBufferType);
+                    if (success)
+                        success = laser.ListBegin();
                     if (success)
                     {
-                        if (null != CurrentSession && !CurrentSession.IsEmpty)
+                        for (int offsetIndex = 0; offsetIndex < Offsets.Length; offsetIndex++)
                         {
-                            if (CurrentSession.Save(this.Scanner as IRtcMeasurement))
+                            WorkingSet.Offset = Offsets[offsetIndex];
+                            WorkingSet.OffsetIndex = offsetIndex;
+                            rtc.MatrixStack.Push(Offsets[offsetIndex].ToMatrix);
+                            try
                             {
-                                sessionQueue.Enqueue(CurrentSession);
+                                Logger.Log(LogLevel.Debug, $"marker [{Index}]: offset index= {offsetIndex}, xyzt= {Offsets[offsetIndex].ToString()}");
+                                for (int layerIndex = 0; layerIndex < layers.Count; layerIndex++)
+                                {
+                                    var layer = layers[layerIndex];
+                                    if (!layer.IsAllowMark)
+                                        continue;
+                                    WorkingSet.LayerIndex = layerIndex;
+                                    WorkingSet.Layer = layer;
+                                    success = NotifyBeforeLayer(layer);
+                                    if (!success)
+                                    {
+                                        Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at before event handler");
+                                        break;
+                                    }
+                                    success = LayerWork(offsetIndex, Offsets[offsetIndex], layerIndex, layer);
+                                    if (!success)
+                                        break;
+                                    success = NotifyAfterLayer(layer);
+                                    if (!success)
+                                    {
+                                        Logger.Log(LogLevel.Error, $"marker [{Index}]: fail to mark layer at after event handler");
+                                        break;
+                                    }
+                                }
                             }
+                            finally
+                            {
+                                rtc.MatrixStack.Pop();
+                            }
+                            if (!success)
+                                break;
+                        }
+                    }
+                    if (success)
+                        success = laser.ListEnd();
+                    if (success)
+                        success = rtc.ListEnd();
+                    if (success)
+                        success = rtc.ListExecute(true);
+                    listCompleted = success;
+                }
+                catch (Exception ex)
+                {
+                    success = false;
+                    Logger.Log(LogLevel.Error, ex, $"marker [{Index}]: exception while producing RTC list for {listOperation}");
+                }
+                finally
+                {
+                    if (listBeginAttempted && !listCompleted)
+                        AbortIncompleteList(rtc, laser, listOperation);
+                }
+                if (success)
+                {
+                    if (null != CurrentSession && !CurrentSession.IsEmpty)
+                    {
+                        if (CurrentSession.Save(this.Scanner as IRtcMeasurement))
+                        {
+                            sessionQueue.Enqueue(CurrentSession);
                         }
                     }
                 }
@@ -828,55 +899,68 @@ namespace Demos
 
             try
             {
-                success &= rtc.ListBegin(ListBufferTypes.Auto);
-                if (!success)
-                    return false;
-                success &= laser.ListBegin();
-                if (!success)
-                    return false;
-                success &= rtc.ListSpeed(SpiralLab.Sirius3.UI.Config.MarkPreviewSpeed, SpiralLab.Sirius3.UI.Config.MarkPreviewSpeed);
-                if (!success)
-                    return false;
-                for (int j = 0; j < SpiralLab.Sirius3.UI.Config.MarkPreviewRepeats; j++)
+                const string listOperation = "guide-laser preview";
+                bool listBeginAttempted = false;
+                bool listCompleted = false;
+                try
                 {
-                    for (int offsetIndex = 0; offsetIndex < Offsets.Length; offsetIndex++)
+                    listBeginAttempted = true;
+                    success = rtc.ListBegin(ListBufferTypes.Auto);
+                    if (success)
+                        success = laser.ListBegin();
+                    if (success)
                     {
-                        try
+                        success = rtc.ListSpeed(SpiralLab.Sirius3.UI.Config.MarkPreviewSpeed, SpiralLab.Sirius3.UI.Config.MarkPreviewSpeed);
+                        for (int j = 0; success && j < SpiralLab.Sirius3.UI.Config.MarkPreviewRepeats; j++)
                         {
-                            // Push offset matrix
-                            rtc.MatrixStack.Push(Offsets[offsetIndex].ToMatrix);
-
-                            foreach (var tuple in tuples)
+                            for (int offsetIndex = 0; offsetIndex < Offsets.Length; offsetIndex++)
                             {
-                                var realMin = tuple.realMin;
-                                var realMax = tuple.realMax;
-                                success &= rtc.ListJumpTo(new DVec2(realMax.X, realMax.Y));
-                                success &= rtc.ListMarkTo(new DVec2(realMin.X, realMax.Y));
-                                success &= rtc.ListMarkTo(new DVec2(realMin.X, realMin.Y));
-                                success &= rtc.ListMarkTo(new DVec2(realMax.X, realMin.Y));
-                                success &= rtc.ListMarkTo(new DVec2(realMax.X, realMax.Y));
+                                WorkingSet.Offset = Offsets[offsetIndex];
+                                WorkingSet.OffsetIndex = offsetIndex;
+                                rtc.MatrixStack.Push(Offsets[offsetIndex].ToMatrix);
+                                try
+                                {
+                                    foreach (var tuple in tuples)
+                                    {
+                                        var realMin = tuple.realMin;
+                                        var realMax = tuple.realMax;
+                                        success = rtc.ListJumpTo(new DVec2(realMax.X, realMax.Y))
+                                            && rtc.ListMarkTo(new DVec2(realMin.X, realMax.Y))
+                                            && rtc.ListMarkTo(new DVec2(realMin.X, realMin.Y))
+                                            && rtc.ListMarkTo(new DVec2(realMax.X, realMin.Y))
+                                            && rtc.ListMarkTo(new DVec2(realMax.X, realMax.Y));
+                                        if (!success)
+                                            break;
+                                    }
+                                }
+                                finally
+                                {
+                                    rtc.MatrixStack.Pop();
+                                }
                                 if (!success)
                                     break;
                             }
                         }
-                        finally
-                        {
-                            // Pop offset matrix
-                            rtc.MatrixStack.Pop();
-                        }
-                        if (!success)
-                            break;
                     }
-                    if (!success)
-                        break;
+                    if (success)
+                        success = rtc.ListJumpTo(DVec2.Zero);
+                    if (success)
+                        success = laser.ListEnd();
+                    if (success)
+                        success = rtc.ListEnd();
+                    if (success)
+                        success = rtc.ListExecute(true);
+                    listCompleted = success;
                 }
-
-                if (success)
+                catch (Exception ex)
                 {
-                    success &= rtc.ListJumpTo(DVec2.Zero);
-                    success &= laser.ListEnd();
-                    success &= rtc.ListEnd();
-                    success &= rtc.ListExecute(true);
+                    success = false;
+                    Logger.Log(LogLevel.Error, ex, $"marker [{Index}]: exception while producing RTC list for {listOperation}");
+                }
+                finally
+                {
+                    if (listBeginAttempted && !listCompleted)
+                        AbortIncompleteList(rtc, laser, listOperation);
                 }
             }
             finally

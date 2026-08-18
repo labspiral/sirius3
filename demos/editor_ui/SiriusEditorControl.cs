@@ -1439,8 +1439,8 @@ namespace Demos
         }
 
         /// <summary>
-        /// Enables or disables editing-related controls when marker is busy.
-        /// <para>마커가 사용 중일 때 편집 관련 컨트롤을 활성화하거나 비활성화합니다.</para>
+        /// Enables or disables editing-related controls while keeping the lock toggle available.
+        /// <para>편집 관련 컨트롤을 활성화하거나 비활성화하되 잠금 토글은 계속 사용할 수 있게 유지합니다.</para>
         /// </summary>
         /// <param name="isEnable">True to enable; false to disable. 
         /// <para>활성화하려면 true, 비활성화하려면 false입니다.</para> 
@@ -1485,6 +1485,10 @@ namespace Demos
                 //MarkerCtrl.Enabled = isEnable;
 #endif
 
+                // This button owns the requested edit-lock state, so it must remain
+                // available even while simulation, marking, or the lock itself disables editing.
+                tlsTop1.Enabled = true;
+                btnLock.Enabled = true;
             }));
         }
 
@@ -1708,15 +1712,24 @@ namespace Demos
             bool includeWafers = mnuIncludeWafers.Checked;
             bool includeSubstrates = mnuIncludeSubstrates.Checked;
 
-            Document?.ActOpen(
-                dlg.FileName,
-                includeLayers,
-                includeLayers2nd,
-                includeBlocks,
-                includeEntityPens,
-                includeLayerPens,
-                includeWafers,
-                includeSubstrates);
+            var previousCursor = Cursor.Current;
+            try
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                Document?.ActOpen(
+                    dlg.FileName,
+                    includeLayers,
+                    includeLayers2nd,
+                    includeBlocks,
+                    includeEntityPens,
+                    includeLayerPens,
+                    includeWafers,
+                    includeSubstrates);
+            }
+            finally
+            {
+                Cursor.Current = previousCursor;
+            }
 
             OnAfterOpen?.Invoke(this, dlg.FileName);
         }
@@ -1740,7 +1753,17 @@ namespace Demos
             };
 
             if (dlg.ShowDialog() != DialogResult.OK) return;
-            bool success = Document.ActSave(dlg.FileName);
+            bool success;
+            var previousCursor = Cursor.Current;
+            try
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                success = Document.ActSave(dlg.FileName);
+            }
+            finally
+            {
+                Cursor.Current = previousCursor;
+            }
 #if DEBUG
             // Save snapshot image together
             if (success && SpiralLab.Sirius3.UI.Config.IsFileSaveWithImage)

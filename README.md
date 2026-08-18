@@ -93,6 +93,7 @@ Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文]
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS runtime, fonts, sample data
 - `SpiralLab.Sirius3` — HAL controllers (scanner/laser/powermeter, etc.)
 - `SpiralLab.Sirius3.UI` — Entities, geometry processing, OpenGL rendering, and WinForms controls
+- `SpiralLab.Sirius3.MCP` — Embedded MCP access to live WinForms editors, public API help, and allowlisted SCANLAB documentation ([usage and security guide](SpiralLab.Sirius3.MCP/MCP.md))
  > Easy to update library files by NuGet package manager.
 
 ## Platform targets

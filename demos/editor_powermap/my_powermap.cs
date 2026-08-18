@@ -43,8 +43,8 @@ namespace Demos
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="index">Zero-based unique identifier. <para>0부터 시작하는 고유 식별자입니다.</para><para>从 0 开始的唯一标识符。</para></param>
-        /// <param name="name">Descriptive name. <para>장치 이름입니다.</para><para>设备名称。</para></param>
+        /// <param name="index">Zero-based unique identifier. <para>0부터 시작하는 고유 식별자입니다.</para></param>
+        /// <param name="name">Descriptive name. <para>장치 이름입니다.</para></param>
         public MyPowerMap(int index, string name)
             : base(index, name)
         {
@@ -87,7 +87,7 @@ namespace Demos
                 {
                     this.IsError = true;
                     this.IsReady = false;
-                    Logger.Log(LogLevel.Error, $"powermap [{this.Index}]: fail to start mapping power. target category is not valid hz: {category}");
+                    Logger.Log(LogLevel.Error, $"powermap [{this.Index}]: fail to start mapping power. target category is not valid frequency: {category}");
                     this.NotifyMappingFailed();
                     return false;
                 }
@@ -142,7 +142,6 @@ namespace Demos
         /// <summary>
         /// Internal routine to perform power mapping operation.
         /// <para>파워 매핑 작업을 수행하는 내부 루틴입니다.</para>
-        /// <para>执行功率映射操作的内部例程。</para>
         /// </summary>
         /// <param name="categories">The array of category names (e.g., frequency values). <para>카테고리 이름 배열입니다(예: 주파수 값).</para></param>
         /// <param name="xWatts">The array of target output power in Watts (X-axis). <para>목표 출력 파워 배열(와트 단위, X축)입니다.</para></param>
@@ -286,7 +285,7 @@ namespace Demos
                 {
                     this.IsError = true;
                     this.IsReady = false;
-                    Logger.Log(LogLevel.Error, $"powermap [{this.Index}]: fail to start verify power. target category is not valid hz: {kv.Key}");
+                    Logger.Log(LogLevel.Error, $"powermap [{this.Index}]: fail to start verify power. target category is not valid frequency: {kv.Key}");
                     this.NotifyVerifyFailed();
                     return false;
                 }
@@ -330,7 +329,6 @@ namespace Demos
         /// <summary>
         /// Internal routine to perform power verification operation.
         /// <para>파워 검증 작업을 수행하는 내부 루틴입니다.</para>
-        /// <para>执行功率验证操作的内部例程。</para>
         /// </summary>
         /// <param name="categoryAndYWatts">The array of key-value pairs where key is the category and value is the target power in Watts. <para>키가 카테고리이고 값이 목표 파워(와트)인 키-값 쌍의 배열입니다.</para></param>
         /// <returns><c>true</c> if the verification operation was successful; otherwise, <c>false</c>.</returns>
@@ -465,7 +463,7 @@ namespace Demos
                 {
                     this.IsError = true;
                     this.IsReady = false;
-                    Logger.Log(LogLevel.Error, $"powermap [{this.Index}]: fail to start compensate power. target category is not valid hz: {kv.Key}");
+                    Logger.Log(LogLevel.Error, $"powermap [{this.Index}]: fail to start compensate power. target category is not valid frequency: {kv.Key}");
                     this.NotifyCompensateFailed();
                     return false;
                 }
@@ -510,7 +508,6 @@ namespace Demos
         /// <summary>
         /// Internal routine to perform power compensation operation.
         /// <para>파워 보정 작업을 수행하는 내부 루틴입니다.</para>
-        /// <para>执行功率补偿操作的内部例程。</para>
         /// </summary>
         /// <param name="categoryAndYWatts">The array of key-value pairs where key is the category and value is the target power in Watts. <para>키가 카테고리이고 값이 목표 파워(와트)인 키-값 쌍의 배열입니다.</para></param>
         /// <returns><c>true</c> if the compensation operation was successful; otherwise, <c>false</c>.</returns>

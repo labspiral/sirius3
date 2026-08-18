@@ -1,0 +1,195 @@
+第三者ソフトウェアに関する通知
+============================
+
+本書は、2026 年 8 月 18 日時点で NuGet パッケージ SpiralLab.Sirius3、
+SpiralLab.Sirius3.UI、SpiralLab.Sirius3.MCP、および SpiralLab.Sirius3.Dependencies と共に配布される
+第三者ソフトウェアについて説明します。変更されていないライセンス全文は、
+本書と常に共に配布される THIRD-PARTY-NOTICES.txt を参照してください。
+ベンダーの再配布物には各ベンダーの個別契約が適用されます。本書は新たな
+使用権または再配布権を付与するものではありません。
+
+重要: 配布前の確認が必要です
+-----------------------------
+
+SpiralLab.Sirius3.Dependencies は、ネイティブドライバー、デバイス SDK
+ライブラリ、ファームウェア、ツール、フォント、マニュアル、およびサンプル
+データをユーザーアプリケーションの出力フォルダーにインストールします。
+このバンドルに含まれるすべてのベンダーファイルについて、完全な再配布条件が
+同梱されているわけではありません。以下で「確認が必要」と記載したファイルは、
+有効なベンダーまたは配布元のライセンス資料を取得するか、パッケージから削除
+するまで再配布してはなりません。
+
+マネージドおよびオープンソースのランタイムコンポーネント
+----------------------------------------------------------
+
+NLog
+  バージョン: 6.0.5
+  ライセンス: BSD 3-Clause
+  著作権    : Copyright (c) 2004-2024 Jaroslaw Kowalski, Kim Christensen,
+              Julian Verdurmen
+  ソース    : https://github.com/NLog/NLog
+
+NLog.Extensions.Logging
+  バージョン: 6.0.5
+  ライセンス: BSD 2-Clause
+  著作権    : Copyright (c) 2004-2025 NLog Project
+  ソース    : https://github.com/NLog/NLog.Extensions.Logging
+
+Newtonsoft.Json 13.0.4
+  ライセンス: MIT
+  ソース    : https://www.newtonsoft.com/json
+
+OpenTK およびコントロール
+  バージョン: OpenTK 3.3.3/4.9.4、GLControl 3.3.3/4.0.2、
+              GLWpfControl 3.3.0/4.3.6
+  ライセンス: MIT
+  ソース    : https://github.com/opentk/opentk
+  注記      : GLWpfControl は開発中の Debug WPF 描画画面でのみ使用し、
+              Release パッケージからは除外されます。
+
+PropertyTools.Wpf
+  バージョン: 3.1.0
+  ライセンス: MIT
+  著作権    : Copyright (c) 2014 PropertyTools contributors
+  ソース    : https://github.com/PropertyTools/PropertyTools
+  用途      : Sirius3 専用アダプターの背後で使用する Debug 専用 WPF
+              プロパティグリッドおよび TreeListBox
+  配布      : Debug WPF ビルドにのみ含み、Release パッケージからは除外
+
+Material Design In XAML Toolkit (MaterialDesignThemes および MaterialDesignColors)
+  バージョン: 5.3.2
+  ライセンス: MIT
+  著作権    : Copyright (c) James Willock, Mulholland Software and Contributors
+  ソース    : https://github.com/MaterialDesignInXamlToolkit
+  用途      : Debug 専用 Material Design WPF テーマ、コントロール、および
+              アイコンパック。Release パッケージからは除外
+
+GLFW (OpenTK.redist.glfw)
+  バージョン: 3.4.0.44
+  ライセンス: GLFW zlib/libpng 形式ライセンス
+  ソース    : https://github.com/glfw/glfw
+
+Clipper2 2.0.0
+  ライセンス: Boost Software License 1.0
+  ソース    : https://github.com/AngusJohnson/Clipper2
+
+netDxf 2023.11.10
+  ライセンス: MIT
+  ソース    : https://github.com/haplokuon/netDxf
+
+StbImageSharp 2.30.15
+  ライセンス: NuGet パッケージにライセンスメタデータはありません。含まれる
+              stb_image 実装は Public Domain または MIT です。
+  ソース    : https://github.com/StbSharp/StbImageSharp
+  状態      : 配布前にラッパーライブラリの再配布条件を確認する必要があります。
+
+ZXing.Net 0.16.11
+  ライセンス: Apache-2.0
+  ソース    : https://github.com/micjahn/ZXing.Net
+
+BouncyCastle.Cryptography 2.6.2
+  ライセンス: MIT
+  ソース    : https://www.bouncycastle.org/
+
+GerberTools/GerberLibrary
+  バージョン: 2018-12-21 ビルド
+  ライセンス: MIT
+  著作権    : Copyright (c) 2016 This is not Rocket Science
+  ソース    : https://github.com/ThisIsNotRocketScience/GerberTools
+
+LibTessDotNet 1.1.15
+  ライセンス: SGI Free Software License B 2.0
+  ソース    : https://github.com/speps/LibTessDotNet
+  注記      : NuGet メタデータの MIT 表記とは異なり、アップストリームの
+              LICENSE は SGI ライセンスです。
+
+OxyPlot
+  バージョン: 2.2.0（マネージドパッケージ）、1.0.0（SCANLAB ツールファイル）
+  ライセンス: MIT
+  ソース    : https://github.com/oxyplot/oxyplot
+  配布      : マネージド WPF 2.2.0 コンポーネントは Debug WPF ビルドにのみ
+              含み、Release パッケージからは除外します。SCANLAB ツール
+              ファイルは別途取り扱います。
+
+Be.Windows.Forms.HexBox 1.6.1 / 2.1.0、MQTTnet 3.1.2 / 5.1.0.1559、
+BinaryKits.Zpl.Viewer 1.3.1 / BinaryKits.Zpl.Label 3.3.1
+  ライセンス: MIT
+
+SkiaSharp および HarfBuzzSharp
+  バージョン: SkiaSharp 3.119.1、HarfBuzzSharp 8.3.1.2
+  ライセンス: MIT およびネイティブ資産に関するアップストリームの第三者通知
+  ソース    : https://github.com/mono/SkiaSharp
+  含有物    : ANGLE、HarfBuzz、Skia、etc1、gif、libpng、DNG SDK、expat、
+              FreeType、ICU、imgui、jsoncpp、libjpeg-turbo、libwebp、
+              libmicrohttpd、piex、SDL、sfntly、SPIR-V Headers/Tools、zlib
+  通知      : 変更していないアップストリーム通知を
+              THIRD-PARTY-NOTICES.SkiaSharp.txt として共に配布します。
+
+SixLabors.ImageSharp
+  バージョン: 2.1.12、3.1.12（推移的依存関係）
+  ライセンス: この推移的依存関係としての使用には Apache-2.0 が適用されます。
+              ImageSharp 3.x の Six Labors Split License は、推移的依存関係に
+              Apache-2.0 を付与します。
+  ソース    : https://github.com/SixLabors/ImageSharp
+
+Microsoft Roslyn 4.8.0、WinForms.DataVisualization 1.10.0、および Microsoft .NET パッケージ
+  ライセンス: MIT
+  範囲      : net481、net8.0-windows、net9.0-windows、net10.0-windows で解決される
+              Microsoft.CodeAnalysis.*、Microsoft.Extensions.*、Microsoft.Bcl.*、
+              Microsoft.Windows.Compatibility、System.*、およびランタイム資産
+
+Model Context Protocol C# SDK
+  バージョン: ModelContextProtocol 2.2.0、ModelContextProtocol.AspNetCore 2.2.0
+  ライセンス: Apache License 2.0
+  著作権    : © Model Context Protocol, a Series of LF Projects, LLC
+  ソース    : https://github.com/modelcontextprotocol/csharp-sdk
+
+PdfPig
+  バージョン: 0.1.15
+  ライセンス: Apache License 2.0
+  ソース    : https://github.com/UglyToad/PdfPig
+
+Dependencies NuGet パッケージの配布ファイル
+-------------------------------------------
+
+Apache Xerces-C++ 3.2.3
+  ライセンス: Apache-2.0
+  ソース    : https://xerces.apache.org/xerces-c/
+
+SharpDX 4.2.0
+  ライセンス: MIT
+  ソース    : https://github.com/sharpdx/SharpDX
+
+Microsoft Windows API Code Pack 1.1.x および Xceed WPF Toolkit/AvalonDock 3.5.0.0
+  ライセンス: Microsoft Public License (MS-PL)
+  注記      : SCANLAB ツールの依存関係としてインストールされます。
+
+個別のベンダー条件を必要とする再配布物
+
+  - SCANLAB: RTC4/RTC5/RTC6、CalibrationLibrary、校正ツール、syncAXIS 1.8.2、
+    ファームウェア/データ、および syncAXIS Configurator/Viewer
+  - ACS Motion Control: SPiiPlus .NET/COM/C 3.11.01
+  - Thorlabs: PM100D/TLPM/TLPMX/TLSPCNT
+  - Ophir: OphirLMMeasurement 10.4.0.0
+  - SCANLAB ツールの依存関係: SciChart 5.2.1.11757
+  - パッケージがインストールするデバイスドライバー、WDF インストール
+    ファイル、ファームウェア、校正データ、サンプル、およびマニュアル
+
+各ベンダーの EULA/ライセンスファイルを保持し、該当する契約で明示的に
+許可されたファイルのみを再配布してください。
+
+確認が必要: GPL Ghostscript
+---------------------------
+
+パッケージに含まれる gsdll32.dll および gsdll64.dll は、内部文字列上では
+GPL Ghostscript 9.05 です。これらの DLL には、Ghostscript ライセンス全文、
+対応するソースコード提供資料、または Artifex 商用ライセンス情報が付属して
+いません。削除するか、配布根拠および義務を文書化するまで再配布してはなりません。
+
+正式なライセンス全文
+--------------------
+
+MIT、BSD 2-Clause、BSD 3-Clause、Apache-2.0、Boost 1.0、GLFW、MS-PL、
+および SGI Free Software License B 2.0 の変更していない全文は、本書と共に
+配布される THIRD-PARTY-NOTICES.txt にあります。法的条件については、当該英語
+原文および各ベンダーの原ライセンス/EULA が優先されます。

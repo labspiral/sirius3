@@ -1,0 +1,78 @@
+Sirius3 Kommerzielle Lizenzvereinbarung
+Version 1.0
+
+Diese Lizenzvereinbarung („Vereinbarung“) ist eine rechtsverbindliche Vereinbarung zwischen Ihnen (einer natürlichen Person oder einer einzelnen juristischen Person) und SpiralLab Co. („SpiralLab“) über die Nutzung der Sirius3-Software.
+
+PRODUKT
+- Name: Sirius3 („Software“)
+- Erfasste Dateien (einschließlich Aktualisierungen und Fehlerkorrekturen):
+  • SpiralLab.Sirius3.Dependencies.dll (https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
+  • SpiralLab.Sirius3.dll (https://www.nuget.org/packages/SpiralLab.Sirius3)
+  • SpiralLab.Sirius3.UI.dll (https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
+- Website: https://spirallab.co.kr
+- Beispielprojekte: https://github.com/labspiral/sirius3
+
+KONTAKT FÜR LIZENZIERUNG
+Wenden Sie sich zum Kauf oder Erhalt eines Lizenzschlüssels an: hcchoi@spirallab.co.kr (z. Hd. Hong Chan, Choi).
+
+1. LIZENZEINRÄUMUNG
+1.1. Mit der Ausstellung eines gültigen Lizenzschlüssels durch SpiralLab und Ihrer Annahme dieser Vereinbarung räumt SpiralLab Ihnen nach Maßgabe dieser Vereinbarung eine nicht ausschließliche, nicht übertragbare und nicht unterlizenzierbare Lizenz ein, die Software ausschließlich für Ihre internen Geschäftszwecke in Binärform zu installieren und zu nutzen.
+1.2. Bei einer Lizenz pro Arbeitsplatz oder Server ist die Nutzung auf die erworbene Anzahl von Arbeitsplätzen beziehungsweise Servern beschränkt. Bei einem anderen Lizenztyp, beispielsweise pro Anwendung oder Gerät, ist die Nutzung auf dessen Lizenzumfang beschränkt.
+1.3. Diese Vereinbarung gewährt keinerlei Rechte am Quellcode.
+
+2. EVALUIERUNG / TESTNUTZUNG
+2.1. Ohne gültige Lizenz darf die Software pro Ausführung oder Sitzung höchstens dreißig (30) Minuten im Evaluierungsmodus betrieben werden („Testzeitraum“). Nach Ablauf des Testzeitraums müssen Sie die Nutzung einstellen oder eine gültige Lizenz erwerben.
+2.2. Die Testnutzung wird ohne Support oder Gewährleistung jeglicher Art im gegenwärtigen Zustand („AS IS“) bereitgestellt.
+
+3. AKTIVIERUNG UND LIZENZSCHLÜSSEL
+3.1. Die Software kann eine Aktivierung mit einem Lizenzschlüssel erfordern. Sie verpflichten sich, Lizenzierungs- oder Aktivierungsmechanismen weder zu umgehen noch zu deaktivieren.
+3.2. Sie sind dafür verantwortlich, Ihre Lizenzschlüssel zu schützen und jede unbefugte Nutzung zu verhindern.
+
+4. BESCHRÄNKUNGEN
+Sie dürfen weder selbst noch durch Dritte:
+(a) die Software dekompilieren, zurückentwickeln, disassemblieren oder anderweitig versuchen, Quellcode, zugrunde liegende Ideen, Algorithmen oder nicht öffentliche APIs abzuleiten, soweit dies nicht trotz dieser Beschränkung ausdrücklich gesetzlich zulässig ist;
+(b) die Software verändern, übersetzen oder abgeleitete Werke davon erstellen;
+(c) die Software vermieten, verleasen, verleihen, verkaufen, unterlizenzieren, abtreten, vertreiben, veröffentlichen oder Dritten anderweitig zugänglich machen, soweit dies nicht ausdrücklich durch diese Vereinbarung gestattet ist;
+(d) Eigentumsvermerke oder Kennzeichnungen an der Software entfernen oder verändern;
+(e) die Software dazu verwenden, ein konkurrierendes Produkt oder einen konkurrierenden Dienst zu erstellen oder ihre Funktionen beziehungsweise Benutzeroberfläche zu kopieren;
+(f) die Software in einer Weise verwenden, die gegen geltende Gesetze oder Vorschriften verstößt.
+
+5. EIGENTUM
+Die Software wird lizenziert und nicht verkauft. SpiralLab und seine Lizenzgeber behalten sämtliche Rechte, Eigentumstitel und Ansprüche an der Software einschließlich aller darin enthaltenen Rechte des geistigen Eigentums. Andere als die in dieser Vereinbarung ausdrücklich genannten Rechte werden Ihnen nicht eingeräumt.
+
+6. AKTUALISIERUNGEN; SUPPORT
+Aktualisierungen, Fehlerkorrekturen oder Patches, die SpiralLab Ihnen im Rahmen eines gültigen Wartungs- oder Supportplans bereitstellt, gelten als Bestandteil der Software und unterliegen dieser Vereinbarung. Soweit nicht ausdrücklich schriftlich vereinbart, ist SpiralLab nicht verpflichtet, Support, Wartung oder künftige Aktualisierungen bereitzustellen.
+
+7. KOMPONENTEN DRITTER
+Die Software kann Komponenten Dritter enthalten oder von ihnen abhängen, die eigenen Lizenzbedingungen unterliegen, beispielsweise MIT, Apache-2.0 oder Boost Software License. Ihre Nutzung dieser Komponenten unterliegt den jeweiligen Lizenzen. Einzelheiten finden Sie in der beigefügten Datei „THIRD-PARTY-NOTICES.txt“. Diese Vereinbarung schränkt Ihre Rechte aus den Lizenzen Dritter nicht ein.
+
+8. VERTRAULICHKEIT
+Nicht öffentliche Informationen über die Software, Lizenzschlüssel oder die Geschäftstätigkeit von SpiralLab, die Ihnen offengelegt werden, sind vertrauliche Informationen von SpiralLab. Sie dürfen solche Informationen ohne vorherige schriftliche Zustimmung von SpiralLab nicht an Dritte weitergeben.
+
+9. GEWÄHRLEISTUNGSAUSSCHLUSS
+SOWEIT GESETZLICH ZULÄSSIG, WIRD DIE SOFTWARE IM GEGENWÄRTIGEN UND VERFÜGBAREN ZUSTAND („AS IS“ UND „AS AVAILABLE“), MIT ALLEN FEHLERN UND OHNE JEGLICHE AUSDRÜCKLICHE, STILLSCHWEIGENDE, GESETZLICHE ODER SONSTIGE GEWÄHRLEISTUNG BEREITGESTELLT. AUSGESCHLOSSEN SIND INSBESONDERE GEWÄHRLEISTUNGEN DER MARKTGÄNGIGKEIT, EIGNUNG FÜR EINEN BESTIMMTEN ZWECK, RECHTSINHABERSCHAFT UND NICHTVERLETZUNG VON RECHTEN. DIE NUTZUNG DER SOFTWARE ERFOLGT AUSSCHLIESSLICH AUF IHR EIGENES RISIKO.
+
+10. HAFTUNGSBESCHRÄNKUNG
+SOWEIT GESETZLICH ZULÄSSIG, HAFTEN SPIRALLAB ODER SEINE LIZENZGEBER IN KEINEM FALL FÜR MITTELBARE, ZUFÄLLIGE, BESONDERE, FOLGE-, EXEMPLARISCHE ODER STRAFSCHÄDEN ODER FÜR ENTGANGENEN GEWINN, UMSATZ- ODER DATENVERLUST ODER BETRIEBSUNTERBRECHUNG, DIE AUS ODER IM ZUSAMMENHANG MIT DIESER VEREINBARUNG ODER DER NUTZUNG ODER UNMÖGLICHKEIT DER NUTZUNG DER SOFTWARE ENTSTEHEN, SELBST WENN AUF DIE MÖGLICHKEIT SOLCHER SCHÄDEN HINGEWIESEN WURDE. DIE GESAMTE KUMULATIVE HAFTUNG VON SPIRALLAB AUS DIESER VEREINBARUNG ÜBERSTEIGT NICHT DIE GEBÜHREN, DIE SIE IN DEN ZWÖLF (12) MONATEN UNMITTELBAR VOR DEM HAFTUNGSBEGRÜNDENDEN EREIGNIS FÜR DIE SOFTWARE GEZAHLT HABEN.
+
+11. LAUFZEIT UND KÜNDIGUNG
+11.1. Diese Vereinbarung tritt mit Ihrem erstmaligen Herunterladen, Installieren oder Nutzen der Software in Kraft und gilt bis zu ihrer Beendigung.
+11.2. SpiralLab kann diese Vereinbarung bei einem Verstoß gegen ihre Bestimmungen mit sofortiger Wirkung kündigen. Nach der Kündigung müssen Sie jede Nutzung einstellen, sämtliche Kopien der Software einschließlich der Lizenzschlüssel vernichten und die Vernichtung auf Verlangen bestätigen.
+11.3. Die Abschnitte 3–5, 7–10, 11.3 und 12 gelten nach Beendigung fort.
+
+12. EXPORT; EINHALTUNG VON VORSCHRIFTEN
+Sie verpflichten sich, alle geltenden Export-, Import- und Sanktionsgesetze und -vorschriften sowie alle sonstigen für Ihre Nutzung der Software geltenden Gesetze einzuhalten.
+
+13. ALLGEMEINE BESTIMMUNGEN
+13.1. Vollständige Vereinbarung. Diese Vereinbarung enthält die vollständige Vereinbarung der Parteien über ihren Gegenstand und ersetzt alle früheren oder gleichzeitigen Absprachen.
+13.2. Abtretung. Sie dürfen diese Vereinbarung nicht ohne vorherige schriftliche Zustimmung von SpiralLab abtreten oder übertragen; jeder diesbezügliche Versuch ist unwirksam.
+13.3. Salvatorische Klausel. Ist eine Bestimmung nicht durchsetzbar, wird sie im erforderlichen Umfang so angepasst, dass sie unter Wahrung ihrer Absicht durchsetzbar ist; die übrigen Bestimmungen bleiben wirksam.
+13.4. Verzicht. Die Nichtdurchsetzung einer Bestimmung stellt keinen Verzicht auf ihre künftige Durchsetzung dar.
+13.5. Mitteilungen. Wenden Sie sich bei Lizenzfragen und zu kommerziellen Bedingungen an: hcchoi@spirallab.co.kr (Entwickler: Hong Chan, Choi).
+
+BESTÄTIGUNG
+DURCH DIE INSTALLATION ODER NUTZUNG DER SOFTWARE BESTÄTIGEN SIE, DASS SIE DIESE VEREINBARUNG GELESEN UND VERSTANDEN HABEN UND SICH AN IHRE BESTIMMUNGEN GEBUNDEN ERKLÄREN.
+
+Bei Abweichungen zwischen dieser Übersetzung und der englischen Fassung LICENSE.txt ist die englische Fassung maßgebend.
+
+© SpiralLab Co. Alle Rechte vorbehalten.

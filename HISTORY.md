@@ -1,5 +1,9 @@
 ﻿# Sirius3 version history
 
+## v1.12.2 (2026.8.18)
+- added) Added the `EntityCircularSiriusText` entity
+- fixed) SiriusText AutoKerning now calculates character spacing from the actual shortest distance between glyph segments, including diagonal distances
+
 ## v1.12.1 (2026.8.16)
 - added) `EntitySiriusText.IsAutoKerning` now supports automatic kerning of adjacent glyphs from cached font outlines in Variable character-spacing mode
 - fixed) Fixed character-spacing mode now preserves character-cell positions and both end-cell margins when content changes, supports configurable multilingual font-metric samples, and selects fallbacks using Unicode 17 script ranges

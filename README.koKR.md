@@ -93,6 +93,7 @@ SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS 런타임, 폰트, 샘플 파일들
 - `SpiralLab.Sirius3` — 하드웨어 제어 (스캐너/레이저/파워메터 등)
 - `SpiralLab.Sirius3.UI` — 엔티티, 지오메트리 처리, OpenGL 렌더링 및 WinForms 컨트롤
+- `SpiralLab.Sirius3.MCP` — 실행 중인 WinForms 편집기, 공개 API 도움말 및 허용된 SCANLAB 문서를 제공하는 내장형 MCP 서버 ([사용 및 보안 안내](SpiralLab.Sirius3.MCP/MCP.md))
  > NuGet 패키지 관리자를 이용한 손쉬운 설치 및 업데이트가 지원됩니다.
 
 ## 대상 플랫폼

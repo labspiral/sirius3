@@ -1,8 +1,8 @@
 第三方软件注意事项
 ==================
 
-本说明介绍截至 2026-08-09 随 SpiralLab.Sirius3、SpiralLab.Sirius3.UI 和
-SpiralLab.Sirius3.Dependencies NuGet 包分发的第三方软件。未经修改的许可全文
+本说明介绍截至 2026-08-18 随 SpiralLab.Sirius3、SpiralLab.Sirius3.UI、
+SpiralLab.Sirius3.MCP 和 SpiralLab.Sirius3.Dependencies NuGet 包分发的第三方软件。未经修改的许可全文
 请参阅始终与本文件一起分发的 THIRD-PARTY-NOTICES.txt。供应商可再分发文件仍受
 各供应商的单独条款约束；本说明不会授予新的使用或再分发权利。
 
@@ -123,6 +123,17 @@ Microsoft Roslyn 4.8.0、WinForms.DataVisualization 1.10.0 及 Microsoft .NET �
   范围: 为 net481、net8.0-windows、net9.0-windows 和 net10.0-windows
         解析的 Microsoft.CodeAnalysis.*、Microsoft.Extensions.*、Microsoft.Bcl.*、
         Microsoft.Windows.Compatibility、System.* 及运行时资产
+
+Model Context Protocol C# SDK
+  版本: ModelContextProtocol 2.2.0、ModelContextProtocol.AspNetCore 2.2.0
+  许可: Apache License 2.0
+  版权: © Model Context Protocol, a Series of LF Projects, LLC
+  源码: https://github.com/modelcontextprotocol/csharp-sdk
+
+PdfPig
+  版本: 0.1.15
+  许可: Apache License 2.0
+  源码: https://github.com/UglyToad/PdfPig
 
 Dependencies NuGet 包分发内容
 -----------------------------

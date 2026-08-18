@@ -2,7 +2,7 @@
 ===================
 
 This notice describes third-party software distributed with the SpiralLab.Sirius3,
-SpiralLab.Sirius3.UI, and SpiralLab.Sirius3.Dependencies NuGet packages as of 2026-08-09.
+SpiralLab.Sirius3.UI, SpiralLab.Sirius3.MCP, and SpiralLab.Sirius3.Dependencies NuGet packages as of 2026-08-18.
 Open-source license texts used by the managed libraries are reproduced below. Vendor
 redistributables remain subject to their vendors' separate terms and are not relicensed
 by this notice.
@@ -166,6 +166,17 @@ Microsoft .NET libraries and compatibility packages
   Source  : https://github.com/dotnet/runtime
   Includes: Microsoft.Extensions.*, Microsoft.CodeAnalysis.*, Microsoft.Bcl.*,
             Microsoft.Windows.Compatibility, System.* and their runtime assets.
+
+Model Context Protocol C# SDK
+  Version : ModelContextProtocol 2.2.0; ModelContextProtocol.AspNetCore 2.2.0
+  License : Apache License 2.0
+  Copyright: © Model Context Protocol, a Series of LF Projects, LLC
+  Source  : https://github.com/modelcontextprotocol/csharp-sdk
+
+PdfPig
+  Version : 0.1.15
+  License : Apache License 2.0
+  Source  : https://github.com/UglyToad/PdfPig
 
 ----------------------------------------------------------------
 Dependencies NuGet package payload

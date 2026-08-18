@@ -1,5 +1,9 @@
 # Sirius3 版本历史
 
+## v1.12.2 (2026.8.18)
+- 新增) 添加 `EntityCircularSiriusText` 实体
+- 修复) SiriusText 自动字距调整现在按字形线段间包含斜向距离的实际最短距离计算字符间距
+
 ## v1.12.1 (2026.8.16)
 - 新增) `EntitySiriusText.IsAutoKerning` 可在 Variable 字符间距模式下，根据缓存的字体轮廓自动调整相邻字形的字距
 - 修复) Fixed 字符间距模式现在会在内容变化时保持字符单元格位置及首尾单元格边距，支持配置多语言字体度量样本，并按 Unicode 17 文字范围选择后备字体
