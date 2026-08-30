@@ -1,35 +1,44 @@
 # SCANLAB RTC5 Controller User Manual
 
+> Reference version: Sirius3 1.12.3 (public Release features)
 
-## 1. 개요 (Overview)
+## 1. Location of RTC5
 
-RTC5는 현대적인 레이저 가공 시스템의 표준이 되는 고성능 컨트롤러입니다. 20비트의 높은 분해능과 다양한 보정 로직(Skywriting, ALC 등)을 하드웨어적으로 지원하여 정밀하고 빠른 가공을 가능하게 합니다.
+RTC5/RTC5e provides a 20-bit XY coordinate system and more advanced marking features than RTC4. It offers larger lists and broader capability than RTC4, but does not support RTC6-only SCANAhead or Fly Extension features.
 
-## 2. 주요 하드웨어 사양 (Specifications)
+## 2. Core Specifications
 
-- 제어 분해능: XY축 20비트 (1,048,576 steps), Z축 16비트.
-- 메모리: 최대 1MB (리스트 버퍼 2^18).
-- 보정 테이블: 최대 4개의 .ct5 또는 .ctb 파일을 하드웨어 메모리에 상주 가능.
-- 측정 채널: 4개의 하드웨어 측정 채널을 통해 위치, 속도, 레이저 상태 등 실시간 모니터링 지원.
+- XY coordinates: 20-bit, Z coordinates: 16-bit
+- Sirius3 Single List Capacity: 2<sup>20</sup> Command
+- The table: 4
+- Measurement Channels: 4
+- Scanner move setup: 10 μs unit
+- Laser delay: 0.5 μs unit
 
-## 3. 지원 핵심 기능 (Key Features)
+The Single List includes not only the shapes but also the Pen Laser I/O Atmospheric End Command. Long tasks use `ListBufferTypes.Auto` and Job status to distinguish the transmission from the actual completion.
 
-- MoF (Marking on the Fly): 컨베이어 벨트나 로터리 인덱스의 이동과 동기화된 가공 지원 (XY, Rotary 모드).
-- ALC (Auto Laser Control): 스캐너 속도에 따른 실시간 파워 변조.
-- Skywriting: 코너 입열 과다 방지를 위한 가감속 보정 로직.
-- Wobbel: 용접 및 클리닝을 위한 8자, 원형 등 미세 진동 패턴 지원.
-- Stepper Control: RTC 포트를 통한 2축 스테퍼 모터 직접 제어.
-- RS-232: 외부 장치와의 리스트 기반 실시간 시리얼 통신.
+## 3. Features Features Supported by Sirius3
 
-## 4. 시스템 타임베이스 (Timebase)
+- Jump, Mark, Arc, Raster, Timed Marking
+- 2nd Head, 3D, Classic MoF
+- Variable Jump/Polygon Delay and Jump Mode
+- Sky Writing, Wobbel, ALC
+- Character Set, Measurement, Free Variable
+- RTC Serial Communication, Interrupt, Stepper
 
-- 스캐너 지연(Scanner Delays): 10µs 단위로 설정 가능.
-- 레이저 지연(Laser Delays): 0.5µs 단위의 정밀한 타이밍 제어.
+RTC5 does not provide `IRtcSCANAhead` and `IRtcMoFExtension`. Do not translate the SCANAhead·Fly Extension code for RTC6 because the name is similar.
 
-## 5. 주의 사항 (Cautions)
+## 4. KFactor and Correction
 
-- RTC5는 PCI 또는 PCI Express 슬롯 방식에 따라 전원 공급 및 인터페이스 특성이 다를 수 있습니다.
-- 3D 가공 시 Z축 분해능이 16비트이므로, 매우 정밀한 깊이 제어가 필요한 경우 RTC6와의 차이점을 고려하십시오.
+The unit of `KFactor` is bits/mm and **Controller position (bit) = User input position (mm) × KFactor (bits/mm)**. The KFactor is the full shrinking, and the `.ct5`/`.ctb` correction table is the compensation for the nonlinear distortion by location.
+
+## 5. Delays and Advanced Features
+
+Adjust Laser On/Off, Jump, Mark, and Polygon Delay to the real scan heads and laser responses. Sky Writing and ALC must verify the pre-conditions and combination limits of each function, and Wobbel is set in EntityPen. It is safe to change only one value at a time and verify it as a low-power test pattern.
+
+## 6. Interfaces and Ports
+
+RTC5 can provide LASER ports, extension I/O, Scan Head ports, MoF/Encoder, RS-232, Stepper features. The actual availability will vary depending on card options, firmware, cable and license.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

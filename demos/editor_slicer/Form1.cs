@@ -134,7 +134,7 @@ namespace Demos
             if (null == mesh) 
                 return;
 
-            mesh.IsAllowSlice = true; // !mesh.IsAllowSlice;
+            mesh.IsPreviewSlice = true; // !mesh.IsPreviewSlice;
 
             mesh.CalculateRealMinMax(out var min, out var max);
             double sliceZ = (double)nudSlice.Value;

@@ -1,62 +1,168 @@
-# # SpiralLab.Sirius3 핵심 라이브러리 설정 매뉴얼
+# SpiralLab.Sirius3.Config Settings Guide
 
+> Reference version: Sirius3 1.12.3 (public Release features)
 
-## 개요
-`SpiralLab.Sirius3.Config` 클래스는 Sirius3 런타임 동작, 레이저 제어 로직 및 라이브러리 상호작용에 영향을 주는 전역 정적 설정들을 제공합니다. 
-많은 설정값들은 `Core.Initialize`를 호출하기 전에 구성되어야 합니다.
+## 1. Role and Configuration Timing
 
+`SpiralLab.Sirius3.Config` is the static configuration surface for the core library. It centralizes logging, file paths, coordinate calculations, RTC measurement, PowerMap, and other settings that affect device and marking behavior.
 
-## ## 1. 파일 핸들링
+Configure path and logging policies before `Core.Initialize()` whenever possible. Values changed at run time may not affect devices or calculation results that have already been created.
 
-- **어셈블리 이름:** `SpiralLab.Sirius3.dll`
-- **어셈블리 버전:** 현재 라이브러리의 버전(주.부.빌드)을 반환합니다.
+```csharp
+using CoreConfig = SpiralLab.Sirius3.Config;
 
-## ## 2. 로그 설정
+CoreConfig.LogPath = @"D:\SiriusData\Logs";
+CoreConfig.CorrectionPath = @"D:\SiriusData\Correction";
+CoreConfig.PowerMapPath = @"D:\SiriusData\PowerMap";
+CoreConfig.IsLogToConsole = true;
+CoreConfig.LogMaxArchiveDays = 30;
 
-- **최대 로그 항목 수:** WinForms `LogUserControl`에 표시할 최대 로그 메시지 개수입니다. (기본값: 5000)
-- **로그 활성화:** 내부 로깅 사용 여부를 결정하는 전역 스위치입니다. (기본값: True)
-- **콘솔 로그:** 시스템 콘솔로의 실시간 로그 출력 여부입니다. (기본값: True)
-- **최대 보관 일수:** 보관된 로그 파일의 최대 유지 기간입니다. (기본값: 90일)
-- **최소 로그 레벨:** 기록할 로그의 최소 중요도입니다. 초기화 시 설정됩니다.
-- **OnLogged 이벤트:** 새로운 로그 메시지가 생성될 때마다 발생합니다.
+bool initialized = SpiralLab.Sirius3.Core.Initialize(
+    minLogLevel: "Information",
+    maxLogArchiveDays: CoreConfig.LogMaxArchiveDays);
+if (!initialized)
+    throw new InvalidOperationException("Sirius3 initialization failed.");
+```
 
-## ## 3. 경로 설정
+`Config` is static; do not instantiate it. Because `SpiralLab.Sirius3.UI.Config` has the same class name, use aliases such as `CoreConfig` and `UIConfig` to make intent explicit.
 
-- **로그 경로:** 라이브러리 로그 파일 저장 디렉터리입니다. (기본값: `\siriuslogs`)
-- **계측 경로:** RTC 계측 고속 진단 데이터 저장 디렉터리입니다. (기본값: `\measurement`)
-- **보정 경로:** 스캐너 보정 파일(*.ct5, *.ctb) 기본 디렉터리입니다. (기본값: `\correction`)
-- **CorreXionPro 경로:** SCANLAB의 `CorreXionPro.exe` 유틸리티 경로입니다.
-- **StretchCorreXion5 경로:** SCANLAB의 `stretchcorreXion5.exe` 유틸리티 경로입니다.
-- **CorrectionFileConverter 경로:** SCANLAB의 `CorrectionFileConverter.exe` 유틸리티 경로입니다.
-- **파워맵 경로:** 파워 측정 매핑 파일 저장 디렉터리입니다. (기본값: `\powermap`)
-- **SyncAxis 경로:** SCANLAB `syncAXIS` 설정 파일 루트 디렉터리입니다. (기본값: `\syncaxis`)
-- **SyncAxis Viewer 경로:** `syncAXIS_Viewer.exe` 도구의 경로입니다.
-- **SyncAxis 시뮬레이션 경로:** 임시 syncAXIS 시뮬레이션 로그 저장 디렉터리입니다. (기본값: `\siriuslogs`)
-- **레시피 경로:** 사용자 레시피 파일(*.sirius3) 저장 디렉터리입니다. (기본값: `\recipe`)
+## 2. Version Information
 
-## ## 4. 수학 및 정밀도
+| Property | Default / return value | Description |
+|---|---:|---|
+| `AssemblyName` | `SpiralLab.Sirius3.dll` | Core assembly filename |
+| `AssemblyVersion` | Running assembly version | Read-only `Major.Minor.Build` version |
 
-- **소수점 정밀도:** UI에 표시되는 부동 소수점 값의 자릿수입니다. (기본값: 3, 1µm = 0.001mm 대응)
+## 3. Logging
 
-## ## 5. 점프 및 마크 설정
+| Setting | Default | Explanation and Application |
+|---|---:|---|
+| `MaxLogItems` | `10,000` | Maximum rows retained by the WinForms log control; independent of file-log retention. |
+| `IsLogEnable` | `true` | Enables internal logging. Keep it enabled in production to support diagnostics. |
+| `IsLogToConsole` | `true` | Writes log messages to the console. Disable it in GUI applications when console output is unnecessary. |
+| `LogMaxArchiveDays` | `90` days | Number of days file logs are retained. Pass the same policy to `Core.Initialize`. |
+| `MinimumLogLevel` | Set by `Core.Initialize` | Read-only minimum log level currently in effect. |
+| `OnLogged` | Event | Raised with the `LogLevel` and message for each new log entry. |
 
-- **병합 거리:** 동일 위치에서의 번인 방지를 위해 연속된 점프와 마크 명령을 병합하는 거리 임계값(mm)입니다. (기본값: 0.001 mm)
-- **최소 스텝 거리:** 곡선(호, 스플라인, 해치)을 선형 단계로 분할할 때의 최소 세그먼트 길이(mm)입니다. (기본값: 0.1 mm)
-- **시뮬레이션 스케일:** 가상 점프/마크 시뮬레이션의 가속도 스케일 팩터입니다. (기본값: 1.2)
+```csharp
+CoreConfig.OnLogged += (level, message) =>
+{
+    // When we reflect on the UI, we switch to the UI thread.
+    Console.WriteLine($"[{level}] {message}");
+};
+```
 
-## ## 6. 문자 집합 (CharacterSet)
+When you analyze a failure to start your device, don’t just look at the last Error, but keep the previous Information and Warning together. Adding the repeated frame and point unit logs directly can affect performance and file size.
 
-- **업데이트 시간:** CharacterSet에서 최대 일련번호를 확인하는 타이머 간격(ms)입니다. (기본값: 50 ms)
+## 4. File and Tool Paths
 
-## ## 7. 계측 (Measurement)
+Undefined routes use the default folder below `AppDomain.CurrentDomain.BaseDirectory` The service, Visual Studio, and distribution programs may be different from the default folder running, so the product recommends the use of absolute routes.
 
-- **플롯 모드:** 계측 진단 데이터의 기본 시각화 모드입니다 (예: `TimeChart`).
-- **레이저 온 팩터:** 데이터 변환 시 LASER ON 채널에 적용되는 스케일 팩터입니다. (기본값: 1)
+| Setting | Basic route. | Purpose |
+|---|---|---|
+| `LogPath` | `siriuslogs` | Sirius3 log files |
+| `MeasurementPath` | `measurement` | RTC High Speed Measurement and Diagnostic Data |
+| `CorrectionPath` | `correction` | Scanner correction files (`.ct5`, `.ctb`) and the standard folder of the correction tools |
+| `CorreXionProProgramPath` | `correction\CorreXionPro.exe` | SCANLAB CorreXion Pro file |
+| `StretchCorreXion5ProgramPath` | `correction\stretchcorreXion5.exe` | Stretch correction tool |
+| `CorrectionFileCoverterProgramPath` | `correction\CorrectionFileConverter.exe` | Fixed file conversion tool running file |
+| `PowerMapPath` | `powermap` | PowerMap Mapping, Verification and Adjustment Data |
+| `SyncAxisPath` | `syncaxis` | Root folder in syncAXIS settings |
+| `SyncAxisViewerProgramPath` | `syncaxis\Tools\syncAXIS_Viewer\syncAXIS_Viewer.exe` | SyncAXIS Viewer file |
+| `SyncAxisSimulateFilePath` | `siriuslogs` | SyncAXIS Simulation Output Log |
+| `RecipePath` | `recipe` | Sirius3 Documents and Recipes |
+| `ScriptPath` | `script` | SimpleScript C# source file |
 
-## ## 8. 파워맵 (PowerMap)
+When changing a path, verify that the folder exists, that the service account has read/write permission, and that external tools are installed at the expected location. Changing a path string does not install an external tool or activate its license.
 
-- **예열 시간:** 파워 매핑/검증 전 레이저 예열 시간(ms)입니다. (기본값: 10,000 ms)
-- **유지 시간:** 매핑 중 안정화된 출력을 유지하는 시간(ms)입니다. (기본값: 5,000 ms)
-- **범위 내 임계값:** 파워 측정이 "범위 내"에 있다고 간주하는 허용 오차(%)입니다. (기본값: 5.0%)
-- **범위 초과 임계값:** 심각한 파워 오류를 발생시키는 편차(%)입니다. (기본값: 20.0%)
-- **보정 재시도:** 자동 파워 보정 시의 최대 재시도 횟수입니다. (기본값: 2)
+## 5. Numeric Formatting and Path Generation
+
+| Setting | Default | Explanation and point. |
+|---|---:|---|
+| `DecimalPrecision` | `3` | It is a minor number of characters that will indicate a error in the UI. 3 will indicate up to 0.001 mm standard. Not a value that reduces the internal calculation accuracy. |
+| `MergeDistance` | `0.001` mm | It is a distance limit that combines continuous Jump/Mark commands close to the same location. It is used to reduce unnecessary duplicate movements and the output of the starting and end points. |
+| `MinStepDistance` | `0.1` mm | It is the minimum length used when dividing Arc, Spline, Ellipse, Hatch, etc. into linear commands. |
+| `VirtualJumpAndMarkAccScale` | `1.2` | The virtual RTC's Jump/Mark acceleration is the simulation rate that does not change the actual RTC tuning value. |
+
+If `MergeDistance` is too big, different short moves can be treated as one. If you make `MinStepDistance` too small, the curve curve will be more detailed, but the number of RTC list commands and the preparation time will increase. Consider the actual optical measurement, the switch size, the speed, and the RTC list vacancy together and verify it.
+
+## 6. CharacterSet
+
+| Setting | Default | Explanation |
+|---|---:|---|
+| `CharacterSetMaxSerialNoUpdateTime` | `50` ms | It is a renewal cycle to verify the maximum serial number in CharacterSet. |
+
+If the cycle is shorter, the UI renewal will be faster, but the verification task will be performed more frequently. in the mass document, check the actual processing volume and then adjust it.
+
+## 7. Measurement
+
+| Setting | Default | Explanation |
+|---|---:|---|
+| `MeasurementPlotMode` | `PlotModes.TimeChart` | Basic Plot method to display measurement data. |
+| `MeasurementLaserOnFactor` | `1` | The conversion rate to apply to the LASER ON channel of the measuring data. |
+| `MeasurementPath` | `measurement` | The folder to save the original and converted measurement data. |
+
+Real Sampling cycles and channels are defined in the measurement interface and Measurement UI of the registered RTC. `MeasurementLaserOnFactor` is the display and conversion rate and does not replace the input voltage range or device protection limits.
+
+## 8. PowerMap
+
+| Setting | Default | Explanation |
+|---|---:|---|
+| `PowerMapPreHeatTimeMs` | `10,000` ms | Mapping, Verify, Compensate Preheating Time to Stabilize the Laser Before Mapping, Verify, Compensate |
+| `PowerMapHoldTimeMs` | `5,000` ms | Time to maintain a stable output in each output condition. |
+| `PowerMapInRangeThreshold` | `5.0` % | Assessment of measurement within the target range. |
+| `PowerMapOutOfRangeThreshold` | `20.0` % | judgment by big errors. |
+| `PowerMapCompensateRetryCounts` | `2` Meeting | The maximum number of automatic output. |
+
+```csharp
+CoreConfig.PowerMapPreHeatTimeMs = 15_000;
+CoreConfig.PowerMapHoldTimeMs = 3_000;
+CoreConfig.PowerMapInRangeThreshold = 3.0;
+CoreConfig.PowerMapOutOfRangeThreshold = 15.0;
+CoreConfig.PowerMapCompensateRetryCounts = 2;
+```
+
+This value is not an equipment safety limit. Follow the accuracy and cooling requirements of the laser and power meter, the meter response time, laser-emission precautions, and interlock requirements. Run mapping and compensation with real output only after the work area is safe and the devices are ready.
+
+## 9. Initialization and Cleanup Example
+
+```csharp
+using CoreConfig = SpiralLab.Sirius3.Config;
+
+bool coreInitialized = false;
+try
+{
+    CoreConfig.LogPath = @"D:\SiriusData\Logs";
+    CoreConfig.MeasurementPath = @"D:\SiriusData\Measurement";
+    CoreConfig.CorrectionPath = @"D:\SiriusData\Correction";
+    CoreConfig.RecipePath = @"D:\SiriusData\Recipe";
+    CoreConfig.ScriptPath = @"D:\SiriusData\Script";
+
+    coreInitialized = SpiralLab.Sirius3.Core.Initialize("Information", 30);
+    if (!coreInitialized)
+        throw new InvalidOperationException("Sirius3 initialization failed.");
+
+    // Generate and use RTC, Laser, DIO, PowerMeter, Marker.
+}
+finally
+{
+    // Create the device and the document first.
+    if (coreInitialized)
+        SpiralLab.Sirius3.Core.Cleanup();
+}
+```
+
+Call the `Core.Cleanup()` that corresponds only if `Core.Initialize()` is successful. The device and the document are safe in order to first call the `Dispose()` of that object and then close the Core.
+
+## 10. Recommendations for Recording Changes
+
+Config values affect the whole process. In the product, leave the values applied at the start in the log, and separate the recipes values from the entire Config values.
+
+- `MergeDistance`, `MinStepDistance`
+- Measurement Plot and Laser On
+- PowerMap time · permission deviation · reboot
+- Correction files, PowerMap, recipes and script routes
+- Minimum log level and log storage period.
+
+---
+2026 Copyright (c) SpiralLAB. All rights reserved.

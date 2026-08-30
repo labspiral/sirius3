@@ -93,7 +93,6 @@
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS 运行时, 字体, 示例文件
 - `SpiralLab.Sirius3` — 硬件控制 (振镜/激光/功率计等)
 - `SpiralLab.Sirius3.UI` — 实体、几何处理、OpenGL 渲染及 WinForms 控件
-- `SpiralLab.Sirius3.MCP` — 面向运行中 WinForms 编辑器、公开 API 帮助及许可范围内 SCANLAB 文档的嵌入式 MCP 服务器（[使用与安全指南](SpiralLab.Sirius3.MCP/MCP.md)）
  > 支持通过 NuGet 包管理器进行便捷的安装及更新。
 
 ## 目标平台
@@ -112,7 +111,7 @@
 - SCANLAB
    - RTC4: v2023.11.02
    - RTC5: v2024.09.27
-   - RTC6: 2026.3.31 v1.24.0
+   - RTC6: 2026.6.19 v1.25.0
    - syncAXIS: v1.8.2 (2023.03.09)
 
 - .NET

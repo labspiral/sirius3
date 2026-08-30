@@ -1,30 +1,32 @@
 # ViewerControl User Manual
 
+> Reference version: Sirius3 1.12.3 (public Release features)
 
-## 1. 개요 (Overview)
 
-ViewerControl은 레이저 가공 상태를 모니터링하거나 도면을 단순히 확인(View-only)하기 위해 설계된 경량화된 OpenGL 시각화 컨트롤입니다. 
-편집 기능이 배제되어 있어 오조작에 의한 도면 변형 위험이 없으며, 시스템 리소스를 효율적으로 사용합니다.
+## 1. Overview
 
-## 2. 외부 문서 연동 (Document Injection)
+`ViewerControl` is a lightweight OpenGL visualization control for monitoring laser-processing state or inspecting drawings in view-only mode.
+The editing function is excluded, so there is no risk of drawing mutation due to errors, and it uses system resources efficiently.
 
-ViewerControl 역시 EditorControl과 마찬가지로 `Document` 속성을 통해 외부에서 데이터를 주입받습니다.
+## 2. Document Injection
 
-- 실시간 연동: 에디터에서 편집 중인 `IDocument`를 뷰어에 그대로 연결하면, 에디터에서 개체가 수정되거나 추가될 때 뷰어 화면도 실시간으로 동기화되어 업데이트됩니다.
-- 멀티 뷰 구성: 하나의 문서를 공유하는 여러 개의 뷰어를 띄워, 각각 다른 카메라 각도(평면, 측면, ISO 등)에서 가공 상태를 입체적으로 모니터링할 수 있습니다.
+Like EditorControl, ViewerControl also infuses data from the outside through the `Document` property.
 
-## 3. 주요 기능 (Key Features)
+- Real-time collaboration: When you connect the `IDocument` that is being edited in the Editor to the Viewer, the Viewer screen will also be synchronized and updated in real-time when an object is modified or added in the Editor.
+- Multi-view configuration: Exhibit multiple viewers to share one document, each of which can intrinsically monitor the processing status in different camera corners (flat, side, ISO, etc.).
 
-- 읽기 전용 모드 (Read-only): `IsAllowEdit` 속성이 내부적으로 `false`로 고정되어 있어, 마우스 드래그나 클릭에 의해 도면이 변경되지 않습니다.
-- 고급 카메라 애니메이션:
-  - Auto Rotating: 특정 개체를 중심으로 카메라를 자동으로 회전시켜 가공물을 다각도에서 검토할 수 있습니다.
-  - Zoom Fit: 버튼 클릭 한 번으로 도면 전체 또는 선택된 개체를 화면 꽉 차게 정렬합니다.
-- 상태 표시: 가공 진행 중인 마커(`Marker`)의 시작/종료 이벤트를 수신하여 화면을 자동으로 갱신하거나 처리 시간을 표시할 수 있습니다.
+## 3. Key Features
 
-## 4. 사용 시나리오 (Usage Scenarios)
+- Read-only mode: The `IsAllowEdit` property is internally fixed to `false`, and the drawing is not changed by mouse drag or click.
+- Advanced Camera Animation:
+  - Auto Rotating: Automatically rotating the camera to a specific object center, allowing you to review the processing in multiple dimensions.
+  - Zoom Fit: One-click button to draw the whole or selected objects on the screen tightly.
+- Status display: You can receive the start/final event of the processing markers (`Marker`) to automatically update the screen or display the processing time.
 
-- 설비 운영자 화면: 메인 편집 창은 숨기고, ViewerControl만 노출하여 가공 진행 상황만 안전하게 확인하게 합니다.
-- 3D 모니터링: 3D 가공(Z-Defocus 가공 등) 시 입체적인 궤적을 확인하기 위한 보조 모니터용으로 활용합니다.
+## 4. Usage Scenarios
+
+- Installation Operator Screen: The main editing window is hidden, exhibit only ViewerControl, so that the processing processing is safely checked.
+- 3D monitoring: 3D processing (e.g. Z-Defocus processing) is used as an assistant monitor to verify the intrusive orbit.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

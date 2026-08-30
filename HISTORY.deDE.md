@@ -1,5 +1,15 @@
 # Sirius3 Versionsverlauf
 
+## v1.13.0 (2026.8.31)
+
+- aktualisiert) Die SCANLAB-RTC6-Abhängigkeit wurde auf Software Package 1.25.0 aktualisiert, die Initialisierung wählt automatisch die zur Board-Revision passende Firmware und `RtcRevision` zeigt Wert 0 für Revision 1 beziehungsweise Wert 1 für Revision 2
+- hinzugefügt) Die 3D-Oberflächenmodelle `EntityNURBSSurface`, `EntityTorus`, `EntityPlane` und `EntityPyramid` sowie ihre Factory-Methoden wurden ergänzt; der WinForms-Editor unterstützt nun das Erstellen und Bearbeiten von 3D-Meshes und Splines sowie die Vorschau von Schnitten
+- hinzugefügt) Gerade und kreisförmige Sirius-/GDI-Texte sowie `EntityImageText` unterstützen nun feste Zeichenzellbreiten und eine optionale Glyphenbreitenanpassung, sodass auch Leerzeichen und fehlende Glyphen stabile Zeichenpositionen beibehalten
+- geändert) Kreisförmiger Text ordnet Zeilenumbrüche nun als konzentrische Zeilen an; außerdem wurden Grundlinien, logische Grenzen und die Berechnung transparenter Ränder von `EntityImageText` stabilisiert
+- behoben) 1D- und 2D-Barcodes behalten `Width` und `Height` als unabhängige maximale Bearbeitungsgrenzen bei und passen die codierte Matrix darin ein, ohne die angeforderte Größe zu überschreiten
+- behoben) Die Mehrpuls-Punktmarkierung von `EntityPoint` und `EntityPoints` übernimmt `EntityPen.IsPixelPulsesExit` nun in den RTC-Befehl
+- behoben) Das RTC-2D-Korrekturraster akzeptiert dx/dy nun mit Leerraum oder Komma als Trennzeichen und zeigt die Zellfarbe wieder entsprechend der Fehlerdistanz an
+
 ## v1.12.2 (2026.8.18)
 
 - hinzugefügt) Die Entität `EntityCircularSiriusText` wurde hinzugefügt

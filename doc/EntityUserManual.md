@@ -1,59 +1,91 @@
-# Laser Entity Creation & Management User Manual
+# EntityFactory & Entity User Manual
 
+> Reference version: Sirius3 1.12.3 (public Release features)
 
-## 1. 개요 (Overview)
+## 1. Basic entity creation workflow
 
-본 매뉴얼은 EntityFactory를 통해 생성할 수 있는 다양한 레이저 가공 개체(Entity)들의 종류와 특징을 설명합니다. 
-모든 개체는 생성 후 `document.ActAdd(entity)`를 통해 문서에 추가되어 실제 가공 데이터로 활용됩니다.
+Create an entity with `EntityFactory`, then add it to the current Page and Layer with `document.ActAdd(entity)`. Selecting the entity in the editor or TreeView displays the entity and its associated `EntityPen` properties in PropertyGrid. After changing geometry-affecting values such as size, text, or hatch settings, the editing action uses `ActRegen` to rebuild the geometry and rendering buffers.
 
-## 2. 기본 도형 개체 (Primitive Entities)
+## 2. Basic Vector Entities
 
-가장 기초적인 벡터 가공 경로를 생성합니다.
-- Line / Lines: 단일 선분 또는 여러 선분의 집합을 생성합니다.
-- Point / Points: 점 가공 개체입니다. (Dwell Time 설정 가능)
-- Arc / Ellipse: 원, 호, 타원 형태의 경로를 생성합니다.
-- Rectangle / Triangle / Cross: 사각형, 삼각형, 십자 표식 등 정형화된 도형을 생성합니다.
-- Polyline 2D/3D: 여러 개의 정점을 잇는 연속된 선분 경로입니다. 3D 폴리라인은 Z축 높이 정보를 포함합니다.
-- Splines (Bezier, Catmull-Rom, B-Spline, NURBS): 정밀한 곡선 가공을 위한 고수준 스플라인 경로를 지원합니다.
+- Point / Points: A single emission point or an array of points
+- Line / Lines: Single line and independent line set
+- Arc / Ellipse: Around, Around, Around
+- Rectangle / Triangle / Cross: Standard geometric shapes
+- Polyline2D / Polyline3D: An open or closed path whose vertices are connected in sequence
+- Bezier / Catmull-Rom / B-Spline / NURBS: Curve using the control point
 
-## 3. 특수 가공 패턴 (Special Patterns)
+Before hatching a closed path, verify that the actual contour is closed and has the correct winding direction. A path that merely looks closed on screen may not define a valid interior region.
 
-- Trepan: 홀 가공을 위한 나선형 트레판 패턴입니다. 내경/외경 및 회전수를 지정합니다.
-- Spiral / Spiral Classic: 아르키메데스 나선 등 다양한 방식의 나선 가공 경로를 생성합니다.
-- Lissajous: 진동 패턴인 리사주 곡선을 생성하여 레이저 클리닝이나 용접 등에 활용할 수 있습니다.
+## 3. Special Paths
 
-## 4. 텍스트 및 바코드 (Text & Barcodes)
+- Trepan: hole processing path with internal, external and rotating water
+- Spiral / SpiralClassic: linear path
+- Lissajous: Synthesized patterns of cycle exercise
+- Grid: generate massive points·cross·cross patterns
 
-- Text: 윈도우 설치 폰트(TTF)를 사용하는 외곽선 기반 텍스트입니다.
-- SiriusText: Sirius 전용 폰트(*.cxf, *.lff)를 사용하는 고속 가공용 텍스트입니다. 단일 선분(Single-line) 폰트 가공 시 필수적입니다.
-- Circular Text: 원호를 따라 배열되는 텍스트입니다.
-- 1D Barcode: Code128, Code39 등 표준 1차원 바코드를 생성합니다.
-- 2D Barcode (QR Code, DataMatrix, PDF417): 고밀도 데이터를 포함하는 2차원 바코드입니다. 각 셀을 점(Dot), 선(Line), 원(Circle) 등으로 커스터마이징할 수 있습니다.
+## 4. Text
 
-## 5. 이미지 및 래스터 (Image & Raster)
+- `EntityText`: Convert Windows fonts to a corner line
+- `EntitySiriusText`: CXF, LFF, FNT, DOT and others based on Sirius fonts
+- `EntityCircularText`, `EntityCircularSiriusText`: Placing according to the symbol
+- `EntityImageText`: Make the text as a Bitmap and then Raster processing
 
-- Image: 비트맵 이미지(BMP, JPG, PNG)를 가공합니다. 펜 설정의 Raster Mode(가로, 세로, 지그재그)와 결합하여 명암 가공을 수행합니다.
-- ImageText: 텍스트를 내부적으로 비트맵으로 변환하여 래스터 방식으로 마킹합니다.
-- ImageZPL: Zebra 프린터 언어인 ZPL 코드를 해석하여 이미지로 변환 및 가공합니다.
+### Fixed Spacing in Sirius3 1.12.3
 
-## 6. 3D 메쉬 및 그리드 (3D Mesh & Grids)
+`EntityText`, `EntitySiriusText`, Circular Variation and `EntityImageText` place all the characters, including empty and missing glyphs, in the fixed intervals in the same width cells.
 
-- Mesh: 외부 3D 파일(.stl, .ply, .obj)을 불러와 시각화하고 슬라이싱(Slice) 기능을 통해 3D 가공 경로로 변환합니다.
-- Primitive Mesh (Cube, Cylinder, Sphere): 기본 3D 입체 도형 메쉬를 생성합니다.
-- Grids: 대량의 X, Y, Z 좌표 집합(Point Cloud)을 격자 형태로 관리합니다. 3D 곡면 보정 등에 활용됩니다.
+- `FixedGlyphWidth`: Vector Text's letter cell width
+- `FixedGlyphWidthPixels`: ImageText’s text cell width (pixel)
+- If the value is 0 you select the automatic width in the setup sample of the detected text rights.
+- `IsGlyphWidthFit = false`: Keeping the glyph crossover
+- `IsGlyphWidthFit = true`: customize the graph that can be drawn to the cell width
+- Fixed does not apply `TargetWidth`/`TargetWidthPixels`, `WordSpacing`, Auto Kerning
 
-## 7. 컨테이너 개체 (Container & Grouping)
+`EntityImageText` preserves the physical character-cell size in 1.12.3 while eliminating top-to-bottom transparent artifacts.
 
-- Layer: 개체들을 논리적으로 묶는 최상위 컨테이너입니다.
-- MixedGroup: 서로 다른 종류의 개체들을 하나의 그룹으로 묶어 변환(이동, 회전)을 동시에 수행합니다.
-- UniformGroup: 동일한 가공 특성(Render Mode)을 가진 개체들을 묶어 렌더링 성능을 최적화합니다.
-- Block / BlockInsert: 마스터 도면(Block)을 정의하고, 이를 여러 위치에 참조(Insert)하여 메모리 사용량을 최소화하고 효율적인 배열 가공을 지원합니다.
+## 5. Barcode
 
-## 8. 외부 파일 가져오기 (Import)
+- 1D: Code128, Code39, PLESSEY and so on
+- 2D: QR, Data Matrix, PDF417, Aztec
+- Cell expressions: Outline, Hatch, Dots, etc.
 
-- CreateDxf: CAD 도면(.dxf) 파일을 불러와 MixedGroup으로 변환합니다.
-- CreateHPGL: PLT/HPGL 파일을 가공 경로로 가져옵니다.
-- CreateGerber: PCB 설계 데이터인 거버(Gerber) 파일을 불러와 레이어별로 시각화 및 가공합니다.
+Difference the requested Width/Height and the actual Matrix size. erroneous or empty data records encoding errors without leaving the previous shape. Dots processing uses EntityPen's Raster and Pixel settings.
+
+## 6. Images and Raster
+
+- `EntityImage`: BMP, JPG, PNG etc. Bitmap
+- `EntityImageText`: Bitmap Text
+- `EntityImageZPL`: Convert ZPL to image
+- `EntityStitchedImage`: Camera/Test Scale Image Visualization
+
+The actual method of processing varies depending on EntityPen’s `RasterMode`, `PixelTime`, `PixelPeriod`, `PixelPulses` and direction settings.
+
+## 7. 3D Mesh
+
+In addition to the default Mesh and STL/OBJ/PLY/STP·STEP imports, the following models and Factory have been added to Sirius3 1.12.3.
+
+| The object. | Factory | Key entry. |
+|---|---|---|
+| `EntityPlane` | `CreatePlane` | center, law line, width, height |
+| `EntityPyramid` | `CreatePyramid` | Basic point, width, depth, height |
+| `EntityTorus` | `CreateTorus` | Central, big ring, small ring, can be split |
+| `EntityNURBSSurface` | `CreateNURBS3D` | Control Points, Degree, Knot, Sampling |
+
+These objects can also be added in the Editor's 3D Object Generation menu. Mesh is a visualized surface, so real processing requires a Slice or route conversion.
+
+## 8. Layer, Group, Block
+
+- Layer: A run unit that connects objects and layer conditions within Page
+- MixedGroup: Move, rotate, or scale different entity types together
+- UniformGroup: Connecting mass objects of the same rendering structure to optimize performance
+- Block / BlockInsert: See one master shape in multiple locations
+
+Check the coordinate conversion one-step in so that the `ModelMatrix` and Offset/MatrixStack of the Marker are not duplicated.
+
+## 9. Importing External Files
+
+You can import DXF/DWG, HPGL/PLT, Gerber/Excellon, G-code/NGC, images and 3D files. `UI.Config.ImportMergeDistance` is a common permissible distance to connect the close end points of DXF, DWG, HPGL, PLT, and `UI.Config.IsImportColorPreserved` will change the original color to the closest EntityPen color to keep the original color.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

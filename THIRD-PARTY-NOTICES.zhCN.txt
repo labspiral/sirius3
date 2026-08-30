@@ -1,7 +1,7 @@
 第三方软件注意事项
 ==================
 
-本说明介绍截至 2026-08-18 随 SpiralLab.Sirius3、SpiralLab.Sirius3.UI、
+本说明介绍截至 2026-08-23 随 SpiralLab.Sirius3、SpiralLab.Sirius3.UI、
 SpiralLab.Sirius3.MCP 和 SpiralLab.Sirius3.Dependencies NuGet 包分发的第三方软件。未经修改的许可全文
 请参阅始终与本文件一起分发的 THIRD-PARTY-NOTICES.txt。供应商可再分发文件仍受
 各供应商的单独条款约束；本说明不会授予新的使用或再分发权利。
@@ -46,15 +46,18 @@ PropertyTools.Wpf
   许可: MIT
   版权: Copyright (c) 2014 PropertyTools contributors
   源码: https://github.com/PropertyTools/PropertyTools
-  用途: Sirius3 自有适配器后的 Debug 专用 WPF 属性表和 TreeListBox
+  用途: Sirius3 自有适配器后的 Debug 专用 WPF TreeListBox
   分发: 仅嵌入 Debug WPF 构建，并从 Release 软件包中排除
 
-Material Design In XAML Toolkit（MaterialDesignThemes 与 MaterialDesignColors）
-  版本: 5.3.2
-  许可: MIT
-  版权: Copyright (c) James Willock, Mulholland Software and Contributors
-  源码: https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit
-  用途: Debug 专用 Material Design WPF 主题、控件与图标包；从 Release 软件包中排除
+Syncfusion WPF PropertyGrid
+  版本: 34.1.32
+  许可: Essential Studio UI Edition Binary License（商业专有软件）
+  版权: Copyright Syncfusion Inc.
+  产品: https://www.syncfusion.com/wpf-controls/property-grid
+  用途: Sirius3 自有适配器后的 Debug 专用 WPF 属性表
+  分发: 私有 Debug WPF 依赖项；从 Release 二进制文件和软件包中排除
+  条款: 使用和再分发须遵守相应的 Syncfusion 协议。嵌入式运行时注册密钥不授予
+        再分发权；不使用供应商解锁密钥，且两个密钥均不会写入日志。
 
 GLFW（通过 OpenTK.redist.glfw）
   版本: 3.4.0.44

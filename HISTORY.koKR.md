@@ -1,10 +1,22 @@
 ﻿# Sirius3 버전 이력
 
+## v1.13.0 (2026.8.31)
+
+- updated) SCANLAB RTC6 의존성을 Software Package 1.25.0으로 갱신하고, 초기화 시 보드 리비전에 맞는 펌웨어를 자동 선택하며 `RtcRevision`에서 값 0은 리비전 1, 값 1은 리비전 2로 확인할 수 있도록 개선
+- added) `EntityNURBSSurface`, `EntityTorus`, `EntityPlane`, `EntityPyramid` 3D 표면 메시와 팩토리 함수를 추가하고, WinForms 편집기에서 3D 메시와 스플라인을 생성·편집하고 슬라이스를 미리 볼 수 있도록 개선
+- added) 직선·원형 Sirius/GDI 텍스트와 `EntityImageText`에 Fixed 문자 셀 폭과 글리프 폭 맞춤 설정을 추가하여 공백과 누락 글리프를 포함한 문자 위치를 일정하게 유지
+- changed) 원형 텍스트가 줄 바꿈을 동심원 여러 줄로 배치하고, 텍스트 기준선과 논리 경계 및 `EntityImageText`의 투명 여백 계산을 안정화
+- fixed) 1D/2D 바코드의 `Width`와 `Height`를 독립적인 최대 가공 경계로 유지하면서 인코딩 행렬을 내부에 맞춰 요청 크기를 넘지 않도록 수정
+- fixed) `EntityPoint`와 `EntityPoints`의 다중 펄스 점 마킹이 `EntityPen.IsPixelPulsesExit` 설정을 RTC 명령에 반영하도록 수정
+- fixed) RTC 2D 보정 그리드에서 dx/dy를 공백 또는 쉼표로 구분해 입력할 수 있고, 오차 거리에 따른 셀 색상을 다시 표시하도록 수정
+
 ## v1.12.2 (2026.8.18)
+
 - added) `EntityCircularSiriusText` 엔티티 추가
 - fixed) SiriusText AutoKerning이 사선을 포함한 글리프 선분 간 실제 최단거리로 글자 간격을 계산하도록 수정
-
+ 
 ## v1.12.1 (2026.8.16)
+
 - added) `EntitySiriusText.IsAutoKerning`으로 Variable 글자 간격에서 캐시된 폰트 윤곽을 기준으로 인접 글리프를 자동 커닝 지원
 - fixed) Fixed 글자 간격에서 내용이 바뀌어도 문자 셀 위치를 유지하고 양쪽 끝 셀 여백을 보존하며, 다국어 폰트 메트릭 샘플을 설정하고 Unicode 17 문자권 범위로 폴백을 선택하도록 개선
 - fixed) `TextConverters.Link`의 연결 대상도 `Link`를 사용하면 연속 링크를 따라가지 않고 오류를 기록한 뒤 마킹을 중지하도록 수정
@@ -14,6 +26,7 @@
 - changed) RTC 2D/3D 보정 대화 상자, 공통 검증 오류와 사용자 정의 메시지 상자 버튼을 Sirius3 리소스로 통합하여 영어, 한국어, 중국어 간체, 일본어, 독일어로 표시
 
 ## v1.11.14 (2026.8.7)
+
 - fixed) OpenTK 3과 4에서 컨텍스트 종류에 맞게 폴리곤 모드를 안전하게 읽고 복원하여 Release 빌드의 메모리 접근 오류, 경계 상자 사라짐과 OpenTK 3의 잘못된 디버그 중단을 수정
 - fixed) 레이저 경로 시뮬레이션을 ESC로 즉시 중지하고, 종료 정리 중 같은 가상 RTC 중지와 로그가 반복되거나 정상적인 가상 레이저 중지가 오류로 기록되지 않도록 수정
 - fixed) 편집 화면이나 트리뷰에서 F5 가공 시작 확인 창을 취소하면 같은 확인 창이 다시 열리던 문제를 수정
@@ -26,12 +39,14 @@
 - added) PropertyGrid에서 속성 이름·분류·설명을 바로 검색하고, CTRL+F로 검색창 이동과 한 번에 지우기를 지원
 
 ## v1.11.11 (2026.8.3)
+
 - fixed) RTC6 상태와 아날로그 I/O를 올바른 API로 읽고, Ethernet 연결 오류와 종료 중 타이머 충돌도 안정적으로 처리
 - fixed) syncAXIS 작업 완료 후 Busy 상태가 확실히 해제되고, 설정 오류도 일관되게 확인할 수 있도록 개선
 - fixed) StreamParser 연결·재연결·종료 과정이 더 안정적으로 동작하며, 진행 중인 수신 작업도 안전하게 정리
 - fixed) 바코드 문자 인코딩을 필요할 때만 적용하고, 요청한 Dot 크기와 실제 생성 크기를 따로 확인할 수 있으며, Data Matrix 형상 전환 시 지정 크기가 줄어들지 않도록 수정
 
 ## v1.11.10 (2026.8.1)
+
 - fixed) 바코드가 지정한 크기를 넘지 않도록 맞추고, 가공 경로와 보조 코드, 해칭, Dots 셀 시뮬레이션 위치도 바로잡음
 - fixed) 3D 메쉬를 더 빠르고 안정적으로 슬라이스하며, 깨지거나 누락된 메쉬는 알아보기 쉬운 경고를 남김
 - fixed) 엔티티 형상은 건드리지 않으면서 AABB 히트 테스트를 더 안정적이고 빠르게 처리
@@ -40,6 +55,7 @@
 - fixed) 벡터, Gerber, Excellon 파일을 가져올 때 가까운 경로는 자동으로 잇고, 파일 내용을 판별해 미지원 파일은 안전하게 건너뜀
 
 ## v1.11.0 (2026.7.27)
+
 - added) EntityStitchedImage 개체 추가
     - IView.StitchedImage 으로 사용 가능
 - added) IEntityCloneable 인터페이스 지원
@@ -50,6 +66,7 @@
     - 입력값 범위를 벋어난 경우 경고 대신 최대, 최소값 사이로 크기 조정
 
 ## v1.10.14 (2026.7.10)
+
 - added) TextConverters.Link 추가
     - LinkEntity 이름을 이용해 TextConverter 가 링크된 개체의 속성값을 가져와서 텍스트로 변환
 - fixed) UnDo, ReDo 안정성 향상
@@ -62,6 +79,7 @@
     - 병렬 처리시 사용되는 최대 태스크 개수 제한 지원 (기본값:논리 프로세서 수의 50%)
 
 ## v1.10.11 (2026.7.1)
+
 - refactor) Text
     - EntityText, EntityImageText, EntityCircularText: 자간조정(Kerning) 적용, Fixed 사용시 중앙정렬 적용
     - EntitySiriusText: Fixed 사용시 중앙정렬 적용. 외부 바이너리 포맷(.fnt 폰트 파일) 지원
@@ -84,6 +102,7 @@
     - UnDo 이후 객체의 속성 편집시 예외가 발생되는 문제
 
 ## v1.10.10 (2026.6.22)
+
 - added) 텍스트 개체의 고정폭 지원
     - 대상 개체: EntityText, EntitySiriusText
     - Target width 속성 추가
@@ -119,6 +138,7 @@
     - 스캐너를 회전시켜 사용시 원본 데이타 자동 계산을 위한 기능
 
 ## v1.9.0 (2026.6.1)
+
 - added) gcode 가져오기 지원
     - .gocde 혹은 .ngc 확장자 파일 
 - fixed) 텍스트 컨버터 TextConverters.Offset 개선
@@ -132,6 +152,7 @@
     - editor_entity_custom 데모 프로젝트 참고
 
 ## v1.8.6 (2026.5.14)
+
 - fixed) 해치
     - 선분 해치에 HatchFills 옵션 제공
     - 바코드 개체를 외곽선(Outline) 셀 타입 사용시 해치 적용이 올바르게 적용되도록 개선
@@ -142,6 +163,7 @@
     - 안정성 향상
 
 ## v1.8.5 (2026.5.8)
+
 - added) Undo, Redo 지원
     - IDocument 에서 ActUndo, ActRedo 지원
     - IDocument.Act 이름의 일부 함수에서만 유효
@@ -168,6 +190,7 @@
 - renamed) IPowerMap 의 IsEnableLookUp 을 IsLookUpEnable 으로 개명
 
 ## v1.8.1 (2026.4.22)
+
 - added) Remote 통신 지원
     - 외부 통신으로 레시피 변경, 개체의 속성 조회 및 변경, 마커 가공 시작, 정지, 리셋 명령, 가공 오프셋 설정을 지원하기 위한 IRemote 인터페이스 추가
     - 시리얼 통신 지원됨
@@ -189,6 +212,7 @@
 - fixed) 시뮬레이션 중 PropertyGrid 컨트롤 편집 제한
 
 ## v1.7.1 (2026.4.16)
+
 - updated) RTC6 v1.24.0 패키지
     - 2026.3.31 릴리즈 버전으로 업데이트
 - added) Rtc4MultiBeam
@@ -215,6 +239,7 @@
 - fixed) C# 스크립트 실행 속도 개선
 
 ## v1.6.1 (2026.4.9)
+
 - added) ViewerControl 
     - 사용자 컨트롤 추가
     - 하나의 문서를 뷰어와 에디터에 동시 렌더링 지원
@@ -241,11 +266,13 @@
     - OffsetControl 사용자 컨트롤
 
 ## v1.5.4 (2026.4.2)
+
 - fixed) 핫픽스
     - 디자인 타임에 SiriusEditorControl 사용자 컨트롤 생성시 발생하는 예외
     - 디자인 타임에 SiriusMultiEditorControl 사용자 컨트롤 생성시 발생하는 예외     
  
 ## v1.5.3 (2026.4.1)
+
 - fixed) IDocument
     - IDocument 와 IView 간 상호 연결 설정 추가
 - added) IPowerMeter
@@ -261,6 +288,7 @@
     - 스캔헤드에 설정된 내부행렬(회전 등)을 사용해 Raw 데이타 연산 처리 지원
 
 ## v1.5.2 (2026.3.27)
+
 - added) 스테퍼 모터 제어 지원
     - RTC5,6 의 스테퍼 단자를 통한 외부 스탭모터 제어 기능 추가
     - IRtcStepper 인터페이스 추가
@@ -293,6 +321,7 @@
 - added) 편집기 메뉴에 배열 붙혀넣기 추가
  
 ## v1.4.1 (2026.3.10)
+
 - added) 웹 서버를 통한 문서화 제공
     - 온라인 웹사이트: https://spirallab.co.kr/sirius3/doc 사용 가능
     - sirius3\doc\sirius3_doc_버전.zip 압축을 풀고 'start_doc.bat' 배치파일 실행으로도 사용가능
@@ -310,6 +339,7 @@
     - WaferMap 및 Substratemap 는 비활성화
 
 ## v1.4.0 (2026.3.3)
+
 - added) .net9.0-windows, .net10.0-windows 개발환경 추가
 - added) 외부 레이저 소스의 동기 신호에 의한 펄스 개수 출력
     - LASER 커넥터의 DIGITAL IN1 으로 외부 동기 신호 입력
@@ -336,6 +366,7 @@
     - 변경: 30 분간 평가 모드 활성화
 
 ## v1.3.2 (2026.2.20)
+
 - fixed) Automatic Laser Control 의 확장 모드 지원
     - Actual Velocity + Encoder + SCANAhead +  Inverse Speed Correction +  Backward Transformation + SDC + SkyWriting 신호 조합 사용가능
     - EntityLayerPen 속성에 PoD 목록에서 확장 모드 조합 설정 지원
@@ -351,6 +382,7 @@
 - fixed) IRtcWaitID 를 IRtcInterrupt 로 이름 변경
 
 ## v1.3.1 (2026.2.9)
+
 - added) IRtcSCANAhead 인터페이스
     - EntityPen 에 SCANAhead 용 항목(Corner, End, Acc Scale) 추가 
     - Position(or Trajectory) Acknowledge Limit 값 설정 지원 (초기값 : 전체 위치 범위의 0.28%)
@@ -358,6 +390,7 @@
 - added) IRtcWaitID 인터페이스
 
 ## v1.3.0 (2026.2.5)
+
 - added) EntityPolyline2D, EntityPolyline3D 
     - 정점 목록 편집기 추가
 - added) SiriusMultiEditorControl 컨트롤
@@ -374,6 +407,7 @@
     - syncAXIS 인스턴스가 옵션으로 변경
 
 ## v1.2.7 (2026.1.26)
+
 - added) EntityLayerPen 에 Variable Delays 기능 추가
     - Variable polygon delay: 꺽이는 각도에 따라 가변적인 폴리곤 지연시간 설정 (기본값: 활성화)
     - Variable jump delay: 점프 거리에 따라 가변적인 점프 지연시간 설정
@@ -386,6 +420,7 @@
 - fixed) 시뮬레이션 객체에 대한 ActRemove 실패
  
 ## v1.2.6 (2026.1.21)
+
 - added) 타원(ellipse) 개체 추가
 - added) EntityLine, EntityArc, EntityPolyline2D
     - Automatic laser control(defined vector) 지원을 위한 RampFactor 속성 추가됨
@@ -399,6 +434,7 @@
     - 변경: 선택 개체들의 개별 외곽 사각형을 모두 표시
 
 ## v1.2.5 (2026.1.15)
+
 - added) ClipHelper 추가됨 
 - added) 스페이스바를 누른채로 선택시 하부 개체 선택 모드 활성화
 - fixed) IHitTestable 광선검출 개선
@@ -409,6 +445,7 @@
 - updated) clipper2 v.2.0.0 업데이트
 	 
 ## v1.2.4 (2026.1.7)
+
 - added) 단축키 추가
    - CTRL + R: 렌더링 여부를 토글
    - CTRL + M: 마킹 여부를 토글
@@ -424,6 +461,7 @@
 - fixed) ActUngroup 사용시 잘못된 빈 트리노드로 인한 예외 해결
 
 ## v1.0.1 (2025.12.22)
+
 - added) .chm 도움말 파일
 - added) ActExpand 함수
    - 거리에 따른 경로 확대(or 축소) 지원
@@ -434,6 +472,7 @@
 - fixed) Marker.EntityWork 처리시 로그 메시지 추가
  
 ## v0.9.3 (2025.12.5)
+
 - added) 확대 맞춤 
    - 트리 노드를 더블클릭시 적용됨
    - 파일 열기 되었을때 적용됨
@@ -445,6 +484,7 @@
 - renamed) scanner pen 이름을 entity pen 으로 개명
 
 ## v0.9.2 (2025.11.25)
+
 - added) 메뉴에 블록 및 블록 삽입으로 변환 기능 추가
 - renamed) EntityGroup을 EntityMixedGroup으로 개명
 - fixed) ActUngroup 오류 수정
@@ -453,6 +493,7 @@
 - fixed) 파일 저장 시 스택 오버플로 예외 수정
 
 ## v0.9.1 (2025.11.18)
+
 - added) SpiralLab.Sirius3.Dependencies 패키지에 `gnuplot` 프로그램 포함
 - added) 편집기에 균일 그룹 생성 버튼 추가
 - fixed) EntityUniformGroup 렌더링 오류 수정
@@ -462,12 +503,15 @@
 - changed) Core.Initialize 시그니처 변경
 
 ## v0.8.2 (2025.11.11)
+
 - fixed) HPGL 형식 파싱 실패 수정
 - fixed) 스캐너 펜이 적용되지 않는 문제 수정
 - fixed) ActNew 실행 시 스캐너/레이어 펜 개체 새로 고침
 
 ## v0.8.0 (2025.11.7)
+
 - 개발자 미리보기 버전
 
 ## v0.1 (2025.03.06)
+
 - 최초 릴리스

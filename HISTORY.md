@@ -1,10 +1,22 @@
 ﻿# Sirius3 version history
 
+## v1.13.0 (2026.8.31)
+
+- updated) Updated the SCANLAB RTC6 dependency to Software Package 1.25.0, selected firmware automatically for the board revision during initialization, and exposed `RtcRevision` values 0 for Revision 1 and 1 for Revision 2
+- added) Added the `EntityNURBSSurface`, `EntityTorus`, `EntityPlane`, and `EntityPyramid` 3D surface meshes and their factory methods, with WinForms editor support for creating and editing 3D meshes and splines and previewing slices
+- added) Added Fixed character-cell width and glyph-width fitting to linear and circular Sirius/GDI text and `EntityImageText`, keeping character positions stable for whitespace and missing glyphs as well
+- changed) Circular text now lays out line breaks as concentric lines, with more stable text baselines and logical bounds and improved transparent-margin calculation for `EntityImageText`
+- fixed) 1D and 2D barcodes now keep `Width` and `Height` as independent maximum machining bounds and fit the encoded matrix inside them without exceeding the requested size
+- fixed) Multi-pulse point marking by `EntityPoint` and `EntityPoints` now applies `EntityPen.IsPixelPulsesExit` to the RTC command
+- fixed) The RTC 2D correction grid now accepts dx/dy separated by whitespace or a comma and again colors cells according to the error distance
+
 ## v1.12.2 (2026.8.18)
+
 - added) Added the `EntityCircularSiriusText` entity
 - fixed) SiriusText AutoKerning now calculates character spacing from the actual shortest distance between glyph segments, including diagonal distances
 
 ## v1.12.1 (2026.8.16)
+
 - added) `EntitySiriusText.IsAutoKerning` now supports automatic kerning of adjacent glyphs from cached font outlines in Variable character-spacing mode
 - fixed) Fixed character-spacing mode now preserves character-cell positions and both end-cell margins when content changes, supports configurable multilingual font-metric samples, and selects fallbacks using Unicode 17 script ranges
 - fixed) When the target of `TextConverters.Link` also uses `Link`, marking now records an error and stops instead of following a consecutive link chain
@@ -14,6 +26,7 @@
 - changed) RTC 2D/3D correction dialogs, shared validation errors, and custom message-box buttons now use Sirius3 resources for English, Korean, Simplified Chinese, Japanese, and German
 
 ## v1.11.14 (2026.8.7)
+
 - fixed) OpenTK 3 and 4 now read and restore polygon modes safely for their context type, preventing Release-mode memory access failures, disappearing bound boxes, and an incorrect OpenTK 3 debug assertion
 - fixed) Laser-path simulation now stops promptly with ESC without a PropertyGrid timeout, repeated virtual-RTC aborts during cleanup, or a normal virtual-laser abort being reported as an error
 - fixed) Cancelling the F5 marker-start confirmation from the editor surface or a focused tree view no longer opens the same dialog a second time
@@ -26,12 +39,14 @@
 - added) PropertyGrid properties can now be searched by name, category, or description, with CTRL+F focus and one-click clearing
 
 ## v1.11.11 (2026.8.5)
+
 - fixed) RTC6 now reads status and analog I/O through the correct controller API, detects Ethernet connection errors correctly, and shuts down without racing its status timers
 - fixed) syncAXIS jobs now clear their busy state reliably after completion and report configuration errors consistently
 - fixed) StreamParser connection, reconnection, and shutdown are more stable, including safe cleanup of pending receive work
 - fixed) Barcode encoding is now optional, requested dot dimensions are preserved with the actual matrix size available separately, and Data Matrix shape switching no longer shrinks the requested size
 
 ## v1.11.10 (2026.8.1)
+
 - fixed) Barcodes now stay within the requested size, and their machining paths, supplemental codes, hatching, and dot-cell simulation line up correctly
 - fixed) 3D mesh slicing is faster and more reliable, with clearer warnings for broken or incomplete meshes
 - fixed) AABB hit testing is more stable and faster, without changing the entity geometry
@@ -40,6 +55,7 @@
 - fixed) Vector, Gerber, and Excellon imports now join nearby paths automatically, detect file contents, and skip unsupported files safely
 
 ## v1.11.0 (2026.7.27)
+
 - added) Added the EntityStitchedImage object
     - Can be used as IView.StitchedImage
 - added) Added support for the IEntityCloneable interface
@@ -50,6 +66,7 @@
     - When values exceed the input range, resize them to fit between the maximum and minimum values instead of displaying a warning
      
 ## v1.10.14 (2026.7.10)
+
 - added) TextConverters.Link
     - TextConverter retrieves the property values of a linked object using the LinkEntity name and converts them to text.
 - fixed) Improved stability of Undo and Redo.
@@ -62,6 +79,7 @@
     - Supports limiting the maximum number of tasks used during parallel processing (default: 50% of the number of logical processors)
  
 ## v1.10.11 (2026.7.1)
+
 - refactoring) Text
     - EntityText, EntityImageText, EntityCircularText: Applied kerning; center alignment applied when "Fixed" is used
     - EntitySiriusText: Center alignment applied when using "Fixed." Support for external binary formats (.fnt font files) added
@@ -84,6 +102,7 @@
     - Issue where an exception occurred when editing object properties after an Undo
      
 ## v1.10.10 (2026.6.22)
+
 - added: Support for fixing the full width of text objects
     - Target objects: EntityText, EntitySiriusText
     - Added the "Target width" property
@@ -119,6 +138,7 @@
     - Functionality for automatically calculating original data when using a rotated scanner
      
 ## v1.9.0 (2026.6.1)
+
 - added) Support for importing G-code
     - File extensions: .gocde or .ngc files
 - fixed) Improvements to the TextConverter's TextConverters.Offset
@@ -132,6 +152,7 @@
     - See the editor_entity_custom demo project
      
 ## v1.8.6 (2026.5.14)
+
 - fixed) Hatch
     - Added the HatchFills option for line hatch
     - Improved: Hatching is now applied correctly when using the Outline cell type for barcode objects
@@ -142,6 +163,7 @@
     - Improved stability
      
 ## v1.8.5 (2026.5.8)
+
 - added) Undo and Redo support
     - Support for ActUndo and ActRedo in IDocument
     - Valid only for certain functions named IDocument.Act
@@ -167,6 +189,7 @@
     - Applied raster machining method
  
 ## v1.8.1 (2026.4.22)
+
 - added) Remote
     - Added the IRemote interface to support recipe changes, object property queries and modifications, and commands to start, stop, and reset marker processing via external communication, as well as the setting of processing offsets
     - Serial communication supported
@@ -187,6 +210,7 @@
     - Fixed an error with button toggle states
      
 ## v1.7.1 (2026.4.16)
+
 - updated) RTC6 v1.24.0 package
     - Release version: March 31, 2026
 - fixed) IMarker
@@ -211,6 +235,7 @@
 - fixed) Improved C# script execution speed
  
 ## v1.6.1 (2026.4.9)
+
 - added) ViewerControl 
     - Added a user control 
     - Support for rendering a single document simultaneously in the viewer and editor 
@@ -237,11 +262,13 @@
     - OffsetControl user control
      
 ## v1.5.4 (2026.4.2)
+
 - Fixed) Hotfix
     - exception occurring when creating a SiriusEditorControl user control at design time
     - exception occurring when creating a SiriusMultiEditorControl user control at design time
 
 ## v1.5.3 (2026.3.31)
+
 - fixed) IDocument
     - added IView connection settings
 - added) IPowerMeter
@@ -257,6 +284,7 @@
     - support added for processing raw data using the internal matrix (rotation, etc.) set in the scan head
      
 ## v1.5.2 (2026.3.27)
+
 - added) Stepper motor control support
     - added controlling external stepper motors via the stepper port on the RTC5, RTC6
     - added the IRtcStepper interface
@@ -289,6 +317,7 @@
 - added) paste array at editorcontrol
 
 ## v1.4.1 (2026.3.10)
+
 - added) documentation provided via web server
     - online website: https://spirallab.co.kr/sirius3/doc available
     - alternatively, extract the sirius3\doc\sirius3_doc_{version}.zip archive and run the 'start_doc.bat' batch file
@@ -303,6 +332,7 @@
     - WaferMap and Substratemap are deactivated
     
 ## v1.4.0 (2026.3.3)
+
 - added) .NET 9.0-Windows, .NET 10.0-Windows development environments
 - added) Pulse count output via synchronisation signal from external laser source
     - External synchronisation signal input via DIGITAL IN1 on LASER connector
@@ -329,6 +359,7 @@
     - Changed: Activates 30-minute evaluation mode
      
 ## v1.3.2 (2026.2.20)
+
 - fixed) Support for Extended Mode in Automatic Laser Control
     - Actual Velocity + Encoder + SCANAhead + Inverse Speed Correction + Backward Transformation + SDC + SkyWriting signal combinations now usable
     - Support added for setting Extended Mode combinations in the PoD list within the EntityLayerPen properties
@@ -345,6 +376,7 @@
 - fixed) renamed IRtcWaitID to IRtcInterrupt
  
 ## v1.3.1 (2026.2.9)
+
 - added) IRtcSCANAhead interface
     - Added SCANAhead-specific items (Corner, End, Acc Scale) to EntityPen
     - Supports setting Position(or Trajectory) Acknowledge Limit value (default: 0.28% of total position range)
@@ -352,6 +384,7 @@
 - added) IRtcWaitID interface
  
 ## v1.3.0 (2026.2.5)
+
 - added) EntityPolyline2D and EntityPolyline3D
     - vertex list editor 
 - added) SiriusMultiEditorControl control
@@ -368,6 +401,7 @@
     - syncAXIS instance changed to an option feature
 
 ## v1.2.7 (2026.1.26)
+
 - added) Added Variable Delays to EntityLayerPen
     - Variable polygon delay: Set variable polygon delay time based on the angle of the bend (Default: Enabled)
     - Variable jump delay: Set variable jump delay time based on the jump distance
@@ -382,6 +416,7 @@
 - fixed) ActRemove failure for simulated entities
  
 ## v1.2.6 (2026.1.20)
+
 - added) Ellipse entity
 - added) EntityLine, EntityArc, EntityPolyline2D
 	- Added RampFactor property for Automatic laser control(defined vector) support
@@ -395,6 +430,7 @@
    - Changed: Displays all individual bounding rectangles for selected objects
 	 
 ## v1.2.5 (2026.1.15)
+
 - added) ClipHelper to intersect 
 - added) activate sub-entity hit mode if spacebar has pressed
 - fixed) improve rayhit test for IHitTestable 
@@ -405,6 +441,7 @@
 - updated) clipper2 v.2.0.0
 
 ## v1.2.4 (2026.1.7)
+
 - added) shortcuts
    - CTRL + R: toggle allow to render
    - CTRL + M: toggle allow to mark
@@ -420,6 +457,7 @@
 - fixed) invalid exception when do ActUngroup by empty node
 
 ## v1.0.1 (2025.12.22)
+
 - added) .chm documentation files
 - added) ActExpand 
    - expand(or shrink) contours by distance
@@ -430,6 +468,7 @@
 - fixed) more log message for Marker.EntityWork 
  
 ## v0.9.3 (2025.12.5)
+
 - added) zoom to fit 
    - mouse double click at treeview
    - after file has opened
@@ -441,6 +480,7 @@
 - renamed) scanner pen to entity pen
 
 ## v0.9.2 (2025.11.25)
+
 - added) convert to block and block insert at menu
 - renamed) EntityGroup to EntityMixedGroup
 - fixed) ActUngroup bug
@@ -449,6 +489,7 @@
 - fixed) stackoverflow exception when save file
 
 ## v0.9.1 (2025.11.18)
+
 - added) include 'gnuplot' program at Spirallab.Sirius3.Dependencies package
 - added) create uniform group button at editor
 - fixed) invalid render issue at EntityUniformGroup 
@@ -458,12 +499,15 @@
 - changed) Core.Initialize signatures
 	 
 ## v0.8.2 (2025.11.11)
+
 - fixed) fail to parse HPGL format
 - fixed) scanner pen is not applied
 - fixed) refresh scanner/layer pen object when do ActNew
 	 
 ## v0.8.0 (2025.11.7)
+
 - Developer preview version
   
 ## v0.1 (2025.03.06)
+
 - Initial release 

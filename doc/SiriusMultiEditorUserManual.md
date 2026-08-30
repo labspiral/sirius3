@@ -1,37 +1,50 @@
-# SiriusMultiEditorControl & Hardware Integration User Manual
+# SiriusMultiEditorControl User Manual
 
+> Reference version: Sirius3 1.12.3 (public Release features)
 
-## 1. 개요 (Overview)
+## 1. Purpose
 
-SiriusMultiEditorControl은 단일(!) 문서(`IDocument`)를 공유하면서 여러 개의 하드웨어 세트(최대 4개)를 개별적으로 제어해야 하는 다중 헤드(Multi-head) 시스템을 위해 설계되었습니다. 상단의 라디오 버튼을 통해 활성 장치(Active Device)를 즉시 전환하며 각 헤드의 상태를 모니터링할 수 있습니다.
+`SiriusMultiEditorControl` is a public WinForms control that shares one `IDocument` and editor while switching among one to four indexed Scanner/Laser/Marker device sets. It does not edit multiple recipes simultaneously; it connects the same recipe to multiple device configurations for status inspection and execution.
 
-## 2. IDocument의 역할 (Recipe Container)
+In public demo `editor_multiple2` and `editor_ui` you can check the initialization, device registration and UI source copy-based customization.
 
-`IDocument`는 모든 레이저 가공 레시피의 고수준 컨테이너입니다.
-- 데이터 관리: 모든 기하학적 엔티티(도형), 페이지, 레이어, 가공 펜(Pen) 데이터를 보유합니다.
-- 하드웨어 비의존성: 문서는 추상화된 좌표계를 사용하며, 실제 가공 시 하드웨어(RTC 카드)의 보정 파일(.ct5)과 결합되어 정확한 위치로 변환됩니다.
-- 핵심 메서드: `ActRegen`(데이터 재생성), `ActSave`(파일 저장), `ActAdd`(개체 추가) 등을 통해 모든 가공 준비를 마칩니다.
+## 2. Initialization Order
 
-## 3. 하드웨어 외부 설정의 필요성 (External Device Registration)
+1. Call `Core.Initialize()`.
+2. Read `config*.ini` to generate Scanner, Laser, PowerMeter, DIO, Marker, and Remote for each index.
+3. Set `MaxDeviceCounts` to 1 to 4.
+4. Register each set as `RegisterDevices(index, ...)`.
+5. Select the active set to display on the screen with `SwitchDevices(index)`.
+6. When closing, stop and disable the Marker and Device and call `Core.Cleanup()`.
 
-Sirius3 UI 컨트롤러들은 내부적으로 하드웨어를 직접 생성하지 않습니다. 사용자가 외부(Main Form 등)에서 시스템 환경에 맞는 인스턴스들을 생성하여 주입(Injection)해야 합니다.
+## 3. RegisterDevices
 
-- Scanner (IScanner): 궤적 제어 및 보정 테이블 적용을 위해 필수입니다.
-- Laser (ILaser): 아날로그/디지털/RS232 등 레이저 소스 타입에 따른 파워 변조를 담당합니다.
-- PowerMeter (IPowerMeter): 실시간 파워 모니터링 및 PowerMap 기능 사용 시 필요합니다.
-- Marker (IMarker): 위 모든 하드웨어와 문서를 조합하여 실제 가공 리스트를 생성하고 실행하는 '엔진' 역할을 수행합니다.
-- and so on
+`RegisterDevices` connects Scanner, Laser, PowerMeter, Extension/LASER-port DInput·DOutput, Marker and Selective Remote to the same index. Inside it also calls `Ready` of that Marker so don't call again after registration and check `marker.IsReady` and logs.
 
-## 4. Multi-Editor 사용 방법 (How to use Multi-Editor)
+The layout properties use the same index as one set.
 
-- MaxDeviceCounts 설정: 지원할 최대 헤드 수(1~4)를 설정합니다.
-- RegisterDevices(index, ...): 각 인덱스(0~3)에 해당하는 하드웨어 세트를 등록합니다.
-- SwitchDevices(index): 가공 또는 모니터링할 대상을 클릭하여 전환합니다. 전환 시 UI의 모든 하위 컨트롤(ScannerControl 등)이 해당 인덱스의 하드웨어 정보로 즉시 갱신됩니다.
+- `Scanners[index]`
+- `Lasers[index]`
+- `PowerMeters[index]`
+- `Markers[index]`
+- DInput/Doutput and Remote Settings
 
-## 5. 주의 사항 (Cautions)
+## 4. SwitchDevices
 
-- 마커가 동작 중(Busy)인 헤드가 하나라도 있을 경우, 문서(`IDocument`)를 변경하거나 편집하는 행위는 제한됩니다.
-- 하드웨어 세트 전환 시 현재 선택된 엔티티 정보는 유지되지만, 속성창(`PropertyGrid`)은 활성화된 장치의 특성에 맞춰 가시성이 변경될 수 있습니다.
+`SwitchDevices(index)` re-connects the active Scanner/Laser/Marker to the sub-UI control and PropertyGrid. Document and selected objects areined, but the PropertyGrid items and status indications supported by the active device may be different.
+
+Check whether the conversion is successful and the current index change event. If you have a running Marker, document editing or device conversion may be limited.
+
+## 5. Safety and Cleanup
+
+- Many devices share the same Document so don’t change process data when one Marker is Busy.
+- Check KFactor, correction files, Laser Mode, PowerMax and PowerMap for each set according to the index.
+- `DisposeDevices()` is an explicit action to fix a registered device. Do not confuse with the general Dispose of UI Control.
+- The real Marker Start shortcut can run the selected active device.
+
+## 6. Difference from Multi-Beam
+
+`SiriusMultiEditorControl` is a control that converts several separate devices from the UI. Multi-Beam, which divides one laser source by two RTCs as AOM and Token, is a separate hardware structure responsible for `IRtcMultiBeam` and `RtcMultiBeamHelper`.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

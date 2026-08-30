@@ -1,44 +1,55 @@
 # PropertyGrid Control & Entity Inspector User Manual
 
+> Reference version: Sirius3 1.12.3 (public Release features)
 
-## 1. 개요 (Overview)
+## 1. Role of PropertyGrid
 
-PropertyGridControl은 선택된 엔티티(Entity)의 속성을 계층적으로 표시하고 사용자가 값을 직접 수정할 수 있게 해주는 인스펙터(Inspector) 컨트롤입니다. 
-단순한 속성 표시를 넘어, 하드웨어 사양에 따른 속성 가시성 제어 및 가공 중 편집 보호 기능을 포함하고 있습니다.
+PropertyGrid displays and edits the selected Page, Layer, Entity, EntityPen, EntityLayerPen, or device settings from the editor or TreeView. A committed value change updates the Document, regenerates affected geometry when required, and refreshes the editor.
 
-## 2. 외부 문서 및 선택 동기화 (Document Binding)
+## 2. Selection and Display
 
-- 자동 동기화: `PropertyGridControl.Document` 속성에 `IDocument` 인스턴스가 연결되면, 문서의 `OnSelected` 이벤트를 자동으로 구독합니다.
-- 실시간 반영: 
-  - 사용자가 OpenGL 화면이나 트리뷰에서 개체를 선택하면, 해당 개체의 모든 속성이 즉시 그리드에 표시됩니다.
-  - 다중 선택 지원: 여러 개체를 동시에 선택하면 공통된 속성 항목들이 표시되며, 값을 수정할 경우 선택된 모든 개체에 일괄 적용됩니다.
+- Choose one object: Show all public editing properties of that object
+- Select multiple objects: Show only common properties and select one change to apply to the whole object
+- Layer/Pen Choice: Show Layer or Processing Conditions instead of Object Shape
+- Device Change: Properties that are not supported by the connected RTC·Laser are displayed as hidden or read only
 
-## 3. 속성 변경 및 데이터 재생성 (Value Tracking)
+When describing an object or comparing values, first select the object in TreeView or Editor to make sure PropertyGrid is filled.
 
-- 변경 알림: 그리드에서 값을 변경하면 내부적으로 `Document.ActPropertyChanged` 메서드가 호출됩니다.
-- 연쇄 작업: 속성 변경 시 도면은 변경 플래그(`ModifyFlags`)를 설정하고, `ActRegen`을 통해 메시나 테셀레이션 데이터를 자동으로 재생성하여 화면에 즉시 반영합니다.
+## 3. Property Search
 
-## 4. 마커 연동 및 안전 잠금 (Marker Integration & Safety)
+From Sirius3 1.11.14 you can search for properties **Name, Category, Description**.
 
-레이저 가공 중 데이터가 변경되는 것을 방지하기 위한 강력한 안전 장치를 포함합니다.
-- 편집 잠금 (Auto-Lock): `Marker` 인스턴스가 연결되어 있을 경우, 마커의 `OnStarted` 이벤트를 수신하면 그리드 전체가 비활성화(`Enabled = false`)됩니다.
-- 잠금 해제: 가공이 안전하게 종료(`OnEnded`)되면 다시 편집 가능한 상태로 복구됩니다.
+- `CTRL+F`: Go to the search window
+- Search word enter: Show only matching properties
+- Clear button: Delete the search conditions at once
 
-## 5. 주요 속성 카테고리 (Property Categories)
+The unseen properties during search may not be deleted but excluded from the filter. check the device support and search word together.
 
-엔티티의 종류에 따라 다음과 같은 주요 카테고리가 표시됩니다.
-- Basic: 개체의 이름, ID, 레이어 소속 정보 및 색상 모드.
-- Transform: 위치(X, Y, Z), 회전, 배율 정보.
-- Laser (Pen): 가공 파워, 주파수, 펄스폭 등 레이저 소스 제어 파라미터.
-- Scanner (Pen): 마킹 속도, 점프 속도, 각종 스캐너 지연(Delay) 시간.
-- PoD (ALC): 속도 동기화 파워 제어(ALC) 및 고급 보정 설정 (RTC5/6 지원 항목).
-- SyncAXIS: 스테이지 동기화 제어 관련 파라미터 (syncAXIS 지원 항목).
+## 4. Main Categories
 
-## 6. 주의 사항 (Cautions)
+- Basic: name, ID, processing/rendering permitted
+- Transform: position, rotation, distribution, ModelMatrix
+- Geometry/Text/Hatch: size, height, text, hatch
+- Laser: Power, PowerMax, PowerMapCategory, Frequency, PulseWidth
+- Scanner: Mark/Jump Speed, Laser/Scanner Delay, Hard Jump
+- Raster: RasterMode, PixelTime, PixelPeriod, PixelPulses
+- Wobbel: Shape, Frequency, Parallel/Perpendicular Extension
+- Layer Advanced: Sky Writing, Variable Delay, ALC, SCANAhead
+- syncAXIS: MotionType, Bandwidth, etc.
 
-- 가공 중 강제 편집 금지: 하단 상태바가 Busy(황색 점멸) 상태일 때는 하드웨어 보호를 위해 속성창 조작이 불가능합니다.
-- 하드웨어 제약: 현재 연결된 `IScanner` 모델이 지원하지 않는 기능(예: RTC4 사용 시 Skywriting 설정 등)은 카테고리에서 자동으로 숨겨집니다.
-- 단위계: 모든 위치값은 mm, 시간값은 µs, 각도는 Degree 단위를 기본으로 사용합니다.
+## 5. Changes in value and scope.
+
+Number Editor can adjust values outside the permissible range to the minimum/maximum values of the property. Do not assume that the input values remain the same, but check the display values and logs after editing is completed.
+
+When you activate `UI.Config.IsConvertToControllerResolution`, the time and frequency values of EntityPen/EntityLayerPen may be displayed according to the application resolution of the RTC connected, which is separate from the coordinate KFactor conversion.
+
+## 6. Localized Descriptions
+
+Core and UI Config, PropertyGrid names, classifications and descriptions use the language resource you have chosen. From Sirius3 1.11.14, the relevant settings, notes and application orders are displayed again in several lines. After changing to another language, open PropertyGrid again or update your choice to check the display.
+
+## 7. Restrictions During Marking
+
+If the Marker is Busy, it will limit the editing of the shape and process conditions. extension, reduction and screen movements are possible but the selection and data changes are locked. F5 can lead to the real Marker Start, so use it after checking the work area and the laser safety state.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

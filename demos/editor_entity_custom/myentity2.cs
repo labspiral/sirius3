@@ -72,7 +72,7 @@ namespace Demos
         /// <inheritdoc/>
         [Browsable(false)]
         [JsonIgnore]
-        public override bool IsAllowSlice { get; set; }
+        public override bool IsPreviewSlice { get; set; }
 
         /// <inheritdoc/>
         [Browsable(false)]

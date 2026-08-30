@@ -1,46 +1,48 @@
 # RTC RS-232 Serial Communication User Manual
 
+> Reference version: Sirius3 1.12.3 (public Release features)
 
-## 1. 개요 (Overview)
 
-본 매뉴얼은 SCANLAB RTC5/6 제어기에 내장된 RS-232C 포트(Fig 9)를 사용하여 레이저 소스, 센서, 자동화 설비 등 외부 주변 장치와 통신하는 Sirius3 SerialCommControl의 사용 방법을 설명합니다.
+## 1. Overview
 
-## 2. RTC 시리얼 통신의 최대 장점: 실시간성 (Real-time Advantage)
+This manual explains how Sirius3 `SerialCommControl` communicates with external devices such as laser sources, sensors, and automation equipment through the RS-232C port built into SCANLAB RTC5/6 controllers.
 
-일반적인 PC 시리얼 포트와 달리, RTC 카드의 시리얼 통신은 '가공 리스트(List)' 명령어 내에서 직접 송신 명령(`ListSerialWrite`)을 내릴 수 있습니다.
+## 2. RTC: Real-time Advantage (Real-time Advantage)
 
-- 초정밀 동기화: 윈도우 운영체제의 타이머 지터(Jitter)나 통신 지연(Latency) 없이, 스캐너가 이동하거나 레이저가 켜지는 정확한 시점(10µs 주기 단위)에 맞춰 외부 장비로 명령을 보낼 수 있습니다.
-- 독립적 수행: 일단 가공 리스트가 RTC 보드로 다운로드되면, PC의 상태나 부하와 무관하게 보드의 DSP가 정해진 타이밍에 데이터를 송신합니다.
-- 활용 예: 가공 도중 레이저 소스의 파라미터를 실시간(!)으로 변경하거나, 특정 구역 가공 직후 자동화 설비에 완료 신호를 보낼 때 매우 유용합니다.
-- 주의: 일반 시리얼 통신 방식이 아닌 RTC 에서 실시간 으로 레이저 소스에 특정 명령을 정확한 리스트 명령 실행 타이밍에 맞추어 송신해야 하는 특수한 경우에 유용합니다.
+Unlike the usual PC serial ports, the serial communication of the RTC card can send the direct transmission command (`ListSerialWrite`) within the 'List' command.
 
-## 3. PC 시리얼 통신과의 차이점 및 제약 사항 (Constraints)
+- Super accuracy synchronization: Without the Jitter or Latency of the Windows operating system, you can send commands to the external device in accordance with the exact moment when the scanner moves or the laser is activated (10μs cycle unit).
+- Independent execution: Once the processing list is downloaded to the RTC board, the data will be transmitted at the time specified by the DSP of the board, regardless of the condition or load of the PC.
+- Use Examples: It is used when changing the laser source parameters in accordance with the exact runtime of the RTC List, or when sending a completed signal to the automation facility immediately after a particular area processing.
+- Note: It is useful in special cases where you need to send specific commands to the laser source in real time from RTC, not the usual serial communication method, in accordance with the exact list commands run time.
 
-RTC 보드의 시리얼 통신은 하드웨어적으로 설계되어 있어 일반 PC 통신보다 기능이 단순하고 엄격합니다.
+## 3. Differences from and Constraints of PC Serial Communication
 
-- 고정 포맷 (Fixed 8-N-1): 
-  - 설정 가능 항목: 오직 통신 속도(Baud rate)만 변경 가능합니다.
-  - 고정 항목: 데이터 8비트, 시작 1비트, 스톱 1비트, 패리티 없음(None)으로 고정되어 있습니다. 상대 장비가 이 형식을 지원해야 합니다.
-- 수신 버퍼의 한계:
-  - RTC 보드의 수신 버퍼는 단 256 문자의 링 버퍼(Ring buffer)만 제공합니다. 
-  - 데이터를 즉시 읽어가지 않으면 버퍼 오버런(Overrun)으로 인해 데이터가 유실될 가능성이 매우 높습니다.
-- 폴링(Polling) 방식:
-  - 하드웨어 인터럽트나 이벤트 콜백을 지원하지 않습니다. 
-  - Sirius3 UI에서는 내부적으로 주기적 폴링을 통해 데이터를 읽어 이벤트로 통지하지만, 사용자 로직에서 직접 구현할 때는 반드시 주기적으로 `CtlSerialRead`를 호출해야 합니다.
+RTC-board serial communication is implemented in hardware, so it offers a smaller and more strictly defined feature set than general-purpose PC serial communication.
 
-## 4. UI 주요 기능 설명 (Key Features)
+- Fixed format (Fixed 8-N-1):
+  - Settings: Only the communication rate (Baud rate) can be changed.
+  - Fixed framing: 8 data bits, 1 start bit, 1 stop bit, and no parity. The connected device must support this format.
+- Acceptance of the buffer:
+  - The receiving buffer on the RTC board offers only a 256 characters ring buffer.
+  - If you don’t read the data immediately, you’re very likely to lose the data due to the buffer overrun.
+- Method of polling:
+  - It does not support hardware interrupts or event callbacks.
+  - In Sirius3 UI, the data is read and notified as an event through periodic polling, but when implemented directly from the user logic, it is necessary to periodically call `CtlSerialRead`.
 
-- ASCII / HEX 모드: 텍스트 기반 명령과 바이너리(Hex) 데이터를 선택하여 송신할 수 있습니다.
-- Line Ending 설정: 명령의 끝을 알리는 CR(\r), LF(\n), CRLF(\r\n) 또는 없음 중에서 선택 가능합니다.
-- 데이터 모니터:
-  - Sent (송신): 하드웨어를 통해 나간 데이터 이력을 확인할 수 있습니다.
-  - Received (수신): 외부 장비로부터 들어온 데이터를 실시간으로 표시합니다.
-- Busy 상태 체크: 레이저 가공이 진행 중인(Busy) 상태에서는 수동 송신(`CtlSerialWrite`)이 제한될 수 있습니다.
+## 4. Key Features
 
-## 5. 주의 사항 (Cautions)
+- ASCII/HEX mode: Text-based commands and binary (Hex) data can be selected and transmitted.
+- Line Ending Settings: You can choose between CR(\r), LF(\n), CRLF(\r\n) or No to notify the end of the command.
+- Data Monitor is:
+  - Sent (transmission): You can check out the data history through the hardware.
+  - Received (received): Showing data from external devices in real time.
+- Busy state check: in the processing processing (Busy) state, manual transmission (`CtlSerialWrite`) may be limited.
 
-- 대량 데이터 전송 지연: 제어 명령(`CtlSerialWrite`)으로 긴 문자열을 보낼 경우, 전송이 완료될 때까지 PC 소프트웨어의 실행 흐름이 일시적으로 차단(Block)될 수 있습니다.
-- 통신 규격 확인: RTC5/6는 표준 RS-232C 규격을 따르며, 전압 레벨이나 핀 배열이 장비와 맞지 않을 경우 통신이 되지 않거나 하드웨어가 손상될 수 있으니 주의하십시오.
+## 5. Cautions
+
+- Mass data transfer delays: If you send a long string with the control command (`CtlSerialWrite`), the running flow of the PC software may be temporarily blocked (Block) until the transfer is completed.
+- Verify the communication standard: RTC5/6 uses RS-232C. An incompatible voltage level or pinout can prevent communication or damage hardware.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

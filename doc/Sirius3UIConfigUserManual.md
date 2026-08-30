@@ -1,94 +1,405 @@
-# # SpiralLab.Sirius3.UI 라이브러리 설정 매뉴얼
+# SpiralLab.Sirius3.UI.Config Settings Guide
 
+> Reference version: Sirius3 1.12.3 (public Release features)
 
-## ## 개요
+## 1. Role and Configuration Timing
 
-`SpiralLab.Sirius3.UI.Config` 클래스는 Sirius3 UI 라이브러리의 런타임 동작, 기본 상호작용, 파일 핸들링 및 하드웨어별 UI 커스터마이징에 관한 전역 정적 설정들을 제공합니다.
+`SpiralLab.Sirius3.UI.Config` is the static configuration surface for Document, Editor, TreeView, PropertyGrid, import, text, Marker, and WinForms extension behavior. Set these values before creating UI controls and Documents so newly created objects use the intended policy.
 
+Core settings and names are the same, so using the pseudonyms can reduce confusion.
 
-## ## 1. 문서 및 에디터 설정
+```csharp
+using CoreConfig = SpiralLab.Sirius3.Config;
+using UIConfig = SpiralLab.Sirius3.UI.Config;
 
-- **최대 페이지 수:** 문서당 허용되는 최대 페이지 수입니다. (기본값: 4)
-- **최대 하위 선택 항목:** 선택된 엔티티에 대해 표시되는 하위 메뉴 항목의 최대 개수입니다. (기본값: 50)
-- **에디터 도구 모음 숨기기:** 편집 모드가 아닐 때 에디터의 도구 모음을 숨길지 여부입니다. (기본값: False)
+CoreConfig.DecimalPrecision = 3;
+UIConfig.UnReDoSize = 50;
+UIConfig.ImportMergeDistance = 0.001;
+UIConfig.KeyboardMarkerStart = SpiralLab.Sirius3.View.GLKeys.F5;
 
-## ## 2. 파일 핸들링 및 필터
+if (!SpiralLab.Sirius3.Core.Initialize())
+    throw new InvalidOperationException("Sirius3 initialization failed.");
+```
 
-- **어셈블리 이름:** `SpiralLab.Sirius3.UI.dll`
-- **파일 필터:**
-  - **열기:** `*.sirius3`, `*.dxf`, `*.dwg` 지원.
-  - **가져오기:** `*.stl`, `*.obj`, `*.ply`, `*.png`, `*.bmp`, `*.jpg`, `*.plt`, `*.gbr` 등 다양한 형식 지원.
-  - **저장:** `*.sirius3` 전용.
-  - **계측:** 계측 데이터용 `*.txt`.
-- **압축:** `.sirius3` 파일 저장 시 압축 형식 사용 여부입니다. (기본값: 릴리스 모드에서 True)
-- **파일 헤더:** 파일 버전 관리를 위한 내부 헤더 설정입니다.
+Config values apply to the whole process.You must not expect different values for each editor in a program that uses multiple editors.The already generated or cache fonts, pen, shapes and UIs may not be automatically re-generated even if you change the settings.
 
-## ## 3. 경로 설정
+## 2. Document and Undo/Redo
 
-- **Sirius 폰트 경로:** Sirius 폰트(*.cxf, *.lff, *.fnt) 저장 경로입니다. (기본값: `\siriusfonts`)
+| Setting | Default | Explanation and point. |
+|---|---:|---|
+| `MaxPages` | `4` | The maximum number of pages that one document can have. read only. |
+| `IsUnReDoEnable` | `true` | Undo/Redo records are used. the property name uses the letter defined in the API. |
+| `UnReDoSize` | `30` | The number of Undo/Redo records to be stored. `0` has no number limit, so check the memory use together. |
+| `IsFileSaveWithImage` | `false` | `IDocument.ActSave` decides whether Snapshot images will be stored in the same location. View and storage folder requires the authorization to write. |
 
-## ## 4. 트리뷰 (TreeView) 설정
+Undo/Redo acts based on the `IDocument.Act*` task. If you change the Page, Layer or Entity Collection directly, you may not guarantee the same status for history and TreeView, so use the Public Document task method.
 
-- **최대 노드 항목:** 단일 트리뷰 노드에 허용되는 최대 항목 수입니다. (기본값: 10,000)
-- **트리뷰 글꼴 크기:** 트리뷰 노드의 기본 글꼴 크기입니다. (기본값: 8.25 pt)
-- **노드 글꼴:** 일반, 굵게, 취소선 등 스타일별 글꼴 설정입니다.
+## 3. File Format and JSON Converter
 
-## ## 5. 펜 및 색상 설정
+| Property | Default or action. | Explanation |
+|---|---|---|
+| `AssemblyName` | `SpiralLab.Sirius3.UI.dll` | UI Assembly Files |
+| `AssemblyVersion` | The running assembly version. | `Major.Minor.Build` format only read value |
+| `FileOpenFilters` | Sirius3, DXF, DWG | Open the dialog box Filter |
+| `FileImportFilters` | Sirius3, STL, OBJ, PLY, DXF, DWG, image, HPGL/PLT, Gerber, G-code | Importation of the dialog box Filter |
+| `FileSaveFilters` | `.sirius3` | The dialog box Filter. |
+| `FileImportImageFilters` | JPG, BMP, PNG, GIF, TIFF | Imaging the image Filter |
+| `FileMeasurementFilter` | `.txt` | Measurement File Filter |
+| `IsCompressedFileFormat` | Release `true`, Debug `false` | Decide whether to save the new `.sirius3` file in a compressed format. distinguish from the ability to open the existing file. |
+| `JsonExternalConvertes` | `List<JsonConverter>` | This is a list of Newtonsoft.Json Converter used when rendering customized formats. |
 
-- **엔티티 펜 색상:** `EntityPen`을 위한 10가지 기본 색상 배열입니다.
-- **OnCreateEntityPen:** 펜 생성 시 초기 속성을 정의하는 이벤트 핸들러입니다.
-- **레이어 펜 색상:** 엔티티 펜 색상과 동일한 설정을 사용합니다.
-- **OnCreateLayerPen:** 레이어 펜 생성 시 초기 속성을 정의하는 이벤트 핸들러입니다.
+Custom Converter is registered before opening the Document.
 
-## ## 6. 웨이퍼 및 서브스트레이트 맵
+```csharp
+using UIConfig = SpiralLab.Sirius3.UI.Config;
 
-- **웨이퍼 설정:** 다이(Die), 외곽선, 가장자리 색상을 사용자 정의할 수 있습니다. 웨이퍼 생성 이벤트 핸들러를 제공합니다.
-- **서브스트레이트 설정:** 기판 엔티티 생성 시 사용자 정의를 위한 이벤트 핸들러를 제공합니다.
+UIConfig.JsonExternalConvertes.Add(new MyEntityJsonConverter());
+// After Run DocumentSerializer.Open or IDocument.ActOpen
+```
 
-## ## 7. 뷰 및 카메라 설정
+Do not duplicate the Converter to process the same format. If the Converter’s `CanConvert` range is excessively implemented, it can affect the linearization of the Sirius3 default format.
 
-- **선택된 선 두께:** 선택된 엔티티 외곽선의 기본 두께입니다. (기본값: 2)
-- **드래그 임계값:** 마우스 드래그 이동으로 인식할 픽셀 임계값입니다. (기본값: 5 px)
-- **히트 테스트 크기:** 선택을 위한 광선(4 px) 및 절두체(1 px) 히트 테스트 픽셀 임계값입니다.
-- **카메라 줌 핏 단계:** 카메라 줌 맞춤 시의 부드러운 전환 단계 수입니다. (기본값: 30 단계)
+## 4. Paths
 
-## ## 8. 텍스트 및 글꼴
+| Setting | Basic route. | Explanation |
+|---|---|---|
+| `SiriusFontPath` | `siriusfonts` | `.cxf`, `.lff`, `.fnt`, `.dot` Sirius Font file location |
 
-- **설치된 글꼴:** 운영체제에 설치된 글꼴 목록을 제공합니다.
-- **이미지 텍스트:** `EntityImageText`의 배경색, 브러시, 펜 색상, 렌더링 힌트 및 스무딩 모드 설정입니다.
-- **기본 글꼴:** `EntityText` 생성 시의 기본 시스템 글꼴입니다. (기본값: "Segoe UI")
-- **Sirius 폰트:** ASCII 제한(255) 및 기본 폰트 파일을 설정합니다. (기본값: "romans2.cxf")
+The default path is based on the application's Base Directory.When you put the distribution file in a different location, specify the absolute path before you first call the Font and check the read permits.
 
-## ## 9. DXF 및 ODA 변환기
+## 5. Parallel Processing
 
-- **병합 거리:** DXF 엔티티 병합 시의 임계값입니다. (기본값: 0.001)
-- **스플라인 분할:** 스플라인을 폴리라인으로 변환할 때의 세그먼트 수입니다. (기본값: 6)
-- **가져오기 시 색상 제거:** DXF 가져오기 시 엔티티 색상을 기본 펜 색상으로 덮어쓸지 여부입니다. (기본값: True)
-- **ODA 변환기 경로:** DWG/DXF 버전 변환을 위한 ODA File Converter 유틸리티의 자동 감지 경로입니다.
+| Setting | Default | Explanation and limitation. |
+|---|---:|---|
+| `MaxDegreeOfParallelism` | 50 % of the logical processor number, at least 1 | AABB Tree, Gerber Tessellation, Hatch, Grip Parsing, Contour Processing, Point Ranking, etc. are the maximum parallel running numbers. If you specify a value less than 1, `ArgumentOutOfRangeException` occurs. |
 
-## ## 10. Gerber 설정
+It doesn’t always speed up to make the value bigger. UI responsibility, memory bandwidth, and other tasks that are executed at the same time, take into account and measure it as a representative document.
 
-- **사전 결합:** Gerber 파일에 대해 폴리곤 결합 연산 수행 여부입니다. (기본값: False)
-- **테셀레이션:** 폐곡선 영역에 대한 테셀레이션 수행 여부입니다. (기본값: False)
-- **Uniform 그룹:** Gerber 렌더링 시 고성능 그룹화 사용 여부입니다. (기본값: True)
+## 6. TreeView
 
-## ## 11. 마커 설정
+| Setting | Default | Explanation |
+|---|---:|---|
+| `MaxTreeNodeItems` | `10,000` | Maximum items to be processed under one TreeView Node |
+| `TreeviewFontSize` | `8.25` pt | TreeView Node font size |
+| `TreeviewNodeDefaultFont` | Segoe UI Regular | Ordinary Node fonts, only to read outside |
+| `TreeviewNodeBoldFont` | Segoe UI Bold | Node fonts, only to read outside. |
+| `TreeviewNodeStrikeOutFont` | Segoe UI Strikeout | Unactivity in the back of the cancellation line font, only read outside. |
+| `TreeviewNodeBoldAndStrikeOutFont` | Segoe UI Bold + Strikeout | Sign and cancellation, read outside. |
 
-- **미리보기 반복:** 마커 미리보기 반복 횟수입니다. (기본값: 50)
-- **미리보기 속도:** 미리보기 마크 속도(mm/s)입니다. (기본값: 1000 mm/s)
-- **호의 선분화:** 호(Arc)를 선분으로 나누어 가공할지 여부입니다. (기본값: True)
+If you change `TreeviewFontSize` while running, the already created font objects will not be automatically re-generated. specify before starting, or expressly re-configurate the related resources with TreeView after changing.
 
-## ## 12. 키보드 단축키 (사용자 정의 가능)
+## 7. Editor
 
-- **주요 단축키:** 복사(CTRL+C), 붙여넣기(CTRL+V), 삭제(Del), 화면 맞춤(CTRL+F) 등.
-- **이동(XY):** 화살표 키와 조합 키(CTRL: 1mm, ALT: 0.1mm, SHIFT+ALT: 0.01mm)를 이용한 이동 거리입니다.
-- **회전:** 조합 키(CTRL: 90°, ALT: 10°, SHIFT+ALT: 1°)를 이용한 회전 각도입니다.
-- **기능 키:** 시뮬레이션(F1), 미리보기(F4), 시작(F5), 중지(F6), 재설정(F8).
+| Setting | Default | Explanation |
+|---|---:|---|
+| `MaxSubSelectionItems` | `50` | Maximum number to list the Selected Group Entity in the menu |
+| `IsHideEditorToolBars` | `false` | Public EditorControl tool collection display policy |
 
-## ## 13. UI 커스터마이징 이벤트
+Growing `MaxSubSelectionItems` in a mass group increases the time and number of items to update the selection menu.
 
-- **OnCreateLaserUI:** 특정 레이저 소스에 대한 사용자 정의 UI 컨트롤을 삽입하는 이벤트입니다.
-- **OnCreateScannerUI:** 특정 스캐너 하드웨어에 대한 사용자 정의 UI 컨트롤을 삽입하는 이벤트입니다.
-- **OnCreateMarkerUI:** 특정 마커 구현에 대한 사용자 정의 UI 컨트롤을 삽입하는 이벤트입니다.
-- **스캐너 필드 보정:** 스캐너 필드 2D/3D 보정 UI 팝업 처리를 위한 이벤트입니다.
-- **그리드 생성:** 그리드 생성 도구의 동작을 사용자 정의하는 이벤트입니다.
+## 8. EntityPen and EntityLayerPen
+
+| Set up or event. | Default | Explanation |
+|---|---|---|
+| `EntityPenColors` | White, Yellow, Orange, Red, Cyan, Lime, Magenta, Brown, Purple, Blue | Basic 10 Colour Settings Connecting Entity and `EntityPen` |
+| `LayerPenColors` | `EntityPenColors` Like here. | Color arrangements used in `EntityLayerPen` |
+| `IsConvertToControllerResolution` | `false` | Decide whether the device dependence value of the Pen will be treated according to the Connected Controller resolution. It is separate from the KFactor coordinate conversion. |
+| `OnCreateEntityPen` | No connected handler. | The new `EntityPen` makes the Power, Frequency, PulseWidth, Delay, Speed, Raster, SCANAhead, and Wobbel default values as user code. |
+| `OnCreateLayerPen` | No connected handler. | The new `EntityLayerPen` makes the default values ALC, Sky Writing, Variable Polygon/Jump Delay, and syncAXIS as user code. |
+
+The Pen Generation Event is registered before the Document or Editor creates the default Pen. The Handler must return one fully initiated Pen, and the Entity's `PenColor` must match the color of `EntityPenColors`.
+
+```csharp
+using System.Drawing;
+using SpiralLab.Sirius3.Document;
+using SpiralLab.Sirius3.Entity;
+using UIConfig = SpiralLab.Sirius3.UI.Config;
+
+UIConfig.OnCreateEntityPen += CreateEntityPen;
+
+static EntityPen CreateEntityPen(IDocument document, Color color)
+{
+    return new EntityPen
+    {
+        Name = color.ToKnownColor().ToString(),
+        PenColor = color,
+        Power = 1,
+        Frequency = 50_000,
+        PulseWidth = 2,
+        JumpSpeed = 500,
+        MarkSpeed = 500,
+        ScannerJumpDelay = 250,
+        ScannerMarkDelay = 150,
+        ScannerPolygonDelay = 100
+    };
+}
+```
+
+In public demo's `editor_pen` and `editor_pen_multiple`, you can use this event to check the flow that creates the default value of Pen.
+
+## 9. View and Simulation
+
+| Setting | Default | Range or action. |
+|---|---:|---|
+| `SelectedLineWidth` | `2` | Sub-selection entity line thickness and point size |
+| `DragMousePixel` | `5` px | Mouse Drag to judge. |
+| `RayHitTestPixelSize` | `4` px | The screen size permitted by Ray Hit Test |
+| `FrustumHitTestPixelSize` | `1` px | Frustum Hit Test Screen Size |
+| `SimulationMarkerPixelSize` | `15` px | Simulation target diameter, limited to at least 3 px |
+| `SimulationBeamPixelWidth` | `20` px | Simulation Beam Start Dimension, Limited to at least 3 px |
+| `SimulationDebrisEnabled` | `true` | Simulation Target About Use Debris Effect |
+| `SimulationDebrisMaxParticles` | `16` | The number of particles at the same time, limited to 1 to 128. |
+| `SimulationDebrisSpreadPixelRadius` | `10` px | Debris spread circle, at least 1 px |
+| `SimulationDebrisLifetimeMilliseconds` | `1,500` ms | Debris average maintenance time, limited to 100-10,000 ms |
+| `CameraZoomFitSteps` | `30` | Zoom Fit Camera Conversion |
+
+Target, Beam, Debris size is based on the screen pixels, so the camera zoom changes and the visible size remains in general. This effect is a visual simulation and does not represent the real Laser Spot size or energy.
+
+## 10. Text and Font
+
+| Setting | Default | Explanation |
+|---|---|---|
+| `InstalledFontNames` | List of Fonts. | The first time you read, the first time you read, the first time you read. |
+| `ImageTextClearColor` | `Color.Black` | `EntityImageText` background color |
+| `ImageTextFillBrush` | `Brushes.White` | `EntityImageText` Brush |
+| `ImageTextPenColor` | `Color.White` | `EntityImageText` corner line color |
+| `ImageTextRenderingHint` | `SingleBitPerPixel` | GDI Text Rendering |
+| `ImageTextSmoothingMode` | `None` | GDI Smoothing Method |
+| `ImageTextPixelOffsetMode` | `HighQuality` | The Pixel Offset |
+| `FontDefault` | `Segoe UI` | `EntityText` Windows Font |
+| `SiriusFontDefault` | `romans2.cxf` | `EntitySiriusText` basic Sirius Font file |
+| `SiriusFontCapitalSample` | `@567890ABHWMZQ0()` | Representative characters to calculate the large font height and fixed cell width in Sirius Font |
+
+In binary Raster processing, the combination of `SingleBitPerPixelGridFit`, `SmoothingMode.None`, `PixelOffsetMode.None` is generally clear. in the gray thread variation Raster, consider the combination of `AntiAliasGridFit`, `SmoothingMode.AntiAlias`, `PixelOffsetMode.HighQuality`. after changing settings, re-create Text Entity or `Regen()` to update the shape and Raster data.
+
+### Fixed Text Sample
+
+When automatically estimating the glyph width in Fixed intervals, use the following settings.
+
+| Setting | Basic Sample |
+|---|---|
+| `FixedTextHangulFallbackSample` | `대한민국스파이럴랩옳닳흙깊` |
+| `FixedTextChineseFallbackSample` | `中文汉字國語測試永高低上下左右鼎鬱龘` |
+| `FixedTextJapaneseFallbackSample` | Japanese Gana-Hanga representative list |
+| `FixedTextLatinFallbackSample` | `HMQXWgyjpq` |
+| `FixedTextCyrillicFallbackSample` | `ШЖФфрудцщ` |
+| `FixedTextArabicFallbackSample` | Arabic text representative. |
+| `FixedTextDevanagariFallbackSample` | DeVanagari representative. |
+| `FixedTextBengaliFallbackSample` | The Goliath representative. |
+| `FixedTextGreekFallbackSample` | `ΗΜΩβγμρφψξ` |
+| `FixedTextHebrewFallbackSample` | `אבגךםןףץ` |
+| `FixedTextThaiFallbackSample` | The Thai Post. |
+| `FixedTextTamilFallbackSample` | `ழளறஞ` |
+| `FixedTextTeluguFallbackSample` | Telugu Post Representative. |
+
+Indicate the letters that represent the font and set of characters you use in the product, and set it before you first call the font. Sample is a value for estimating the cell width and assisted Line Metric, not the real output string.
+
+## 11. Common imports
+
+| Setting | Default | Explanation and limitation. |
+|---|---:|---|
+| `ImportMergeDistance` | `0.001` | The maximum distance to connect the end points of DXF, DWG, HPGL, PLT Path. DXF/DWG is the original coordinate unit, HPGL/PLT is applied after mm conversion. `0` connects only the exact matching end points. Sound, NaN, Infinity are ignored. |
+| `IsImportColorPreserved` | `false` | If `true` keeps the DXF, DWG, Gerber original colour. If `false` changes RGB distance to the closest `EntityPenColors` colour and helps the Pen connection. |
+
+Growing the Merge Distance may make the near separate Contour mistaken. check the coordinate unit and the minimum shaped interval of the real file and then adjust it.
+
+## 12. DXF and DWG
+
+| Setting | Default | Explanation |
+|---|---:|---|
+| `DxfSplineToPolygonalCounts` | `6` | DXF Spline to Polyline |
+| `DxfTextDefaultFont` | `Arial` | Alternative fonts used when importing DXF/DWG Text |
+| `IsDxfWithUniformGroup` | `true` | Connect the same Primitive to `EntityUniformGroup` to determine whether to increase Rendering efficiency |
+| `ODAConverterPath` | Automatic search results. | It is the ODA File Converter path to convert DWG or DXF version. It is only read and found in the Registry and standard installation folder. If not found, it may be `null`. |
+
+ODA File Converter is a separate installation program. There is a `ODAConverterPath` value, so not all DWG versions and files are converted normally, so check the conversion results and logs.
+
+## 13. 3D Mesh
+
+| Setting | Default | Explanation |
+|---|---:|---|
+| `GridCloudInterval` | `0.5` | Create Grid Cloud in 3D Mesh |
+
+The smaller the intervals, the number of samples, the memory use and the calculation time will increase. Select based on the model size and the required Z resolution.
+
+## 14. Gerber
+
+| Setting | Default | Explanation |
+|---|---:|---|
+| `IsGerberPrecombinePolygons` | `false` | Decide whether to Union/Merge in the transversal or transversal Polygon import phase. using it, you can give data, but the processing time will increase. |
+| `IsGerberTessellation` | `false` | Fill closed regions by tessellating them into triangles. |
+| `IsGerberWithUniformGroup` | `true` | Decide whether to bind the same Primitive to `EntityUniformGroup` for fast Rendering. |
+
+Precombine and Tessellation vary greatly in time depending on the file size and the form complexity. check the import speed, display, Hatch and the real processing path together.
+
+## 15. Editor Shortcut Settings
+
+### Movement Increments
+
+| Setting | Default | Movement increment |
+|---|---:|---|
+| `KeyboardTransitXYCtrl` | `1` mm | `Ctrl` + direction key |
+| `KeyboardTransitXYCtrlAlt` | `0.1` mm | `Ctrl` + `Alt` + direction key |
+| `KeyboardTransitXYCtrlAltShift` | `0.01` mm | `Ctrl` + `Alt` + `Shift` + direction key |
+
+### Rotation Increment
+
+| Setting | Default | Rotation increment |
+|---|---:|---|
+| `KeyboardRotateCtrl` | `90`° | `Ctrl` + `[` or `]` |
+| `KeyboardRotateCtrlAlt` | `10`° | `Ctrl` + `Alt` + `[` or `]` |
+| `KeyboardRotateCtrlAltShift` | `1`° | `Ctrl` + `Alt` + `Shift` + `[` or `]` |
+
+### Execution Keys
+
+| Setting | Default | Action |
+|---|---:|---|
+| `KeyboardSimulationStart` | `F1` | Start simulation; use `Ctrl` or `Ctrl+Alt` to change speed and `Esc` to stop |
+| `KeyboardShowScript` | `F2` | Show the Script Objects in PropertyGrid |
+| `KeyboardMarkerPreview` | `F4` | Scanner Preview |
+| `KeyboardMarkerStart` | `F5` | Current Page's Real Marker Start |
+| `IsShowMessageBoxWhenMarkerStart` | `true` | Marker Start check window before running. |
+| `KeyboardMarkerStop` | `F6` | Marker Stop |
+| `KeyboardMarkerReset` | `F8` | Marker Reset |
+| `KeyboardHelpMessage` | Generated text | Read-only help showing the current movement and rotation increments and execution keys |
+
+When TreeView has focus, arrow-key combinations navigate nodes. `KeyboardMarkerStart` is not a virtual command; it can start real hardware marking. Configure authorization, interlocks, and the equipment emergency-stop procedure before disabling the confirmation dialog.
+
+## 16. ZPL
+
+| Setting | Default | Explanation |
+|---|---|---|
+| `ZPLService` | `ZPLServices.BinaryKits` | Offline BinaryKits or Network Labelary Rendering |
+| `ZPLBinaryKitsDefaultFont` | `Arial Narrow;Arial;Helvetica` | ZPL Font Identifier Local Font Candidate Order for `0` |
+| `ZPLBinaryKitsFonts` | Identification of the Dictionary | `K`, `1`, `A` and others connect the ZPL Font ID and Printer Font name to the local Font candidate |
+| `ZPLLabelaryAPIURIFormat` | Labelary API URI format | Labelary request address Template |
+
+The candidate fonts are divided into `;`, `|`, `,` and use the first Fonts installed. When you choose Labelary, you need a network and ZPL data will be transferred to external services, so first check the product's security and network policy.
+
+In the public `editor_zpl` demo, you can check the default font and individual candidate settings.
+
+## 17. Marker
+
+| Setting | Default | Explanation |
+|---|---:|---|
+| `MarkPreviewRepeats` | `50` | Scanner Preview Route Repeat |
+| `MarkPreviewSpeed` | `1,000` mm/s | Jump/Mark speed used for preview |
+| `IsMarkArcsIntoLines` | `true` | The Arc-related routes are processed as `ListMarkTo` linear in the `MinStepDistance` standard. `false` uses `ListArcTo` in the Support Scanner. |
+
+Preview is different from laser output processing, but the scanner can actually move. Start with a sufficiently low speed and a safe number of repetitions. Arc command support and accuracy will verify the implementation of the connected RTC/Scanner.
+
+## 18. MoF Extension
+
+| Setting | Default | Explanation |
+|---|---:|---|
+| `MoFExtMcBSPFrequency` | `8,000,000` Hz | The McBSP frequency to request from MoF Extension |
+
+Make sure the connected RTC, MoF Extension devices and Firmware support the same communication conditions. Only frequency changes will not automatically adjust the line, Clock Source or device settings.
+
+## 19. Stepper
+
+| Setting | Default | Explanation |
+|---|---:|---|
+| `StepperReferenceRunTimeOut` | `30` seconds | Stepper Reference Run finished waiting time, UI range 1 to 120 seconds |
+
+Timeout is not the same as the device protection function that forced Motor to stop safety. Configure the Limit Sensor, Reference direction, Movement range and Emergency Stop separately on the device side. Public `editor_steppermotor` demo uses this value to wait for Reference Run.
+
+## 20. Scanner Jog
+
+| Setting | Default | Explanation |
+|---|---:|---|
+| `ScannerJogDistance` | `5` mm | Distance of one scanner jog; UI range 0.1 to 100 mm |
+
+Verify from a small value that does not exceed the validity area of the correction field and optical system. Jog can move the real scanner.
+
+## 21. Remote Protocol
+
+| Setting | Default | Explanation |
+|---|---|---|
+| `RemoteSeparator` | `|` | Difference between order and receipt. |
+| `RemoteTerminator` | `;` | The end of the order. |
+| `RemoteOk` | `OK` | Successful response. |
+| `RemoteNG` | `NG` | failure response. |
+| `RemoteReady` | `Ready` | Ready to respond. |
+| `RemoteNotReady` | `NotReady` | Unprepared response. |
+| `RemoteBusy` | `Busy` | Response in operation. |
+| `RemoteError` | `Error` | The error response. |
+
+If you change the divider and response string, change the transmission side and the receiver side together. The recipient buffer can follow several commands or one command can be divided, so you assemble the full Frame according to the Terminator standard and then Parsing.
+
+## 22. WinForms Custom UI Event
+
+| Event | Returns | Purpose |
+|---|---|---|
+| `OnCreateLaserUI` | `Control` | Insert Control for specific `ILaser` in the Editor's Laser Tab |
+| `OnCreateScannerUI` | `Control` | Enter Control for specific `IScanner` in the Scanner Tab |
+| `OnCreateMarkerUI` | `Control` | Enter Control for specific `IMarker` in the Marker Tab |
+| `OnScannerFieldCorrection2DShow` | `RtcCorrection2D` | External Vision Failure Data Created 2D Correction Structure Correction to Form |
+| `OnScannerFieldCorrection2DApply` | `bool` | The created 2D correction file is directly applied by the user. after completing the application, `true` returns |
+| `OnScannerFieldCorrection3DShow` | No | 3D Correction UI Display Action Extension |
+| `OnCreateGrids` | `IEntity` | Create Grid Entity with the input value of the Grid Form |
+
+```csharp
+using System.Windows.Forms;
+using SpiralLab.Sirius3.Laser;
+using UIConfig = SpiralLab.Sirius3.UI.Config;
+
+UIConfig.OnCreateLaserUI += CreateLaserControl;
+
+static Control CreateLaserControl(ILaser laser)
+{
+    return new MyLaserControl
+    {
+        LaserSource = laser
+    };
+}
+```
+
+The event is registered once before you create the Editor, and disable the same Handler when it is no longer used. The Control created by the Handler must follow the UI Thread rules, and do not run long device communications or file processing directly from the UI Thread. When you disable the Control, the event subscription and Timer will also be arranged together.
+
+In the public `editor_laser_ui` demo, you can see how to customize the Laser UI connection using `OnCreateLaserUI`.
+
+## 23. Application Order Example
+
+```csharp
+using CoreConfig = SpiralLab.Sirius3.Config;
+using UIConfig = SpiralLab.Sirius3.UI.Config;
+
+bool coreInitialized = false;
+try
+{
+    // 1.Core and UI set up
+    CoreConfig.LogPath = @"D:\SiriusData\Logs";
+    UIConfig.SiriusFontPath = @"D:\SiriusData\Fonts";
+    UIConfig.UnReDoSize = 50;
+    UIConfig.ImportMergeDistance = 0.001;
+    UIConfig.IsImportColorPreserved = false;
+    UIConfig.MarkPreviewSpeed = 500;
+    UIConfig.IsShowMessageBoxWhenMarkerStart = true;
+
+    // Custom Factory/Event Registration
+    UIConfig.OnCreateEntityPen += CreateEntityPen;
+    UIConfig.OnCreateLaserUI += CreateLaserControl;
+
+    // The Core Initiation.
+    coreInitialized = SpiralLab.Sirius3.Core.Initialize();
+    if (!coreInitialized)
+        throw new InvalidOperationException("Sirius3 initialization failed.");
+
+    // Create the device and document and register to EditorControl
+}
+finally
+{
+    UIConfig.OnCreateEntityPen -= CreateEntityPen;
+    UIConfig.OnCreateLaserUI -= CreateLaserControl;
+
+    // Install the device, document, and control first.
+    if (coreInitialized)
+        SpiralLab.Sirius3.Core.Cleanup();
+}
+```
+
+When a product reads Config values from `config*.ini`, parse and validate ranges first, then apply the values in the order above. Log the final applied values at startup so behavior on customer equipment can be reproduced.
+
+---
+2026 Copyright (c) SpiralLAB. All rights reserved.

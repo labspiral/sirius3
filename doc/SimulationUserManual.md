@@ -1,56 +1,61 @@
-# [사용자 메뉴얼] 가공 경로 시뮬레이션 (Simulation)
+# [User Manual] Processing Route Simulation
+
+> Reference version: Sirius3 1.12.3 (public Release features)
 
 
-## 1. 개요
+## 1. Overview
 
-  시뮬레이션 기능은 실제 레이저 출력을 하지 않고, 소프트웨어 화면(OpenGL View) 상에서 가공 경로와 스캐너의 움직임을 시각적으로 확인하기 위한 기능입니다. 
-  가공 순서, 점프 경로, 가공 속도감 등을 사전에 검토할 수 있습니다.
+Simulation visualizes the marking path and scanner motion in the OpenGL View without emitting real laser output.
+Processing order, jump routes, processing speed sensation, etc. can be reviewed in advance.
 
 
 
-## 2. 시뮬레이션 실행 (IDocument.ActSimulateStart)
+## 2. Execute the simulation (IDocument.ActSimulateStart)
 
-  문서 객체(IDocument)를 통해 시뮬레이션을 제어합니다.
+Control the simulation through the IDocument.
 
-  메서드 상세
+The Method.
    - ActSimulateStart(view, entities, marker, simulationSpeed)
-       - view: 시뮬레이션이 출력될 IView 객체
-       - entities: 시뮬레이션 대상 엔티티 배열 (선택된 엔티티만 시뮬레이션 가능)
-       - marker: 마커 장치 추상화 인터페이스
-       - simulationSpeed: 시뮬레이션 재생 속도 (Slow, Normal, Fast)
+       - view: the IView object that will be simulated out
+       - entities: Entities to simulate; a selected-entity simulation is also supported
+       - Markers: Markers device abstracting interface
+       - SimulationSpeed: Simulation Playing Speed (Slow, Normal, Fast)
 
-  시뮬레이션 중지 (ActSimulateStop)
-   - 실행 중인 시뮬레이션을 즉시 중단하고 뷰를 원래 상태로 복구합니다.
-
-
-## 3. EditorControl UI 및 단축키 활용
-
-  EditorControl 상단의 툴바 버튼과 키 조합을 통해 시뮬레이션 속도를 조절하거나 제어할 수 있습니다.
-
-  툴바 버튼: btnSimulation (아이콘 형태)
-   - 기본 클릭: 시뮬레이션을 시작하거나, 이미 동작 중인 경우 중지합니다.
-   - 속도 제어 (조합키): 버튼을 클릭할 때 누르고 있는 키에 따라 속도가 결정됩니다.
-       - 클릭 (기본): Fast (빠름) 속도로 실행
-       - Ctrl + 클릭: Normal (보통) 속도로 실행
-       - Ctrl + Alt + 클릭: Slow (느림) 속도로 실행
-
-  키보드 단축키 및 제어
-   - 시뮬레이션 시작: 일반적으로 툴바의 버튼을 통해 실행합니다.
-   - 중지 및 취소 (ESC 키):
-       - 시뮬레이션이 진행 중일 때 ESC 키를 누르면 즉시 시뮬레이션이 중단됩니다.
-       - EditorControl은 내부적으로 키 입력을 감지하여 Document.ActSimulateStop()을 호출하도록 설계되어 있습니다.
+Simulation stop (ActSimulateStop)
+   - Stop the running simulation immediately and restore the view to the original state.
 
 
-## 4. 시뮬레이션 상태 확인
+## 3. EditorControl UI and Shortcuts
 
-   - IDocument.IsSimulationWorking: 현재 시뮬레이션이 동작 중인지 여부를 반환합니다. 이 상태가 true일 때는 일반적인 편집 작업이 제한될 수 있습니다.
+You can regulate or control the simulation speed through the toolbar button and key combination at the EditorControl top.
+
+Toolbar button: btnSimulation (Icon format)
+   - Basic click: Start the simulation or stop if it is already in operation.
+   - Speed Control: The speed is determined by the key you are pressing when you click the button.
+       - Click (Basic): Run at Fast (Fast) speed
+       - Ctrl + Click: Run at Normal (Normal) speed
+       - Ctrl+Alt+Click: Run to Slow
+
+Keyboard and control.
+   - Simulation Start: Usually run through the toolbar button.
+   - Cancellation and cancellation (ESC key):
+       - When the simulation is ongoing, if you press the ESC key, the simulation will immediately be stopped.
+       - EditorControl is designed to detect key entries internally to call Document.ActSimulateStop().
 
 
-## 5. 사용 예시 (C#)
+## 4. Check Simulation Status
 
-  시뮬레이션 시작 코드 예시
+   - IDocument.IsSimulationWorking: Returns whether the current simulation is in operation. When this state is true, the usual editing task may be limited.
 
-   1 // 선택된 엔티티들에 대해 보통 속도로 시뮬레이션 시작
+   - In Sirius3 1.11.10 or later, path markers remain a fixed size on screen. Beam and optional debris effects help distinguish Jump and Mark motion.
+   - In Sirius3 1.11.14 or higher, the ESC immediately stops the simulation, and the Virtual RTC Abort is repeated during the closing cleaning, or the normal Virtual Laser stop is not recorded as an error.
+
+
+## 5. Usage Example (C#)
+
+Simulation start code.
+
+1 // Start simulation at normal speed for selected entities
    2 if (!document.IsSimulationWorking)
    3 {
    4     var selected = document.Selected;
@@ -60,16 +65,16 @@
    8     }
    9 }
 
-  시뮬레이션 중지 코드 예시
+Simulation stop code.
 
-   1 // 실행 중인 시뮬레이션 중지
+1/Stop the simulation running.
    2 document.ActSimulateStop();
    3 
 
 
 
-## 6. 주의 사항
+## 6. Cautions
 
-   - 엔티티 선택 필수: 시뮬레이션을 실행하려면 하나 이상의 엔티티가 선택되어 있어야 합니다. (Document.Selected 참조)
-   - 장치 설정: 시뮬레이션은 내부 마커(IMarker) 로직을 사용하므로, 마커 객체가 정상적으로 할당되어 있어야 합니다.
-   - 렌더링 성능: Slow 모드에서는 레이저의 On/Off 상태와 점프 구간을 매우 정밀하게 확인할 수 있으나, 전체 경로가 긴 경우 시간이 오래 걸릴 수 있습니다.
+   - Entity Selection Required: One or more entities must be selected to run the simulation (see Document.Selected)
+   - Device settings: Simulations use the internal markers (IMarker) logic, so the markers objects must be normally assigned.
+   - Rendering performance: In Slow mode, you can check the on/off state and the jump range of the laser very accurately, but it can take a long time if the entire route is long.

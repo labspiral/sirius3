@@ -90,7 +90,6 @@ SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化�
 - `SpiralLab.Sirius3.Dependencies` - SCANLAB RTC4/5/6、syncAXIS ランタイム、フォント、サンプルデータ
 - `SpiralLab.Sirius3` - スキャナー、レーザー、パワーメーターなどの HAL
 - `SpiralLab.Sirius3.UI` - エンティティ、ジオメトリ処理、OpenGL レンダリング、WinForms コントロール
-- `SpiralLab.Sirius3.MCP` - 実行中の WinForms エディター、公開 API ヘルプ、許可された SCANLAB 文書を提供する組み込み MCP サーバー（[利用・セキュリティガイド](SpiralLab.Sirius3.MCP/MCP.md)）
 
 NuGet Package Manager で簡単にインストールおよび更新できます。
 
@@ -113,7 +112,7 @@ NuGet Package Manager で簡単にインストールおよび更新できます�
 - SCANLAB
   - RTC4: v2023.11.02
   - RTC5: v2024.09.27
-  - RTC6: 2026.3.31 v1.24.0
+  - RTC6: 2026.6.19 v1.25.0
   - syncAXIS: v1.8.2（2023.03.09）
 - .NET
   - `net481`: OpenTK 3.3.3

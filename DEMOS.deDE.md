@@ -36,10 +36,6 @@ Zeigt Erzeugung, Austausch und gemeinsame Darstellung von Dokumenten in Editoren
 
 Erzeugt die von Sirius3 bereitgestellten Bearbeitungs- und Vektordaten, fügt sie Seiten hinzu und demonstriert Blöcke, Einfügungen und Gruppen.
 
-## wpf_editor_entity
-
-Debug-Demonstration des WPF-Ports von `editor_entity` mit virtuellen Geräten. Diese Entwicklungskomponente ist nicht Bestandteil der Release-Pakete.
-
 ## editor_entity_custom
 
 Implementiert anwendungsspezifische Rhombus-, Fiducial- und Bohrungsentitäten einschließlich Eigenschaften, Regeneration, Rendering, Klonen, Schraffieren und Markieren.

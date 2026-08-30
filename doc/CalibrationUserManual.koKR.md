@@ -1,0 +1,71 @@
+# RTC Field Correction & 3D Calibration User Manual
+
+> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+
+
+## 1. 개요 (Overview)
+
+본 매뉴얼은 SCANLAB RTC 제어기의 가공 정밀도를 극대화하기 위해 제공되는 RtcCalibrationLibrary의 사용 방법을 설명합니다. 
+이 라이브러리는 스캐너의 기하학적 왜곡을 보정하는 2D 보정과, 3D 가공 시 전 영역에서 균일한 초점 및 크기를 유지하기 위한 3D 보정 기능을 제공합니다.
+
+## 2. 라이브러리 활성화 (Activation)
+
+- SCANLAB CalibrationLibrary Runtime과 Sirius3 배포 파일이 필요합니다.
+- 활성화 값은 Sirius3 내부에서 관리되며 공개 `Config` 속성이 아닙니다. 응용 프로그램 코드나 설정 파일에 활성화 코드를 기록하지 마십시오.
+- API가 `ACTIVATION_CODE_INVALID`를 반환하면 설치된 Sirius3/CalibrationLibrary 버전과 배포 파일을 확인하고 공급자에게 문의하십시오.
+
+## 3. 2D 필드 보정 (XY Field Correction)
+
+가장 기본적인 보정으로, 스캐너의 Scale, Rotation, Trapezoid, Pincushion 왜곡을 보정합니다.
+- 방법: `XyCalibration` 메서드를 호출합니다.
+- 필요 데이터: 
+  - Target Points: 가공 명령을 내린 이론적 좌표 (mm).
+  - Measured Points: 실제 가공된 위치를 측정 장비로 측정한 좌표 (mm).
+  - K-Factor: 사용 중인 보정 파일의 bits/mm 계수.
+- 결과: 입력된 소스 보정 파일(.ct5/.ctb)을 바탕으로 오차가 보정된 새로운 타겟 보정 파일이 생성됩니다.
+
+## 4. 3D 보정 단계 (3D Calibration Step-by-Step)
+
+완벽한 3D 가공을 위해 아래의 순서대로 보정을 진행하는 것을 강력히 권장합니다.
+
+Step 1: K-Factor 확인
+- `GetCalibrationFactor`를 통해 보정 파일의 기본 스케일 계수를 확인합니다.
+
+Step 2: Beam Tilt Calibration (빔 틸트)
+- 스캐너와 varioSCAN 사이의 축 정렬 오차를 보정합니다. 상/하 평면의 중심 오차(dx, dy)를 입력합니다.
+
+Step 3: XY Field Correction
+- 2D 보정을 수행하여 기본 평면의 기하학적 정밀도를 확보합니다.
+
+Step 4: Focus Calibration at Z=0
+- 기본 작업 평면(Z=0)의 모든 지점에서 초점이 일정하도록 미세 조정합니다.
+
+Step 5: Focus Coeff A,B,C Calibration
+- Z축 이동에 따른 초점 변화 곡선(Zout = A + Bl + Cl²)의 계수를 산출하여 3D 볼륨 내 초점 정밀도를 보정합니다.
+
+Step 6: Stretch Calibration
+- Z축 높이 변화에 따른 가공 크기(Scale)의 변형을 최종 보정합니다.
+
+## 5. 특수 형상 보정 (Specialized Geometries)
+
+평면 외에 특정 형상의 표면에 최적화된 보정 파일을 생성할 수 있습니다.
+- Points Cloud: 사용자 정의 자유 곡면(Point Cloud)에 맞춘 보정 파일 생성.
+- Cylinder: 원통형 가공물 표면에 최적화된 보정.
+- Cone: 원뿔형 가공물 표면에 최적화된 보정.
+- Plane: 기울어지거나 이동된 새로운 가공 평면에 대한 보정.
+
+## 6. 유틸리티 기능 (Utilities)
+
+- Get/Set Coefficient: 보정 파일 내의 A, B, C 포커스 계수를 직접 읽거나 수정합니다.
+- Get/Set Stretch Factor: X, Y축의 크기 변형 계수(Stretch Factor)를 관리합니다.
+
+## 7. 오류 코드 안내 (Error Handling)
+
+작업 실패 시 `SlscErrorCodes`를 통해 원인을 파악할 수 있습니다.
+- NO_ERROR (0): 성공.
+- ACTIVATION_CODE_INVALID (1): 라이선스 활성화 코드 오류.
+- COULD_NOT_OPEN_CORR_FILE (4): 파일 경로 또는 접근 권한 문제.
+- MISSING_README_PARAMS (11): 보정 파일과 짝이 맞는 ReadMe 텍스트 파일이 없거나 내용이 부실함.
+
+---
+2026 Copyright (c) SpiralLAB. All rights reserved.

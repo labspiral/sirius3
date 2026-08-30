@@ -1,7 +1,7 @@
 Hinweise zu Software von Drittanbietern
 ========================================
 
-Dieses Dokument beschreibt mit Stand vom 18.08.2026 die Software von Drittanbietern,
+Dieses Dokument beschreibt mit Stand vom 23.08.2026 die Software von Drittanbietern,
 die mit den NuGet-Paketen SpiralLab.Sirius3, SpiralLab.Sirius3.UI,
 SpiralLab.Sirius3.MCP und SpiralLab.Sirius3.Dependencies ausgeliefert wird. Die unveränderten vollständigen
 Lizenztexte befinden sich in der stets zusammen mit dieser Datei ausgelieferten Datei
@@ -53,17 +53,22 @@ PropertyTools.Wpf
   Lizenz   : MIT
   Copyright: Copyright (c) 2014 PropertyTools contributors
   Quelle   : https://github.com/PropertyTools/PropertyTools
-  Zweck    : Nur für Debug verwendetes WPF-Eigenschaftenraster und TreeListBox
-             hinter dem Sirius3-spezifischen Adapter
+  Zweck    : Nur für Debug verwendete WPF-TreeListBox hinter dem
+             Sirius3-spezifischen Adapter
   Verteilung: Nur in Debug-WPF-Builds enthalten; aus Release-Paketen ausgeschlossen
 
-Material Design In XAML Toolkit (MaterialDesignThemes und MaterialDesignColors)
-  Version  : 5.3.2
-  Lizenz   : MIT
-  Copyright: Copyright (c) James Willock, Mulholland Software and Contributors
-  Quelle   : https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit
-  Zweck    : Nur für Debug verwendetes Material-Design-WPF-Theme, Steuerelemente
-             und Symbolpaket; aus Release-Paketen ausgeschlossen
+Syncfusion PropertyGrid für WPF
+  Version  : 34.1.32
+  Lizenz   : Essential Studio UI Edition Binary License (kommerzielle proprietäre Software)
+  Copyright: Copyright Syncfusion Inc.
+  Produkt  : https://www.syncfusion.com/wpf-controls/property-grid
+  Zweck    : Nur für Debug verwendetes WPF-Eigenschaftenraster hinter dem
+             Sirius3-spezifischen Adapter
+  Verteilung: Private Debug-WPF-Abhängigkeit; aus Release-Binärdateien und -Paketen ausgeschlossen
+  Bedingungen: Nutzung und Weiterverteilung erfordern die entsprechende Syncfusion-
+               Vereinbarung. Der eingebettete Laufzeit-Registrierungsschlüssel gewährt
+               keine Weiterverteilungsrechte; der Hersteller-Entsperrschlüssel wird
+               nicht verwendet und keiner der Schlüssel wird protokolliert.
 
 GLFW (OpenTK.redist.glfw)
   Version: 3.4.0.44

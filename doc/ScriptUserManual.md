@@ -1,88 +1,90 @@
-# Sirius3 IScript 개발자 매뉴얼 (C# Scripting Integration)
+# Sirius3 IScript Developer Manual (C# Scripting Integration)
 
-본 매뉴얼은 Sirius3의 동적 텍스트 시스템의 핵심인 `IScript` 인터페이스의 기능과 이를 확장하여 현업에 특화된 기능을 구현하는 개발자 가이드를 제공합니다.
+> Reference version: Sirius3 1.12.3 (public Release features)
 
----
-
-## 1. 개요 (Introduction)
-
-`IScript`는 레이저 마킹 중 실시간으로 변경되어야 하는 텍스트 데이터를 처리하기 위한 "글로벌 실행 환경"을 정의합니다. `TextConverter`를 `SimpleScript`로 설정하면, 모든 C# 스크립트 표현식은 `IScript` 환경 내부에서 실행됩니다.
-
-- **핵심 역할**: 시리얼 번호 관리, 날짜/시간 포맷팅, 외부 데이터베이스 연동, 생산 이력 로깅.
-- **기본 구현**: `SpiralLab.Sirius3.Scripting.Script` 클래스가 모든 내장 기능을 구현하고 있으며, 개발자는 이를 상속받아 기능을 무한히 확장할 수 있습니다.
+This guide explains the `IScript` interface at the core of Sirius3 dynamic text and shows developers how to extend it with application-specific behavior.
 
 ---
 
-## 2. 주요 속성 및 함수 통합 API (Core API)
+## 1. Introduction
 
-`IScript`는 레이저 가공과 컨텍스트 추적에 필요한 모든 내장 속성과 함수를 제공합니다. 스크립트 작성 시 아래의 모든 항목을 즉시 호출할 수 있습니다.
+`IScript` defines the "Global Running Environment" for processing text data that must be changed in real-time during laser marking.When you set `TextConverter` to `SimpleScript`, all C# script expressions run within the `IScript` environment.
 
-### 2.1 마킹 라이프사이클 이벤트
-| 메서드 | 설명 |
+- Key roles: serial number management, date/time formating, external database collaboration, production history logging.
+- **Basic Implementation**: The `SpiralLab.Sirius3.Scripting.Script` class is implementing all the built-in features, and developers can inherit them and extend their features unlimitedly.
+
+---
+
+## 2. Key Properties and Functions Integrated API (Core API)
+
+`IScript` provides all the built-in properties and functions required for laser processing and context tracking. When creating a script, you can call all the items below immediately.
+
+### 2.1 Marking Lifecycle Event
+| Method | Explanation |
 |:---|:---|
-| `OnStarted(IMarker)` | 마킹 공정이 시작될 때 호출됩니다. 커스텀 스크립트에서 재정의(override)하여 초기화 로직을 넣을 수 있습니다. |
-| `OnEnded(IMarker, bool, TimeSpan?)` | 마킹 공정이 종료되었을 때 호출됩니다. 성공 여부와 소요 시간을 전달받아 로그를 남기는 데 유용합니다. |
+| `OnStarted(IMarker)` | It is called when the marking process begins. you can override in the custom script to put the initialization logic. |
+| `OnEnded(IMarker, bool, TimeSpan?)` | It is called when the marking process is completed. it is useful for the success and the time it takes to be transferred and to leave the logs. |
 
-### 2.2 식별자 및 공정 컨텍스트 (속성)
-| 속성 (Property) | 타입 | 설명 | 예제 (입력 및 결과) |
+### 2.2 Identifiers and Process Context (Properties)
+| The Property (Property) | Type | Explanation | Examples (input and results) |
 |:---|:---|:---|:---|
-| `Marker` | `IMarker` | 현재 실행 중인 마커 인스턴스의 참조입니다. | `Marker.Name` -> `"Rtc5_0"` |
-| `LotCode` | `string` | 제품의 LOT 코드입니다. | `$"Lot: {LotCode}"` -> `"Lot: LOT-A123"` |
-| `LineName` | `string` | 생산 라인의 명칭입니다. | `LineName` -> `"LINE_01"` |
-| `Message` | `string` | 시스템의 공유 메시지입니다. | `Message` -> `"Ready"` |
-| `DeviceID` | `string` | 장치 식별자입니다. | `DeviceID` -> `"DEV_842"` |
-| `OperatorID` | `string` | 작업자 식별자입니다. | `OperatorID` -> `"OP_KIM"` |
-| `PartNo` | `string` | 제품 파트 번호입니다. | `PartNo` -> `"PN-9988"` |
-| `CustomerID` | `string` | 고객사 식별자입니다. | `CustomerID` -> `"SAMSUNG"` |
-| `EquipmentID` | `string` | 설비 식별자입니다. | `EquipmentID` -> `"EQ-01"` |
+| `Marker` | `IMarker` | See the current Marker instances. | `Marker.Name` -> `"Rtc5_0"` |
+| `LotCode` | `string` | The LOT code of the product. | `$"Lot: {LotCode}"` -> `"Lot: LOT-A123"` |
+| `LineName` | `string` | Name of production line. | `LineName` -> `"LINE_01"` |
+| `Message` | `string` | Communication of the system. | `Message` -> `"Ready"` |
+| `DeviceID` | `string` | The device identifier. | `DeviceID` -> `"DEV_842"` |
+| `OperatorID` | `string` | the employee identification. | `OperatorID` -> `"OP_KIM"` |
+| `PartNo` | `string` | Part number of product. | `PartNo` -> `"PN-9988"` |
+| `CustomerID` | `string` | Customer identification. | `CustomerID` -> `"SAMSUNG"` |
+| `EquipmentID` | `string` | Identifiers of equipment. | `EquipmentID` -> `"EQ-01"` |
 
-### 2.3 시리얼 번호 제어
-| 메서드 | 반환 타입 | 설명 | 예제 (입력 및 결과) |
+### 2.3 Serial Number Control
+| Method | Type of Return | Explanation | Examples (input and results) |
 |:---|:---|:---|:---|
-| `NextSerialNo(inc)` | `int` | 현재 시리얼을 반환하고 증가시킵니다. | `NextSerialNo()` -> `1` (내부값 2로 변경됨) |
-| `NextSerialNo(fmt, inc)` | `string` | 현재 시리얼을 형식화하여 반환하고 증가시킵니다. | `NextSerialNo("D4", 2)` -> `"0001"` (내부값 3으로 변경됨) |
-| `NextNamedSerialNo(name, inc, start)` | `int` | 명명된 카운터를 반환/증가시킵니다. | `NextNamedSerialNo("BOX", 1, 100)` -> `100` |
-| `NextNamedSerialNo(name, fmt, inc, start)`| `string` | 명명된 카운터를 형식화하여 반환/증가시킵니다. | `NextNamedSerialNo("BOX", "D2")` -> `"01"` |
-| `ResetSerialNo(value)` | `void` | 기본 시리얼 번호를 재설정합니다. | `ResetSerialNo(1)` (반환값 없음, 속성값 1로 변경) |
-| `ResetNamedSerialNo(name, value)` | `void` | 명명된 카운터를 재설정합니다. | `ResetNamedSerialNo("BOX", 1)` (반환값 없음) |
+| `NextSerialNo(inc)` | `int` | Currently reboot and reboot. | `NextSerialNo()` -> `1` (internal value changed to 2) |
+| `NextSerialNo(fmt, inc)` | `string` | Currently formate, return and increase the series. | `NextSerialNo("D4", 2)` -> `"0001"` (internal value changed to 3) |
+| `NextNamedSerialNo(name, inc, start)` | `int` | Returns / Increase the named counter. | `NextNamedSerialNo("BOX", 1, 100)` -> `100` |
+| `NextNamedSerialNo(name, fmt, inc, start)`| `string` | Formate the named counter and return / increase it. | `NextNamedSerialNo("BOX", "D2")` -> `"01"` |
+| `ResetSerialNo(value)` | `void` | Reset the basic serial number. | `ResetSerialNo(1)` (No return value, change to property value 1) |
+| `ResetNamedSerialNo(name, value)` | `void` | Repair the named counter. | `ResetNamedSerialNo("BOX", 1)` (No return value) |
 
-### 2.4 날짜, 시간 및 교대조
-| 메서드/속성 | 반환 타입 | 설명 | 예제 (입력 및 결과) |
+### 2.4 Date, Time, and Shift
+| Method / Method | Type of Return | Explanation | Examples (input and results) |
 |:---|:---|:---|:---|
-| `Date(format)` | `string` | 현재 날짜 (기본 `yyyy-MM-dd`) | `Date("yyMMdd")` -> `"260419"` |
-| `Time(format)` | `string` | 현재 시간 (기본 `HH:mm:ss`) | `Time("HH:mm")` -> `"15:30"` |
-| `AmPm(am, pm)` | `string` | 오전(`am`) 또는 오후(`pm`) | `AmPm("오전", "오후")` -> `"오후"` |
-| `DayNight(day, night)`| `string` | 8~20시 기준 주간(`day`), 그 외 야간(`night`) | `DayNight("D", "N")` -> `"D"` |
-| `Shift(s1, s2, s3)` | `string` | 8시간 간격(6,14,22시) 3교대 반환 | `Shift("A", "B", "C")` -> `"B"` |
-| `Shift2(s1, s2)` | `string` | 12시간 간격(8,20시) 2교대 반환 | `Shift2("Day", "Night")` -> `"Day"` |
-| `WeekOfYear()` | `int` | 현재 연중 ISO 주차 반환 | `WeekOfYear()` -> `16` |
-| `DayOfYear()` | `int` | 현재 연중 일수 반환 | `DayOfYear()` -> `109` |
-| `Year`, `Month` | `int` | 현재 년도, 월(1-12) (속성) | `Month` -> `4` |
-| `Day`, `Hour` | `int` | 현재 일(1-31), 시(0-23) (속성) | `Hour` -> `15` |
+| `Date(format)` | `string` | Current date (Basic `yyyy-MM-dd`) | `Date("yyMMdd")` -> `"260419"` |
+| `Time(format)` | `string` | Current time (Basic `HH:mm:ss`) | `Time("HH:mm")` -> `"15:30"` |
+| `AmPm(am, pm)` | `string` | Returns morning (`am`) or afternoon (`pm`) | `AmPm("AM", "PM")` -> `"PM"` |
+| `DayNight(day, night)`| `string` | 8 to 20 hours per week (`day`), other nights (`night`) | `DayNight("D", "N")` -> `"D"` |
+| `Shift(s1, s2, s3)` | `string` | Returns one of three shifts at 8-hour boundaries (06:00, 14:00, 22:00) | `Shift("A", "B", "C")` -> `"B"` |
+| `Shift2(s1, s2)` | `string` | Returns one of two shifts at 12-hour boundaries (08:00, 20:00) | `Shift2("Day", "Night")` -> `"Day"` |
+| `WeekOfYear()` | `int` | Return to the current ISO parking. | `WeekOfYear()` -> `16` |
+| `DayOfYear()` | `int` | Current return. | `DayOfYear()` -> `109` |
+| `Year`, `Month` | `int` | Current Year, Month (1-12) | `Month` -> `4` |
+| `Day`, `Hour` | `int` | Current day (1-31), hour (0-23) (continuous) | `Hour` -> `15` |
 
-### 2.5 유틸리티 및 데이터 저장소
-| 메서드 | 설명 | 예제 (입력 및 결과) |
+### 2.5 Utilities and data storage
+| Method | Explanation | Examples (input and results) |
 |:---|:---|:---|
-| `Set(key, value)` | 유지되어야 하는 사용자 정의 데이터를 저장합니다. | `Set("Count", 10)` (반환값 없음) |
-| `Get(key)` | `Set`으로 저장한 데이터를 가져옵니다. | `(int)Get("Count")` -> `10` |
-| `Pad(input, len, char)`| `input` 앞쪽에 `char`를 채워 총 길이 `len`을 맞춥니다. | `Pad("7", 3, '0')` -> `"007"` |
+| `Set(key, value)` | Save the custom data that needs to beined. | `Set("Count", 10)` (No return value) |
+| `Get(key)` | Get data stored in `Set`. | `(int)Get("Count")` -> `10` |
+| `Pad(input, len, char)`| Fill `char` in the front of `input` and match the total length of `len`. | `Pad("7", 3, '0')` -> `"007"` |
 
 ---
 
-## 3. 커스텀 스크립트 개발 (Custom Implementation)
+## 3. Custom Implementation
 
-개발자는 `Script` 클래스를 상속받아 자신만의 비즈니스 로직을 작성할 수 있습니다.
+Developers can inherit the `Script` class to create their own business logic.
 
-### 3.1 기본 구조
+### 3.1 Basic Structure
 ```csharp
 using SpiralLab.Sirius3.Scripting;
 
 public class MyProductionScript : Script
 {
-    // 1. 속성 정의 (Sirius3 UI 속성창에 자동 노출됨)
+    // Properties Definition (Automatically exposed to the Sirius3 UI Properties Window)
     public string FactoryName { get; set; } = "Seoul_01";
 
-    // 2. 커스텀 로직 정의 (SourceText에서 호출 가능)
+    // Custom Logic Definition (Callable from SourceText)
     public string CalculateMagicCode() {
         return FactoryName + "-" + DateTime.Now.Ticks.ToString().Substring(10);
     }
@@ -91,64 +93,48 @@ public class MyProductionScript : Script
 
 ---
 
-## 4. 실전 예제 (Practical Examples)
+## 4. Public Demo
 
-`External\Script` 폴더에 포함된 다음 예제 파일들을 참고하여 구현할 수 있습니다.
+`demos/editor_script` of the public storage is a standard example.
 
-### 4.1 데이터베이스 연동 ([CsvDatabaseScript.cs](file:///d:/git/sirius3lib/External/script/CsvDatabaseScript.cs))
-외부 CSV 파일에서 행 단위로 데이터를 읽어와 마킹합니다.
-- **핵심 함수**: `GetCsvData()`
-- **응용**: 엑셀로 관리되는 제품 리스트를 순차적으로 마킹할 때 사용합니다.
+- `Form1.cs`: Create `EntitySiriusText` and set `TextConverter = TextConverters.SimpleScript`, `SourceText = "NextSerialNo(1)"`, `IsAllowConvert = true`.
+- `Marker.ScriptInstance`: It is a `IScript` instance currently available by the Marker.
+- `ScriptFactory.Create(fileName)`: Open `.cs` or built `.dll` Create Script.
+- `ScriptSerializer.Open/Save`: Open and save the `.script` settings file.
 
-### 4.2 GS1 규격 바코드 ([Gs1BarcodeScript.cs](file:///d:/git/sirius3lib/External/script/Gs1BarcodeScript.cs))
-국제 표준 바코드 규격인 GS1-128 데이터를 생성합니다.
-- **핵심 함수**: `GetGs1Data()`
-- **응용**: GTIN, 제조일자, 시리얼 번호가 조합된 복합 텍스트 바코드 생성.
-
-### 4.3 생산 이력 로깅 ([TraceabilityLogScript.cs](file:///d:/git/sirius3lib/External/script/TraceabilityLogScript.cs))
-마킹된 실제 데이터를 텍스트 파일로 저장하여 추적성을 확보합니다.
-- **핵심 함수**: `LogAndReturn(data)`
-- **응용**: 식품, 의료 기기 등 생산 이력이 필수적인 산업군.
-
-### 4.4 데이터 검증 및 보안 ([QualityCheckScript.cs](file:///d:/git/sirius3lib/External/script/QualityCheckScript.cs))
-입력된 LOT 코드의 형식을 검사하거나 체크섬을 추가합니다.
-- **핵심 함수**: `SafeLotCode()`, `AddChecksum()`
-- **응용**: 잘못된 코드가 마킹되는 것을 방지하는 품질 관리 시스템.
-
-### 4.5 설비 유지보수 ([MaintenanceScript.cs](file:///d:/git/sirius3lib/External/script/MaintenanceScript.cs))
-누적 마킹 횟수를 추적하여 소모품 교체 시기를 알립니다.
-- **핵심 함수**: `GetMaintenanceStatus()`
-- **응용**: 레이저 소스 수명 관리 및 필터 교체 알람.
+Do not repeat tasks that may take long or fail, such as CSV, Database, and Network Access, directly on a SourceText line. prepare the necessary data before the Marker starts and implement the Script Method to work short and decisively.
 
 ---
 
-## 5. UI와의 통합 (UI Integration)
+## 5. Integration with UI (UI Integration)
 
-커스텀하게 작성된 `.cs` 파일이나 빌드된 `.dll` 파일을 사용하는 방법은 다음과 같습니다.
+How to use customized `.cs` files or built `.dll` files are as follows:
 
-1. **스크립트 주입**: `IDocument.SimpleScriptingInstance` 프로퍼티에 인스턴스를 할당합니다.
-   - 공유 범위: 해당 문서 내의 모든 엔티티가 인스턴스를 공유합니다.
-2. **속성창 활용**: 상속받은 클래스에서 정의한 `public` 프로퍼티는 Sirius3 UI의 속성창(Property Grid)에 자동으로 나타나며, 마킹 중 실시간 변경이 가능합니다.
-3. **실시간 반영**: 시리얼 번호 증가나 데이터 변경 시 `NotifyPropertyChanged`가 호출되므로 UI는 즉시 갱신됩니다.
-
----
-
-## 6. 개발자 팁 (Tips)
-
-- **스레드 안전**: 마킹은 고속으로 진행되므로, 파일 쓰기나 네트워크 통신 시 반드시 비동기 처리나 락(Lock)을 고려해야 합니다.
-- **캐싱**: `ScriptFactory`는 컴파일된 스크립트를 캐싱하므로 반복 실행 시 성능 저하가 없습니다.
-- **스마트 평가**: `SourceText`에 `{ }`를 사용하면 내부적으로 보간 문자열(`$""`)로 변환되어 매우 직관적인 코드 작성이 가능합니다.
+1. **Scripts registration**: assign `IScript` instances to `Marker.ScriptInstance`.
+   - The default implementation uses a separate ScriptInstance for each Marker.
+   - Do not assign the same instances to multiple markers at the same time.
+2. **Use of the Properties**: The `public` properties defined in the inherited class will automatically appear in the Properties Grid of the Sirius3 UI, and it is possible to change in real time during the marking.
+3. **Real-time reflection**: `NotifyPropertyChanged` is called when the serial number increases or the data changes, so the UI is updated immediately.
 
 ---
 
-## 7. 현업 밀착형 다중 행 스크립트 예제 (Advanced Multi-line Scripts)
+## 6. Developer Tips (Tips)
 
-현장에서 복잡한 조건을 처리할 때, 속성창의 `SourceText` 입력란(멀티라인 편집기)에 직접 작성하여 즉시 적용해볼 수 있는 실무 스크립트 5가지입니다.
+- *Straed Safety**: Marking is high-speed, so when writing files or network communication, you must consider non-motion processing or lock.
+- **Compilation time**: User Script should be loaded/compiled in advance when the Marker is not Busy and check the error.
+- **Lifetime Cycle**: `OnStarted`, Text Conversion, `OnEnded` uses the ScriptInstance of the same Marker.
+- **Smart Assessment**: With `{ }` in `SourceText`, it is internally converted to `$""`, making it possible to create very intuitive codes.
 
-### 7.1 복합 2D 바코드 데이터 조합 (다중 필드)
-여러 공정 정보를 조합하여 DataMatrix 또는 QR 코드에 하나의 문자열로 압축해 넣을 때 사용합니다. 세미콜론이 포함된 다중 구문이므로 자동 인식되어 실행됩니다.
+---
+
+## 7. Advanced Multi-line Scripts (Advanced Multi-line Script)
+
+When dealing with complex conditions in the field, there are five practical scripts that can be written directly in the `SourceText` entrance box (Multi-line Editor) in the properties window and applied immediately.
+
+### 7.1 Complex 2D barcode data combination (multi-field)
+It is used when combining multiple process information to compress it into a single string in the DataMatrix or QR code, which is a multi-frame containing semicolon, so it is automatically recognized and run.
 ```csharp
-string prf = LotCode.Substring(0, Math.Min(LotCode.Length, 3)); // 앞 3자리 추출
+string prf = LotCode.Substring(0, Math.Min(LotCode.Length, 3)); // Three front seats.
 string dt = Date("yyMMdd");
 string tm = Time("HHmm");
 string sn = NextSerialNo("D5");
@@ -157,13 +143,13 @@ string sh = Shift("A", "B", "C");
 return $"{prf}-{dt}-{tm}-{sn}-{sh}";
 ```
 
-### 7.2 일일 단위(자정 기준) 시리얼 자동 초기화
-날짜가 변경될 때마다 시리얼 번호를 자동으로 1번부터 다시 시작하도록 제어합니다. `Set`과 `Get`을 이용해 마지막 마킹 날짜를 기억합니다.
+### 7.2 Automatic Daily Serial Reset at Midnight
+Each time the date changes, you automatically control the serial number to start back from 1 using `Set` and `Get` to remember the last marking date.
 ```csharp
 string today = Day.ToString();
 string lastDay = Get("LastDay") as string;
 
-// 날짜가 바뀌었으면 카운터 리셋
+// If the date is changed, the counter re-set.
 if (today != lastDay) {
     ResetSerialNo(1);
     Set("LastDay", today);
@@ -172,32 +158,32 @@ if (today != lastDay) {
 return $"SN-{NextSerialNo("D4")}";
 ```
 
-### 7.3 다중 독립 카운터 (박스 및 개별 제품 연동)
-제품 카운터가 특정 수치에 도달하면 제품 카운터는 리셋하고, 박스 카운터를 증가시키는 이중 카운팅 로직입니다.
+### 7.3 Multi-independent counter (box and individual product combination)
+When the product counter reaches a specific figure, the product counter is a double counting logic that resets and increases the box counter.
 ```csharp
-int itemMax = 10; // 박스당 10개 제품
+int itemMax = 10; // 10 items in a box.
 int item = NextSerialNo(); 
 
-// 제품 10개를 다 채웠으면
+// If you fill 10 products.
 if (item > itemMax) {
     ResetSerialNo(1);
     item = NextSerialNo();
-    NextNamedSerialNo("BoxCounter"); // 박스 카운터 1 증가
+    NextNamedSerialNo("BoxCounter"); // Box Counter 1
 }
 
-// "BoxCounter" 카운터값을 가져옴 (증가시키지 않음)
+// Import the "BoxCounter" count value (not increased)
 int box = NextNamedSerialNo("BoxCounter", 0);
 
 return $"BOX:{box:D3}-ITEM:{item:D2}";
 ```
 
-### 7.4 주/야간 교대 및 요일에 따른 조건부 텍스트
-단순 날짜가 아닌 시간대와 요일에 따라 마킹되는 식별 문자를 다르게 적용합니다.
+### 7.4 Conditional Text by Day/Night Shift and Day of Week
+Apply differently the identification characters that are marked according to the time zone and day not a simple date.
 ```csharp
 string dn = DayNight("DAY", "NIGHT");
 string dw = DateTime.Now.DayOfWeek.ToString().Substring(0, 3).ToUpper(); // MON, TUE...
 
-// 야간 근무이면서 주말인 경우 특수 마크 추가
+// If you are working at night and weekend, add a special mark.
 if (dn == "NIGHT" && (dw == "SAT" || dw == "SUN")) {
     return $"[W-NGT] {LotCode}-{NextSerialNo("D4")}";
 }
@@ -205,20 +191,20 @@ if (dn == "NIGHT" && (dw == "SAT" || dw == "SUN")) {
 return $"[{dw}-{dn}] {LotCode}-{NextSerialNo("D4")}";
 ```
 
-### 7.5 목표 수량 도달 시 특수 알람 반환
-설정된 목표 생산량에 도달했을 때, 작업자에게 시각적인 알람(또는 마킹 중지를 유도하는 텍스트)을 표출합니다.
+### 7.5 Special alarm returns when the target volume is reached
+When you have reached the set target production volume, the employee is displayed a visual alarm (or text that causes a stop of marking).
 ```csharp
-int target = 500; // 목표 수량
+int target = 500; // The target number.
 int current = (int)(Get("ProduceCount") ?? 0);
 current++;
 Set("ProduceCount", current);
 
 if (current >= target) {
-    // 목표 달성 시 특수 문자열 표출
+    // Objective Objective Specific Screenshots
     return "★★★ TARGET REACHED ★★★";
 }
 
-// 달성률을 함께 스크립팅하여 텍스트로 보임
+// Screenshots together and text.
 return $"Lot:{LotCode} [{current}/{target}]";
 ```
 

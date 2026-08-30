@@ -1,68 +1,71 @@
 # RTC Field Correction & 3D Calibration User Manual
 
+> Reference version: Sirius3 1.12.3 (public Release features)
 
-## 1. 개요 (Overview)
 
-본 매뉴얼은 SCANLAB RTC 제어기의 가공 정밀도를 극대화하기 위해 제공되는 RtcCalibrationLibrary의 사용 방법을 설명합니다. 
-이 라이브러리는 스캐너의 기하학적 왜곡을 보정하는 2D 보정과, 3D 가공 시 전 영역에서 균일한 초점 및 크기를 유지하기 위한 3D 보정 기능을 제공합니다.
+## 1. Overview
 
-## 2. 라이브러리 활성화 (Activation)
+This manual describes how to use RtcCalibrationLibrary, which is provided to maximize the processing accuracy of the SCANLAB RTC controller.
+This library provides 2D correction to adjust the geometric distortion of the scanner and 3D correction to maintain equal focus and size throughout the area during 3D processing.
 
-- 본 라이브러리는 SCANLAB에서 발급한 정식 라이선스 활성화 코드가 필요합니다.
-- 설정값: `SpiralLab.Sirius3.Config.CalibrationLibraryActivationCode`에 코드를 할당해야 정상 동작합니다.
+## 2. Activation of the Library (Activation)
 
-## 3. 2D 필드 보정 (XY Field Correction)
+- It requires SCANLAB CalibrationLibrary Runtime and Sirius3 distribution files.
+- Activation values are managed within Sirius3 and are not the public `Config` property. Do not record the activation code in the application code or settings file.
+- When the API returns `ACTIVATION_CODE_INVALID`, check the installed Sirius3/CalibrationLibrary version and the distribution file and contact the supplier.
 
-가장 기본적인 보정으로, 스캐너의 Scale, Rotation, Trapezoid, Pincushion 왜곡을 보정합니다.
-- 방법: `XyCalibration` 메서드를 호출합니다.
-- 필요 데이터: 
-  - Target Points: 가공 명령을 내린 이론적 좌표 (mm).
-  - Measured Points: 실제 가공된 위치를 측정 장비로 측정한 좌표 (mm).
-  - K-Factor: 사용 중인 보정 파일의 bits/mm 계수.
-- 결과: 입력된 소스 보정 파일(.ct5/.ctb)을 바탕으로 오차가 보정된 새로운 타겟 보정 파일이 생성됩니다.
+## 3. 2D Field Correction (XY Field Correction)
 
-## 4. 3D 보정 단계 (3D Calibration Step-by-Step)
+As the most basic adjustment, the scanner adjusts Scale, Rotation, Trapezoid, and Pincushion distortions.
+- Method: Call the `XyCalibration` method.
+- Required data:
+  - Target Points: Theoretical coordinates (mm) with the processing command.
+  - Measured Points: Coordinates (mm) measured at the actual marked positions.
+  - K-Factor: the bits/mm of the correction file that is being used.
+- Result: Based on the input source correction file (.ct5/.ctb), a new target correction file is created with error correction.
 
-완벽한 3D 가공을 위해 아래의 순서대로 보정을 진행하는 것을 강력히 권장합니다.
+## 4. 3D Calibration Step-by-Step
 
-Step 1: K-Factor 확인
-- `GetCalibrationFactor`를 통해 보정 파일의 기본 스케일 계수를 확인합니다.
+It is strongly recommended to carry out the correction in the following order for perfect 3D processing.
 
-Step 2: Beam Tilt Calibration (빔 틸트)
-- 스캐너와 varioSCAN 사이의 축 정렬 오차를 보정합니다. 상/하 평면의 중심 오차(dx, dy)를 입력합니다.
+Step 1: Check the K-Factor
+- Use `GetCalibrationFactor` to verify the default scale coefficient of the corrected file.
+
+Step 2: Beam Tilt Calibration
+- Corrects axial misalignment between the scanner and varioSCAN. Enter the center offset (`dx`, `dy`) at the upper and lower planes.
 
 Step 3: XY Field Correction
-- 2D 보정을 수행하여 기본 평면의 기하학적 정밀도를 확보합니다.
+- Do 2D correction to ensure the geometric accuracy of the basic flat.
 
 Step 4: Focus Calibration at Z=0
-- 기본 작업 평면(Z=0)의 모든 지점에서 초점이 일정하도록 미세 조정합니다.
+- Adjust the concentration to be stable at all points of the basic work level (Z=0).
 
 Step 5: Focus Coeff A,B,C Calibration
-- Z축 이동에 따른 초점 변화 곡선(Zout = A + Bl + Cl²)의 계수를 산출하여 3D 볼륨 내 초점 정밀도를 보정합니다.
+- Extract the coefficient of the focus change curve (Zout = A + Bl + Cl2) according to the Zq movement to adjust the focus accuracy within the 3D volume.
 
 Step 6: Stretch Calibration
-- Z축 높이 변화에 따른 가공 크기(Scale)의 변형을 최종 보정합니다.
+- Finally adjust the variation of the processing size (Scale) according to the change in the height.
 
-## 5. 특수 형상 보정 (Specialized Geometries)
+## 5. Specialized Geometries
 
-평면 외에 특정 형상의 표면에 최적화된 보정 파일을 생성할 수 있습니다.
-- Points Cloud: 사용자 정의 자유 곡면(Point Cloud)에 맞춘 보정 파일 생성.
-- Cylinder: 원통형 가공물 표면에 최적화된 보정.
-- Cone: 원뿔형 가공물 표면에 최적화된 보정.
-- Plane: 기울어지거나 이동된 새로운 가공 평면에 대한 보정.
+In addition to the flat, you can create an optimized adjustment file on the surface of a specific shape.
+- Points Cloud: Create a correction file adapted to the customized free curve (Point Cloud).
+- Cylinder: optimized adjustment to the surface of the rounded processing material.
+- Cone: optimized adjustment to the coronary processing surface.
+- Plane: Correction of new processing plates that are swallowed or moved.
 
-## 6. 유틸리티 기능 (Utilities)
+## 6. Utilities
 
-- Get/Set Coefficient: 보정 파일 내의 A, B, C 포커스 계수를 직접 읽거나 수정합니다.
-- Get/Set Stretch Factor: X, Y축의 크기 변형 계수(Stretch Factor)를 관리합니다.
+- Get/Set Coefficient: Read or modify the A, B, and C focus coefficients directly within the correction file.
+- Get/Set Stretch Factor: X, Manages the Stretch Factor.
 
-## 7. 오류 코드 안내 (Error Handling)
+## 7. Error Handling
 
-작업 실패 시 `SlscErrorCodes`를 통해 원인을 파악할 수 있습니다.
-- NO_ERROR (0): 성공.
-- ACTIVATION_CODE_INVALID (1): 라이선스 활성화 코드 오류.
-- COULD_NOT_OPEN_CORR_FILE (4): 파일 경로 또는 접근 권한 문제.
-- MISSING_README_PARAMS (11): 보정 파일과 짝이 맞는 ReadMe 텍스트 파일이 없거나 내용이 부실함.
+If the work fails, you can identify the cause through `SlscErrorCodes`.
+- NO_ERROR 0 : Success
+- ACTIVATION_CODE_INVALID (1): License activation code error.
+- COULD_NOT_OPEN_CORR_FILE (4): file path or access authorization problem.
+- MISSING_README_PARAMS (11): There is no ReadMe text file matching the correction file or the content is defective.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

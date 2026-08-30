@@ -90,7 +90,6 @@ Eine Windows/.NET-Plattform für die präzise Laserbearbeitung. Sie verbindet SC
 - `SpiralLab.Sirius3.Dependencies` - SCANLAB RTC4/5/6, syncAXIS-Laufzeit, Schriftarten und Beispieldaten
 - `SpiralLab.Sirius3` - Hardwareabstraktion für Scanner, Laser, Leistungsmesser usw.
 - `SpiralLab.Sirius3.UI` - Entitäten, Geometrieverarbeitung, OpenGL-Rendering und WinForms-Steuerelemente
-- `SpiralLab.Sirius3.MCP` - Eingebetteter MCP-Server für laufende WinForms-Editoren, öffentliche API-Hilfe und freigegebene SCANLAB-Dokumente ([Nutzungs- und Sicherheitshinweise](SpiralLab.Sirius3.MCP/MCP.md))
 
 Die Installation und Aktualisierung erfolgt über die NuGet-Paketverwaltung.
 
@@ -113,7 +112,7 @@ Die Installation und Aktualisierung erfolgt über die NuGet-Paketverwaltung.
 - SCANLAB
   - RTC4: v2023.11.02
   - RTC5: v2024.09.27
-  - RTC6: 2026.3.31 v1.24.0
+  - RTC6: 2026.6.19 v1.25.0
   - syncAXIS: v1.8.2 (2023.03.09)
 - .NET
   - OpenTK 3.3.3 für `net481`

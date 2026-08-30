@@ -1,7 +1,7 @@
 第三者ソフトウェアに関する通知
 ============================
 
-本書は、2026 年 8 月 18 日時点で NuGet パッケージ SpiralLab.Sirius3、
+本書は、2026 年 8 月 23 日時点で NuGet パッケージ SpiralLab.Sirius3、
 SpiralLab.Sirius3.UI、SpiralLab.Sirius3.MCP、および SpiralLab.Sirius3.Dependencies と共に配布される
 第三者ソフトウェアについて説明します。変更されていないライセンス全文は、
 本書と常に共に配布される THIRD-PARTY-NOTICES.txt を参照してください。
@@ -52,17 +52,19 @@ PropertyTools.Wpf
   ライセンス: MIT
   著作権    : Copyright (c) 2014 PropertyTools contributors
   ソース    : https://github.com/PropertyTools/PropertyTools
-  用途      : Sirius3 専用アダプターの背後で使用する Debug 専用 WPF
-              プロパティグリッドおよび TreeListBox
+  用途      : Sirius3 専用アダプターの背後で使用する Debug 専用 WPF TreeListBox
   配布      : Debug WPF ビルドにのみ含み、Release パッケージからは除外
 
-Material Design In XAML Toolkit (MaterialDesignThemes および MaterialDesignColors)
-  バージョン: 5.3.2
-  ライセンス: MIT
-  著作権    : Copyright (c) James Willock, Mulholland Software and Contributors
-  ソース    : https://github.com/MaterialDesignInXamlToolkit
-  用途      : Debug 専用 Material Design WPF テーマ、コントロール、および
-              アイコンパック。Release パッケージからは除外
+Syncfusion WPF PropertyGrid
+  バージョン: 34.1.32
+  ライセンス: Essential Studio UI Edition Binary License（商用プロプライエタリソフトウェア）
+  著作権    : Copyright Syncfusion Inc.
+  製品      : https://www.syncfusion.com/wpf-controls/property-grid
+  用途      : Sirius3 専用アダプターの背後で使用する Debug 専用 WPF プロパティグリッド
+  配布      : 非公開の Debug WPF 依存関係であり、Release バイナリおよびパッケージから除外
+  条件      : 使用および再配布には、該当する Syncfusion 契約が必要です。埋め込まれた
+              ランタイム登録キーは再配布権を付与しません。ベンダーのアンロックキーは
+              使用せず、どちらのキーもログに記録しません。
 
 GLFW (OpenTK.redist.glfw)
   バージョン: 3.4.0.44

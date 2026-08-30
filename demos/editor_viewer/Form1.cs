@@ -866,7 +866,7 @@ namespace Demos
         private void stl_testcase(IDocument document)
         {
             var rnd = new Random((int)DateTime.Now.Ticks);
-            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\stl\\11_-_Main_Fan_1.stl");
+            var fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sample\\stl\\fan1.stl");
             if (!File.Exists(fileName)) 
                 return;
 

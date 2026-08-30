@@ -1,30 +1,48 @@
 # SiriusEditorControl User Manual
 
+> Reference version: Sirius3 1.12.3 (public Release features)
 
-## 1. 개요 (Overview)
+## 1. Integrated Editor
 
-SiriusEditorControl은 Sirius3 프레임워크의 가장 핵심적인 WinForms 컨트롤입니다. OpenGL 기반의 고성능 2D/3D 그래픽 편집 화면과 레이저 가공에 필요한 모든 하드웨어 제어(Scanner, Laser, Marker 등) UI가 통합되어 있습니다. 
+`SiriusEditorControl` is a public WinForms control that combines EditorControl, the Page/Layer TreeView, PropertyGrid, and Scanner, Laser, Marker, I/O, and PowerMeter UI on one screen. Use the public `beginner` and `editor_ui` demo sources as starting points for product-specific menus, tabs, and device UI.
 
-## 2. 주요 UI 구성 (UI Components)
+## 2. Page Tab
 
-- 중앙 편집기 (Editor): OpenGL을 사용하여 도면 엔티티를 시각화하고 마우스로 직접 편집(선택, 이동, 회전, 스케일)할 수 있는 화면입니다.
-- 좌측 탭 (Left Tabs): 
-  - Page 1~4: 문서 내의 논리적 페이지를 전환합니다.
-  - Block: 재사용 가능한 블록(Block) 엔티티들을 관리합니다.
-- 하단 상태바 및 로그: 실시간 가공 시간, 인코더 위치, 측정 파워 등을 표시하며 'Log' 버튼을 통해 시스템 로그 창을 토글할 수 있습니다.
-- 우측 속성창 (PropertyGrid): 선택된 엔티티의 상세 파라미터(좌표, 펜 설정, 지연 시간 등)를 수정합니다.
-- 펜 제어 (Pens): 가공 조건을 결정하는 Entity Pen과 Layer Pen을 관리합니다.
+Page 1 to 4 separates different drawings or processes.When you change the active Page, the default objects of Editor, TreeView and Marker are changed together.F5 can actually run the current Page.
 
-## 3. 하드웨어 및 마커 연동 (Device Integration)
+## 3. Block Tab
 
-이 컨트롤은 단일 문서(`IDocument`)에 대해 하나의 하드웨어 세트(Scanner, Laser, PowerMeter, DIOs, ...)를 바인딩하여 사용합니다. 
-- RegisterDevices: 외부에서 생성된 하드웨어 인스턴스들을 이 컨트롤에 등록하면 내부의 모든 하위 컨트롤(ScannerControl, LaserControl 등)이 자동으로 해당 하드웨어에 연결됩니다.
+Block manages the master shape to be reused and BlockInsert is a reference placed on the Page. It is suitable for repeated logos or arrangements, but make sure that the ModelMatrix of the Block, the ModelMatrix of the Insert and the Marker Offset are not duplicated.
 
-## 4. 주요 기능 (Key Features)
+## 4. Entity Pen Tab
 
-- 문서 관리: New, Open, Save 버튼을 통해 가공 레시피(*.sirius3)를 관리합니다.
-- 가공 잠금 (Lock): 상단의 'Lock' 버튼을 클릭하면 뷰에서의 실수에 의한 편집을 방지할 수 있습니다.
-- 실시간 모니터링: 가공 중에는 하단의 프로그레스 바와 타이머가 활성화되어 현재 진행 상태를 시각적으로 보여줍니다.
+Object colour-by-colour Power, PowerMax, PowerMapCategory, Frequency, PulseWidth, Mark/Jump Speed, Delay, Raster, Hard Jump and Wobbel.
+
+## 5. Layer Pen Tab
+
+Layer edits the Sky Writing, ALC, Variable Polygon/Jump Delay, SCANAhead connection and syncAXIS conditions to be applied before starting.
+
+## 6. PropertyGrid
+
+When you select an object in Editor or TreeView, the image, Text, Hatch, Transform and Pen properties will be displayed. you can search for the properties name, class, description, and you can focus on the search window with `CTRL+F`. in multiple choices only common properties will be displayed.
+
+## 7. Scanner Tab
+
+Check the RTC status, KFactor, correction files and Table, Laser Mode, Delay, I/O, Measurement and support extensions. in RTC6, SCANAhead, Auto Delay and Preview Time are used in accordance with the installed scan heads configuration.
+
+## 8. Laser Tab
+
+Check Laser Ready, maximum output, Power Control method and manufacturer-specific settings. Registering the Laser renews the connection to PowerMax and PowerMap in EntityPen. Manual output command can lead to real output.
+
+## 9. Marker Tab
+
+Goal Page/Layer/Offset, Repeat Order, Preview, Start, Stop, Reset and Progress status. `LayerFirst` and `OffsetFirst` set any axis of Layer and Offset to external repetition. Check Ready/Busy/Error and current target number before starting.
+
+## 10. Device Registration
+
+`RegisterDevices` connects Scanner, Laser, PowerMeter, Extension/LASER-port DInput·DOutput, Marker and Remote. The demo read `config*.ini` to create and register the device as Factory and then check Marker Ready.
+
+Stop the Marker that is running at closure first, disable the Device created and then call `Core.Cleanup()`.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

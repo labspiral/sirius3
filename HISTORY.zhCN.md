@@ -1,10 +1,22 @@
 # Sirius3 版本历史
 
+## v1.13.0 (2026.8.31)
+
+- 更新) 将 SCANLAB RTC6 依赖更新至 Software Package 1.25.0，在初始化时自动选择与电路板修订匹配的固件，并通过 `RtcRevision` 以值 0 表示修订版 1、值 1 表示修订版 2
+- 新增) 添加 `EntityNURBSSurface`、`EntityTorus`、`EntityPlane` 和 `EntityPyramid` 三维表面网格及其工厂方法，并支持在 WinForms 编辑器中创建和编辑三维网格与样条曲线以及预览切片
+- 新增) 为直线和圆形 Sirius/GDI 文本以及 `EntityImageText` 添加 Fixed 字符单元格宽度与字形宽度适配设置，使包括空白和缺失字形在内的字符位置保持稳定
+- 变更) 圆形文本现在将换行内容排布为同心的多行，并改进文本基线、逻辑边界以及 `EntityImageText` 透明边距计算的稳定性
+- 修复) 1D/2D 条码现在将 `Width` 和 `Height` 保持为相互独立的最大加工边界，并在其中适配编码矩阵，确保不超过请求尺寸
+- 修复) `EntityPoint` 和 `EntityPoints` 的多脉冲点标刻现在会将 `EntityPen.IsPixelPulsesExit` 设置应用到 RTC 命令
+- 修复) RTC 2D 校正网格现在支持用空白或逗号分隔 dx/dy，并恢复按误差距离显示单元格颜色
+
 ## v1.12.2 (2026.8.18)
+
 - 新增) 添加 `EntityCircularSiriusText` 实体
 - 修复) SiriusText 自动字距调整现在按字形线段间包含斜向距离的实际最短距离计算字符间距
 
 ## v1.12.1 (2026.8.16)
+
 - 新增) `EntitySiriusText.IsAutoKerning` 可在 Variable 字符间距模式下，根据缓存的字体轮廓自动调整相邻字形的字距
 - 修复) Fixed 字符间距模式现在会在内容变化时保持字符单元格位置及首尾单元格边距，支持配置多语言字体度量样本，并按 Unicode 17 文字范围选择后备字体
 - 修复) 当 `TextConverters.Link` 的目标也使用 `Link` 时，不再继续追踪连续链接，而是记录错误并停止打标
@@ -14,6 +26,7 @@
 - 变更) RTC 2D/3D 校正对话框、共享验证错误以及自定义消息框按钮现统一使用 Sirius3 资源，并支持英语、韩语、简体中文、日语和德语
 
 ## v1.11.14 (2026.8.7)
+
 - 修复) OpenTK 3 和 4 现在会按上下文类型安全读取并恢复多边形模式，避免 Release 版本出现内存访问错误、边界框消失以及 OpenTK 3 的错误调试断言
 - 修复) 激光路径模拟现在可通过 ESC 立即停止，退出清理时不会重复中止虚拟 RTC，也不会把正常的虚拟激光器中止记录为错误
 - 修复) 在编辑画面或树视图中取消 F5 加工开始确认窗口后，不会再次弹出同一窗口
@@ -26,12 +39,14 @@
 - 新增) PropertyGrid 现在可按属性名称、分类或说明即时搜索，并支持 CTRL+F 聚焦搜索框和一键清除
 
 ## v1.11.11 (2026.8.5)
+
 - 修复) RTC6 现在会通过正确的控制器 API 读取状态和模拟 I/O，正确识别以太网连接错误，并避免关闭时与状态定时器发生冲突
 - 修复) syncAXIS 作业完成后会可靠地清除忙碌状态，并能一致地报告配置错误
 - 修复) StreamParser 的连接、重新连接和关闭过程更加稳定，未完成的接收任务也会安全清理
 - 修复) 条码字符编码可按需应用，指定的点阵尺寸与实际生成尺寸可分别查看，Data Matrix 切换形状时也不会再缩小指定尺寸
 
 ## v1.11.10 (2026.8.1)
+
 - 修复) 条码不会再超出指定尺寸，加工路径、补充码、填充和点阵单元模拟位置也能正确对齐
 - 修复) 三维网格切片更快、更稳定，遇到破损或缺失的网格时会给出更清楚的警告
 - 修复) 不改动实体几何数据的同时，让 AABB 命中测试更加稳定、快速
@@ -40,6 +55,7 @@
 - 修复) 导入矢量、Gerber 和 Excellon 文件时会自动连接邻近路径、识别文件内容，并安全跳过不支持的文件
 
 ## v1.11.0 (2026.7.27)
+
 - 新增) 添加 EntityStitchedImage 对象
     - 可作为 IView.StitchedImage 使用
 - 新增) 支持 IEntityCloneable 接口
@@ -50,6 +66,7 @@
     - 当输入值超出范围时，不再显示警告，而是将数值调整至最大值与最小值之间
      
 ## v1.10.14 (2026.7.10)
+
 - 新增) 添加了 TextConverters.Link
     - TextConverter 通过 LinkEntity 的名称获取链接对象的属性值并将其转换为文本
 - 修复) 提高了 UnDo、ReDo 的稳定性
@@ -62,6 +79,7 @@
     - 支持限制并行处理时使用的最大任务数量（默认值：逻辑处理器数量的50%）
      
 ## v1.10.11 (2026.7.1)
+
 - 重构) 文本
     - EntityText、EntityImageText、EntityCircularText：应用字间距调整（Kerning），使用 Fixed 时应用居中对齐
     - EntitySiriusText：使用 Fixed 时应用居中对齐。支持外部二进制格式（.fnt 字体文件）
@@ -84,6 +102,7 @@
     - 撤销操作后编辑对象属性时发生异常的问题
      
 ## v1.10.10 (2026.6.22)
+
 - 新增）支持文本对象的固定全宽功能
     - 目标对象：EntityText、EntitySiriusText
     - 新增 Target width 属性
@@ -119,6 +138,7 @@
     - 用于旋转扫描仪时自动计算原始数据的功能
      
 ## v1.9.0 (2026.6.1)
+
 - 新增) 支持导入 G-code
     - 文件扩展名：.gocde 或 .ngc 文件
 - 修复) 改进文本转换器 TextConverters.Offset
@@ -132,6 +152,7 @@
     - 请参考 editor_entity_custom 演示项目
      
 ## v1.8.6 (2026.5.14)
+
 - 修复) 填充图案
     - 为线段填充图案提供 HatchFills 选项
     - 改进：当条形码对象使用轮廓（Outline）单元格类型时，填充效果能正确应用
@@ -142,6 +163,7 @@
     - 提升了稳定性
      
 ## v1.8.5 (2026.5.8)
+
 - 新增) 支持撤销、重做功能
     - IDocument 支持 ActUndo、ActRedo 方法
     - 仅在部分名为 IDocument.Act 的函数中有效
@@ -167,6 +189,7 @@
     - 应用光栅（Raster）加工方式
  
 ## v1.8.1 (2026.4.22)
+
 - 新增) 远程功能
     - 添加了 IRemote 接口，用于支持通过外部通信更改加工方案、查询和修改对象属性、启动、停止和重置标记加工命令，以及设置加工偏移量
     - 支持串行通信
@@ -187,6 +210,7 @@
     - 修复按钮切换状态错误
      
 ## v1.7.1 (2026.4.16)
+
 - 更新) RTC6 v1.24.0 包
     - 2026-3-31 发布版本
 - 修复) IMarker
@@ -211,6 +235,7 @@
 - 修复）优化了C#脚本的执行速度
  
 ## v1.6.1 (2026.4.9)
+
 - 新增) ViewerControl 
     - 添加用户控件
     - 支持在查看器和编辑器中同时渲染同一文档
@@ -237,11 +262,13 @@
     - OffsetControl 用户控件
     
 ## v1.5.4 (2026.4.2)
+
 - fixed) 热修复
     - 修复在设计时创建 SiriusEditorControl 用户控件时发生的异常
     - 修复在设计时创建 SiriusMultiEditorControl 用户控件时发生的异常     
  
 ## v1.5.3 (2026.4.1)
+
 - fixed) IDocument
     - 添加 IDocument 与 IView 之间的相互连接设置
 - added) IPowerMeter
@@ -257,6 +284,7 @@
     - 支持使用扫描头中设置的内部矩阵（旋转等）进行 Raw 数据运算处理
 
 ## v1.5.2 (2026.3.27)
+
 - added) 支持步进电机控制
     - 添加通过 RTC5, 6 的步进端子控制外部步进电机的功能
     - 添加 IRtcStepper 接口
@@ -289,6 +317,7 @@
 - added) 在编辑器菜单中添加数组粘贴功能
  
 ## v1.4.1 (2026.3.10)
+
 - added) 通过 Web 服务器提供文档化
     - 可使用在线网站：https://spirallab.co.kr/sirius3/doc
     - 也可通过解压 sirius3\doc\sirius3_doc_版本.zip 并运行 'start_doc.bat' 批处理文件使用
@@ -306,6 +335,7 @@
     - 禁用 WaferMap 及 Substratemap
 
 ## v1.4.0 (2026.3.3)
+
 - added) 添加 .net9.0-windows, .net10.0-windows 开发环境
 - added) 根据外部激光源同步信号输出脉冲个数
     - 通过 LASER 连接器的 DIGITAL IN1 输入外部同步信号
@@ -332,6 +362,7 @@
     - 更改：激活 30 分钟评估模式
 
 ## v1.3.2 (2026.2.20)
+
 - fixed) 支持 Automatic Laser Control 的扩展模式
     - 可使用 Actual Velocity + Encoder + SCANAhead + Inverse Speed Correction + Backward Transformation + SDC + SkyWriting 信号组合
     - 支持在 EntityLayerPen 属性的 PoD 列表中设置扩展模式组合
@@ -347,6 +378,7 @@
 - fixed) 将 IRtcWaitID 更名为 IRtcInterrupt
 
 ## v1.3.1 (2026.2.9)
+
 - added) IRtcSCANAhead 接口
     - 在 EntityPen 中添加 SCANAhead 项目（Corner, End, Acc Scale）
     - 支持设置 Position(或 Trajectory) Acknowledge Limit 值（初始值：全位置范围的 0.28%）
@@ -354,6 +386,7 @@
 - added) IRtcWaitID 接口
 
 ## v1.3.0 (2026.2.5)
+
 - added) EntityPolyline2D, EntityPolyline3D 
     - 添加顶点列表编辑器
 - added) SiriusMultiEditorControl 控件
@@ -370,6 +403,7 @@
     - syncAXIS 实例更改为可选项
 
 ## v1.2.7 (2026.1.26)
+
 - added) 在 EntityLayerPen 中添加 Variable Delays 功能
     - Variable polygon delay: 根据弯折角度设置可变的折线延迟时间（默认：启用）
     - Variable jump delay: 根据跳跃距离设置可变的跳跃延迟时间
@@ -382,6 +416,7 @@
 - fixed) 模拟对象 ActRemove 失败的问题
  
 ## v1.2.6 (2026.1.21)
+
 - added) 添加椭圆(ellipse)对象
 - added) EntityLine, EntityArc, EntityPolyline2D
     - 添加 RampFactor 属性以支持 Automatic laser control (defined vector)
@@ -395,6 +430,7 @@
     - 更改：显示所选对象的每个单独外框矩形
 
 ## v1.2.5 (2026.1.15)
+
 - added) 添加了 ClipHelper 
 - added) 按住空格键选择时，激活下层对象选择模式
 - fixed) 改进 IHitTestable 射线检测
@@ -405,6 +441,7 @@
 - updated) 更新 clipper2 v.2.0.0
 	 
 ## v1.2.4 (2026.1.7)
+
 - added) 添加快捷键
    - CTRL + R: 切换是否渲染
    - CTRL + M: 切换是否标记
@@ -420,6 +457,7 @@
 - fixed) 修复使用 ActUngroup 时因错误的空树节点导致的异常
 
 ## v1.0.1 (2025.12.22)
+
 - added) .chm 帮助文件
 - added) ActExpand 函数
    - 支持根据距离进行路径扩大(或缩小)
@@ -430,6 +468,7 @@
 - fixed) 处理 Marker.EntityWork 时添加日志消息
  
 ## v0.9.3 (2025.12.5)
+
 - added) 缩放至适应 
    - 双击树节点时应用
    - 打开文件时应用
@@ -441,6 +480,7 @@
 - renamed) 将 scanner pen 更名为 entity pen
 
 ## v0.9.2 (2025.11.25)
+
 - added) 在菜单中添加转换为块和块插入功能
 - renamed) 将 EntityGroup 重命名为 EntityMixedGroup
 - fixed) 修复 ActUngroup 错误
@@ -449,6 +489,7 @@
 - fixed) 修复保存文件时的堆栈溢出异常
 
 ## v0.9.1 (2025.11.18)
+
 - added) 在 SpiralLab.Sirius3.Dependencies 包中包含 `gnuplot` 程序
 - added) 在编辑器中添加创建统一组按钮
 - fixed) 修复 EntityUniformGroup 的错误渲染问题
@@ -458,12 +499,15 @@
 - changed) 更改 Core.Initialize 签名
 
 ## v0.8.2 (2025.11.11)
+
 - fixed) 修复 HPGL 格式解析失败
 - fixed) 修复未应用扫描器笔的问题
 - fixed) 执行 ActNew 时刷新扫描器/图层笔对象
 
 ## v0.8.0 (2025.11.7)
+
 - 开发者预览版
 
 ## v0.1 (2025.03.06)
+
 - 首次发布
