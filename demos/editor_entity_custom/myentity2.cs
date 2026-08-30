@@ -44,6 +44,7 @@ namespace Demos
     /// </summary>
     public class EntityFiducial
         : EntityModelBase
+        //, IMarkerable
     {
         #region IRenderData impl with vertices, normals, colors, ... and indices 
         /// <inheritdoc/>
@@ -146,6 +147,14 @@ namespace Demos
             Name = $"Fiducial_{Id}";
             IsAllowRender = true;
             IsAllowHitTest = true;
+
+            //IsAllowHatch = true;
+            //IsAllowMark = true;
+            //Repeats = 1;
+
+            // The three internal arcs own the rendered geometry and hit-test
+            // acceleration structures; the trepan parent owns logical bounds.
+            DisableOwnAABBTree();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="EntityFiducial"/> class with specified parameters.
