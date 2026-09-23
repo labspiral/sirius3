@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net481;net8.0-windows;net9.0-windows</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Demos</RootNamespace>
+    <OutputPath>..\..\bin\editor_remote_mcp\</OutputPath>
+    <IncludeSymbols>False</IncludeSymbols>
+    <NeutralResourcesLanguage>en-US</NeutralResourcesLanguage>
+    <ApplicationHighDpiMode>DpiUnaware</ApplicationHighDpiMode>
+    <SatelliteResourceLanguages>ko-KR;zh-CN;ja-JP;de-DE</SatelliteResourceLanguages>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+
+
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework.StartsWith(`net9.0-windows`))'">
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);WFO1000</WarningsNotAsErrors>
+    <NoWarn>$(NoWarn);WFO1000</NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net481'">
+    <DefineConstants>$(DefineConstants);OPENTK3;NET481</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows' OR '$(TargetFramework)' == 'net9.0-windows'">
+    <DefineConstants>$(DefineConstants);OPENTK4</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net481'">
+    <PackageReference Include="OpenTK" Version="3.3.3" />
+    <PackageReference Include="OpenTK.GLControl" Version="3.3.3" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'net481'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App.WPF" />
+    <PackageReference Include="OpenTK" Version="4.9.4" />
+    <PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
+    <PackageReference Include="OpenTK.GLControl" Version="4.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\helper.cs" Link="helper.cs" />
+    <Compile Include="..\nativemethods.cs" Link="nativemethods.cs" />
+    <None Include="..\config.ini" Link="config.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.10" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.3.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+	<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
+	<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
+	<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,492 @@
+<UserControl x:Class="Demos.SiriusEditorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SpiralLab.Sirius3.UI.WPF;assembly=SpiralLab.Sirius3.UI"
+             mc:Ignorable="d"
+             d:DesignHeight="700" d:DesignWidth="1000"
+             FontFamily="{DynamicResource Sirius.FontFamily}" FontSize="{DynamicResource Sirius.FontSize.Body}"
+             Foreground="{DynamicResource Sirius.Brush.Text}"
+             UseLayoutRounding="True" SnapsToDevicePixels="True"
+             TextOptions.TextFormattingMode="Display">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SpiralLab.Sirius3.UI;component/WPF/WPFControlStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="Sirius.Editor.TreeNavigationIcon" TargetType="{x:Type Image}">
+                <Setter Property="Width" Value="16"/>
+                <Setter Property="Height" Value="16"/>
+                <Setter Property="Margin" Value="0,0,2,0"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="Sirius.Editor.MainNavigationIcon" TargetType="{x:Type Image}">
+                <Setter Property="Width" Value="18"/>
+                <Setter Property="Height" Value="18"/>
+                <Setter Property="Margin" Value="0,0,3,0"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="Sirius.Editor.NavigationText" TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="Sirius.Editor.TreeNavigationText" TargetType="{x:Type TextBlock}"
+                   BasedOn="{StaticResource Sirius.Editor.NavigationText}">
+                <Setter Property="FontSize" Value="12"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="{DynamicResource Sirius.Brush.Window}">
+        <Grid.RowDefinitions>
+            <!-- Top toolbar row -->
+            <RowDefinition Height="Auto"/>
+            <!-- Main content row -->
+            <RowDefinition Height="*"/>
+            <!-- Page tab row -->
+            <RowDefinition Height="Auto"/>
+            <!-- Bottom status bar row -->
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Toolbar: New / Open / Save / Lock -->
+        <Grid Grid.Row="0" Background="{DynamicResource Sirius.Brush.Panel}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ToolBar Grid.Column="0" x:Name="tolTop" ToolBarTray.IsLocked="True" Background="{DynamicResource Sirius.Brush.Toolbar}">
+                <Button x:Name="btnNew" Click="BtnNew_Click" ToolTip="New Document" >
+                    <Image Source="../Resources/File new.png" Width="20" Height="20"/>
+                </Button>
+                <Button x:Name="btnOpen" Click="BtnOpen_Click" ToolTip="Open Document" >
+                    <Image Source="../Resources/Import Import.png" Width="20" Height="20"/>
+                </Button>
+                <Separator/>
+
+                <Menu Background="Transparent" VerticalAlignment="Center">
+                    <MenuItem x:Name="mnuDocumentOptions" Background="Transparent" ToolTip="Open(or New) Options" >
+                        <MenuItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/SpiralLab.Sirius3.UI;component/Resources/Slider.png" Width="20" Height="20"/>
+                                <TextBlock Text="▼" FontSize="{DynamicResource Sirius.FontSize.Glyph}" VerticalAlignment="Center" Margin="2,0,0,0" Foreground="{DynamicResource Sirius.Brush.MutedText}"/>
+                            </StackPanel>
+                        </MenuItem.Header>
+                        <MenuItem Background="Transparent" x:Name="mnuIncludePage1" Header="Page1" IsCheckable="True" IsChecked="True" ToolTip="Include Page1">
+                            <MenuItem.Icon><Image Source="/SpiralLab.Sirius3.UI;component/Resources/cal.png" Width="20" Height="20"/></MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Background="Transparent" x:Name="mnuIncludePage2" Header="Page2" IsCheckable="True" IsChecked="True" ToolTip="Include Page2">
+                            <MenuItem.Icon><Image Source="/SpiralLab.Sirius3.UI;component/Resources/3dcal.png" Width="20" Height="20"/></MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Background="Transparent" x:Name="mnuIncludePage3" Header="Page3" IsCheckable="True" IsChecked="True" ToolTip="Include Page3">
+                            <MenuItem.Icon><Image Source="/SpiralLab.Sirius3.UI;component/Resources/3dcal.png" Width="20" Height="20"/></MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Background="Transparent" x:Name="mnuIncludePage4" Header="Page4" IsCheckable="True" IsChecked="True" ToolTip="Include Page4">
+                            <MenuItem.Icon><Image Source="/SpiralLab.Sirius3.UI;component/Resources/3dcal.png" Width="20" Height="20"/></MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Background="Transparent" x:Name="mnuIncludeBlocks" Header="Blocks" IsCheckable="True" IsChecked="True" ToolTip="Include Blocks">
+                            <MenuItem.Icon><Image Source="/SpiralLab.Sirius3.UI;component/Resources/chain_intermediate_24px.png" Width="20" Height="20"/></MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Background="Transparent" x:Name="mnuIncludeLayerPens" Header="Layer Pens" IsCheckable="True" IsChecked="True" ToolTip="Include Layer Pens">
+                            <MenuItem.Icon><Image Source="/SpiralLab.Sirius3.UI;component/Resources/Index.png" Width="20" Height="20"/></MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Background="Transparent" x:Name="mnuIncludeEntityPens" Header="Entity Pens" IsCheckable="True" IsChecked="True" ToolTip="Include Entity Pens">
+                            <MenuItem.Icon><Image Source="/SpiralLab.Sirius3.UI;component/Resources/Index.png" Width="20" Height="20"/></MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Background="Transparent" x:Name="mnuIncludeWafers" Header="Wafers" IsCheckable="True" IsChecked="True" Visibility="Collapsed" ToolTip="Include Wafers">
+                            <MenuItem.Icon><Image Source="/SpiralLab.Sirius3.UI;component/Resources/Grid4.png" Width="20" Height="20"/></MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Background="Transparent" x:Name="mnuIncludeSubstrates" Header="Substrates" IsCheckable="True" IsChecked="True" Visibility="Collapsed" ToolTip="Include Substrates">
+                            <MenuItem.Icon><Image Source="/SpiralLab.Sirius3.UI;component/Resources/Grid4.png" Width="20" Height="20"/></MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+
+                <Separator/>
+                <Button x:Name="btnSave" Click="BtnSave_Click" ToolTip="Save Document" >
+                    <Image Source="../Resources/Save as.png" Width="20" Height="20"/>
+                </Button>
+            </ToolBar>
+
+            <ContentControl Grid.Column="1" x:Name="topAccessoryHost"
+                            VerticalContentAlignment="Stretch" HorizontalContentAlignment="Right"/>
+
+            <ToolBar Grid.Column="2" Background="{DynamicResource Sirius.Brush.Toolbar}">
+                <Separator/>
+                <ToggleButton x:Name="btnLock" Click="BtnLock_Click" ToolTip="Lock / Unlock editing" Background="{DynamicResource Sirius.Brush.Toolbar}" BorderThickness="0">
+                    <Image Source="/SpiralLab.Sirius3.UI;component/Resources/lock_24px.png" Width="20" Height="20"/>
+                </ToggleButton>
+            </ToolBar>
+        </Grid>
+
+        <!-- Main content row -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" x:Name="colLeft"/>
+                <ColumnDefinition Width="3" x:Name="colLeftSplitter"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3" x:Name="colRightSplitter"/>
+                <ColumnDefinition Width="250" x:Name="colRight"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left pane: TreeViews and Pens -->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" x:Name="rowTrees"/>
+                <RowDefinition Height="3" x:Name="rowPensSplitter"/>
+                    <RowDefinition Height="1*" x:Name="rowPens"/>
+                </Grid.RowDefinitions>
+
+                <!-- Trees -->
+                <local:SiriusNavigationView x:Name="tabTrees" Grid.Row="0" SelectionChanged="tabTrees_SelectionChanged"
+                                            FontSize="{DynamicResource Sirius.FontSize.Compact}"
+                                            SelectorPadding="1,2,1,0" HeaderPadding="3,4" HeaderMargin="0"
+                                            Background="{DynamicResource Sirius.Brush.Panel}">
+                    <local:SiriusNavigationItem x:Name="tabDocPage1" >
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image Source="/SpiralLab.Sirius3.UI;component/Resources/m1.png" Style="{StaticResource Sirius.Editor.TreeNavigationIcon}"/>
+                                <TextBlock Text="P1" Style="{StaticResource Sirius.Editor.TreeNavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:TreeViewPageControl x:Name="treeViewPageControl1" Page="Page1"/>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem x:Name="tabDocPage2">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image Source="/SpiralLab.Sirius3.UI;component/Resources/m2.png" Style="{StaticResource Sirius.Editor.TreeNavigationIcon}"/>
+                                <TextBlock Text="P2" Style="{StaticResource Sirius.Editor.TreeNavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:TreeViewPageControl x:Name="treeViewPageControl2" Page="Page2"/>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem x:Name="tabDocPage3">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image Source="/SpiralLab.Sirius3.UI;component/Resources/m3.png" Style="{StaticResource Sirius.Editor.TreeNavigationIcon}"/>
+                                <TextBlock Text="P3" Style="{StaticResource Sirius.Editor.TreeNavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:TreeViewPageControl x:Name="treeViewPageControl3" Page="Page3"/>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem x:Name="tabDocPage4">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image Source="/SpiralLab.Sirius3.UI;component/Resources/m4.png" Style="{StaticResource Sirius.Editor.TreeNavigationIcon}"/>
+                                <TextBlock Text="P4" Style="{StaticResource Sirius.Editor.TreeNavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:TreeViewPageControl x:Name="treeViewPageControl4" Page="Page4"/>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem x:Name="tabBlockPage">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image Source="/SpiralLab.Sirius3.UI;component/Resources/chain_intermediate_24px.png" Style="{StaticResource Sirius.Editor.TreeNavigationIcon}"/>
+                                <TextBlock x:Name="txtTabBlock" Text="Block" Style="{StaticResource Sirius.Editor.TreeNavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:TreeViewBlockControl x:Name="treeViewBlockControl1"/>
+                    </local:SiriusNavigationItem>
+                    <!-- Keep these composite connections disabled to match the active WinForms editor.
+                    <local:SiriusNavigationItem Header="Wafer">
+                        <local:TreeViewWaferControl x:Name="treeViewWaferControl1"/>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem Header="Substrate">
+                        <local:TreeViewSubstrateControl x:Name="treeViewSubstrateControl1"/>
+                    </local:SiriusNavigationItem>
+                    -->
+                </local:SiriusNavigationView>
+
+                <GridSplitter Grid.Row="1" Height="3" ResizeDirection="Rows" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+                <!-- Pens -->
+                <local:SiriusNavigationView x:Name="tabPens" Grid.Row="2"
+                                            FontSize="{DynamicResource Sirius.FontSize.Compact}"
+                                            Background="{DynamicResource Sirius.Brush.Panel}">
+                    <local:SiriusNavigationItem x:Name="tabEntityPen">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image Source="/SpiralLab.Sirius3.UI;component/Resources/Color Palette2.png" Width="18" Height="18" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="txtTabEntityPen" Text="Entity" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:EntityPenControl x:Name="entityPenControl1"/>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem x:Name="tabLayerPen">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image Source="/SpiralLab.Sirius3.UI;component/Resources/Easel2.png" Width="18" Height="18" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="txtTabLayerPen" Text="Layer" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:LayerPenControl x:Name="layerPenControl1"/>
+                    </local:SiriusNavigationItem>
+                </local:SiriusNavigationView>
+            </Grid>
+
+                <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+
+            <!-- Main editor surface and other control tabs -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="0" x:Name="rowLog"/>
+                </Grid.RowDefinitions>
+
+                <local:SiriusNavigationView x:Name="tbcMain" Grid.Row="0" Background="{DynamicResource Sirius.Brush.Panel}"
+                                            FontSize="{DynamicResource Sirius.FontSize.Body}"
+                                            SelectorPadding="2,2,2,0" HeaderPadding="5,4" HeaderMargin="0">
+                    <local:SiriusNavigationItem x:Name="tabEditor">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image x:Name="imgTabEditor" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <TextBlock x:Name="txtTabEditor" Text="Editor" Style="{StaticResource Sirius.Editor.NavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:EditorControl x:Name="editorControl"/>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem x:Name="tabMarker">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image x:Name="imgTabMarker" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <TextBlock x:Name="txtTabMarker" Text="Marker" Style="{StaticResource Sirius.Editor.NavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:MarkerControl x:Name="markerControl1"/>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem x:Name="tabManual">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image x:Name="imgTabManual" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <TextBlock x:Name="txtTabManual" Text="Manual" Style="{StaticResource Sirius.Editor.NavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:ManualControl x:Name="manualControl1"/>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem x:Name="tabScanner">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image x:Name="imgTabScanner" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <TextBlock x:Name="txtTabScanner" Text="Scanner" Style="{StaticResource Sirius.Editor.NavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:ScannerControl x:Name="scannerControl1"/>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem x:Name="tabLaser">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image x:Name="imgTabLaser" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <TextBlock x:Name="txtTabLaser" Text="Laser" Style="{StaticResource Sirius.Editor.NavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:LaserControl x:Name="laserControl1"/>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem x:Name="tabDIO">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image x:Name="imgTabDio" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <TextBlock x:Name="txtTabDio" Text="DIO" Style="{StaticResource Sirius.Editor.NavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="3"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <local:DIRtcControl x:Name="rtcDIControl1" Grid.Column="0"/>
+                            <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+                            <local:DORtcControl x:Name="rtcDOControl1" Grid.Column="2"/>
+                        </Grid>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem x:Name="tabPower">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image x:Name="imgTabPower" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <TextBlock x:Name="txtTabPower" Text="Power" Style="{StaticResource Sirius.Editor.NavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:SiriusNavigationView Background="{DynamicResource Sirius.Brush.Panel}">
+                            <local:SiriusNavigationItem>
+                                <local:SiriusNavigationItem.Header>
+                                    <TextBlock x:Name="txtTabPowerMeter" Text="PowerMeter" VerticalAlignment="Center"/>
+                                </local:SiriusNavigationItem.Header>
+                                <local:PowerMeterControl x:Name="powerMeterControl1"/>
+                            </local:SiriusNavigationItem>
+                            <local:SiriusNavigationItem>
+                                <local:SiriusNavigationItem.Header>
+                                    <TextBlock x:Name="txtTabPowerMap" Text="PowerMap" VerticalAlignment="Center"/>
+                                </local:SiriusNavigationItem.Header>
+                                <local:PowerMapControl x:Name="powerMapControl1"/>
+                            </local:SiriusNavigationItem>
+                        </local:SiriusNavigationView>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem x:Name="tabStepper">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image x:Name="imgTabStepper" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <TextBlock x:Name="txtTabStepper" Text="Stepper" Style="{StaticResource Sirius.Editor.NavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:StepperControl x:Name="stepperControl1"/>
+                    </local:SiriusNavigationItem>
+                    <local:SiriusNavigationItem x:Name="tabRemote" Visibility="Collapsed">
+                        <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image x:Name="imgTabRemote" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <TextBlock x:Name="txtTabRemote" Text="Remote" Style="{StaticResource Sirius.Editor.NavigationText}"/>
+                            </StackPanel>
+                        </local:SiriusNavigationItem.Header>
+                        <local:RemoteControl x:Name="remoteControl1"/>
+                    </local:SiriusNavigationItem>
+                </local:SiriusNavigationView>
+
+                <GridSplitter x:Name="logSplitter" Grid.Row="1" Height="3" ResizeDirection="Rows" HorizontalAlignment="Stretch" Visibility="Collapsed"/>
+
+                <local:LogControl x:Name="logControl1" Grid.Row="2" Visibility="Collapsed"
+                                  FontSize="{DynamicResource Sirius.FontSize.Compact}"/>
+            </Grid>
+
+            <GridSplitter Grid.Column="3" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+
+            <!-- Right pane: Property Grid -->
+            <local:SiriusNavigationView x:Name="tlcRight" Grid.Column="4"
+                                        FontSize="{DynamicResource Sirius.FontSize.Compact}"
+                                        Background="{DynamicResource Sirius.Brush.Panel}">
+                <local:SiriusNavigationItem x:Name="tabProperty">
+                    <local:SiriusNavigationItem.Header>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <Image x:Name="imgTabProperty" Width="18" Height="18" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="txtTabProperty" Text="Property" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                            </StackPanel>
+                    </local:SiriusNavigationItem.Header>
+                    <local:PropertyGridControl x:Name="propertyGridControl1"/>
+                </local:SiriusNavigationItem>
+            </local:SiriusNavigationView>
+        </Grid>
+
+        <!-- Bottom status bar -->
+        <StatusBar Grid.Row="3" x:Name="stsBottom" Height="28" FontSize="{DynamicResource Sirius.FontSize.Caption}">
+            <StatusBar.Resources>
+                <Style TargetType="{x:Type StatusBarItem}">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+            </StatusBar.Resources>
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/> <!-- 0: Alias Name -->
+                            <ColumnDefinition Width="Auto"/> <!-- 1: Separator -->
+                            <ColumnDefinition Width="Auto"/> <!-- 2: Process Time -->
+                            <ColumnDefinition Width="Auto"/> <!-- 3: Separator -->
+                            <ColumnDefinition Width="Auto"/> <!-- 4: Power Watt -->
+                            <ColumnDefinition Width="Auto"/> <!-- 5: Separator -->
+                            <ColumnDefinition Width="Auto"/> <!-- 6: File Name -->
+                            <ColumnDefinition Width="*"/>    <!-- 7: Spring Spacer -->
+                            <ColumnDefinition Width="Auto"/> <!-- 8: Log Window Button -->
+                            <ColumnDefinition Width="Auto"/> <!-- 9: Separator -->
+                            <ColumnDefinition Width="Auto"/> <!-- 10: Encoder -->
+                            <ColumnDefinition Width="Auto"/> <!-- 11: Separator -->
+                            <ColumnDefinition Width="Auto"/> <!-- 12: Ready -->
+                            <ColumnDefinition Width="Auto"/> <!-- 13: Busy -->
+                            <ColumnDefinition Width="Auto"/> <!-- 14: Error -->
+                            <ColumnDefinition Width="Auto"/> <!-- 15: Remote -->
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+
+            <!-- 0: Alias Name -->
+            <StatusBarItem Grid.Column="0">
+                <StackPanel Orientation="Horizontal" Margin="8,0,4,0" VerticalAlignment="Center">
+                    <Image Source="/SpiralLab.Sirius3.UI;component/Resources/Top View2.png" Width="20" Height="20" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="lblAliasName" Text="NoName" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StatusBarItem>
+            <Separator Grid.Column="1"/>
+
+            <!-- 2: Process Time -->
+            <StatusBarItem Grid.Column="2">
+                <StackPanel Orientation="Horizontal" Margin="4,0" VerticalAlignment="Center">
+                    <Image Source="/SpiralLab.Sirius3.UI;component/Resources/time.png" Width="20" Height="20"  Margin="0,0,4,0" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="lblProcessTime" Text="0.000 sec" MinWidth="60" VerticalAlignment="Center" TextAlignment="Center"/>
+                </StackPanel>
+            </StatusBarItem>
+            <Separator Grid.Column="3"/>
+
+            <!-- 4: Power Watt -->
+            <StatusBarItem Grid.Column="4">
+                <StackPanel Orientation="Horizontal" Margin="4,0" VerticalAlignment="Center">
+                    <Image Source="/SpiralLab.Sirius3.UI;component/Resources/lightning_bolt_26px.png" Width="20" Height="20" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="lblPowerWatt" Text="0.0 W" MinWidth="50" VerticalAlignment="Center" TextAlignment="Center"/>
+                </StackPanel>
+            </StatusBarItem>
+            <Separator Grid.Column="5"/>
+
+            <!-- 6: File Name -->
+            <StatusBarItem Grid.Column="6">
+                <StackPanel Orientation="Horizontal" Margin="4,0" VerticalAlignment="Center">
+                    <Image Source="/SpiralLab.Sirius3.UI;component/Resources/micro_sd_26px.png" Width="20" Height="20"  Margin="0,0,4,0" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="lblFileName" Text="(NoName)" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StatusBarItem>
+
+            <!-- 7: Spring -->
+            <StatusBarItem Grid.Column="7" HorizontalAlignment="Stretch"/>
+
+            <!-- 8: Log Window -->
+            <StatusBarItem Grid.Column="8">
+                <Button x:Name="btnLogWindow" Click="BtnLogWindow_Click" Background="Transparent" BorderThickness="0" Padding="4,0"
+                        VerticalAlignment="Center" ToolTip="Show/Hide Log Window">
+                    <Image Source="/SpiralLab.Sirius3.UI;component/Resources/pens_32px.png" Width="20" Height="20" VerticalAlignment="Center"/>
+                </Button>
+            </StatusBarItem>
+            <Separator Grid.Column="9"/>
+
+            <!-- 10: Encoder -->
+            <StatusBarItem Grid.Column="10">
+                <StackPanel Orientation="Horizontal" Margin="4,0" VerticalAlignment="Center">
+                    <Image Source="/SpiralLab.Sirius3.UI;component/Resources/Counter.png" Width="20" Height="20"  Margin="0,0,4,0" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="lblEncoder" Text="XY: 0, 0" Visibility="Collapsed" VerticalAlignment="Center" MinWidth="80" TextAlignment="Center"/>
+                </StackPanel>
+            </StatusBarItem>
+            <Separator Grid.Column="11"/>
+
+            <!-- 12: Ready -->
+            <StatusBarItem Grid.Column="12">
+                <Border x:Name="bdReady" Width="50" Height="20" CornerRadius="2" Margin="1,0" Background="{DynamicResource Sirius.Brush.StatusReadyInactive}">
+                    <TextBlock x:Name="lblReady" Text="READY" Foreground="{DynamicResource Sirius.Brush.StatusInactiveText}" FontWeight="Bold" FontSize="{DynamicResource Sirius.FontSize.Caption}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </StatusBarItem>
+
+            <!-- 13: Busy -->
+            <StatusBarItem Grid.Column="13">
+                <Border x:Name="bdBusy" Width="50" Height="20" CornerRadius="2" Margin="1,0" Background="{DynamicResource Sirius.Brush.StatusBusyInactive}">
+                    <TextBlock x:Name="lblBusy" Text="BUSY" Foreground="{DynamicResource Sirius.Brush.StatusInactiveText}" FontWeight="Bold" FontSize="{DynamicResource Sirius.FontSize.Caption}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </StatusBarItem>
+
+            <!-- 14: Error -->
+            <StatusBarItem Grid.Column="14">
+                <Border x:Name="bdError" Width="50" Height="20" CornerRadius="2" Margin="1,0" Background="{DynamicResource Sirius.Brush.StatusErrorInactive}">
+                    <TextBlock x:Name="lblError" Text="ERROR" Foreground="{DynamicResource Sirius.Brush.StatusInactiveText}" FontWeight="Bold" FontSize="{DynamicResource Sirius.FontSize.Caption}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </StatusBarItem>
+
+            <!-- 15: Remote -->
+            <StatusBarItem Grid.Column="15">
+                <Border x:Name="bdRemote" Visibility="Collapsed" Background="{DynamicResource Sirius.Brush.Remote}" CornerRadius="2" Padding="6,0" Margin="1,0,8,0" Height="20">
+                    <TextBlock x:Name="lblRemote" Text="LOCAL/CONNECTED" Foreground="{DynamicResource Sirius.Brush.RemoteText}" FontWeight="Bold" FontSize="{DynamicResource Sirius.FontSize.Caption}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</UserControl>
+

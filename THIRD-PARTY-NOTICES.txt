@@ -2,18 +2,10 @@
 ===================
 
 This notice describes third-party software distributed with the SpiralLab.Sirius3,
-SpiralLab.Sirius3.UI, SpiralLab.Sirius3.MCP, and SpiralLab.Sirius3.Dependencies NuGet packages as of 2026-08-23.
+SpiralLab.Sirius3.UI, and SpiralLab.Sirius3.Dependencies NuGet packages as of 2026-08-23.
 Open-source license texts used by the managed libraries are reproduced below. Vendor
 redistributables remain subject to their vendors' separate terms and are not relicensed
 by this notice.
-
-IMPORTANT DISTRIBUTION REVIEW
-  SpiralLab.Sirius3.Dependencies installs a bundled set of native drivers, device SDK
-  libraries, firmware, tools, fonts, manuals and sample data into a consumer application's
-  output. Complete redistribution terms were not supplied with every vendor file in that
-  bundle. The review-required items identified below must be removed or covered by valid
-  vendor/source-license documentation before publishing the NuGet package or a binary
-  application made from it.
 
 ----------------------------------------------------------------
 NLog
@@ -36,11 +28,15 @@ Newtonsoft.Json
   Source  : https://www.newtonsoft.com/json
 
 OpenTK, OpenTK.GLControl, OpenTK.GLWpfControl and OpenTK 4.x modules
-  Version : OpenTK 3.3.3/4.9.4; GLControl 3.3.3/4.0.2; GLWpfControl 3.3.0/4.3.6
+  Version : OpenTK 3.3.3/4.9.4; GLControl 3.3.3/4.0.2; GLWpfControl 3.3.1-sirius.1/4.3.6
   License : MIT
   Copyright: © The Open Toolkit contributors
+             Copyright (c) 2019 varon
   Source  : https://github.com/opentk/opentk
-  Note    : GLWpfControl is used only by the in-development Debug WPF surface and is excluded from Release packages.
+            https://github.com/opentk/GLWpfControl
+  Patch   : net481 uses modified GLWpfControl 3.3.1 sources that unregister
+            DX/GL sharing before deleting the shared texture. The resulting
+            GLWpfControl assembly is embedded in SpiralLab.Sirius3.UI.dll.
 
 PropertyTools.Wpf
   Version : 3.1.0
@@ -55,8 +51,7 @@ Syncfusion PropertyGrid for WPF
   License : Essential Studio UI Edition Binary License (commercial proprietary software)
   Copyright: Copyright Syncfusion Inc.
   Product : https://www.syncfusion.com/wpf-controls/property-grid
-  Use     : Debug-only WPF PropertyGrid behind a Sirius3-owned adapter
-  Delivery: Private Debug WPF dependency; excluded from Release binaries and packages
+  Use     : WPF PropertyGrid behind a Sirius3-owned adapter
   Terms   : Use and redistribution require the applicable Syncfusion agreement.
             An embedded runtime registration key does not grant redistribution rights;
             the vendor unlock key is not used and neither key is written to logs.
@@ -176,11 +171,13 @@ Model Context Protocol C# SDK
   License : Apache License 2.0
   Copyright: © Model Context Protocol, a Series of LF Projects, LLC
   Source  : https://github.com/modelcontextprotocol/csharp-sdk
+  Delivery: Included in SpiralLab.Sirius3.UI Debug and Release builds and Release packages.
 
 PdfPig
-  Version : 0.1.15
+  Version : 0.1.16
   License : Apache License 2.0
   Source  : https://github.com/UglyToad/PdfPig
+  Delivery: Included in SpiralLab.Sirius3.UI Debug and Release builds and Release packages.
 
 ----------------------------------------------------------------
 Dependencies NuGet package payload
@@ -217,17 +214,6 @@ Vendor redistributables — separate vendor terms required
 No license grant for the preceding proprietary components is made by this file.
 Retain all vendor license/EULA files and redistribute only the files expressly allowed
 by the applicable agreement.
-
-Review-required component
-
-GPL Ghostscript
-  Version : 9.05 (the bundled gsdll32.dll and gsdll64.dll identify themselves as
-            GPL Ghostscript)
-  License : GNU GPL applicable to that release, or a separate Artifex commercial license
-  Source  : https://www.ghostscript.com/licensing/
-  Status  : No Ghostscript license text, corresponding-source offer, or commercial-license
-            information accompanies these DLLs. Do not redistribute them until they are
-            removed or their distribution basis and accompanying obligations are documented.
 
 ----------------------------------------------------------------
 License Texts

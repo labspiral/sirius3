@@ -3,22 +3,11 @@ Hinweise zu Software von Drittanbietern
 
 Dieses Dokument beschreibt mit Stand vom 23.08.2026 die Software von Drittanbietern,
 die mit den NuGet-Paketen SpiralLab.Sirius3, SpiralLab.Sirius3.UI,
-SpiralLab.Sirius3.MCP und SpiralLab.Sirius3.Dependencies ausgeliefert wird. Die unveränderten vollständigen
+und SpiralLab.Sirius3.Dependencies ausgeliefert wird. Die unveränderten vollständigen
 Lizenztexte befinden sich in der stets zusammen mit dieser Datei ausgelieferten Datei
 THIRD-PARTY-NOTICES.txt. Weiterverteilte Herstellerdateien unterliegen den jeweiligen
 gesonderten Vereinbarungen der Hersteller. Dieses Dokument gewährt keine neuen
 Nutzungs- oder Weiterverteilungsrechte.
-
-Wichtig: Prüfung vor der Weiterverteilung erforderlich
--------------------------------------------------------
-
-SpiralLab.Sirius3.Dependencies installiert native Treiber, Geräte-SDK-Bibliotheken,
-Firmware, Werkzeuge, Schriftarten, Handbücher und Beispieldaten in den Ausgabeordner
-der Benutzeranwendung. Nicht für alle Herstellerdateien dieses Pakets liegen
-vollständige Weiterverteilungsbedingungen bei. Dateien, die unten mit „Prüfung
-erforderlich“ gekennzeichnet sind, dürfen nicht weiterverteilt werden, bevor gültige
-Lizenzunterlagen des Herstellers beziehungsweise der Quelle beschafft oder die Dateien
-aus dem Paket entfernt wurden.
 
 Verwaltete und quelloffene Laufzeitkomponenten
 ----------------------------------------------
@@ -42,11 +31,16 @@ Newtonsoft.Json 13.0.4
 
 OpenTK und Steuerelemente
   Version: OpenTK 3.3.3/4.9.4, GLControl 3.3.3/4.0.2,
-           GLWpfControl 3.3.0/4.3.6
+           GLWpfControl 3.3.1-sirius.1/4.3.6
   Lizenz : MIT
+  Urheberrecht: © The Open Toolkit contributors
+                Copyright (c) 2019 varon
   Quelle : https://github.com/opentk/opentk
-  Hinweis: GLWpfControl wird nur in der in Entwicklung befindlichen Debug-WPF-
-           Darstellung verwendet und ist aus Release-Paketen ausgeschlossen.
+           https://github.com/opentk/GLWpfControl
+  Anpassung: net481 verwendet angepasste GLWpfControl-3.3.1-Quellen, die die
+             DX/GL-Freigabe vor dem Löschen der gemeinsam verwendeten Textur
+             aufheben. Die erzeugte GLWpfControl-Assembly wird in
+             SpiralLab.Sirius3.UI.dll eingebettet.
 
 PropertyTools.Wpf
   Version  : 3.1.0
@@ -62,9 +56,7 @@ Syncfusion PropertyGrid für WPF
   Lizenz   : Essential Studio UI Edition Binary License (kommerzielle proprietäre Software)
   Copyright: Copyright Syncfusion Inc.
   Produkt  : https://www.syncfusion.com/wpf-controls/property-grid
-  Zweck    : Nur für Debug verwendetes WPF-Eigenschaftenraster hinter dem
-             Sirius3-spezifischen Adapter
-  Verteilung: Private Debug-WPF-Abhängigkeit; aus Release-Binärdateien und -Paketen ausgeschlossen
+  Zweck    : WPF-Eigenschaftenraster hinter dem Sirius3-spezifischen Adapter
   Bedingungen: Nutzung und Weiterverteilung erfordern die entsprechende Syncfusion-
                Vereinbarung. Der eingebettete Laufzeit-Registrierungsschlüssel gewährt
                keine Weiterverteilungsrechte; der Hersteller-Entsperrschlüssel wird
@@ -151,11 +143,13 @@ Model Context Protocol C# SDK
   Lizenz   : Apache License 2.0
   Copyright: © Model Context Protocol, a Series of LF Projects, LLC
   Quelle   : https://github.com/modelcontextprotocol/csharp-sdk
+  Lieferung: In Debug- und Release-Builds von SpiralLab.Sirius3.UI sowie in Release-Paketen enthalten.
 
 PdfPig
-  Version: 0.1.15
+  Version: 0.1.16
   Lizenz : Apache License 2.0
   Quelle : https://github.com/UglyToad/PdfPig
+  Lieferung: In Debug- und Release-Builds von SpiralLab.Sirius3.UI sowie in Release-Paketen enthalten.
 
 Verteilte Dateien des NuGet-Pakets Dependencies
 -----------------------------------------------
@@ -186,16 +180,6 @@ Weiterverteilte Dateien mit gesonderten Herstellerbedingungen
 Bewahren Sie die EULA-/Lizenzdateien jedes Herstellers auf und verteilen Sie
 ausschließlich Dateien weiter, die in der betreffenden Vereinbarung ausdrücklich
 zugelassen sind.
-
-Prüfung erforderlich: GPL Ghostscript
---------------------------------------
-
-Die im Paket enthaltenen Dateien gsdll32.dll und gsdll64.dll identifizieren sich
-anhand interner Zeichenfolgen als GPL Ghostscript 9.05. Für diese DLLs werden weder
-der vollständige Ghostscript-Lizenztext noch Materialien zum Angebot des
-korrespondierenden Quellcodes oder Angaben zu einer kommerziellen Artifex-Lizenz
-bereitgestellt. Sie dürfen nicht weiterverteilt werden, bevor sie entfernt oder die
-Grundlage und Verpflichtungen der Verteilung dokumentiert wurden.
 
 Maßgebliche vollständige Lizenztexte
 -------------------------------------

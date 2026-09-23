@@ -43,7 +43,6 @@ using SpiralLab.Sirius3.PowerMap;
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Entity;
 using SpiralLab.Sirius3.Entity.Hatch;
-using SpiralLab.Sirius3.UI.WinForms;
 using SpiralLab.Sirius3.Scripting;
 using SpiralLab.Sirius3.Remote;
 
@@ -553,24 +552,10 @@ namespace Demos
             //if (correctionTable == CorrectionTables.Table1)
             //{
             //    var index = rtc.Index;
-            //    var fileNameOnly = Path.GetFileName(fileName);
-            //    NativeMethods.WriteIni<string>(ConfigFileName, $"RTC{index}", "CORRECTION", fileNameOnly);
+            //    var relativeFileName = Path.GetFileName(fileName);
+            //    NativeMethods.WriteIni<string>(ConfigFileName, $"RTC{index}", "CORRECTION", relativeFileName);
             //}
         }
-
-        public static void DestroyDevices(SiriusEditorControl siriusEditorControl)
-        {
-            siriusEditorControl.Marker?.Dispose();
-            siriusEditorControl.DIExt1?.Dispose();
-            siriusEditorControl.DILaserPort?.Dispose();
-            siriusEditorControl.DOExt1?.Dispose();
-            siriusEditorControl.DOExt2?.Dispose();
-            siriusEditorControl.DOLaserPort?.Dispose();
-            siriusEditorControl.PowerMeter?.Dispose();
-            siriusEditorControl.Laser?.Dispose();
-            siriusEditorControl.Scanner?.Dispose();
-        }
-
 
         internal static void PowerMap_OnMappingOpened(IPowerMap powerMap, string fileName)
         {

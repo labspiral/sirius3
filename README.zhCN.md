@@ -1,5 +1,5 @@
 # Sirius3
-面向 Windows/.NET 的精密激光加工平台，集成 SCANLAB 控制、设备连接、几何处理、OpenGL 可视化、文档编辑、模拟和加工执行
+面向 Windows/.NET 的精密激光加工平台，集成 SCANLAB 控制、设备连接、几何处理、OpenGL 可视化、文档编辑、通过内置 MCP 服务器进行 AI 提示、模拟和加工执行
 
 语言：[English](README.md) · [한국어](README.koKR.md) · [简体中文](README.zhCN.md) · [日本語](README.jaJP.md) · [Deutsch](README.deDE.md)
 
@@ -60,14 +60,16 @@
    - 矢量文件的容差路径连接和基于内容的 Gerber/Excellon 识别
 - 远程通信与动态数据
    - 用于标记控制和数据访问的 TCP/IP、Serial（RS-232）、WebSocket 及 MQTT
+   - 内置 HTTP MCP 服务器，支持 AI 辅助注册编辑器、编辑文档与实体、运行模拟以及控制已注册设备
    - 面向文本和条码数据的事件、文件、偏移、链接实体及 C# 脚本转换
 - 文档、编辑器与模拟
    - 四个文档页面，支持图层、画笔、组、块及可配置数量的 Undo/Redo
-   - 稳定版 WinForms 控件，并支持将一个文档渲染到多个视图
+   - Debug 和 Release 均支持 WinForms 与 WPF `SiriusEditorControl` / `SiriusMultiEditorControl`，并支持将一个文档渲染到多个视图
    - 使用屏幕固定尺寸标记、光束效果和可选碎屑效果的实时加工路径可视化
    - 面向相机及检测流程的网格化拼接图像可视化
 - 开放架构
    - 可扩展的编辑器、实体、标记器、振镜、激光器、功率计和远程通信接口
+   - 内置 MCP 服务器，支持 AI 辅助注册编辑器、编辑文档与实体以及控制设备
 
 ## 主要变更事项
 |                              |                SIRIUS3                   |              SIRIUS2                  |
@@ -82,6 +84,7 @@
 | Gerber / Excellon            | 基于内容识别的导入                        | 无                                    |
 | 外部字体文件                  | CXF, LFF, FNT, DOT 文件格式               | 仅支持自定义 CXF, LFF 文件格式         |
 | 画笔 (Pen)                    | 分离 Entity 和 Layer 的画笔属性           | Entity 单一画笔                        |
+| MCP                          | 支持                                      | 无                                    |
 | 库更新                        | 支持 NuGet 包管理器                      | 手动                                   |
                                                                                                               
 ![sirius3_hatch](https://spirallab.co.kr/sirius3/sirius3_hatch.png)
@@ -92,7 +95,7 @@
 ## 软件包 / DLLs
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS 运行时, 字体, 示例文件
 - `SpiralLab.Sirius3` — 硬件控制 (振镜/激光/功率计等)
-- `SpiralLab.Sirius3.UI` — 实体、几何处理、OpenGL 渲染及 WinForms 控件
+- `SpiralLab.Sirius3.UI` — 实体、几何处理、OpenGL 渲染、WinForms/WPF 控件及内置 MCP 集成
  > 支持通过 NuGet 包管理器进行便捷的安装及更新。
 
 ## 目标平台
@@ -115,28 +118,13 @@
    - syncAXIS: v1.8.2 (2023.03.09)
 
 - .NET
-   - `net481`
-      - OpenTK 3.3.3
-      - Microsoft.Extensions.Logging 8.0.1
-      - Microsoft.Extensions.Logging.Abstractions 8.0.3 
-   - `net8.0-windows`
-      - OpenTK 4.9.4
-      - OpenTK.Mathematics 4.9.4
-      - Microsoft.Extensions.Logging 8.0.1
-      - Microsoft.Extensions.Logging.Abstractions 8.0.3 
-   - `net9.0-windows`
-      - OpenTK 4.9.4
-      - OpenTK.Mathematics 4.9.4
-      - Microsoft.Extensions.Logging 9.0.15
-      - Microsoft.Extensions.Logging.Abstractions 9.0.15  
-   - `net10.0-windows`
-      - OpenTK 4.9.4
-      - OpenTK.Mathematics 4.9.4
-      - Microsoft.Extensions.Logging 10.0.7
-      - Microsoft.Extensions.Logging.Abstractions 10.0.7
-   - 通用软件包依赖项
+   - `net481`: OpenTK 3.3.3
+   - `net8.0-windows`, `net9.0-windows`, `net10.0-windows`: OpenTK 和 OpenTK.Mathematics 4.9.4
+   - 所有目标框架的通用软件包依赖项
+      - Microsoft.Extensions.Logging 10.0.10
+      - Microsoft.Extensions.Logging.Abstractions 10.0.10
+      - Microsoft.Extensions.Logging.Debug 10.0.10
       - Newtonsoft.Json 13.0.4
-
 ## 软件包安装
 - 添加引用 (建议使用 NuGet 包管理器)
    - `SpiralLab.Sirius3.Dependencies` (https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
@@ -144,6 +132,9 @@
    - `SpiralLab.Sirius3.UI` (https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
 
 ## 快速入门
+
+# [WinForms](#tab/winforms)
+
 项目设置
 ```
 <PropertyGroup>
@@ -167,22 +158,10 @@
 	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
 </ItemGroup>
 
-<ItemGroup Condition="'$(TargetFramework)'=='net481' OR '$(TargetFramework)'=='net8.0-windows'">
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
-</ItemGroup>
-	
-<ItemGroup Condition="'$(TargetFramework)'=='net9.0-windows'">
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.15" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.15" />
-</ItemGroup>
-	
-<ItemGroup Condition="'$(TargetFramework)'=='net10.0-windows'">
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.7" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
-</ItemGroup>
-	
 <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.10" />
     <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
     <PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
     <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
@@ -198,6 +177,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
+using SpiralLab.Sirius3.MCP;
 using SpiralLab.Sirius3.IO;
 using SpiralLab.Sirius3.Laser;
 using SpiralLab.Sirius3.Marker;
@@ -240,6 +220,7 @@ static class Program
         dynamicForm.Size = new Size(1600, 1200);
         dynamicForm.StartPosition = FormStartPosition.CenterScreen;
         var editorControl = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
+        IMCPServer mcpServer = null;
         editorControl.Dock = DockStyle.Fill;
         dynamicForm.Controls.Add(editorControl);
         dynamicForm.ResumeLayout(false);
@@ -271,8 +252,6 @@ static class Program
             double laserMaxPower = 20;
             var powerMeter = PowerMeterFactory.CreateVirtual(index, laserMaxPower);
             //var powerMeter = PowerMeterFactory.CreateCoherentPowerMax(index, 4);
-            // Gentec-EO 的 scaleIndex 为 null 时，不更改设备当前的量程/自动量程设置。
-            // 如需指定测量量程，请传入 0 到 41 范围内的值。
             //var powerMeter = PowerMeterFactory.CreateGentecEO(index, 3, scaleIndex: null);
             success &= powerMeter.Initialize();
 
@@ -297,6 +276,13 @@ static class Program
 
             // 注册设备
             editorControl.RegisterDevices(rtc, laser, powerMeter, dIExt1, dILaserPort, dOExt1, dOExt2, dOLaserPort, marker);
+
+            // 启动经过身份验证的 HTTP MCP 服务器。
+            mcpServer = MCPFactory.CreateServer(0, "MCP", editorControl);
+            mcpServer.AccessMode = MCPAccessMode.All;
+            if (!mcpServer.Start().GetAwaiter().GetResult())
+                throw new InvalidOperationException("Failed to start the MCP server.");
+            dynamicForm.Text = $"{dynamicForm.Text} + MCP ({mcpServer.Options.HttpEndpoint})";
         };
 
        dynamicForm.FormClosing += (s, e) =>
@@ -307,6 +293,10 @@ static class Program
                 e.Cancel = true;
                 return;
             }
+
+            // 在释放编辑器、文档及设备之前先释放 MCP 服务器。
+            mcpServer?.Dispose();
+            mcpServer = null;
 
             // 释放设备
             editorControl.DisposeDevices();
@@ -322,6 +312,153 @@ static class Program
     }
 }
 ```
+
+# [WPF](#tab/wpf)
+
+项目设置：
+
+```xml
+<PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+</PropertyGroup>
+```
+
+`Program.cs`：
+
+```csharp
+using System;
+using System.Windows;
+using SpiralLab.Sirius3.IO;
+using SpiralLab.Sirius3.Laser;
+using SpiralLab.Sirius3.Marker;
+using SpiralLab.Sirius3.MCP;
+using SpiralLab.Sirius3.PowerMap;
+using SpiralLab.Sirius3.PowerMeter;
+using SpiralLab.Sirius3.Scanner;
+using SpiralLab.Sirius3.Scanner.Rtc;
+using SpiralLab.Sirius3.UI.WPF;
+
+internal static class Program
+{
+    [STAThread]
+    private static void Main()
+    {
+        var app = new Application();
+        SiriusEditorControl editor = null;
+        IMCPServer mcpServer = null;
+        var coreInitialized = false;
+        var editorDisposed = false;
+
+        void DisposeEditor()
+        {
+            if (editorDisposed || editor == null)
+                return;
+            editorDisposed = true;
+
+            var document = editor.Document;
+            try { mcpServer?.Dispose(); }
+            finally
+            {
+                mcpServer = null;
+                try { editor.DisposeDevices(); }
+                finally
+                {
+                    try { editor.Dispose(); }
+                    finally { document?.Dispose(); }
+                }
+            }
+        }
+
+        try
+        {
+            SpiralLab.Sirius3.Core.Initialize();
+            coreInitialized = true;
+            WPFThemeManager.Initialize();
+
+            editor = new SiriusEditorControl();
+
+            const int index = 0;
+            const double fieldSize = 100.0;
+            const double laserMaxPower = 20.0;
+            var scanner = ScannerFactory.CreateVirtual(
+                index,
+                Math.Pow(2, 20) / fieldSize,
+                LaserModes.Yag1,
+                RtcSignalLevels.ActiveHigh,
+                RtcSignalLevels.ActiveHigh,
+                null);
+            var dIExt1 = IOFactory.CreateInputExtension1(scanner);
+            var dILaserPort = IOFactory.CreateInputLaserPort(scanner);
+            var dOExt1 = IOFactory.CreateOutputExtension1(scanner);
+            var dOExt2 = IOFactory.CreateOutputExtension2(scanner);
+            var dOLaserPort = IOFactory.CreateOutputLaserPort(scanner);
+            var powerMeter = PowerMeterFactory.CreateVirtual(index, laserMaxPower);
+            var laser = LaserFactory.CreateVirtualDutyCycle(index, laserMaxPower, 0, 100);
+            var powerMap = PowerMapFactory.CreateDefault(index, "default");
+            var marker = MarkerFactory.CreateVirtual(index);
+
+            powerMap.Reset1to1("10000", laserMaxPower);
+            laser.Scanner = scanner;
+            laser.PowerMap = powerMap;
+
+            var success = scanner.Initialize();
+            success &= scanner.CtlFrequency(50 * 1000, 2);
+            success &= scanner.CtlSpeed(100, 100);
+            success &= dIExt1.Initialize();
+            success &= dILaserPort.Initialize();
+            success &= dOExt1.Initialize();
+            success &= dOExt2.Initialize();
+            success &= dOLaserPort.Initialize();
+            success &= powerMeter.Initialize();
+            success &= laser.Initialize();
+            success &= marker.Initialize();
+
+            editor.RegisterDevices(
+                scanner, laser, powerMeter,
+                dIExt1, dILaserPort,
+                dOExt1, dOExt2, dOLaserPort,
+                marker);
+
+            if (!success)
+                throw new InvalidOperationException("虚拟设备初始化失败。");
+
+            var window = new Window
+            {
+                Title = "Sirius3 WPF Editor",
+                Width = 1400,
+                Height = 900,
+                Content = editor,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            };
+
+            mcpServer = MCPFactory.CreateServer(0, "MCP", editor);
+            mcpServer.AccessMode = MCPAccessMode.All;
+            if (!mcpServer.Start().GetAwaiter().GetResult())
+                throw new InvalidOperationException("Failed to start the MCP server.");
+            window.Title = $"{window.Title} + MCP ({mcpServer.Options.HttpEndpoint})";
+
+            // 在 WPF 窗口和 GL 上下文仍然有效的 Closing 阶段释放 MCP 服务器和编辑器。
+            window.Closing += (_, __) => DisposeEditor();
+            app.Run(window);
+        }
+        finally
+        {
+            try { DisposeEditor(); }
+            finally
+            {
+                if (coreInitialized)
+                    SpiralLab.Sirius3.Core.Cleanup();
+            }
+        }
+    }
+}
+```
+
+---
+
 ## 演示程序
 - 程序说明 [DEMOS.zhCN.md](DEMOS.zhCN.md) 
 - 创建振镜、激光、功率计、标记器等设备对象并连接到 SiriusEditorControl。
@@ -333,7 +470,7 @@ static class Program
     - MoF 选项：利用外部编码器（实时跟踪及待机等）实现的飞行加工功能（Processing on the fly）。
     - MultiBeam 选项：由 1 个激光源 + 2 个 AOM + 2 个扫描头组成的配置，可在跳跃区间实时更改激光束路径进行加工的功能。
     - syncAXIS 选项：采用 ACS 运动控制器 + excelliSCAN 扫描头配置，利用扫描头与工作台的同步实现大面积加工（XL-SCAN 解决方案）。
-    - Remote 选项：支持通过套接字、串行、Web、MQTT 协议进行外部通信，实现配方更改、加工控制、数据查询及修改。
+    - Remote 选项：支持通过套接字、串行、WebSocket 和 MQTT 外部通信进行配方更改、加工控制及数据查询与修改，并包含用于 AI 辅助文档/实体编辑和已注册设备控制的内置 MCP 服务器功能。
 - 许可政策及第三方库请参阅 [LICENSE.zhCN.txt](LICENSE.zhCN.txt)、[THIRD-PARTY-NOTICES.zhCN.txt](THIRD-PARTY-NOTICES.zhCN.txt)。
 - 邮箱：hcchoi@spirallab.co.kr | https://spirallab.co.kr
 > 若无许可密钥，将以仅限使用30分钟的评估模式运行。

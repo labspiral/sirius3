@@ -207,6 +207,10 @@ Additionally, `my_powermap.cs` is open-source code for the actual mapping, verif
 This is a demo program that attempts to establish a connection via remote communication (serial, TCP/IP, WebSockets, MQTT) and handles operations such as reading and writing markers, offsets, and object values through external systems.
 Here, we are showing an example that uses WebSockets.
 
+## editor_remote_mcp
+
+This demo attaches one embedded MCP server to one WinForms `SiriusEditorControl`. It supports environment-configured authenticated HTTP, document and entity editing, and allowlisted device control. Create a separate server and HTTP port for each editor. MCP device commands can operate connected hardware; review the demo README and access mode before use.
+
 ## editor_scanahead
 
 This is a demo program that utilizes the SCANAhead feature supported by RTC6.
@@ -255,3 +259,15 @@ This demonstrates how this Document is linked to an editor and a viewer for rend
 
 This demo creates `EntityImageZPL` objects from several ZPL label samples using the offline BinaryKits renderer.
 It demonstrates label size and print-density settings, Unicode ZPL data, `^CW` font mapping, and fallback font configuration for local preview and laser processing.
+
+## wpf_editor_entity
+
+This native WPF demo reuses the `editor_entity` samples with `SpiralLab.Sirius3.UI.WPF.SiriusEditorControl`. It demonstrates PropertyGrid editing and multi-selection, Undo/Redo, right-click editor windows, and grid material and mesh-shadow commands across the supported target frameworks. The default configuration uses virtual devices.
+
+## wpf_editor_multiple
+
+This native WPF counterpart to `editor_multiple` hosts two independent `SiriusEditorControl` instances in tabs. Each editor registers its own device system and owns its own Document, allowing two different data sets to be edited and processed independently. The shared `config.ini` uses virtual devices by default.
+
+## wpf_editor_multiple2
+
+This native WPF counterpart to `editor_multiple2` uses one `SiriusMultiEditorControl` with two registered device systems. The editor switches the active device system while retaining one shared Document, allowing the same data to be processed by either system. The shared `config.ini` uses virtual devices by default.

@@ -1,0 +1,18 @@
+<Window x:Class="Demos.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Demos"
+        Title="Sirius3 Open-Source WPF Editor UI Demo - (c)SpiralLAB"
+        Width="1500" Height="900" MinWidth="900" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        Style="{DynamicResource SiriusMaterialWindow}"
+        UseLayoutRounding="True" SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display"
+        Loaded="MainWindow_Loaded"
+        Closing="MainWindow_Closing"
+        Closed="MainWindow_Closed">
+  <Grid Background="{DynamicResource Sirius.Brush.Window}">
+    <local:SiriusEditorControl x:Name="editor"
+                               AliasName="Open-Source WPF Editor UI" />
+  </Grid>
+</Window>

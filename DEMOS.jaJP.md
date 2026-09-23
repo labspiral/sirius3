@@ -140,6 +140,10 @@ Layer Pen と Entity Pen で加工条件を変更し、Marker Event で適用処
 
 Serial、TCP/IP、WebSocket、MQTT で外部接続し、Marker、Offset、Object 値を読み書きします。サンプルは WebSocket を使用します。
 
+## editor_remote_mcp
+
+1 つの組み込み MCP サーバーを 1 つの WinForms `SiriusEditorControl` に接続するデモです。環境変数で設定する認証付き HTTP 転送、ドキュメントとエンティティの編集、許可されたデバイス制御をサポートします。エディターごとに個別サーバーと HTTP ポートを使用します。MCP デバイスコマンドは接続済みハードウェアを操作できるため、使用前にデモ README とアクセスモードを確認してください。
+
 ## editor_scanahead
 
 RTC6 SCANAhead と Auto Delays を使用し、Jump/Polygon/Mark/Laser の遅延を自動計算して Entity Pen の項目表示を連動させます。
@@ -179,3 +183,15 @@ ACS Motion Control、excelliSCAN または intelliSCAN iV、RTC6 を組み合わ
 ## editor_zpl
 
 ローカル BinaryKits レンダラーで `EntityImageZPL` を生成し、ラベルサイズ、印字密度、Unicode ZPL、`^CW` フォント割当、フォールバックフォントを示します。
+
+## wpf_editor_entity
+
+`SpiralLab.Sirius3.UI.WPF.SiriusEditorControl` で `editor_entity` のサンプルを再利用するネイティブ WPF デモです。対応ターゲットフレームワークで PropertyGrid の編集と複数選択、Undo/Redo、右クリック編集ウィンドウ、グリッド材質とメッシュシャドウのコマンドを示します。既定の構成では仮想デバイスを使用します。
+
+## wpf_editor_multiple
+
+`editor_multiple` に対応するネイティブ WPF デモで、タブ内に 2 つの独立した `SiriusEditorControl` を配置します。各 Editor は固有のデバイスシステムを登録し、個別の Document を所有するため、異なる 2 つのデータを独立して編集および加工できます。共有の `config.ini` は既定で仮想デバイスを使用します。
+
+## wpf_editor_multiple2
+
+`editor_multiple2` に対応するネイティブ WPF デモで、1 つの `SiriusMultiEditorControl` に 2 つのデバイスシステムを登録します。1 つの Document を維持したままアクティブなデバイスシステムを切り替え、同じデータをどちらのシステムでも加工する方法を示します。共有の `config.ini` は既定で仮想デバイスを使用します。

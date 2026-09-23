@@ -209,6 +209,10 @@ MoF(Marking on the fly) 기능은 외부 이동물체에서 발생하는 엔코�
 원격 통신 (시리얼, TCP/IP, 웹소켓, MQTT)으로 연결을 시도하고, 외부 시스템을 통해 마커, 오프셋, 개체 값 읽고 쓰기 등의 조작을 통신을 통해 처리하는 데모 프로그램입니다.
 여기에서는 웹소켓을 활용한 예제를 보여주고 있습니다.
 
+## editor_remote_mcp
+
+하나의 WinForms `SiriusEditorControl`에 하나의 내장 MCP 서버를 연결하는 데모입니다. 환경변수로 설정하는 인증된 HTTP 전송, 문서·엔티티 편집 및 허용된 장치 제어를 지원합니다. 편집기마다 별도 서버와 HTTP 포트를 사용합니다. MCP 장치 명령은 연결된 하드웨어를 동작시킬 수 있으므로 사용 전에 데모 README와 접근 모드를 확인해야 합니다.
+
 ## editor_scanahead
 
 RTC6에서 지원되는 SCANAhead 기능을 활용하는 데모 프로그램입니다.
@@ -260,3 +264,15 @@ syncAXIS 라이브러리를 활용해 스캐너와 모션 컨트롤러의 동기
 
 오프라인 BinaryKits 렌더러를 이용해 여러 ZPL 라벨 예제로 `EntityImageZPL`을 만드는 데모입니다.
 라벨 크기와 인쇄 해상도 설정, 유니코드 ZPL 데이터, `^CW` 폰트 매핑 및 로컬 미리보기와 레이저 가공에 사용할 대체 폰트 설정 방법을 보여줍니다.
+
+## wpf_editor_entity
+
+`SpiralLab.Sirius3.UI.WPF.SiriusEditorControl`에서 `editor_entity` 예제를 재사용하는 네이티브 WPF 데모입니다. 지원 대상 프레임워크에서 PropertyGrid 편집과 다중 선택, 실행 취소·다시 실행, 오른쪽 클릭 편집 창, 격자 재질 및 메시 그림자 명령을 보여줍니다. 기본 설정은 가상 장치를 사용합니다.
+
+## wpf_editor_multiple
+
+`editor_multiple`의 네이티브 WPF 대응 데모로, 탭에 두 개의 독립적인 `SiriusEditorControl`을 배치합니다. 각 편집기는 자체 장치 시스템을 등록하고 별도의 Document를 소유하므로 서로 다른 두 데이터를 독립적으로 편집하고 가공할 수 있습니다. 공용 `config.ini`는 기본적으로 가상 장치를 사용합니다.
+
+## wpf_editor_multiple2
+
+`editor_multiple2`의 네이티브 WPF 대응 데모로, 하나의 `SiriusMultiEditorControl`에 두 장치 시스템을 등록합니다. 하나의 Document를 유지하면서 활성 장치 시스템을 전환하여 동일한 데이터를 어느 시스템에서든 가공하는 방법을 보여줍니다. 공용 `config.ini`는 기본적으로 가상 장치를 사용합니다.

@@ -1,5 +1,8 @@
 ﻿using System;
 using SpiralLab.Sirius3.Document;
+using System.Drawing;
+using System.IO;
+using DrawingFontStyle = System.Drawing.FontStyle;
 using SpiralLab.Sirius3.Scanner;
 using SpiralLab.Sirius3.IO;
 using SpiralLab.Sirius3.Scanner.Rtc;
@@ -34,118 +37,6 @@ namespace Demos
     /// </summary>
     public partial class Form1 : Form
     {
-
-        /// <summary>
-        /// Form constructor
-        /// 폼 생성자
-        /// </summary>
-        public Form1()
-        {
-            InitializeComponent();
-            this.Load += Form1_Load;
-            this.FormClosing += (s, e) =>
-            {
-                var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dlgResult != DialogResult.Yes)
-                {
-                    e.Cancel = true;
-                    return;
-                }
-                // Dispose instances 
-                // 인스턴스 해제 
-                siriusEditorControl1.DisposeDevices();
-
-                // Dispose document
-                // 문서 해제
-                var doc = siriusEditorControl1.Document;
-                siriusEditorControl1.Document = null;
-                doc?.Dispose();
-
-                // Clean up SIRIUS3 library
-                // SIRIUS3 라이브러리 정리
-                SpiralLab.Sirius3.Core.Cleanup();
-            };
-
-            this.btnPoints.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                points_testcase(document);
-            };
-            this.btnLineArc.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                line_arc_testcase(document);
-            };
-            this.btnTriangleRectangle.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                triangle_rectangle_testcase(document);
-            };
-            this.btnPolyline.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                polyline2d_testcase(document);
-                polyline3d_testcase(document);
-            };
-           
-            this.btnSpline.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                bezierSpline_testcase(document);
-                catmullRomSpline_testcase(document);
-                hermiteSpline_testcase(document);
-                bSpline_testcase(document);
-                nurbSpline_testcase(document);
-            };
-            this.btnText.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                text_testcase(document);
-            };
-            this.btnImage.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                image_testcase(document);
-            };
-            this.btnGridCloud.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                gridcloud_testcase(document);
-            };
-            this.btnLines.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                many_lines_testcase(document);
-            };
-            this.btnBarcode.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                barcode_testcase(document);
-            };
-            this.btnGroup.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                mixed_group_testcase(document);
-                uniform_group_testcase(document);
-            };
-            this.btn3DMesh.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                sphere_testcase(document);
-                cube_cylinder_testcase(document);
-                stl_testcase(document);
-                obj_testcase(document);
-            };
-            this.btnBlockInsert.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                block_insert_testcase(document);
-            };
-            this.btnZPL.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                zpl_testcase(document);
-            };
-            this.btnLissajous.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                lissajous_testcase(document);
-            };
-            this.btnSpiral.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                spiral_testcase(document);
-            };
-            this.btnGerber.Click += (s, e) => {
-                var document = siriusEditorControl1.Document;
-                gerber_testcase(document);
-            };
-
-        }
 
         /// <summary>
         /// Form load
@@ -684,13 +575,13 @@ namespace Demos
             var rnd = new Random((int)DateTime.Now.Ticks);
 
             {
-                var text = EntityFactory.CreateText("Arial", FontStyle.Regular, $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+", 10);
+                var text = EntityFactory.CreateText("Arial", DrawingFontStyle.Regular, $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+", 10);
                 text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 10.0);
                 document.ActAdd(text);
             }
 
             {
-                var text = EntityFactory.CreateText("Segoe UI", FontStyle.Regular, $"스파이럴랩{Environment.NewLine}SIRIUS3{Environment.NewLine}개발자 버전", 12);
+                var text = EntityFactory.CreateText("Segoe UI", DrawingFontStyle.Regular, $"스파이럴랩{Environment.NewLine}SIRIUS3{Environment.NewLine}개발자 버전", 12);
                 text.Rotate(rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0, rnd.NextDouble() * 10.0 - 5.0);
                 text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);
                 document.ActAdd(text);
@@ -698,7 +589,7 @@ namespace Demos
 
             {
                 var text = EntityFactory.CreateImageText("Segoe UI",
-                    FontStyle.Regular,
+                    DrawingFontStyle.Regular,
                     true,
                     $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+",
                     50, 1, 20);
@@ -709,7 +600,7 @@ namespace Demos
 
             {
                 var text = EntityFactory.CreateCircularText("Segoe UI", 
-                    FontStyle.Regular, EntityCircularText.TextCircularDirections.ClockWise, 30, 90,
+                    DrawingFontStyle.Regular, EntityCircularText.TextCircularDirections.ClockWise, 30, 90,
                     $"0123456789{Environment.NewLine}AaBbFfGgHhJj{Environment.NewLine}~!@#$%^&*()_+", 5);
 
                 text.Translate(rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 50.0, rnd.NextDouble() * 100.0 - 10.0);

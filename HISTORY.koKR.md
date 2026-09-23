@@ -1,5 +1,17 @@
 ﻿# Sirius3 버전 이력
 
+## v1.14.4 (2026.9.23)
+
+- added) MCP (Model Context Protocol) 지원
+  - AI 클라이언트를 이용해 편집기 등록 및 문서·엔티티 편집 및 장치 제어를 지원하는 MCP 서버 추가
+- added) WPF 지원
+  - WPF 환경 전용 UI 편집기 지원 (`SiriusEditorControl`, `SiriusMultiEditorControl`)
+  - 프리뷰(preview) 버전
+- updated) 모든 대상 프레임워크에서 `Microsoft.Extensions.Logging`, `Microsoft.Extensions.Logging.Abstractions`, `Microsoft.Extensions.Logging.Debug` 패키지 버전을 10.0.10으로 통일
+- fixed) 다국어 출력 지원 확장
+- fixed) 예외 발생시 호출 스택을 로그 출력에 기록하도록 개선
+- fixed) `Rtc6SyncAxis` 초기화 문제 수정
+
 ## v1.13.0 (2026.8.31)
 
 - updated) SCANLAB RTC6 의존성을 Software Package 1.25.0으로 갱신하고, 초기화 시 보드 리비전에 맞는 펌웨어를 자동 선택하며 `RtcRevision`에서 값 0은 리비전 1, 값 1은 리비전 2로 확인할 수 있도록 개선

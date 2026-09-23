@@ -208,6 +208,10 @@ MoF（Marking on the fly）功能是将外部移动物体产生的编码器信�
 这是一个演示程序，它尝试通过远程通信（串行、TCP/IP、WebSocket、MQTT）建立连接，并通过外部系统处理读写标记、偏移量和对象值等操作。
 此处展示的是利用WebSocket的示例。
 
+## editor_remote_mcp
+
+此演示将一个内置 MCP 服务器连接到一个 WinForms `SiriusEditorControl`。它支持通过环境变量配置的已认证 HTTP 传输、文档与实体编辑以及允许的设备控制。每个编辑器应使用独立服务器和 HTTP 端口。MCP 设备命令可能操作已连接的硬件，使用前请检查演示 README 和访问模式。
+
 ## editor_scanahead
 
 这是一个利用 RTC6 支持的 SCANAhead 功能的演示程序。
@@ -259,3 +263,15 @@ MoF（Marking on the fly）功能是将外部移动物体产生的编码器信�
 
 此示例使用离线 BinaryKits 渲染器，根据多个 ZPL 标签样例创建 `EntityImageZPL`。
 它演示标签尺寸和打印密度设置、Unicode ZPL 数据、`^CW` 字体映射，以及用于本地预览和激光加工的后备字体配置。
+
+## wpf_editor_entity
+
+此原生 WPF 演示使用 `SpiralLab.Sirius3.UI.WPF.SiriusEditorControl` 复用 `editor_entity` 示例。它展示受支持目标框架中的 PropertyGrid 编辑与多选、撤销/重做、右键编辑窗口，以及网格材质和网格阴影命令。默认配置使用虚拟设备。
+
+## wpf_editor_multiple
+
+这是 `editor_multiple` 的原生 WPF 对应演示，在选项卡中承载两个相互独立的 `SiriusEditorControl`。每个编辑器注册自己的设备系统并拥有独立的 Document，因此可以分别编辑和加工两组不同的数据。共享的 `config.ini` 默认使用虚拟设备。
+
+## wpf_editor_multiple2
+
+这是 `editor_multiple2` 的原生 WPF 对应演示，在一个 `SiriusMultiEditorControl` 中注册两个设备系统。编辑器在保留同一个 Document 的同时切换当前设备系统，使相同的数据可以由任一系统进行加工。共享的 `config.ini` 默认使用虚拟设备。

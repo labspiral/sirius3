@@ -1,4 +1,4 @@
-﻿namespace Demos
+namespace Demos
 {
     partial class SiriusMultiEditorControl
     {
@@ -1219,7 +1219,6 @@
             // 
             this.propertyGridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGridControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.propertyGridControl1.ImeMode = System.Windows.Forms.ImeMode.Alpha;
             this.propertyGridControl1.Location = new System.Drawing.Point(0, 0);
             this.propertyGridControl1.Margin = new System.Windows.Forms.Padding(0);
             this.propertyGridControl1.Name = "propertyGridControl1";

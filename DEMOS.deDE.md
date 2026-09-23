@@ -140,6 +140,10 @@ Erzeugt, prüft und verwendet eine PowerMap zur Kompensation der Differenz zwisc
 
 Verbindet externe Systeme über seriell, TCP/IP, WebSocket oder MQTT und liest bzw. schreibt Marker-, Offset- und Objektwerte. Das Beispiel verwendet WebSocket.
 
+## editor_remote_mcp
+
+Diese Demo verbindet einen eingebetteten MCP-Server mit einem WinForms-`SiriusEditorControl`. Sie unterstützt per Umgebungsvariablen konfiguriertes authentifiziertes HTTP, die Bearbeitung von Dokumenten und Entitäten sowie freigegebene Gerätesteuerung. Verwenden Sie für jeden Editor einen eigenen Server und HTTP-Port. MCP-Gerätebefehle können angeschlossene Hardware bedienen; prüfen Sie vor der Verwendung die Demo-README und den Zugriffsmodus.
+
 ## editor_scanahead
 
 Verwendet RTC6 SCANAhead und Auto Delays. Sprung-, Polygon-, Markier- und Laserzeiten werden automatisch berechnet und die Entity-Stift-Eigenschaften entsprechend gefiltert.
@@ -179,3 +183,15 @@ Verknüpft ein Dokument gleichzeitig mit Editor und Viewer und zeigt das Szenari
 ## editor_zpl
 
 Erzeugt `EntityImageZPL` mit dem lokalen BinaryKits-Renderer und demonstriert Etikettengröße, Druckdichte, Unicode-ZPL, `^CW`-Schriftzuordnung und Fallback-Schriften.
+
+## wpf_editor_entity
+
+Diese native WPF-Demo verwendet die Beispiele aus `editor_entity` mit `SpiralLab.Sirius3.UI.WPF.SiriusEditorControl`. Sie demonstriert PropertyGrid-Bearbeitung und Mehrfachauswahl, Undo/Redo, Editorfenster per Rechtsklick sowie Befehle für Rastermaterial und Mesh-Schatten in den unterstützten Zielframeworks. Die Standardkonfiguration verwendet virtuelle Geräte.
+
+## wpf_editor_multiple
+
+Diese native WPF-Entsprechung zu `editor_multiple` enthält zwei unabhängige `SiriusEditorControl`-Instanzen auf Registerkarten. Jeder Editor registriert ein eigenes Gerätesystem und besitzt ein eigenes Document, sodass zwei unterschiedliche Datensätze unabhängig bearbeitet und verarbeitet werden können. Die gemeinsame `config.ini` verwendet standardmäßig virtuelle Geräte.
+
+## wpf_editor_multiple2
+
+Diese native WPF-Entsprechung zu `editor_multiple2` registriert zwei Gerätesysteme in einem `SiriusMultiEditorControl`. Der Editor wechselt das aktive Gerätesystem, behält dabei jedoch ein gemeinsames Document bei, sodass dieselben Daten mit beiden Systemen verarbeitet werden können. Die gemeinsame `config.ini` verwendet standardmäßig virtuelle Geräte.

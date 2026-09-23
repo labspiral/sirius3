@@ -1,4 +1,4 @@
-﻿/*
+/*
  * 
  *                                                            ,--,      ,--,                              
  *             ,-.----.                                     ,---.'|   ,---.'|                              
@@ -22,6 +22,7 @@
  */
 
 using System;
+using SpiralLab.Sirius3.Localization;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -46,6 +47,9 @@ using SpiralLab.Sirius3.Scanner.Rtc;
 using SpiralLab.Sirius3.View;
 using SpiralLab.Sirius3.Remote;
 using SpiralLab.Sirius3.UI.WinForms;
+using SpiralLab.Sirius3.Scanner.Rtc.SyncAxis;
+using SpiralLab.Sirius3.MCP;
+
 
 #if OPENTK3
 using OpenTK;
@@ -115,6 +119,7 @@ namespace Demos
 
         #region Fields
         private IDocument document;
+        private bool isEditEnabled = true;
         private IScanner[] scanners = new IScanner[DEFAULT_MAX_DEVICE_COUNTS];
         private ILaser[] lasers = new ILaser[DEFAULT_MAX_DEVICE_COUNTS];
         private IMarker[] markers = new IMarker[DEFAULT_MAX_DEVICE_COUNTS];
@@ -276,7 +281,7 @@ namespace Demos
                 if (document == value) return;
                 if (null != Marker && Marker.IsBusy)
                 {
-                    SpiralLab.Sirius3.UI.WinForms.MessageBox.Show($"Not allowed to change document during {Marker.ToString()} is busy !", "Error", MessageBoxButtons.OK);
+                    SpiralLab.Sirius3.UI.WinForms.MessageBox.Show(MessageBoxLocalization.S("Document_MarkerBusy", Marker.ToString()), MessageBoxLocalization.S("Title_Error"), MessageBoxButtons.OK);
                     //throw new InvalidOperationException($"Not allowed to change document during {marker.ToString()} is busy");
                     return;
                 }
@@ -290,6 +295,8 @@ namespace Demos
                     document.OnAfterOpen -= Document_OnAfterOpen;
                     document.OnBeforeSave -= Document_OnBeforeSave;
                     document.OnAfterSave -= Document_OnAfterSave;
+                    document.OnSimulationStarted -= Document_OnSimulationStarted;
+                    document.OnSimulationEnded -= Document_OnSimulationEnded;
                 }
 
                 document = value;
@@ -327,8 +334,11 @@ namespace Demos
                     document.OnAfterOpen += Document_OnAfterOpen;
                     document.OnBeforeSave += Document_OnBeforeSave;
                     document.OnAfterSave += Document_OnAfterSave;
+                    document.OnSimulationStarted += Document_OnSimulationStarted;
+                    document.OnSimulationEnded += Document_OnSimulationEnded;
                     PropertyGridCtrl.SelecteObject = document.Selected;
                 }
+                EditorControlDispatch.Run(this, ApplyEditPermission);
             }
         }
 
@@ -396,7 +406,7 @@ namespace Demos
                 {
                     PropertyVisibility();
                     MenuVisibility();
-
+                    PageVisibility();
                     var rtc = value as IRtc;
                     if (rtc.IsMoF)
                     {
@@ -660,23 +670,50 @@ namespace Demos
             get => remotes[CurrentDeviceIndex];
             private set
             {
-                if (remotes[CurrentDeviceIndex] != null)
-                {
-                    if (tbcMain.TabPages.Contains(tabRemote))
-                        tbcMain.TabPages.Remove(tabRemote);
-                }
-
                 remotes[CurrentDeviceIndex] = value;
                 if (RemoteCtrl != null)
                     RemoteCtrl.Remote = remotes[CurrentDeviceIndex];
                 if (RemoteCtrl != null)
                     RemoteCtrl.Marker = markers[CurrentDeviceIndex];
 
-                if (remotes[CurrentDeviceIndex] != null)
-                {
-                    if (!tbcMain.TabPages.Contains(tabRemote))
-                        tbcMain.TabPages.Add(tabRemote);
-                }
+                UpdateRemoteTabVisibility();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the MCP server created for this multi-editor. The assignment enables UI control and transfers disposal responsibility to <see cref="DisposeDevices"/>.
+        /// <para>이 다중 편집기를 대상으로 생성된 MCP 서버를 가져오거나 설정합니다. 지정하면 UI 제어를 사용하며 <see cref="DisposeDevices"/>가 서버 해제를 담당합니다.</para>
+        /// </summary>
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [LocalizedCategory("MCP")]
+        [LocalizedDisplayName("MCPServer")]
+        [LocalizedDescription("MCPServer")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IMCPServer MCPServer
+        {
+            get => mcpServer;
+            set
+            {
+                if (ReferenceEquals(mcpServer, value)) return;
+                mcpServer = value;
+                if (RemoteCtrl != null) RemoteCtrl.MCPServer = value;
+                UpdateRemoteTabVisibility();
+            }
+        }
+        private IMCPServer mcpServer;
+
+        private void UpdateRemoteTabVisibility()
+        {
+            var visible = remotes[CurrentDeviceIndex] != null;
+            visible |= mcpServer != null;
+            if (visible)
+            {
+                if (!tbcMain.TabPages.Contains(tabRemote)) tbcMain.TabPages.Add(tabRemote);
+            }
+            else if (tbcMain.TabPages.Contains(tabRemote))
+            {
+                tbcMain.TabPages.Remove(tabRemote);
             }
         }
 
@@ -919,6 +956,7 @@ namespace Demos
         public SiriusMultiEditorControl()
         {
             InitializeComponent();
+            ApplyLocalization();
 
             if (EditorControl.IsDesigner())
                 return;
@@ -938,6 +976,7 @@ namespace Demos
 
             lblEncoder.DoubleClick += LblEncoder_DoubleClick;
             lblEncoder.DoubleClickEnabled = true;
+            lblEncoder.MouseEnter += LblEncoder_MouseEnter;
 
             tbcLeft.SelectedIndexChanged += tbcLeft_SelectedIndexChanged;
             btnNew.Click += BtnNew_Click;
@@ -970,6 +1009,63 @@ namespace Demos
             Document = doc;
         }
 
+        private void ApplyLocalization()
+        {
+            btnNew.ToolTipText = MessageBoxLocalization.S("SiriusEditor_NewDocument");
+            btnOpen.ToolTipText = MessageBoxLocalization.S("SiriusEditor_OpenDocument");
+            ddbOpenNewOptions.ToolTipText = MessageBoxLocalization.S("SiriusEditor_DocumentOptions");
+            ApplyIncludePageLocalization(mnuIncludePage1, 1);
+            ApplyIncludePageLocalization(mnuIncludePage2, 2);
+            ApplyIncludePageLocalization(mnuIncludePage3, 3);
+            ApplyIncludePageLocalization(mnuIncludePage4, 4);
+            ApplyIncludeLocalization(mnuIncludeBlocks, "SiriusEditor_Blocks", "SiriusEditor_IncludeBlocks");
+            ApplyIncludeLocalization(mnuIncludeLayerPens, "SiriusEditor_LayerPens", "SiriusEditor_IncludeLayerPens");
+            ApplyIncludeLocalization(mnuIncludeEntityPens, "SiriusEditor_EntityPens", "SiriusEditor_IncludeEntityPens");
+            ApplyIncludeLocalization(mnuIncludeWafers, "SiriusEditor_Wafers", "SiriusEditor_IncludeWafers");
+            ApplyIncludeLocalization(mnuIncludeSubstrates, "SiriusEditor_Substrates", "SiriusEditor_IncludeSubstrates");
+            btnSave.ToolTipText = MessageBoxLocalization.S("SiriusEditor_SaveDocument");
+            btnLock.ToolTipText = MessageBoxLocalization.S("SiriusEditor_LockEditing");
+            btnLogWindow.ToolTipText = MessageBoxLocalization.S("SiriusEditor_ToggleLogWindow");
+            tabBlockPage.Text = MessageBoxLocalization.S("SiriusEditor_NavBlock");
+            tabEntityPen.Text = MessageBoxLocalization.S("SiriusEditor_NavEntity");
+            tabLayerPen.Text = MessageBoxLocalization.S("SiriusEditor_NavLayer");
+            tabEditor.Text = MessageBoxLocalization.S("SiriusEditor_NavEditor");
+            tabMarker.Text = MessageBoxLocalization.S("SiriusEditor_NavMarker");
+            tabManual.Text = MessageBoxLocalization.S("SiriusEditor_NavManual");
+            tabScanner.Text = MessageBoxLocalization.S("SiriusEditor_NavScanner");
+            tabLaser.Text = MessageBoxLocalization.S("SiriusEditor_NavLaser");
+            tabDIO.Text = MessageBoxLocalization.S("SiriusEditor_NavDio");
+            tabPower.Text = MessageBoxLocalization.S("SiriusEditor_NavPower");
+            tabPage18.Text = MessageBoxLocalization.S("SiriusEditor_NavPowerMeter");
+            tabPage19.Text = MessageBoxLocalization.S("SiriusEditor_NavPowerMap");
+            tabStepper.Text = MessageBoxLocalization.S("SiriusEditor_NavStepper");
+            tabRemote.Text = MessageBoxLocalization.S("SiriusEditor_NavRemote");
+            tabProperty.Text = MessageBoxLocalization.S("SiriusEditor_NavProperty");
+            lblAliasName.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusName");
+            lblFileName.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusFileName");
+            lblEncoder.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusEncoder");
+            lblReady.Text = MessageBoxLocalization.S("MultiBeam_ReadyStatus");
+            lblReady.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusReady");
+            lblBusy.Text = MessageBoxLocalization.S("MultiBeam_BusyStatus");
+            lblBusy.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusBusy");
+            lblError.Text = MessageBoxLocalization.S("MultiBeam_ErrorStatus");
+            lblError.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusError");
+            lblRemote.Text = $" {Internal.RemoteStatusLocalization.Format(RemoteControlModes.Local, false)} ";
+            lblRemote.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusRemote");
+        }
+
+        private static void ApplyIncludePageLocalization(ToolStripMenuItem item, int page)
+        {
+            item.Text = MessageBoxLocalization.S("SiriusEditor_Page", page);
+            item.ToolTipText = MessageBoxLocalization.S("SiriusEditor_IncludePage", page);
+        }
+
+        private static void ApplyIncludeLocalization(ToolStripMenuItem item, string textKey, string toolTipKey)
+        {
+            item.Text = MessageBoxLocalization.S(textKey);
+            item.ToolTipText = MessageBoxLocalization.S(toolTipKey);
+        }
+
 
         /// <summary>
         /// Registers devices for the specified device index.
@@ -986,7 +1082,8 @@ namespace Demos
         /// <param name="dOLaserPort">The digital output laser port.</param>
         /// <param name="marker">The marker instance.</param>
         /// <param name="remote">The remote instance.</param>
-        public void RegisterDevices(int index, IScanner scanner, ILaser laser, IPowerMeter powerMeter, IDInput dIExt1, IDInput dILaserPort, IDOutput dOExt1, IDOutput dOExt2, IDOutput dOLaserPort, IMarker marker, IRemote remote = null)
+        /// <param name="mcpServer">Optional MCP server created for this multi-editor. A non-null value is registered once and disposed before the device sets.<br/>이 다중 편집기를 대상으로 생성된 선택적 MCP 서버입니다. null이 아닌 값은 한 번 등록되며 장치 세트보다 먼저 해제됩니다.</param>
+        public void RegisterDevices(int index, IScanner scanner, ILaser laser, IPowerMeter powerMeter, IDInput dIExt1, IDInput dILaserPort, IDOutput dOExt1, IDOutput dOExt2, IDOutput dOLaserPort, IMarker marker, IRemote remote = null, IMCPServer mcpServer = null)
         {
 #if DEBUG
             if (MaxDeviceCounts <= index)
@@ -1000,16 +1097,27 @@ namespace Demos
             dOExt1s[index] = dOExt1;
             dOExt2s[index] = dOExt2;
             dOLaserPorts[index] = dOLaserPort;
+            var previousMarker = markers[index];
             markers[index] = marker;
+            if (previousMarker != null && !markers.Any(value => ReferenceEquals(value, previousMarker)))
+            {
+                previousMarker.OnStarted -= Marker_OnStarted;
+                previousMarker.OnEnded -= Marker_OnEnded;
+                previousMarker.PropertyChanged -= Marker_PropertyChanged;
+            }
             MultiBeamRtcControl.Markers[index] = marker;
 
             markers[index].OnStarted -= Marker_OnStarted;
             markers[index].OnStarted += Marker_OnStarted;
             markers[index].OnEnded -= Marker_OnEnded;
             markers[index].OnEnded += Marker_OnEnded;
+            markers[index].PropertyChanged -= Marker_PropertyChanged;
+            markers[index].PropertyChanged += Marker_PropertyChanged;
 
             remotes[index] = remote;
+            if (mcpServer != null) MCPServer = mcpServer;
             marker.Ready(Document, View, scanner as IRtc, laser, powerMeter);
+            EditorControlDispatch.Run(this, ApplyEditPermission);
         }
 
         /// <summary>
@@ -1030,6 +1138,10 @@ namespace Demos
             //this.Laser = null;
             //this.Scanner = null;
 
+            var registeredMCPServer = MCPServer;
+            MCPServer = null;
+            registeredMCPServer?.Dispose();
+
             for (int i = 0; i < MaxDeviceCounts; i++)
             {
                 remotes[i]?.Dispose();
@@ -1040,6 +1152,7 @@ namespace Demos
                 {
                     markers[i].OnStarted -= Marker_OnStarted;
                     markers[i].OnEnded -= Marker_OnEnded;
+                    markers[i].PropertyChanged -= Marker_PropertyChanged;
                 }
 
                 markers[i]?.Dispose();
@@ -1140,9 +1253,36 @@ namespace Demos
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         private void SiriusEditorControl_Disposed(object sender, EventArgs e)
         {
+            if (document != null)
+            {
+                document.OnNew -= Document_OnNew;
+                document.OnBeforeOpen -= Document_OnBeforeOpen;
+                document.OnAfterOpen -= Document_OnAfterOpen;
+                document.OnBeforeSave -= Document_OnBeforeSave;
+                document.OnAfterSave -= Document_OnAfterSave;
+                document.OnSimulationStarted -= Document_OnSimulationStarted;
+                document.OnSimulationEnded -= Document_OnSimulationEnded;
+            }
+            foreach (var registeredMarker in markers)
+            {
+                if (registeredMarker == null) continue;
+                registeredMarker.OnStarted -= Marker_OnStarted;
+                registeredMarker.OnEnded -= Marker_OnEnded;
+                registeredMarker.PropertyChanged -= Marker_PropertyChanged;
+            }
             document?.ActSimulateStop(false);
             timerStatus.Enabled = false;
             timerStatus.Tick -= TimerStatus_Tick;
+            timerStatus.Dispose();
+        }
+
+        /// <inheritdoc/>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            timerStatus.Enabled = Visible;
+            UpdateMarkerStatus();
+            ApplyEditPermission();
         }
         /// <summary>
         /// Enables or disables the status timer based on form visibility.
@@ -1154,11 +1294,27 @@ namespace Demos
         {
             timerStatus.Enabled = Visible;
             if (Visible)
+            {
                 SwitchDevices(CurrentDeviceIndex);
+                UpdateMarkerStatus();
+            }
         }
         #endregion
 
         #region Document Events
+        private void Document_OnSimulationStarted(IDocument source, IEntity[] entities) =>
+            QueueSimulationStateUpdate(source);
+
+        private void Document_OnSimulationEnded(IDocument source) => QueueSimulationStateUpdate(source);
+
+        private void QueueSimulationStateUpdate(IDocument source)
+        {
+            EditorControlDispatch.Run(this, () =>
+            {
+                if (ReferenceEquals(source, Document)) ApplyEditPermission();
+            });
+        }
+
         /// <summary>
         /// Called when a new document is created.
         /// <para>새 문서가 생성될 때 호출됩니다.</para>
@@ -1245,8 +1401,8 @@ namespace Demos
             bool isCtrlPressed = (Control.ModifierKeys & Keys.Control) == Keys.Control;
 
             var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
-                 "Do you want to reset encoder values ?",
-                 "Warning",
+                 MessageBoxLocalization.S("Scanner_ConfirmResetEncoders"),
+                 MessageBoxLocalization.S("Title_Warning"),
                  MessageBoxButtons.YesNo);
 
             if (isCtrlPressed)
@@ -1295,7 +1451,7 @@ namespace Demos
                 var dialogResult = form.ShowDialog(this);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    rtcMoF.CtlMoFEncoderReset();
+                   rtcMoF.CtlMoFEncoderReset();
                 }
             }
         }
@@ -1308,10 +1464,26 @@ namespace Demos
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         private void TimerStatus_Tick(object sender, EventArgs e)
         {
-            if (Marker == null) return;
+            UpdateMarkerStatus();
+        }
+
+        private void UpdateMarkerStatus()
+        {
+            var currentMarker = Marker;
+            if (currentMarker == null)
+            {
+                lblReady.ForeColor = Color.White;
+                lblReady.BackColor = Color.Green;
+                lblBusy.ForeColor = Color.White;
+                lblBusy.BackColor = Color.Olive;
+                lblError.ForeColor = Color.White;
+                lblError.BackColor = Color.Maroon;
+                timerStatusColorCounts = 0;
+                return;
+            }
 
             // Ready
-            if (Marker.IsReady)
+            if (currentMarker.IsReady)
             {
                 lblReady.ForeColor = Color.Black;
                 lblReady.BackColor = Color.Lime;
@@ -1323,7 +1495,7 @@ namespace Demos
             }
 
             // Busy
-            if (Marker.IsBusy)
+            if (currentMarker.IsBusy)
             {
                 timerStatusColorCounts = unchecked(timerStatusColorCounts + 1);
                 if (timerStatusColorCounts % 2 == 0)
@@ -1345,7 +1517,7 @@ namespace Demos
             }
 
             // Error
-            if (Marker.IsError)
+            if (currentMarker.IsError)
             {
                 lblError.ForeColor = Color.White;
                 lblError.BackColor = Color.Red;
@@ -1366,23 +1538,31 @@ namespace Demos
                 if (!lblRemote.Visible)
                     lblRemote.Visible = true;
 
+                lblRemote.Text = $" {Internal.RemoteStatusLocalization.Format(Remote.ControlMode, Remote.IsConnected)} ";
                 if (Remote.ControlMode == RemoteControlModes.Local)
                 {
-                    if (Remote.IsConnected)
-                        lblRemote.Text = " LOCAL: CONNECTED ";
-                    else
-                        lblRemote.Text = " LOCAL ";
                     lblRemote.BackColor = Color.MidnightBlue;
                 }
                 else
                 {
-                    if (Remote.IsConnected)
-                        lblRemote.Text = " REMOTE: CONNECTED ";
-                    else
-                        lblRemote.Text = " REMOTE ";
                     lblRemote.BackColor = Color.DodgerBlue;
                 }
             }
+        }
+
+        private void Marker_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.PropertyName) &&
+                e.PropertyName != nameof(IMarker.IsReady) &&
+                e.PropertyName != nameof(IMarker.IsBusy) &&
+                e.PropertyName != nameof(IMarker.IsError))
+                return;
+
+            EditorControlDispatch.Run(this, () =>
+            {
+                if (ReferenceEquals(sender, Marker))
+                    UpdateMarkerStatus();
+            });
         }
 
         /// <summary>
@@ -1392,21 +1572,7 @@ namespace Demos
         /// <param name="_marker">The marker instance.</param>
         private void Marker_OnStarted(IMarker _marker)
         {
-            if (!IsHandleCreated || IsDisposed) return;
-
-            switch (_marker.Index)
-            {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                    break;
-            }
-
-            Invoke(new MethodInvoker(() =>
-            {
-                ControlEnableOrNot(false);
-            }));
+            QueueMarkerStateUpdate(_marker);
         }
 
         /// <summary>
@@ -1418,28 +1584,23 @@ namespace Demos
         /// <param name="ts">The elapsed time for the marking operation.</param>
         private void Marker_OnEnded(IMarker _marker, bool success, TimeSpan? ts)
         {
-            if (!IsHandleCreated || IsDisposed) return;
+            QueueMarkerStateUpdate(_marker);
+        }
 
-            switch (_marker.Index)
+        private void QueueMarkerStateUpdate(IMarker source)
+        {
+            EditorControlDispatch.Run(this, () =>
             {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                    break;
-            }
+                if (source != null && markers.Any(value => ReferenceEquals(value, source)))
+                    ApplyEditPermission();
+            });
+        }
 
-            bool isBusy = false;
-            foreach (var marker in markers)
-                if (null != marker)
-                    isBusy |= marker.IsBusy;
-
-            Invoke(new MethodInvoker(() =>
-            {
-                ControlEnableOrNot(!isBusy && !btnLock.Checked);
-                if (!isBusy)
-                    EditorCtrl?.Focus();
-            }));
+        private void LblEncoder_MouseEnter(object sender, EventArgs e)
+        {
+            lblEncoder.ToolTipText = Internal.EncoderStatusToolTip.Format(
+                Scanner as IRtcMoF,
+                MessageBoxLocalization.S("SiriusEditor_StatusEncoder"));
         }
 
         /// <summary>
@@ -1509,59 +1670,76 @@ namespace Demos
             EntityPen.PropertyVisibility(Laser);
             EntityLayerPen.PropertyVisibility(Scanner);
         }
-
         /// <summary>
-        /// Enables or disables editing-related controls while keeping the lock toggle available.
-        /// <para>편집 관련 컨트롤을 활성화하거나 비활성화하되 잠금 토글은 계속 사용할 수 있게 유지합니다.</para>
+        /// Adjusts tab page visibility based on RTC capabilities.
+        /// <para>RTC 기능에 따라 페이지 가시성을 조정합니다.</para>
+        /// </summary>
+        private void PageVisibility()
+        {
+            if (Scanner is IRtcSyncAxis)
+            {
+                if (tbcMain.TabPages.Contains(tabStepper))
+                    tbcMain.TabPages.Remove(tabStepper);
+            }
+            else if (!tbcMain.TabPages.Contains(tabStepper))
+                tbcMain.TabPages.Insert(tbcMain.TabPages.IndexOf(tabPower) + 1, tabStepper);
+        }
+        /// <summary>
+        /// Requests editing; locks and active jobs still restrict editing.
+        /// <para>편집 허용을 요청합니다. 잠금 또는 실행 중 작업의 편집 제한은 유지됩니다.</para>
         /// </summary>
         /// <param name="isEnable">True to enable; false to disable. 
         /// <para>활성화하려면 true, 비활성화하려면 false입니다.</para>
         /// </param>
         public virtual void ControlEnableOrNot(bool isEnable)
         {
-            if (!IsHandleCreated || IsDisposed) return;
+            isEditEnabled = isEnable;
+            EditorControlDispatch.Run(this, ApplyEditPermission);
+        }
 
-            Invoke(new MethodInvoker(() =>
-            {
-                btnNew.Enabled = isEnable;
-                btnOpen.Enabled = isEnable;
-                ddbOpenNewOptions.Enabled = isEnable;
-                btnSave.Enabled = isEnable;
+        private void ApplyEditPermission()
+        {
+            if (IsDisposed || Disposing || EditorCtrl == null) return;
+            bool isEnable = isEditEnabled && !btnLock.Checked &&
+                !markers.Any(value => value?.IsBusy == true) && Document?.IsSimulationWorking != true;
+            btnNew.Enabled = isEnable;
+            btnOpen.Enabled = isEnable;
+            ddbOpenNewOptions.Enabled = isEnable;
+            btnSave.Enabled = isEnable;
 
-                tbcLeft.Enabled = isEnable;
-                //splitContainer12.Panel1Collapsed = !isEnable;
-                //splitContainer123.Panel2Collapsed = !isEnable;
-                PropertyGridCtrl.Enabled = isEnable;
+            tbcLeft.Enabled = isEnable;
+            //splitContainer12.Panel1Collapsed = !isEnable;
+            //splitContainer123.Panel2Collapsed = !isEnable;
+            PropertyGridCtrl.Enabled = isEnable;
 
-                EditorCtrl.IsAllowEdit = isEnable;
-                foreach (var pc in PageCtrls)
-                    pc.Enabled = isEnable;
+            EditorCtrl.IsAllowEdit = isEnable;
+            foreach (var pc in PageCtrls)
+                pc.Enabled = isEnable;
 
-                BlockCtrl.Enabled = isEnable;
-                //WaferCtrl.Enabled = isEnable;
-                //SubstrateCtrl.Enabled = isEnable;
+            BlockCtrl.Enabled = isEnable;
+            //WaferCtrl.Enabled = isEnable;
+            //SubstrateCtrl.Enabled = isEnable;
 
 
 #if DEBUG
-                // Keep enables for debugging
+            // Keep enables for debugging
 
 #else
-                //ManualCtrl.Enabled = isEnable;
-                //ScannerCtrl.Enabled = isEnable;
-                LaserCtrl.Enabled = isEnable;
-                PowerMeterCtrl.Enabled = isEnable;
-                PowerMapCtrl.Enabled = isEnable;
-                //DORtcCtrl.Enabled = isEnable;
-                EntityPenCtrl.Enabled = isEnable;
-                LayerPenCtrl.Enabled = isEnable;
-                //MarkerCtrl.Enabled = isEnable;
+            //ManualCtrl.Enabled = isEnable;
+            //ScannerCtrl.Enabled = isEnable;
+            LaserCtrl.Enabled = isEnable;
+            PowerMeterCtrl.Enabled = isEnable;
+            PowerMapCtrl.Enabled = isEnable;
+            //DORtcCtrl.Enabled = isEnable;
+            EntityPenCtrl.Enabled = isEnable;
+            LayerPenCtrl.Enabled = isEnable;
+            //MarkerCtrl.Enabled = isEnable;
 #endif
 
-                // This button owns the requested edit-lock state, so it must remain
-                // available even while simulation, marking, or the lock itself disables editing.
-                tlsTop1.Enabled = true;
-                btnLock.Enabled = true;
-            }));
+            // This button owns the requested edit-lock state, so it must remain
+            // available even while simulation, marking, or the lock itself disables editing.
+            tlsTop1.Enabled = true;
+            btnLock.Enabled = true;
         }
 
         /// <summary>
@@ -1755,7 +1933,7 @@ namespace Demos
             using var dlg = new OpenFileDialog
             {
                 Filter = SpiralLab.Sirius3.UI.Config.FileOpenFilters,
-                Title = "Open File",
+                Title = MessageBoxLocalization.S("Common_Open"),
                 InitialDirectory = SpiralLab.Sirius3.Config.RecipePath,
                 FileName = Document.FileName,
             };
@@ -1765,8 +1943,8 @@ namespace Demos
             if (Document.IsModified)
             {
                 var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
-                    "Not save yet ? Do you really want to open ?",
-                    "Warning",
+                    MessageBoxLocalization.S("Document_ConfirmOpenUnsaved"),
+                    MessageBoxLocalization.S("Title_Warning"),
                     MessageBoxButtons.YesNo);
 
                 var dialogResult = form.ShowDialog(this);
@@ -1816,7 +1994,7 @@ namespace Demos
             using var dlg = new SaveFileDialog
             {
                 Filter = SpiralLab.Sirius3.UI.Config.FileSaveFilters,
-                Title = "Save File",
+                Title = MessageBoxLocalization.S("Common_Save"),
                 InitialDirectory = SpiralLab.Sirius3.Config.RecipePath,
                 OverwritePrompt = true
             };
@@ -1853,7 +2031,7 @@ namespace Demos
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data. <para>이벤트 데이터를 포함하는 <see cref="EventArgs"/>입니다.</para></param>
         private void BtnLock_Click(object sender, EventArgs e)
         {
-            ControlEnableOrNot(!btnLock.Checked);
+            ApplyEditPermission();
         }
 
         #endregion

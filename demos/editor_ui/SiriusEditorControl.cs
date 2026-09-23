@@ -1,27 +1,28 @@
-﻿/*
- * 
- *                                                            ,--,      ,--,                              
- *             ,-.----.                                     ,---.'|   ,---.'|                              
- *   .--.--.   \    /  \     ,---,,-.----.      ,---,       |   | :   |   | :      ,---,           ,---,.  
- *  /  /    '. |   :    \ ,`--.' |\    /  \    '  .' \      :   : |   :   : |     '  .' \        ,'  .'  \ 
- * |  :  /`. / |   |  .\ :|   :  :;   :    \  /  ;    '.    |   ' :   |   ' :    /  ;    '.    ,---.' .' | 
- * ;  |  |--`  .   :  |: |:   |  '|   | .\ : :  :       \   ;   ; '   ;   ; '   :  :       \   |   |  |: | 
- * |  :  ;_    |   |   \ :|   :  |.   : |: | :  |   /\   \  '   | |__ '   | |__ :  |   /\   \  :   :  :  / 
- *  \  \    `. |   : .   /'   '  ;|   |  \ : |  :  ' ;.   : |   | :.'||   | :.'||  :  ' ;.   : :   |    ;  
- *   `----.   \;   | |`-' |   |  ||   : .  / |  |  ;/  \   \'   :    ;'   :    ;|  |  ;/  \   \|   :     \ 
- *   __ \  \  ||   | ;    '   :  ;;   | |  \ '  :  | \  \ ,'|   |  ./ |   |  ./ '  :  | \  \ ,'|   |   . | 
- *  /  /`--'  /:   ' |    |   |  '|   | ;\  \|  |  '  '--'  ;   : ;   ;   : ;   |  |  '  '--'  '   :  '; | 
- * '--'.     / :   : :    '   :  |:   ' | \.'|  :  :        |   ,/    |   ,/    |  :  :        |   |  | ;  
- *   `--'---'  |   | :    ;   |.' :   : :-'  |  | ,'        '---'     '---'     |  | ,'        |   :   /   
- *             `---'.|    '---'   |   |.'    `--''                              `--''          |   | ,'    
- *               `---`            `---'                                                        `----'   
- * 
+/*
+ *
+ *                                                            ,--,      ,--,
+ *             ,-.----.                                     ,---.'|   ,---.'|
+ *   .--.--.   \    /  \     ,---,,-.----.      ,---,       |   | :   |   | :      ,---,           ,---,.
+ *  /  /    '. |   :    \ ,`--.' |\    /  \    '  .' \      :   : |   :   : |     '  .' \        ,'  .'  \
+ * |  :  /`. / |   |  .\ :|   :  :;   :    \  /  ;    '.    |   ' :   |   ' :    /  ;    '.    ,---.' .' |
+ * ;  |  |--`  .   :  |: |:   |  '|   | .\ : :  :       \   ;   ; '   ;   ; '   :  :       \   |   |  |: |
+ * |  :  ;_    |   |   \ :|   :  |.   : |: | :  |   /\   \  '   | |__ '   | |__ :  |   /\   \  :   :  :  /
+ *  \  \    `. |   : .   /'   '  ;|   |  \ : |  :  ' ;.   : |   | :.'||   | :.'||  :  ' ;.   : :   |    ;
+ *   `----.   \;   | |`-' |   |  ||   : .  / |  |  ;/  \   \'   :    ;'   :    ;|  |  ;/  \   \|   :     \
+ *   __ \  \  ||   | ;    '   :  ;;   | |  \ '  :  | \  \ ,'|   |  ./ |   |  ./ '  :  | \  \ ,'|   |   . |
+ *  /  /`--'  /:   ' |    |   |  '|   | ;\  \|  |  '  '--'  ;   : ;   ;   : ;   |  |  '  '--'  '   :  '; |
+ * '--'.     / :   : :    '   :  |:   ' | \.'|  :  :        |   ,/    |   ,/    |  :  :        |   |  | ;
+ *   `--'---'  |   | :    ;   |.' :   : :-'  |  | ,'        '---'     '---'     |  | ,'        |   :   /
+ *             `---'.|    '---'   |   |.'    `--''                              `--''          |   | ,'
+ *               `---`            `---'                                                        `----'
+ *
  * 2026 Copyright to (c)SpiralLAB. All rights reserved.
  * Description : SiriusEditorControl
  * Author : hong chan, choi / hcchoi@spirallab.co.kr (http://spirallab.co.kr)
  */
 
 using System;
+using SpiralLab.Sirius3.Localization;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -34,6 +35,7 @@ using System.Windows.Forms;
 using Microsoft.Extensions.Logging;
 
 using SpiralLab.Sirius3;
+using SpiralLab.Sirius3.UI;
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Entity;
 using SpiralLab.Sirius3.Entity.Hatch;
@@ -46,6 +48,9 @@ using SpiralLab.Sirius3.Scanner.Rtc;
 using SpiralLab.Sirius3.View;
 using SpiralLab.Sirius3.Remote;
 using SpiralLab.Sirius3.UI.WinForms;
+using SpiralLab.Sirius3.Scanner.Rtc.SyncAxis;
+using SpiralLab.Sirius3.MCP;
+
 
 #if OPENTK3
 using OpenTK;
@@ -115,9 +120,19 @@ namespace Demos
         private readonly Stopwatch timerProgressStopwatch = new Stopwatch();
         private readonly System.Windows.Forms.Timer timerProgress = new System.Windows.Forms.Timer();
         private readonly System.Windows.Forms.Timer timerStatus = new System.Windows.Forms.Timer();
+        private readonly LatestValueDispatcher<(IPowerMeter Source, PowerReadoutState State, MeasureUnits Unit, double Value)> powerReadoutUpdates;
 
         private int timerStatusColorCounts;
         private int timerProgressColorCounts;
+        private bool isEditEnabled = true;
+
+        private enum PowerReadoutState
+        {
+            Started,
+            Stopped,
+            Measured,
+            Cleared
+        }
         #endregion
 
         #region Public Bindable Properties
@@ -153,7 +168,7 @@ namespace Demos
                 if (document == value) return;
                 if (null != Marker && Marker.IsBusy)
                 {
-                    SpiralLab.Sirius3.UI.WinForms.MessageBox.Show($"Not allowed to change document during {Marker.ToString()} is busy !", "Error", MessageBoxButtons.OK);
+                    SpiralLab.Sirius3.UI.WinForms.MessageBox.Show(MessageBoxLocalization.S("Document_MarkerBusy", Marker.ToString()), MessageBoxLocalization.S("Title_Error"), MessageBoxButtons.OK);
                     //throw new InvalidOperationException($"Not allowed to change document during {marker.ToString()} is busy");
                     return;
                 }
@@ -167,6 +182,8 @@ namespace Demos
                     document.OnAfterOpen -= Document_OnAfterOpen;
                     document.OnBeforeSave -= Document_OnBeforeSave;
                     document.OnAfterSave -= Document_OnAfterSave;
+                    document.OnSimulationStarted -= Document_OnSimulationStarted;
+                    document.OnSimulationEnded -= Document_OnSimulationEnded;
                 }
 
                 document = value;
@@ -208,8 +225,11 @@ namespace Demos
                     document.OnAfterOpen += Document_OnAfterOpen;
                     document.OnBeforeSave += Document_OnBeforeSave;
                     document.OnAfterSave += Document_OnAfterSave;
+                    document.OnSimulationStarted += Document_OnSimulationStarted;
+                    document.OnSimulationEnded += Document_OnSimulationEnded;
                     PropertyGridCtrl.SelecteObject = document.Selected;
                 }
+                EditorControlDispatch.Run(this, ApplyEditPermission);
             }
         }
 
@@ -278,6 +298,7 @@ namespace Demos
                 {
                     PropertyVisibility();
                     MenuVisibility();
+                    PageVisibility();
                     var rtc = value as IRtc;
 
                     if (rtc.IsMoF)
@@ -361,6 +382,7 @@ namespace Demos
                 {
                     marker.OnStarted -= Marker_OnStarted;
                     marker.OnEnded -= Marker_OnEnded;
+                    marker.PropertyChanged -= Marker_PropertyChanged;
                 }
 
                 marker = value;
@@ -382,7 +404,13 @@ namespace Demos
                 {
                     marker.OnStarted += Marker_OnStarted;
                     marker.OnEnded += Marker_OnEnded;
+                    marker.PropertyChanged += Marker_PropertyChanged;
                 }
+                EditorControlDispatch.Run(this, () =>
+                {
+                    UpdateMarkerStatus();
+                    RefreshMarkerState();
+                });
             }
         }
 
@@ -413,6 +441,7 @@ namespace Demos
                 }
 
                 powerMeter = value;
+                powerReadoutUpdates?.Reset();
                 UpdateLaser();
 
                 if (PowerMeterCtrl != null)
@@ -429,6 +458,10 @@ namespace Demos
                     powerMeter.OnStopped += PowerMeter_OnStopped;
                     powerMeter.OnMeasured += PowerMeter_OnMeasured;
                     powerMeter.OnCleared += PowerMeter_OnCleared;
+                }
+                else
+                {
+                    lblPowerWatt.Text = string.Empty;
                 }
             }
         }
@@ -570,8 +603,6 @@ namespace Demos
                 if (remote != null)
                 {
                     remote.OnModeChanged -= Remote_OnModeChanged;
-                    if (tbcMain.TabPages.Contains(tabRemote))
-                        tbcMain.TabPages.Remove(tabRemote);
                 }
 
                 remote = value;
@@ -582,13 +613,48 @@ namespace Demos
                 if (remote != null)
                 {
                     remote.OnModeChanged += Remote_OnModeChanged;
-
-                    if (!tbcMain.TabPages.Contains(tabRemote))
-                        tbcMain.TabPages.Add(tabRemote);
                 }
+                UpdateRemoteTabVisibility();
             }
         }
         private IRemote remote;
+
+        /// <summary>
+        /// Gets or sets the MCP server created for this editor. The assignment enables UI control and transfers disposal responsibility to <see cref="DisposeDevices"/>.
+        /// <para>이 편집기를 대상으로 생성된 MCP 서버를 가져오거나 설정합니다. 지정하면 UI 제어를 사용하며 <see cref="DisposeDevices"/>가 서버 해제를 담당합니다.</para>
+        /// </summary>
+        [Browsable(true)]
+        [ReadOnly(false)]
+        [LocalizedCategory("MCP")]
+        [LocalizedDisplayName("MCPServer")]
+        [LocalizedDescription("MCPServer")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IMCPServer MCPServer
+        {
+            get => mcpServer;
+            set
+            {
+                if (ReferenceEquals(mcpServer, value)) return;
+                mcpServer = value;
+                if (RemoteCtrl != null) RemoteCtrl.MCPServer = value;
+                UpdateRemoteTabVisibility();
+            }
+        }
+        private IMCPServer mcpServer;
+
+        private void UpdateRemoteTabVisibility()
+        {
+            var visible = remote != null;
+            visible |= mcpServer != null;
+            if (visible)
+            {
+                if (!tbcMain.TabPages.Contains(tabRemote)) tbcMain.TabPages.Add(tabRemote);
+            }
+            else if (tbcMain.TabPages.Contains(tabRemote))
+            {
+                tbcMain.TabPages.Remove(tabRemote);
+            }
+        }
 
         /// <summary>
         /// Show(or hide) <see cref="LogCtrl"/> window at bottom side
@@ -848,6 +914,11 @@ namespace Demos
         public SiriusEditorControl()
         {
             InitializeComponent();
+            ApplyLocalization();
+            powerReadoutUpdates = new LatestValueDispatcher<(IPowerMeter Source, PowerReadoutState State, MeasureUnits Unit, double Value)>(
+                update => EditorControlDispatch.Run(this, () => update()),
+                ApplyPowerReadout,
+                update => ReferenceEquals(update.Source, powerMeter));
 
             if (EditorControl.IsDesigner())
                 return;
@@ -872,6 +943,7 @@ namespace Demos
 
             lblEncoder.DoubleClick += LblEncoder_DoubleClick;
             lblEncoder.DoubleClickEnabled = true;
+            lblEncoder.MouseEnter += LblEncoder_MouseEnter;
 
             tbcLeft.SelectedIndexChanged += tbcLeft_SelectedIndexChanged;
             btnNew.Click += BtnNew_Click;
@@ -895,6 +967,65 @@ namespace Demos
             Document = doc;
         }
 
+        private void ApplyLocalization()
+        {
+            btnNew.ToolTipText = MessageBoxLocalization.S("SiriusEditor_NewDocument");
+            btnOpen.ToolTipText = MessageBoxLocalization.S("SiriusEditor_OpenDocument");
+            ddbOpenNewOptions.ToolTipText = MessageBoxLocalization.S("SiriusEditor_DocumentOptions");
+            ApplyIncludePageLocalization(mnuIncludePage1, 1);
+            ApplyIncludePageLocalization(mnuIncludePage2, 2);
+            ApplyIncludePageLocalization(mnuIncludePage3, 3);
+            ApplyIncludePageLocalization(mnuIncludePage4, 4);
+            ApplyIncludeLocalization(mnuIncludeBlocks, "SiriusEditor_Blocks", "SiriusEditor_IncludeBlocks");
+            ApplyIncludeLocalization(mnuIncludeLayerPens, "SiriusEditor_LayerPens", "SiriusEditor_IncludeLayerPens");
+            ApplyIncludeLocalization(mnuIncludeEntityPens, "SiriusEditor_EntityPens", "SiriusEditor_IncludeEntityPens");
+            ApplyIncludeLocalization(mnuIncludeWafers, "SiriusEditor_Wafers", "SiriusEditor_IncludeWafers");
+            ApplyIncludeLocalization(mnuIncludeSubstrates, "SiriusEditor_Substrates", "SiriusEditor_IncludeSubstrates");
+            btnSave.ToolTipText = MessageBoxLocalization.S("SiriusEditor_SaveDocument");
+            btnLock.ToolTipText = MessageBoxLocalization.S("SiriusEditor_LockEditing");
+            btnLogWindow.ToolTipText = MessageBoxLocalization.S("SiriusEditor_ToggleLogWindow");
+            tabBlockPage.Text = MessageBoxLocalization.S("SiriusEditor_NavBlock");
+            tabEntityPen.Text = MessageBoxLocalization.S("SiriusEditor_NavEntity");
+            tabLayerPen.Text = MessageBoxLocalization.S("SiriusEditor_NavLayer");
+            tabEditor.Text = MessageBoxLocalization.S("SiriusEditor_NavEditor");
+            tabMarker.Text = MessageBoxLocalization.S("SiriusEditor_NavMarker");
+            tabManual.Text = MessageBoxLocalization.S("SiriusEditor_NavManual");
+            tabScanner.Text = MessageBoxLocalization.S("SiriusEditor_NavScanner");
+            tabLaser.Text = MessageBoxLocalization.S("SiriusEditor_NavLaser");
+            tabDIO.Text = MessageBoxLocalization.S("SiriusEditor_NavDio");
+            tabPower.Text = MessageBoxLocalization.S("SiriusEditor_NavPower");
+            tabPage18.Text = MessageBoxLocalization.S("SiriusEditor_NavPowerMeter");
+            tabPage19.Text = MessageBoxLocalization.S("SiriusEditor_NavPowerMap");
+            tabStepper.Text = MessageBoxLocalization.S("SiriusEditor_NavStepper");
+            tabRemote.Text = MessageBoxLocalization.S("SiriusEditor_NavRemote");
+            tabProperty.Text = MessageBoxLocalization.S("SiriusEditor_NavProperty");
+            lblAliasName.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusName");
+            lblProcessTime.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusProcessingTime");
+            lblPowerWatt.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusMeasuredPower");
+            lblFileName.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusFileName");
+            lblEncoder.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusEncoder");
+            lblReady.Text = MessageBoxLocalization.S("MultiBeam_ReadyStatus");
+            lblReady.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusReady");
+            lblBusy.Text = MessageBoxLocalization.S("MultiBeam_BusyStatus");
+            lblBusy.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusBusy");
+            lblError.Text = MessageBoxLocalization.S("MultiBeam_ErrorStatus");
+            lblError.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusError");
+            lblRemote.ToolTipText = MessageBoxLocalization.S("SiriusEditor_StatusRemote");
+            lblRemote.Text = $" {Internal.RemoteStatusLocalization.Format(RemoteControlModes.Local, false)} ";
+        }
+
+        private static void ApplyIncludePageLocalization(ToolStripMenuItem item, int page)
+        {
+            item.Text = MessageBoxLocalization.S("SiriusEditor_Page", page);
+            item.ToolTipText = MessageBoxLocalization.S("SiriusEditor_IncludePage", page);
+        }
+
+        private static void ApplyIncludeLocalization(ToolStripMenuItem item, string textKey, string toolTipKey)
+        {
+            item.Text = MessageBoxLocalization.S(textKey);
+            item.ToolTipText = MessageBoxLocalization.S(toolTipKey);
+        }
+
 
         /// <summary>
         /// Registers devices.
@@ -910,7 +1041,8 @@ namespace Demos
         /// <param name="dOLaserPort">The digital output laser port.</param>
         /// <param name="marker">The marker instance.</param>
         /// <param name="remote">The remote instance.</param>
-        public void RegisterDevices(IScanner scanner, ILaser laser, IPowerMeter powerMeter, IDInput dIExt1, IDInput dILaserPort, IDOutput dOExt1, IDOutput dOExt2, IDOutput dOLaserPort, IMarker marker, IRemote remote = null)
+        /// <param name="mcpServer">The MCP server created for this editor. When assigned, <see cref="DisposeDevices"/> disposes it before the devices.<br/>이 편집기를 대상으로 생성된 MCP 서버입니다. 지정하면 <see cref="DisposeDevices"/>가 장치보다 먼저 해제합니다.</param>
+        public void RegisterDevices(IScanner scanner, ILaser laser, IPowerMeter powerMeter, IDInput dIExt1, IDInput dILaserPort, IDOutput dOExt1, IDOutput dOExt2, IDOutput dOLaserPort, IMarker marker, IRemote remote = null, IMCPServer mcpServer = null)
         {
             Scanner = scanner;
             Laser = laser;
@@ -922,10 +1054,12 @@ namespace Demos
             DOLaserPort = dOLaserPort;
             Marker = marker;
             Remote = remote;
+            if (mcpServer != null) MCPServer = mcpServer;
 
             MultiBeamRtcControl.Markers[marker.Index] = marker;
             marker.Ready(Document, View, scanner as IRtc, laser, powerMeter);
         }
+
         /// <summary>
         /// Dispose all registered devices.
         /// <para>장치를 모두 해지하고 자원을 회수합니다.</para>
@@ -933,7 +1067,12 @@ namespace Demos
         public void DisposeDevices()
         {
             Document?.ActSimulateStop(false);
-            MultiBeamRtcControl.Markers[marker.Index] = null;
+            if (marker != null)
+                MultiBeamRtcControl.Markers[marker.Index] = null;
+
+            var registeredMCPServer = MCPServer;
+            MCPServer = null;
+            registeredMCPServer?.Dispose();
 
             Remote?.Dispose();
             Remote = null;
@@ -980,11 +1119,49 @@ namespace Demos
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         private void SiriusEditorControl_Disposed(object sender, EventArgs e)
         {
+            if (document != null)
+            {
+                document.OnNew -= Document_OnNew;
+                document.OnBeforeOpen -= Document_OnBeforeOpen;
+                document.OnAfterOpen -= Document_OnAfterOpen;
+                document.OnBeforeSave -= Document_OnBeforeSave;
+                document.OnAfterSave -= Document_OnAfterSave;
+                document.OnSimulationStarted -= Document_OnSimulationStarted;
+                document.OnSimulationEnded -= Document_OnSimulationEnded;
+            }
+            if (marker != null)
+            {
+                marker.OnStarted -= Marker_OnStarted;
+                marker.OnEnded -= Marker_OnEnded;
+                marker.PropertyChanged -= Marker_PropertyChanged;
+            }
+            if (powerMeter != null)
+            {
+                powerMeter.OnStarted -= PowerMeter_OnStarted;
+                powerMeter.OnStopped -= PowerMeter_OnStopped;
+                powerMeter.OnMeasured -= PowerMeter_OnMeasured;
+                powerMeter.OnCleared -= PowerMeter_OnCleared;
+            }
+            powerReadoutUpdates?.Dispose();
             document?.ActSimulateStop(false);
             timerStatus.Enabled = false;
             timerProgress.Enabled = false;
             timerStatus.Tick -= TimerStatus_Tick;
             timerProgress.Tick -= TimerProgress_Tick;
+            timerStatus.Dispose();
+            timerProgress.Dispose();
+        }
+
+        /// <inheritdoc/>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            timerStatus.Enabled = Visible;
+            if (EditorCtrl != null)
+            {
+                UpdateMarkerStatus();
+                RefreshMarkerState();
+            }
         }
         /// <summary>
         /// Enables or disables the status timer based on form visibility.
@@ -995,10 +1172,25 @@ namespace Demos
         private void SiriusEditorControl_VisibleChanged(object sender, EventArgs e)
         {
             timerStatus.Enabled = Visible;
+            if (Visible && IsHandleCreated)
+                UpdateMarkerStatus();
         }
         #endregion
 
         #region Document Events
+        private void Document_OnSimulationStarted(IDocument source, IEntity[] entities) =>
+            QueueSimulationStateUpdate(source);
+
+        private void Document_OnSimulationEnded(IDocument source) => QueueSimulationStateUpdate(source);
+
+        private void QueueSimulationStateUpdate(IDocument source)
+        {
+            EditorControlDispatch.Run(this, () =>
+            {
+                if (ReferenceEquals(source, Document)) ApplyEditPermission();
+            });
+        }
+
         /// <summary>
         /// Called when a new document is created.
         /// <para>새 문서가 생성될 때 호출됩니다.</para>
@@ -1095,8 +1287,8 @@ namespace Demos
             bool isCtrlPressed = (Control.ModifierKeys & Keys.Control) == Keys.Control;
 
             var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
-                "Do you want to reset encoder values ?",
-                "Warning",
+                MessageBoxLocalization.S("Scanner_ConfirmResetEncoders"),
+                MessageBoxLocalization.S("Title_Warning"),
                 MessageBoxButtons.YesNo);
 
             if (isCtrlPressed)
@@ -1148,10 +1340,26 @@ namespace Demos
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         private void TimerStatus_Tick(object sender, EventArgs e)
         {
-            if (Marker == null) return;
+            UpdateMarkerStatus();
+        }
+
+        private void UpdateMarkerStatus()
+        {
+            var currentMarker = Marker;
+            if (currentMarker == null)
+            {
+                lblReady.ForeColor = Color.White;
+                lblReady.BackColor = Color.Green;
+                lblBusy.ForeColor = Color.White;
+                lblBusy.BackColor = Color.Olive;
+                lblError.ForeColor = Color.White;
+                lblError.BackColor = Color.Maroon;
+                timerStatusColorCounts = 0;
+                return;
+            }
 
             // Ready
-            if (Marker.IsReady)
+            if (currentMarker.IsReady)
             {
                 lblReady.ForeColor = Color.Black;
                 lblReady.BackColor = Color.Lime;
@@ -1163,7 +1371,7 @@ namespace Demos
             }
 
             // Busy
-            if (Marker.IsBusy)
+            if (currentMarker.IsBusy)
             {
                 timerStatusColorCounts = unchecked(timerStatusColorCounts + 1);
                 if (timerStatusColorCounts % 2 == 0)
@@ -1185,7 +1393,7 @@ namespace Demos
             }
 
             // Error
-            if (Marker.IsError)
+            if (currentMarker.IsError)
             {
                 lblError.ForeColor = Color.White;
                 lblError.BackColor = Color.Red;
@@ -1206,23 +1414,31 @@ namespace Demos
                 if (!lblRemote.Visible)
                     lblRemote.Visible = true;
 
+                lblRemote.Text = $" {Internal.RemoteStatusLocalization.Format(Remote.ControlMode, Remote.IsConnected)} ";
                 if (Remote.ControlMode == RemoteControlModes.Local)
                 {
-                    if (Remote.IsConnected)
-                        lblRemote.Text = " LOCAL: CONNECTED ";
-                    else
-                        lblRemote.Text = " LOCAL ";
                     lblRemote.BackColor = Color.MidnightBlue;
                 }
                 else
                 {
-                    if (Remote.IsConnected)
-                        lblRemote.Text = " REMOTE: CONNECTED ";
-                    else
-                        lblRemote.Text = " REMOTE ";
                     lblRemote.BackColor = Color.DodgerBlue;
                 }
             }
+        }
+
+        private void Marker_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.PropertyName) &&
+                e.PropertyName != nameof(IMarker.IsReady) &&
+                e.PropertyName != nameof(IMarker.IsBusy) &&
+                e.PropertyName != nameof(IMarker.IsError))
+                return;
+
+            EditorControlDispatch.Run(this, () =>
+            {
+                if (ReferenceEquals(sender, Marker))
+                    UpdateMarkerStatus();
+            });
         }
 
         /// <summary>
@@ -1232,15 +1448,10 @@ namespace Demos
         /// <param name="_marker">The marker instance.</param>
         private void Marker_OnStarted(IMarker _marker)
         {
-            if (!IsHandleCreated || IsDisposed) return;
-
-            Invoke(new MethodInvoker(() =>
+            EditorControlDispatch.Run(this, () =>
             {
-                timerProgressStopwatch.Restart();
-                timerProgress.Enabled = true;
-                lblProcessTime.ForeColor = stsBottom.ForeColor;
-                ControlEnableOrNot(false);
-            }));
+                if (ReferenceEquals(_marker, Marker)) RefreshMarkerState();
+            });
         }
 
         /// <summary>
@@ -1270,20 +1481,31 @@ namespace Demos
         /// <param name="ts">The elapsed time for the marking operation.</param>
         private void Marker_OnEnded(IMarker _marker, bool success, TimeSpan? ts)
         {
-            if (!IsHandleCreated || IsDisposed) return;
+            EditorControlDispatch.Run(this, () =>
+            {
+                if (ReferenceEquals(_marker, Marker)) RefreshMarkerState(success, ts);
+            });
+        }
 
-            Invoke(new MethodInvoker(() =>
+        private void RefreshMarkerState(bool? success = null, TimeSpan? elapsed = null)
+        {
+            if (Marker?.IsBusy == true)
+            {
+                if (!timerProgressStopwatch.IsRunning) timerProgressStopwatch.Restart();
+                timerProgress.Enabled = true;
+                lblProcessTime.ForeColor = stsBottom.ForeColor;
+            }
+            else
             {
                 timerProgressStopwatch.Stop();
                 timerProgress.Enabled = false;
-
-                lblProcessTime.Text = $"{ts.GetValueOrDefault().TotalSeconds:F3} sec";
-                lblProcessTime.ForeColor = success ? stsBottom.ForeColor : Color.Red;
-
-                ControlEnableOrNot(!btnLock.Checked);
-
-                EditorCtrl?.Focus();
-            }));
+                if (success.HasValue)
+                {
+                    lblProcessTime.Text = $"{elapsed.GetValueOrDefault().TotalSeconds:F3} sec";
+                    lblProcessTime.ForeColor = success.Value ? stsBottom.ForeColor : Color.Red;
+                }
+            }
+            ApplyEditPermission();
         }
 
         /// <summary>
@@ -1295,6 +1517,13 @@ namespace Demos
         private void Remote_OnModeChanged(IRemote remote, RemoteControlModes mode)
         {
 
+        }
+
+        private void LblEncoder_MouseEnter(object sender, EventArgs e)
+        {
+            lblEncoder.ToolTipText = Internal.EncoderStatusToolTip.Format(
+                Scanner as IRtcMoF,
+                MessageBoxLocalization.S("SiriusEditor_StatusEncoder"));
         }
 
         /// <summary>
@@ -1349,12 +1578,7 @@ namespace Demos
         /// <param name="_powerMeter">The power meter instance.</param>
         private void PowerMeter_OnCleared(IPowerMeter _powerMeter)
         {
-            if (!stsBottom.IsHandleCreated || IsDisposed) return;
-
-            stsBottom.Invoke(new MethodInvoker(() =>
-            {
-                lblPowerWatt.Text = "(Empty)";
-            }));
+            QueuePowerReadout(_powerMeter, PowerReadoutState.Cleared, default, 0);
         }
 
         /// <summary>
@@ -1364,22 +1588,17 @@ namespace Demos
         /// <param name="_powerMeter">The power meter instance.</param>
         private void PowerMeter_OnStarted(IPowerMeter _powerMeter)
         {
-            if (!stsBottom.IsHandleCreated || IsDisposed) return;
-
-            stsBottom.Invoke(new MethodInvoker(() =>
-            {
-                lblPowerWatt.Text = "Started...";
-            }));
+            QueuePowerReadout(_powerMeter, PowerReadoutState.Started, default, 0);
         }
 
         /// <summary>
-        /// Reserved: when power meter stops.
-        /// <para>예약됨: 파워 미터가 중지될 때.</para>
+        /// Shows status when power measurement stops.
+        /// <para>전력 측정이 중지될 때 상태를 표시합니다.</para>
         /// </summary>
         /// <param name="_powerMeter">The power meter instance.</param>
         private void PowerMeter_OnStopped(IPowerMeter _powerMeter)
         {
-            // Reserved
+            QueuePowerReadout(_powerMeter, PowerReadoutState.Stopped, default, 0);
         }
 
         /// <summary>
@@ -1392,25 +1611,36 @@ namespace Demos
         /// <param name="wattOrJoule">The measured power in watt(or joule).</param>
         private void PowerMeter_OnMeasured(IPowerMeter _powerMeter, DateTime _dt, MeasureUnits unit, double wattOrJoule)
         {
-            if (!stsBottom.IsHandleCreated || IsDisposed) return;
+            QueuePowerReadout(_powerMeter, PowerReadoutState.Measured, unit, wattOrJoule);
+        }
 
-            try
+        private void QueuePowerReadout(IPowerMeter source, PowerReadoutState state, MeasureUnits unit, double value)
+        {
+            powerReadoutUpdates.Post((source, state, unit, value));
+        }
+
+        private void ApplyPowerReadout((IPowerMeter Source, PowerReadoutState State, MeasureUnits Unit, double Value) update)
+        {
+            if (IsDisposed || !ReferenceEquals(update.Source, powerMeter))
+                return;
+
+            switch (update.State)
             {
-                stsBottom.BeginInvoke(new MethodInvoker(() =>
-                {
-                    switch (unit)
-                    {
-                        case MeasureUnits.Watt:
-                            lblPowerWatt.Text = $"{wattOrJoule:F3} W";
-                            break;
-                        case MeasureUnits.Joule:
-                            lblPowerWatt.Text = $"{wattOrJoule:F3} J";
-                            break;
-                    }
-                }));
-            }
-            catch
-            {
+                case PowerReadoutState.Started:
+                    lblPowerWatt.Text = MessageBoxLocalization.S("PowerMeter_Started");
+                    break;
+                case PowerReadoutState.Stopped:
+                    lblPowerWatt.Text = MessageBoxLocalization.S("PowerMeter_Stopped");
+                    break;
+                case PowerReadoutState.Cleared:
+                    lblPowerWatt.Text = MessageBoxLocalization.S("PowerMeter_Empty");
+                    break;
+                case PowerReadoutState.Measured when update.Unit == MeasureUnits.Watt:
+                    lblPowerWatt.Text = $"{update.Value:F3} W";
+                    break;
+                case PowerReadoutState.Measured when update.Unit == MeasureUnits.Joule:
+                    lblPowerWatt.Text = $"{update.Value:F3} J";
+                    break;
             }
         }
 
@@ -1437,59 +1667,77 @@ namespace Demos
             EntityPen.PropertyVisibility(Laser);
             EntityLayerPen.PropertyVisibility(Scanner);
         }
+        /// <summary>
+        /// Adjusts tab page visibility based on RTC capabilities.
+        /// <para>RTC 기능에 따라 페이지 가시성을 조정합니다.</para>
+        /// </summary>
+        private void PageVisibility()
+        {
+            if (Scanner is IRtcSyncAxis)
+            {
+                if (tbcMain.TabPages.Contains(tabStepper))
+                    tbcMain.TabPages.Remove(tabStepper);
+            }
+            else if (!tbcMain.TabPages.Contains(tabStepper))
+                tbcMain.TabPages.Insert(tbcMain.TabPages.IndexOf(tabPower) + 1, tabStepper);
+        }
 
         /// <summary>
-        /// Enables or disables editing-related controls while keeping the lock toggle available.
-        /// <para>편집 관련 컨트롤을 활성화하거나 비활성화하되 잠금 토글은 계속 사용할 수 있게 유지합니다.</para>
+        /// Requests editing; locks and active jobs still restrict editing.
+        /// <para>편집 허용을 요청합니다. 잠금 또는 실행 중 작업의 편집 제한은 유지됩니다.</para>
         /// </summary>
-        /// <param name="isEnable">True to enable; false to disable. 
-        /// <para>활성화하려면 true, 비활성화하려면 false입니다.</para> 
+        /// <param name="isEnable">True to enable; false to disable.
+        /// <para>활성화하려면 true, 비활성화하려면 false입니다.</para>
         /// </param>
         public virtual void ControlEnableOrNot(bool isEnable)
         {
-            if (!IsHandleCreated || IsDisposed) return;
+            isEditEnabled = isEnable;
+            EditorControlDispatch.Run(this, ApplyEditPermission);
+        }
 
-            Invoke(new MethodInvoker(() =>
-            {
-                btnNew.Enabled = isEnable;
-                btnOpen.Enabled = isEnable;
-                ddbOpenNewOptions.Enabled = isEnable;
-                btnSave.Enabled = isEnable;
+        private void ApplyEditPermission()
+        {
+            if (IsDisposed || Disposing || EditorCtrl == null) return;
+            bool isEnable = isEditEnabled && !btnLock.Checked &&
+                Marker?.IsBusy != true && Document?.IsSimulationWorking != true;
+            btnNew.Enabled = isEnable;
+            btnOpen.Enabled = isEnable;
+            ddbOpenNewOptions.Enabled = isEnable;
+            btnSave.Enabled = isEnable;
 
-                tbcLeft.Enabled = isEnable;
-                //splitContainer12.Panel1Collapsed = !isEnable;
-                //splitContainer123.Panel2Collapsed = !isEnable;
-                PropertyGridCtrl.Enabled = isEnable;
+            tbcLeft.Enabled = isEnable;
+            //splitContainer12.Panel1Collapsed = !isEnable;
+            //splitContainer123.Panel2Collapsed = !isEnable;
+            PropertyGridCtrl.Enabled = isEnable;
 
-                EditorCtrl.IsAllowEdit = isEnable;
-                foreach (var pc in PageCtrls)
-                    pc.Enabled = isEnable;
+            EditorCtrl.IsAllowEdit = isEnable;
+            foreach (var pc in PageCtrls)
+                pc.Enabled = isEnable;
 
-                BlockCtrl.Enabled = isEnable;
-                //WaferCtrl.Enabled = isEnable;
-                //SubstrateCtrl.Enabled = isEnable;
+            BlockCtrl.Enabled = isEnable;
+            //WaferCtrl.Enabled = isEnable;
+            //SubstrateCtrl.Enabled = isEnable;
 
 
 #if DEBUG
-                // Keep enables for debugging
+            // Keep enables for debugging
 
 #else
-                //ManualCtrl.Enabled = isEnable;
-                //ScannerCtrl.Enabled = isEnable;
-                LaserCtrl.Enabled = isEnable;
-                PowerMeterCtrl.Enabled = isEnable;
-                PowerMapCtrl.Enabled = isEnable;
-                //DORtcCtrl.Enabled = isEnable;
-                EntityPenCtrl.Enabled = isEnable;
-                LayerPenCtrl.Enabled = isEnable;
-                //MarkerCtrl.Enabled = isEnable;
+            //ManualCtrl.Enabled = isEnable;
+            //ScannerCtrl.Enabled = isEnable;
+            LaserCtrl.Enabled = isEnable;
+            PowerMeterCtrl.Enabled = isEnable;
+            PowerMapCtrl.Enabled = isEnable;
+            //DORtcCtrl.Enabled = isEnable;
+            EntityPenCtrl.Enabled = isEnable;
+            LayerPenCtrl.Enabled = isEnable;
+            //MarkerCtrl.Enabled = isEnable;
 #endif
 
-                // This button owns the requested edit-lock state, so it must remain
-                // available even while simulation, marking, or the lock itself disables editing.
-                tlsTop1.Enabled = true;
-                btnLock.Enabled = true;
-            }));
+            // This button owns the requested edit-lock state, so it must remain
+            // available even while simulation, marking, or the lock itself disables editing.
+            tlsTop1.Enabled = true;
+            btnLock.Enabled = true;
         }
 
         /// <summary>
@@ -1516,7 +1764,7 @@ namespace Demos
             }
         }
         /// <summary>
-        /// Update laser information 
+        /// Update laser information
         /// </summary>
         private void UpdateLaser()
         {
@@ -1545,7 +1793,7 @@ namespace Demos
         /// Show(or hide) <c>TreeView</c>, <see cref="EntityPenControl"/> and <see cref="LayerPenControl"/> windows at left side
         /// </summary>
         /// <param name="show"><c>True</c>: Show  (Default)<br/>
-        /// <c>False</c>: Hide 
+        /// <c>False</c>: Hide
         /// </param>
         public void ShowTreeViewAndPens(bool show)
         {
@@ -1557,7 +1805,7 @@ namespace Demos
         /// Show(or hide) <see cref="EntityPenControl"/> and <see cref="LayerPenControl"/> windows at left bottom side
         /// </summary>
         /// <param name="show"><c>True</c>: Show  (Default)<br/>
-        /// <c>False</c>: Hide 
+        /// <c>False</c>: Hide
         /// </param>
         public void ShowPens(bool show)
         {
@@ -1686,7 +1934,7 @@ namespace Demos
             using var dlg = new OpenFileDialog
             {
                 Filter = SpiralLab.Sirius3.UI.Config.FileOpenFilters,
-                Title = "Open File",
+                Title = MessageBoxLocalization.S("Common_Open"),
                 InitialDirectory = SpiralLab.Sirius3.Config.RecipePath,
                 FileName = Document.FileName,
             };
@@ -1696,8 +1944,8 @@ namespace Demos
             if (Document.IsModified)
             {
                 var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
-                    "Not save yet ? Do you really want to open ?",
-                    "Warning",
+                    MessageBoxLocalization.S("Document_ConfirmOpenUnsaved"),
+                    MessageBoxLocalization.S("Title_Warning"),
                     MessageBoxButtons.YesNo);
 
                 var dialogResult = form.ShowDialog(this);
@@ -1747,7 +1995,7 @@ namespace Demos
             using var dlg = new SaveFileDialog
             {
                 Filter = SpiralLab.Sirius3.UI.Config.FileSaveFilters,
-                Title = "Save File",
+                Title = MessageBoxLocalization.S("Common_Save"),
                 InitialDirectory = SpiralLab.Sirius3.Config.RecipePath,
                 OverwritePrompt = true
             };
@@ -1785,7 +2033,7 @@ namespace Demos
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data. <para>이벤트 데이터를 포함하는 <see cref="EventArgs"/>입니다.</para></param>
         private void BtnLock_Click(object sender, EventArgs e)
         {
-            ControlEnableOrNot(!btnLock.Checked);
+            ApplyEditPermission();
         }
 
         #endregion

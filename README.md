@@ -1,5 +1,5 @@
 ﻿# Sirius3
-A Windows/.NET platform for precision laser processing that combines SCANLAB control, device integration, geometry processing, OpenGL visualization, document editing, simulation, and marking execution.
+A Windows/.NET platform for precision laser processing that combines SCANLAB control, device integration, geometry processing, OpenGL visualization, document editing, AI prompting through an embedded MCP server, simulation, and marking execution.
 
 Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文](README.zhCN.md) · [日本語](README.jaJP.md) · [Deutsch](README.deDE.md)
 
@@ -60,14 +60,16 @@ Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文]
    - Tolerance-based path joining for vector files and content-based Gerber/Excellon detection
 - Remote Communication and Dynamic Data
    - TCP/IP, Serial (RS-232), WebSocket, and MQTT endpoints for marker control and data access
+   - Embedded HTTP MCP server for AI-assisted editor registration, document/entity editing, simulation, and registered-device control
    - Event, file, offset, linked-entity, and C# script conversion for text and barcode data
 - Documents, Editors and Simulation
    - Four document pages with layers, pens, groups, blocks, and configurable Undo/Redo
-   - Stable WinForms controls; one document can be rendered to multiple views
+   - Both WinForms and WPF `SiriusEditorControl` / `SiriusMultiEditorControl` are supported in Debug and Release; one document can be rendered to multiple views
    - Real-time laser-path visualization with screen-sized markers, beam effects, and optional debris
    - Grid-based stitched-image visualization for camera and inspection workflows
 - Open Architecture
    - Extensible editor, entity, marker, scanner, laser, power-meter, and remote interfaces
+   - Embedded MCP server for AI-assisted editor registration, document/entity editing, and device control
 
 ## Major Changes
 |                              |                SIRIUS3                   |              SIRIUS2                  |
@@ -82,6 +84,7 @@ Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文]
 | Gerber / Excellon            |Content-detected import                   |None                                   |
 | Font file                    |General CXF, LFF, FNT, DOT formats        |Customized CXF, LFF formats            |
 | Pen                          |Pens for Entity and Layer                 |Entity Pen                             |
+| MCP                          |Supported                                 |None                                   |
 | Library update               |By Nuget Package Manager                  |Manual                                 |
                                                                                                               
 ![sirius3_hatch](https://spirallab.co.kr/sirius3/sirius3_hatch.png)
@@ -92,7 +95,7 @@ Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文]
 ## Packages / DLLs
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS runtime, fonts, sample data
 - `SpiralLab.Sirius3` — HAL controllers (scanner/laser/powermeter, etc.)
-- `SpiralLab.Sirius3.UI` — Entities, geometry processing, OpenGL rendering, and WinForms controls
+- `SpiralLab.Sirius3.UI` — Entities, geometry processing, OpenGL rendering, WinForms/WPF controls, and embedded MCP integration
  > Easy to update library files by NuGet package manager.
 
 ## Platform targets
@@ -114,29 +117,14 @@ Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文]
    - RTC6: 2026.6.19 v1.25.0
    - syncAXIS: v1.8.2 (2023.03.09)
 
-- .NET 
-   - `net481`
-      - OpenTK 3.3.3
-      - Microsoft.Extensions.Logging 8.0.1
-      - Microsoft.Extensions.Logging.Abstractions 8.0.3 
-   - `net8.0-windows`
-      - OpenTK 4.9.4
-      - OpenTK.Mathematics 4.9.4
-      - Microsoft.Extensions.Logging 8.0.1
-      - Microsoft.Extensions.Logging.Abstractions 8.0.3 
-   - `net9.0-windows`
-      - OpenTK 4.9.4
-      - OpenTK.Mathematics 4.9.4
-      - Microsoft.Extensions.Logging 9.0.15
-      - Microsoft.Extensions.Logging.Abstractions 9.0.15  
-   - `net10.0-windows`
-      - OpenTK 4.9.4
-      - OpenTK.Mathematics 4.9.4
-      - Microsoft.Extensions.Logging 10.0.7
-      - Microsoft.Extensions.Logging.Abstractions 10.0.7
-   - Common package dependencies
+- .NET
+   - `net481`: OpenTK 3.3.3
+   - `net8.0-windows`, `net9.0-windows`, `net10.0-windows`: OpenTK and OpenTK.Mathematics 4.9.4
+   - Common package dependencies for all target frameworks
+      - Microsoft.Extensions.Logging 10.0.10
+      - Microsoft.Extensions.Logging.Abstractions 10.0.10
+      - Microsoft.Extensions.Logging.Debug 10.0.10
       - Newtonsoft.Json 13.0.4
-
 ## Install Packages
 - Add references 
    - `SpiralLab.Sirius3.Dependencies` (https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
@@ -144,6 +132,9 @@ Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文]
    - `SpiralLab.Sirius3.UI` (https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
    
 ## Quick Start
+
+# [WinForms](#tab/winforms)
+
 Project settings
 ```
 <PropertyGroup>
@@ -167,22 +158,10 @@ Project settings
 	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
 </ItemGroup>
 
-<ItemGroup Condition="'$(TargetFramework)'=='net481' OR '$(TargetFramework)'=='net8.0-windows'">
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
-</ItemGroup>
-	
-<ItemGroup Condition="'$(TargetFramework)'=='net9.0-windows'">
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.15" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.15" />
-</ItemGroup>
-	
-<ItemGroup Condition="'$(TargetFramework)'=='net10.0-windows'">
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.7" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
-</ItemGroup>
-	
 <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.10" />
     <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
     <PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
     <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
@@ -198,6 +177,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
+using SpiralLab.Sirius3.MCP;
 using SpiralLab.Sirius3.IO;
 using SpiralLab.Sirius3.Laser;
 using SpiralLab.Sirius3.Marker;
@@ -240,6 +220,7 @@ static class Program
         dynamicForm.Size = new Size(1600, 1200);
         dynamicForm.StartPosition = FormStartPosition.CenterScreen;
         var editorControl = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
+        IMCPServer mcpServer = null;
         editorControl.Dock = DockStyle.Fill;
         dynamicForm.Controls.Add(editorControl);
         dynamicForm.ResumeLayout(false);
@@ -271,8 +252,6 @@ static class Program
             double laserMaxPower = 20;
             var powerMeter = PowerMeterFactory.CreateVirtual(index, laserMaxPower);
             //var powerMeter = PowerMeterFactory.CreateCoherentPowerMax(index, 4);
-            // A null scaleIndex leaves the Gentec-EO device's current scale/auto-scale setting unchanged.
-            // Pass a value from 0 through 41 to select an explicit measurement scale.
             //var powerMeter = PowerMeterFactory.CreateGentecEO(index, 3, scaleIndex: null);
             success &= powerMeter.Initialize();
 
@@ -297,6 +276,13 @@ static class Program
 
             // Register devices
             editorControl.RegisterDevices(rtc, laser, powerMeter, dIExt1, dILaserPort, dOExt1, dOExt2, dOLaserPort, marker);
+
+            // Start the authenticated HTTP MCP server.
+            mcpServer = MCPFactory.CreateServer(0, "MCP", editorControl);
+            mcpServer.AccessMode = MCPAccessMode.All;
+            if (!mcpServer.Start().GetAwaiter().GetResult())
+                throw new InvalidOperationException("Failed to start the MCP server.");
+            dynamicForm.Text = $"{dynamicForm.Text} + MCP ({mcpServer.Options.HttpEndpoint})";
         };
 
         dynamicForm.FormClosing += (s, e) =>
@@ -307,6 +293,10 @@ static class Program
                 e.Cancel = true;
                 return;
             }
+
+            // Dispose the MCP server before the editor, document, and devices.
+            mcpServer?.Dispose();
+            mcpServer = null;
 
             // Dispose devices
             editorControl.DisposeDevices();
@@ -323,6 +313,152 @@ static class Program
 }
 ```
 
+# [WPF](#tab/wpf)
+
+Project settings:
+
+```xml
+<PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+</PropertyGroup>
+```
+
+`Program.cs`:
+
+```csharp
+using System;
+using System.Windows;
+using SpiralLab.Sirius3.IO;
+using SpiralLab.Sirius3.Laser;
+using SpiralLab.Sirius3.Marker;
+using SpiralLab.Sirius3.MCP;
+using SpiralLab.Sirius3.PowerMap;
+using SpiralLab.Sirius3.PowerMeter;
+using SpiralLab.Sirius3.Scanner;
+using SpiralLab.Sirius3.Scanner.Rtc;
+using SpiralLab.Sirius3.UI.WPF;
+
+internal static class Program
+{
+    [STAThread]
+    private static void Main()
+    {
+        var app = new Application();
+        SiriusEditorControl editor = null;
+        IMCPServer mcpServer = null;
+        var coreInitialized = false;
+        var editorDisposed = false;
+
+        void DisposeEditor()
+        {
+            if (editorDisposed || editor == null)
+                return;
+            editorDisposed = true;
+
+            var document = editor.Document;
+            try { mcpServer?.Dispose(); }
+            finally
+            {
+                mcpServer = null;
+                try { editor.DisposeDevices(); }
+                finally
+                {
+                    try { editor.Dispose(); }
+                    finally { document?.Dispose(); }
+                }
+            }
+        }
+
+        try
+        {
+            SpiralLab.Sirius3.Core.Initialize();
+            coreInitialized = true;
+            WPFThemeManager.Initialize();
+
+            editor = new SiriusEditorControl();
+
+            const int index = 0;
+            const double fieldSize = 100.0;
+            const double laserMaxPower = 20.0;
+            var scanner = ScannerFactory.CreateVirtual(
+                index,
+                Math.Pow(2, 20) / fieldSize,
+                LaserModes.Yag1,
+                RtcSignalLevels.ActiveHigh,
+                RtcSignalLevels.ActiveHigh,
+                null);
+            var dIExt1 = IOFactory.CreateInputExtension1(scanner);
+            var dILaserPort = IOFactory.CreateInputLaserPort(scanner);
+            var dOExt1 = IOFactory.CreateOutputExtension1(scanner);
+            var dOExt2 = IOFactory.CreateOutputExtension2(scanner);
+            var dOLaserPort = IOFactory.CreateOutputLaserPort(scanner);
+            var powerMeter = PowerMeterFactory.CreateVirtual(index, laserMaxPower);
+            var laser = LaserFactory.CreateVirtualDutyCycle(index, laserMaxPower, 0, 100);
+            var powerMap = PowerMapFactory.CreateDefault(index, "default");
+            var marker = MarkerFactory.CreateVirtual(index);
+
+            powerMap.Reset1to1("10000", laserMaxPower);
+            laser.Scanner = scanner;
+            laser.PowerMap = powerMap;
+
+            var success = scanner.Initialize();
+            success &= scanner.CtlFrequency(50 * 1000, 2);
+            success &= scanner.CtlSpeed(100, 100);
+            success &= dIExt1.Initialize();
+            success &= dILaserPort.Initialize();
+            success &= dOExt1.Initialize();
+            success &= dOExt2.Initialize();
+            success &= dOLaserPort.Initialize();
+            success &= powerMeter.Initialize();
+            success &= laser.Initialize();
+            success &= marker.Initialize();
+
+            editor.RegisterDevices(
+                scanner, laser, powerMeter,
+                dIExt1, dILaserPort,
+                dOExt1, dOExt2, dOLaserPort,
+                marker);
+
+            if (!success)
+                throw new InvalidOperationException("Failed to initialize virtual devices.");
+
+            var window = new Window
+            {
+                Title = "Sirius3 WPF Editor",
+                Width = 1400,
+                Height = 900,
+                Content = editor,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            };
+
+            mcpServer = MCPFactory.CreateServer(0, "MCP", editor);
+            mcpServer.AccessMode = MCPAccessMode.All;
+            if (!mcpServer.Start().GetAwaiter().GetResult())
+                throw new InvalidOperationException("Failed to start the MCP server.");
+            window.Title = $"{window.Title} + MCP ({mcpServer.Options.HttpEndpoint})";
+
+            // Dispose the MCP server and editor while the WPF window and GL context still exist.
+            window.Closing += (_, __) => DisposeEditor();
+            app.Run(window);
+        }
+        finally
+        {
+            try { DisposeEditor(); }
+            finally
+            {
+                if (coreInitialized)
+                    SpiralLab.Sirius3.Core.Cleanup();
+            }
+        }
+    }
+}
+```
+
+---
+
 ## Demo Programs
 - See [DEMOS.md](DEMOS.md) 
 - Create your devices like as scanner, laser, powermeter, marker, ... and attach them to SiriusEditorControl.
@@ -334,7 +470,7 @@ static class Program
     - MoF Option: Fly processing functionality (real-time tracking, standby, etc.) using an external encoder.
     - MultiBeam Option: A configuration consisting of 1 laser source + 2 AOMs + 2 scan heads, enabling real-time modification of the laser beam path during jump sections.
     - syncAXIS Option: A large-area processing solution (XL-SCAN Solution) utilizing synchronization between the scan head and stage via an ACS motion controller and excelliSCAN scan head configuration.
-    - Remote Option: Supports recipe changes, processing control, and data read/write via external communication using socket, serial, web, and MQTT protocols.
+    - Remote Option: Supports recipe changes, processing control, and data read/write through socket, serial, WebSocket, and MQTT communication, and includes the embedded MCP server for AI-assisted document/entity editing and registered-device control.
 - For license policies and third-party libraries, refer to [LICENSE.txt](LICENSE.txt) and [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt).
 - Email: hcchoi@spirallab.co.kr | https://spirallab.co.kr
 > If no license key is provided, the software will run in evaluation mode, which is limited to 30 minutes of use.
