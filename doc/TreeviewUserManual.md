@@ -1,6 +1,6 @@
 # TreeView Page Control User Manual
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 ## 1. Hierarchy and Processing Order
 
@@ -30,11 +30,11 @@ When TreeView has focus, Up/Down/Left/Right navigate, collapse, or expand nodes 
 
 ## 5. Transmitted shortcut.
 
-Except the direction key, the `CTRL` command and the View Shortcuts like F1/F2/F4/F5/F6/F8 are also transmitted to the Editor/Marker in TreeView. From Sirius3 1.11.14, the same key is not transmitted twice on the two routes, so `CTRL+V` is twice attached or F5 cancelled and the check window is opened again.
+Except the direction key, the `CTRL` command and the View Shortcuts like F1/F2/F4/F5/F6/F8 are also transmitted to the Editor/Marker in TreeView. From Sirius3 1.11.14, the same key is not transmitted twice on the two routes, preventing duplicate paste actions and repeated F5 confirmation dialogs after cancellation.
 
 | Key | Action |
 |---|---|
-| `CTRL+C/X/V` | Copy / Cut / Close |
+| `CTRL+C/X/V` | Copy / Cut / Paste |
 | `CTRL+Z/Y` | Undo / Redo |
 | `CTRL+R/M` | Toggle rendering / marking permission |
 | `CTRL+F` | Choosing to fit. |
@@ -44,6 +44,10 @@ Except the direction key, the `CTRL` command and the View Shortcuts like F1/F2/F
 | `F6` / `F8` | Stop / Reset |
 
 The F5 is focused on TreeView, but it can lead to a real Marker Start.
+
+## 6. HiDPI and framework support
+
+WinForms 1.15.0 measures TreeView rows and node styles for the current DPI, including pages first displayed after a DPI change. `UI.Config.TreeviewFontSize` remains a logical point size and can refresh existing trees when changed on the UI thread. WPF supplies its own tree adapter and device-independent layout. See [WinForms](WinForms.md) and [WPF](WPF.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

@@ -1,8 +1,10 @@
 # Sirius3 MCP Editor 데모: AI 클라이언트 연결 방법
 
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+
 [English](MCP.md) | [한국어](MCP.koKR.md)
 
-`editor_remote_mcp`는 하나의 Sirius3 편집기를 MCP 호환 AI 클라이언트에 연결하는 공개 WinForms 데모입니다. `config.ini`에 설정된 장치를 등록하고, `[MCP0] ENABLE=1`이면 MCP 서비스를 시작하여 창에 상태와 endpoint, access token을 표시합니다.
+`editor_remote_mcp`는 하나의 Sirius3 편집기를 MCP 호환 AI 클라이언트에 연결하는 공개 WinForms 데모입니다. `config.ini`에 설정된 장치를 등록하고 시작 코드에서 MCP 서비스를 시작하여 창에 상태와 endpoint, access token을 표시합니다.
 
 `net481`을 포함한 모든 지원 타깃은 인증된 Streamable HTTP를 사용합니다. endpoint, 접근 모드와 문서 루트는 `config.ini`의 `[MCP0]`에서 읽습니다. `SIRIUS3_MCP_TOKEN`으로 고정 토큰을 전달하지 않으면 실행마다 새 토큰을 생성합니다. 기본 수신 주소는 `http://0.0.0.0:3712/mcp`입니다. 같은 PC의 클라이언트는 `http://127.0.0.1:3712/mcp`, 다른 PC는 서버의 실제 IP를 사용합니다. STDIO는 지원하지 않습니다. 실행 중인 데모 하나는 편집기 하나와 MCP 서버 하나를 나타냅니다.
 
@@ -16,7 +18,7 @@
 
 ## 데모 서버 설정
 
-`config.ini`의 `[MCP0]`에서 서버 활성화, HTTP endpoint, 접근 모드와 SCANLAB 문서 루트를 설정합니다. 데모는 환경 변수를 먼저 적용하며 `[MCP0] URI`가 지정되면 환경 변수의 endpoint보다 우선합니다. 고정 서버 토큰은 `SIRIUS3_MCP_TOKEN`으로 전달할 수 있습니다. 클라이언트의 `bearer_token_env_var = "SIRIUS3_MCP_TOKEN"`은 클라이언트 프로세스에서 토큰을 읽으며 실행 중인 서버를 설정하지 않습니다. 서버와 클라이언트의 인증 값이 같아야 합니다.
+`config.ini`의 `[MCP0]`에서 HTTP endpoint, 접근 모드와 SCANLAB 문서 루트를 설정합니다. 현재 `MCPDemoHelper`는 `ENABLE`을 읽지 않고 서버를 시작하므로 해당 키로 이 데모 서버를 비활성화할 수 없습니다. 데모는 환경 변수를 먼저 적용하며 `[MCP0] URI`가 지정되면 환경 변수의 endpoint보다 우선합니다. 고정 서버 토큰은 `SIRIUS3_MCP_TOKEN`으로 전달할 수 있습니다. 클라이언트의 `bearer_token_env_var = "SIRIUS3_MCP_TOKEN"`은 클라이언트 프로세스에서 토큰을 읽으며 실행 중인 서버를 설정하지 않습니다. 서버와 클라이언트의 인증 값이 같아야 합니다.
 
 권한과 문서 루트는 `config.ini`에서 설정하며 이 데모에서는 파일 루트를 설정할 수 없습니다. 데모는 환경 변수의 비밀 값을 저장하지 않습니다.
 
@@ -26,11 +28,10 @@
 
 공개 `demos/editor_remote_mcp` 프로젝트에서 생성한 실행 파일이나 배포된 릴리스 패키지를 사용합니다. 실행 파일, `config.ini`, 함께 제공된 런타임 및 종속 파일을 같은 배포 구조에 유지하십시오. 아래 연결 절차에는 공개 데모 출력만 필요하며 별도의 라이브러리 소스 저장소를 사용하지 않습니다.
 
-시작 전에 `config.ini`를 확인하십시오. 이 파일에 따라 데모가 등록할 스캐너, 레이저, 마커, 디지털 I/O, 파워미터 구현이 결정됩니다. 서버는 다음과 같이 활성화하고 설정합니다.
+시작 전에 `config.ini`를 확인하십시오. 이 파일에 따라 데모가 등록할 스캐너, 레이저, 마커, 디지털 I/O, 파워미터 구현이 결정됩니다. 서버는 다음과 같이 설정합니다.
 
 ```ini
 [MCP0]
-ENABLE=1
 URI=http://0.0.0.0:3712/mcp
 ACCESS=All
 DocumentationRoot=..\..\..\doc\SCANLAB
@@ -41,6 +42,12 @@ DocumentationRoot=..\..\..\doc\SCANLAB
 `ACCESS`에는 `ReadOnly`, `DocumentControl`, `DeviceControl`, `All` 중 하나를 지정합니다. 서버 실행 중에도 편집기의 MCP PropertyGrid에서 접근 모드를 변경할 수 있으며 이후 요청부터 적용됩니다.
 
 이 문서는 WinForms `editor_remote_mcp` 데모를 Claude, Codex, Gemini, GitHub Copilot에 연결하는 방법을 설명합니다. 예제는 2026-09-14 기준 각 클라이언트의 공식 문서와 대조했습니다.
+
+## HiDPI, WPF 호스팅과 종료
+
+WinForms 데모는 Per-Monitor V2와 96 DPI의 `AutoScaleMode.Dpi` 메인 폼을 사용합니다. modern .NET 시작 속성과 별도 `net481` config·manifest 설정은 [WinForms](WinForms.koKR.md)를 참고합니다. WPF 애플리케이션은 WPF용 `MCPFactory.CreateServer` 오버로드로 같은 인증 HTTP API를 사용합니다. [WPF](WPF.koKR.md)를 참고합니다.
+
+1.15.0에서는 Editor Binding을 해제하기 전에 `IMCPServer.DisposeAsync()`를 호출하고 기다립니다. 편집기의 `MCPServer`에 지정했다면 `await editor.DisposeDevices()`가 등록된 서버와 Remote를 먼저 해제한 뒤 장치를 정리합니다. 완료될 때까지 UI 이벤트 루프를 유지합니다. 공개 데모는 첫 종료를 취소하고 비동기 해제 후 다시 닫으며, 이를 동기 대기로 바꾸지 않습니다.
 
 ## 먼저 확인할 안전 사항
 
@@ -60,7 +67,7 @@ Start-Process '<editor_remote_mcp 경로>\editor_remote_mcp.exe'
 - 같은 PC의 클라이언트 endpoint: `http://127.0.0.1:3712/mcp`
 - 인증: 데모 창에 표시되는 Bearer token
 
-endpoint를 변경하려면 데모를 시작하기 전에 `[MCP0] URI`를 수정합니다. 고정 토큰을 사용하려면 `SIRIUS3_MCP_TOKEN`을 설정합니다. 여러 편집기를 연결할 때는 데모를 별도 프로세스로 실행하고 서로 다른 HTTP 포트를 사용하십시오.
+endpoint를 변경하려면 데모를 시작하기 전에 `[MCP0] URI`를 수정합니다. 고정 토큰을 사용하려면 `SIRIUS3_MCP_TOKEN`을 설정합니다. 같은 PC에서 여러 편집기를 연결할 때는 하나의 애플리케이션에 편집기·서버 인스턴스를 구성하고 서로 다른 HTTP 포트를 사용합니다.
 
 ## 연결 요약
 
@@ -74,9 +81,9 @@ endpoint를 변경하려면 데모를 시작하기 전에 `[MCP0] URI`를 수정
 
 HTTP 데모를 시작하고 표시된 endpoint/token을 클라이언트에 설정합니다. 아래 변수는 클라이언트 설정용이며 변경해도 이미 실행 중인 서버에는 반영되지 않습니다.
 
-endpoint와 접근 모드는 `config.ini`에서 정하고, 토큰은 자동 생성 값을 사용하거나 `SIRIUS3_MCP_TOKEN`으로 전달할 수 있습니다. 편집기마다 별도 프로세스와 수신 포트를 사용하십시오.
+endpoint와 접근 모드는 `config.ini`에서 정하고, 토큰은 자동 생성 값을 사용하거나 `SIRIUS3_MCP_TOKEN`으로 전달할 수 있습니다. 하나의 Sirius3 애플리케이션에서 여러 서버를 구성할 때는 서로 다른 수신 포트를 사용합니다.
 
-선택한 데모를 시작하고 실행 상태를 확인합니다. 창에 표시된 endpoint와 token을 클라이언트 설정에 복사합니다. 표시된 호스트가 `0.0.0.0`이면 같은 PC에서는 `127.0.0.1`, 다른 PC에서는 서버의 실제 IP로 바꿉니다. 아래 환경 변수는 AI 클라이언트에 자격 증명을 전달하는 용도이며 서버는 이 변수를 읽지 않습니다.
+선택한 데모를 시작하고 실행 상태를 확인합니다. 창에 표시된 endpoint와 token을 클라이언트 설정에 복사합니다. 표시된 호스트가 `0.0.0.0`이면 같은 PC에서는 `127.0.0.1`, 다른 PC에서는 서버의 실제 IP로 바꿉니다. 아래 변수를 클라이언트 프로세스에 설정해도 실행 중인 서버는 바뀌지 않습니다. 데모도 시작 시 `ApplyEnvironment()`를 통해 자신의 환경에서 `SIRIUS3_MCP_TOKEN`을 읽습니다.
 
 ```powershell
 $endpoint = 'http://127.0.0.1:3712/mcp'
@@ -113,6 +120,8 @@ Claude Code에서 `/mcp`를 실행해 `editor_remote_mcp`가 연결되었는지 
 ## 2. ChatGPT 데스크톱 앱 / Codex
 
 Windows용 ChatGPT 데스크톱 앱, Codex CLI, Codex IDE 확장은 같은 호스트에서 `%USERPROFILE%\.codex\config.toml`을 공유합니다. 이 문서에서는 앱 버전에 따라 달라질 수 있는 설정 화면 대신 해당 파일을 직접 편집합니다.
+
+같은 Codex 호스트의 공유 설정은 [OpenAI Docs](https://learn.chatgpt.com/docs/extend/mcp)에서도 안내합니다. 이 절의 Codex 설정은 2026-10-01에 다시 확인했으며 다른 클라이언트 예제의 확인 날짜는 기존 기준을 유지합니다.
 
 1. ChatGPT 데스크톱 앱을 완전히 종료합니다.
 2. `%USERPROFILE%\.codex\config.toml`을 엽니다. 파일이 없으면 `.codex` 폴더와 `config.toml` 파일을 만듭니다.

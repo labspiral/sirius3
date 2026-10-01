@@ -252,6 +252,8 @@ syncAXIS 라이브러리를 활용해 스캐너와 모션 컨트롤러의 동기
 
 ## editor_ui
 
+제공 컨트롤과 `EditorControlSupport.cs`는 DPI 대응 도구모음 처리를 공유합니다. 기존 Font 호스트 Form은 README의 EXE DPI 설정으로 전환할 수 있습니다. 자체 ImageList와 고정 픽셀 레이아웃도 모니터 DPI에 맞춥니다.
+
 시리우스3 라이브러리 내부에서 제공되는 SiriusEditorControl, SiriusMultiEditorControl 사용자 컨트롤의 오픈소스 코드 입니다.
 이 오픈 소스코드를 활용해 사용자가 원하는 UI를 디자인하고 커스터마이징이 가능합니다.
 

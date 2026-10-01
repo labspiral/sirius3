@@ -1,10 +1,10 @@
 # SpiralLab.Sirius3.UI.Config Settings Guide
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 ## 1. Role and Configuration Timing
 
-`SpiralLab.Sirius3.UI.Config` is the static configuration surface for Document, Editor, TreeView, PropertyGrid, import, text, Marker, and WinForms extension behavior. Set these values before creating UI controls and Documents so newly created objects use the intended policy.
+`SpiralLab.Sirius3.UI.Config` is the static configuration surface for Document, Editor, TreeView, PropertyGrid, import, text, Marker, and WinForms/WPF extension behavior. Set these values before creating UI controls and Documents so newly created objects use the intended policy.
 
 Core settings and names are the same, so using the pseudonyms can reduce confusion.
 
@@ -86,7 +86,7 @@ It doesn’t always speed up to make the value bigger. UI responsibility, memory
 | `TreeviewNodeStrikeOutFont` | Segoe UI Strikeout | Unactivity in the back of the cancellation line font, only read outside. |
 | `TreeviewNodeBoldAndStrikeOutFont` | Segoe UI Bold + Strikeout | Sign and cancellation, read outside. |
 
-If you change `TreeviewFontSize` while running, the already created font objects will not be automatically re-generated. specify before starting, or expressly re-configurate the related resources with TreeView after changing.
+Set `TreeviewFontSize` on the UI thread. In 1.15.0, existing WinForms trees refresh their owned fonts when this value changes; new trees use the same logical point size. Do not multiply it by monitor DPI. The `TreeviewNode*Font` properties are borrowed style templates and must not be disposed by consumers.
 
 ## 7. Editor
 
@@ -359,6 +359,16 @@ The event is registered once before you create the Editor, and disable the same 
 
 In the public `editor_laser_ui` demo, you can see how to customize the Laser UI connection using `OnCreateLaserUI`.
 
+### WPF customization
+
+| Event | Returns | Purpose |
+|---|---|---|
+| `OnCreateLaserUIWPF` | WPF `Control` | Custom panel for the assigned laser |
+| `OnCreateScannerUIWPF` | WPF `Control` | Custom panel for the assigned scanner |
+| `OnCreateMarkerUIWPF` | WPF `Control` | Custom panel for the assigned marker |
+
+Register the framework-specific handler before assigning devices. A custom laser factory takes precedence; otherwise Sirius3 chooses a built-in virtual/vendor WPF panel or the general panel. Detach host handlers when their owner closes. See [WPF](WPF.md).
+
 ## 23. Application Order Example
 
 ```csharp
@@ -400,6 +410,10 @@ finally
 ```
 
 When a product reads Config values from `config*.ini`, parse and validate ranges first, then apply the values in the order above. Log the final applied values at startup so behavior on customer equipment can be reproduced.
+
+## 24. HiDPI configuration belongs to the host
+
+`UI.Config` does not select process DPI awareness. Configure the executable before creating controls. WinForms demos use `PerMonitorV2`, a 96-DPI form baseline, and separate `net481` app.config/manifest settings. WPF uses device-independent layout and its executable manifest. Keep point-sized fonts logical and let the control's DPI handling size owned images, rows, and descriptions. See [WinForms](WinForms.md) and [WPF](WPF.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

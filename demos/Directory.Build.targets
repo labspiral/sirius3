@@ -1,0 +1,7 @@
+<Project>
+  <!-- .NET Framework uses app.config; modern .NET uses ApplicationHighDpiMode. -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net481' and '$(UseWindowsForms)' == 'true' and '$(UseWPF)' != 'true'">
+    <AppConfig Condition="'$(AppConfig)' == ''">$(MSBuildThisFileDirectory)WinForms.App.net481.config</AppConfig>
+    <ApplicationManifest Condition="'$(ApplicationManifest)' == ''">$(MSBuildThisFileDirectory)WinForms.app.manifest</ApplicationManifest>
+  </PropertyGroup>
+</Project>

@@ -174,6 +174,8 @@ ACS Motion Control、excelliSCAN または intelliSCAN iV、RTC6 を組み合わ
 
 ## editor_ui
 
+提供コントロールと `EditorControlSupport.cs` は DPI 対応のツールバー処理を共有します。既存の Font ホストは README の EXE DPI 設定で切り替えられます。アプリ所有の ImageList と独自の固定ピクセル配置もモニター DPI に合わせてください。
+
 `SiriusEditorControl` と `SiriusMultiEditorControl` の公開 UI コードを使用して独自の WinForms UI を設計します。
 
 ## editor_viewer

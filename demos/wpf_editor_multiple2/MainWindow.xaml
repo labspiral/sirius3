@@ -9,8 +9,7 @@
         UseLayoutRounding="True" SnapsToDevicePixels="True"
         TextOptions.TextFormattingMode="Display"
         Loaded="MainWindow_Loaded"
-        Closing="MainWindow_Closing"
-        Closed="MainWindow_Closed">
+        Closing="MainWindow_Closing">
   <Grid Background="{DynamicResource Sirius.Brush.Window}">
     <wpf:SiriusMultiEditorControl x:Name="multiEditor"
                                   AliasName="Multi-Device Editor"

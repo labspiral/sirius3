@@ -128,8 +128,8 @@ namespace Demos
             //
             // MainForm
             //
-            AutoScaleDimensions = new SizeF(6F, 13F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             ClientSize = new Size(1280, 900);
             Controls.Add(editorControl);
             Controls.Add(serverPanel);

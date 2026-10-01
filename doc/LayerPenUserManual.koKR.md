@@ -1,6 +1,6 @@
 # EntityLayerPen 사용자 설명서
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 `EntityLayerPen`은 한 Layer의 가공을 시작하기 전에 RTC 컨트롤 상태로 적용되는 설정입니다. ALC(Automatic Laser Control), Sky Writing, Variable Polygon/Jump Delay와 syncAXIS 동작 모드를 레이어 단위로 선택할 수 있습니다.
 

@@ -1,6 +1,6 @@
 # EntityFactory & Entity User Manual
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 ## 1. Basic entity creation workflow
 
@@ -31,7 +31,7 @@ Before hatching a closed path, verify that the actual contour is closed and has 
 - `EntityCircularText`, `EntityCircularSiriusText`: Placing according to the symbol
 - `EntityImageText`: Make the text as a Bitmap and then Raster processing
 
-### Fixed Spacing in Sirius3 1.12.3
+### Fixed Spacing in Sirius3 1.13.0
 
 `EntityText`, `EntitySiriusText`, Circular Variation and `EntityImageText` place all the characters, including empty and missing glyphs, in the fixed intervals in the same width cells.
 
@@ -42,7 +42,7 @@ Before hatching a closed path, verify that the actual contour is closed and has 
 - `IsGlyphWidthFit = true`: customize the graph that can be drawn to the cell width
 - Fixed does not apply `TargetWidth`/`TargetWidthPixels`, `WordSpacing`, Auto Kerning
 
-`EntityImageText` preserves the physical character-cell size in 1.12.3 while eliminating top-to-bottom transparent artifacts.
+`EntityImageText` preserves the physical character-cell size in 1.13.0 while eliminating top-to-bottom transparent artifacts.
 
 ## 5. Barcode
 
@@ -63,7 +63,7 @@ The actual method of processing varies depending on EntityPen’s `RasterMode`, 
 
 ## 7. 3D Mesh
 
-In addition to the default Mesh and STL/OBJ/PLY/STP·STEP imports, the following models and Factory have been added to Sirius3 1.12.3.
+In addition to the default Mesh and STL/OBJ/PLY/STP·STEP imports, the following models and Factory have been added to Sirius3 1.13.0.
 
 | The object. | Factory | Key entry. |
 |---|---|---|
@@ -73,6 +73,15 @@ In addition to the default Mesh and STL/OBJ/PLY/STP·STEP imports, the following
 | `EntityNURBSSurface` | `CreateNURBS3D` | Control Points, Degree, Knot, Sampling |
 
 These objects can also be added in the Editor's 3D Object Generation menu. Mesh is a visualized surface, so real processing requires a Slice or route conversion.
+
+### Mesh materials and textures in 1.15.0
+
+- OBJ imports read MTL diffuse colors (`Kd`), diffuse maps (`map_Kd`), UV coordinates, and supported vertex colors. Keep the OBJ, MTL, and referenced images together with valid relative paths when importing.
+- PLY imports preserve supported vertex/face RGB colors. A diffuse texture requires supported UV properties and a `comment TextureFile ...` reference to an existing image.
+- Valid diffuse maps select `ColorModes.TexturePerVertex`; source colors without textures select `ColorModes.PerVertex`. Geometry without either uses its model color.
+- Imported texture image data is retained when saving the Sirius3 document. Missing or undecodable images are reported in the log; check the imported appearance before saving.
+
+These features apply to both WinForms and WPF visualization. Mesh appearance does not automatically assign laser power or create machining paths; use slices/path conversion and EntityPen settings for processing.
 
 ## 8. Layer, Group, Block
 

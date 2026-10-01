@@ -1,6 +1,6 @@
 # RTC6 syncAXIS(XL-SCAN) 설정 및 사용 가이드
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 ## 1. syncAXIS의 역할
 

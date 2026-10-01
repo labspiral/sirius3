@@ -1,6 +1,6 @@
 # EntityFactory & Entity User Manual
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 ## 1. 개체를 만드는 기본 흐름
 
@@ -31,7 +31,7 @@
 - `EntityCircularText`, `EntityCircularSiriusText`: 원호를 따라 배치
 - `EntityImageText`: 텍스트를 Bitmap으로 만든 뒤 Raster 가공
 
-### Sirius3 1.12.3 Fixed 간격
+### Sirius3 1.13.0 Fixed 간격
 
 `EntityText`, `EntitySiriusText`, 원형 변형과 `EntityImageText`는 Fixed 간격에서 공백과 누락 글리프를 포함한 모든 문자를 같은 폭의 셀에 배치합니다. 내용이 바뀌어도 같은 글자 수라면 문자 위치와 전체 논리 경계가 유지됩니다.
 
@@ -42,7 +42,7 @@
 - `IsGlyphWidthFit = true`: 그릴 수 있는 글리프를 셀 폭에 맞춤
 - Fixed에서는 `TargetWidth`/`TargetWidthPixels`, `WordSpacing`, Auto Kerning을 적용하지 않음
 
-`EntityImageText`는 1.12.3에서 물리적인 문자 셀 크기는 유지하면서 위아래 투명 여백을 제거합니다.
+`EntityImageText`는 1.13.0에서 물리적인 문자 셀 크기는 유지하면서 위아래 투명 여백을 제거합니다.
 
 ## 5. 바코드
 
@@ -63,7 +63,7 @@
 
 ## 7. 3D Mesh
 
-기본 Mesh와 STL/OBJ/PLY/STP·STEP 가져오기 외에 Sirius3 1.12.3에서 다음 모델과 Factory가 추가되었습니다.
+기본 Mesh와 STL/OBJ/PLY/STP·STEP 가져오기 외에 Sirius3 1.13.0에서 다음 모델과 Factory가 추가되었습니다.
 
 | 개체 | Factory | 핵심 입력 |
 |---|---|---|
@@ -73,6 +73,15 @@
 | `EntityNURBSSurface` | `CreateNURBS3D` | Control Points, Degree, Knot, Sampling |
 
 이 개체들은 편집기의 3D 개체 생성 메뉴에서도 추가할 수 있습니다. Mesh는 시각화용 표면이므로 실제 가공에는 Slice나 경로 변환이 필요합니다.
+
+### 1.15.0의 Mesh 재질과 텍스처
+
+- OBJ는 MTL 확산 색상(`Kd`), 확산 이미지(`map_Kd`), UV와 지원되는 정점 색상을 가져옵니다. 가져올 때 OBJ·MTL·참조 이미지를 함께 유지하고 상대 경로를 확인합니다.
+- PLY는 지원되는 정점·면 RGB 색상을 유지합니다. 확산 텍스처에는 지원 UV 속성과 실제 이미지 파일을 가리키는 `comment TextureFile ...` 참조가 필요합니다.
+- 유효한 확산 이미지는 `ColorModes.TexturePerVertex`, 텍스처 없는 원본 색상은 `ColorModes.PerVertex`, 둘 다 없는 형상은 Model Color를 사용합니다.
+- 가져온 텍스처 이미지 데이터는 Sirius3 Document 저장 시 유지됩니다. 없거나 해석할 수 없는 이미지는 로그에 기록하므로 저장 전 화면을 확인합니다.
+
+WinForms와 WPF 시각화에 공통 적용됩니다. Mesh 표현이 레이저 Power를 지정하거나 가공 경로를 자동 생성하지는 않습니다. 실제 가공은 Slice·경로 변환과 EntityPen 설정을 사용합니다.
 
 ## 8. Layer, Group, Block
 

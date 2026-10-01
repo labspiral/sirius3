@@ -1,6 +1,12 @@
-﻿# Sirius3 버전 이력
+# Sirius3 버전 이력
 
-## v1.14.4 (2026.9.23)
+## v1.15.0 (2026.10.1)
+
+- added) WinForms HiDPI 지원
+- fixed) IRemote 및 IMCPServer의 비동기 자원 해제 지원
+- added) 3D 메쉬에 대한 텍스처 렌더링 지원
+
+## v1.14.4 (2026.9.24)
 
 - added) MCP (Model Context Protocol) 지원
   - AI 클라이언트를 이용해 편집기 등록 및 문서·엔티티 편집 및 장치 제어를 지원하는 MCP 서버 추가
@@ -372,7 +378,7 @@
     - 디자인 타임에 추가할때 발생하는 예외
     - 컨트롤이 컨트롤 비하인드에서 생성시 OpenGL 이 초기화 되지 않아 발생하는 예외 수정
     - 컨트롤이 Load 시점에 Document 를 ActNew 강제하는 코드 삭제
-- fixed) 라이센스
+- fixed) 라이선스
     - 최대 허용 인스턴스 개수를 초과 혹은 옵션이 없는 경우
     - 이전: 사용 불가
     - 변경: 30 분간 평가 모드 활성화
@@ -414,7 +420,7 @@
 - added) .dwg 임포트 지원
     - ODA converter 는 사용자가 별도 설치 필요 (https://www.opendesign.com/guestfiles/oda_file_converter) 
     - .dwg, .dxf 파일 처리시 ODA converter 를 추가적으로 사용가능하도록 개선
-- license) 라이센스 정책 변경
+- license) 라이선스 정책 변경
     - 3D 옵션이 삭제되고 기본 제공으로 변경
     - syncAXIS 인스턴스가 옵션으로 변경
 

@@ -9,8 +9,7 @@
         UseLayoutRounding="True" SnapsToDevicePixels="True"
         TextOptions.TextFormattingMode="Display"
         Loaded="MainWindow_Loaded"
-        Closing="MainWindow_Closing"
-        Closed="MainWindow_Closed">
+        Closing="MainWindow_Closing">
   <Grid Background="{DynamicResource Sirius.Brush.Window}">
     <local:SiriusEditorControl x:Name="editor"
                                AliasName="Open-Source WPF Editor UI" />

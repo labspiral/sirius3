@@ -1,6 +1,6 @@
 # IDocument & Recipe Management User Manual
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 ## 1. IDocument
 
@@ -148,6 +148,10 @@ MatrixStack과 Marker Offset은 가공 단계에서 추가로 적용됩니다. �
 `OnNew`, `OnBeforeOpen`, `OnAfterOpen`, `OnBeforeSave`, `OnAfterSave`, `OnSelected`, `OnChildChanged`, `OnPageChanged`, `OnPropertyChanged`, `OnSimulationStarted`, `OnSimulationEnded`로 상태 변화를 구독할 수 있습니다.
 
 Document를 직접 생성한 코드는 더 이상 사용하지 않을 때 `Dispose()`를 호출해야 합니다. 연결한 View와 Device의 종료 책임은 각각을 만든 코드가 명확히 관리하십시오.
+
+## 12. 1.15.0의 UI 호스트 종료
+
+편집기의 `DisposeDevices()`는 이제 `Task`를 반환합니다. UI Dispatcher가 유효한 동안 등록된 Remote/MCP 작업을 정리하도록 편집기나 Document를 해제하기 전에 완료를 기다립니다. 별도 소유 서버는 먼저 `DisposeAsync()`를 호출하고 기다립니다. 공유 Document는 다른 Viewer에서 연결을 해제한 후 한 번만 폐기합니다. 이 과정이 끝난 뒤 Application에서 `Core.Cleanup()`을 호출합니다. 종료 이벤트 패턴은 [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md)를 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

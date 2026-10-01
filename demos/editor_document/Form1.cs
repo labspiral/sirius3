@@ -47,8 +47,13 @@ namespace Demos
         {
             InitializeComponent();
             this.Load += Form1_Load;
-            this.FormClosing += (s, e) =>
+            bool closeAfterCleanup = false;
+            bool cleanupStarted = false;
+            this.FormClosing += async (s, e) =>
             {
+                if (closeAfterCleanup) return;
+                e.Cancel = true;
+                if (cleanupStarted) return;
                 var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dlgResult != DialogResult.Yes)
                 {
@@ -57,21 +62,35 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+                cleanupStarted = true;
+                await System.Threading.Tasks.Task.Yield();
+                try
+                {
+                    // Dispose instances
+                    // 인스턴스 해제
+                    try { await siriusEditorControl1.DisposeDevices(); }
+                    catch (Exception deviceException) { System.Diagnostics.Trace.WriteLine(deviceException); }
 
-                // Dispose instances 
-                // 인스턴스 해제 
-                siriusEditorControl1.DisposeDevices();
+                    // Dispose document
+                    // 문서 해제s
+                    siriusEditorControl1.Document = null;
+                    docOriginal?.Dispose();
+                    doc1?.Dispose();
+                    doc2?.Dispose();
 
-                // Dispose document
-                // 문서 해제s
-                siriusEditorControl1.Document = null;
-                docOriginal?.Dispose();
-                doc1?.Dispose();
-                doc2?.Dispose();
-
-                // Clean up SIRIUS3 library
-                // SIRIUS3 라이브러리 정리
-                SpiralLab.Sirius3.Core.Cleanup();
+                    // Clean up SIRIUS3 library
+                    // SIRIUS3 라이브러리 정리
+                    SpiralLab.Sirius3.Core.Cleanup();
+                }
+                catch (Exception exception)
+                {
+                    System.Diagnostics.Trace.WriteLine(exception);
+                }
+                finally
+                {
+                    closeAfterCleanup = true;
+                    Close();
+                }
             };
 
             this.btnOriginal.Click += (s, e) =>

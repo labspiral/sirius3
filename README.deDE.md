@@ -54,6 +54,7 @@ Eine Windows/.NET-Plattform für die präzise Laserbearbeitung. Sie verbindet SC
 - Dateiimport und Interoperabilität
   - Sirius3-Dokumente, DXF/DWG, HPGL/PLT, Gerber/Excellon und G-code/NGC
   - Rasterbilder sowie STL-, OBJ-, PLY- und STP/STEP-3D-Modelle
+  - Verfügbare Netzfarben und OBJ-/PLY-Diffustexturen bleiben in der 3D-Vorschau erhalten
   - Toleranzbasiertes Verbinden von Vektorpfaden und inhaltsbasierte Gerber/Excellon-Erkennung
 - Fernkommunikation und dynamische Daten
   - TCP/IP, seriell (RS-232), WebSocket und MQTT für Markersteuerung und Datenzugriff
@@ -178,6 +179,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using SpiralLab.Sirius3.MCP;
@@ -209,7 +211,8 @@ static class Program
         SpiralLab.Sirius3.Core.Initialize();
 
         // WinForms erstellen
-        CreateAndExecuteMainForm();
+        try { CreateAndExecuteMainForm(); }
+        finally { SpiralLab.Sirius3.Core.Cleanup(); }
     }
 
     static void CreateAndExecuteMainForm()
@@ -225,11 +228,14 @@ static class Program
         dynamicForm.StartPosition = FormStartPosition.CenterScreen;
         var editorControl = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
         IMCPServer mcpServer = null;
+        bool startupFailed = false;
+        bool shutdownStarted = false;
+        bool closeAfterShutdown = false;
         editorControl.Dock = DockStyle.Fill;
         dynamicForm.Controls.Add(editorControl);
         dynamicForm.ResumeLayout(false);
 
-        dynamicForm.Load += (s, e) =>
+        dynamicForm.Load += async (s, e) =>
         {
             // Geräte erstellen, initialisieren und bei EditorControl registrieren
             bool success = true;
@@ -282,34 +288,53 @@ static class Program
             editorControl.RegisterDevices(rtc, laser, powerMeter, dIExt1, dILaserPort, dOExt1, dOExt2, dOLaserPort, marker);
 
             // Authentifizierten HTTP-MCP-Server starten
-            mcpServer = MCPFactory.CreateServer(0, "MCP", editorControl);
-            mcpServer.AccessMode = MCPAccessMode.All;
-            if (!mcpServer.Start().GetAwaiter().GetResult())
-                throw new InvalidOperationException("Failed to start the MCP server.");
-            dynamicForm.Text = $"{dynamicForm.Text} + MCP ({mcpServer.Options.HttpEndpoint})";
+            try
+            {
+                mcpServer = MCPFactory.CreateServer(0, "MCP", editorControl);
+                mcpServer.AccessMode = MCPAccessMode.All;
+                if (!await mcpServer.Start())
+                    throw new InvalidOperationException("Failed to start the MCP server.");
+                if (!shutdownStarted)
+                    dynamicForm.Text = $"{dynamicForm.Text} + MCP ({mcpServer.Options.HttpEndpoint})";
+            }
+            catch (Exception ex)
+            {
+                startupFailed = true;
+                Trace.WriteLine(ex);
+                if (!shutdownStarted) dynamicForm.Close();
+            }
         };
 
-        dynamicForm.FormClosing += (s, e) =>
+        dynamicForm.FormClosing += async (s, e) =>
         {
-            var dlgResult = MessageBox.Show(dynamicForm, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dlgResult != DialogResult.Yes)
-            {
-                e.Cancel = true;
+            if (closeAfterShutdown) return;
+            e.Cancel = true;
+            if (shutdownStarted) return;
+            if (!startupFailed && MessageBox.Show(dynamicForm, "Do you really want to terminate the program?",
+                "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
+
+            shutdownStarted = true;
+            await Task.Yield(); // FormClosing zuerst beenden, damit ausstehende MCP-Aufgaben auf der UI verarbeitet werden.
+            try
+            {
+                if (mcpServer != null)
+                    await mcpServer.DisposeAsync();
             }
-
-            // MCP-Server vor Editor, Dokument und Geräten freigeben
-            mcpServer?.Dispose();
-            mcpServer = null;
-
-            // Geräte freigeben
-            editorControl.DisposeDevices();
-
-            // Dokument freigeben
-            editorControl.Document?.Dispose();
-
-            // Sirius3-Bibliothek bereinigen
-            SpiralLab.Sirius3.Core.Cleanup();
+            catch (Exception ex) { Trace.WriteLine(ex); }
+            finally
+            {
+                mcpServer = null;
+                editorControl.MCPServer = null;
+                var document = editorControl.Document;
+                editorControl.Document = null;
+                try { await editorControl.DisposeDevices(); }
+                catch (Exception ex) { Trace.WriteLine(ex); }
+                try { document?.Dispose(); }
+                catch (Exception ex) { Trace.WriteLine(ex); }
+                closeAfterShutdown = true;
+                dynamicForm.Close();
+            }
         };
 
         Application.Run(dynamicForm);
@@ -323,17 +348,44 @@ Verwenden Sie für ein WPF-Projekt die folgenden Einstellungen:
 
 ```xml
 <PropertyGroup>
-  <OutputType>WinExe</OutputType>
-  <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-  <UseWPF>true</UseWPF>
-  <UseWindowsForms>true</UseWindowsForms>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
 </PropertyGroup>
+
+<PropertyGroup Condition="'$(TargetFramework)'=='net481'">
+	<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
+</PropertyGroup>
+<PropertyGroup Condition="'$(TargetFramework)'!='net481'">
+	<DefineConstants>$(DefineConstants);OPENTK4</DefineConstants>
+</PropertyGroup>
+
+<ItemGroup Condition="'$(TargetFramework)'=='net481'">
+	<PackageReference Include="OpenTK" Version="3.3.3" />
+</ItemGroup>
+<ItemGroup Condition="'$(TargetFramework)'!='net481'">
+	<PackageReference Include="OpenTK" Version="4.9.4" />
+	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
+</ItemGroup>
+
+<ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.10" />
+    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+</ItemGroup>
 ```
 
 `Program.cs`:
 
 ```csharp
 using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using SpiralLab.Sirius3.IO;
 using SpiralLab.Sirius3.Laser;
@@ -350,29 +402,34 @@ internal static class Program
     [STAThread]
     private static void Main()
     {
-        var app = new Application();
+        var app = new System.Windows.Application();
         SiriusEditorControl editor = null;
         IMCPServer mcpServer = null;
         var coreInitialized = false;
         var editorDisposed = false;
 
-        void DisposeEditor()
+        async Task DisposeEditorResourcesAsync()
         {
-            if (editorDisposed || editor == null)
-                return;
-            editorDisposed = true;
-
             var document = editor.Document;
-            try { mcpServer?.Dispose(); }
+            try { await editor.DisposeDevices(); }
+            finally { try { editor.Dispose(); } finally { document?.Dispose(); } }
+        }
+
+        async Task DisposeEditorAsync()
+        {
+            if (editorDisposed || editor == null) return;
+            editorDisposed = true;
+            var server = mcpServer;
+            mcpServer = null;
+            try
+            {
+                if (server != null)
+                    await server.DisposeAsync();
+            }
             finally
             {
-                mcpServer = null;
-                try { editor.DisposeDevices(); }
-                finally
-                {
-                    try { editor.Dispose(); }
-                    finally { document?.Dispose(); }
-                }
+                editor.MCPServer = null;
+                await DisposeEditorResourcesAsync();
             }
         }
 
@@ -380,8 +437,6 @@ internal static class Program
         {
             SpiralLab.Sirius3.Core.Initialize();
             coreInitialized = true;
-            WPFThemeManager.Initialize();
-
             editor = new SiriusEditorControl();
 
             const int index = 0;
@@ -438,19 +493,48 @@ internal static class Program
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
             };
 
-            mcpServer = MCPFactory.CreateServer(0, "MCP", editor);
-            mcpServer.AccessMode = MCPAccessMode.All;
-            if (!mcpServer.Start().GetAwaiter().GetResult())
-                throw new InvalidOperationException("Failed to start the MCP server.");
-            window.Title = $"{window.Title} + MCP ({mcpServer.Options.HttpEndpoint})";
+            bool shutdownStarted = false;
+            bool closeAfterShutdown = false;
+            window.Loaded += async (_, __) =>
+            {
+                try
+                {
+                    mcpServer = MCPFactory.CreateServer(0, "MCP", editor);
+                    mcpServer.AccessMode = MCPAccessMode.All;
+                    if (!await mcpServer.Start())
+                        throw new InvalidOperationException("Failed to start the MCP server.");
+                    if (!shutdownStarted)
+                        window.Title = $"{window.Title} + MCP ({mcpServer.Options.HttpEndpoint})";
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine(ex);
+                    if (!shutdownStarted) window.Close();
+                }
+            };
 
-            // MCP-Server und Editor während Closing freigeben, solange WPF-Fenster und GL-Kontext bestehen.
-            window.Closing += (_, __) => DisposeEditor();
+            // WPF-Dispatcher und GL-Kontext bis zum Abschluss des MCP-Shutdowns aktiv lassen.
+            window.Closing += async (_, args) =>
+            {
+                if (closeAfterShutdown) return;
+                args.Cancel = true;
+                if (shutdownStarted) return;
+                shutdownStarted = true;
+                await Task.Yield();
+                try { await DisposeEditorAsync(); }
+                catch (Exception ex) { Trace.WriteLine(ex); }
+                finally { closeAfterShutdown = true; window.Close(); }
+            };
             app.Run(window);
         }
         finally
         {
-            try { DisposeEditor(); }
+            try
+            {
+                // Schlägt der Start vor Loaded fehl, wurde noch kein MCP-Server erstellt.
+                if (!editorDisposed && mcpServer == null && editor != null)
+                    DisposeEditorResourcesAsync().GetAwaiter().GetResult();
+            }
             finally
             {
                 if (coreInitialized)
@@ -461,7 +545,38 @@ internal static class Program
 }
 ```
 
+Beide Hosts brechen die erste Schließanforderung ab und warten bei laufender UI-Nachrichtenschleife auf `IMCPServer.DisposeAsync()`. Danach geben sie die Editorressourcen frei und rufen nach Rückkehr aus der Schleife `Core.Cleanup()` auf. Rufen Sie `IMCPServer.Dispose()` bei aktivem MCP nicht direkt auf dem WinForms- oder WPF-UI-Thread auf.
+
+Rufen Sie vor dem Freigeben des Editors oder Dokuments immer `await editor.DisposeDevices()` auf. Die Methode beendet registrierte MCP-Server und Remote-Verbindungen vor den übrigen Geräten.
+Anwendungen mit der bisherigen Methode `void DisposeDevices()` müssen ihre Schließroutine anpassen, den zurückgegebenen Task abwarten und neu kompiliert werden.
+
 ---
+
+## WinForms HiDPI
+
+Aktualisieren Sie zuerst DLL/Paket. Bestehende `DpiUnaware`-Anwendungen können ihr bisheriges Verhalten beibehalten. Für eine Skalierung pro Monitor konfigurieren Sie die verwendende EXE vor dem Erstellen von Steuerelementen. Die DLL ändert den DPI-Modus des Prozesses nicht. Vorhandene Hostformulare können `AutoScaleMode.Font`, Schriftart und Designer-Basiswerte beibehalten. Prüfen Sie eigene feste Pixelmaße und manuelle Skalierung gesondert.
+
+Bei .NET 8/9/10 mit manuellem `Main` wählen Sie Per-Monitor V2 vor `EnableVisualStyles` und `Core.Initialize`:
+
+```csharp
+#if NET8_0_OR_GREATER
+Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+#endif
+Application.EnableVisualStyles();
+Application.SetCompatibleTextRenderingDefault(false);
+```
+
+Bei .NET Framework 4.8.1 ergänzen Sie die vorhandene app.config der EXE um diesen Abschnitt, behalten Bindungsumleitungen bei, deklarieren Windows-10-Kompatibilität im Manifest und rufen `EnableVisualStyles` vor dem Erstellen von Steuerelementen auf. Entfernen Sie widersprüchliche unaware-DPI-Deklarationen und `EnableWindowsFormsHighDpiAutoResizing=false`.
+
+```xml
+<System.Windows.Forms.ApplicationConfigurationSection>
+  <add key="DpiAwareness" value="PerMonitorV2" />
+</System.Windows.Forms.ApplicationConfigurationSection>
+```
+
+Mit `ApplicationConfiguration.Initialize()` setzen Sie `<ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>` im EXE-Projekt und behalten einen einzigen Initialisierungspfad bei. Schriftgrößen bleiben in pt. Erstellen Sie eigene ImageLists je DPI aus aufbewahrten Originalbildern neu; setzen Sie `ImageSize`/`ColorDepth` vor dem Hinzufügen von Bildern, behalten Schlüssel und Indizes bei und ersetzen Sie alle Verweise, bevor Sie eigene alte Listen freigeben. WPF verwendet 96 als Basis logischer Einheiten; multiplizieren Sie das Layout nicht erneut mit dem DPI-Faktor.
+
+[Microsoft: .NET Framework HiDPI](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/high-dpi-support-in-windows-forms), [WinForms automatic scaling](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/forms/autoscale).
 
 ## Demoprogramme
 

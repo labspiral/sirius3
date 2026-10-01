@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3 MoF (Marking on the Fly) 통합 사용자 매뉴얼
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 
 이 매뉴얼은 외부 엔코더나 절대 위치 신호(McBSP)에 동기화하여 이동 중인 작업물에 레이저 가공을 수행하는 Sirius3의 두 가지 주요 인터페이스인 IRtcMoF와 IRtcMoFExtension에 대해 설명합니다.

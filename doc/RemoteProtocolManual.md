@@ -1,6 +1,6 @@
 # Remote Control Protocol Manual
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 
 This document is a specification of the communication protocol for external devices or programs to control the system through the remote control function in the Sirius3 library.
@@ -229,6 +229,12 @@ All posts tagged: entity|Circle_1|properties;
 Selection of Selection: Selection|2|Circle_1|Rect_1; (a selection of two objects)
 - Selected by: deselect
 
+
+## 7. MCP and asynchronous cleanup
+
+The Remote license option also includes authenticated HTTP MCP for AI clients. MCP uses document/entity/device tools rather than the pipe-delimited commands in this manual; see [MCP](MCP.md).
+
+In 1.15.0, `IRemote` and `IMCPServer` support `IAsyncDisposable`. Await `remote.DisposeAsync()` or `server.DisposeAsync()` before disposing their assigned marker/editor. If registered on a Sirius editor, use `await editor.DisposeDevices()` instead; it owns the ordered remote/MCP and device cleanup. Keep the UI thread/Dispatcher available until it finishes. See [WinForms](WinForms.md) and [WPF](WPF.md) for closing patterns.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

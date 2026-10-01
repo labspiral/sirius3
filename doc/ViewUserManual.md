@@ -1,11 +1,11 @@
 # View System & OpenGL Rendering User Manual
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 
 ## 1. Overview
 
-The Sirius3 View system uses the OpenGL 3.3 core profile to visualize tens of thousands of vector primitives in real time at 60 fps or higher on suitable hardware.
+The Sirius3 View system requires OpenGL 3.3 and visualizes document geometry through a WinForms or WPF surface. Frame rate depends on the document, display resolution, and GPU.
 The system consists of Surface responsible for screen output, View managing visual logic, and Resource managing GPU resources.
 
 ## 2. Core Components
@@ -30,7 +30,7 @@ The system consists of Surface responsible for screen output, View managing visu
 [GLResource: GPU Resource Manager]
 - Role: Manage the Vertex data of the individual entity (Entity) as a GPU memory (VRAM).
 - Synchronization mechanisms (`SyncWith`):
-  - Only when the entity's `GeometryVersion` has been changed, the GPU buffer (VAO, VBO, EBO) is updated to prevent unnecessary data transfer.
+  - Only when the entity's `BufferVersion` has been changed, the GPU buffer (VAO, VBO, EBO) is updated to prevent unnecessary data transfer.
   - Buffer the position, color, normal, and texture (UV) data independently.
 
 [Shaders: Rendering Pipeline]
@@ -45,7 +45,7 @@ The system consists of Surface responsible for screen output, View managing visu
 The process in which the processing data is displayed on the screen is as follows.
 
 1) Data Change: The user changes the properties of the object.
-2) Reproduction: `GeometryVersion` increases when calling `document.ActRegen()`.
+2) Reproduction: `BufferVersion` increases when calling `document.ActRegen()`.
 3) Synchronization: At the next frame rendering, `GLResource.SyncWith()` detects the version difference and upload new data to the GPU.
 4) Rendering: `GLResource.Render()` is called to send the model/view/projection and lighting parameters to the shader and run `GL.DrawElements`.
 
@@ -62,6 +62,12 @@ The process in which the processing data is displayed on the screen is as follow
 - Resource cleanup: `GLResource` owns unmanaged GPU resources (VRAM). Call `Dispose()` when an entity is deleted or the Document is closed to prevent resource leaks.
 - Rendering performance: When rendering the same mass of objects, use `EntityUniformGroup` to minimize the number of draw calls.
 - Transparency Control: The `EntityModelBase.Alpha` property allows you to control the transparency of the object.
+
+## 6. WPF surfaces, DPI, and mesh textures
+
+`WPFGLSurface` connects the shared view to a WPF OpenGL host. XAML layout uses device-independent units while rendering uses framebuffer pixels; avoid applying both scales to the same geometry. GPU resources belong to a surface/context, even when several views share one document. Queue OpenTK 3 WPF GL work to a render callback; OpenTK 4 work must make the owning context current.
+
+In 1.15.0, Mesh rendering uses imported diffuse materials, source colors, and valid UV/image data. OBJ MTL/image and PLY texture references are resolved at import; retained texture data is saved with the document. Texture appearance does not change laser paths. See [Entity](EntityUserManual.md), [WinForms](WinForms.md), and [WPF](WPF.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

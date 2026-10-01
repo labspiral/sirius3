@@ -1,10 +1,10 @@
 # SiriusEditorControl User Manual
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 ## 1. Integrated Editor
 
-`SiriusEditorControl` is a public WinForms control that combines EditorControl, the Page/Layer TreeView, PropertyGrid, and Scanner, Laser, Marker, I/O, and PowerMeter UI on one screen. Use the public `beginner` and `editor_ui` demo sources as starting points for product-specific menus, tabs, and device UI.
+`SiriusEditorControl` is available for WinForms and WPF. It combines EditorControl, the Page/Layer TreeView, PropertyGrid, and Scanner, Laser, Marker, I/O, and PowerMeter UI on one screen. Use `beginner` and `editor_ui` for WinForms or `wpf_editor_ui` for WPF customization.
 
 ## 2. Page Tab
 
@@ -42,7 +42,13 @@ Goal Page/Layer/Offset, Repeat Order, Preview, Start, Stop, Reset and Progress s
 
 `RegisterDevices` connects Scanner, Laser, PowerMeter, Extension/LASER-port DInput·DOutput, Marker and Remote. The demo read `config*.ini` to create and register the device as Factory and then check Marker Ready.
 
-Stop the Marker that is running at closure first, disable the Device created and then call `Core.Cleanup()`.
+Before releasing the editor or document, await `editor.DisposeDevices()` on the owning UI thread. In 1.15.0 this returns `Task` and awaits the registered MCP server and remote before releasing devices. A separately owned server requires `await server.DisposeAsync()` first. Dispose owned controls/documents once, then call `Core.Cleanup()` from the application lifetime owner.
+
+## 11. Framework selection and HiDPI
+
+Package controls use `SpiralLab.Sirius3.UI.WinForms` or `SpiralLab.Sirius3.UI.WPF`; public source copies use `Demos`. WPF controls initialize their required theme resources. WPF Multi-Beam navigation is shown only for an assigned `IRtcMultiBeam`, and virtual/vendor laser panels follow the registered laser or custom WPF UI factory.
+
+WinForms hosts select `PerMonitorV2`, and the demo forms use `AutoScaleMode.Dpi` with `AutoScaleDimensions = (96, 96)`. WPF hosts use a DPI-aware executable manifest and device-independent XAML layout. Follow the [WinForms](WinForms.md) or [WPF](WPF.md) guide for framework-specific startup, registration, and closing examples.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

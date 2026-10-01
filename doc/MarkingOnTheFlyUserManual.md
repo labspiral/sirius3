@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3 MoF (Marking on the Fly) Integrated User Guide
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 
 This manual describes the two main Sirius3 interfaces, `IRtcMoF` and `IRtcMoFExtension`, which synchronize scanner motion with an external encoder or absolute-position signal (McBSP) to mark moving workpieces.

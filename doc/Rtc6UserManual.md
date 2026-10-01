@@ -1,6 +1,6 @@
 # SCANLAB RTC6 Controller User Manual
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 ## 1. RTC6 Role
 
@@ -86,7 +86,7 @@ Do not connect the laser until you have verified voltage levels, polarity, refer
 
 Due to the nonlinearity of the F-theta lens, mirror corner, lightweight predisposition, scanhead installation failure, the command coordinates and the actual processing location may not match. First match the full scanning with the right KFactor and then reduce the position-by-location failure with the 2D/3D correction file.
 
-After RTC6 start, check the correction file and table selection, Laser Mode, Scanner Ready, Error Code, Analog and Digital I/O status. Sirius3 1.12.3 read the RTC6 status and Analog I/O as a generated controller API and reliably deals with Ethernet connection errors and end-of-state timers.
+After RTC6 start, check the correction file and table selection, Laser Mode, Scanner Ready, Error Code, Analog and Digital I/O status. Sirius3 1.13.0 read the RTC6 status and Analog I/O as a generated controller API and reliably deals with Ethernet connection errors and end-of-state timers.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

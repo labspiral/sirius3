@@ -1,6 +1,12 @@
 # Sirius3 版本历史
 
-## v1.14.4 (2026.9.23)
+## v1.15.0 (2026.10.1)
+
+- added) 支持 WinForms HiDPI
+- fixed) 支持异步释放 IRemote 和 IMCPServer 资源
+- added) 支持三维网格的纹理渲染
+
+## v1.14.5 (2026.9.24)
 
 - added) 支持 MCP（Model Context Protocol）
   - 添加 MCP 服务器，支持 AI 客户端注册编辑器、编辑文档与实体以及控制设备

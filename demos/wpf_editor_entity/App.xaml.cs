@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
-using SpiralLab.Sirius3.UI.WPF;
 
 namespace Demos
 {
@@ -13,7 +12,7 @@ namespace Demos
         private Form1 editorWindow;
 
         /// <inheritdoc />
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
@@ -31,7 +30,6 @@ namespace Demos
                 // A false return means evaluation mode, not an unusable runtime.
                 SpiralLab.Sirius3.Core.Initialize();
                 coreInitialized = true;
-                WPFThemeManager.Initialize();
 
                 var window = new Form1();
                 editorWindow = window;
@@ -40,6 +38,11 @@ namespace Demos
             }
             catch (Exception exception)
             {
+                if (editorWindow != null)
+                {
+                    try { await editorWindow.DisposeEditorAsync(); }
+                    catch (Exception cleanupException) { System.Diagnostics.Trace.WriteLine(cleanupException); }
+                }
                 MessageBox.Show(
                     exception.ToString(),
                     "Sirius3 initialization failed",
@@ -52,16 +55,6 @@ namespace Demos
         /// <inheritdoc />
         protected override void OnExit(ExitEventArgs e)
         {
-            try
-            {
-                // Show/startup failures may bypass the window's Closed event.
-                editorWindow?.DisposeEditor();
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Sirius3 cleanup failed",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
             try
             {
                 if (coreInitialized)

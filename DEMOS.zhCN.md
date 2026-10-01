@@ -251,6 +251,8 @@ MoF（Marking on the fly）功能是将外部移动物体产生的编码器信�
 
 ## editor_ui
 
+提供的控件与 `EditorControlSupport.cs` 共享 DPI 感知的工具栏处理。现有 Font 宿主可按照 README 的 EXE DPI 设置启用缩放；应用拥有的 ImageList 和自定义固定像素布局也应与监视器 DPI 一致。
+
 这是 Sirius3 库内部提供的 SiriusEditorControl、SiriusMultiEditorControl 用户控件的开源代码。
 用户可利用此开源代码设计并定制所需的 UI。
 

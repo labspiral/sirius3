@@ -57,6 +57,7 @@ SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 
 - 외부 파일 및 상호 운용성
    - Sirius3 문서, DXF/DWG, HPGL/PLT, Gerber/Excellon 및 G-code/NGC
    - 래스터 이미지와 STL, OBJ, PLY, STP/STEP 3D 모델
+   - 3D 미리보기에서 제공되는 메쉬 색상과 OBJ/PLY 확산 텍스처 유지
    - 벡터 파일의 허용 오차 기반 경로 연결과 내용 기반 Gerber/Excellon 판별
 - 원격 통신 및 동적 데이터
    - 마커 제어와 데이터 접근을 위한 TCP/IP, Serial(RS-232), WebSocket 및 MQTT
@@ -136,7 +137,7 @@ SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 
 # [WinForms](#tab/winforms)
 
 프로젝트 설정
-```
+```xml
 <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
@@ -170,11 +171,12 @@ SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 
 ```
 
 예제 코드
-```
+```csharp
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using SpiralLab.Sirius3.MCP;
@@ -206,7 +208,8 @@ static class Program
         SpiralLab.Sirius3.Core.Initialize();
 
         // 윈폼 생성
-        CreateAndExecuteMainForm();
+        try { CreateAndExecuteMainForm(); }
+        finally { SpiralLab.Sirius3.Core.Cleanup(); }
     }
 
     static void CreateAndExecuteMainForm()
@@ -222,11 +225,14 @@ static class Program
         dynamicForm.StartPosition = FormStartPosition.CenterScreen;
         var editorControl = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
         IMCPServer mcpServer = null;
+        bool startupFailed = false;
+        bool shutdownStarted = false;
+        bool closeAfterShutdown = false;
         editorControl.Dock = DockStyle.Fill;
         dynamicForm.Controls.Add(editorControl);
         dynamicForm.ResumeLayout(false);
 
-        dynamicForm.Load += (s, e) =>
+        dynamicForm.Load += async (s, e) =>
         {
             // 장치 생성및 초기화 후 EditorControl 에 등록
             bool success = true;
@@ -279,33 +285,53 @@ static class Program
             editorControl.RegisterDevices(rtc, laser, powerMeter, dIExt1, dILaserPort, dOExt1, dOExt2, dOLaserPort, marker);
 
             // 인증된 HTTP MCP 서버 시작
-            mcpServer = MCPFactory.CreateServer(0, "MCP", editorControl);
-            mcpServer.AccessMode = MCPAccessMode.All;
-            if (!mcpServer.Start().GetAwaiter().GetResult())
-                throw new InvalidOperationException("Failed to start the MCP server.");
-            dynamicForm.Text = $"{dynamicForm.Text} + MCP ({mcpServer.Options.HttpEndpoint})";
+            try
+            {
+                mcpServer = MCPFactory.CreateServer(0, "MCP", editorControl);
+                mcpServer.AccessMode = MCPAccessMode.All;
+                if (!await mcpServer.Start())
+                    throw new InvalidOperationException("Failed to start the MCP server.");
+                if (!shutdownStarted)
+                    dynamicForm.Text = $"{dynamicForm.Text} + MCP ({mcpServer.Options.HttpEndpoint})";
+            }
+            catch (Exception ex)
+            {
+                startupFailed = true;
+                Trace.WriteLine(ex);
+                if (!shutdownStarted) dynamicForm.Close();
+            }
         };
 
-       dynamicForm.FormClosing += (s, e) =>
+        dynamicForm.FormClosing += async (s, e) =>
         {
-            var dlgResult = MessageBox.Show(dynamicForm, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dlgResult != DialogResult.Yes)
-            {
-                e.Cancel = true;
+            if (closeAfterShutdown) return;
+            e.Cancel = true;
+            if (shutdownStarted) return;
+            if (!startupFailed && MessageBox.Show(dynamicForm, "Do you really want to terminate the program?",
+                "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
+
+            shutdownStarted = true;
+            await Task.Yield(); // FormClosing이 반환되어 대기 중인 MCP UI 작업을 처리할 수 있게 합니다.
+            try
+            {
+                if (mcpServer != null)
+                    await mcpServer.DisposeAsync();
             }
-            // 편집기, 문서 및 장치보다 먼저 MCP 서버 해제
-            mcpServer?.Dispose();
-            mcpServer = null;
-
-            // 장치 해제
-            editorControl.DisposeDevices();
-
-            // 문서 해제
-            editorControl.Document?.Dispose();
-         
-            // 시리우스3 라이브러리 정리
-            SpiralLab.Sirius3.Core.Cleanup();
+            catch (Exception ex) { Trace.WriteLine(ex); }
+            finally
+            {
+                mcpServer = null;
+                editorControl.MCPServer = null;
+                var document = editorControl.Document;
+                editorControl.Document = null;
+                try { await editorControl.DisposeDevices(); }
+                catch (Exception ex) { Trace.WriteLine(ex); }
+                try { document?.Dispose(); }
+                catch (Exception ex) { Trace.WriteLine(ex); }
+                closeAfterShutdown = true;
+                dynamicForm.Close();
+            }
         };
 
         Application.Run(dynamicForm);
@@ -324,12 +350,39 @@ static class Program
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
 </PropertyGroup>
+
+<PropertyGroup Condition="'$(TargetFramework)'=='net481'">
+	<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
+</PropertyGroup>
+<PropertyGroup Condition="'$(TargetFramework)'!='net481'">
+	<DefineConstants>$(DefineConstants);OPENTK4</DefineConstants>
+</PropertyGroup>
+
+<ItemGroup Condition="'$(TargetFramework)'=='net481'">
+	<PackageReference Include="OpenTK" Version="3.3.3" />
+</ItemGroup>
+<ItemGroup Condition="'$(TargetFramework)'!='net481'">
+	<PackageReference Include="OpenTK" Version="4.9.4" />
+	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
+</ItemGroup>
+
+<ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.10" />
+    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+</ItemGroup>
 ```
 
 `Program.cs`:
 
 ```csharp
 using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using SpiralLab.Sirius3.IO;
 using SpiralLab.Sirius3.Laser;
@@ -346,29 +399,34 @@ internal static class Program
     [STAThread]
     private static void Main()
     {
-        var app = new Application();
+        var app = new System.Windows.Application();
         SiriusEditorControl editor = null;
         IMCPServer mcpServer = null;
         var coreInitialized = false;
         var editorDisposed = false;
 
-        void DisposeEditor()
+        async Task DisposeEditorResourcesAsync()
         {
-            if (editorDisposed || editor == null)
-                return;
-            editorDisposed = true;
-
             var document = editor.Document;
-            try { mcpServer?.Dispose(); }
+            try { await editor.DisposeDevices(); }
+            finally { try { editor.Dispose(); } finally { document?.Dispose(); } }
+        }
+
+        async Task DisposeEditorAsync()
+        {
+            if (editorDisposed || editor == null) return;
+            editorDisposed = true;
+            var server = mcpServer;
+            mcpServer = null;
+            try
+            {
+                if (server != null)
+                    await server.DisposeAsync();
+            }
             finally
             {
-                mcpServer = null;
-                try { editor.DisposeDevices(); }
-                finally
-                {
-                    try { editor.Dispose(); }
-                    finally { document?.Dispose(); }
-                }
+                editor.MCPServer = null;
+                await DisposeEditorResourcesAsync();
             }
         }
 
@@ -376,8 +434,6 @@ internal static class Program
         {
             SpiralLab.Sirius3.Core.Initialize();
             coreInitialized = true;
-            WPFThemeManager.Initialize();
-
             editor = new SiriusEditorControl();
 
             const int index = 0;
@@ -434,19 +490,48 @@ internal static class Program
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
             };
 
-            mcpServer = MCPFactory.CreateServer(0, "MCP", editor);
-            mcpServer.AccessMode = MCPAccessMode.All;
-            if (!mcpServer.Start().GetAwaiter().GetResult())
-                throw new InvalidOperationException("Failed to start the MCP server.");
-            window.Title = $"{window.Title} + MCP ({mcpServer.Options.HttpEndpoint})";
+            bool shutdownStarted = false;
+            bool closeAfterShutdown = false;
+            window.Loaded += async (_, __) =>
+            {
+                try
+                {
+                    mcpServer = MCPFactory.CreateServer(0, "MCP", editor);
+                    mcpServer.AccessMode = MCPAccessMode.All;
+                    if (!await mcpServer.Start())
+                        throw new InvalidOperationException("Failed to start the MCP server.");
+                    if (!shutdownStarted)
+                        window.Title = $"{window.Title} + MCP ({mcpServer.Options.HttpEndpoint})";
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine(ex);
+                    if (!shutdownStarted) window.Close();
+                }
+            };
 
-            // WPF 창과 GL 컨텍스트가 유지되는 Closing 시점에 MCP 서버와 편집기를 해제합니다.
-            window.Closing += (_, __) => DisposeEditor();
+            // MCP 종료 전까지 WPF 디스패처와 GL 컨텍스트를 유지합니다.
+            window.Closing += async (_, args) =>
+            {
+                if (closeAfterShutdown) return;
+                args.Cancel = true;
+                if (shutdownStarted) return;
+                shutdownStarted = true;
+                await Task.Yield();
+                try { await DisposeEditorAsync(); }
+                catch (Exception ex) { Trace.WriteLine(ex); }
+                finally { closeAfterShutdown = true; window.Close(); }
+            };
             app.Run(window);
         }
         finally
         {
-            try { DisposeEditor(); }
+            try
+            {
+                // Loaded 전에 시작이 실패하면 MCP 서버는 생성되지 않았습니다.
+                if (!editorDisposed && mcpServer == null && editor != null)
+                    DisposeEditorResourcesAsync().GetAwaiter().GetResult();
+            }
             finally
             {
                 if (coreInitialized)
@@ -457,23 +542,54 @@ internal static class Program
 }
 ```
 
+두 호스트 모두 첫 닫기 요청을 취소하고 UI 메시지 루프가 실행되는 동안 `IMCPServer.DisposeAsync()`를 기다립니다. 그다음 편집기 자원을 해제하고 메시지 루프가 반환된 뒤 `Core.Cleanup()`을 호출합니다. MCP가 실행 중인 WinForms 또는 WPF UI 스레드에서 `IMCPServer.Dispose()`를 직접 호출하지 마십시오.
+
+편집기나 문서를 해제하기 전에 항상 `await editor.DisposeDevices()`를 호출하십시오. 등록된 MCP 서버와 원격 연결을 종료한 뒤 나머지 장치를 해제합니다.
+기존 `void DisposeDevices()`를 사용한 앱은 종료 처리에서 반환된 작업을 기다리도록 수정하고 다시 빌드해야 합니다.
+
 ---
+
+## WinForms HiDPI
+
+먼저 DLL/패키지를 갱신합니다. 기존 `DpiUnaware` 프로그램은 기존 동작을 유지할 수 있습니다. 모니터별 배율을 선택하려면 컨트롤 생성 전에 소비 EXE를 설정합니다. DLL은 프로세스 DPI 모드를 변경하지 않습니다. 기존 호스트 Form의 `AutoScaleMode.Font`, 글꼴과 Designer 기준값을 유지할 수 있습니다. 자체 고정 픽셀 레이아웃과 수동 배율 코드는 별도로 점검합니다.
+
+.NET 8/9/10의 수동 `Main`에서는 `EnableVisualStyles`와 `Core.Initialize` 전에 Per-Monitor V2를 설정합니다:
+
+```csharp
+#if NET8_0_OR_GREATER
+Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+#endif
+Application.EnableVisualStyles();
+Application.SetCompatibleTextRenderingDefault(false);
+```
+
+.NET Framework 4.8.1에서는 소비 EXE의 기존 app.config에 아래 항목을 합치고 binding redirects를 유지합니다. manifest에 Windows 10 호환성을 선언하고 컨트롤 생성 전에 `EnableVisualStyles`를 호출합니다. 충돌하는 unaware DPI 선언과 `EnableWindowsFormsHighDpiAutoResizing=false` 설정은 제거합니다.
+
+```xml
+<System.Windows.Forms.ApplicationConfigurationSection>
+  <add key="DpiAwareness" value="PerMonitorV2" />
+</System.Windows.Forms.ApplicationConfigurationSection>
+```
+
+`ApplicationConfiguration.Initialize()`를 사용하는 경우 EXE 프로젝트에 `<ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>`를 설정하여 초기화 경로를 하나로 유지합니다. 글꼴 크기는 pt 단위를 유지합니다. 자체 ImageList는 보관한 원본으로 DPI별 재생성하며 이미지 추가 전에 `ImageSize`/`ColorDepth`를 설정합니다. 키와 인덱스를 유지하고 모든 참조를 교체한 뒤 소유한 이전 목록만 해제합니다. WPF의 96은 논리 단위 기준이므로 레이아웃에 DPI 배율을 다시 곱하지 않습니다.
+
+[Microsoft: .NET Framework HiDPI](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/high-dpi-support-in-windows-forms), [WinForms automatic scaling](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/forms/autoscale).
 
 ## 데모 프로그램
 - 프로그램 설명 [DEMOS.koKR.md](DEMOS.koKR.md) 
 - 스캐너, 레이저, 파워메터, 마커등의 장치 객체를 생성하고 SiriusEditorControl 에 연결.
 - 예제 코드: https://github.com/labspiral/sirius3/tree/main/demos
 
-## 라이센스
-- 상업용 사용은 라이센스 구매가 필요합니다.
-- 라이센스: RTC 인스턴스 개수 + [옵션]
+## 라이선스
+- 상업용 사용은 라이선스 구매가 필요합니다.
+- 라이선스: RTC 인스턴스 개수 + [옵션]
     - MoF 옵션: 외부 엔코더를 이용한(실시간 추종 및 대기 등) Fly 가공 기능 (Processing on the fly).
     - MultiBeam 옵션: 1개의 레이저 소스 + 2개의 AOM + 2개의 스캔헤드 구성으로 점프 구간에서 레이저 빔 경로를 실시간 변경해 처리하는 기능.
     - syncAXIS 옵션: ACS 모션 제어기 + excelliSCAN 스캔헤드 구성으로 스캐헤드와 스테이지의 동기화를 이용한 대면적 가공(XL-SCAN 솔류션).
     - Remote 옵션: 소켓, 시리얼, WebSocket, MQTT 외부 통신을 통한 레시피 변경, 가공 제어 및 데이터 조회·변경을 지원하며, AI 기반 문서·엔티티 편집과 등록 장치 제어를 위한 내장 MCP 서버 기능을 포함합니다.
-- 라이센스 정책 및 외부 라이브러리는 [LICENSE.koKR.txt](LICENSE.koKR.txt), [THIRD-PARTY-NOTICES.koKR.txt](THIRD-PARTY-NOTICES.koKR.txt) 참고.
+- 라이선스 정책 및 외부 라이브러리는 [LICENSE.koKR.txt](LICENSE.koKR.txt), [THIRD-PARTY-NOTICES.koKR.txt](THIRD-PARTY-NOTICES.koKR.txt) 참고.
 - 이메일: hcchoi@spirallab.co.kr | https://spirallab.co.kr
-> 라이센스키가 없으면 30분간 사용이 가능한 평가모드로 실행됩니다.
+> 라이선스키가 없으면 30분간 사용이 가능한 평가모드로 실행됩니다.
 
 ## 버전 이력
 - 이력 정보 [HISTORY.krKR.md](HISTORY.koKR.md)

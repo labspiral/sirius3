@@ -43,18 +43,8 @@ PropertyTools.Wpf
   License : MIT
   Copyright: Copyright (c) 2014 PropertyTools contributors
   Source  : https://github.com/PropertyTools/PropertyTools
-  Use     : Debug-only WPF TreeListBox behind a Sirius3-owned adapter
-  Delivery: Embedded only in Debug WPF builds and excluded from Release packages
-
-Syncfusion PropertyGrid for WPF
-  Version : 34.1.32
-  License : Essential Studio UI Edition Binary License (commercial proprietary software)
-  Copyright: Copyright Syncfusion Inc.
-  Product : https://www.syncfusion.com/wpf-controls/property-grid
-  Use     : WPF PropertyGrid behind a Sirius3-owned adapter
-  Terms   : Use and redistribution require the applicable Syncfusion agreement.
-            An embedded runtime registration key does not grant redistribution rights;
-            the vendor unlock key is not used and neither key is written to logs.
+  Use     : WPF TreeListBox behind a Sirius3-owned adapter
+  Delivery: Embedded as a private dependency in Debug and Release WPF builds
 
 GLFW (via OpenTK.redist.glfw)
   Version : 3.4.0.44

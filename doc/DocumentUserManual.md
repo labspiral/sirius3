@@ -1,6 +1,6 @@
 # IDocument & Recipe Management User Manual
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 ## 1. IDocument
 
@@ -148,6 +148,10 @@ MatrixStack and Marker Offset are further applied in the processing phase. if th
 You can subscribe to the status changes as `OnNew`, `OnBeforeOpen`, `OnAfterOpen`, `OnBeforeSave`, `OnAfterSave`, `OnSelected`, `OnChildChanged`, `OnPageChanged`, `OnPropertyChanged`, `OnSimulationStarted`, `OnSimulationEnded`.
 
 The code that created the document directly must call `Dispose()` when it is no longer used. Connected View and Device’s closing responsibility must be clearly managed by the code that created each.
+
+## 12. UI host shutdown in 1.15.0
+
+An editor's `DisposeDevices()` now returns `Task`. Await it before closing the editor or disposing its document so registered remote/MCP work finishes while the UI dispatcher is still available. If the host owns a separate server, await its `DisposeAsync()` first. Detach other viewers from a shared document and dispose it once. Finish these steps before the application calls `Core.Cleanup()`. See [WinForms](WinForms.md) and [WPF](WPF.md) for closing-event patterns.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

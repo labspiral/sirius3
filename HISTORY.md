@@ -1,6 +1,12 @@
-﻿# Sirius3 version history
+# Sirius3 version history
 
-## v1.14.4 (2026.9.23)
+## v1.15.0 (2026.10.1)
+
+- added) WinForms HiDPI support
+- fixed) Asynchronous resource disposal support for IRemote and IMCPServer
+- added) Texture rendering support for 3D meshes
+
+## v1.14.5 (2026.9.24)
 
 - added) MCP (Model Context Protocol) support
   - Added an MCP server that lets AI clients register an editor, edit documents and entities, and control devices

@@ -174,6 +174,8 @@ Demonstriert ein XL-SCAN-System aus ACS Motion Control, excelliSCAN bzw. intelli
 
 ## editor_ui
 
+Die bereitgestellten Steuerelemente und `EditorControlSupport.cs` verwenden dieselbe DPI-Behandlung für Symbolleisten. Vorhandene Font-Hosts können über die EXE-DPI-Einstellungen im README umgestellt werden. Passen Sie eigene ImageLists und feste Pixelmaße an die Monitor-DPI an.
+
 Enthält den offenen UI-Quellcode für `SiriusEditorControl` und `SiriusMultiEditorControl` als Ausgangspunkt für eigene WinForms-Oberflächen.
 
 ## editor_viewer

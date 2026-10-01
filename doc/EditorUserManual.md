@@ -1,10 +1,10 @@
 # EditorControl User Manual
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 ## 1. Purpose
 
-`EditorControl` is a public WinForms control that displays the entities in an `IDocument` through an OpenGL editor and supports selection, translation, rotation, scaling, creation, and deletion. When the assigned Document changes, the control detaches events from the previous Document and subscribes to selection and change events on the new one.
+`EditorControl` is available for WinForms and WPF and is a control that displays the entities in an `IDocument` through an OpenGL editor and supports selection, translation, rotation, scaling, creation, and deletion. When the assigned Document changes, the control detaches events from the previous Document and subscribes to selection and change events on the new one.
 
 ## 2. Mouse Operations
 
@@ -21,7 +21,7 @@ During processing, selection and data changes are locked, but extension, reducti
 
 ## 3. Entity Creation
 
-The generating menu provides Point, Line, Arc, Polyline, Text, Barcode, Image, Group and 3D objects. Sirius3 1.12.3 has added Plane, Pyramid, Torus, NURBS Surface. The generated objects enter the current Active Layer of the Page and can immediately edit detailed properties in PropertyGrid.
+The generating menu provides Point, Line, Arc, Polyline, Text, Barcode, Image, Group and 3D objects. Sirius3 1.13.0 has added Plane, Pyramid, Torus, NURBS Surface. The generated objects enter the current Active Layer of the Page and can immediately edit detailed properties in PropertyGrid.
 
 ## 4. Editing Shortcuts
 
@@ -31,7 +31,7 @@ The generating menu provides Point, Line, Arc, Polyline, Text, Barcode, Image, G
 | `CTRL+Z` / `CTRL+Y` | Undo / Redo |
 | `CTRL+A` | Selection of Active Layer |
 | `CTRL+Delete` | Remove the choice. |
-| `CTRL+H` / `CTRL+SHIFT+H` | XY / XYZ / XY / XY / XY / XY |
+| `CTRL+H` / `CTRL+SHIFT+H` | Align to the XY / XYZ origin |
 | `CTRL+R` / `CTRL+M` | Toggle rendering / marking permission |
 | `CTRL+F` | Fit the selected entities or Active Layer to the view |
 | `CTRL+E` / `CTRL+Q` | Next / Previous Camera |
@@ -48,7 +48,7 @@ The generating menu provides Point, Line, Arc, Polyline, Text, Barcode, Image, G
 | `ESC` | Simulation or drag cancellation. |
 | `F2` | Script Properties |
 | `F4` | Marker Preview |
-| `F5` | The current page actually begins. |
+| `F5` | Start actual marking of the current Page |
 | `F6` | Marker Stop |
 | `F8` | Marker Reset |
 
@@ -57,6 +57,12 @@ This key follows the `UI.Config.Keyboard*` settings, especially F5 can operate r
 ## 6. Latest Stability Improvements
 
 Since Sirius3 1.11.14, Editor and TreeView prevent the same shortcut from being handled twice and prevent repeated F5 confirmation dialogs. When the PropertyGrid search box has focus, `CTRL+F` searches properties instead of fitting the editor view; check the current focus when the shortcut appears to behave differently.
+
+## 7. HiDPI and framework integration
+
+With 1.15.0, configure the WinForms executable for Per-Monitor V2 and its demo host form for DPI scaling at a 96-DPI design baseline. WPF uses device-independent layout and an executable DPI manifest. See [WinForms](WinForms.md) and [WPF](WPF.md); the UI DLL does not select the host process DPI mode.
+
+TreeView directional keys remain navigation commands while the tree has focus. Give the editor focus before using entity movement shortcuts. WPF routes keyboard input through its preview events; avoid duplicating the same command in additional host handlers.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

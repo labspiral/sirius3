@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
-using SpiralLab.Sirius3.UI.WPF;
 
 namespace Demos
 {
@@ -13,7 +12,7 @@ namespace Demos
         private MainWindow demoWindow;
 
         /// <inheritdoc />
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
@@ -30,7 +29,6 @@ namespace Demos
             {
                 SpiralLab.Sirius3.Core.Initialize();
                 coreInitialized = true;
-                WPFThemeManager.Initialize();
 
                 demoWindow = new MainWindow();
                 MainWindow = demoWindow;
@@ -38,6 +36,11 @@ namespace Demos
             }
             catch (Exception exception)
             {
+                if (demoWindow != null)
+                {
+                    try { await demoWindow.DisposeEditorsAsync(); }
+                    catch (Exception cleanupException) { System.Diagnostics.Trace.WriteLine(cleanupException); }
+                }
                 MessageBox.Show(exception.ToString(), "Sirius3 initialization failed",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 Shutdown(-1);
@@ -47,16 +50,6 @@ namespace Demos
         /// <inheritdoc />
         protected override void OnExit(ExitEventArgs e)
         {
-            try
-            {
-                demoWindow?.DisposeEditors();
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Sirius3 cleanup failed",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
             try
             {
                 if (coreInitialized)

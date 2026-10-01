@@ -1,6 +1,6 @@
 # 2D Scanner Field Correction User Manual
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 ## 1. Why Field Correction Is Necessary
 
@@ -36,14 +36,14 @@ If you have more points, you can describe the local defect in more detail, but t
 
 ## 5. Entering Error Data
 
-The 2D correction grid in Sirius3 1.12.3 can differentiate dx/dy as **discovered or sheltered**.
+The 2D correction grid in Sirius3 1.13.0 can differentiate dx/dy as **discovered or sheltered**.
 
 - `0.010 -0.005`
 - `0.010, -0.005`
 
 dx/dy should fix the difference between the theory and the measurement point to the direction required by the API. When using the “measurement value – theoretical value” provided by the external vision, first unite the coordinate direction, camera rotation, reverse and unit. It is advisable to put the known defect in the center and four corners and then verify the code and then import the entire data.
 
-In 1.12.3, the cell color according to the defect distance is re- displayed. color is an assistant means to find the ideal points, and whether the accurate permission is judged by the numbers and the process gap.
+In 1.13.0, the cell color according to the defect distance is re- displayed. color is an assistant means to find the ideal points, and whether the accurate permission is judged by the numbers and the process gap.
 
 ## 6. Create RtcCorrection2D with external vision data
 

@@ -1,10 +1,10 @@
 # SiriusEditorControl User Manual
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 ## 1. 통합 편집기
 
-`SiriusEditorControl`은 EditorControl, Page/Layer TreeView, PropertyGrid와 Scanner·Laser·Marker·I/O·PowerMeter UI를 한 화면에 묶는 공개 WinForms 컨트롤입니다. 공개 `beginner`와 `editor_ui` 데모의 소스를 복사해 메뉴·탭·장치 UI를 제품에 맞게 바꿀 수 있습니다.
+`SiriusEditorControl`은 WinForms와 WPF에서 EditorControl, Page/Layer TreeView, PropertyGrid와 Scanner·Laser·Marker·I/O·PowerMeter UI를 한 화면에 제공합니다. WinForms는 `beginner`와 `editor_ui`, WPF는 `wpf_editor_ui`를 기준으로 메뉴·탭·장치 UI를 제품에 맞게 구성합니다.
 
 ## 2. Page 탭
 
@@ -42,7 +42,13 @@ Laser Ready, 최대 출력, Power Control 방식과 제조사별 설정을 확�
 
 `RegisterDevices`로 Scanner, Laser, PowerMeter, Extension/LASER-port DInput·DOutput, Marker와 Remote를 연결합니다. 데모는 `config*.ini`를 읽어 Factory로 장치를 만들고 등록한 뒤 Marker Ready를 확인합니다.
 
-종료 시 실행 중인 Marker를 먼저 멈추고 생성한 Device를 해제한 뒤 `Core.Cleanup()`을 호출하십시오.
+편집기나 Document를 해제하기 전에 소유 UI 스레드에서 `await editor.DisposeDevices()`를 호출합니다. 1.15.0에서는 `Task`를 반환하며 등록된 MCP 서버와 Remote를 먼저 비동기로 해제한 뒤 장치를 정리합니다. 별도 소유 서버는 먼저 `await server.DisposeAsync()`를 호출합니다. 소유한 Control과 Document는 한 번만 해제하고 Application 수명 관리 코드에서 `Core.Cleanup()`을 호출합니다.
+
+## 11. 프레임워크 선택과 HiDPI
+
+패키지 컨트롤은 `SpiralLab.Sirius3.UI.WinForms` 또는 `SpiralLab.Sirius3.UI.WPF`, 공개 소스 복사본은 `Demos`를 사용합니다. WPF 컨트롤은 필요한 테마 리소스를 자체 초기화합니다. WPF Multi-Beam 메뉴는 지정된 Scanner가 `IRtcMultiBeam`일 때만 표시하며, 가상·제조사별 Laser 패널은 등록 장치나 사용자 WPF UI Factory에 따라 선택합니다.
+
+WinForms 호스트는 `PerMonitorV2`를 선택하고 데모 Form은 `AutoScaleMode.Dpi`와 `(96, 96)` 설계 기준을 사용합니다. WPF는 DPI-aware 실행 파일 manifest와 장치 독립 XAML 레이아웃을 사용합니다. 프레임워크별 시작·등록·종료 예제는 [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md) 가이드를 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

@@ -1,12 +1,14 @@
 # Sirius3 MCP Editor Demo: AI client setup
 
+> Reference version: Sirius3 1.15.0 (public Release features)
+
 [English](MCP.md) | [한국어](MCP.koKR.md)
 
-`editor_remote_mcp` is a public WinForms demo that connects one Sirius3 editor to an MCP-compatible AI client. It registers the devices configured in `config.ini` and, when `[MCP0] ENABLE=1`, starts the MCP service and displays its status, endpoint, and access token.
+`editor_remote_mcp` is a public WinForms demo that connects one Sirius3 editor to an MCP-compatible AI client. It registers the devices configured in `config.ini` and starts the MCP service from its startup code and displays its status, endpoint, and access token.
 
 Every supported target, including `net481`, uses authenticated Streamable HTTP. The demo reads its endpoint, access mode, and documentation root from `[MCP0]` in `config.ini`. `SIRIUS3_MCP_TOKEN` may supply a fixed token; otherwise a new token is generated for each run. HTTP listens on `http://0.0.0.0:3712/mcp` by default. Use `http://127.0.0.1:3712/mcp` from the same computer or replace the host with the server's reachable IP. STDIO is not supported.
 
-One running demo instance represents one editor and one MCP server. Run separate instances on different HTTP ports when multiple editors are needed. Device capabilities follow `config.ini`. File open/import/save and file-backed entity factories remain unavailable unless the host adds at least one `AllowedFileRoots` entry; `[MCP0]` does not configure file roots.
+One running demo instance represents one editor and one MCP server. For several editors on one computer, host them in one Sirius3 application and assign distinct server ports. Close the previous demo before starting another instance. Device capabilities follow `config.ini`. File open/import/save and file-backed entity factories remain unavailable unless the host adds at least one `AllowedFileRoots` entry; `[MCP0]` does not configure file roots.
 
 Client cancellation removes requests that are still queued for the editor UI. It does not stop a marking job or undo an action that already started; use an explicit stop request and check the resulting state.
 
@@ -16,7 +18,7 @@ Entity edits use the current active layer. Missing or stale entity IDs, pen/laye
 
 ## Demo server configuration
 
-Use `[MCP0]` in `config.ini` to enable the server and configure its HTTP endpoint, access mode, and SCANLAB documentation root. The demo applies environment settings first; a configured `[MCP0] URI` overrides the endpoint environment variable. `SIRIUS3_MCP_TOKEN` may supply the fixed server token. The client's `bearer_token_env_var = "SIRIUS3_MCP_TOKEN"` reads a token from the client process; it does not configure a running server. The server and client must use matching credentials.
+Use `[MCP0]` in `config.ini` to configure the HTTP endpoint, access mode, and SCANLAB documentation root. The current `MCPDemoHelper` starts the server without reading `ENABLE`; that key does not disable this demo server. The demo applies environment settings first; a configured `[MCP0] URI` overrides the endpoint environment variable. `SIRIUS3_MCP_TOKEN` may supply the fixed server token. The client's `bearer_token_env_var = "SIRIUS3_MCP_TOKEN"` reads a token from the client process; it does not configure a running server. The server and client must use matching credentials.
 
 Permissions and the documentation root come from `config.ini`; file roots cannot be configured by this demo. The demo does not persist environment secrets.
 
@@ -26,11 +28,10 @@ Official setup and field definitions: [MCP](https://learn.chatgpt.com/docs/exten
 
 Use the executable produced from the public `demos/editor_remote_mcp` project or its distributed release package. Keep the executable, `config.ini`, and the supplied runtime/dependency files together. Select the output that matches the installed runtime: `net481`, `net8.0-windows7.0`, or `net9.0-windows7.0`.
 
-Review `config.ini` before startup because it determines which scanner, laser, marker, digital I/O, and power-meter implementations the demo registers. Enable and configure the server as follows. The setup steps below require only the public demo output and do not depend on a separate library source repository.
+Review `config.ini` before startup because it determines which scanner, laser, marker, digital I/O, and power-meter implementations the demo registers. Configure the server as follows. The setup steps below require only the public demo output and do not depend on a separate library source repository.
 
 ```ini
 [MCP0]
-ENABLE=1
 URI=http://0.0.0.0:3712/mcp
 ACCESS=All
 DocumentationRoot=..\..\..\doc\SCANLAB
@@ -41,6 +42,12 @@ Relative `DocumentationRoot` paths are resolved from the directory containing th
 `ACCESS` accepts `ReadOnly`, `DocumentControl`, `DeviceControl`, or `All`. The access mode can also be changed from the editor's MCP PropertyGrid while the server is running; the change applies to subsequent requests.
 
 This guide connects the WinForms `editor_remote_mcp` demo to Claude, Codex, Gemini, and GitHub Copilot. The examples were checked against the official client documentation on 2026-09-14.
+
+## HiDPI, WPF hosting, and shutdown
+
+The WinForms demo uses Per-Monitor V2 and a 96-DPI `AutoScaleMode.Dpi` main form. Follow [WinForms](WinForms.md) for the modern .NET startup property and the separate `net481` config/manifest settings. WPF applications use the same authenticated HTTP API through the WPF `MCPFactory.CreateServer` overload; see [WPF](WPF.md).
+
+In 1.15.0, await `IMCPServer.DisposeAsync()` before releasing its editor binding. If assigned to the editor's `MCPServer` property, `await editor.DisposeDevices()` handles the registered server and remote first, then the devices. Keep the UI event loop alive until cleanup finishes. The public demo cancels the first close, awaits cleanup, then closes again; do not replace this with a blocking wait.
 
 ## Safety first
 
@@ -60,7 +67,7 @@ Start-Process '<path-to-editor_remote_mcp>\editor_remote_mcp.exe'
 - Same-computer client endpoint: `http://127.0.0.1:3712/mcp`
 - Authentication: the Bearer token displayed by the demo
 
-Change `[MCP0] URI` before starting the demo to use another endpoint. Set `SIRIUS3_MCP_TOKEN` to use a fixed token. For multiple editors, run separate demo processes on different HTTP ports.
+Change `[MCP0] URI` before starting the demo to use another endpoint. Set `SIRIUS3_MCP_TOKEN` to use a fixed token. For multiple editors on one computer, use one application with separate editor/server instances and distinct ports.
 
 ## Connection summary
 
@@ -74,9 +81,9 @@ Use the same HTTP setup on every target.
 
 Start the HTTP demo and copy its displayed endpoint/token into the client. The following variable configures the client; changing it does not update an already running server.
 
-The endpoint and access mode come from `config.ini`; the token may remain automatically generated or be supplied through `SIRIUS3_MCP_TOKEN`. Use a separate process and listening port for each editor.
+The endpoint and access mode come from `config.ini`; the token may remain automatically generated or be supplied through `SIRIUS3_MCP_TOKEN`. Use distinct listening ports for multiple servers within one Sirius3 application.
 
-Start the selected demo and confirm that it is running. Copy its displayed endpoint and token into the client configuration. Replace a displayed `0.0.0.0` host with `127.0.0.1` on the same computer or the server's reachable IP. The following environment variable is only a way to pass credentials to AI clients; the server does not read it.
+Start the selected demo and confirm that it is running. Copy its displayed endpoint and token into the client configuration. Replace a displayed `0.0.0.0` host with `127.0.0.1` on the same computer or the server's reachable IP. Setting the following variable in the client process does not change a running server. The demo also reads `SIRIUS3_MCP_TOKEN` from its own environment during startup through `ApplyEnvironment()`.
 
 ```powershell
 $endpoint = 'http://127.0.0.1:3712/mcp'
@@ -113,6 +120,8 @@ Run `/mcp` in Claude Code and confirm that `editor_remote_mcp` is connected. Do 
 ## 2. ChatGPT desktop app / Codex
 
 On Windows, the ChatGPT desktop app, Codex CLI, and the Codex IDE extension on the same host share `%USERPROFILE%\.codex\config.toml`. This guide edits that file directly instead of relying on a Settings screen that may differ between app versions.
+
+The shared configuration for the same Codex host is also documented by [OpenAI Docs](https://learn.chatgpt.com/docs/extend/mcp). The Codex setup in this section was rechecked on 2026-10-01; the other client examples retain their earlier verification date.
 
 1. Fully quit the ChatGPT desktop app.
 2. Open `%USERPROFILE%\.codex\config.toml`. If it does not exist, create the `.codex` folder and `config.toml` file.

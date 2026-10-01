@@ -477,7 +477,7 @@ namespace Demos
         /// <summary>Detaches and disposes all registered device sets, continuing after individual failures.
         /// <para>모든 등록 장치를 연결 해제하고 개별 실패가 발생해도 나머지 장치를 해제합니다.</para></summary>
         /// <exception cref="AggregateException">One or more cleanup operations failed.<br/>하나 이상의 해제 작업이 실패했습니다.</exception>
-        public void DisposeDevices()
+        private void DisposeDevicesCore()
         {
             var cleanup = new WPFCleanup();
             var devices = new List<IDisposable>();
@@ -510,6 +510,46 @@ namespace Demos
             cleanup.Dispose(devices.ToArray());
             cleanup.Run(UpdateMarkerBusyState);
             cleanup.ThrowIfFailed();
+        }
+
+        /// <summary>
+        /// Asynchronously disposes the registered MCP server and remotes, then disposes the remaining device sets.
+        /// <para>등록된 MCP 서버와 원격 연결을 비동기로 해제한 뒤 나머지 장치 세트를 해제합니다.</para>
+        /// </summary>
+        /// <remarks>Call and await on the owning dispatcher before disposing the editor or document.
+        /// <para>편집기 또는 문서를 해제하기 전에 소유 디스패처에서 호출하고 완료를 기다립니다.</para></remarks>
+        /// <returns>A task that completes after device cleanup.<br/>장치 해제가 끝나면 완료되는 작업입니다.</returns>
+        /// <exception cref="AggregateException">One or more resources failed to dispose.<br/>하나 이상의 자원 해제에 실패한 경우입니다.</exception>
+        public async System.Threading.Tasks.Task DisposeDevices()
+        {
+            var server = MCPServer;
+            MCPServer = null;
+            var registeredRemotes = new System.Collections.Generic.List<IRemote>();
+            for (int index = 0; index < DeviceCapacity; index++)
+            {
+                var remote = remotes[index];
+                if (remote != null && !registeredRemotes.Exists(value => ReferenceEquals(value, remote)))
+                    registeredRemotes.Add(remote);
+                remotes[index] = null;
+            }
+            var failures = new System.Collections.Generic.List<Exception>();
+            try { if (server != null) await server.DisposeAsync(); }
+            catch (Exception ex) { failures.Add(ex); }
+            foreach (var remote in registeredRemotes)
+            {
+                try
+                {
+                    if (remote is IAsyncDisposable asyncRemote)
+                        await asyncRemote.DisposeAsync();
+                    else
+                        remote.Dispose();
+                }
+                catch (Exception ex) { failures.Add(ex); }
+            }
+            try { DisposeDevicesCore(); }
+            catch (Exception ex) { failures.Add(ex); }
+            if (failures.Count > 0)
+                throw new AggregateException("Device cleanup failed.", failures);
         }
 
         /// <summary>Releases UI and rendering resources; assigned documents and devices remain caller-owned.

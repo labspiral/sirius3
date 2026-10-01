@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3.Config 설정 가이드
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 ## 1. 역할과 설정 시점
 

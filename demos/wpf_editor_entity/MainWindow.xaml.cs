@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using SpiralLab.Sirius3.Document;
 
@@ -12,6 +13,8 @@ namespace Demos
         private bool devicesInitialized;
         private bool editorDisposed;
         private bool initializationFailed;
+        private bool shutdownStarted;
+        private bool closeAfterShutdown;
 
         /// <summary>Initializes the WPF demo window.</summary>
         public Form1()
@@ -42,8 +45,11 @@ namespace Demos
             }
         }
 
-        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        private async void MainWindow_Closing(object sender, CancelEventArgs e)
         {
+            if (closeAfterShutdown) return;
+            e.Cancel = true;
+            if (shutdownStarted) return;
             if (!initializationFailed && MessageBox.Show(
                     this,
                     "Do you really want to terminate the program?",
@@ -55,25 +61,22 @@ namespace Demos
                 return;
             }
             // Complete GL cleanup while the host can still render a context callback.
-            try { DisposeEditor(); }
+            shutdownStarted = true;
+            await Task.Yield();
+            try { await DisposeEditorAsync(); }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "Sirius3 cleanup failed",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        private void MainWindow_Closed(object sender, EventArgs e)
-        {
-            try { DisposeEditor(); }
-            catch (Exception exception)
+            finally
             {
-                MessageBox.Show(exception.Message, "Sirius3 cleanup failed",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                closeAfterShutdown = true;
+                Close();
             }
         }
 
-        internal void DisposeEditor()
+        internal async Task DisposeEditorAsync()
         {
             if (editorDisposed)
                 return;
@@ -81,7 +84,7 @@ namespace Demos
 
             var document = siriusEditorControl1.Document;
             var failures = new List<Exception>();
-            try { siriusEditorControl1.DisposeDevices(); }
+            try { await siriusEditorControl1.DisposeDevices(); }
             catch (Exception exception) { failures.Add(exception); }
             try { siriusEditorControl1.Dispose(); }
             catch (Exception exception) { failures.Add(exception); }

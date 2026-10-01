@@ -1,6 +1,6 @@
 # [사용자 메뉴얼] RTC 실시간 계측 및 데이터 분석 (Measurement & Plot)
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 
 ## 1. 개요

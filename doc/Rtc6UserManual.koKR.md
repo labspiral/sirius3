@@ -1,6 +1,6 @@
 # SCANLAB RTC6 Controller User Manual
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 ## 1. RTC6의 역할
 
@@ -86,7 +86,7 @@ Wobbel은 기본 Mark 경로에 원·타원·8자 등의 주기 운동을 합성
 
 F-theta 렌즈의 비선형성, 미러 각도, 광축 편심, 스캔헤드 장착 오차 때문에 명령 좌표와 실제 가공 위치는 일치하지 않을 수 있습니다. 먼저 올바른 KFactor로 전체 축척을 맞춘 뒤 2D/3D 보정 파일로 위치별 오차를 줄입니다.
 
-RTC6 초기화 후에는 보정 파일과 Table 선택, Laser Mode, Scanner Ready, Error Code, 아날로그·디지털 I/O 상태를 확인하십시오. Sirius3 1.12.3은 RTC6 상태와 아날로그 I/O를 세대에 맞는 컨트롤러 API로 읽고 Ethernet 연결 오류와 종료 중 상태 타이머를 안정적으로 처리합니다.
+RTC6 초기화 후에는 보정 파일과 Table 선택, Laser Mode, Scanner Ready, Error Code, 아날로그·디지털 I/O 상태를 확인하십시오. Sirius3 1.13.0은 RTC6 상태와 아날로그 I/O를 세대에 맞는 컨트롤러 API로 읽고 Ethernet 연결 오류와 종료 중 상태 타이머를 안정적으로 처리합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

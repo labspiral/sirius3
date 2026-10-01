@@ -914,6 +914,13 @@ namespace Demos
         public SiriusEditorControl()
         {
             InitializeComponent();
+            DpiContainerScale.Attach(this);
+            TabControlDpi.Attach(this);
+            if (!EditorControl.IsDesigner())
+            {
+                ToolStripDpi.Attach(tlsTop1, 24, this);
+                ToolStripDpi.Attach(stsBottom, 24, this);
+            }
             ApplyLocalization();
             powerReadoutUpdates = new LatestValueDispatcher<(IPowerMeter Source, PowerReadoutState State, MeasureUnits Unit, double Value)>(
                 update => EditorControlDispatch.Run(this, () => update()),
@@ -1060,11 +1067,7 @@ namespace Demos
             marker.Ready(Document, View, scanner as IRtc, laser, powerMeter);
         }
 
-        /// <summary>
-        /// Dispose all registered devices.
-        /// <para>장치를 모두 해지하고 자원을 회수합니다.</para>
-        /// </summary>
-        public void DisposeDevices()
+        private void DisposeDevicesCore()
         {
             Document?.ActSimulateStop(false);
             if (marker != null)
@@ -1099,6 +1102,37 @@ namespace Demos
 
             Scanner?.Dispose();
             Scanner = null;
+        }
+
+        /// <summary>
+        /// Asynchronously disposes the registered MCP server and remote, then disposes the remaining devices.
+        /// <para>등록된 MCP 서버와 원격 연결을 비동기로 해제한 뒤 나머지 장치를 해제합니다.</para>
+        /// </summary>
+        /// <remarks>Call and await on the owning UI thread before disposing the editor or document.
+        /// <para>편집기 또는 문서를 해제하기 전에 소유 UI 스레드에서 호출하고 완료를 기다립니다.</para></remarks>
+        /// <returns>A task that completes after device cleanup.<br/>장치 해제가 끝나면 완료되는 작업입니다.</returns>
+        /// <exception cref="AggregateException">One or more resources failed to dispose.<br/>하나 이상의 자원 해제에 실패한 경우입니다.</exception>
+        public async System.Threading.Tasks.Task DisposeDevices()
+        {
+            var server = MCPServer;
+            MCPServer = null;
+            var registeredRemote = Remote;
+            Remote = null;
+            var failures = new System.Collections.Generic.List<Exception>();
+            try { if (server != null) await server.DisposeAsync(); }
+            catch (Exception ex) { failures.Add(ex); }
+            try
+            {
+                if (registeredRemote is IAsyncDisposable asyncRemote)
+                    await asyncRemote.DisposeAsync();
+                else
+                    registeredRemote?.Dispose();
+            }
+            catch (Exception ex) { failures.Add(ex); }
+            try { DisposeDevicesCore(); }
+            catch (Exception ex) { failures.Add(ex); }
+            if (failures.Count > 0)
+                throw new AggregateException("Device cleanup failed.", failures);
         }
 
         /// <summary>
@@ -1286,7 +1320,7 @@ namespace Demos
 
             bool isCtrlPressed = (Control.ModifierKeys & Keys.Control) == Keys.Control;
 
-            var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
+            using var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
                 MessageBoxLocalization.S("Scanner_ConfirmResetEncoders"),
                 MessageBoxLocalization.S("Title_Warning"),
                 MessageBoxButtons.YesNo);
@@ -1939,11 +1973,11 @@ namespace Demos
                 FileName = Document.FileName,
             };
 
-            if (dlg.ShowDialog() != DialogResult.OK) return;
+            if (dlg.ShowDialog(this) != DialogResult.OK) return;
 
             if (Document.IsModified)
             {
-                var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
+                using var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
                     MessageBoxLocalization.S("Document_ConfirmOpenUnsaved"),
                     MessageBoxLocalization.S("Title_Warning"),
                     MessageBoxButtons.YesNo);
@@ -2000,7 +2034,7 @@ namespace Demos
                 OverwritePrompt = true
             };
 
-            if (dlg.ShowDialog() != DialogResult.OK) return;
+            if (dlg.ShowDialog(this) != DialogResult.OK) return;
             bool success;
             var previousCursor = Cursor.Current;
             try

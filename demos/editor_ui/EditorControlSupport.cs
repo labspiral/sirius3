@@ -5,7 +5,11 @@
 
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using SpiralLab.Sirius3.Localization;
@@ -14,6 +18,645 @@ using SpiralLab.Sirius3.Scanner.Rtc;
 
 namespace Demos
 {
+    /// <summary>Refreshes Framework's cached DPI factor before a parent scales nested library containers.</summary>
+    internal static class DpiContainerScale
+    {
+#if NETFRAMEWORK
+        private static readonly ConditionalWeakTable<ContainerControl, Entry> entries = new ConditionalWeakTable<ContainerControl, Entry>();
+        private static readonly System.Reflection.MethodInfo scaleChildren = typeof(ContainerControl).GetMethod(
+            "FormDpiChanged", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+        private static readonly System.Reflection.FieldInfo deviceDpi = typeof(Control).GetField(
+            "deviceDpi", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+        private static readonly System.Reflection.MethodInfo rescaleConstants = typeof(Control).GetMethod(
+            "RescaleConstantsForDpi", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern uint GetDpiForWindow(IntPtr handle);
+#endif
+
+        internal static void Attach(ContainerControl control)
+        {
+#if NETFRAMEWORK
+            if (control is Form || control.AutoScaleMode != AutoScaleMode.Dpi || SpiralLab.Sirius3.UI.WinForms.EditorControl.IsDesigner()) return;
+            if (!entries.TryGetValue(control, out _)) entries.Add(control, new Entry(control));
+#endif
+        }
+
+#if NETFRAMEWORK
+        private sealed class Entry
+        {
+            private readonly ContainerControl control;
+            private int dpi;
+            private bool suspended;
+            private bool updatePending;
+            private readonly System.Collections.Generic.List<FontState> fonts = new System.Collections.Generic.List<FontState>();
+
+            internal Entry(ContainerControl control)
+            {
+                this.control = control;
+                dpi = control.DeviceDpi;
+                TrackFonts(control);
+                control.HandleCreated += HandleCreated;
+                control.HandleDestroyed += HandleDestroyed;
+                control.VisibleChanged += QueueUpdate;
+                control.DpiChangedBeforeParent += BeforeParent;
+                control.DpiChangedAfterParent += AfterParent;
+                control.Disposed += Disposed;
+            }
+
+            private void TrackFonts(Control owner)
+            {
+                fonts.Add(new FontState(owner));
+                if (owner is ToolStrip strip)
+                    foreach (ToolStripItem item in strip.Items) fonts.Add(new FontState(owner, item));
+                owner.FontChanged += FontChanged;
+                foreach (Control child in owner.Controls)
+                    if (!(child is UserControl)) TrackFonts(child);
+            }
+
+            private void FontChanged(object sender, EventArgs args)
+            {
+                if (suspended || control.DeviceDpi != dpi || ((Control)sender).DeviceDpi != dpi) return;
+                foreach (var state in fonts)
+                    if (ReferenceEquals(state.Control, sender)) state.Capture();
+            }
+
+            private void HandleCreated(object sender, EventArgs args) => QueueUpdate(sender, args);
+
+            private void QueueUpdate(object sender, EventArgs args)
+            {
+                if (updatePending || control.IsDisposed || control.Disposing || !control.IsHandleCreated) return;
+                updatePending = true;
+                control.BeginInvoke(new Action(UpdateAfterLayout));
+            }
+
+            private void UpdateAfterLayout()
+            {
+                updatePending = false;
+                if (suspended || control.IsDisposed || control.Disposing || !control.IsHandleCreated
+                    || control.AutoScaleMode != AutoScaleMode.Dpi) return;
+                if (control.Visible && control.TopLevelControl != null && deviceDpi != null)
+                {
+                    // Synchronize the same cache/constants as Framework's OnHandleCreated,
+                    // using this HWND's DPI and preserving child handles and GL contexts.
+                    foreach (var state in fonts)
+                    {
+                        var child = state.Control;
+                        if (child.IsDisposed || !child.IsHandleCreated || child.DeviceDpi == control.TopLevelControl.DeviceDpi) continue;
+                        int oldDpi = child.DeviceDpi;
+                        int nativeDpi = (int)GetDpiForWindow(child.Handle);
+                        if (nativeDpi <= 0 || nativeDpi == oldDpi) continue;
+                        deviceDpi.SetValue(child, nativeDpi);
+                        rescaleConstants?.Invoke(child, new object[] { oldDpi, nativeDpi });
+                    }
+                }
+                var currentDpi = control.DeviceDpi;
+                var baseline = control.AutoScaleDimensions;
+                if (currentDpi != dpi && baseline == new SizeF(dpi, dpi) && scaleChildren != null)
+                {
+                    // Hidden Framework controls can miss the parent's DPI messages.
+                    // Their outer bounds are already scaled; only recover the missed children.
+                    float factor = (float)currentDpi / dpi;
+                    control.SuspendLayout();
+                    suspended = true;
+                    try
+                    {
+                        ResetScaleCache(baseline);
+                        foreach (var state in fonts) state.ScaleUnchangedFont(factor);
+                        control.AutoScaleDimensions = new SizeF(currentDpi, currentDpi);
+                        scaleChildren.Invoke(control, new object[] { factor });
+                    }
+                    finally
+                    {
+                        suspended = false;
+                        control.ResumeLayout(true);
+                    }
+                }
+                if (control.AutoScaleDimensions != new SizeF(currentDpi, currentDpi)) return;
+                dpi = currentDpi;
+                foreach (var state in fonts) state.Capture();
+                foreach (var state in fonts)
+                    if (state.IsControl && state.Control is ToolStrip strip) ToolStripDpi.Refresh(strip);
+            }
+
+            private void ResetScaleCache(SizeF baseline)
+            {
+                control.AutoScaleMode = AutoScaleMode.Inherit;
+                control.AutoScaleMode = AutoScaleMode.Dpi;
+                control.AutoScaleDimensions = baseline;
+            }
+
+            private void BeforeParent(object sender, EventArgs args)
+            {
+                if (suspended || dpi == control.DeviceDpi || control.AutoScaleMode != AutoScaleMode.Dpi) return;
+                var baseline = control.AutoScaleDimensions;
+                control.SuspendLayout();
+                suspended = true;
+                // Framework caches CurrentAutoScaleDimensions on nested containers.
+                // Changing mode invalidates that cache through public APIs. Keep the
+                // old baseline until the parent has applied its single scaling pass.
+                ResetScaleCache(baseline);
+            }
+
+            private void AfterParent(object sender, EventArgs args)
+            {
+                if (!suspended) { QueueUpdate(sender, args); return; }
+                // Framework scales control fonts, but explicit ToolStripItem fonts can
+                // remain unchanged even on a visible page. Do not scale changed copies again.
+                float factor = (float)control.DeviceDpi / dpi;
+                foreach (var state in fonts) state.ScaleUnchangedFont(factor);
+                dpi = control.DeviceDpi;
+                control.AutoScaleDimensions = new SizeF(dpi, dpi);
+                suspended = false;
+                control.ResumeLayout(true);
+                foreach (var state in fonts) state.Capture();
+                QueueUpdate(sender, args);
+            }
+
+            private void HandleDestroyed(object sender, EventArgs args)
+            {
+                updatePending = false;
+                if (!suspended) return;
+                suspended = false;
+                control.ResumeLayout(false);
+            }
+
+            private void Disposed(object sender, EventArgs args)
+            {
+                control.HandleCreated -= HandleCreated;
+                control.HandleDestroyed -= HandleDestroyed;
+                control.VisibleChanged -= QueueUpdate;
+                control.DpiChangedBeforeParent -= BeforeParent;
+                control.DpiChangedAfterParent -= AfterParent;
+                control.Disposed -= Disposed;
+                foreach (var state in fonts)
+                {
+                    state.Control.FontChanged -= FontChanged;
+                    state.Dispose();
+                }
+                fonts.Clear();
+            }
+
+            private sealed class FontState : IDisposable
+            {
+                internal readonly Control Control;
+                private readonly ToolStripItem item;
+                private Font previous;
+                private Font owned;
+
+                private Font Font => item?.Font ?? Control.Font;
+                internal bool IsControl => item == null;
+
+                internal FontState(Control control, ToolStripItem item = null)
+                {
+                    Control = control;
+                    this.item = item;
+                    Capture();
+                }
+
+                internal void Capture()
+                {
+                    previous = Font;
+                    if (owned != null && !ReferenceEquals(previous, owned))
+                    {
+                        owned.Dispose();
+                        owned = null;
+                    }
+                }
+
+                internal void ScaleUnchangedFont(float factor)
+                {
+                    var owner = (object)item ?? Control;
+                    if (Control.IsDisposed || (item != null && item.IsDisposed) || !ReferenceEquals(Font, previous)
+                        || !System.ComponentModel.TypeDescriptor.GetProperties(owner)["Font"].ShouldSerializeValue(owner)) return;
+                    var replacement = new Font(previous.FontFamily, previous.Size * factor, previous.Style,
+                        previous.Unit, previous.GdiCharSet, previous.GdiVerticalFont);
+                    var retired = owned;
+                    owned = replacement;
+                    if (item == null) Control.Font = replacement;
+                    else item.Font = replacement;
+                    retired?.Dispose();
+                }
+
+                public void Dispose() { owned?.Dispose(); owned = null; }
+            }
+        }
+#endif
+    }
+
+    /// <summary>Preserves logical icon dimensions and borrowed resource images on library toolbars.</summary>
+    internal static class ToolStripDpi
+    {
+        private static readonly ConditionalWeakTable<ToolStrip, Entry> entries = new ConditionalWeakTable<ToolStrip, Entry>();
+
+        internal static void Attach(ToolStrip strip, int logicalImageSize, Control owner = null)
+        {
+            if (!entries.TryGetValue(strip, out _))
+                entries.Add(strip, new Entry(strip, logicalImageSize, owner));
+        }
+
+        internal static void Refresh(ToolStrip strip)
+        {
+            if (entries.TryGetValue(strip, out var entry)) entry.Update(strip, EventArgs.Empty);
+        }
+
+        private static int Pixels(Control owner, int logicalSize)
+            => (int)Math.Round(logicalSize * owner.DeviceDpi / 96d);
+
+        private sealed class Entry
+        {
+            private readonly ToolStrip strip;
+            private readonly int logicalImageSize;
+            private readonly Control owner;
+            private readonly Dictionary<ToolStripItem, ImageCopy> naturalImages = new Dictionary<ToolStripItem, ImageCopy>();
+            private bool updating;
+
+            internal Entry(ToolStrip strip, int logicalImageSize, Control owner)
+            {
+                this.strip = strip;
+                this.logicalImageSize = logicalImageSize;
+                this.owner = owner;
+                strip.HandleCreated += Update;
+                strip.DpiChangedAfterParent += Update;
+                strip.ItemAdded += ItemAdded;
+                strip.ItemRemoved += ItemRemoved;
+                strip.Disposed += Disposed;
+                if (strip is ToolStripDropDown dropdown) dropdown.Opening += Opening;
+                Update(strip, EventArgs.Empty);
+            }
+
+            private void Opening(object sender, System.ComponentModel.CancelEventArgs e) => Update(sender, e);
+            private void ItemAdded(object sender, ToolStripItemEventArgs e) => Update(sender, e);
+
+            private void ItemRemoved(object sender, ToolStripItemEventArgs e)
+            {
+                if (!naturalImages.TryGetValue(e.Item, out var copy)) return;
+                if (ReferenceEquals(e.Item.Image, copy.Scaled)) e.Item.Image = copy.Original;
+                copy.Scaled?.Dispose();
+                naturalImages.Remove(e.Item);
+            }
+
+            internal void Update(object sender, EventArgs e)
+            {
+                if (updating || strip.IsDisposed) return;
+                updating = true;
+                strip.SuspendLayout();
+                try
+                {
+                    var metricsOwner = owner ?? strip;
+                    int size = Pixels(metricsOwner, logicalImageSize);
+                    strip.ImageScalingSize = new Size(size, size);
+                    foreach (ToolStripItem item in strip.Items)
+                    {
+                        if (item is ToolStripDropDownItem dropDownItem)
+                            Attach(dropDownItem.DropDown, logicalImageSize, metricsOwner);
+                        UpdateNaturalImage(item, metricsOwner);
+                    }
+                }
+                finally
+                {
+                    strip.ResumeLayout(true);
+                    updating = false;
+                }
+            }
+
+            private void UpdateNaturalImage(ToolStripItem item, Control metricsOwner)
+            {
+                if (item.ImageScaling != ToolStripItemImageScaling.None || item.Image == null) return;
+                if (!naturalImages.TryGetValue(item, out var copy))
+                {
+                    copy = new ImageCopy(item.Image);
+                    naturalImages.Add(item, copy);
+                }
+                else if (!ReferenceEquals(item.Image, copy.Original) && !ReferenceEquals(item.Image, copy.Scaled))
+                {
+                    copy.Scaled?.Dispose();
+                    copy = new ImageCopy(item.Image);
+                    naturalImages[item] = copy;
+                }
+                var size = new Size(Pixels(metricsOwner, copy.Original.Width),
+                    Pixels(metricsOwner, copy.Original.Height));
+                if (copy.Scaled != null && copy.Scaled.Size == size) return;
+                var previous = copy.Scaled;
+                copy.Scaled = null;
+                if (size == copy.Original.Size) item.Image = copy.Original;
+                else
+                {
+                    copy.Scaled = DpiImage.CreateCopy(copy.Original, size, item.ImageTransparentColor);
+                    item.Image = copy.Scaled;
+                }
+                previous?.Dispose();
+            }
+
+            private void Disposed(object sender, EventArgs e)
+            {
+                foreach (var copy in naturalImages.Values) copy.Scaled?.Dispose();
+                naturalImages.Clear();
+            }
+        }
+
+        private sealed class ImageCopy
+        {
+            internal readonly Image Original;
+            internal Bitmap Scaled;
+            internal ImageCopy(Image original) => Original = original;
+        }
+    }
+
+    /// <summary>Scales borrowed button images from their original pixel dimensions without altering control bounds.</summary>
+    internal static class ButtonImageDpi
+    {
+        private static readonly ConditionalWeakTable<ButtonBase, Entry> entries = new ConditionalWeakTable<ButtonBase, Entry>();
+
+        internal static void Attach(Control root)
+        {
+            if (SpiralLab.Sirius3.UI.WinForms.EditorControl.IsDesigner()) return;
+            AttachChildren(root);
+        }
+
+        private static void AttachChildren(Control root)
+        {
+            foreach (Control child in root.Controls)
+            {
+                // Nested user controls own their DPI images, including controls from another assembly.
+                if (child is UserControl) continue;
+                if (child is ButtonBase button && button.ImageList == null && button.Image != null && !entries.TryGetValue(button, out _))
+                    entries.Add(button, new Entry(button));
+                if (child.HasChildren) AttachChildren(child);
+            }
+        }
+
+        private sealed class Entry
+        {
+            private readonly ButtonBase button;
+            private Image original;
+            private Bitmap scaled;
+            private bool updating;
+
+            internal Entry(ButtonBase button)
+            {
+                this.button = button;
+                original = button.Image;
+                button.HandleCreated += Update;
+                button.DpiChangedAfterParent += Update;
+                button.Invalidated += Invalidated;
+                button.Disposed += Disposed;
+                Update(null, EventArgs.Empty);
+            }
+
+            private void Invalidated(object sender, InvalidateEventArgs e) => Update(sender, EventArgs.Empty);
+
+            private void Update(object sender, EventArgs e)
+            {
+                if (updating || button.IsDisposed || button.Disposing || button.ImageList != null) return;
+                updating = true;
+                try
+                {
+                    if (!ReferenceEquals(button.Image, original) && (scaled == null || !ReferenceEquals(button.Image, scaled)))
+                    {
+                        original = button.Image;
+                        scaled?.Dispose();
+                        scaled = null;
+                    }
+                    if (original == null) return;
+                    var size = new Size(Math.Max(1, (int)Math.Round(original.Width * button.DeviceDpi / 96d)),
+                        Math.Max(1, (int)Math.Round(original.Height * button.DeviceDpi / 96d)));
+                    if (size == original.Size && ReferenceEquals(button.Image, original)) return;
+                    if (scaled != null && scaled.Size == size && ReferenceEquals(button.Image, scaled)) return;
+                    var replacement = size == original.Size ? null : DpiImage.CreateCopy(original, size, Color.Empty);
+                    var previous = scaled;
+                    scaled = replacement;
+                    button.Image = scaled ?? original;
+                    previous?.Dispose();
+                }
+                finally { updating = false; }
+            }
+
+            private void Disposed(object sender, EventArgs e)
+            {
+                button.HandleCreated -= Update;
+                button.DpiChangedAfterParent -= Update;
+                button.Invalidated -= Invalidated;
+                button.Disposed -= Disposed;
+                scaled?.Dispose();
+                scaled = null;
+                original = null;
+            }
+        }
+    }
+
+    /// <summary>Measures tab captions and rebuilds tab icons from retained 96-DPI sources.</summary>
+    internal static class TabControlDpi
+    {
+        private static readonly ConditionalWeakTable<TabControl, Entry> entries = new ConditionalWeakTable<TabControl, Entry>();
+
+        internal static void Attach(Control root)
+        {
+            if (SpiralLab.Sirius3.UI.WinForms.EditorControl.IsDesigner()) return;
+            foreach (Control child in root.Controls)
+            {
+                // Nested user controls attach their own tab support.
+                if (child is UserControl) continue;
+                if (child is TabControl tab && !entries.TryGetValue(tab, out _))
+                    entries.Add(tab, new Entry(tab));
+                if (child.HasChildren) Attach(child);
+            }
+        }
+
+        private static int Pixels(TabControl tab, int logicalSize)
+            => (int)Math.Round(logicalSize * tab.DeviceDpi / 96d);
+
+        private static Size MeasureText(TabControl tab, string text)
+        {
+            using (var graphics = tab.CreateGraphics())
+                return TextRenderer.MeasureText(graphics, text, tab.Font,
+                    new Size(int.MaxValue, int.MaxValue), TextFormatFlags.SingleLine);
+        }
+
+        private sealed class Entry
+        {
+            private readonly TabControl tab;
+            private readonly Size logicalItemSize;
+            private readonly Point logicalPadding;
+            private readonly ImageList original;
+            private readonly Bitmap[] sources;
+            private readonly string[] keys;
+            private readonly Size logicalImageSize;
+            private ImageList scaled;
+            private bool updating;
+            private bool updatePending;
+            private int measuredDpi;
+            private Font measuredFont;
+            private ImageList measuredImages;
+            private Size measuredImageSize;
+            private TabSizeMode measuredSizeMode;
+            private Size requestedItemSize;
+            private int measuredPageCount;
+
+            internal Entry(TabControl tab)
+            {
+                this.tab = tab;
+                logicalItemSize = tab.ItemSize;
+                logicalPadding = tab.Padding;
+                original = tab.ImageList;
+                if (original != null)
+                {
+                    logicalImageSize = original.ImageSize;
+                    sources = new Bitmap[original.Images.Count];
+                    for (int i = 0; i < sources.Length; i++)
+                        using (var image = original.Images[i]) sources[i] = new Bitmap(image);
+                    keys = original.Images.Keys.Cast<string>().ToArray();
+                }
+                tab.HandleCreated += HandleCreated;
+                tab.DpiChangedAfterParent += QueueUpdate;
+                tab.FontChanged += QueueUpdate;
+                tab.Invalidated += Invalidated;
+                tab.ControlAdded += PageAdded;
+                tab.ControlRemoved += PageRemoved;
+                tab.Disposed += Disposed;
+                foreach (TabPage page in tab.TabPages) page.TextChanged += QueueUpdate;
+            }
+
+            private void Invalidated(object sender, InvalidateEventArgs e)
+            {
+                if (measuredDpi != tab.DeviceDpi || !ReferenceEquals(measuredFont, tab.Font)
+                    || !ReferenceEquals(measuredImages, tab.ImageList)
+                    || measuredImageSize != (tab.ImageList?.ImageSize ?? Size.Empty)
+                    || measuredSizeMode != tab.SizeMode
+                    || measuredPageCount != tab.TabCount
+                    || (tab.SizeMode == TabSizeMode.Fixed && tab.ItemSize != requestedItemSize))
+                    QueueUpdate(sender, EventArgs.Empty);
+            }
+            private void HandleCreated(object sender, EventArgs e) => QueueUpdate(sender, e);
+
+            private void QueueUpdate(object sender, EventArgs e)
+            {
+                if (updatePending || updating || tab.IsDisposed || tab.Disposing || !tab.IsHandleCreated) return;
+                updatePending = true;
+                // Native tab size/image changes trigger parent layout. Defer them until
+                // the parent's DPI scaling and native page restoration have finished.
+                tab.BeginInvoke(new Action(() =>
+                {
+                    updatePending = false;
+                    Update(tab, EventArgs.Empty);
+                }));
+            }
+            private void PageAdded(object sender, ControlEventArgs e)
+            {
+                if (e.Control is TabPage page) page.TextChanged += QueueUpdate;
+                QueueUpdate(sender, EventArgs.Empty);
+            }
+            private void PageRemoved(object sender, ControlEventArgs e)
+            {
+                if (e.Control is TabPage page) page.TextChanged -= QueueUpdate;
+                QueueUpdate(sender, EventArgs.Empty);
+            }
+
+            private void Update(object sender, EventArgs e)
+            {
+                if (updating || !tab.IsHandleCreated || tab.IsDisposed || tab.Disposing) return;
+                int updateDpi = tab.DeviceDpi;
+                updating = true;
+                try
+                {
+                    if (original != null && (ReferenceEquals(tab.ImageList, original) || ReferenceEquals(tab.ImageList, scaled)))
+                    {
+                        var size = new Size(Math.Max(1, Math.Min(256, Pixels(tab, logicalImageSize.Width))),
+                            Math.Max(1, Math.Min(256, Pixels(tab, logicalImageSize.Height))));
+                        if (scaled == null || scaled.ImageSize != size)
+                        {
+                            var replacement = new ImageList { ImageSize = size, ColorDepth = ColorDepth.Depth32Bit, TransparentColor = original.TransparentColor };
+                            var copies = new List<Bitmap>();
+                            try
+                            {
+                                for (int i = 0; i < sources.Length; i++)
+                                {
+                                    var copy = DpiImage.CreateCopy(sources[i], size, original.TransparentColor);
+                                    copies.Add(copy);
+                                    replacement.Images.Add(keys[i], copy);
+                                }
+                                // ImageList copies lazily; realize it before disposing source copies.
+                                var handle = replacement.Handle;
+                                var previous = scaled;
+                                scaled = replacement;
+                                tab.ImageList = scaled;
+                                previous?.Dispose();
+                            }
+                            catch { replacement.Dispose(); throw; }
+                            finally { foreach (var copy in copies) copy.Dispose(); }
+                        }
+                    }
+                    tab.Padding = new Point(Pixels(tab, logicalPadding.X),
+                        Pixels(tab, logicalPadding.Y));
+                    int width = Pixels(tab, logicalItemSize.Width);
+                    int height = Pixels(tab, logicalItemSize.Height);
+                    foreach (TabPage page in tab.TabPages)
+                    {
+                        var text = MeasureText(tab, page.Text);
+                        bool hasImage = tab.ImageList != null && (tab.ImageList.Images.ContainsKey(page.ImageKey)
+                            || (page.ImageIndex >= 0 && page.ImageIndex < tab.ImageList.Images.Count));
+                        int imageWidth = hasImage ? tab.ImageList.ImageSize.Width : 0;
+                        int imageHeight = hasImage ? tab.ImageList.ImageSize.Height : 0;
+                        width = Math.Max(width, text.Width + imageWidth + tab.Padding.X * 2
+                            + Pixels(tab, hasImage ? 6 : 2));
+                        height = Math.Max(height, Math.Max(text.Height, imageHeight) + tab.Padding.Y * 2
+                            + Pixels(tab, 2));
+                    }
+                    var itemSize = new Size(width, height);
+                    if (tab.ItemSize != itemSize) tab.ItemSize = itemSize;
+                    measuredDpi = tab.DeviceDpi;
+                    measuredFont = tab.Font;
+                    measuredImages = tab.ImageList;
+                    measuredImageSize = tab.ImageList?.ImageSize ?? Size.Empty;
+                    measuredSizeMode = tab.SizeMode;
+                    requestedItemSize = itemSize;
+                    measuredPageCount = tab.TabCount;
+                }
+                finally { updating = false; }
+                // Padding can recreate the handle at a newer native DPI while this
+                // update still owns images measured before that recreation.
+                if (tab.DeviceDpi != updateDpi) QueueUpdate(tab, EventArgs.Empty);
+            }
+
+            private void Disposed(object sender, EventArgs e)
+            {
+                tab.HandleCreated -= HandleCreated;
+                tab.DpiChangedAfterParent -= QueueUpdate;
+                tab.FontChanged -= QueueUpdate;
+                tab.Invalidated -= Invalidated;
+                tab.ControlAdded -= PageAdded;
+                tab.ControlRemoved -= PageRemoved;
+                tab.Disposed -= Disposed;
+                foreach (TabPage page in tab.TabPages) page.TextChanged -= QueueUpdate;
+                scaled?.Dispose();
+                if (sources != null) foreach (var source in sources) source.Dispose();
+            }
+        }
+    }
+
+    internal static class DpiImage
+    {
+        internal static Bitmap CreateCopy(Image original, Size size, Color transparentColor)
+        {
+            var copy = new Bitmap(size.Width, size.Height);
+            try
+            {
+                using (var graphics = Graphics.FromImage(copy))
+                using (var source = new Bitmap(original))
+                {
+                    graphics.CompositingMode = CompositingMode.SourceCopy;
+                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    if (transparentColor != Color.Empty) source.MakeTransparent(transparentColor);
+                    graphics.DrawImage(source, new Rectangle(Point.Empty, size));
+                }
+                return copy;
+            }
+            catch { copy.Dispose(); throw; }
+        }
+    }
+
+
     internal static class ChartInteractionHelper
     {
         internal const double ZoomFactor = 0.8;

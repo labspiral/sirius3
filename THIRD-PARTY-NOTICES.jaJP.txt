@@ -45,18 +45,8 @@ PropertyTools.Wpf
   ライセンス: MIT
   著作権    : Copyright (c) 2014 PropertyTools contributors
   ソース    : https://github.com/PropertyTools/PropertyTools
-  用途      : Sirius3 専用アダプターの背後で使用する Debug 専用 WPF TreeListBox
-  配布      : Debug WPF ビルドにのみ含み、Release パッケージからは除外
-
-Syncfusion WPF PropertyGrid
-  バージョン: 34.1.32
-  ライセンス: Essential Studio UI Edition Binary License（商用プロプライエタリソフトウェア）
-  著作権    : Copyright Syncfusion Inc.
-  製品      : https://www.syncfusion.com/wpf-controls/property-grid
-  用途      : Sirius3 専用アダプターの背後で使用する WPF プロパティグリッド
-  条件      : 使用および再配布には、該当する Syncfusion 契約が必要です。埋め込まれた
-              ランタイム登録キーは再配布権を付与しません。ベンダーのアンロックキーは
-              使用せず、どちらのキーもログに記録しません。
+  用途      : Sirius3 専用アダプターの背後で使用する WPF TreeListBox
+  配布      : Debug および Release WPF ビルドに内部依存関係として埋め込み
 
 GLFW (OpenTK.redist.glfw)
   バージョン: 3.4.0.44

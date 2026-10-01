@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.IO;
@@ -17,6 +18,8 @@ namespace Demos
         private bool devicesInitialized;
         private bool initializationFailed;
         private bool editorDisposed;
+        private bool shutdownStarted;
+        private bool closeAfterShutdown;
 
         /// <summary>Initializes the public-source WPF editor demo window.</summary>
         public MainWindow()
@@ -59,8 +62,11 @@ namespace Demos
             }
         }
 
-        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        private async void MainWindow_Closing(object sender, CancelEventArgs e)
         {
+            if (closeAfterShutdown) return;
+            e.Cancel = true;
+            if (shutdownStarted) return;
             if (!initializationFailed && MessageBox.Show(
                     this,
                     "Do you really want to terminate the program?",
@@ -72,25 +78,22 @@ namespace Demos
                 return;
             }
 
-            try { DisposeEditor(); }
+            shutdownStarted = true;
+            await Task.Yield();
+            try { await DisposeEditorAsync(); }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "Sirius3 cleanup failed",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        private void MainWindow_Closed(object sender, EventArgs e)
-        {
-            try { DisposeEditor(); }
-            catch (Exception exception)
+            finally
             {
-                MessageBox.Show(exception.Message, "Sirius3 cleanup failed",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                closeAfterShutdown = true;
+                Close();
             }
         }
 
-        internal void DisposeEditor()
+        internal async Task DisposeEditorAsync()
         {
             if (editorDisposed)
                 return;
@@ -98,7 +101,7 @@ namespace Demos
 
             var document = editor.Document;
             var failures = new List<Exception>();
-            try { editor.DisposeDevices(); }
+            try { await editor.DisposeDevices(); }
             catch (Exception exception) { failures.Add(exception); }
             try { editor.Dispose(); }
             catch (Exception exception) { failures.Add(exception); }

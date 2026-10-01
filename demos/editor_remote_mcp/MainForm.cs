@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SpiralLab.Sirius3.IO;
@@ -14,8 +13,6 @@ namespace Demos
 {
     internal sealed partial class MainForm : Form
     {
-        private readonly CancellationTokenSource mcpCancellationTokenSource = new CancellationTokenSource();
-
         private IMCPServer mcpServer;
         private bool resourcesDisposed;
         private bool shutdownInProgress;
@@ -92,11 +89,17 @@ namespace Demos
             shutdownInProgress = true;
             statusValueLabel.Text = "Stopping...";
 
-            await DisposeRuntimeResourcesAsync();
-
-            closeAfterShutdown = true;
-            shutdownInProgress = false;
-            Close();
+            try
+            {
+                await Task.Yield(); // Let FormClosing return before server shutdown awaits UI work.
+                await DisposeRuntimeResourcesAsync();
+            }
+            finally
+            {
+                closeAfterShutdown = true;
+                shutdownInProgress = false;
+                Close();
+            }
         }
 
 
@@ -105,17 +108,21 @@ namespace Demos
             if (resourcesDisposed)
                 return;
 
-            resourcesDisposed = true;
-            mcpCancellationTokenSource.Cancel();
-
             try
             {
                 var server = mcpServer;
                 mcpServer = null;
                 if (server != null)
                 {
-                    if (ReferenceEquals(editorControl.MCPServer, server))
-                        editorControl.MCPServer = null;
+                    try
+                    {
+                        if (ReferenceEquals(editorControl.MCPServer, server))
+                            editorControl.MCPServer = null;
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"MCP editor detachment failed: {ex}");
+                    }
                     await server.DisposeAsync();
                 }
             }
@@ -126,7 +133,8 @@ namespace Demos
             }
             finally
             {
-                DisposeEditorResources();
+                await DisposeEditorResourcesAsync();
+                resourcesDisposed = true;
             }
         }
 
@@ -135,33 +143,20 @@ namespace Demos
             if (resourcesDisposed)
                 return;
 
-            resourcesDisposed = true;
-            mcpCancellationTokenSource.Cancel();
+            if (shutdownInProgress || mcpServer != null || editorControl.MCPServer != null || editorControl.Remote != null)
+                throw new InvalidOperationException("Close the form and await MCP server shutdown before disposing it.");
 
-            try
-            {
-                var server = mcpServer;
-                mcpServer = null;
-                if (ReferenceEquals(editorControl.MCPServer, server))
-                    editorControl.MCPServer = null;
-                server?.Dispose();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"MCP server shutdown failed: {ex}");
-            }
-            finally
-            {
-                DisposeEditorResources();
-            }
+            // This fallback runs only before an asynchronous server or remote is registered.
+            DisposeEditorResourcesAsync().GetAwaiter().GetResult();
+            resourcesDisposed = true;
         }
 
 
-        private void DisposeEditorResources()
+        private async Task DisposeEditorResourcesAsync()
         {
             try
             {
-                editorControl.DisposeDevices();
+                await editorControl.DisposeDevices();
             }
             catch (Exception ex)
             {
@@ -177,15 +172,6 @@ namespace Demos
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Editor document cleanup failed: {ex}");
-            }
-
-            try
-            {
-                mcpCancellationTokenSource.Dispose();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"MCP cancellation cleanup failed: {ex}");
             }
         }
     }

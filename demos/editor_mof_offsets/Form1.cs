@@ -57,8 +57,13 @@ namespace Demos
             // 폼 로드 이벤트
             this.Load += Form1_Load;
 
-            this.FormClosing += (s, e) =>
+            bool closeAfterCleanup = false;
+            bool cleanupStarted = false;
+            this.FormClosing += async (s, e) =>
             {
+                if (closeAfterCleanup) return;
+                e.Cancel = true;
+                if (cleanupStarted) return;
                 // Confirm before closing
                 // 종료 전 사용자 확인
                 var dlgResult = MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -67,20 +72,34 @@ namespace Demos
                     e.Cancel = true;
                     return;
                 }
+                cleanupStarted = true;
+                await System.Threading.Tasks.Task.Yield();
+                try
+                {
+                    // Dispose hardware devices
+                    // 장치 리소스 해제
+                    try { await siriusEditorControl1.DisposeDevices(); }
+                    catch (Exception deviceException) { System.Diagnostics.Trace.WriteLine(deviceException); }
 
-                // Dispose hardware devices
-                // 장치 리소스 해제
-                siriusEditorControl1.DisposeDevices();
+                    // Dispose document
+                    // 문서 해제
+                    var doc = siriusEditorControl1.Document;
+                    siriusEditorControl1.Document = null;
+                    doc?.Dispose();
 
-                // Dispose document
-                // 문서 해제
-                var doc = siriusEditorControl1.Document;
-                siriusEditorControl1.Document = null;
-                doc?.Dispose();
-
-                // Clean up SIRIUS3 library
-                // SIRIUS3 라이브러리 정리
-                SpiralLab.Sirius3.Core.Cleanup();
+                    // Clean up SIRIUS3 library
+                    // SIRIUS3 라이브러리 정리
+                    SpiralLab.Sirius3.Core.Cleanup();
+                }
+                catch (Exception exception)
+                {
+                    System.Diagnostics.Trace.WriteLine(exception);
+                }
+                finally
+                {
+                    closeAfterCleanup = true;
+                    Close();
+                }
             };
 
             // Attach button click events

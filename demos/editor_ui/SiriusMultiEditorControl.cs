@@ -956,6 +956,14 @@ namespace Demos
         public SiriusMultiEditorControl()
         {
             InitializeComponent();
+            DpiContainerScale.Attach(this);
+            TabControlDpi.Attach(this);
+            ButtonImageDpi.Attach(this);
+            if (!EditorControl.IsDesigner())
+            {
+                ToolStripDpi.Attach(tlsTop1, 24, this);
+                ToolStripDpi.Attach(stsBottom, 24, this);
+            }
             ApplyLocalization();
 
             if (EditorControl.IsDesigner())
@@ -1120,11 +1128,7 @@ namespace Demos
             EditorControlDispatch.Run(this, ApplyEditPermission);
         }
 
-        /// <summary>
-        /// Dispose all registered devices.
-        /// <para>장치를 모두 해지하고 자원을 회수합니다.</para>
-        /// </summary>
-        public void DisposeDevices()
+        private void DisposeDevicesCore()
         {
             Document?.ActSimulateStop(false);
             //this.Marker?.Stop();
@@ -1165,6 +1169,46 @@ namespace Demos
                 lasers[i]?.Dispose();
                 scanners[i]?.Dispose();
             }
+        }
+
+        /// <summary>
+        /// Asynchronously disposes the registered MCP server and remotes, then disposes the remaining device sets.
+        /// <para>등록된 MCP 서버와 원격 연결을 비동기로 해제한 뒤 나머지 장치 세트를 해제합니다.</para>
+        /// </summary>
+        /// <remarks>Call and await on the owning UI thread before disposing the editor or document.
+        /// <para>편집기 또는 문서를 해제하기 전에 소유 UI 스레드에서 호출하고 완료를 기다립니다.</para></remarks>
+        /// <returns>A task that completes after device cleanup.<br/>장치 해제가 끝나면 완료되는 작업입니다.</returns>
+        /// <exception cref="AggregateException">One or more resources failed to dispose.<br/>하나 이상의 자원 해제에 실패한 경우입니다.</exception>
+        public async System.Threading.Tasks.Task DisposeDevices()
+        {
+            var server = MCPServer;
+            MCPServer = null;
+            var registeredRemotes = new System.Collections.Generic.List<IRemote>();
+            for (int index = 0; index < MaxDeviceCounts; index++)
+            {
+                var remote = remotes[index];
+                if (remote != null && !registeredRemotes.Exists(value => ReferenceEquals(value, remote)))
+                    registeredRemotes.Add(remote);
+                remotes[index] = null;
+            }
+            var failures = new System.Collections.Generic.List<Exception>();
+            try { if (server != null) await server.DisposeAsync(); }
+            catch (Exception ex) { failures.Add(ex); }
+            foreach (var remote in registeredRemotes)
+            {
+                try
+                {
+                    if (remote is IAsyncDisposable asyncRemote)
+                        await asyncRemote.DisposeAsync();
+                    else
+                        remote.Dispose();
+                }
+                catch (Exception ex) { failures.Add(ex); }
+            }
+            try { DisposeDevicesCore(); }
+            catch (Exception ex) { failures.Add(ex); }
+            if (failures.Count > 0)
+                throw new AggregateException("Device cleanup failed.", failures);
         }
 
         /// <summary>
@@ -1400,7 +1444,7 @@ namespace Demos
 
             bool isCtrlPressed = (Control.ModifierKeys & Keys.Control) == Keys.Control;
 
-            var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
+            using var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
                  MessageBoxLocalization.S("Scanner_ConfirmResetEncoders"),
                  MessageBoxLocalization.S("Title_Warning"),
                  MessageBoxButtons.YesNo);
@@ -1938,11 +1982,11 @@ namespace Demos
                 FileName = Document.FileName,
             };
 
-            if (dlg.ShowDialog() != DialogResult.OK) return;
+            if (dlg.ShowDialog(this) != DialogResult.OK) return;
 
             if (Document.IsModified)
             {
-                var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
+                using var form = new SpiralLab.Sirius3.UI.WinForms.MessageBox(
                     MessageBoxLocalization.S("Document_ConfirmOpenUnsaved"),
                     MessageBoxLocalization.S("Title_Warning"),
                     MessageBoxButtons.YesNo);
@@ -1999,7 +2043,7 @@ namespace Demos
                 OverwritePrompt = true
             };
 
-            if (dlg.ShowDialog() != DialogResult.OK) return;
+            if (dlg.ShowDialog(this) != DialogResult.OK) return;
             bool success;
             var previousCursor = Cursor.Current;
             try

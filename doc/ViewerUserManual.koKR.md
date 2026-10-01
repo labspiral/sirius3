@@ -1,6 +1,6 @@
 # ViewerControl User Manual
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 
 ## 1. 개요 (Overview)
@@ -27,6 +27,12 @@ ViewerControl 역시 EditorControl과 마찬가지로 `Document` 속성을 통�
 
 - 설비 운영자 화면: 메인 편집 창은 숨기고, ViewerControl만 노출하여 가공 진행 상황만 안전하게 확인하게 합니다.
 - 3D 모니터링: 3D 가공(Z-Defocus 가공 등) 시 입체적인 궤적을 확인하기 위한 보조 모니터용으로 활용합니다.
+
+## 5. WinForms/WPF와 공유 Document 수명
+
+두 프레임워크는 같은 Document 모델을 사용하는 Viewer를 제공합니다. HiDPI 데모의 WinForms Viewer 창은 동적으로 생성한 창까지 `AutoScaleMode.Dpi`와 `(96, 96)` 설계 기준을 사용합니다. WPF는 장치 독립 레이아웃을 사용합니다. [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md)를 참고합니다.
+
+더 이상 사용하지 않는 Viewer의 UI/OpenGL 자원은 해제합니다. 지정한 Document는 호스트가 소유하며 모든 Viewer 연결을 해제한 뒤 폐기합니다. Viewer에서도 1.15.0의 Mesh 확산 텍스처와 원본 색상을 표시하며 가공 경로는 변경하지 않습니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

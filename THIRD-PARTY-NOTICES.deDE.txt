@@ -47,20 +47,8 @@ PropertyTools.Wpf
   Lizenz   : MIT
   Copyright: Copyright (c) 2014 PropertyTools contributors
   Quelle   : https://github.com/PropertyTools/PropertyTools
-  Zweck    : Nur für Debug verwendete WPF-TreeListBox hinter dem
-             Sirius3-spezifischen Adapter
-  Verteilung: Nur in Debug-WPF-Builds enthalten; aus Release-Paketen ausgeschlossen
-
-Syncfusion PropertyGrid für WPF
-  Version  : 34.1.32
-  Lizenz   : Essential Studio UI Edition Binary License (kommerzielle proprietäre Software)
-  Copyright: Copyright Syncfusion Inc.
-  Produkt  : https://www.syncfusion.com/wpf-controls/property-grid
-  Zweck    : WPF-Eigenschaftenraster hinter dem Sirius3-spezifischen Adapter
-  Bedingungen: Nutzung und Weiterverteilung erfordern die entsprechende Syncfusion-
-               Vereinbarung. Der eingebettete Laufzeit-Registrierungsschlüssel gewährt
-               keine Weiterverteilungsrechte; der Hersteller-Entsperrschlüssel wird
-               nicht verwendet und keiner der Schlüssel wird protokolliert.
+  Zweck    : WPF-TreeListBox hinter dem Sirius3-spezifischen Adapter
+  Verteilung: Als interne Abhängigkeit in Debug- und Release-WPF-Builds eingebettet
 
 GLFW (OpenTK.redist.glfw)
   Version: 3.4.0.44

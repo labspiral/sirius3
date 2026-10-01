@@ -1,6 +1,6 @@
 # EntityPen User Guide
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 `EntityPen` groups the laser output, pulse, scanner speed, delay, and optional features used to mark an individual entity. An entity's line color selects the `EntityPen` with the same color. The Marker writes that pen's settings to the RTC list buffer the first time it encounters the color.
 

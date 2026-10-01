@@ -116,7 +116,7 @@
 
             <ToolBar Grid.Column="2" Background="{DynamicResource Sirius.Brush.Toolbar}">
                 <Separator/>
-                <ToggleButton x:Name="btnLock" Click="BtnLock_Click" ToolTip="Lock / Unlock editing" Background="{DynamicResource Sirius.Brush.Toolbar}" BorderThickness="0">
+                <ToggleButton x:Name="btnLock" Click="BtnLock_Click" ToolTip="Lock / Unlock editing" BorderThickness="0">
                     <Image Source="/SpiralLab.Sirius3.UI;component/Resources/lock_24px.png" Width="20" Height="20"/>
                 </ToggleButton>
             </ToolBar>
@@ -243,7 +243,7 @@
                     <local:SiriusNavigationItem x:Name="tabEditor">
                         <local:SiriusNavigationItem.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Image x:Name="imgTabEditor" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <Image x:Name="imgTabEditor" Source="/SpiralLab.Sirius3.UI;component/Resources/material_cube_outline_24px.png" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
                                 <TextBlock x:Name="txtTabEditor" Text="Editor" Style="{StaticResource Sirius.Editor.NavigationText}"/>
                             </StackPanel>
                         </local:SiriusNavigationItem.Header>
@@ -252,7 +252,7 @@
                     <local:SiriusNavigationItem x:Name="tabMarker">
                         <local:SiriusNavigationItem.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Image x:Name="imgTabMarker" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <Image x:Name="imgTabMarker" Source="/SpiralLab.Sirius3.UI;component/Resources/WPF.Marker.png" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
                                 <TextBlock x:Name="txtTabMarker" Text="Marker" Style="{StaticResource Sirius.Editor.NavigationText}"/>
                             </StackPanel>
                         </local:SiriusNavigationItem.Header>
@@ -261,7 +261,7 @@
                     <local:SiriusNavigationItem x:Name="tabManual">
                         <local:SiriusNavigationItem.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Image x:Name="imgTabManual" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <Image x:Name="imgTabManual" Source="/SpiralLab.Sirius3.UI;component/Resources/WPF.Manual.png" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
                                 <TextBlock x:Name="txtTabManual" Text="Manual" Style="{StaticResource Sirius.Editor.NavigationText}"/>
                             </StackPanel>
                         </local:SiriusNavigationItem.Header>
@@ -270,7 +270,7 @@
                     <local:SiriusNavigationItem x:Name="tabScanner">
                         <local:SiriusNavigationItem.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Image x:Name="imgTabScanner" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <Image x:Name="imgTabScanner" Source="/SpiralLab.Sirius3.UI;component/Resources/WPF.Scanner.png" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
                                 <TextBlock x:Name="txtTabScanner" Text="Scanner" Style="{StaticResource Sirius.Editor.NavigationText}"/>
                             </StackPanel>
                         </local:SiriusNavigationItem.Header>
@@ -279,7 +279,7 @@
                     <local:SiriusNavigationItem x:Name="tabLaser">
                         <local:SiriusNavigationItem.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Image x:Name="imgTabLaser" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <Image x:Name="imgTabLaser" Source="/SpiralLab.Sirius3.UI;component/Resources/WPF.Laser.png" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
                                 <TextBlock x:Name="txtTabLaser" Text="Laser" Style="{StaticResource Sirius.Editor.NavigationText}"/>
                             </StackPanel>
                         </local:SiriusNavigationItem.Header>
@@ -288,7 +288,7 @@
                     <local:SiriusNavigationItem x:Name="tabDIO">
                         <local:SiriusNavigationItem.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Image x:Name="imgTabDio" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <Image x:Name="imgTabDio" Source="/SpiralLab.Sirius3.UI;component/Resources/WPF.DIO.png" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
                                 <TextBlock x:Name="txtTabDio" Text="DIO" Style="{StaticResource Sirius.Editor.NavigationText}"/>
                             </StackPanel>
                         </local:SiriusNavigationItem.Header>
@@ -306,7 +306,7 @@
                     <local:SiriusNavigationItem x:Name="tabPower">
                         <local:SiriusNavigationItem.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Image x:Name="imgTabPower" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <Image x:Name="imgTabPower" Source="/SpiralLab.Sirius3.UI;component/Resources/WPF.Power.png" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
                                 <TextBlock x:Name="txtTabPower" Text="Power" Style="{StaticResource Sirius.Editor.NavigationText}"/>
                             </StackPanel>
                         </local:SiriusNavigationItem.Header>
@@ -328,7 +328,7 @@
                     <local:SiriusNavigationItem x:Name="tabStepper">
                         <local:SiriusNavigationItem.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Image x:Name="imgTabStepper" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <Image x:Name="imgTabStepper" Source="/SpiralLab.Sirius3.UI;component/Resources/WPF.Stepper.png" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
                                 <TextBlock x:Name="txtTabStepper" Text="Stepper" Style="{StaticResource Sirius.Editor.NavigationText}"/>
                             </StackPanel>
                         </local:SiriusNavigationItem.Header>
@@ -337,7 +337,7 @@
                     <local:SiriusNavigationItem x:Name="tabRemote" Visibility="Collapsed">
                         <local:SiriusNavigationItem.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Image x:Name="imgTabRemote" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
+                                <Image x:Name="imgTabRemote" Source="/SpiralLab.Sirius3.UI;component/Resources/RJ45.png" Style="{StaticResource Sirius.Editor.MainNavigationIcon}"/>
                                 <TextBlock x:Name="txtTabRemote" Text="Remote" Style="{StaticResource Sirius.Editor.NavigationText}"/>
                             </StackPanel>
                         </local:SiriusNavigationItem.Header>
@@ -360,7 +360,7 @@
                 <local:SiriusNavigationItem x:Name="tabProperty">
                     <local:SiriusNavigationItem.Header>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Image x:Name="imgTabProperty" Width="18" Height="18" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                <Image x:Name="imgTabProperty" Source="/SpiralLab.Sirius3.UI;component/Resources/edit_property_24px.png" Width="18" Height="18" Margin="0,0,4,0" VerticalAlignment="Center"/>
                                 <TextBlock x:Name="txtTabProperty" Text="Property" VerticalAlignment="Center" Margin="0,0,4,0"/>
                             </StackPanel>
                     </local:SiriusNavigationItem.Header>
@@ -443,7 +443,8 @@
 
             <!-- 8: Log Window -->
             <StatusBarItem Grid.Column="8">
-                <Button x:Name="btnLogWindow" Click="BtnLogWindow_Click" Background="Transparent" BorderThickness="0" Padding="4,0"
+                <Button x:Name="btnLogWindow" Click="BtnLogWindow_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                        Background="Transparent" BorderThickness="0" Padding="8,0" Margin="0" Width="36" Height="24" MinWidth="0" MinHeight="0"
                         VerticalAlignment="Center" ToolTip="Show/Hide Log Window">
                     <Image Source="/SpiralLab.Sirius3.UI;component/Resources/pens_32px.png" Width="20" Height="20" VerticalAlignment="Center"/>
                 </Button>
@@ -451,13 +452,13 @@
             <Separator Grid.Column="9"/>
 
             <!-- 10: Encoder -->
-            <StatusBarItem Grid.Column="10">
+            <StatusBarItem Grid.Column="10" Visibility="{Binding Visibility, ElementName=lblEncoder}">
                 <StackPanel Orientation="Horizontal" Margin="4,0" VerticalAlignment="Center">
                     <Image Source="/SpiralLab.Sirius3.UI;component/Resources/Counter.png" Width="20" Height="20"  Margin="0,0,4,0" VerticalAlignment="Center"/>
-                    <TextBlock x:Name="lblEncoder" Text="XY: 0, 0" Visibility="Collapsed" VerticalAlignment="Center" MinWidth="80" TextAlignment="Center"/>
+                    <TextBlock x:Name="lblEncoder" Text="ENC: ?" Visibility="Collapsed" VerticalAlignment="Center"/>
                 </StackPanel>
             </StatusBarItem>
-            <Separator Grid.Column="11"/>
+            <Separator Grid.Column="11" Visibility="{Binding Visibility, ElementName=lblEncoder}"/>
 
             <!-- 12: Ready -->
             <StatusBarItem Grid.Column="12">

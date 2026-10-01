@@ -1,6 +1,12 @@
 # Sirius3 Versionsverlauf
 
-## v1.14.4 (2026.9.23)
+## v1.15.0 (2026.10.1)
+
+- added) WinForms-HiDPI-Unterstützung
+- fixed) Asynchrone Ressourcenfreigabe für IRemote und IMCPServer unterstützt
+- added) Unterstützung für Texturrendering von 3D-Netzen
+
+## v1.14.5 (2026.9.24)
 
 - added) Unterstützung für MCP (Model Context Protocol)
   - MCP-Server hinzugefügt, über den KI-Clients einen Editor registrieren, Dokumente und Entitäten bearbeiten und Geräte steuern können

@@ -43,17 +43,8 @@ PropertyTools.Wpf
   许可: MIT
   版权: Copyright (c) 2014 PropertyTools contributors
   源码: https://github.com/PropertyTools/PropertyTools
-  用途: Sirius3 自有适配器后的 Debug 专用 WPF TreeListBox
-  分发: 仅嵌入 Debug WPF 构建，并从 Release 软件包中排除
-
-Syncfusion WPF PropertyGrid
-  版本: 34.1.32
-  许可: Essential Studio UI Edition Binary License（商业专有软件）
-  版权: Copyright Syncfusion Inc.
-  产品: https://www.syncfusion.com/wpf-controls/property-grid
-  用途: Sirius3 自有适配器后的 WPF 属性表
-  条款: 使用和再分发须遵守相应的 Syncfusion 协议。嵌入式运行时注册密钥不授予
-        再分发权；不使用供应商解锁密钥，且两个密钥均不会写入日志。
+  用途: Sirius3 自有适配器后的 WPF TreeListBox
+  分发: 作为内部依赖嵌入 Debug 和 Release WPF 构建
 
 GLFW（通过 OpenTK.redist.glfw）
   版本: 3.4.0.44

@@ -236,11 +236,6 @@ namespace Demos
 namespace Demos
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Globalization;
-    using System.IO;
-    using System.Resources;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
@@ -250,8 +245,6 @@ namespace Demos
     internal static class WPFWindowStyleHelper
     {
         private static readonly ILogger Log = SpiralLab.Sirius3.Logger.CreateLogger(typeof(WPFWindowStyleHelper).FullName);
-        private static readonly object ImageSync = new object();
-        private static readonly Dictionary<string, BitmapImage> Images = new Dictionary<string, BitmapImage>(StringComparer.Ordinal);
 
         internal static global::System.Windows.Controls.Image CreateImage(string resourceName, double size, bool required = false)
         {
@@ -272,93 +265,6 @@ namespace Demos
             return image;
         }
 
-        internal static BitmapImage LoadWinFormsImageListImage(Type controlType, string resourceName, int imageIndex, bool required = false)
-        {
-            if (controlType == null) throw new ArgumentNullException(nameof(controlType));
-            if (string.IsNullOrWhiteSpace(resourceName)) throw new ArgumentException("A WinForms image-list resource name is required.", nameof(resourceName));
-            if (imageIndex < 0) throw new ArgumentOutOfRangeException(nameof(imageIndex));
-
-            var cacheKey = $"{controlType.AssemblyQualifiedName}|{resourceName}|{imageIndex}";
-            lock (ImageSync)
-            {
-                if (Images.TryGetValue(cacheKey, out var cached))
-                    return cached;
-                try
-                {
-                    var resources = new ComponentResourceManager(controlType);
-                    var stream = resources.GetObject(resourceName, CultureInfo.CurrentUICulture) as global::System.Windows.Forms.ImageListStreamer;
-                    using (var imageList = stream == null ? null : new global::System.Windows.Forms.ImageList { ImageStream = stream })
-                    {
-                        var result = imageList == null || imageIndex >= imageList.Images.Count
-                            ? null
-                            : ConvertDrawingImage(imageList.Images[imageIndex]);
-                        if (result != null)
-                            Images[cacheKey] = result;
-                        else
-                            Log.Log(required ? LogLevel.Error : LogLevel.Debug, "WPF demo image-list entry {ImageIndex} was not found.", imageIndex);
-                        return result;
-                    }
-                }
-                catch (Exception exception)
-                {
-                    Log.Log(required ? LogLevel.Error : LogLevel.Debug, exception, "WPF demo image-list entry {ImageIndex} could not be loaded.", imageIndex);
-                    return LoadSerializedWinFormsPng(controlType, resourceName);
-                }
-            }
-        }
-
-        private static BitmapImage ConvertDrawingImage(System.Drawing.Image drawingImage)
-        {
-            if (drawingImage == null) return null;
-            using (var stream = new MemoryStream())
-            {
-                drawingImage.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                stream.Position = 0;
-                return LoadBitmap(stream);
-            }
-        }
-
-        private static BitmapImage LoadSerializedWinFormsPng(Type controlType, string resourceName)
-        {
-            using (var stream = controlType.Assembly.GetManifestResourceStream(controlType.FullName + ".resources"))
-            {
-                if (stream == null) return null;
-                using (var reader = new ResourceReader(stream))
-                {
-                    reader.GetResourceData(resourceName, out var typeName, out var data);
-                    if (data == null || data.Length == 0 || typeName?.IndexOf("System.Drawing.Bitmap", StringComparison.Ordinal) < 0)
-                        return null;
-                    var start = FindBytes(data, new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A }, 0);
-                    var end = FindBytes(data, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82 }, Math.Max(0, start));
-                    if (start < 0 || end < start) return null;
-                    using (var imageStream = new MemoryStream(data, start, end + 12 - start, false))
-                        return LoadBitmap(imageStream);
-                }
-            }
-        }
-
-        private static BitmapImage LoadBitmap(Stream stream)
-        {
-            var bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.StreamSource = stream;
-            bitmap.EndInit();
-            if (bitmap.CanFreeze) bitmap.Freeze();
-            return bitmap;
-        }
-
-        private static int FindBytes(byte[] source, byte[] value, int start)
-        {
-            for (var index = Math.Max(0, start); index <= source.Length - value.Length; index++)
-            {
-                var matches = true;
-                for (var offset = 0; offset < value.Length; offset++)
-                    if (source[index + offset] != value[offset]) { matches = false; break; }
-                if (matches) return index;
-            }
-            return -1;
-        }
     }
 }
 

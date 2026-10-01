@@ -1,6 +1,6 @@
 # EntityLayerPen User Guide
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 `EntityLayerPen` configures RTC control state before processing a Layer. It selects Layer-wide behavior such as ALC (Automatic Laser Control), Sky Writing, Variable Polygon/Jump Delay, and the syncAXIS motion mode.
 

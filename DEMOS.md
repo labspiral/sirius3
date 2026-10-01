@@ -247,6 +247,8 @@ Designed exclusively for large-area scanning systems combining ACS Motion Contro
 
 ## editor_ui
 
+The supplied controls and `EditorControlSupport.cs` share DPI-aware toolbar sizing. Existing Font host forms can opt in through the EXE DPI setup described in the README; keep application-owned ImageLists and custom fixed-pixel layout aligned with the monitor DPI.
+
 This is the open-source code for the SiriusEditorControl and SiriusMultiEditorControl user controls provided within the Sirius3 library.
 You can use this open-source code to design and customize the UI to your liking.
 

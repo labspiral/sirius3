@@ -390,8 +390,6 @@ namespace Demos
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
 
-            ApplyWinFormsTabIcons();
-
             this.Loaded   += OnLoaded;
             this.Unloaded += OnUnloaded;
             this.PreviewKeyDown += OnPreviewKeyDown;
@@ -471,21 +469,6 @@ namespace Demos
             item.ToolTip = MessageBoxLocalization.S(toolTipKey);
         }
 
-        private void ApplyWinFormsTabIcons()
-        {
-            var sourceType = typeof(global::SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl);
-            const string imageListResource = "imageList1.ImageStream";
-            imgTabEditor.Source = WPFWindowStyleHelper.LoadWinFormsImageListImage(sourceType, imageListResource, 0, true);       // cube_24px.png
-            imgTabMarker.Source = WPFWindowStyleHelper.LoadWinFormsImageListImage(sourceType, imageListResource, 24, true);     // Design.png
-            imgTabManual.Source = WPFWindowStyleHelper.LoadWinFormsImageListImage(sourceType, imageListResource, 40, true);     // Voltage.png
-            imgTabScanner.Source = WPFWindowStyleHelper.LoadWinFormsImageListImage(sourceType, imageListResource, 14, true);    // Video Card.png
-            imgTabLaser.Source = WPFWindowStyleHelper.LoadWinFormsImageListImage(sourceType, imageListResource, 22, true);      // Processor2.png
-            imgTabDio.Source = WPFWindowStyleHelper.LoadWinFormsImageListImage(sourceType, imageListResource, 28, true);        // RS-232 Male.png
-            imgTabPower.Source = WPFWindowStyleHelper.LoadWinFormsImageListImage(sourceType, imageListResource, 30, true);      // Graph2.png
-            imgTabStepper.Source = WPFWindowStyleHelper.LoadWinFormsImageListImage(sourceType, imageListResource, 54, true);    // Motor Symbol.png
-            imgTabRemote.Source = WPFWindowStyleHelper.LoadWinFormsImageListImage(sourceType, imageListResource, 59, true);     // RJ45.png
-            imgTabProperty.Source = WPFWindowStyleHelper.LoadWinFormsImageListImage(sourceType, imageListResource, 16, true);   // Property.png
-        }
         #endregion
 
         #region Lifecycle
@@ -569,14 +552,14 @@ namespace Demos
                 return;
             if (oldScanner is IRtcMoF oldMof)
                 oldMof.OnEncoderChanged -= MoF_OnEncoderChanged;
-            encoderSource = newScanner as IRtcMoF;
+            encoderSource = newScanner is IRtc rtc && rtc.IsMoF ? newScanner as IRtcMoF : null;
             encoderReadoutUpdates?.Reset();
-            lblEncoder.Text = string.Empty;
+            lblEncoder.Text = encoderSource != null ? "ENC: ?" : string.Empty;
 
             if (editorControl != null)
                 editorControl.Scanner = newScanner;
 
-            if (newScanner is IRtcMoF newMof)
+            if (encoderSource is IRtcMoF newMof)
             {
                 newMof.OnEncoderChanged += MoF_OnEncoderChanged;
                 lblEncoder.Visibility = Visibility.Visible;
@@ -813,12 +796,7 @@ namespace Demos
             }
         }
 
-        /// <summary>
-        /// Disposes and removes all registered devices.
-        /// <para>등록된 모든 장치를 해제하고 자원을 회수합니다.</para>
-        /// </summary>
-        /// <exception cref="AggregateException">Cleanup failures, reported after all devices have been processed.<br/>모든 장치의 해제를 시도한 후 보고되는 해제 오류입니다.</exception>
-        public void DisposeDevices()
+        private void DisposeDevicesCore()
         {
             var devices = new IDisposable[] {
                 MCPServer,
@@ -830,6 +808,37 @@ namespace Demos
             DetachDevices(cleanup);
             cleanup.Dispose(devices);
             cleanup.ThrowIfFailed();
+        }
+
+        /// <summary>
+        /// Asynchronously disposes the registered MCP server and remote, then disposes the remaining devices.
+        /// <para>등록된 MCP 서버와 원격 연결을 비동기로 해제한 뒤 나머지 장치를 해제합니다.</para>
+        /// </summary>
+        /// <remarks>Call and await on the owning dispatcher before disposing the editor or document.
+        /// <para>편집기 또는 문서를 해제하기 전에 소유 디스패처에서 호출하고 완료를 기다립니다.</para></remarks>
+        /// <returns>A task that completes after device cleanup.<br/>장치 해제가 끝나면 완료되는 작업입니다.</returns>
+        /// <exception cref="AggregateException">One or more resources failed to dispose.<br/>하나 이상의 자원 해제에 실패한 경우입니다.</exception>
+        public async System.Threading.Tasks.Task DisposeDevices()
+        {
+            var server = MCPServer;
+            MCPServer = null;
+            var registeredRemote = Remote;
+            Remote = null;
+            var failures = new System.Collections.Generic.List<Exception>();
+            try { if (server != null) await server.DisposeAsync(); }
+            catch (Exception ex) { failures.Add(ex); }
+            try
+            {
+                if (registeredRemote is IAsyncDisposable asyncRemote)
+                    await asyncRemote.DisposeAsync();
+                else
+                    registeredRemote?.Dispose();
+            }
+            catch (Exception ex) { failures.Add(ex); }
+            try { DisposeDevicesCore(); }
+            catch (Exception ex) { failures.Add(ex); }
+            if (failures.Count > 0)
+                throw new AggregateException("Device cleanup failed.", failures);
         }
 
         internal void DetachDevices(WPFCleanup cleanup)

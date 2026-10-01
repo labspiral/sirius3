@@ -1,6 +1,6 @@
 # PropertyGrid Control & Entity Inspector User Manual
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 ## 1. Role of PropertyGrid
 
@@ -50,6 +50,12 @@ Core and UI Config, PropertyGrid names, classifications and descriptions use the
 ## 7. Restrictions During Marking
 
 If the Marker is Busy, it will limit the editing of the shape and process conditions. extension, reduction and screen movements are possible but the selection and data changes are locked. F5 can lead to the real Marker Start, so use it after checking the work area and the laser safety state.
+
+## 8. HiDPI and WPF
+
+WinForms 1.15.0 sizes the description area from the actual font/DPI and updates it after layout changes. The default allows a title and four description lines; explicit positive `SiriusPropertyGrid.DescriptionHeight` overrides are retained, and `HelpVisible` controls visibility. Numeric/list dropdown editors follow their owning grid's font, DPI, and view. Do not scale already measured text a second time.
+
+WPF uses its own PropertyGrid and editor adapters for the same document/device properties. Connect the current editor/view to the grid so previews update the intended document. See [WinForms](WinForms.md) and [WPF](WPF.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

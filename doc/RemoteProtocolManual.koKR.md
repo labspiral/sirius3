@@ -1,6 +1,6 @@
 # Sirius3 원격 제어 프로토콜 사용자 매뉴얼 (Remote Control Protocol Manual)
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 
 본 문서는 Sirius3 라이브러리의 원격 제어 기능을 통해 외부 장치나 프로그램이 시스템을 제어하기 위한 통신 프로토콜 명세서입니다.
@@ -229,6 +229,12 @@ remote.RegisterCommandHandler("recipe", async (r, tokens) =>
 - 개체 복수 선택: select|2|Circle_1|Rect_1; (2개 개체 선택)
 - 선택 해제: deselect;
 
+
+## 7. MCP와 비동기 해제
+
+Remote 라이선스 옵션은 AI 클라이언트를 위한 인증된 HTTP MCP도 포함합니다. MCP는 이 문서의 파이프 구분 명령 대신 Document·Entity·장치 Tool을 사용합니다. [MCP](MCP.koKR.md)를 참고합니다.
+
+1.15.0의 `IRemote`와 `IMCPServer`는 `IAsyncDisposable`을 지원합니다. 연결된 Marker·편집기를 해제하기 전에 `remote.DisposeAsync()` 또는 `server.DisposeAsync()`를 호출하고 기다립니다. Sirius 편집기에 등록했다면 `await editor.DisposeDevices()`가 Remote/MCP와 장치의 순서 있는 해제를 담당합니다. 완료될 때까지 UI 스레드·Dispatcher를 유지합니다. 종료 패턴은 [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md)를 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

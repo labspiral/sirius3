@@ -1,6 +1,6 @@
 # PropertyGrid Control & Entity Inspector User Manual
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 ## 1. PropertyGrid의 역할
 
@@ -50,6 +50,12 @@ Core와 UI Config, PropertyGrid 이름·분류·설명은 선택한 언어 리�
 ## 7. 가공 중 제한
 
 Marker가 Busy이면 형상과 공정 조건 편집을 제한합니다. 확대·축소와 화면 이동은 가능하지만 선택과 데이터 변경은 잠깁니다. F5는 실제 Marker Start로 이어질 수 있으므로 작업 영역과 레이저 안전 상태를 확인한 뒤 사용하십시오.
+
+## 8. HiDPI와 WPF
+
+WinForms 1.15.0은 실제 글꼴·DPI로 설명 영역을 측정하고 레이아웃 변경 후 갱신합니다. 기본값은 제목과 설명 네 줄이며, 명시한 양수 `SiriusPropertyGrid.DescriptionHeight`는 유지하고 `HelpVisible`로 표시 여부를 선택합니다. 숫자·목록 드롭다운 편집기는 소유 Grid의 글꼴, DPI와 View를 따릅니다. 측정된 텍스트 크기에 배율을 다시 곱하지 않습니다.
+
+WPF는 같은 Document·장치 속성을 위한 자체 PropertyGrid와 Editor Adapter를 제공합니다. 현재 편집기·View를 Grid에 연결해 의도한 Document에서 미리보기가 갱신되도록 합니다. [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md)를 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

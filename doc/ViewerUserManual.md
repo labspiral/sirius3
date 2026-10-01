@@ -1,6 +1,6 @@
 # ViewerControl User Manual
 
-> Reference version: Sirius3 1.12.3 (public Release features)
+> Reference version: Sirius3 1.15.0 (public Release features)
 
 
 ## 1. Overview
@@ -27,6 +27,12 @@ Like EditorControl, ViewerControl also infuses data from the outside through the
 
 - Installation Operator Screen: The main editing window is hidden, exhibit only ViewerControl, so that the processing processing is safely checked.
 - 3D monitoring: 3D processing (e.g. Z-Defocus processing) is used as an assistant monitor to verify the intrusive orbit.
+
+## 5. WinForms/WPF and shared document lifetime
+
+Both frameworks provide viewer controls for the shared document model. A WinForms viewer window, including one created dynamically, uses `AutoScaleMode.Dpi` and a `(96, 96)` design baseline when hosted by the HiDPI demos. WPF uses device-independent layout. See [WinForms](WinForms.md) and [WPF](WPF.md).
+
+Dispose the viewer's UI/OpenGL resources when it is no longer needed. The host owns the assigned document; detach all viewers before disposing it. Mesh diffuse textures and source colors introduced in 1.15.0 are also displayed by viewers and do not change machining paths.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

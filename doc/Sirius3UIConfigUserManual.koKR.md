@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3.UI.Config 설정 가이드
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 ## 1. 역할과 설정 시점
 
@@ -86,7 +86,7 @@ UIConfig.JsonExternalConvertes.Add(new MyEntityJsonConverter());
 | `TreeviewNodeStrikeOutFont` | Segoe UI Strikeout | 비활성 상태 등에 쓰는 취소선 글꼴, 외부에서는 읽기 전용 |
 | `TreeviewNodeBoldAndStrikeOutFont` | Segoe UI Bold + Strikeout | 강조와 취소선을 함께 쓰는 글꼴, 외부에서는 읽기 전용 |
 
-`TreeviewFontSize`를 실행 중에 바꿔도 이미 만들어진 Font 객체는 자동으로 다시 생성되지 않습니다. 시작 전에 지정하거나, 변경 후 TreeView와 관련 자원을 명시적으로 다시 구성하십시오.
+`TreeviewFontSize`는 UI 스레드에서 설정합니다. 1.15.0의 기존 WinForms Tree는 값 변경 시 소유 글꼴을 갱신하고 새 Tree에도 같은 논리적인 포인트 크기를 적용합니다. 모니터 DPI를 다시 곱하지 않습니다. `TreeviewNode*Font`는 빌려 쓰는 스타일 원본이므로 사용자가 Dispose하지 않습니다.
 
 ## 7. Editor
 
@@ -359,6 +359,16 @@ static Control CreateLaserControl(ILaser laser)
 
 공개 `editor_laser_ui` 데모에서 `OnCreateLaserUI`를 이용한 사용자 정의 Laser UI 연결 방법을 확인할 수 있습니다.
 
+### WPF 커스터마이징
+
+| 이벤트 | 반환값 | 용도 |
+|---|---|---|
+| `OnCreateLaserUIWPF` | WPF `Control` | 지정한 Laser의 사용자 패널 |
+| `OnCreateScannerUIWPF` | WPF `Control` | 지정한 Scanner의 사용자 패널 |
+| `OnCreateMarkerUIWPF` | WPF `Control` | 지정한 Marker의 사용자 패널 |
+
+장치를 지정하기 전에 프레임워크에 맞는 Handler를 등록합니다. 사용자 Laser Factory가 우선하며, 등록하지 않으면 기본 가상·제조사별 WPF 패널 또는 일반 패널을 선택합니다. 소유 호스트가 종료되면 Handler를 해제합니다. [WPF](WPF.koKR.md)를 참고합니다.
+
 ## 23. 적용 순서 예제
 
 ```csharp
@@ -400,6 +410,10 @@ finally
 ```
 
 Config 값을 `config*.ini`에서 읽는 제품이라면 Parsing과 범위 검사를 먼저 끝낸 뒤 위 순서로 적용하십시오. 적용한 최종값을 시작 로그에 남기면 고객 장비의 동작을 재현하기 쉽습니다.
+
+## 24. 호스트에서 설정하는 HiDPI
+
+`UI.Config`는 프로세스 DPI 모드를 선택하지 않습니다. 컨트롤 생성 전에 실행 파일에서 설정합니다. WinForms 데모는 `PerMonitorV2`, 96 DPI Form 기준과 별도 `net481` app.config·manifest 설정을 사용합니다. WPF는 장치 독립 레이아웃과 실행 파일 manifest를 사용합니다. 포인트 단위 글꼴은 논리 크기를 유지하고 소유 이미지·행·설명 크기는 컨트롤의 DPI 처리를 따릅니다. [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md)를 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

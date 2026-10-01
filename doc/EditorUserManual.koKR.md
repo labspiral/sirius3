@@ -1,10 +1,10 @@
 # EditorControl User Manual
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 ## 1. 역할
 
-`EditorControl`은 `IDocument`의 Entity를 OpenGL 편집기에 표시하고 선택·이동·회전·배율 변경·생성·삭제하는 공개 WinForms 컨트롤입니다. Document를 바꾸면 기존 이벤트를 해제하고 새 Document의 선택과 변경 이벤트를 연결합니다.
+`EditorControl`은 `IDocument`의 Entity를 OpenGL 편집기에 표시하고 선택·이동·회전·배율 변경·생성·삭제하는 WinForms/WPF 컨트롤입니다. Document를 바꾸면 기존 이벤트를 해제하고 새 Document의 선택과 변경 이벤트를 연결합니다.
 
 ## 2. 마우스 조작
 
@@ -21,7 +21,7 @@
 
 ## 3. 개체 생성
 
-생성 메뉴는 Point, Line, Arc, Polyline, Text, Barcode, Image, Group과 3D 개체를 제공합니다. Sirius3 1.12.3에는 Plane, Pyramid, Torus, NURBS Surface가 추가되었습니다. 생성된 개체는 현재 Page의 Active Layer에 들어가며 즉시 PropertyGrid에서 세부 속성을 편집할 수 있습니다.
+생성 메뉴는 Point, Line, Arc, Polyline, Text, Barcode, Image, Group과 3D 개체를 제공합니다. Sirius3 1.13.0에는 Plane, Pyramid, Torus, NURBS Surface가 추가되었습니다. 생성된 개체는 현재 Page의 Active Layer에 들어가며 즉시 PropertyGrid에서 세부 속성을 편집할 수 있습니다.
 
 ## 4. 편집 단축키
 
@@ -57,6 +57,12 @@
 ## 6. 최신 안정성 변경
 
 Sirius3 1.11.14부터 Editor와 TreeView가 같은 단축키를 두 번 전달하지 않도록 처리해 붙여넣기와 F5 확인 창의 중복 실행을 막습니다. PropertyGrid 검색은 `CTRL+F`가 아니라 PropertyGrid 검색창이 포커스를 받을 때 동작하므로, Editor의 `CTRL+F` 화면 맞춤과 포커스 위치를 구분하십시오.
+
+## 7. HiDPI와 프레임워크 통합
+
+1.15.0에서는 WinForms 실행 파일을 Per-Monitor V2로 설정하고 데모 호스트 Form은 96 DPI 설계 기준의 DPI 자동 배율을 사용합니다. WPF는 장치 독립 레이아웃과 실행 파일 DPI manifest를 사용합니다. [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md)를 참고합니다. UI DLL은 호스트 프로세스의 DPI 모드를 선택하지 않습니다.
+
+TreeView에 포커스가 있으면 방향키는 트리 탐색에 사용합니다. 개체 이동 단축키는 편집기로 포커스를 옮긴 후 사용합니다. WPF 키 입력은 Preview 이벤트 경로에서 전달하므로 호스트의 추가 Handler에서 같은 명령을 중복 실행하지 않습니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

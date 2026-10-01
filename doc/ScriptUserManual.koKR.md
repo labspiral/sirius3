@@ -1,6 +1,6 @@
 # Sirius3 IScript 개발자 매뉴얼 (C# Scripting Integration)
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 본 매뉴얼은 Sirius3의 동적 텍스트 시스템의 핵심인 `IScript` 인터페이스의 기능과 이를 확장하여 현업에 특화된 기능을 구현하는 개발자 가이드를 제공합니다.
 

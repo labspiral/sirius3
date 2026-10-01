@@ -1,6 +1,12 @@
 # Sirius3 バージョン履歴
 
-## v1.14.4 (2026.9.23)
+## v1.15.0 (2026.10.1)
+
+- added) WinForms HiDPI に対応
+- fixed) IRemote と IMCPServer の非同期リソース解放に対応
+- added) 3D メッシュのテクスチャレンダリングに対応
+
+## v1.14.5 (2026.9.24)
 
 - added) MCP（Model Context Protocol）対応
   - AI クライアントによるエディター登録、文書・エンティティ編集、デバイス制御に対応する MCP サーバーを追加

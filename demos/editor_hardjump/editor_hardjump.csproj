@@ -6,12 +6,12 @@
 		<LangVersion>latest</LangVersion>
 		<Nullable>disable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
+		<ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>Demos</RootNamespace>
 		<OutputPath>..\..\bin\</OutputPath>
 		<IncludeSymbols>False</IncludeSymbols>
 		<NeutralResourcesLanguage>en-US</NeutralResourcesLanguage>
-		<ApplicationHighDpiMode>DpiUnaware</ApplicationHighDpiMode>
 		<SatelliteResourceLanguages>ko-KR;zh-CN;ja-JP;de-DE</SatelliteResourceLanguages>
 	</PropertyGroup>
 
@@ -55,7 +55,6 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.10" />
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.10" />
-		<PackageReference Include="MaterialDesignThemes" Version="5.3.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
 		<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />

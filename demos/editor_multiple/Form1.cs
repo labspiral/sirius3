@@ -52,23 +52,42 @@ namespace Demos
             EditorControls[1] = siriusEditorControl2;
 
             this.Load += Form1_Load;
-            this.FormClosing += (s, e) =>
+            bool closeAfterCleanup = false;
+            bool cleanupStarted = false;
+            this.FormClosing += async (s, e) =>
             {
+                if (closeAfterCleanup) return;
+                e.Cancel = true;
+                if (cleanupStarted) return;
                 var dlgResult = System.Windows.Forms.MessageBox.Show(this, $"Do you really want to terminate program ?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dlgResult != DialogResult.Yes)
                 {
                     e.Cancel = true;
                     return;
                 }
+                cleanupStarted = true;
+                await System.Threading.Tasks.Task.Yield();
+                try
+                {
+                    // Dispose instances
+                    // 인스턴스 해제
+                    for (int i = 0; i < editorCount; i++)
+                        try { await EditorControls[i].DisposeDevices(); }
+                        catch (Exception deviceException) { System.Diagnostics.Trace.WriteLine(deviceException); }
 
-                // Dispose instances 
-                // 인스턴스 해제 
-                for (int i = 0; i < editorCount; i++)
-                    EditorControls[i].DisposeDevices();
-
-                // Clean up SIRIUS3 library
-                // SIRIUS3 라이브러리 정리
-                SpiralLab.Sirius3.Core.Cleanup();
+                    // Clean up SIRIUS3 library
+                    // SIRIUS3 라이브러리 정리
+                    SpiralLab.Sirius3.Core.Cleanup();
+                }
+                catch (Exception exception)
+                {
+                    System.Diagnostics.Trace.WriteLine(exception);
+                }
+                finally
+                {
+                    closeAfterCleanup = true;
+                    Close();
+                }
             };
         }
 

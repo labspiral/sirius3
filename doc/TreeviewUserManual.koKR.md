@@ -1,6 +1,6 @@
 # TreeView Page Control User Manual
 
-> 기준 버전: Sirius3 1.12.3 (공개 Release 기능)
+> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
 
 ## 1. 계층과 가공 순서
 
@@ -44,6 +44,10 @@ TreeView에 포커스가 있으면 **수정키가 함께 눌려도 Up/Down/Left/
 | `F6` / `F8` | Stop / Reset |
 
 F5는 TreeView에 포커스가 있어도 실제 Marker Start로 이어질 수 있습니다.
+
+## 6. HiDPI와 프레임워크 지원
+
+WinForms 1.15.0은 DPI 변경 후 처음 표시하는 페이지까지 현재 DPI에 맞게 TreeView 행과 Node 스타일을 측정합니다. `UI.Config.TreeviewFontSize`는 논리적인 포인트 크기이며 UI 스레드에서 바꾸면 기존 Tree도 갱신합니다. WPF는 자체 Tree Adapter와 장치 독립 레이아웃을 제공합니다. [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md)를 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

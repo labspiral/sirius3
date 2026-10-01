@@ -69,6 +69,8 @@
             this.flowLayoutPanel1.Controls.Add(this.btnLissajous);
             this.flowLayoutPanel1.Controls.Add(this.btnSpiral);
             this.flowLayoutPanel1.Controls.Add(this.btnGerber);
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -77,6 +79,7 @@
             // 
             // btnPoints
             // 
+            this.btnPoints.AutoSize = true;
             this.btnPoints.Location = new System.Drawing.Point(3, 3);
             this.btnPoints.Name = "btnPoints";
             this.btnPoints.Size = new System.Drawing.Size(49, 32);
@@ -86,6 +89,7 @@
             // 
             // btnLineArc
             // 
+            this.btnLineArc.AutoSize = true;
             this.btnLineArc.Location = new System.Drawing.Point(58, 3);
             this.btnLineArc.Name = "btnLineArc";
             this.btnLineArc.Size = new System.Drawing.Size(87, 32);
@@ -95,6 +99,7 @@
             // 
             // btnTriangleRectangle
             // 
+            this.btnTriangleRectangle.AutoSize = true;
             this.btnTriangleRectangle.Location = new System.Drawing.Point(151, 3);
             this.btnTriangleRectangle.Name = "btnTriangleRectangle";
             this.btnTriangleRectangle.Size = new System.Drawing.Size(143, 32);
@@ -104,6 +109,7 @@
             // 
             // btnPolyline
             // 
+            this.btnPolyline.AutoSize = true;
             this.btnPolyline.Location = new System.Drawing.Point(300, 3);
             this.btnPolyline.Name = "btnPolyline";
             this.btnPolyline.Size = new System.Drawing.Size(77, 32);
@@ -113,6 +119,7 @@
             // 
             // btnSpline
             // 
+            this.btnSpline.AutoSize = true;
             this.btnSpline.Location = new System.Drawing.Point(383, 3);
             this.btnSpline.Name = "btnSpline";
             this.btnSpline.Size = new System.Drawing.Size(59, 32);
@@ -122,6 +129,7 @@
             // 
             // btnText
             // 
+            this.btnText.AutoSize = true;
             this.btnText.Location = new System.Drawing.Point(448, 3);
             this.btnText.Name = "btnText";
             this.btnText.Size = new System.Drawing.Size(59, 32);
@@ -131,6 +139,7 @@
             // 
             // btnImage
             // 
+            this.btnImage.AutoSize = true;
             this.btnImage.Location = new System.Drawing.Point(513, 3);
             this.btnImage.Name = "btnImage";
             this.btnImage.Size = new System.Drawing.Size(59, 32);
@@ -140,6 +149,7 @@
             // 
             // btnGridCloud
             // 
+            this.btnGridCloud.AutoSize = true;
             this.btnGridCloud.Location = new System.Drawing.Point(578, 3);
             this.btnGridCloud.Name = "btnGridCloud";
             this.btnGridCloud.Size = new System.Drawing.Size(77, 32);
@@ -149,6 +159,7 @@
             // 
             // btnLines
             // 
+            this.btnLines.AutoSize = true;
             this.btnLines.Location = new System.Drawing.Point(661, 3);
             this.btnLines.Name = "btnLines";
             this.btnLines.Size = new System.Drawing.Size(93, 32);
@@ -158,6 +169,7 @@
             // 
             // btnBarcode
             // 
+            this.btnBarcode.AutoSize = true;
             this.btnBarcode.Location = new System.Drawing.Point(760, 3);
             this.btnBarcode.Name = "btnBarcode";
             this.btnBarcode.Size = new System.Drawing.Size(77, 32);
@@ -167,6 +179,7 @@
             // 
             // btnGroup
             // 
+            this.btnGroup.AutoSize = true;
             this.btnGroup.Location = new System.Drawing.Point(843, 3);
             this.btnGroup.Name = "btnGroup";
             this.btnGroup.Size = new System.Drawing.Size(81, 32);
@@ -176,6 +189,7 @@
             // 
             // btn3DMesh
             // 
+            this.btn3DMesh.AutoSize = true;
             this.btn3DMesh.Location = new System.Drawing.Point(930, 3);
             this.btn3DMesh.Name = "btn3DMesh";
             this.btn3DMesh.Size = new System.Drawing.Size(78, 32);
@@ -185,6 +199,7 @@
             // 
             // btnBlockInsert
             // 
+            this.btnBlockInsert.AutoSize = true;
             this.btnBlockInsert.Location = new System.Drawing.Point(1014, 3);
             this.btnBlockInsert.Name = "btnBlockInsert";
             this.btnBlockInsert.Size = new System.Drawing.Size(101, 32);
@@ -194,6 +209,7 @@
             // 
             // btnZPL
             // 
+            this.btnZPL.AutoSize = true;
             this.btnZPL.Location = new System.Drawing.Point(1121, 3);
             this.btnZPL.Name = "btnZPL";
             this.btnZPL.Size = new System.Drawing.Size(46, 32);
@@ -203,6 +219,7 @@
             // 
             // btnLissajous
             // 
+            this.btnLissajous.AutoSize = true;
             this.btnLissajous.Location = new System.Drawing.Point(1173, 3);
             this.btnLissajous.Name = "btnLissajous";
             this.btnLissajous.Size = new System.Drawing.Size(78, 32);
@@ -212,6 +229,7 @@
             // 
             // btnSpiral
             // 
+            this.btnSpiral.AutoSize = true;
             this.btnSpiral.Location = new System.Drawing.Point(1257, 3);
             this.btnSpiral.Name = "btnSpiral";
             this.btnSpiral.Size = new System.Drawing.Size(78, 32);
@@ -221,6 +239,7 @@
             // 
             // btnGerber
             // 
+            this.btnGerber.AutoSize = true;
             this.btnGerber.Location = new System.Drawing.Point(1341, 3);
             this.btnGerber.Name = "btnGerber";
             this.btnGerber.Size = new System.Drawing.Size(78, 32);
@@ -251,8 +270,8 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1436, 800);
             this.Controls.Add(this.siriusEditorControl1);
             this.Controls.Add(this.flowLayoutPanel1);
