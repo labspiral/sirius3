@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](Correction2dUserManual.md) | [한국어](Correction2dUserManual.koKR.md)
+
 ## 1. Why Field Correction Is Necessary
 
 Galvanometer-mirror rotation is not perfectly proportional to linear motion on the work surface. F-theta lens nonlinearity, optical-axis decentering, scan-head installation angle, and lens tolerances all introduce position-dependent error. Adjusting KFactor corrects the overall scale, but barrel, pincushion, skew, and local distortion remain. 2D Field Correction reduces these nonlinear errors using XY deviations measured at multiple positions across the scan field.

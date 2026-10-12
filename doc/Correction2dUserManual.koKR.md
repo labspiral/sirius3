@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](Correction2dUserManual.md) | [한국어](Correction2dUserManual.koKR.md)
+
 ## 1. 필드 보정이 필요한 이유
 
 갈바노 미러의 회전은 작업면의 직선 이동과 정확히 비례하지 않으며, F-theta 렌즈의 비선형성, 광축 편심, 스캔헤드 장착 각도와 렌즈 공차가 위치별 오차를 만듭니다. KFactor만 조정하면 전체 축척은 맞출 수 있지만 배럴·핀쿠션·기울어짐과 국부 왜곡은 남습니다. 2D Field Correction은 필드 여러 위치에서 측정한 XY 오차로 이 비선형 왜곡을 줄입니다.

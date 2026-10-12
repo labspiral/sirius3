@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](ScriptUserManual.md) | [한국어](ScriptUserManual.koKR.md)
+
 This guide explains the `IScript` interface at the core of Sirius3 dynamic text and shows developers how to extend it with application-specific behavior.
 
 ---

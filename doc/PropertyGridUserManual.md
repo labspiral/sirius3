@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](PropertyGridUserManual.md) | [한국어](PropertyGridUserManual.koKR.md)
+
 ## 1. Role of PropertyGrid
 
 PropertyGrid displays and edits the selected Page, Layer, Entity, EntityPen, EntityLayerPen, or device settings from the editor or TreeView. A committed value change updates the Document, regenerates affected geometry when required, and refreshes the editor.

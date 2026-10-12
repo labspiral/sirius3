@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](RemoteProtocolManual.md) | [한국어](RemoteProtocolManual.koKR.md)
+
 
 This document is a specification of the communication protocol for external devices or programs to control the system through the remote control function in the Sirius3 library.
 

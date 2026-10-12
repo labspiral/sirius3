@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](TextConvert.md) | [한국어](TextConvert.koKR.md)
+
 ## 1. Overview
 
 `ITextConvertible` is the common interface for transforming text or barcode data immediately before marking. The `TextConverters` enum selects how the original `SourceText` is converted into `ConvertedText`.

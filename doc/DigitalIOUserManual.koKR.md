@@ -124,7 +124,7 @@ IEntity[] triggerSequence =
 
 이 계약에는 자동 Timeout이 없습니다. 신호가 오지 않을 때 호스트·컨트롤러 중지 경로를 유지해야 합니다. Laser 출력이 비활성인 명확한 위치에 대기를 배치합니다. 목록 제출은 완료와 다릅니다.
 
-## 7. 16비트 마스크와 이번 소스 수정
+## 7. 16비트 마스크와 조건 판정
 
 LOW/HIGH는 입력 신호 상태입니다. uint의 하위·상위 word를 뜻하지 않습니다. RTC6 매뉴얼의 “하위 16비트만 판정”은 각 인수의 비트 0–15를 판정한다는 의미입니다.
 
@@ -142,12 +142,6 @@ var entity = EntityFactory.CreateWriteDataExt16Cond(
 ```
 
 Entity.Mark는 HIGH=0x0001, LOW=0x000E를 RTC 인터페이스에 전달하고 SDK도 같은 HIGH, LOW 순서로 받습니다. 조건은 `(input & high) == high && ((~input) & low) == low`입니다. 입력 마스크 둘 다 0이면 무조건 쓰며 출력 마스크의 0 비트는 유지합니다.
-
-이전 소스는 입력을 0x00FF까지만 허용하고 조건부 출력의 HIGH/LOW를 SDK에 반대로 전달했습니다. 이번 소스 수정은 RTC4·4e·5·6·Virtual에서 0x0000–0xFFFF를 허용하며 범위 초과 또는 같은 비트의 HIGH/LOW 중복 요구를 Warning 로그와 false로 거부합니다. 출력 마스크도 16비트로 검증합니다. Mask Level 대기는 모든 요구 조건이 같은 입력 샘플에서 맞을 때만 진행하도록 수정했습니다.
-
-이 설명은 현재 소스 수정입니다. 이미 배포된 NuGet 1.16.0 DLL·캐시가 자동으로 교체된다는 뜻이 아닙니다. 실제 사용하는 빌드의 반영 여부를 확인합니다. 이전 구현을 마스크 반전으로 보상한 응용 프로그램은 수정 빌드로 전환할 때 그 보상을 제거합니다.
-
-RTC6 Software Package 1.25.1 헤더와 [RTC6 Manual](SCANLAB/RTC6_Manual.en.pdf) Doc. Rev. 1.1.4 en-US의 §9.3.2, list_jump_rel_cond, set_io_cond_list(335, 576, 790쪽)를 기준으로 대조했습니다.
 
 ## 8. 소유권과 관련 흐름
 

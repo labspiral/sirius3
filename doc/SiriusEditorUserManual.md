@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](SiriusEditorUserManual.md) | [한국어](SiriusEditorUserManual.koKR.md)
+
 ## 1. Integrated Editor
 
 `SiriusEditorControl` is available for WinForms and WPF. It combines EditorControl, the Page/Layer TreeView, PropertyGrid, and Scanner, Laser, Marker, I/O, and PowerMeter UI on one screen. Use `beginner` and `editor_ui` for WinForms or `wpf_editor_ui` for WPF customization.

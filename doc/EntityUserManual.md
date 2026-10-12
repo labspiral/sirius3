@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](EntityUserManual.md) | [한국어](EntityUserManual.koKR.md)
+
 ## 1. Basic entity creation workflow
 
 Create an entity with `EntityFactory`, then add it to the current Page and Layer with `document.ActAdd(entity)`. Selecting the entity in the editor or TreeView displays the entity and its associated `EntityPen` properties in PropertyGrid. After changing geometry-affecting values such as size, text, or hatch settings, the editing action uses `ActRegen` to rebuild the geometry and rendering buffers.

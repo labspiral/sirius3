@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](MultibeamSystemManual.md) | [한국어](MultibeamSystemManual.koKR.md)
+
 ## 1. Overview
 
 Multi-Beam is a device configuration in which two scan heads share one laser source. It uses two RTC controllers and two AOMs, with cross-connected Token DIO signals transferring laser-use permission between the heads.

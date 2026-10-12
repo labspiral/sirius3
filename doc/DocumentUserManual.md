@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](DocumentUserManual.md) | [한국어](DocumentUserManual.koKR.md)
+
 ## 1. IDocument
 
 `IDocument` manages the Pages, Layers, EntityPen entries, EntityLayerPen entries, Blocks, and selection state in a Sirius3 recipe. The editor and TreeView reference the same Document, while the Marker converts its data into RTC list commands in the selected Page and Layer order.

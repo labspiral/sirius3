@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](EntityUserManual.md) | [한국어](EntityUserManual.koKR.md)
+
 ## 1. 개체를 만드는 기본 흐름
 
 `EntityFactory`로 개체를 만든 뒤 `document.ActAdd(entity)`로 현재 Page/Layer에 추가합니다. 편집기나 TreeView에서 개체를 선택하면 PropertyGrid에 해당 개체와 연결된 `EntityPen` 속성이 표시됩니다. 크기·텍스트·해치처럼 형상에 영향을 주는 값을 바꾼 뒤에는 편집 동작이 `ActRegen`을 통해 형상과 렌더링 버퍼를 다시 생성합니다.

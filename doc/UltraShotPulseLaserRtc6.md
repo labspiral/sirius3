@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](UltraShotPulseLaserRtc6.md) | [한국어](UltraShotPulseLaserRtc6.koKR.md)
+
 This guide explains how to use RTC6 **Pulse Picking** to control ultrashort-pulse (USP) laser sources such as femtosecond and picosecond lasers.
 
 ## 1. Pulse Picking Laser Mode

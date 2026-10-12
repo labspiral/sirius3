@@ -124,7 +124,7 @@ The equivalent single-bit rising sequence is `CreateWaitDataExt16Cond(0x0001, 0)
 
 Waits have no automatic timeout in these entity contracts. The host/controller stopping procedure must remain available if the signal never arrives. Put waits at a deliberate point with laser output inactive; list submission is not completion.
 
-## 7. Sixteen-bit masks and the source correction
+## 7. Sixteen-bit masks and condition evaluation
 
 LOW/HIGH refer to input signal levels, not the lower/upper word of a uint. The RTC6 manual's lower-16-bit rule means that bits 0–15 of each argument are evaluated.
 
@@ -142,12 +142,6 @@ var entity = EntityFactory.CreateWriteDataExt16Cond(
 ```
 
 Entity.Mark passes HIGH=0x0001 and LOW=0x000E to the RTC interface, and the SDK receives that same HIGH, LOW order. The condition is `(input & high) == high && ((~input) & low) == low`. Two zero input masks make the write unconditional. Zero output-mask bits leave their outputs unchanged.
-
-Earlier source accepted input masks only through 0x00FF and reversed HIGH/LOW when calling the conditional-output SDK. This source correction accepts 0x0000–0xFFFF in RTC4/4e/5/6/Virtual and rejects out-of-range masks or contradictory HIGH/LOW requirements with a Warning log and false. Output masks are also validated as 16 bits. Mask level waits now advance only when all required levels match in the same input sample.
-
-This describes the current source correction. It does not automatically replace already distributed NuGet 1.16.0 DLLs or caches. Check the build used by the application. If an application reversed masks to compensate for the earlier implementation, remove that compensation when adopting the corrected build.
-
-The comparison uses RTC6 Software Package 1.25.1 headers and [RTC6 Manual](SCANLAB/RTC6_Manual.en.pdf), Doc. Rev. 1.1.4 en-US, §9.3.2, list_jump_rel_cond and set_io_cond_list (pages 335, 576 and 790).
 
 ## 8. Ownership and related workflows
 

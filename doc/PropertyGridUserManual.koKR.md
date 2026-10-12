@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](PropertyGridUserManual.md) | [한국어](PropertyGridUserManual.koKR.md)
+
 ## 1. PropertyGrid의 역할
 
 PropertyGrid는 편집기나 TreeView에서 선택한 Page, Layer, Entity, EntityPen, EntityLayerPen과 장치 설정을 분류별로 보여주고 편집합니다. 값을 바꾸면 Document의 변경 알림과 필요한 형상 재생성이 이어져 편집기에 반영됩니다.

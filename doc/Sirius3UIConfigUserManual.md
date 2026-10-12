@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](Sirius3UIConfigUserManual.md) | [한국어](Sirius3UIConfigUserManual.koKR.md)
+
 ## 1. Role and Configuration Timing
 
 `SpiralLab.Sirius3.UI.Config` is the static configuration surface for Document, Editor, TreeView, PropertyGrid, import, text, Marker, and WinForms/WPF extension behavior. Set these values before creating UI controls and Documents so newly created objects use the intended policy.

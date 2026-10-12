@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](MeasurementUserManual.md) | [한국어](MeasurementUserManual.koKR.md)
+
 
 ## 1. 개요
 

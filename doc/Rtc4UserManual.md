@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](Rtc4UserManual.md) | [한국어](Rtc4UserManual.koKR.md)
+
 ## 1. Location of RTC4
 
 RTC4/RTC4e is an earlier-generation controller with a 16-bit coordinate system and comparatively small list buffers. Sirius3 continues to support RTC4, but commands with names similar to RTC5/RTC6 may differ in available interfaces, units, and firmware requirements.

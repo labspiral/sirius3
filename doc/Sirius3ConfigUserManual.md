@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](Sirius3ConfigUserManual.md) | [한국어](Sirius3ConfigUserManual.koKR.md)
+
 ## 1. Role and Configuration Timing
 
 `SpiralLab.Sirius3.Config` is the static configuration surface for the core library. It centralizes logging, file paths, coordinate calculations, RTC measurement, PowerMap, and other settings that affect device and marking behavior.

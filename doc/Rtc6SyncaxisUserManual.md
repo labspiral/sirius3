@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](Rtc6SyncaxisUserManual.md) | [한국어](Rtc6SyncaxisUserManual.koKR.md)
+
 ## 1. syncAXIS Role
 
 syncAXIS (XL-SCAN) plans and executes RTC6 scan-head motion together with an ACS motion controller and XY stage as one job. The scanner handles fast motion within a small field, while the stage handles wide-area travel.

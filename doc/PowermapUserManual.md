@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](PowermapUserManual.md) | [한국어](PowermapUserManual.koKR.md)
+
 This guide covers the public Sirius3 PowerMap API and its WinForms/WPF controls.
 
 ## 1. Overview

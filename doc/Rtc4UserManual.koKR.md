@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](Rtc4UserManual.md) | [한국어](Rtc4UserManual.koKR.md)
+
 ## 1. RTC4의 위치
 
 RTC4/RTC4e는 16-bit 좌표계와 비교적 작은 리스트를 사용하는 이전 세대 컨트롤러입니다. Sirius3는 RTC4를 계속 지원하지만, RTC5/RTC6와 이름이 비슷한 명령이라도 지원 인터페이스·단위·펌웨어 조건이 다를 수 있습니다.

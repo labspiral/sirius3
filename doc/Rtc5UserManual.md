@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](Rtc5UserManual.md) | [한국어](Rtc5UserManual.koKR.md)
+
 ## 1. Location of RTC5
 
 RTC5/RTC5e provides a 20-bit XY coordinate system and more advanced marking features than RTC4. It offers larger lists and broader capability than RTC4, but does not support RTC6-only SCANAhead or Fly Extension features.

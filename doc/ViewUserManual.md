@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](ViewUserManual.md) | [한국어](ViewUserManual.koKR.md)
+
 
 ## 1. Overview
 

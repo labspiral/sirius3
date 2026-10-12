@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](SiriusMultiEditorUserManual.md) | [한국어](SiriusMultiEditorUserManual.koKR.md)
+
 ## 1. Purpose
 
 `SiriusMultiEditorControl` is available for WinForms and WPF and shares one `IDocument` and editor while switching among one to four indexed Scanner/Laser/Marker device sets. It does not edit multiple recipes simultaneously; it connects the same recipe to multiple device configurations for status inspection and execution.

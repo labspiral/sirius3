@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](MultibeamDeveloperManual.md) | [한국어](MultibeamDeveloperManual.koKR.md)
+
 ## 1. System Architecture
 
 Multi-Beam allows two RTC controllers and two scan heads to share one laser source. Two AOMs select the optical path, while cross-connected DInput/DOutput Token signals ensure that only one head uses the laser at a time.

@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](LaserVirtualUserManual.md) | [한국어](LaserVirtualUserManual.koKR.md)
+
 
 ## 1. Overview
 

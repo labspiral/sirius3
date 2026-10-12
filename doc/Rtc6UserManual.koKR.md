@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](Rtc6UserManual.md) | [한국어](Rtc6UserManual.koKR.md)
+
 ## 1. RTC6의 역할
 
 RTC6는 Windows에서 준비한 형상과 가공 조건을 스캐너·레이저·I/O 명령으로 바꾸고, 일반적인 Windows 스케줄링과 분리된 실시간 시간축에서 실행하는 컨트롤러입니다. Sirius3에서는 RTC6/RTC6e를 기본 기준으로 설명합니다.

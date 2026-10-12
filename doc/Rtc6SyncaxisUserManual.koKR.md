@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](Rtc6SyncaxisUserManual.md) | [한국어](Rtc6SyncaxisUserManual.koKR.md)
+
 ## 1. syncAXIS의 역할
 
 syncAXIS(XL-SCAN)는 RTC6와 Scan Head, ACS Motion Controller 및 XY Stage의 경로를 하나의 Job으로 계획하고 실행합니다. 작은 Field 안의 고속 이동은 Scanner가 담당하고, 넓은 범위의 이동은 Stage가 담당하도록 경로를 분해할 수 있습니다.

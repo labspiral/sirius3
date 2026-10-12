@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](EditorUserManual.md) | [한국어](EditorUserManual.koKR.md)
+
 ## 1. 역할
 
 `EditorControl`은 `IDocument`의 Entity를 OpenGL 편집기에 표시하고 선택·이동·회전·배율 변경·생성·삭제하는 WinForms/WPF 컨트롤입니다. Document를 바꾸면 기존 이벤트를 해제하고 새 Document의 선택과 변경 이벤트를 연결합니다.

@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](Sirius3ConfigUserManual.md) | [한국어](Sirius3ConfigUserManual.koKR.md)
+
 ## 1. 역할과 설정 시점
 
 `SpiralLab.Sirius3.Config`는 Core 라이브러리 전체에 적용되는 정적 설정을 제공합니다. 로그, 파일 경로, 좌표 계산, RTC 계측, PowerMap처럼 UI와 관계없이 장치 및 가공 동작에 영향을 주는 값이 이 클래스에 모여 있습니다.

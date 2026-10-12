@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](TextConvert.md) | [한국어](TextConvert.koKR.md)
+
 ## 1. 개요
 
 `ITextConvertible`은 마킹 직전에 Text나 Barcode 데이터를 바꿀 수 있는 공통 인터페이스입니다. `TextConverters` enum은 원본 `SourceText`를 어떤 방식으로 `ConvertedText`로 만들지 선택합니다.

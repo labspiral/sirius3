@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](MultibeamDeveloperManual.md) | [한국어](MultibeamDeveloperManual.koKR.md)
+
 ## 1. 시스템 구조
 
 Multi-Beam은 하나의 레이저 소스를 두 RTC와 두 스캔헤드가 공유하는 시스템입니다. 두 AOM이 광로를 선택하고, RTC 간 교차 연결된 DInput/DOutput Token 신호가 한 시점에 한 Head만 레이저를 사용하도록 조정합니다.

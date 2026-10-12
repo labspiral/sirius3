@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](EditorUserManual.md) | [한국어](EditorUserManual.koKR.md)
+
 ## 1. Purpose
 
 `EditorControl` is available for WinForms and WPF and is a control that displays the entities in an `IDocument` through an OpenGL editor and supports selection, translation, rotation, scaling, creation, and deletion. When the assigned Document changes, the control detaches events from the previous Document and subscribes to selection and change events on the new one.

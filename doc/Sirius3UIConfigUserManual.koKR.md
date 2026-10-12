@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](Sirius3UIConfigUserManual.md) | [한국어](Sirius3UIConfigUserManual.koKR.md)
+
 ## 1. 역할과 설정 시점
 
 `SpiralLab.Sirius3.UI.Config`는 Document, Editor, TreeView, PropertyGrid, Import, Text, Marker와 WinForms 확장 지점에 적용되는 정적 설정입니다. UI Control과 Document를 만들기 전에 값을 지정하면 새로 생성되는 개체가 같은 정책을 사용합니다.

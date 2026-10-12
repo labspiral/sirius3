@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](MultibeamSystemManual.md) | [한국어](MultibeamSystemManual.koKR.md)
+
 ## 1. 개요
 
 Multi-Beam은 하나의 레이저 소스를 두 스캔헤드가 공유하는 장치 구성입니다. 두 RTC와 두 AOM을 사용하며, 교차 연결된 Token DIO로 레이저 사용권을 한 Head씩 전달합니다.

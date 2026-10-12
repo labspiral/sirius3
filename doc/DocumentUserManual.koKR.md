@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](DocumentUserManual.md) | [한국어](DocumentUserManual.koKR.md)
+
 ## 1. IDocument
 
 `IDocument`는 Sirius3 레시피의 Page, Layer, EntityPen, EntityLayerPen, Block과 선택 상태를 관리합니다. 편집기와 TreeView는 같은 Document를 바라보며, Marker는 선택한 Page와 Layer 순서에 따라 이 데이터를 RTC 리스트로 변환합니다.

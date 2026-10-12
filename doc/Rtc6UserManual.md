@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](Rtc6UserManual.md) | [한국어](Rtc6UserManual.koKR.md)
+
 ## 1. RTC6 Role
 
 RTC6 converts geometry and process parameters prepared in Windows into deterministic scanner, laser, and I/O commands that run independently of normal Windows scheduling. Sirius3 uses RTC6/RTC6e as its primary controller generation.

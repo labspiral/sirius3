@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](SiriusEditorUserManual.md) | [한국어](SiriusEditorUserManual.koKR.md)
+
 ## 1. 통합 편집기
 
 `SiriusEditorControl`은 WinForms와 WPF에서 EditorControl, Page/Layer TreeView, PropertyGrid와 Scanner·Laser·Marker·I/O·PowerMeter UI를 한 화면에 제공합니다. WinForms는 `beginner`와 `editor_ui`, WPF는 `wpf_editor_ui`를 기준으로 메뉴·탭·장치 UI를 제품에 맞게 구성합니다.

@@ -2,6 +2,8 @@
 
 > Reference version: Sirius3 1.16.0 (public Release features)
 
+[English](PenUserManual.md) | [한국어](PenUserManual.koKR.md)
+
 `EntityPen` groups the laser output, pulse, scanner speed, delay, and optional features used to mark an individual entity. An entity's line color selects the `EntityPen` with the same color. The Marker writes that pen's settings to the RTC list buffer the first time it encounters the color.
 
 For ALC, Sky Writing, Variable Delay, and syncAXIS behavior modes that are first applied to the entire layer, see [LayerPenUserManual.md](LayerPenUserManual.md).

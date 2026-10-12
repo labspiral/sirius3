@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](PenUserManual.md) | [한국어](PenUserManual.koKR.md)
+
 `EntityPen`은 개별 개체를 가공할 때 사용할 레이저 출력, 펄스, 스캐너 속도, 지연 시간과 선택 기능을 한곳에 모아 둔 설정입니다. 편집기에서 개체의 선 색을 바꾸면 같은 색의 `EntityPen`이 연결되며, Marker는 해당 색을 처음 만날 때 RTC 리스트 버퍼에 펜 설정 명령을 기록합니다.
 
 레이어 전체에 먼저 적용되는 ALC, Sky Writing, Variable Delay, syncAXIS 동작 모드는 [LayerPenUserManual.md](LayerPenUserManual.koKR.md)를 참고하십시오.

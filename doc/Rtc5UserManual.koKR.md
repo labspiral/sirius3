@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](Rtc5UserManual.md) | [한국어](Rtc5UserManual.koKR.md)
+
 ## 1. RTC5의 위치
 
 RTC5/RTC5e는 20-bit XY 좌표계와 고급 가공 기능을 제공하는 컨트롤러입니다. RTC4보다 리스트와 기능이 확장되지만, RTC6 전용 SCANAhead와 Fly Extension은 지원하지 않습니다.

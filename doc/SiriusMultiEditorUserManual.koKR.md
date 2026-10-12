@@ -2,6 +2,8 @@
 
 > 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
+[English](SiriusMultiEditorUserManual.md) | [한국어](SiriusMultiEditorUserManual.koKR.md)
+
 ## 1. 용도
 
 `SiriusMultiEditorControl`은 하나의 `IDocument`와 편집 화면을 공유하면서 1~4개의 Scanner/Laser/Marker 장치 세트를 인덱스로 전환하는 WinForms/WPF 컨트롤입니다. 여러 개의 레시피를 동시에 편집하는 컨트롤이 아니라, 같은 레시피를 여러 장치 구성에 연결해 상태를 확인하고 실행할 때 사용합니다.
