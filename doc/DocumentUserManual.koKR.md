@@ -1,6 +1,6 @@
 # IDocument & Recipe Management User Manual
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 ## 1. IDocument
 
@@ -116,9 +116,24 @@ PropertyGrid에서 개체를 선택하면 개체 속성과 연결된 펜을 확�
 
 - `ActNew`: 새 문서와 기본 Layer 생성
 - `ActOpen`, `ActSave`: `.sirius3` 레시피 열기/저장
-- `ActImport`: DXF/DWG, HPGL/PLT, Gerber/Excellon, G-code/NGC, 이미지, STL/OBJ/PLY/STP·STEP 등 가져오기
+- `ActImport`: SVG, DXF/DWG, HPGL/PLT, Gerber/Excellon, G-code/NGC, 이미지와 STL/OBJ/PLY/STP·STEP/3MF 메쉬 가져오기
 
 `UI.Config.ImportMergeDistance`는 벡터 경로의 가까운 끝점을 연결하는 공통 허용 거리입니다. 너무 크면 관련 없는 경로가 합쳐질 수 있으므로 도면 단위와 실제 간격을 기준으로 정하십시오.
+
+### SVG 및 3MF 가져오기
+
+1.16.0의 `ActImport`는 `.svg`를 편집 가능한 `EntitySvg`/`EntityContour` 벡터 계층으로, `.3mf`를 `EntityMesh`로 가져옵니다. SVG는 96 pixels/inch와 Y축 반전으로 mm 좌표를 생성하며 선·호·베지어/NURBS 원본을 유지합니다. 단색 채움과 선 두께·끝점·모서리는 영역으로 처리합니다. 텍스트, 이미지, 마스크, 필터, clip path, marker, 점선과 non-scaling stroke는 지원하지 않으므로 외곽선으로 변환하거나 지원 형식으로 내보냅니다.
+
+SVG 선 해치는 기본적으로 생성하지 않습니다. 새 가져오기 전에 `UI.Config.IsSvgImportHatchEnabled = true`를 설정하면 `UI.Config.SvgImportHatchInterval`(기본 0.1 mm) 간격의 HatchLine을 추가합니다. 뒤에 그린 불투명 흰색은 기본적으로 앞의 형상을 잘라내며, `EntitySvg.WhiteIsKnockout`으로 이 정책을 바꿀 수 있습니다.
+
+3MF는 빌드된 삼각형과 컴포넌트 상대 배치를 mm로 변환하고 RGB 색상, 기본 재질과 diffuse 텍스처를 유지합니다. 복합/다중 속성 재질과 비메쉬 형상은 지원하지 않습니다. 빌드 인스턴스 확장 후 최대 2,000,000개의 삼각형과 내장 이미지당 64 MiB의 인코딩 데이터 제한을 적용합니다. 가져온 메쉬의 재질은 표시용이며 실제 가공 경로는 Slice 등으로 준비합니다.
+
+```csharp
+if (!document.ActImport("drawing.svg", out var imported))
+    throw new InvalidOperationException("SVG import failed; check the Sirius3 log.");
+```
+
+성공한 결과는 문서가 소유합니다. 반환값과 로그를 확인하고 실제 크기, 채움·구멍과 텍스처를 검토한 뒤 가공 데이터를 사용합니다. 설정은 [UI Config](Sirius3UIConfigUserManual.koKR.md)를 참고합니다.
 
 ## 9. 선택과 편집 Action
 
@@ -132,6 +147,8 @@ PropertyGrid에서 개체를 선택하면 개체 속성과 연결된 펜을 확�
 - 형상: `ActReverse`, `ActSlice`, `ActRegen`
 
 Property setter가 올바른 ModifyFlag를 설정한 경우 PropertyGrid 편집은 필요한 형상을 자동 재생성합니다. 직접 필드나 하위 배열을 바꿨다면 계약에 맞는 Setter와 `ActRegen`을 사용하십시오.
+
+`ActClip`은 문서 소유 `IClippable` 원본을 월드 좌표의 Frustum 영역으로 나누고 결과 추가와 선택적 원본 삭제를 한 번의 Undo/Redo로 처리합니다. 레이어를 원본으로 사용할 때는 해당 레이어 하나만 전달합니다. [클리핑 매뉴얼](ClippingUserManual.koKR.md)과 [editor_clip 데모](../demos/editor_clip/Form1.cs)를 참고합니다.
 
 ## 10. 좌표와 ITransformable
 

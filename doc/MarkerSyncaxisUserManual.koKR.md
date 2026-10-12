@@ -1,6 +1,6 @@
 # SyncAXIS Integrated Marker Control User Manual
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 
 ## 1. 개요 (Overview)
@@ -50,6 +50,14 @@ SyncAXIS는 가공 전 실제 경로를 예측하기 위해 시뮬레이션 기�
 - SyncAXIS 셋업 메뉴얼에 따른 다양한 환경 설정이 모두 미리 완료되어야 합니다.
 - 가공 중 스테이지의 물리적 한계(Soft Limit)를 벗어나는 경로가 포함될 경우 하드웨어 에러가 발생하므로 시뮬레이션을 통해 사전에 검증하십시오.
 - 스테이지와 스캐너의 동기화 정밀도를 위해 전용 보정 파일(xml 또는 .ct5)이 정확히 로드되어 있어야 합니다.
+
+## 8. 팩토리와 다른 Marker의 차이
+
+`MarkerFactory.CreateSyncAxis(index)`는 `MarkerSyncAxis`를 생성하고 `CreateAuto(rtc)`도 `IRtcSyncAxis`를 받으면 같은 구현을 선택합니다. `MarkerRtc`는 일반 RTC 목록, `MarkerRtcFast`는 더 큰 목록으로 제출하는 흐름입니다. `MarkerSyncAxis`는 레이어의 Motion Type에 맞는 syncAXIS Job 생성과 실행을 담당하므로 일반 RTC 구현과 바꿔 사용할 수 없습니다.
+
+공개 [editor_marker](../demos/editor_marker/Form1.cs)는 MyMarkerSyncAxis와 MyMarkerRtc·MyMarkerRtcFast 소스를 제공합니다. Scanner와 Laser를 초기화한 뒤 같은 인스턴스를 RegisterDevices·Ready에 연결합니다. Start 반환은 완료가 아니며 Busy·오류·OnEnded를 확인합니다.
+
+Offset X/Y/Z는 좌표 이동, AngleZ는 Z축 회전, ExtensionData는 위치별 문자열입니다. 기계 이동은 syncAXIS Job·Motion Type·축 제한 설정을 따릅니다. Offset Z만 지정했다고 독립 Stage 명령이 실행되지는 않습니다. [Marker 비교](MarkerUserManual.koKR.md)와 [Offset 예제·파싱](OffsetUserManual.koKR.md)을 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

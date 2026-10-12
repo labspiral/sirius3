@@ -1,5 +1,14 @@
 # Sirius3 version history
 
+## v1.16.1 (2026.10.12)
+
+- updated) Updated the SCANLAB RTC6 dependency to Software Package 1.25.1
+- added) Support for importing .3MF files : 'IDocument.ActImport'
+- added) Support for importing .SVG files : 'IDocument.ActImport'
+- added) `IPowerMap` supports selecting existing linear interpolation or new nonlinear curve interpolation (PCHIP) : 'Config.PowerMapInterpolationMode'
+- added) `IClippable` supports splitting large-area data into rectangular regions (clipping) : 'IDocument.ActClip'
+- fixed) Corrected `ListWriteMaskExtDO16If` to pass the masks in the correct order
+
 ## v1.15.0 (2026.10.1)
 
 - added) WinForms HiDPI support

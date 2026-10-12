@@ -1,6 +1,6 @@
 # RTC Laser Marker Control User Manual
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 
 ## 1. 개요 (Overview)
@@ -59,6 +59,45 @@
 - ScriptingInstance: 'ScriptFactory.Create' 를 이용해 외부 스크립트 객체를 생성하여 지정가능합니다.
 - 텍스트 및 바코드 개체들에 대해 TextConverters.SimpleScript 를 사용할 경우 이 스크립트를 이용해 문자열 변환이 자동 지원됩니다.
 - 편집기(EditorControl) 에서 단축키(F2)를 통해 ScriptingInstance 의 속성값 확인 및 편집이 가능합니다.
+
+## 10. MarkerFactory와 구현 선택
+
+`MarkerFactory`는 인스턴스를 생성합니다. 장치 초기화, Scanner 소유권 인수나 가공 시작은 수행하지 않습니다. 초기화한 Scanner에 맞는 Marker를 선택하고 Editor의 `RegisterDevices`·Marker `Ready` 흐름에서 같은 Document/View/Scanner/Laser/PowerMeter를 연결합니다.
+
+| 팩토리 / 인스턴스 | 가공 구조 | 용도와 차이 |
+|---|---|---|
+| CreateVirtual → MarkerVirtual | 물리 RTC 실행 없는 소프트웨어 처리 | 장치 없는 순회·호스트 개발용이며 하드웨어 타이밍 검증은 아닙니다. |
+| CreateRtc → MarkerRtc | 레이어·Offset 경계에서 RTC 목록 시작·종료·실행 | 일반 RTC4/5/6 흐름이며 레이어별 ALC 처리를 제공합니다. |
+| CreateRtcFast → MarkerRtcFast | 순회를 더 큰 논리 RTC 목록으로 결합 | 제출 비용을 줄이며 MarkerRtc의 레이어별 ALC 설정은 제공하지 않습니다. 버퍼·이벤트 경계를 확인합니다. |
+| CreateSyncAxis → MarkerSyncAxis | IRtcSyncAxis의 레이어 Motion Type별 Job과 Laser 목록 결합 | Scanner·Stage 동기 가공용이며 호환 컨트롤러·Job 설정이 필요합니다. |
+| CreateAuto(IRtc) | IRtcSyncAxis → SyncAxis, RtcVirtual → Virtual, 그 밖에는 Rtc | RtcFast를 자동 선택하지 않습니다. |
+
+```csharp
+using SpiralLab.Sirius3.Marker;
+
+// 생성만 수행합니다. 시작 전에 초기화한 장치를 연결합니다.
+IMarker marker = MarkerFactory.CreateRtc(0);
+IMarker fastMarker = MarkerFactory.CreateRtcFast(0);
+IMarker syncMarker = MarkerFactory.CreateSyncAxis(0);
+```
+
+Fast는 제출 방식의 차이이며 물리 스캔이 반드시 빨라진다는 보장은 아닙니다. 구현을 바꿀 때 필요한 레이어별 설정과 컨트롤러 capability를 확인합니다. 일반 RTC Marker를 syncAXIS Job Marker 대신 사용하지 않습니다. 팩토리 선택만으로 Scanner·Stage·Laser 운전 준비가 끝나지는 않습니다.
+
+`Start`가 작업을 받아들였다고 가공이 완료된 것은 아닙니다. `IsBusy`, 오류와 `OnStarted`·`OnEnded`로 수명·완료를 확인합니다. 호스트 이벤트 Handler는 실시간 하드웨어 트리거가 아닙니다.
+
+## 11. 공개 Marker 소스
+
+공개 [editor_marker](../demos/editor_marker/editor_marker.csproj)는 [Form1.cs](../demos/editor_marker/Form1.cs)와 MyMarkerRtc, MyMarkerRtcFast, MyMarkerSyncAxis 사용자 구현 소스를 제공합니다. Demos 네임스페이스의 NuGet 소비 프로젝트입니다. 호스트는 일반 RTC에 MyMarkerRtc, syncAXIS에 MyMarkerSyncAxis, RtcVirtual에 내장 Virtual Marker를 선택합니다. MyMarkerRtcFast 소스도 제공하지만 기본 선택은 아닙니다.
+
+이 소스로 순회, 목록·Job 경계와 Hook을 확인합니다. 수정할 때 초기화, capability 검사, 실패·중단 처리와 장치 소유권을 유지합니다. 복사한 구현은 설치 SDK와 현재 라이브러리 버전에 맞춰 검토합니다.
+
+## 12. Offset 위치와 위치별 데이터
+
+`Offsets`는 Translate.X/Y/Z(mm), AngleZ(도, 양수는 반시계 방향), Scale로 위치를 지정합니다. ExtensionData는 위치별 문자열 정보이며 좌표를 바꾸지 않습니다. Z는 좌표 이동량이며 자동 Stage 이동 요청이 아닙니다. 대기 상태에서 Offset을 준비하고 개체 배치 변환을 중복 적용하지 않습니다.
+
+`TextConverters.Offset`에서 일반 ExtensionData 문자열은 모든 변환 개체에 같은 값을 제공합니다. `MyBarcode|A|MyText|B`는 개체 Name별 값을 지정하고 구분자를 포함한 값은 JSON으로 표현할 수 있습니다. 구분자 이름은 대소문자를 무시하며 JSON 키는 구분합니다. 구분자 방식의 반복 이름은 마지막 쌍을 사용합니다. 파싱·좌표 예제와 변환 순서는 [Offset](OffsetUserManual.koKR.md)을 참고합니다.
+
+관련 문서: [syncAXIS](MarkerSyncaxisUserManual.koKR.md), [Laser 확장](LaserUsermanual.koKR.md), [디지털 I/O](DigitalIOUserManual.koKR.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

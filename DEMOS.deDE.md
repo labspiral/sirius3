@@ -24,6 +24,10 @@ Erzeugt verschiedene 2D-Barcodes, Zellkombinationen und den zugehörigen Klartex
 
 Ändert Barcodedaten unmittelbar vor der Bearbeitung durch Ereignisse, C#-Skripte, externe Dateien oder positionsabhängige Offsets.
 
+## editor_clip
+
+Demonstriert `IClippable` und Undo/Redo im Dokument. Laden Sie ein Geometriebeispiel und öffnen Sie den Clipping dialog, um XY-Bereiche in Weltkoordinaten anzuzeigen und Pfad- oder Flächen-Clipping mit Schraffurpfaden, Füllregeln, Umlaufrichtung und optionalem Entfernen der Ausgangsobjekte anzuwenden.
+
 ## editor_dio
 
 Verwendet die digitalen Ein- und Ausgänge der RTC-Erweiterungsports. Pins können benannt, Zustände ausgegeben und externe Startsignale verarbeitet werden.
@@ -59,10 +63,6 @@ Vergleicht normale MicroVector-Sprünge mit einem Hard Jump innerhalb eines 10-�
 ## editor_hatch
 
 Erzeugt Linien- und Polygonschraffuren für geschlossene Konturen, optimiert ihre Reihenfolge und weist einzelnen Schraffuren unterschiedliche Entity-Stifte zu.
-
-## editor_hatch_clip
-
-Erzeugt Schraffuren durch Ausschneiden bestimmter Bereiche.
 
 ## editor_interrupt
 

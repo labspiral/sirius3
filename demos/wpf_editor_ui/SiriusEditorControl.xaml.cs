@@ -827,13 +827,7 @@ namespace Demos
             var failures = new System.Collections.Generic.List<Exception>();
             try { if (server != null) await server.DisposeAsync(); }
             catch (Exception ex) { failures.Add(ex); }
-            try
-            {
-                if (registeredRemote is IAsyncDisposable asyncRemote)
-                    await asyncRemote.DisposeAsync();
-                else
-                    registeredRemote?.Dispose();
-            }
+            try { if (registeredRemote != null) await registeredRemote.DisposeAsync(); }
             catch (Exception ex) { failures.Add(ex); }
             try { DisposeDevicesCore(); }
             catch (Exception ex) { failures.Add(ex); }
@@ -1288,6 +1282,7 @@ namespace Demos
                 e.Handled = true;
                 return;
             }
+            // Let the package editor route shortcuts for its own children.
             if (editorControl?.IsKeyboardFocusWithin == true)
                 return;
             if (WPFCommands.TryExecutePreviewShortcut(e, Document, View, Marker))
@@ -1296,25 +1291,26 @@ namespace Demos
 
         private bool TryExecuteMarkerShortcut(System.Windows.Input.KeyEventArgs e)
         {
-            if (e == null || e.Handled ||
-                System.Windows.Input.Keyboard.Modifiers != System.Windows.Input.ModifierKeys.None ||
-                WPFCommands.ToGLKey(e.Key == System.Windows.Input.Key.System ? e.SystemKey : e.Key) !=
-                    SpiralLab.Sirius3.UI.Config.KeyboardMarkerStart)
-            {
+            if (e == null || e.Handled || System.Windows.Input.Keyboard.Modifiers != System.Windows.Input.ModifierKeys.None)
                 return false;
-            }
+            var key = WPFCommands.NormKey(e);
+            if (key.Key != SpiralLab.Sirius3.UI.Config.KeyboardMarkerStart)
+                return false;
 
+            // The configured start key belongs to the editor even when the command
+            // cannot start or the operator cancels the safety confirmation.
             if (Document == null || Marker == null || Marker.IsBusy)
                 return true;
-            if (SpiralLab.Sirius3.UI.Config.IsShowMessageBoxWhenMarkerStart &&
-                WPFMessageBox.Show(
-                    System.Windows.Window.GetWindow(this),
+            if (SpiralLab.Sirius3.UI.Config.IsShowMessageBoxWhenMarkerStart)
+            {
+                using (var confirmation = new MessageBoxWindow(
                     MessageBoxLocalization.S("Marker_ConfirmStart", Document.Page),
                     MessageBoxLocalization.S("Title_Warning"),
-                    MessageBoxButton.OKCancel,
-                    MessageBoxImage.Warning) != MessageBoxResult.OK)
-            {
-                return true;
+                    MessageBoxLocalization.S("Common_Start"),
+                    MessageBoxLocalization.S("Common_Cancel"))
+                    { Owner = Window.GetWindow(this) })
+                    if (confirmation.ShowDialog() != true)
+                        return true;
             }
 
             if (Document.ActRegen() && Marker.Ready(Document))
@@ -1406,8 +1402,3 @@ namespace Demos
         #endregion
     }
 }
-
-
-
-
-

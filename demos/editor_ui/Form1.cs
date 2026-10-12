@@ -70,9 +70,6 @@ namespace Demos
                     siriusEditorControl1.Document = null;
                     doc?.Dispose();
 
-                    // Clean up SIRIUS3 library
-                    // SIRIUS3 라이브러리 정리
-                    SpiralLab.Sirius3.Core.Cleanup();
                 }
                 catch (Exception exception)
                 {

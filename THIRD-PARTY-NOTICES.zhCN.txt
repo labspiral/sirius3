@@ -1,13 +1,36 @@
 第三方软件注意事项
 ==================
 
-本说明介绍截至 2026-08-23 随 SpiralLab.Sirius3、SpiralLab.Sirius3.UI、
+本说明介绍截至 2026-10-07 随 SpiralLab.Sirius3、SpiralLab.Sirius3.UI、
 和 SpiralLab.Sirius3.Dependencies NuGet 包分发的第三方软件。未经修改的许可全文
 请参阅始终与本文件一起分发的 THIRD-PARTY-NOTICES.txt。供应商可再分发文件仍受
 各供应商的单独条款约束；本说明不会授予新的使用或再分发权利。
 
 托管及运行时开源组件
 --------------------
+
+SVG.NET (Svg)
+  版本 : 3.4.8
+  许可证 : Microsoft Public 许可证 (MS-PL)
+  来源  : https://github.com/svg-net/SVG
+  提交  : 9d564f47c82780df4b703ee0bf2436c6a2276f5c
+  分发: 嵌入 SpiralLab.Sirius3.UI，用于导入可编辑矢量轮廓
+
+ExCSS
+  版本 : 4.2.3
+  许可证 : MIT
+  版权: Copyright (c) 2024 Tyler Brinks
+  来源  : https://github.com/TylerBrinks/ExCSS
+  分发: 嵌入 SpiralLab.Sirius3.UI 的 SVG.NET 样式表解析器
+
+lib3mf
+  版本: 2.5.0
+  许可: BSD 2-Clause
+  来源: https://github.com/3MFConsortium/lib3mf
+  分发: Dependencies 中的 x64 和 x32 原生三角网格读取器
+  运行时: 需要与进程架构匹配的 Microsoft Visual C++ 2015-2022 或更新的兼容运行时。
+  通知: 包含 libzip、zlib、cpp-base64 和 fast_float。原始 LICENSE 和 SDK Credits
+        全文及二进制文件来源和构建信息收录于 THIRD-PARTY-NOTICES.txt 末尾。
 
 NLog
   版本: 6.0.5

@@ -62,8 +62,6 @@ namespace Demos
                     siriusEditorControl1.Document = null;
                     doc?.Dispose();
 
-                    // Clean up SIRIUS3 library
-                    SpiralLab.Sirius3.Core.Cleanup();
                 }
                 catch (Exception exception)
                 {

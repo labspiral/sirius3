@@ -1,6 +1,6 @@
 # Sirius3 MCP Editor Demo: AI client setup
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 [English](MCP.md) | [한국어](MCP.koKR.md)
 
@@ -274,6 +274,16 @@ These examples describe only the user's intended task in ordinary language. The 
     ```
 
 Entity deletion, grouping, transforms, hatch editing, hit tests, point/grid clouds, and Editor simulation start/stop are also available. Preview is a processing-path operation and is separate from Editor simulation. Never treat an AI response as proof of success without the returned result and a follow-up state check.
+
+## Clip selected entities
+
+Clip supports paths or closed regions for entities implementing `IClippable`, including barcodes, text, spirals and block inserts. Existing HatchLine/HatchPolygon machining paths can be included or excluded. Results are added to the document with Undo/Redo; source removal is optional.
+
+Select an EntityLayer alone when clipping its child data. Mixing a layer with its children, other entities or another layer is rejected.
+
+```text
+Clip the selected objects to the world-coordinate rectangle from (-5, -5) to (5, 5). Create closed regions with EvenOdd fill and outer counterclockwise/hole clockwise winding. Include existing hatch paths, keep the originals, and check the resulting objects.
+```
 
 ## Troubleshooting
 

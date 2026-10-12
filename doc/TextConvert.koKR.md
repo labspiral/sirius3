@@ -1,6 +1,6 @@
 # TextConverters & ITextConvertible Developer Manual
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 ## 1. 개요
 
@@ -14,7 +14,7 @@
 
 - `EntityText`, `EntitySiriusText`와 원형 Text
 - `EntityImageText`
-- `EntityBarcode1D_V2`
+- `EntityBarcode1D_v2`
 - `EntityQRCode`, `EntityDataMatrix`, `EntityPDF417`, `EntityAztec`
 
 실제 지원 여부는 개체가 `ITextConvertible`로 변환되는지 확인하십시오.
@@ -190,6 +190,10 @@ Link 대상은 마킹 순서에서 Link 개체보다 먼저 변환되어야 합�
 6. PropertyGrid를 새로 고치고 Marker Preview/Start로 결과를 확인합니다.
 
 종료 시 Marker/Device, Document를 해제하고 `Core.Cleanup()`을 호출하십시오.
+
+## 관련 기능
+
+[Offset 좌표와 문자열 파싱](OffsetUserManual.koKR.md), [텍스트](TextUserManual.koKR.md), [바코드](BarcodeUserManual.koKR.md), [해치](HatchUserManual.koKR.md), [전체 EntityFactory](EntityUserManual.koKR.md)를 함께 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

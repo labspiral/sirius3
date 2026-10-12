@@ -1,6 +1,6 @@
 # Sirius3 원격 제어 프로토콜 사용자 매뉴얼 (Remote Control Protocol Manual)
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 
 본 문서는 Sirius3 라이브러리의 원격 제어 기능을 통해 외부 장치나 프로그램이 시스템을 제어하기 위한 통신 프로토콜 명세서입니다.

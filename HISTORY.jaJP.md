@@ -1,5 +1,14 @@
 # Sirius3 バージョン履歴
 
+## v1.16.1 (2026.10.12)
+
+- updated) SCANLAB RTC6 の依存ソフトウェアを Software Package 1.25.1 に更新
+- added) .3MF ファイルのインポートに対応 : 'IDocument.ActImport'
+- added) .SVG ファイルのインポートに対応 : 'IDocument.ActImport'
+- added) `IPowerMap` で従来の線形補間または新しい非線形曲線補間（PCHIP）を選択可能 : 'Config.PowerMapInterpolationMode'
+- added) `IClippable` を追加し、大面積データを矩形領域に分割するクリッピングに対応 : 'IDocument.ActClip'
+- fixed) `ListWriteMaskExtDO16If` のマスク値を正しい順序で渡すよう修正
+
 ## v1.15.0 (2026.10.1)
 
 - added) WinForms HiDPI に対応

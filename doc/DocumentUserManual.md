@@ -1,6 +1,6 @@
 # IDocument & Recipe Management User Manual
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 ## 1. IDocument
 
@@ -116,9 +116,24 @@ If you select an object in PropertyGrid, you can check the pen connected to the 
 
 - `ActNew`: Create new documents and basic layer
 - `ActOpen`, `ActSave`: `.sirius3` Recipe Open/Save
-- `ActImport`: Import DXF/DWG, HPGL/PLT, Gerber/Excellon, G-code/NGC, image, STL/OBJ/PLY/STP·STEP etc.
+- `ActImport`: Import SVG, DXF/DWG, HPGL/PLT, Gerber/Excellon, G-code/NGC, images and STL/OBJ/PLY/STP·STEP/3MF meshes.
 
 `UI.Config.ImportMergeDistance` is a common permissible distance that connects the close endpoint of a vector path. If too large, the unrelated path can be combined, so set it on the basis of the drawing units and real intervals.
+
+### SVG and 3MF import
+
+In 1.16.0, `ActImport` imports `.svg` as an editable `EntitySvg`/`EntityContour` vector hierarchy and `.3mf` as `EntityMesh`. SVG coordinates become millimeters using 96 pixels/inch and a reflected Y axis; native line, arc and Bezier/NURBS sources are retained. Solid fills and stroke widths, caps and joins form regions. Text, images, masks, filters, clip paths, markers, dashed and non-scaling strokes are unsupported; convert them to supported outlines before import.
+
+SVG line hatching is disabled by default. Set `UI.Config.IsSvgImportHatchEnabled = true` before a new import to add HatchLine at `UI.Config.SvgImportHatchInterval` (default 0.1 mm). Later opaque white paint cuts out earlier geometry by default; `EntitySvg.WhiteIsKnockout` controls this policy.
+
+3MF converts built triangles and relative component placement to millimeters, retaining RGB colors, base materials and diffuse textures. Composite/multiple-property materials and non-mesh geometry are unsupported. Limits are 2,000,000 expanded build triangles and 64 MiB of encoded data per embedded image. Mesh materials affect visualization; prepare machining paths separately, for example by slicing.
+
+```csharp
+if (!document.ActImport("drawing.svg", out var imported))
+    throw new InvalidOperationException("SVG import failed; check the Sirius3 log.");
+```
+
+Successful results are document-owned. Check the Boolean result and logs, then inspect dimensions, filled regions, holes and textures before using the machining data. See [UI Config](Sirius3UIConfigUserManual.md) for import settings.
 
 ## 9. Selection and Editing Actions
 
@@ -132,6 +147,8 @@ If possible, change the document by using the `Act*` method. This path will be u
 - Form: `ActReverse`, `ActSlice`, `ActRegen`
 
 If the Property setter set the right ModifyFlag, the PropertyGrid editing will automatically reproduce the required shape. If you have changed the field or subarrangement directly, use the Setter and `ActRegen` that corresponds to the contract.
+
+`ActClip` divides document-owned `IClippable` sources into world-space Frustum regions and combines result insertion and optional source removal in one Undo/Redo action. Pass a layer alone when clipping an `EntityLayer`. See the [clipping guide](ClippingUserManual.md) and [editor_clip demo](../demos/editor_clip/Form1.cs).
 
 ## 10. Coordinates and ITransformable
 

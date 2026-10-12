@@ -1,6 +1,6 @@
 # EntityFactory & Entity User Manual
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 ## 1. Basic entity creation workflow
 
@@ -95,6 +95,289 @@ Check the coordinate conversion one-step in so that the `ModelMatrix` and Offset
 ## 9. Importing External Files
 
 You can import DXF/DWG, HPGL/PLT, Gerber/Excellon, G-code/NGC, images and 3D files. `UI.Config.ImportMergeDistance` is a common permissible distance to connect the close end points of DXF, DWG, HPGL, PLT, and `UI.Config.IsImportColorPreserved` will change the original color to the closest EntityPen color to keep the original color.
+
+Version 1.16.0 retains millimeter units, relative component placement, RGB colors, base materials and diffuse textures from `.3mf` build meshes. SVG imports produce an editable `EntitySvg`/`EntityContour` hierarchy. See [import requirements](DocumentUserManual.md) and [SVG settings](Sirius3UIConfigUserManual.md). Independent results from `IClippable.Clip` must be adopted or disposed by the caller; use [ActClip](ClippingUserManual.md) for document edits with Undo/Redo.
+
+## 10. Complete EntityFactory catalog
+
+The current public factory provides **84 method names and 124 overloads**. Creation does not insert entities into a document or start processing. Own unattached results until transferring them through a document action such as `document.ActAdd`. Control entities require the corresponding scanner capability.
+
+### Primitives
+
+| Method | Return type | Overloads |
+|---|---|---|
+| `CreateLine` | `EntityLine` | 4 |
+| `CreateLines` | `EntityLines` | 2 |
+| `CreatePoint` | `EntityPoint` | 4 |
+| `CreatePoints` | `EntityPoints` | 2 |
+| `CreateArc` | `EntityArc` | 4 |
+| `CreateEllipse` | `EntityEllipse` | 2 |
+| `CreateRectangle` | `EntityRectangle` | 4 |
+| `CreateTriangle` | `EntityTriangle` | 4 |
+| `CreateCross` | `EntityCross` | 4 |
+| `CreateTrepan` | `EntityTrepan` | 4 |
+| `CreateSpiral` | `EntitySpiral` | 4 |
+| `CreateSpiralClassic` | `EntitySpiralClassic` | 4 |
+| `CreateLissajous` | `EntityLissajous` | 1 |
+
+### Polylines and splines
+
+| Method | Return type | Overloads |
+|---|---|---|
+| `CreatePolyline3D` | `EntityPolyline3D` | 1 |
+| `CreatePolyline2D` | `EntityPolyline2D` | 1 |
+| `CreateBezierSpline` | `EntityBezierSpline` | 2 |
+| `CreateCatmullRomSpline` | `EntityCatmullRomSpline` | 1 |
+| `CreateHermiteSpline` | `EntityHermiteSpline` | 1 |
+| `CreateBSpline` | `EntityBSpline` | 1 |
+| `CreateNURBSpline` | `EntityNURBSpline` | 1 |
+
+### Images and text
+
+| Method | Return type | Overloads |
+|---|---|---|
+| `CreateImage` | `EntityImage` | 2 |
+| `CreateImageZPL` | `EntityImageZPL` | 1 |
+| `CreateImageText` | `EntityImageText` | 1 |
+| `CreateText` | `EntityText` | 1 |
+| `CreateCircularText` | `EntityCircularText` | 1 |
+| `CreateCircularSiriusText` | `EntityCircularSiriusText` | 1 |
+| `CreateSiriusText` | `EntitySiriusText` | 1 |
+
+### Barcodes
+
+| Method | Return type | Overloads |
+|---|---|---|
+| `CreateDataMatrix` | `EntityDataMatrix` | 1 |
+| `CreateQRCode` | `EntityQRCode` | 1 |
+| `CreatePDF417` | `EntityPDF417` | 1 |
+| `CreateAztec` | `EntityAztec` | 1 |
+| `CreateBarcode` | `EntityBarcode1D` | 1 |
+| `CreateBarcodeV2` | `EntityBarcode1D_v2` | 1 |
+
+### Contours, SVG and 3D
+
+| Method | Return type | Overloads |
+|---|---|---|
+| `CreateContour` | `EntityContour` | 2 |
+| `CreateSVG` | `bool` | 1 |
+| `CreateMesh` | `bool` | 1 |
+| `CreateCube` | `EntityCube` | 1 |
+| `CreateCylinder` | `EntityCylinder` | 1 |
+| `CreateCone` | `EntityCone` | 2 |
+| `CreateSphere` | `EntitySphere` | 1 |
+| `CreatePlane` | `EntityPlane` | 2 |
+| `CreatePyramid` | `EntityPyramid` | 1 |
+| `CreateTorus` | `EntityTorus` | 1 |
+| `CreateNURBS3D` | `EntityNURBSSurface` | 1 |
+| `CreateGridCloud` | `EntityGrids` | 1 |
+
+### Containers and file import
+
+| Method | Return type | Overloads |
+|---|---|---|
+| `CreateLayer` | `EntityLayer` | 1 |
+| `CreateBlock` | `EntityBlock` | 1 |
+| `CreateBlockInsert` | `EntityBlockInsert` | 2 |
+| `CreateMixedGroup` | `EntityMixedGroup` | 1 |
+| `CreateUniformGroup` | `EntityUniformGroup` | 1 |
+| `CreateDxf` | `bool` | 1 |
+| `CreateHPGL` | `bool` | 1 |
+| `CreateGerber` | `bool` | 1 |
+| `CreateGerbers` | `bool` | 1 |
+
+### Timing, measurement and MoF
+
+| Method | Return type | Overloads |
+|---|---|---|
+| `CreateDelay` | `EntityDelay` | 1 |
+| `CreateJumpTo` | `EntityJump` | 2 |
+| `CreateMeasurementBegin` | `EntityMeasurementBegin` | 1 |
+| `CreateMeasurementEnd` | `EntityMeasurementEnd` | 1 |
+| `CreateMoFBegin` | `EntityMoFBegin` | 1 |
+| `CreateMoFWait` | `EntityMoFWait` | 2 |
+| `CreateMoFWaitRange` | `EntityMoFWaitRange` | 1 |
+| `CreateMoFEnd` | `EntityMoFEnd` | 2 |
+| `CreateMoFExtBegin` | `EntityMoFExtBegin` | 1 |
+| `CreateMoFExtWait1D` | `EntityMoFExtWait1D` | 1 |
+| `CreateMoFExtWait2D` | `EntityMoFExtWait2D` | 1 |
+| `CreateMoFExtPark` | `EntityMoFExtPark` | 1 |
+| `CreateMoFExtParkReturn` | `EntityMoFExtParkReturn` | 1 |
+| `CreateMoFExtEnd` | `EntityMoFExtEnd` | 1 |
+
+### Z, correction, power and I/O
+
+| Method | Return type | Overloads |
+|---|---|---|
+| `CreateZDefocus` | `EntityZDefocus` | 1 |
+| `CreateZDelta` | `EntityZDelta` | 1 |
+| `CreateSelectCorrectionTable` | `EntitySelectCorrectionTable` | 1 |
+| `CreateRampBegin` | `EntityRampBegin` | 1 |
+| `CreateRampEnd` | `EntityRampEnd` | 1 |
+| `CreatePoD` | `EntityPoD` | 1 |
+| `CreateWriteData` | `EntityWriteData` | 1 |
+| `CreateWriteDataExt16` | `EntityWriteDataExt16` | 1 |
+| `CreateWriteDataExt16Cond` | `EntityWriteDataExt16Cond` | 1 |
+| `CreateWaitDataExt16Cond` | `EntityWaitDataExt16Cond` | 1 |
+| `CreateWaitDataExt16EdgeCond` | `EntityWaitDataExt16EdgeCond` | 1 |
+| `CreateFreeVariable` | `EntityVariable` | 1 |
+
+### Events and stepper control
+
+| Method | Return type | Overloads |
+|---|---|---|
+| `CreateUserEvent` | `EntityUserEvent` | 1 |
+| `CreateBreakPoint` | `EntityBreakPoint` | 2 |
+| `CreateStepperMove` | `EntityStepperMove` | 1 |
+| `CreateStepperWait` | `EntityStepperWait` | 1 |
+
+`CreateBarcode` returns the legacy `EntityBarcode1D`; `CreateBarcodeV2` returns `EntityBarcode1D_v2`. `CreateImageText` is a raster entity, unlike vector Text/SiriusText. `CreateNURBSpline` creates a curve, whereas `CreateNURBS3D` creates a surface mesh. `CreateGridCloud` creates a grid point cloud.
+
+`CreateSVG`, `CreateMesh`, `CreateDxf`, `CreateHPGL`, `CreateGerber` and `CreateGerbers` return a success Boolean and `out` results. Do not treat them as single-entity return methods. Check failures and logs. Use `IDocument.ActImport` for editor-integrated import.
+
+`CreateContour` supplies region contours; preserve closure, winding and nested inside/outside topology for hatching. Layers/blocks/groups have child placement and lifetime contracts; BlockInsert references a master. Displaying a basic 3D mesh does not automatically generate a laser path.
+
+Pair MoF, Measurement and Ramp Begin/End controls in the intended order. `CreateZDefocus` and `CreateZDelta` represent different Z controls and require appropriate correction/device settings. `CreatePoD` controls output, `CreateFreeVariable` writes RTC variables, `CreateUserEvent` raises marker events, and `CreateBreakPoint` supports controller pause/resume workflows. Stepper Move/Wait requires the stepper capability.
+
+Conditional factories `CreateWriteDataExt16Cond` and `CreateWaitDataExt16Cond` take **LOW mask, HIGH mask**. `inputHightBitMask` retains the existing public spelling. `CreateWaitDataExt16EdgeCond` takes a bit index 0–15 instead of a mask. For example, change DO4 to HIGH if DI0 is HIGH and DI1–3 are LOW:
+
+```csharp
+var conditionalOutput = EntityFactory.CreateWriteDataExt16Cond(
+    0x000E, 0x0001, 0x0010, SignalEdges.High);
+```
+
+Related guides: [hatching](HatchUserManual.md), [text](TextUserManual.md), [barcodes](BarcodeUserManual.md), [digital I/O](DigitalIOUserManual.md), [MoF](MarkingOnTheFlyUserManual.md), [Offset](OffsetUserManual.md).
+
+## 11. Overload reference
+
+Signatures below include argument order, defaults and `out` results. `DVec2`/`DVec3` are aliases for the OpenTK double-precision vectors of the selected framework.
+
+```csharp
+EntityLine CreateLine(DVec2 start, DVec2 end);
+EntityLine CreateLine(DVec3 start, DVec3 end);
+EntityLine CreateLine(double startX, double startY, double endX, double endY);
+EntityLine CreateLine(double startX, double startY, double startZ, double endX, double endY, double endZ);
+EntityLines CreateLines(IEnumerable<DVec2> vertices);
+EntityLines CreateLines(IEnumerable<DVec3> vertices);
+EntityPoint CreatePoint(DVec2 location);
+EntityPoint CreatePoint(double x, double y);
+EntityPoint CreatePoint(DVec3 location);
+EntityPoint CreatePoint(double x, double y, double z);
+EntityPoints CreatePoints(IEnumerable<DVec2> locations);
+EntityPoints CreatePoints(IEnumerable<DVec3> locations);
+EntityArc CreateArc(DVec2 center, double radius, double startAngle, double sweepAngle, uint stepAngle = 0);
+EntityArc CreateArc(double cx, double cy, double radius, double startAngle, double sweepAngle, uint stepAngle = 0);
+EntityArc CreateArc(DVec3 center, double radius, double startAngle, double sweepAngle, uint stepAngle = 0);
+EntityArc CreateArc(double cx, double cy, double cz, double radius, double startAngle, double sweepAngle, uint stepAngle = 0);
+EntityEllipse CreateEllipse(double cx, double cy, double cz, double major, double minor);
+EntityEllipse CreateEllipse(DVec2 center, double major, double minor);
+EntityRectangle CreateRectangle(DVec2 center, double width, double height);
+EntityRectangle CreateRectangle(double cx, double cy, double width, double height);
+EntityRectangle CreateRectangle(DVec3 center, double width, double height);
+EntityRectangle CreateRectangle(double cx, double cy, double cz, double width, double height);
+EntityTriangle CreateTriangle(DVec2 baseCenter, double baseLength, double height);
+EntityTriangle CreateTriangle(double cx, double cy, double cz, double baseLength, double height);
+EntityTriangle CreateTriangle(DVec3 baseCenter, double baseLength, double height);
+EntityTriangle CreateTriangle(double cx, double cy, double baseLength, double height);
+EntityCross CreateCross(double cx, double cy, double width, double height, double thickness);
+EntityCross CreateCross(DVec2 center, double width, double height, double thickness);
+EntityCross CreateCross(double cx, double cy, double cz, double width, double height, double thickness);
+EntityCross CreateCross(DVec3 center, double width, double height, double thickness);
+EntityTrepan CreateTrepan(DVec2 center, double innerDiameter, double outterDiameter, int revolutions);
+EntityTrepan CreateTrepan(double cx, double cy, double innerDiameter, double outterDiameter, int revolutions);
+EntityTrepan CreateTrepan(DVec3 center, double innerDiameter, double outterDiameter, int revolutions);
+EntityTrepan CreateTrepan(double cx, double cy, double cz, double innerDiameter, double outterDiameter, int revolutions);
+EntitySpiral CreateSpiral(DVec2 center, double diameter, double depth, int turns, EntitySpiral.SpiralTypes type, bool isClosed);
+EntitySpiral CreateSpiral(double cx, double cy, double diameter, double depth, int turns, EntitySpiral.SpiralTypes type, bool isClosed);
+EntitySpiral CreateSpiral(DVec3 center, double diameter, double depth, int turns, EntitySpiral.SpiralTypes type, bool isClosed);
+EntitySpiral CreateSpiral(double cx, double cy, double cz, double diameter, double depth, int turns, EntitySpiral.SpiralTypes type, bool isClosed);
+EntitySpiralClassic CreateSpiralClassic(DVec2 center, double startDiameter, double endDiameter, double height, int revolutions, bool isClosed);
+EntitySpiralClassic CreateSpiralClassic(double cx, double cy, double startDiameter, double endDiameter, double height, int revolutions, bool isClosed);
+EntitySpiralClassic CreateSpiralClassic(DVec3 center, double startDiameter, double endDiameter, double height, int revolutions, bool isClosed);
+EntitySpiralClassic CreateSpiralClassic(double cx, double cy, double cz, double startDiameter, double endDiameter, double height, int revolutions, bool isClosed);
+EntityLissajous CreateLissajous(DVec3 center, double diameter, double depth, int turns, EntityLissajous.LissajousTypes lissajousType = EntityLissajous.LissajousTypes.π, EntityLissajous.Directions direction = EntityLissajous.Directions.Cw);
+EntityPolyline3D CreatePolyline3D(IEnumerable<DVec3> vertices, bool isClosed = false);
+EntityPolyline2D CreatePolyline2D(IEnumerable<Vertex2D> vertices, bool isClosed = false);
+EntityBezierSpline CreateBezierSpline(IEnumerable<DVec2> controlPoints);
+EntityBezierSpline CreateBezierSpline(IEnumerable<DVec3> controlPoints);
+EntityCatmullRomSpline CreateCatmullRomSpline(IEnumerable<DVec3> controlPoints, bool isClosed);
+EntityHermiteSpline CreateHermiteSpline(IEnumerable<DVec3> controlPoints, IEnumerable<DVec3> tangents, bool isClosed);
+EntityBSpline CreateBSpline(IEnumerable<DVec3> controlPoints, IEnumerable<double> knots, int degree, bool isClosed);
+EntityNURBSpline CreateNURBSpline(IEnumerable<DVec3> controlPoints, IEnumerable<double> knots, IEnumerable<double> weights, int degree, bool isClosed);
+EntityImage CreateImage(string fileName, double height, double width = 0);
+EntityImage CreateImage(System.Drawing.Bitmap bitmap, double height, double width = 0);
+EntityImageZPL CreateImageZPL(double width, double height, string zplText, EntityImageZPL.DotsPerMMs dpmm = EntityImageZPL.DotsPerMMs.Dots8_203DPI);
+EntityImageText CreateImageText(string fontName, System.Drawing.FontStyle style, bool isFill, string text, uint capPixels, int outlinePixels, double height, double width = 0);
+EntityText CreateText(string fontName, System.Drawing.FontStyle style, string text, double height);
+EntityCircularText CreateCircularText(string fontName, System.Drawing.FontStyle style, EntityCircularText.TextCircularDirections direction, double radius, double startAngle, string text, double height);
+EntityCircularSiriusText CreateCircularSiriusText(string fontName, EntityCircularSiriusText.LetterSpaces letterSpace, EntityCircularSiriusText.TextCircularDirections direction, double radius, double startAngle, string text, double height);
+EntitySiriusText CreateSiriusText(string fontName, EntitySiriusText.LetterSpaces letterSpace, string text, double height);
+EntityDataMatrix CreateDataMatrix(string text, EntityBarcode2DBase.Barcode2DCells cell, double width, double height);
+EntityQRCode CreateQRCode(string text, EntityBarcode2DBase.Barcode2DCells cell, double width, double height);
+EntityPDF417 CreatePDF417(string text, EntityBarcode2DBase.Barcode2DCells cell, double width, double height);
+EntityAztec CreateAztec(string text, EntityBarcode2DBase.Barcode2DCells cell, double width, double height);
+EntityBarcode1D CreateBarcode(string text, EntityBarcode1D.Barcode1DFormats format, double width, double height);
+EntityBarcode1D_v2 CreateBarcodeV2(string text, EntityBarcode1D_v2.Barcode1DCells cell, EntityBarcode1D_v2.Barcode1DFormats format, double width, double height);
+EntityContour CreateContour(IEnumerable<IEntity> segments, bool isClosed = false);
+EntityContour CreateContour(Contour contour);
+bool CreateSVG(string fileName, out EntityMixedGroup entity);
+bool CreateMesh(string fileName, out EntityMesh entityMesh);
+EntityCube CreateCube(DVec3 center, double width, double height, double depth = 0);
+EntityCylinder CreateCylinder(DVec3 start, double radius, double depth, int segments = 24);
+EntityCone CreateCone(double radiusReference, double radiusEnd, double length, int segments = 24);
+EntityCone CreateCone(DVec3 reference, double radiusReference, double radiusEnd, double length, int segments = 24);
+EntitySphere CreateSphere(DVec3 center, double radius, int segments = 24);
+EntityPlane CreatePlane(DVec3 center, double width, double height);
+EntityPlane CreatePlane(DVec3 center, DVec3 normal, double width, double height);
+EntityPyramid CreatePyramid(DVec3 baseCenter, double baseWidth, double baseDepth, double height);
+EntityTorus CreateTorus(DVec3 center, double majorRadius, double minorRadius, int majorSegments = 48, int minorSegments = 24);
+EntityNURBSSurface CreateNURBS3D(int controlPointRows, int controlPointColumns, IEnumerable<DVec3> controlPoints, IEnumerable<double> knotsU, IEnumerable<double> knotsV, IEnumerable<double> weights, int degreeU, int degreeV, int segmentsU = 32, int segmentsV = 32, bool isClosedU = false, bool isClosedV = false);
+EntityGrids CreateGridCloud(int rows, int cols, double interval, IEnumerable<double> zDepths, DVec2 zRange);
+EntityLayer CreateLayer(string name);
+EntityBlock CreateBlock(string blockName, IEnumerable<IEntity> entities);
+EntityBlockInsert CreateBlockInsert(string blockName, string ownerBlockName, DVec3 deltaXyz);
+EntityBlockInsert CreateBlockInsert(string blockName, string ownerBlockName, double dx, double dy, double dz = 0);
+EntityMixedGroup CreateMixedGroup(string name, IEnumerable<IEntity> entities);
+EntityUniformGroup CreateUniformGroup(string name, IEnumerable<IEntity> entities);
+bool CreateDxf(string fileName, out EntityMixedGroup dxfEntity);
+bool CreateHPGL(string fileName, out EntityMixedGroup hpglEntity);
+bool CreateGerber(string fileName, System.Drawing.Color color, out EntityGerber gerberEntity);
+bool CreateGerbers(string path, string filter, out EntityGerber[] gerberEntities);
+EntityDelay CreateDelay(double mesc);
+EntityJump CreateJumpTo(DVec3 jumpTo);
+EntityJump CreateJumpTo(double x, double y, double z = 0);
+EntityMeasurementBegin CreateMeasurementBegin(double samplingFrequency, IEnumerable<MeasurementChannels> channels, string title = "");
+EntityMeasurementEnd CreateMeasurementEnd();
+EntityMoFBegin CreateMoFBegin(RtcMoFModes type = RtcMoFModes.XY, bool isEncoderReset = true);
+EntityMoFWait CreateMoFWait(RtcEncoders encoder, RtcEncoderWaitConditions condition, double position, bool isApplyMatrixStack = false);
+EntityMoFWait CreateMoFWait(RtcEncoderWaitConditions condition, double angle);
+EntityMoFWaitRange CreateMoFWaitRange(DVec2 min, DVec2 max);
+EntityMoFEnd CreateMoFEnd(DVec2 jumpTo);
+EntityMoFEnd CreateMoFEnd(double x, double y);
+EntityMoFExtBegin CreateMoFExtBegin(bool isEncoderReset);
+EntityMoFExtWait1D CreateMoFExtWait1D(MoFExtWait1DConditions condition, double position, bool keepFlyActive, bool turnLaserOff);
+EntityMoFExtWait2D CreateMoFExtWait2D(MoFExtWait2DConditions condition, DVec2 rangeX, DVec2 rangeY, bool keepFlyActive, bool turnLaserOff);
+EntityMoFExtPark CreateMoFExtPark(DVec2 position, bool keepFlyActive);
+EntityMoFExtParkReturn CreateMoFExtParkReturn();
+EntityMoFExtEnd CreateMoFExtEnd();
+EntityZDefocus CreateZDefocus(double zDefocus);
+EntityZDelta CreateZDelta(double zDelta);
+EntitySelectCorrectionTable CreateSelectCorrectionTable(CorrectionTables primaryHead = CorrectionTables.Table1, CorrectionTables secondaryHead = CorrectionTables.None);
+EntityRampBegin CreateRampBegin(AutoLaserControlSignals signal, double startingValue);
+EntityRampEnd CreateRampEnd();
+EntityPoD CreatePoD(double alcPercentage100, double alcMinValue, double alcMaxValue);
+EntityWriteData CreateWriteData(ExtensionChannels channel, double data);
+EntityWriteDataExt16 CreateWriteDataExt16(uint bitPosition, bool onOff);
+EntityWriteDataExt16Cond CreateWriteDataExt16Cond(ushort inputLowBitMask, ushort inputHightBitMask, ushort outputBitMask, SignalEdges outputLevel = SignalEdges.High);
+EntityWaitDataExt16Cond CreateWaitDataExt16Cond(ushort inputLowBitMask, ushort inputHightBitMask);
+EntityWaitDataExt16EdgeCond CreateWaitDataExt16EdgeCond(uint bitPosition, SignalEdges signalEdge = SignalEdges.High);
+EntityVariable CreateFreeVariable(uint no, uint data);
+EntityUserEvent CreateUserEvent(string extensionData = "");
+EntityBreakPoint CreateBreakPoint(long waitID);
+EntityBreakPoint CreateBreakPoint(IEntity entity);
+EntityStepperMove CreateStepperMove(StepperAxes axis, StepperMoveTypes type, double position, double velocity);
+EntityStepperWait CreateStepperWait(StepperCombinedAxes axis, double msec);
+```
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

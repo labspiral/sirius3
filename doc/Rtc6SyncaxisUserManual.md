@@ -1,6 +1,6 @@
 # RTC6 syncAXIS (XL-SCAN) Setup and Usage Guide
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 ## 1. syncAXIS Role
 

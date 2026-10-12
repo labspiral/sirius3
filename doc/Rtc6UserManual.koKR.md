@@ -1,12 +1,14 @@
 # SCANLAB RTC6 Controller User Manual
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 ## 1. RTC6의 역할
 
 RTC6는 Windows에서 준비한 형상과 가공 조건을 스캐너·레이저·I/O 명령으로 바꾸고, 일반적인 Windows 스케줄링과 분리된 실시간 시간축에서 실행하는 컨트롤러입니다. Sirius3에서는 RTC6/RTC6e를 기본 기준으로 설명합니다.
 
 리스트 전송 성공은 RTC가 명령을 받아 실행을 시작했다는 뜻입니다. 실제 완료 여부는 `Ready`, `Busy`, `Error`, Job 상태와 장치 로그를 함께 확인해야 합니다.
+
+Sirius3 1.16.0의 Dependencies 패키지는 SCANLAB RTC6 Software Package 1.25.1 런타임 파일을 포함합니다. DLL이 존재해도 컨트롤러의 펌웨어·설치 옵션과 라이선스 적합성을 대신 확인하지는 않습니다. 장치 초기화 로그에서 실제 DLL과 컨트롤러 상태를 확인합니다.
 
 ## 2. 좌표와 KFactor
 

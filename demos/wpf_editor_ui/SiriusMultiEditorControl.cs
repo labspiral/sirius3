@@ -537,13 +537,7 @@ namespace Demos
             catch (Exception ex) { failures.Add(ex); }
             foreach (var remote in registeredRemotes)
             {
-                try
-                {
-                    if (remote is IAsyncDisposable asyncRemote)
-                        await asyncRemote.DisposeAsync();
-                    else
-                        remote.Dispose();
-                }
+                try { await remote.DisposeAsync(); }
                 catch (Exception ex) { failures.Add(ex); }
             }
             try { DisposeDevicesCore(); }

@@ -52,9 +52,13 @@ SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化�
   - Text、SiriusText、ImageText、Circular Text、リンクテキスト、ZPL エンティティ
   - Outline、Hatch、Dot セル加工に対応する 1D、QR、DataMatrix、PDF417、Aztec バーコード
 - ファイルインポートと相互運用
-  - Sirius3、DXF/DWG、HPGL/PLT、Gerber/Excellon、G-code/NGC
-  - ラスター画像および STL、OBJ、PLY、STP/STEP 3D モデル
-  - 3D プレビューで利用可能なメッシュの色と OBJ/PLY の拡散テクスチャを保持
+  - Sirius3、DXF/DWG、SVG、HPGL/PLT、Gerber/Excellon、G-code/NGC
+  - SVG（`.svg`）ベクターインポート：`IDocument.ActImport` / `EntityFactory.CreateSVG`。編集可能な元曲線を保持し、塗り・線幅・端点・接続部を mm 単位の領域として生成します。丸い端点と角も反映します。
+  - SVG ハッチ：`UI.Config.IsSvgImportHatchEnabled` で有効にします（既定 `false`）。`UI.Config.SvgImportHatchInterval` で間隔を調整します（既定 0.1 mm）。線/ポリゴンハッチに対応し、クリックとドラッグによる選択は表示された輪郭とハッチを基準にします。
+  - ラスター画像および STL、OBJ、PLY、STP/STEP、3MF 3D モデル
+  - 3MF（`.3mf`）メッシュインポート：`IDocument.ActImport` / `EntityFactory.CreateMesh`。ビルド内の複数の三角形メッシュモデルとコンポーネントを、相対配置とファイルの単位を反映して一つの mm 単位メッシュにまとめます。保存されたスライサーの加工経路とスライス結果はインポート対象に含まれません。
+  - 3D プレビューで利用可能なメッシュの色と OBJ/PLY/3MF の拡散テクスチャを保持
+  - G-code/NGC インポートはモーダル XYZ 座標、単位・作業原点、平面円弧・ヘリックス、ドウェル、レーザー ON/OFF 経路を保持します。`UI.Config.GCodeImportDialect` で CNC・Laser・Marlin 規則を選択し、`GCodeImportInfo.TryGet` で機器設定を適用せず元の F/S/T と行範囲を取得します。
   - 許容距離に基づくベクターパス結合と内容に基づく Gerber/Excellon 判定
 - リモート通信と動的データ
   - マーカー制御とデータアクセス用の TCP/IP、Serial（RS-232）、WebSocket、MQTT
@@ -78,7 +82,7 @@ SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化�
 | レンダリング | GPU アクセラレーション OpenGL シェーダー | 内蔵シェーダー |
 | ヒットテスト | AABB 高速化 | 低速 |
 | ハッチ | winding 対応複数ハッチ | 単一ハッチ |
-| 3D メッシュスライス | STL、OBJ、PLY、STEP | なし |
+| 3D メッシュスライス | STL、OBJ、PLY、STEP、3MF | なし |
 | Gerber / Excellon | 内容判定インポート | なし |
 | ペン | Entity と Layer のペン | Entity ペンのみ |
 | MCP | 対応 | なし |
@@ -116,7 +120,7 @@ NuGet Package Manager で簡単にインストールおよび更新できます�
 - SCANLAB
   - RTC4: v2023.11.02
   - RTC5: v2024.09.27
-  - RTC6: 2026.6.19 v1.25.0
+  - RTC6: 2026.8.17 v1.25.1
   - syncAXIS: v1.8.2（2023.03.09）
 - .NET
   - `net481`: OpenTK 3.3.3
@@ -135,420 +139,121 @@ NuGet Package Manager で簡単にインストールおよび更新できます�
 
 ## クイックスタート
 
+上記の Sirius3 NuGet パッケージを3つインストールします。以下の抜粋は基本的な流れを示し、デバイス生成、検証、イベント接続を `...` で省略しています。起動、読み込み、終了の各処理をホストの対応するイベントに配置します。
+
 # [WinForms](#tab/winforms)
 
-プロジェクト設定:
+プロジェクト設定
 
 ```xml
 <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
 </PropertyGroup>
-
-<PropertyGroup Condition="'$(TargetFramework)'=='net481'">
-	<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
-</PropertyGroup>
-<PropertyGroup Condition="'$(TargetFramework)'!='net481'">
-	<DefineConstants>$(DefineConstants);OPENTK4</DefineConstants>
-</PropertyGroup>
-
-<ItemGroup Condition="'$(TargetFramework)'=='net481'">
-	<PackageReference Include="OpenTK" Version="3.3.3" />
-</ItemGroup>
-<ItemGroup Condition="'$(TargetFramework)'!='net481'">
-	<PackageReference Include="OpenTK" Version="4.9.4" />
-	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
-</ItemGroup>
-
-<ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.10" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.10" />
-    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
-    <PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
-    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-</ItemGroup>
 ```
 
-サンプルコード:
+Coreを初期化してエディターを作成し、初期化済みのデバイスを登録します。WinFormsのDPI初期化はこれらの処理より先に行います。下のHiDPI項目を参照してください。
 
 ```csharp
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Threading.Tasks;
+using SpiralLab.Sirius3.MCP;
 using System.Windows.Forms;
 
-using SpiralLab.Sirius3.MCP;
-using SpiralLab.Sirius3.IO;
-using SpiralLab.Sirius3.Laser;
-using SpiralLab.Sirius3.Marker;
-using SpiralLab.Sirius3.PowerMap;
-using SpiralLab.Sirius3.PowerMeter;
-using SpiralLab.Sirius3.Scanner;
-using SpiralLab.Sirius3.Scanner.Rtc;
-
-#if OPENTK3
-    using OpenTK;
-    using DVec3 = OpenTK.Vector3d;
-#elif OPENTK4
-    using OpenTK.Mathematics;
-    using DVec3 = OpenTK.Mathematics.Vector3d;
-#endif
-
-static class Program
+// Startup: initialize Core and create the host UI.
+SpiralLab.Sirius3.Core.Initialize();
+var form = new Form
 {
-    [STAThread]
-    static void Main()
-    {
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
+    AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F),
+    AutoScaleMode = AutoScaleMode.Dpi
+};
+var editor = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl
+{
+    Dock = DockStyle.Fill
+};
+form.Controls.Add(editor);
+...
 
-        // Sirius3 ライブラリを初期化
-        SpiralLab.Sirius3.Core.Initialize();
+// Load: create and initialize the scanner, laser, I/O, power meter and marker.
+...
+editor.RegisterDevices(rtc, laser, powerMeter, ..., marker);
 
-        // WinForms を作成
-        try { CreateAndExecuteMainForm(); }
-        finally { SpiralLab.Sirius3.Core.Cleanup(); }
-    }
+// Optional MCP: start after device registration (Remote license).
+var server = MCPFactory.CreateServer(0, "MCP", editor);
+server.AccessMode = MCPAccessMode.All;
+editor.MCPServer = server;
+await server.Start();
+...
+```
 
-    static void CreateAndExecuteMainForm()
-    {
-        // 動的フォームを作成して SiriusEditorControl を追加
-        Form dynamicForm = new Form();
-        dynamicForm.SuspendLayout();
-        dynamicForm.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-        dynamicForm.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        dynamicForm.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        dynamicForm.Text = "DEMO - (c)SpiralLab";
-        dynamicForm.Size = new Size(1600, 1200);
-        dynamicForm.StartPosition = FormStartPosition.CenterScreen;
-        var editorControl = new SpiralLab.Sirius3.UI.WinForms.SiriusEditorControl();
-        IMCPServer mcpServer = null;
-        bool startupFailed = false;
-        bool shutdownStarted = false;
-        bool closeAfterShutdown = false;
-        editorControl.Dock = DockStyle.Fill;
-        dynamicForm.Controls.Add(editorControl);
-        dynamicForm.ResumeLayout(false);
+非同期終了ではUIイベントループを維持し、リソース解放の完了を待ちます。
 
-        dynamicForm.Load += async (s, e) =>
-        {
-            // デバイスを生成・初期化して EditorControl に登録
-            bool success = true;
+```csharp
+// FormClosing / Window.Closing: await cleanup on the owning UI thread.
+var document = editor.Document;
+await editor.DisposeDevices();
+editor.Dispose();
+document?.Dispose();
+...
 
-            // スキャナー制御
-            string correctionFile = "cor_1to1.ct5";
-            string correctionPath = Path.Combine(SpiralLab.Sirius3.Config.CorrectionPath, correctionFile);
-            const double fov = 100.0;
-            var kfactor = Math.Pow(2, 20) / fov;
-            var index = 0;
-            var rtc = ScannerFactory.CreateRtc5(index, kfactor, LaserModes.Yag1, RtcSignalLevels.ActiveHigh, RtcSignalLevels.ActiveHigh, correctionPath);
-            success &= rtc.Initialize();
-            rtc.CtlFrequency(50 * 1000, 2);
-            rtc.CtlSpeed(100, 100);
-
-            // デジタル I/O 制御
-            var dIExt1 = IOFactory.CreateInputExtension1(rtc); success &= dIExt1.Initialize();
-            var dOExt1 = IOFactory.CreateOutputExtension1(rtc); success &= dOExt1.Initialize();
-            var dOExt2 = IOFactory.CreateOutputExtension2(rtc); success &= dOExt2.Initialize();
-            var dILaserPort = IOFactory.CreateInputLaserPort(rtc); success &= dILaserPort.Initialize();
-            var dOLaserPort = IOFactory.CreateOutputLaserPort(rtc); success &= dOLaserPort.Initialize();
-
-            // パワーメーター制御
-            double laserMaxPower = 20;
-            var powerMeter = PowerMeterFactory.CreateVirtual(index, laserMaxPower);
-            //var powerMeter = PowerMeterFactory.CreateCoherentPowerMax(index, 4);
-            //var powerMeter = PowerMeterFactory.CreateGentecEO(index, 3, scaleIndex: null);
-            success &= powerMeter.Initialize();
-
-            // レーザー制御
-            var laser = LaserFactory.CreateVirtualDutyCycle(index, laserMaxPower, 0, 100);
-            //var laser = LaserFactory.Create ...
-            success &= laser.Initialize();
-            laser.Scanner = rtc;
-
-            // パワーマップ
-            var powerMap = PowerMapFactory.CreateDefault(index, "default");
-            powerMap.Reset1to1("10000", laserMaxPower);
-            laser.PowerMap = powerMap;
-
-            // マーカー
-            var marker = MarkerFactory.CreateRtc(index);
-            //var marker = MarkerFactory.CreateRtcFast(index);
-            //var marker = MarkerFactory.CreateSyncAxis(index);
-            success &= marker.Initialize();
-
-            Debug.Assert(success);
-
-            // デバイスを登録
-            editorControl.RegisterDevices(rtc, laser, powerMeter, dIExt1, dILaserPort, dOExt1, dOExt2, dOLaserPort, marker);
-
-            // 認証付き HTTP MCP サーバーを起動
-            try
-            {
-                mcpServer = MCPFactory.CreateServer(0, "MCP", editorControl);
-                mcpServer.AccessMode = MCPAccessMode.All;
-                if (!await mcpServer.Start())
-                    throw new InvalidOperationException("Failed to start the MCP server.");
-                if (!shutdownStarted)
-                    dynamicForm.Text = $"{dynamicForm.Text} + MCP ({mcpServer.Options.HttpEndpoint})";
-            }
-            catch (Exception ex)
-            {
-                startupFailed = true;
-                Trace.WriteLine(ex);
-                if (!shutdownStarted) dynamicForm.Close();
-            }
-        };
-
-        dynamicForm.FormClosing += async (s, e) =>
-        {
-            if (closeAfterShutdown) return;
-            e.Cancel = true;
-            if (shutdownStarted) return;
-            if (!startupFailed && MessageBox.Show(dynamicForm, "Do you really want to terminate the program?",
-                "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-                return;
-
-            shutdownStarted = true;
-            await Task.Yield(); // FormClosing を先に戻し、保留中の MCP UI 処理を進めます。
-            try
-            {
-                if (mcpServer != null)
-                    await mcpServer.DisposeAsync();
-            }
-            catch (Exception ex) { Trace.WriteLine(ex); }
-            finally
-            {
-                mcpServer = null;
-                editorControl.MCPServer = null;
-                var document = editorControl.Document;
-                editorControl.Document = null;
-                try { await editorControl.DisposeDevices(); }
-                catch (Exception ex) { Trace.WriteLine(ex); }
-                try { document?.Dispose(); }
-                catch (Exception ex) { Trace.WriteLine(ex); }
-                closeAfterShutdown = true;
-                dynamicForm.Close();
-            }
-        };
-
-        Application.Run(dynamicForm);
-    }
-}
+// Application exit: after the UI lifetime ends.
+SpiralLab.Sirius3.Core.Cleanup();
 ```
 
 # [WPF](#tab/wpf)
 
-WPF プロジェクトでは次の設定を使用します。
+プロジェクト設定
 
 ```xml
 <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
-    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
 </PropertyGroup>
-
-<PropertyGroup Condition="'$(TargetFramework)'=='net481'">
-	<DefineConstants>$(DefineConstants);OPENTK3</DefineConstants>
-</PropertyGroup>
-<PropertyGroup Condition="'$(TargetFramework)'!='net481'">
-	<DefineConstants>$(DefineConstants);OPENTK4</DefineConstants>
-</PropertyGroup>
-
-<ItemGroup Condition="'$(TargetFramework)'=='net481'">
-	<PackageReference Include="OpenTK" Version="3.3.3" />
-</ItemGroup>
-<ItemGroup Condition="'$(TargetFramework)'!='net481'">
-	<PackageReference Include="OpenTK" Version="4.9.4" />
-	<PackageReference Include="OpenTK.Mathematics" Version="4.9.4" />
-</ItemGroup>
-
-<ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.10" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.10" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.10" />
-    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
-    <PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
-    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-</ItemGroup>
 ```
 
-`Program.cs`:
+WPFエディターの作成前にCoreを初期化し、Windowの読み込み時に初期化済みデバイスを登録します。
 
 ```csharp
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Windows;
-using SpiralLab.Sirius3.IO;
-using SpiralLab.Sirius3.Laser;
-using SpiralLab.Sirius3.Marker;
 using SpiralLab.Sirius3.MCP;
-using SpiralLab.Sirius3.PowerMap;
-using SpiralLab.Sirius3.PowerMeter;
-using SpiralLab.Sirius3.Scanner;
-using SpiralLab.Sirius3.Scanner.Rtc;
-using SpiralLab.Sirius3.UI.WPF;
+using System.Windows;
 
-internal static class Program
-{
-    [STAThread]
-    private static void Main()
-    {
-        var app = new System.Windows.Application();
-        SiriusEditorControl editor = null;
-        IMCPServer mcpServer = null;
-        var coreInitialized = false;
-        var editorDisposed = false;
+// Startup: initialize Core and create the host UI.
+SpiralLab.Sirius3.Core.Initialize();
+var editor = new SpiralLab.Sirius3.UI.WPF.SiriusEditorControl();
+var window = new Window { Content = editor };
+...
 
-        async Task DisposeEditorResourcesAsync()
-        {
-            var document = editor.Document;
-            try { await editor.DisposeDevices(); }
-            finally { try { editor.Dispose(); } finally { document?.Dispose(); } }
-        }
+// Loaded: create and initialize the scanner, laser, I/O, power meter and marker.
+...
+editor.RegisterDevices(rtc, laser, powerMeter, ..., marker);
 
-        async Task DisposeEditorAsync()
-        {
-            if (editorDisposed || editor == null) return;
-            editorDisposed = true;
-            var server = mcpServer;
-            mcpServer = null;
-            try
-            {
-                if (server != null)
-                    await server.DisposeAsync();
-            }
-            finally
-            {
-                editor.MCPServer = null;
-                await DisposeEditorResourcesAsync();
-            }
-        }
-
-        try
-        {
-            SpiralLab.Sirius3.Core.Initialize();
-            coreInitialized = true;
-            editor = new SiriusEditorControl();
-
-            const int index = 0;
-            const double fieldSize = 100.0;
-            const double laserMaxPower = 20.0;
-            var scanner = ScannerFactory.CreateVirtual(
-                index,
-                Math.Pow(2, 20) / fieldSize,
-                LaserModes.Yag1,
-                RtcSignalLevels.ActiveHigh,
-                RtcSignalLevels.ActiveHigh,
-                null);
-            var dIExt1 = IOFactory.CreateInputExtension1(scanner);
-            var dILaserPort = IOFactory.CreateInputLaserPort(scanner);
-            var dOExt1 = IOFactory.CreateOutputExtension1(scanner);
-            var dOExt2 = IOFactory.CreateOutputExtension2(scanner);
-            var dOLaserPort = IOFactory.CreateOutputLaserPort(scanner);
-            var powerMeter = PowerMeterFactory.CreateVirtual(index, laserMaxPower);
-            var laser = LaserFactory.CreateVirtualDutyCycle(index, laserMaxPower, 0, 100);
-            var powerMap = PowerMapFactory.CreateDefault(index, "default");
-            var marker = MarkerFactory.CreateVirtual(index);
-
-            powerMap.Reset1to1("10000", laserMaxPower);
-            laser.Scanner = scanner;
-            laser.PowerMap = powerMap;
-
-            var success = scanner.Initialize();
-            success &= scanner.CtlFrequency(50 * 1000, 2);
-            success &= scanner.CtlSpeed(100, 100);
-            success &= dIExt1.Initialize();
-            success &= dILaserPort.Initialize();
-            success &= dOExt1.Initialize();
-            success &= dOExt2.Initialize();
-            success &= dOLaserPort.Initialize();
-            success &= powerMeter.Initialize();
-            success &= laser.Initialize();
-            success &= marker.Initialize();
-
-            editor.RegisterDevices(
-                scanner, laser, powerMeter,
-                dIExt1, dILaserPort,
-                dOExt1, dOExt2, dOLaserPort,
-                marker);
-
-            if (!success)
-                throw new InvalidOperationException("仮想デバイスの初期化に失敗しました。");
-
-            var window = new Window
-            {
-                Title = "Sirius3 WPF Editor",
-                Width = 1400,
-                Height = 900,
-                Content = editor,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            };
-
-            bool shutdownStarted = false;
-            bool closeAfterShutdown = false;
-            window.Loaded += async (_, __) =>
-            {
-                try
-                {
-                    mcpServer = MCPFactory.CreateServer(0, "MCP", editor);
-                    mcpServer.AccessMode = MCPAccessMode.All;
-                    if (!await mcpServer.Start())
-                        throw new InvalidOperationException("Failed to start the MCP server.");
-                    if (!shutdownStarted)
-                        window.Title = $"{window.Title} + MCP ({mcpServer.Options.HttpEndpoint})";
-                }
-                catch (Exception ex)
-                {
-                    Trace.WriteLine(ex);
-                    if (!shutdownStarted) window.Close();
-                }
-            };
-
-            // MCP の終了が完了するまで WPF ディスパッチャーと GL コンテキストを維持します。
-            window.Closing += async (_, args) =>
-            {
-                if (closeAfterShutdown) return;
-                args.Cancel = true;
-                if (shutdownStarted) return;
-                shutdownStarted = true;
-                await Task.Yield();
-                try { await DisposeEditorAsync(); }
-                catch (Exception ex) { Trace.WriteLine(ex); }
-                finally { closeAfterShutdown = true; window.Close(); }
-            };
-            app.Run(window);
-        }
-        finally
-        {
-            try
-            {
-                // Loaded より前に起動が失敗した場合、MCP サーバーは未作成です。
-                if (!editorDisposed && mcpServer == null && editor != null)
-                    DisposeEditorResourcesAsync().GetAwaiter().GetResult();
-            }
-            finally
-            {
-                if (coreInitialized)
-                    SpiralLab.Sirius3.Core.Cleanup();
-            }
-        }
-    }
-}
+// Optional MCP: start after device registration (Remote license).
+var server = MCPFactory.CreateServer(0, "MCP", editor);
+server.AccessMode = MCPAccessMode.All;
+editor.MCPServer = server;
+await server.Start();
+...
 ```
 
-どちらのホストも最初の終了要求を取り消し、UI メッセージループを動かしたまま `IMCPServer.DisposeAsync()` を待ちます。その後エディターのリソースを解放し、メッセージループの終了後に `Core.Cleanup()` を呼びます。MCP の稼働中に WinForms または WPF の UI スレッドで `IMCPServer.Dispose()` を直接呼ばないでください。
+非同期終了ではUIイベントループを維持し、リソース解放の完了を待ちます。
 
-エディターやドキュメントを解放する前に、必ず `await editor.DisposeDevices()` を呼び出してください。登録済みの MCP サーバーとリモート接続を停止してから、残りのデバイスを解放します。
-従来の `void DisposeDevices()` を使用していたアプリは、終了処理で返されたタスクを待機するよう修正し、再ビルドしてください。
+```csharp
+// FormClosing / Window.Closing: await cleanup on the owning UI thread.
+var document = editor.Document;
+await editor.DisposeDevices();
+editor.Dispose();
+document?.Dispose();
+...
+
+// Application exit: after the UI lifetime ends.
+SpiralLab.Sirius3.Core.Cleanup();
+```
+
+`DisposeDevices()` は登録済みMCPサーバーとRemoteの非同期解放を待ってからデバイスを解放します。エディターとDocumentの解放後、アプリケーション終了時に `Core.Cleanup()` を呼び出します。終了イベントの重複防止とエラー処理は詳細例を参照してください。
+
+完全な例：[WinFormsガイド（英語）](https://github.com/labspiral/sirius3/blob/main/doc/WinForms.md)、[WPFガイド（英語）](https://github.com/labspiral/sirius3/blob/main/doc/WPF.md)、[デモプロジェクト](DEMOS.jaJP.md)。
 
 ---
 

@@ -1,6 +1,6 @@
 # Remote Control Protocol Manual
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 
 This document is a specification of the communication protocol for external devices or programs to control the system through the remote control function in the Sirius3 library.

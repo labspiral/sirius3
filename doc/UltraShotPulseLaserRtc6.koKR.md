@@ -1,6 +1,6 @@
 # ULTRA SHORT PULSE LASER with PULSE PICKING AND SYNCHRONIZATION
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 본 매뉴얼은 펨토초(Femtosecond) 또는 피코초(Picosecond)와 같은 극초단파(USP, Ultra-short Pulse) 레이저 소스를 제어하기 위한 RTC6의 핵심 기능인 **펄스 피킹(Pulse Picking)** 모드 사용법을 설명합니다.
 

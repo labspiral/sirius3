@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3 MoF (Marking on the Fly) Integrated User Guide
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 
 This manual describes the two main Sirius3 interfaces, `IRtcMoF` and `IRtcMoFExtension`, which synchronize scanner motion with an external encoder or absolute-position signal (McBSP) to mark moving workpieces.
@@ -85,3 +85,36 @@ With RTC6 features, it is optimized for complex and accurate tracking conditions
 - Situation: Turn the tumbler and mark the high-resolution bitmap image on the side.
 - Method: Replace the corner of the rotating engine with the original rate (π) to linear distance. With `ListMoFExtWait1DAxis`, wait the next line position accurately and process one line by one.
 - The result: it is possible to process the image without distortion on the rotating surface without the accumulation of rotating defects.
+
+## 5. Public editor_mof_* demos
+
+All five demos ship editable source in namespace Demos and consume Sirius3 NuGet packages. Their host [helper.cs](../demos/helper.cs) reads configuration, creates/initializes devices and binds them through RegisterDevices and Marker.Ready. Their Form1 entry points illustrate different controller sequences:
+
+| Demo | Key sequence / customization |
+|---|---|
+| [editor_mof_xy](../demos/editor_mof_xy/Form1.cs) | CreateMoFBegin(XY, true), encoder-coordinate waits, vector entities and CreateMoFEnd. Reset establishes an encoder reference for the job. |
+| [editor_mof_xy_raster](../demos/editor_mof_xy_raster/Form1.cs) | Raster image processing with OnBeforeRasterLine. Each row waits for the appropriate encoder position using the transformed start and raster pitch. |
+| [editor_mof_trigger](../demos/editor_mof_trigger/Form1.cs) | DI0 rising-edge wait → MoF begin/reset → barcode/text → MoF end → user event. Event text conversion supplies serial numbers; the sample repeats the layer 100 times. |
+| [editor_mof_offsets](../demos/editor_mof_offsets/Form1.cs) | Combines marker offsets and position waits based on transformed entity bounds. Begin(false) keeps the ongoing encoder reference rather than resetting it at every offset. |
+| [editor_mof_interrupt](../demos/editor_mof_interrupt/Form1.cs) | Breakpoint pauses the list; an IRtcInterrupt handler performs host work and returns true to resume. The sample's one-second sleep illustrates work latency. |
+
+### XY and raster position waits
+
+Set encoder counts per millimetre and movement direction before recording commands. A wait coordinate is not a motor-move command: an encoder or the demo's configured encoder simulation must actually advance. In the negative-X examples, the Under/Over condition must agree with that direction; changing only the displayed coordinate can leave a wait unsatisfied.
+
+The raster demo combines document/pen RasterMode with a row callback. Use the actual transformed row start and pitch, including entity and marker placement, when computing the wait. Avoid doing slow UI/file work in the row callback. View rendering alone does not demonstrate synchronized raster machining.
+
+### Trigger, serial values and offsets
+
+The trigger demo queues the DI0 edge wait on the controller, not in DInput.OnChanged. It configures both barcode and text with TextConverters.Event and updates serial state through marker conversion/user events. A host event is not necessarily proof that the final physical pulse has finished; coordinate accepted data, controller completion and an external ACK protocol. Review event and layer-repeat boundaries when changing marker strategy.
+
+The offsets demo retains the encoder origin while processing multiple placements. Combine offset placement and transformed bounds once, and keep encoder and document coordinate conventions consistent. ExtensionData can supply different text/barcode values per location; see [Offset](OffsetUserManual.md).
+
+### Interrupt and controller prerequisites
+
+The interrupt handler is a host callback with Windows scheduling latency. Replace illustrative sleeps with explicit completion/failure handling for the external operation. It is suited to paused coordination, not capture of a short input pulse. Use controller edge waits for timing-sensitive input sequencing. The current RTC4/4e dedicated edge helper does not record an edge wait; use verified level-wait composition or RTC5/6 for that demo flow. See [digital I/O](DigitalIOUserManual.md).
+
+Check IRtcMoF/IRtcMoFExtension/IRtcInterrupt support, controller generation, installed SDK/firmware, enabled MoF option/license, encoder polarity, counts per millimetre and virtual-field limits. Debug assertions in a sample are not production validation. Handle OnEncoderSignalError and OnOutOfVirtualImageField, aborts and errors, and stop/dispose host work during cleanup.
+
+---
+2026 Copyright (c) SpiralLAB. All rights reserved.

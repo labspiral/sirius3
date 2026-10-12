@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3.UI.Config Settings Guide
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 ## 1. Role and Configuration Timing
 
@@ -41,7 +41,7 @@ Undo/Redo acts based on the `IDocument.Act*` task. If you change the Page, Layer
 | `AssemblyName` | `SpiralLab.Sirius3.UI.dll` | UI Assembly Files |
 | `AssemblyVersion` | The running assembly version. | `Major.Minor.Build` format only read value |
 | `FileOpenFilters` | Sirius3, DXF, DWG | Open the dialog box Filter |
-| `FileImportFilters` | Sirius3, STL, OBJ, PLY, DXF, DWG, image, HPGL/PLT, Gerber, G-code | Importation of the dialog box Filter |
+| `FileImportFilters` | Sirius3, SVG, STL, OBJ, PLY, 3MF, DXF, DWG, images, HPGL/PLT, Gerber, G-code | Importation of the dialog box Filter |
 | `FileSaveFilters` | `.sirius3` | The dialog box Filter. |
 | `FileImportImageFilters` | JPG, BMP, PNG, GIF, TIFF | Imaging the image Filter |
 | `FileMeasurementFilter` | `.txt` | Measurement File Filter |
@@ -199,7 +199,9 @@ Indicate the letters that represent the font and set of characters you use in th
 | Setting | Default | Explanation and limitation. |
 |---|---:|---|
 | `ImportMergeDistance` | `0.001` | The maximum distance to connect the end points of DXF, DWG, HPGL, PLT Path. DXF/DWG is the original coordinate unit, HPGL/PLT is applied after mm conversion. `0` connects only the exact matching end points. Sound, NaN, Infinity are ignored. |
-| `IsImportColorPreserved` | `false` | If `true` keeps the DXF, DWG, Gerber original colour. If `false` changes RGB distance to the closest `EntityPenColors` colour and helps the Pen connection. |
+| `IsImportColorPreserved` | `false` | If `true` keeps the DXF, DWG, Gerber, SVG original colour. If `false` changes RGB distance to the closest `EntityPenColors` colour and helps the Pen connection. |
+| `IsSvgImportHatchEnabled` | `false` | Adds HatchLine to filled regions in new SVG imports; existing document hatches are unchanged. |
+| `SvgImportHatchInterval` | `0.1` mm | SVG line-hatch interval, minimum 0.001 mm; boundary exclusion is half the interval. |
 
 Growing the Merge Distance may make the near separate Contour mistaken. check the coordinate unit and the minimum shaped interval of the real file and then adjust it.
 

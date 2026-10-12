@@ -18,11 +18,10 @@ namespace Demos.Internal
             var modeText = MessageBoxLocalization.S(mode == RemoteControlModes.Local
                 ? "SiriusEditor_RemoteLocal"
                 : "SiriusEditor_RemoteRemote");
-            if (mode == RemoteControlModes.Local)
-                modeText = modeText.ToUpperInvariant();
-            return isConnected
+            var statusText = isConnected
                 ? MessageBoxLocalization.S("SiriusEditor_RemoteConnectedFormat", modeText)
                 : modeText;
+            return statusText.ToUpperInvariant();
         }
     }
 
@@ -61,18 +60,19 @@ namespace Demos
 
     internal static class WPFCommands
     {
-        internal static bool TryExecutePreviewShortcut(KeyEventArgs e, IDocument document, IView view, IMarker marker)
+
+        internal static bool TryExecutePreviewShortcut(global::System.Windows.Input.KeyEventArgs e, IDocument document, IView view, IMarker marker)
         {
             if (e == null || document == null)
                 return false;
             return TryExecuteEditingShortcut(e, document, view, marker);
         }
 
-        private static bool TryExecuteEditingShortcut(KeyEventArgs e, IDocument document, IView view, IMarker marker)
+        internal static bool TryExecuteEditingShortcut(global::System.Windows.Input.KeyEventArgs e, IDocument document, IView view, IMarker marker = null)
         {
-            if (e.Handled || IsTextInput(e.OriginalSource) || IsTextInput(Keyboard.FocusedElement))
+            if (e == null || e.Handled || document == null ||
+                IsTextInput(e.OriginalSource) || IsTextInput(Keyboard.FocusedElement))
                 return false;
-
             var modifiers = Keyboard.Modifiers;
             if (modifiers == ModifierKeys.None && e.Key == Key.Escape && document.IsSimulationWorking)
             {
@@ -80,8 +80,9 @@ namespace Demos
                 return true;
             }
 
-            var key = ToGLKey(e.Key == Key.System ? e.SystemKey : e.Key);
-            if (!document.IsSimulationWorking && TryGetSimulationSpeed(key, GetKeyMods(), out var speed))
+            var key = NormKey(e);
+            if (!document.IsSimulationWorking &&
+                TryGetSimulationSpeed(key.Key, key.Mods, out var speed))
             {
                 if (view == null || marker == null || marker.IsBusy)
                     return false;
@@ -92,6 +93,7 @@ namespace Demos
 
             if (view?.IsAllowEdit == false || marker?.IsBusy == true || document.IsSimulationWorking)
                 return false;
+
             if (modifiers == ModifierKeys.Control)
             {
                 switch (e.Key)
@@ -106,7 +108,9 @@ namespace Demos
                     case Key.M: return ToggleMark(document);
                 }
             }
-            return modifiers == ModifierKeys.None && e.Key == Key.Delete && document.ActRemove(document.Selected);
+            if (modifiers == ModifierKeys.None && e.Key == Key.Delete)
+                return document.ActRemove(document.Selected);
+            return false;
         }
 
         private static bool IsTextInput(object source)
@@ -114,12 +118,10 @@ namespace Demos
             var current = source as DependencyObject;
             while (current != null)
             {
-                if (current is System.Windows.Controls.Primitives.TextBoxBase ||
-                    current is System.Windows.Controls.PasswordBox ||
-                    current is System.Windows.Controls.ComboBox comboBox && comboBox.IsEditable)
-                {
+                if (current is global::System.Windows.Controls.Primitives.TextBoxBase ||
+                    current is global::System.Windows.Controls.PasswordBox ||
+                    current is global::System.Windows.Controls.ComboBox comboBox && comboBox.IsEditable)
                     return true;
-                }
                 current = current is Visual || current is Visual3D
                     ? VisualTreeHelper.GetParent(current)
                     : LogicalTreeHelper.GetParent(current);
@@ -127,7 +129,7 @@ namespace Demos
             return false;
         }
 
-        private static bool TryGetSimulationSpeed(GLKeys key, KeyMods modifiers, out IDocument.SimulationSpeeds speed)
+        internal static bool TryGetSimulationSpeed(GLKeys key, KeyMods modifiers, out IDocument.SimulationSpeeds speed)
         {
             speed = IDocument.SimulationSpeeds.Fast;
             if (key != Config.KeyboardSimulationStart || modifiers == null)
@@ -152,7 +154,8 @@ namespace Demos
             var entities = document.Selected?.Where(entity => entity is IRenderable).ToArray();
             if (entities == null || entities.Length == 0)
                 return false;
-            return document.ActPropertyChanged(entities, nameof(IRenderable.IsAllowRender), !((IRenderable)entities[0]).IsAllowRender);
+            var nextValue = !((IRenderable)entities[0]).IsAllowRender;
+            return document.ActPropertyChanged(entities, nameof(IRenderable.IsAllowRender), nextValue);
         }
 
         private static bool ToggleMark(IDocument document)
@@ -160,70 +163,82 @@ namespace Demos
             var entities = document.Selected?.Where(entity => entity is IMarkerable).ToArray();
             if (entities == null || entities.Length == 0)
                 return false;
-            return document.ActPropertyChanged(entities, nameof(IMarkerable.IsAllowMark), !((IMarkerable)entities[0]).IsAllowMark);
+            var nextValue = !((IMarkerable)entities[0]).IsAllowMark;
+            return document.ActPropertyChanged(entities, nameof(IMarkerable.IsAllowMark), nextValue);
+        }
+
+        internal static KeyEvt NormKey(KeyEventArgs e)
+        {
+            return new KeyEvt
+            {
+                Key = MapKey(e.Key == Key.System ? e.SystemKey : e.Key),
+                IsDown = true,
+                Mods = GetKeyMods(),
+                Char = null
+            };
         }
 
         private static KeyMods GetKeyMods()
         {
-            var result = new KeyMods();
-            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) result.Add(KeyMods.Bit.Shift);
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) result.Add(KeyMods.Bit.Control);
-            if (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt)) result.Add(KeyMods.Bit.Alt);
-            return result;
+            var r = new KeyMods();
+            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) r.Add(KeyMods.Bit.Shift);
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) r.Add(KeyMods.Bit.Control);
+            if (Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt)) r.Add(KeyMods.Bit.Alt);
+            return r;
         }
 
-        internal static GLKeys ToGLKey(Key key)
+        private static GLKeys MapKey(Key k)
         {
-            if (key >= Key.A && key <= Key.Z) return (GLKeys)((int)GLKeys.A + (key - Key.A));
-            if (key >= Key.D0 && key <= Key.D9) return (GLKeys)((int)GLKeys.D0 + (key - Key.D0));
-            if (key >= Key.F1 && key <= Key.F12) return (GLKeys)((int)GLKeys.F1 + (key - Key.F1));
-            if (key >= Key.NumPad0 && key <= Key.NumPad9) return (GLKeys)((int)GLKeys.Keypad0 + (key - Key.NumPad0));
-            switch (key)
+            if (k >= Key.A && k <= Key.Z) return (GLKeys)((int)GLKeys.A + (k - Key.A));
+            if (k >= Key.D0 && k <= Key.D9) return (GLKeys)((int)GLKeys.D0 + (k - Key.D0));
+            if (k >= Key.F1 && k <= Key.F12) return (GLKeys)((int)GLKeys.F1 + (k - Key.F1));
+            if (k >= Key.NumPad0 && k <= Key.NumPad9) return (GLKeys)((int)GLKeys.Keypad0 + (k - Key.NumPad0));
+            return k switch
             {
-                case Key.Escape: return GLKeys.Escape;
-                case Key.Enter: return GLKeys.Enter;
-                case Key.Space: return GLKeys.Space;
-                case Key.Back: return GLKeys.Backspace;
-                case Key.Delete: return GLKeys.Delete;
-                case Key.Left: return GLKeys.Left;
-                case Key.Right: return GLKeys.Right;
-                case Key.Up: return GLKeys.Up;
-                case Key.Down: return GLKeys.Down;
-                case Key.LeftShift: return GLKeys.ShiftLeft;
-                case Key.RightShift: return GLKeys.ShiftRight;
-                case Key.LeftCtrl: return GLKeys.ControlLeft;
-                case Key.RightCtrl: return GLKeys.ControlRight;
-                case Key.LeftAlt: return GLKeys.AltLeft;
-                case Key.RightAlt: return GLKeys.AltRight;
-                case Key.Tab: return GLKeys.Tab;
-                case Key.CapsLock: return GLKeys.CapsLock;
-                case Key.Scroll: return GLKeys.ScrollLock;
-                case Key.NumLock: return GLKeys.NumLock;
-                case Key.PrintScreen: return GLKeys.PrintScreen;
-                case Key.Pause: return GLKeys.Pause;
-                case Key.Insert: return GLKeys.Insert;
-                case Key.Home: return GLKeys.Home;
-                case Key.End: return GLKeys.End;
-                case Key.PageUp: return GLKeys.PageUp;
-                case Key.PageDown: return GLKeys.PageDown;
-                case Key.OemSemicolon: return GLKeys.OemSemicolon;
-                case Key.OemPlus: return GLKeys.OemPlus;
-                case Key.OemComma: return GLKeys.OemComma;
-                case Key.OemMinus: return GLKeys.OemMinus;
-                case Key.OemPeriod: return GLKeys.OemPeriod;
-                case Key.OemQuestion: return GLKeys.OemQuestion;
-                case Key.OemTilde: return GLKeys.OemTilde;
-                case Key.OemQuotes: return GLKeys.OemQuotes;
-                case Key.OemBackslash: return GLKeys.OemBackslash;
-                case Key.OemCloseBrackets: return GLKeys.OemCloseBrackets;
-                case Key.OemOpenBrackets: return GLKeys.OemOpenBrackets;
-                case Key.Add: return GLKeys.KeypadAdd;
-                case Key.Subtract: return GLKeys.KeypadSubtract;
-                case Key.Multiply: return GLKeys.KeypadMultiply;
-                case Key.Divide: return GLKeys.KeypadDivide;
-                case Key.Decimal: return GLKeys.KeypadDecimal;
-                default: return GLKeys.Unknown;
-            }
+                Key.Escape => GLKeys.Escape,
+                Key.Enter => GLKeys.Enter,
+                Key.Space => GLKeys.Space,
+                Key.Back => GLKeys.Backspace,
+                Key.Delete => GLKeys.Delete,
+                Key.Left => GLKeys.Left,
+                Key.Right => GLKeys.Right,
+                Key.Up => GLKeys.Up,
+                Key.Down => GLKeys.Down,
+                Key.LeftShift => GLKeys.ShiftLeft,
+                Key.RightShift => GLKeys.ShiftRight,
+                Key.LeftCtrl => GLKeys.ControlLeft,
+                Key.RightCtrl => GLKeys.ControlRight,
+                Key.LeftAlt => GLKeys.AltLeft,
+                Key.RightAlt => GLKeys.AltRight,
+                Key.Tab => GLKeys.Tab,
+                Key.CapsLock => GLKeys.CapsLock,
+                Key.Scroll => GLKeys.ScrollLock,
+                Key.NumLock => GLKeys.NumLock,
+                Key.PrintScreen => GLKeys.PrintScreen,
+                Key.Pause => GLKeys.Pause,
+                Key.Insert => GLKeys.Insert,
+                Key.Home => GLKeys.Home,
+                Key.End => GLKeys.End,
+                Key.PageUp => GLKeys.PageUp,
+                Key.PageDown => GLKeys.PageDown,
+                Key.OemSemicolon => GLKeys.OemSemicolon,
+                Key.OemPlus => GLKeys.OemPlus,
+                Key.OemComma => GLKeys.OemComma,
+                Key.OemMinus => GLKeys.OemMinus,
+                Key.OemPeriod => GLKeys.OemPeriod,
+                Key.OemQuestion => GLKeys.OemQuestion,
+                Key.OemTilde => GLKeys.OemTilde,
+                Key.OemQuotes => GLKeys.OemQuotes,
+                Key.OemBackslash => GLKeys.OemBackslash,
+                Key.OemCloseBrackets => GLKeys.OemCloseBrackets,
+                Key.OemOpenBrackets => GLKeys.OemOpenBrackets,
+                Key.Add => GLKeys.KeypadAdd,
+                Key.Subtract => GLKeys.KeypadSubtract,
+                Key.Multiply => GLKeys.KeypadMultiply,
+                Key.Divide => GLKeys.KeypadDivide,
+                Key.Decimal => GLKeys.KeypadDecimal,
+                _ => GLKeys.Unknown
+            };
         }
     }
 }

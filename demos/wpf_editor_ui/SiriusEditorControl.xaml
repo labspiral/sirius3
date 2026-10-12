@@ -313,13 +313,13 @@
                         <local:SiriusNavigationView Background="{DynamicResource Sirius.Brush.Panel}">
                             <local:SiriusNavigationItem>
                                 <local:SiriusNavigationItem.Header>
-                                    <TextBlock x:Name="txtTabPowerMeter" Text="PowerMeter" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="txtTabPowerMeter" Text="Powermeter" VerticalAlignment="Center"/>
                                 </local:SiriusNavigationItem.Header>
                                 <local:PowerMeterControl x:Name="powerMeterControl1"/>
                             </local:SiriusNavigationItem>
                             <local:SiriusNavigationItem>
                                 <local:SiriusNavigationItem.Header>
-                                    <TextBlock x:Name="txtTabPowerMap" Text="PowerMap" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="txtTabPowerMap" Text="Powermap" VerticalAlignment="Center"/>
                                 </local:SiriusNavigationItem.Header>
                                 <local:PowerMapControl x:Name="powerMapControl1"/>
                             </local:SiriusNavigationItem>

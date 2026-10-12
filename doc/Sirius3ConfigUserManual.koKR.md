@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3.Config 설정 가이드
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 ## 1. 역할과 설정 시점
 
@@ -108,6 +108,7 @@ CoreConfig.OnLogged += (level, message) =>
 
 | 설정 | 기본값 | 설명 |
 |---|---:|---|
+| `PowerMapInterpolationMode` | `PowerMapCurveModes.Linear` | 모든 기본 PowerMap과 카테고리에 적용되는 전역 보간 방식입니다. `Pchip`은 형태 보존 3차 보간을 사용합니다. |
 | `PowerMapPreHeatTimeMs` | `10,000` ms | Mapping, Verify, Compensate 전에 레이저를 안정화하는 예열 시간 |
 | `PowerMapHoldTimeMs` | `5,000` ms | 각 출력 조건에서 안정된 출력을 유지하는 시간 |
 | `PowerMapInRangeThreshold` | `5.0` % | 측정값을 목표 범위 안으로 판단하는 편차 |
@@ -123,6 +124,8 @@ CoreConfig.PowerMapCompensateRetryCounts = 2;
 ```
 
 이 값은 장비 안전 한계가 아닙니다. Laser와 PowerMeter의 정격, 냉각 조건, 측정기 응답 시간, 차광 및 인터록 조건을 먼저 따르십시오. 실제 출력을 사용하는 Mapping과 Compensate는 작업 영역이 안전하고 장치가 준비된 상태에서만 실행합니다.
+
+보간 방식은 `.map` 파일에 저장되지 않습니다. 애플리케이션에서 설정하고 변경 후 실제 사용 출력값을 다시 검증합니다. [PowerMap 매뉴얼](PowermapUserManual.koKR.md)을 참고합니다.
 
 ## 9. 초기화와 종료 예제
 

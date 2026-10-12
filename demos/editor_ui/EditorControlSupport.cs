@@ -36,6 +36,7 @@ namespace Demos
 
         internal static void Attach(ContainerControl control)
         {
+            ToolStripDpi.AttachStatusStrips(control);
 #if NETFRAMEWORK
             if (control is Form || control.AutoScaleMode != AutoScaleMode.Dpi || SpiralLab.Sirius3.UI.WinForms.EditorControl.IsDesigner()) return;
             if (!entries.TryGetValue(control, out _)) entries.Add(control, new Entry(control));
@@ -247,12 +248,25 @@ namespace Demos
     /// <summary>Preserves logical icon dimensions and borrowed resource images on library toolbars.</summary>
     internal static class ToolStripDpi
     {
+        internal const int DefaultStatusHeight = 22;
+        internal const int NavigationWidth = 40;
         private static readonly ConditionalWeakTable<ToolStrip, Entry> entries = new ConditionalWeakTable<ToolStrip, Entry>();
 
-        internal static void Attach(ToolStrip strip, int logicalImageSize, Control owner = null)
+        internal static void Attach(ToolStrip strip, int logicalImageSize, Control owner = null, int logicalWidth = 0)
         {
             if (!entries.TryGetValue(strip, out _))
-                entries.Add(strip, new Entry(strip, logicalImageSize, owner));
+                entries.Add(strip, new Entry(strip, strip is StatusStrip ? 16 : logicalImageSize, owner, logicalWidth));
+        }
+
+        internal static void AttachStatusStrips(Control root)
+        {
+            if (SpiralLab.Sirius3.UI.WinForms.EditorControl.IsDesigner()) return;
+            foreach (Control child in root.Controls)
+            {
+                if (child is UserControl) continue;
+                if (child is StatusStrip status) Attach(status, 16);
+                if (child.HasChildren) AttachStatusStrips(child);
+            }
         }
 
         internal static void Refresh(ToolStrip strip)
@@ -267,17 +281,24 @@ namespace Demos
         {
             private readonly ToolStrip strip;
             private readonly int logicalImageSize;
+            private readonly int logicalWidth;
             private readonly Control owner;
             private readonly Dictionary<ToolStripItem, ImageCopy> naturalImages = new Dictionary<ToolStripItem, ImageCopy>();
+            private readonly Dictionary<ToolStripItem, Font> statusFonts = new Dictionary<ToolStripItem, Font>();
+            private int statusHeight, statusLabelHeight, statusDpi;
             private bool updating;
 
-            internal Entry(ToolStrip strip, int logicalImageSize, Control owner)
+            internal Entry(ToolStrip strip, int logicalImageSize, Control owner, int logicalWidth)
             {
                 this.strip = strip;
                 this.logicalImageSize = logicalImageSize;
+                this.logicalWidth = logicalWidth;
                 this.owner = owner;
                 strip.HandleCreated += Update;
                 strip.DpiChangedAfterParent += Update;
+                strip.FontChanged += Update;
+                if (strip is StatusStrip) strip.Layout += StatusLayout;
+                else if (logicalWidth > 0) strip.Layout += NavigationLayout;
                 strip.ItemAdded += ItemAdded;
                 strip.ItemRemoved += ItemRemoved;
                 strip.Disposed += Disposed;
@@ -290,6 +311,7 @@ namespace Demos
 
             private void ItemRemoved(object sender, ToolStripItemEventArgs e)
             {
+                statusFonts.Remove(e.Item);
                 if (!naturalImages.TryGetValue(e.Item, out var copy)) return;
                 if (ReferenceEquals(e.Item.Image, copy.Scaled)) e.Item.Image = copy.Original;
                 copy.Scaled?.Dispose();
@@ -304,10 +326,22 @@ namespace Demos
                 try
                 {
                     var metricsOwner = owner ?? strip;
-                    int size = Pixels(metricsOwner, logicalImageSize);
+                    int size = Pixels(strip is StatusStrip ? strip : metricsOwner, logicalImageSize);
                     strip.ImageScalingSize = new Size(size, size);
+                    if (logicalWidth > 0)
+                    {
+                        strip.AutoSize = false;
+                        strip.Width = Pixels(metricsOwner, logicalWidth);
+                    }
+                    if (strip is StatusStrip status) UpdateStatusMeasurements(status);
                     foreach (ToolStripItem item in strip.Items)
                     {
+                        if (logicalWidth > 0 && item.Image != null && item.ImageScaling == ToolStripItemImageScaling.SizeToFit)
+                        {
+                            // Framework can retain a preferred image size from before parent scaling.
+                            item.ImageScaling = ToolStripItemImageScaling.None;
+                            item.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+                        }
                         if (item is ToolStripDropDownItem dropDownItem)
                             Attach(dropDownItem.DropDown, logicalImageSize, metricsOwner);
                         UpdateNaturalImage(item, metricsOwner);
@@ -318,6 +352,64 @@ namespace Demos
                     strip.ResumeLayout(true);
                     updating = false;
                 }
+            }
+
+            private void NavigationLayout(object sender, LayoutEventArgs e)
+            {
+                var metricsOwner = owner ?? strip;
+                int imageSize = Pixels(metricsOwner, logicalImageSize);
+                if (strip.Width != Pixels(metricsOwner, logicalWidth) ||
+                    strip.ImageScalingSize != new Size(imageSize, imageSize) ||
+                    strip.Items.OfType<ToolStripButton>().Any(item => item.Image != null &&
+                        item.ImageScaling == ToolStripItemImageScaling.SizeToFit &&
+                        item.GetPreferredSize(Size.Empty).Height < imageSize)) Update(sender, e);
+            }
+
+            private void StatusLayout(object sender, LayoutEventArgs e)
+            {
+                if (updating || strip.IsDisposed) return;
+                if (strip.Height != statusHeight || strip.DeviceDpi != statusDpi)
+                {
+                    Update(sender, e);
+                    return;
+                }
+                foreach (ToolStripItem item in strip.Items)
+                    if (!statusFonts.TryGetValue(item, out var font) || !ReferenceEquals(font, item.Font)
+                        || (item is ToolStripStatusLabel && item.Height != statusLabelHeight))
+                    {
+                        Update(sender, e);
+                        return;
+                    }
+            }
+
+            private void UpdateStatusMeasurements(StatusStrip status)
+            {
+                // Own vertical status metrics; Framework retains horizontal layout and widths.
+                // 상태바의 세로 치수만 관리하고 가로 배치와 너비는 Framework에 맡깁니다.
+                int contentHeight = Pixels(status, 16);
+                if (status.IsHandleCreated)
+                    using (var graphics = status.CreateGraphics())
+                        foreach (ToolStripItem item in status.Items)
+                            contentHeight = Math.Max(contentHeight, TextRenderer.MeasureText(graphics, "Ag", item.Font,
+                                new Size(int.MaxValue, int.MaxValue), TextFormatFlags.SingleLine).Height);
+
+                status.AutoSize = false;
+                status.Padding = new Padding(Pixels(status, 1), Pixels(status, 1),
+                    Pixels(status, status.SizingGrip ? 14 : 1), 0);
+                status.Height = Math.Max(Pixels(status, DefaultStatusHeight), contentHeight + Pixels(status, 6));
+                int labelHeight = status.Height - status.Padding.Vertical - Pixels(status, 3) - Pixels(status, 2);
+                foreach (ToolStripItem item in status.Items)
+                {
+                    statusFonts[item] = item.Font;
+                    if (!(item is ToolStripStatusLabel label)) continue;
+                    label.Margin = new Padding(label.Margin.Left, Pixels(status, 3), label.Margin.Right, Pixels(status, 2));
+                    label.Padding = new Padding(label.Padding.Left, 0, label.Padding.Right, 0);
+                    label.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+                    label.Height = labelHeight;
+                }
+                statusHeight = status.Height;
+                statusLabelHeight = labelHeight;
+                statusDpi = status.DeviceDpi;
             }
 
             private void UpdateNaturalImage(ToolStripItem item, Control metricsOwner)
@@ -350,6 +442,7 @@ namespace Demos
 
             private void Disposed(object sender, EventArgs e)
             {
+                statusFonts.Clear();
                 foreach (var copy in naturalImages.Values) copy.Scaled?.Dispose();
                 naturalImages.Clear();
             }
@@ -659,6 +752,15 @@ namespace Demos
 
     internal static class ChartInteractionHelper
     {
+        internal static int StyleSize(Chart chart, int logicalPixels)
+        {
+#if NETFRAMEWORK
+            return (int)Math.Round(logicalPixels * chart.DeviceDpi / 96d);
+#else
+            return logicalPixels;
+#endif
+        }
+
         internal const double ZoomFactor = 0.8;
 
         internal static bool TryBeginInvoke(Control control, MethodInvoker action)
@@ -934,11 +1036,10 @@ namespace Demos.Internal
             var modeText = MessageBoxLocalization.S(mode == RemoteControlModes.Local
                 ? "SiriusEditor_RemoteLocal"
                 : "SiriusEditor_RemoteRemote");
-            if (mode == RemoteControlModes.Local)
-                modeText = modeText.ToUpperInvariant();
-            return isConnected
+            var statusText = isConnected
                 ? MessageBoxLocalization.S("SiriusEditor_RemoteConnectedFormat", modeText)
                 : modeText;
+            return statusText.ToUpperInvariant();
         }
     }
 

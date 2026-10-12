@@ -24,6 +24,10 @@ Defined Vector、指令/実速度、Spot Distance Control に基づく Automatic
 
 イベント、C# スクリプト、外部ファイル、位置オフセットを使い、加工直前にバーコードデータを動的に変更します。
 
+## editor_clip
+
+`IClippable` と文書の Undo/Redo を示すデモです。形状サンプルを読み込み、Clipping dialog でワールド座標の XY 領域をプレビューして、パスまたは閉領域のクリッピング、ハッチの包含、塗りつぶし規則と方向、元の図形の削除を設定して適用します。
+
 ## editor_dio
 
 RTC 拡張ポートのデジタル入出力を使用します。ピン名、Ready/Processing/Error 出力、外部 Start 信号を扱います。
@@ -59,10 +63,6 @@ Sirius3 の加工データおよびベクターデータを生成してページ
 ## editor_hatch
 
 閉じた輪郭に Line/Polygon Hatch を生成し、経路を最適化して、ハッチごとに異なる Entity Pen を割り当てます。
-
-## editor_hatch_clip
-
-指定領域をクリップしてハッチパターンを生成します。
 
 ## editor_interrupt
 

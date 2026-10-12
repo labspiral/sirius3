@@ -1,6 +1,6 @@
 # EditorControl User Manual
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 ## 1. Purpose
 
@@ -63,6 +63,29 @@ Since Sirius3 1.11.14, Editor and TreeView prevent the same shortcut from being 
 With 1.15.0, configure the WinForms executable for Per-Monitor V2 and its demo host form for DPI scaling at a 96-DPI design baseline. WPF uses device-independent layout and an executable DPI manifest. See [WinForms](WinForms.md) and [WPF](WPF.md); the UI DLL does not select the host process DPI mode.
 
 TreeView directional keys remain navigation commands while the tree has focus. Give the editor focus before using entity movement shortcuts. WPF routes keyboard input through its preview events; avoid duplicating the same command in additional host handlers.
+
+In 1.16.0, the editor clipping command divides selected entities or one layer into regions. Review region size/overlap, Paths/ClosedRegions mode, hatch inclusion and source removal before applying; the operation supports Undo/Redo. See [clipping](ClippingUserManual.md). WPF marking confirmation uses the Sirius3 theme and localized Start/Cancel buttons.
+
+## 8. Camera navigation shortcuts
+
+With focus in the editor viewport, the following keys operate the camera:
+
+| Keys | Action |
+|---|---|
+| ↑ / ↓ / ← / → | Move along the camera's Up/Right directions. |
+| Alt + ↑ / ↓ | Move forward/backward along the camera's Front direction. |
+| Alt + ← / → | Turn about the camera position's Z axis in 5° steps. |
+| Ctrl + + / − | Zoom in/out; keypad Add/Subtract also work. |
+| Ctrl + F | Fit selected entities, or the active layer when nothing is selected. |
+| Ctrl + E / Q | Next/previous camera. |
+
+Camera translation uses a step related to the visible height (2%, minimum 0.1). It is distinct from the configured millimetre step for moving entities. Bare arrows operate the camera; Ctrl+arrows operate selected entities. Ctrl+Alt and Ctrl+Alt+Shift choose the finer configured entity movement steps. Ctrl+Shift+arrows is not an additional movement mode.
+
+`[` rotates selected entities clockwise and `]` counterclockwise when used with Ctrl, Ctrl+Alt or Ctrl+Alt+Shift. Defaults are 90°, 10° and 1°, respectively; the KeyboardRotate settings control these values.
+
+TreeView arrow keys navigate the tree when that control owns focus. PropertyGrid text editing/search and host controls consume their own keys. Move focus to the viewport before using its commands. The WPF editing path also supports Delete; Ctrl+Delete is the documented viewport deletion shortcut. See [TreeView](TreeviewUserManual.md) for tree commands.
+
+`UI.Config.KeyboardHelpMessage` shows the current configured help. F1 / Ctrl+F1 / Ctrl+Alt+F1 select Fast / Normal / Slow path simulation by default. Simulation is display-only; the configured Marker Start key (default F5) can operate real hardware. Preview, Stop, Reset and Script keys also follow Keyboard settings. Keep host handlers from invoking the same command twice.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

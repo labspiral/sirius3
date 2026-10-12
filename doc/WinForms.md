@@ -1,6 +1,6 @@
 # Sirius3 WinForms integration guide
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 [English](WinForms.md) | [한국어](WinForms.koKR.md) | [WPF](WPF.md)
 
@@ -20,9 +20,9 @@ The public demos use Visual Studio 2022 or later and target `net481;net8.0-windo
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SpiralLab.Sirius3" Version="1.15.0" />
-    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.15.0" />
-    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.15.0" />
+    <PackageReference Include="SpiralLab.Sirius3" Version="1.16.0" />
+    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.16.0" />
+    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.16.0" />
   </ItemGroup>
 </Project>
 ```
@@ -36,6 +36,10 @@ The public demos use Visual Studio 2022 or later and target `net481;net8.0-windo
 | [editor_remote_mcp](../demos/editor_remote_mcp/MainForm.cs) | Authenticated HTTP MCP server and asynchronous shutdown |
 
 Package controls use namespace `SpiralLab.Sirius3.UI.WinForms`. The source examples in `editor_ui` use `Demos` and still consume NuGet packages.
+
+The 1.16.0 packages provide SVG vector and 3MF mesh import, `IDocument.ActClip` clipping, and global Linear/PCHIP interpolation through `Config.PowerMapInterpolationMode`. Public demos retain `Version="1.*"` references; restore NuGet packages after an update and check the resolved version. See [document import](DocumentUserManual.md), [clipping](ClippingUserManual.md), and [PowerMap](PowermapUserManual.md).
+
+When copying `editor_ui`, keep both controls' `.cs`, `.Designer.cs` and `.resx` files, shared `EditorControlSupport.cs`, and the resources they use together. Public source keeps namespace `Demos` and NuGet references, and uses public APIs in place of library-internal methods.
 
 ## 2. Configure DPI before creating forms
 
@@ -129,7 +133,7 @@ Use the `FormClosing` pattern in the linked demos: cancel the first close, guard
 | Host-owned document | Detach from all viewers and dispose once |
 | Core | Call `Core.Cleanup()` once after the UI/device lifetime ends |
 
-If `await DisposeDevices()` gives CS4008, the compiler resolved an older `void` signature. Verify the restored UI package and assembly, then refresh the affected package/version. Keep the `await` when consuming 1.15.0.
+If `await DisposeDevices()` gives CS4008, the compiler resolved an older `void` signature. Verify the restored UI package and assembly, then refresh the affected package/version. Keep the `await` when consuming 1.16.0.
 
 ## 6. Check the resulting application
 

@@ -1,6 +1,6 @@
 # 2D Scanner Field Correction User Manual
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 ## 1. 필드 보정이 필요한 이유
 

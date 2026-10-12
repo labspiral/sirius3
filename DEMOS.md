@@ -36,6 +36,10 @@ This is a demo program that demonstrates how to create 2D barcode objects and mo
 - External File: The user specifies an external file. Just before each rendering, the marker reads the first line of the text file to dynamically modify the data and apply it to the rendering. Additionally, the first line of the text file used is automatically removed.
 - Offset: The user specifies text content along with multiple position (offset) values. During processing, the marker dynamically changes the text content at each offset position immediately before processing and applies it to the barcode.
 
+## editor_clip
+
+Demonstrates `IClippable` and document Undo/Redo. Load a geometry sample, then open the Clipping dialog to preview world-space XY regions and apply path or closed-region clipping with hatch, fill/winding and source-removal options.
+
 ## editor_dio
 
 This is a demo program that utilizes the digital input/output (DIO) functionality of the RTC card’s expansion port.
@@ -91,10 +95,6 @@ This is a demo program that generates hatching patterns for objects with various
 Hatches can be created in line or polygon form, and you can set the hatch spacing, angle, and starting position.
 Using path optimization (Sort) optimizes the hatching path, reducing machining time, and;
 you can set different entity pens for each hatch to vary the machining conditions.
-
-## editor_hatch_clip
-
-This is a demo program that generates hatching patterns by clipping specific areas.
 
 ## editor_interrupt
 

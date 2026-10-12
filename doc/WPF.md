@@ -1,12 +1,12 @@
 # Sirius3 WPF integration guide
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 [English](WPF.md) | [한국어](WPF.koKR.md) | [WinForms](WinForms.md)
 
 ## 1. Packages and demo projects
 
-WPF editor controls ship in `SpiralLab.Sirius3.UI`; install the published 1.15.0 `SpiralLab.Sirius3`, `SpiralLab.Sirius3.UI`, and `SpiralLab.Sirius3.Dependencies` packages. Both WinForms and WPF are available in the distributed UI assembly. The 1.14.5 release introduced the WPF preview; 1.15.0 also supplies asynchronous remote/MCP cleanup and Mesh texture rendering.
+WPF editor controls ship in `SpiralLab.Sirius3.UI`; install the published 1.16.0 `SpiralLab.Sirius3`, `SpiralLab.Sirius3.UI`, and `SpiralLab.Sirius3.Dependencies` packages. Both WinForms and WPF are available in the distributed UI assembly. WPF supports native editor and device panels; 1.15.0 also supplies asynchronous remote/MCP cleanup and Mesh texture rendering.
 
 The public WPF demos require Visual Studio 2022 or later and target `net481;net8.0-windows;net9.0-windows`. The library additionally supports `net10.0-windows`, which is not a current demo target.
 
@@ -22,9 +22,9 @@ The public WPF demos require Visual Studio 2022 or later and target `net481;net8
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SpiralLab.Sirius3" Version="1.15.0" />
-    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.15.0" />
-    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.15.0" />
+    <PackageReference Include="SpiralLab.Sirius3" Version="1.16.0" />
+    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.16.0" />
+    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.16.0" />
   </ItemGroup>
 </Project>
 ```
@@ -37,6 +37,10 @@ The public WPF demos require Visual Studio 2022 or later and target `net481;net8
 | [wpf_editor_entity](../demos/wpf_editor_entity/MainWindow.xaml.cs) | Entity creation and the WPF document editing workflow |
 
 Keep the Dependencies package's runtime files with the output. Select an installed runtime and review `config*.ini` before launch. One Sirius3 process should own the configured devices at a time.
+
+The 1.16.0 packages provide SVG vector and 3MF mesh import, `IDocument.ActClip` clipping, and global Linear/PCHIP interpolation through `Config.PowerMapInterpolationMode`. Public demos retain `Version="1.*"` references; restore NuGet packages after an update and check the resolved version. See [document import](DocumentUserManual.md), [clipping](ClippingUserManual.md), and [PowerMap](PowermapUserManual.md).
+
+When copying `wpf_editor_ui`, keep `SiriusEditorControl.xaml`/`.xaml.cs`, `SiriusMultiEditorControl.cs`, and shared `EditorControlSupport.cs` together. Public source keeps namespace `Demos` and NuGet references, and uses public APIs in place of library-internal methods.
 
 ## 2. DPI awareness and layout
 

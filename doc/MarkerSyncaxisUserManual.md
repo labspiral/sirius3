@@ -1,6 +1,6 @@
 # SyncAXIS Integrated Marker Control User Manual
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 
 ## 1. Overview
@@ -50,6 +50,14 @@ SyncAXIS often uses the simulation function to predict the real path before proc
 - All different environment settings according to the SyncAXIS Setup Manual must be completed in advance.
 - If processing includes a path beyond the soft limit of the stage, hardware error occurs, so check it in advance through the simulation.
 - The specific correction file (xml or .ct5) must be accurately charged for the synchronization accuracy of the stage and scanner.
+
+## 8. Factory and comparison with other markers
+
+`MarkerFactory.CreateSyncAxis(index)` creates `MarkerSyncAxis`; `CreateAuto(rtc)` selects it for `IRtcSyncAxis`. `MarkerRtc` uses ordinary RTC lists and `MarkerRtcFast` aggregates larger lists. `MarkerSyncAxis` builds and executes syncAXIS jobs according to the layer's Motion Type and cannot be substituted with an ordinary RTC marker.
+
+The public [editor_marker](../demos/editor_marker/Form1.cs) supplies MyMarkerSyncAxis and MyMarkerRtc/MyMarkerRtcFast source. Initialize the scanner and laser, then bind those same instances through RegisterDevices/Ready. Start acceptance is not completion; observe Busy, errors and OnEnded.
+
+Offset X/Y/Z supplies coordinate displacement, AngleZ rotates about Z and ExtensionData supplies per-location strings. Mechanical motion follows syncAXIS job, motion-type and axis-limit configuration. Offset Z alone is not an independent stage command. See [marker comparison](MarkerUserManual.md) and [Offset examples/parser](OffsetUserManual.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

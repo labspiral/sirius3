@@ -1,6 +1,6 @@
 # TextConverters & ITextConvertible Developer Manual
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 ## 1. Overview
 
@@ -14,7 +14,7 @@ The representative objects implementing `ITextConvertible` are as follows.
 
 - `EntityText`, `EntitySiriusText` and Circular Text
 - `EntityImageText`
-- `EntityBarcode1D_V2`
+- `EntityBarcode1D_v2`
 - `EntityQRCode`, `EntityDataMatrix`, `EntityPDF417`, `EntityAztec`
 
 Make sure your actual support is converted to `ITextConvertible`.
@@ -190,6 +190,10 @@ The flow of `demos/editor_barcode_textconvert/Form1.cs` is as follows.
 6. Repair PropertyGrid and check the results with Marker Preview/Start.
 
 When closing, disable the Marker/Device, Document and call `Core.Cleanup()`.
+
+## Related features
+
+See [Offset coordinates and data parsing](OffsetUserManual.md), [text](TextUserManual.md), [barcodes](BarcodeUserManual.md), [hatching](HatchUserManual.md) and [complete EntityFactory](EntityUserManual.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

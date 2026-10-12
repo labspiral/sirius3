@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3.Config Settings Guide
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 ## 1. Role and Configuration Timing
 
@@ -108,6 +108,7 @@ Real Sampling cycles and channels are defined in the measurement interface and M
 
 | Setting | Default | Explanation |
 |---|---:|---|
+| `PowerMapInterpolationMode` | `PowerMapCurveModes.Linear` | Global interpolation for all built-in PowerMaps and categories; `Pchip` selects shape-preserving cubic interpolation. |
 | `PowerMapPreHeatTimeMs` | `10,000` ms | Mapping, Verify, Compensate Preheating Time to Stabilize the Laser Before Mapping, Verify, Compensate |
 | `PowerMapHoldTimeMs` | `5,000` ms | Time to maintain a stable output in each output condition. |
 | `PowerMapInRangeThreshold` | `5.0` % | Assessment of measurement within the target range. |
@@ -123,6 +124,8 @@ CoreConfig.PowerMapCompensateRetryCounts = 2;
 ```
 
 This value is not an equipment safety limit. Follow the accuracy and cooling requirements of the laser and power meter, the meter response time, laser-emission precautions, and interlock requirements. Run mapping and compensation with real output only after the work area is safe and the devices are ready.
+
+Interpolation mode is not stored in `.map` files. Configure it in the application and revalidate the target powers after changing it. See the [PowerMap guide](PowermapUserManual.md).
 
 ## 9. Initialization and Cleanup Example
 

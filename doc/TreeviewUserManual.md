@@ -1,6 +1,6 @@
 # TreeView Page Control User Manual
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 ## 1. Hierarchy and Processing Order
 

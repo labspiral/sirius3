@@ -1,7 +1,7 @@
 Hinweise zu Software von Drittanbietern
 ========================================
 
-Dieses Dokument beschreibt mit Stand vom 23.08.2026 die Software von Drittanbietern,
+Dieses Dokument beschreibt mit Stand vom 06.10.2026 die Software von Drittanbietern,
 die mit den NuGet-Paketen SpiralLab.Sirius3, SpiralLab.Sirius3.UI,
 und SpiralLab.Sirius3.Dependencies ausgeliefert wird. Die unveränderten vollständigen
 Lizenztexte befinden sich in der stets zusammen mit dieser Datei ausgelieferten Datei
@@ -11,6 +11,31 @@ Nutzungs- oder Weiterverteilungsrechte.
 
 Verwaltete und quelloffene Laufzeitkomponenten
 ----------------------------------------------
+
+SVG.NET (Svg)
+  Version : 3.4.8
+  Lizenz : Microsoft Public Lizenz (MS-PL)
+  Quelle  : https://github.com/svg-net/SVG
+  Commit  : 9d564f47c82780df4b703ee0bf2436c6a2276f5c
+  Lieferung: In SpiralLab.Sirius3.UI für den Import editierbarer Vektorkonturen eingebettet
+
+ExCSS
+  Version : 4.2.3
+  Lizenz : MIT
+  Copyright: Copyright (c) 2024 Tyler Brinks
+  Quelle  : https://github.com/TylerBrinks/ExCSS
+  Lieferung: Eingebetteter SVG.NET-Stylesheet-Parser in SpiralLab.Sirius3.UI
+
+lib3mf
+  Version: 2.5.0
+  Lizenz: BSD 2-Clause
+  Quelle: https://github.com/3MFConsortium/lib3mf
+  Auslieferung: Native x64- und x32-Dreiecksnetzleser im Dependencies-Paket
+  Laufzeit: Microsoft Visual C++ 2015-2022 oder eine neuere kompatible Laufzeit
+            für die jeweilige Prozessarchitektur ist erforderlich.
+  Hinweise: Enthält libzip, zlib, cpp-base64 und fast_float. Die vollständigen
+            Originaltexte LICENSE und SDK Credits sowie Herkunft und Build-Daten
+            der Binärdateien stehen am Ende der Datei THIRD-PARTY-NOTICES.txt.
 
 NLog
   Version  : 6.0.5

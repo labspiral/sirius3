@@ -22,15 +22,18 @@ namespace Demos
             Thread.CurrentThread.CurrentCulture = cultureInfo;
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
-            SpiralLab.Sirius3.Core.Initialize();
-
-            // single devices set
-            Application.Run(new Form1());
-            
-            //or for multiple devices set
-            //Application.Run(new Form2());
-
-            SpiralLab.Sirius3.Core.Cleanup();
+            if (!SpiralLab.Sirius3.Core.Initialize())
+                return;
+            try
+            {
+                // Use Form2 for multiple device sets.
+                using (var form = new Form1())
+                    Application.Run(form);
+            }
+            finally
+            {
+                SpiralLab.Sirius3.Core.Cleanup();
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3.UI.Config 설정 가이드
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 ## 1. 역할과 설정 시점
 
@@ -41,7 +41,7 @@ Undo/Redo는 `IDocument.Act*` 작업을 기준으로 동작합니다. Page, Laye
 | `AssemblyName` | `SpiralLab.Sirius3.UI.dll` | UI 어셈블리 파일명 상수 |
 | `AssemblyVersion` | 실행 중인 어셈블리 버전 | `Major.Minor.Build` 형식의 읽기 전용 값 |
 | `FileOpenFilters` | Sirius3, DXF, DWG | 열기 대화상자 Filter 상수 |
-| `FileImportFilters` | Sirius3, STL, OBJ, PLY, DXF, DWG, 이미지, HPGL/PLT, Gerber, G-code | 가져오기 대화상자 Filter 상수 |
+| `FileImportFilters` | Sirius3, SVG, STL, OBJ, PLY, 3MF, DXF, DWG, 이미지, HPGL/PLT, Gerber, G-code | 가져오기 대화상자 Filter 상수 |
 | `FileSaveFilters` | `.sirius3` | 저장 대화상자 Filter 상수 |
 | `FileImportImageFilters` | JPG, BMP, PNG, GIF, TIFF | 이미지 가져오기 Filter 상수 |
 | `FileMeasurementFilter` | `.txt` | Measurement 파일 Filter 상수 |
@@ -199,7 +199,9 @@ Fixed 간격에서 글리프 폭을 자동 추정할 때 다음 설정을 사용
 | 설정 | 기본값 | 설명과 제한 |
 |---|---:|---|
 | `ImportMergeDistance` | `0.001` | DXF, DWG, HPGL, PLT Path의 끝점을 연결할 최대 거리입니다. DXF/DWG는 원본 좌표 단위, HPGL/PLT는 mm 변환 후 적용됩니다. `0`이면 정확히 일치하는 끝점만 연결합니다. 음수, NaN, Infinity는 무시됩니다. |
-| `IsImportColorPreserved` | `false` | `true`이면 DXF, DWG, Gerber 원본 색을 유지합니다. `false`이면 RGB 거리가 가장 가까운 `EntityPenColors` 색으로 바꿔 Pen 연결을 돕습니다. |
+| `IsImportColorPreserved` | `false` | `true`이면 DXF, DWG, Gerber, SVG 원본 색을 유지합니다. `false`이면 RGB 거리가 가장 가까운 `EntityPenColors` 색으로 바꿔 Pen 연결을 돕습니다. |
+| `IsSvgImportHatchEnabled` | `false` | 새 SVG 가져오기에서 채워진 영역에 HatchLine을 추가합니다. 기존 문서의 해치는 바꾸지 않습니다. |
+| `SvgImportHatchInterval` | `0.1` mm | SVG 선 해치 간격이며 지원 최소값은 0.001 mm입니다. 경계 여백은 간격의 절반입니다. |
 
 Merge Distance를 크게 하면 가까운 별도 Contour가 잘못 연결될 수 있습니다. 실제 파일의 좌표 단위와 최소 형상 간격을 확인한 뒤 조정하십시오.
 

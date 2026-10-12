@@ -1,6 +1,6 @@
 # EditorControl User Manual
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 ## 1. 역할
 
@@ -56,13 +56,36 @@
 
 ## 6. 최신 안정성 변경
 
-Sirius3 1.11.14부터 Editor와 TreeView가 같은 단축키를 두 번 전달하지 않도록 처리해 붙여넣기와 F5 확인 창의 중복 실행을 막습니다. PropertyGrid 검색은 `CTRL+F`가 아니라 PropertyGrid 검색창이 포커스를 받을 때 동작하므로, Editor의 `CTRL+F` 화면 맞춤과 포커스 위치를 구분하십시오.
+Sirius3 1.11.14부터 Editor와 TreeView가 같은 단축키를 두 번 전달하지 않도록 처리해 붙여넣기와 F5 확인 창의 중복 실행을 막습니다. PropertyGrid에 포커스가 있으면 해당 입력·검색 경로를 사용하고, Viewport의 `CTRL+F`는 화면 맞춤에 사용합니다. 포커스 위치를 구분합니다.
 
 ## 7. HiDPI와 프레임워크 통합
 
 1.15.0에서는 WinForms 실행 파일을 Per-Monitor V2로 설정하고 데모 호스트 Form은 96 DPI 설계 기준의 DPI 자동 배율을 사용합니다. WPF는 장치 독립 레이아웃과 실행 파일 DPI manifest를 사용합니다. [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md)를 참고합니다. UI DLL은 호스트 프로세스의 DPI 모드를 선택하지 않습니다.
 
 TreeView에 포커스가 있으면 방향키는 트리 탐색에 사용합니다. 개체 이동 단축키는 편집기로 포커스를 옮긴 후 사용합니다. WPF 키 입력은 Preview 이벤트 경로에서 전달하므로 호스트의 추가 Handler에서 같은 명령을 중복 실행하지 않습니다.
+
+1.16.0에서 선택한 객체 또는 레이어를 편집기의 클리핑 명령으로 영역별로 나눌 수 있습니다. 영역 크기·중첩, 경로/폐영역 모드, 해치 포함과 원본 삭제 여부를 검토한 뒤 적용하며 Undo/Redo를 지원합니다. [클리핑](ClippingUserManual.koKR.md)을 참고합니다. WPF 가공 시작 확인창은 Sirius3의 테마와 현지화된 시작/취소 버튼을 사용합니다.
+
+## 8. 카메라 이동 단축키
+
+편집기 Viewport에 포커스가 있을 때 다음 키로 카메라를 조작합니다.
+
+| 키 | 동작 |
+|---|---|
+| ↑ / ↓ / ← / → | Camera Up/Right 방향으로 이동합니다. |
+| Alt + ↑ / ↓ | Camera Front 방향으로 전진·후진합니다. |
+| Alt + ← / → | Camera 위치의 Z축을 기준으로 5°씩 회전합니다. |
+| Ctrl + + / − | 확대·축소합니다. 숫자 키패드 Add/Subtract도 지원합니다. |
+| Ctrl + F | 선택 개체를 맞추며 선택이 없으면 Active Layer를 맞춥니다. |
+| Ctrl + E / Q | 다음·이전 Camera를 선택합니다. |
+
+Camera 이동량은 현재 보이는 높이의 2%이며 최소 0.1입니다. 개체를 이동하는 mm 단위 설정과 별개입니다. 단독 방향키는 Camera, Ctrl+방향키는 선택 개체를 이동합니다. Ctrl+Alt와 Ctrl+Alt+Shift는 더 작은 개체 이동 설정을 선택합니다. Ctrl+Shift+방향키는 별도 이동 모드가 아닙니다.
+
+`[`는 시계 방향, `]`는 반시계 방향 개체 회전입니다. Ctrl, Ctrl+Alt, Ctrl+Alt+Shift와 조합하며 기본값은 각각 90°, 10°, 1°입니다. KeyboardRotate 계열 설정으로 바꿀 수 있습니다.
+
+TreeView에 포커스가 있으면 방향키는 트리를 탐색합니다. PropertyGrid의 문자 입력·검색과 호스트 Control은 자체 키를 처리합니다. Viewport 명령은 포커스를 편집기로 옮긴 뒤 사용합니다. WPF 편집 경로는 Delete도 지원하며 Ctrl+Delete는 문서화된 Viewport 삭제 단축키입니다. 트리 명령은 [TreeView](TreeviewUserManual.koKR.md)를 참고합니다.
+
+`UI.Config.KeyboardHelpMessage`는 현재 설정의 도움말을 표시합니다. 기본 F1 / Ctrl+F1 / Ctrl+Alt+F1은 Fast / Normal / Slow 경로 시뮬레이션입니다. 시뮬레이션은 표시용이며 설정한 Marker Start 키(기본 F5)는 실제 하드웨어를 동작시킬 수 있습니다. Preview·Stop·Reset·Script 키도 Keyboard 설정을 따릅니다. 호스트 Handler에서 같은 명령을 두 번 실행하지 않습니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

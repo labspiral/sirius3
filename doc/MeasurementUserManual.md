@@ -1,6 +1,6 @@
 # RTC real-time measurement and data analysis (Measurement & Plot)
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 
 ## 1. Overview

@@ -1,12 +1,14 @@
 # SCANLAB RTC6 Controller User Manual
 
-> Reference version: Sirius3 1.15.0 (public Release features)
+> Reference version: Sirius3 1.16.0 (public Release features)
 
 ## 1. RTC6 Role
 
 RTC6 converts geometry and process parameters prepared in Windows into deterministic scanner, laser, and I/O commands that run independently of normal Windows scheduling. Sirius3 uses RTC6/RTC6e as its primary controller generation.
 
 Successful list submission means that RTC accepted the command and started execution. Confirm actual completion with `Ready`, `Busy`, and `Error` state, job status, and device logs.
+
+The Sirius3 1.16.0 Dependencies package includes runtime files from SCANLAB RTC6 Software Package 1.25.1. DLL availability does not establish controller firmware, installed options or license compatibility. Check the actual loaded DLL and controller state in initialization logs.
 
 ## 2. Coordinates and KFactor
 

@@ -1,6 +1,6 @@
 # Sirius3 WinForms 통합 가이드
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 [English](WinForms.md) | [한국어](WinForms.koKR.md) | [WPF](WPF.koKR.md)
 
@@ -20,9 +20,9 @@
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SpiralLab.Sirius3" Version="1.15.0" />
-    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.15.0" />
-    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.15.0" />
+    <PackageReference Include="SpiralLab.Sirius3" Version="1.16.0" />
+    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.16.0" />
+    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.16.0" />
   </ItemGroup>
 </Project>
 ```
@@ -36,6 +36,10 @@
 | [editor_remote_mcp](../demos/editor_remote_mcp/MainForm.cs) | 인증된 HTTP MCP 서버와 비동기 종료 |
 
 패키지 컨트롤의 네임스페이스는 `SpiralLab.Sirius3.UI.WinForms`입니다. `editor_ui`의 소스 예제는 `Demos`를 사용하며 계속 NuGet 패키지를 참조합니다.
+
+1.16.0 패키지는 SVG 벡터와 3MF 메쉬 가져오기, `IDocument.ActClip` 클리핑, 전역 `Config.PowerMapInterpolationMode`의 Linear/PCHIP 보간을 제공합니다. 공개 데모는 `Version="1.*"` 참조를 유지하므로 업데이트 후 NuGet을 다시 복원하고 실제 해석된 버전을 확인합니다. 자세한 사용법은 [문서 가져오기](DocumentUserManual.koKR.md), [클리핑](ClippingUserManual.koKR.md), [PowerMap](PowermapUserManual.koKR.md)을 참고합니다.
+
+`editor_ui` 소스를 복사할 때 단일·멀티 컨트롤의 `.cs`, `.Designer.cs`, `.resx`, 공통 `EditorControlSupport.cs`와 사용한 Resources를 함께 유지합니다. 공개 소스는 `Demos` 네임스페이스와 NuGet 참조를 유지하며 라이브러리의 내부 메서드 대신 공개 API를 사용합니다.
 
 ## 2. 폼 생성 전 DPI 설정
 

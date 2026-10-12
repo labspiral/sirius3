@@ -27,7 +27,8 @@ namespace Demos
 
             try
             {
-                SpiralLab.Sirius3.Core.Initialize();
+                if (!SpiralLab.Sirius3.Core.Initialize())
+                    throw new InvalidOperationException("Sirius3 initialization failed.");
                 coreInitialized = true;
 
                 demoWindow = new MainWindow();

@@ -1,7 +1,7 @@
 第三者ソフトウェアに関する通知
 ============================
 
-本書は、2026 年 8 月 23 日時点で NuGet パッケージ SpiralLab.Sirius3、
+本書は、2026 年 10 月 6 日時点で NuGet パッケージ SpiralLab.Sirius3、
 SpiralLab.Sirius3.UI、および SpiralLab.Sirius3.Dependencies と共に配布される
 第三者ソフトウェアについて説明します。変更されていないライセンス全文は、
 本書と常に共に配布される THIRD-PARTY-NOTICES.txt を参照してください。
@@ -10,6 +10,31 @@ SpiralLab.Sirius3.UI、および SpiralLab.Sirius3.Dependencies と共に配布�
 
 マネージドおよびオープンソースのランタイムコンポーネント
 ----------------------------------------------------------
+
+SVG.NET (Svg)
+  バージョン : 3.4.8
+  ライセンス : Microsoft Public ライセンス (MS-PL)
+  ソース  : https://github.com/svg-net/SVG
+  コミット  : 9d564f47c82780df4b703ee0bf2436c6a2276f5c
+  配布: 編集可能なベクター輪郭のインポート用に SpiralLab.Sirius3.UI に内蔵
+
+ExCSS
+  バージョン : 4.2.3
+  ライセンス : MIT
+  著作権: Copyright (c) 2024 Tyler Brinks
+  ソース  : https://github.com/TylerBrinks/ExCSS
+  配布: SpiralLab.Sirius3.UI に内蔵する SVG.NET スタイルシートパーサー
+
+lib3mf
+  バージョン: 2.5.0
+  ライセンス: BSD 2-Clause
+  ソース: https://github.com/3MFConsortium/lib3mf
+  配布: Dependencies 内の x64 および x32 ネイティブ三角形メッシュリーダー
+  ランタイム: プロセスのアーキテクチャに対応する Microsoft Visual C++ 2015-2022
+              またはそれ以降の互換ランタイムが必要です。
+  通知: libzip、zlib、cpp-base64、fast_float を含みます。LICENSE と SDK Credits
+        の原文全文、およびバイナリの出所とビルド情報は
+        THIRD-PARTY-NOTICES.txt の末尾に収録されています。
 
 NLog
   バージョン: 6.0.5

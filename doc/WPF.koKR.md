@@ -1,12 +1,12 @@
 # Sirius3 WPF 통합 가이드
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 [English](WPF.md) | [한국어](WPF.koKR.md) | [WinForms](WinForms.koKR.md)
 
 ## 1. 패키지와 데모 프로젝트
 
-WPF 편집기 컨트롤은 `SpiralLab.Sirius3.UI`에 포함됩니다. 공개 NuGet 패키지 `SpiralLab.Sirius3`, `SpiralLab.Sirius3.UI`, `SpiralLab.Sirius3.Dependencies`의 1.15.0을 설치합니다. 배포 UI Assembly는 WinForms와 WPF를 모두 제공합니다. 1.14.5에서 WPF 미리보기를 도입했으며, 1.15.0은 Remote/MCP 비동기 해제와 Mesh 텍스처 렌더링도 지원합니다.
+WPF 편집기 컨트롤은 `SpiralLab.Sirius3.UI`에 포함됩니다. 공개 NuGet 패키지 `SpiralLab.Sirius3`, `SpiralLab.Sirius3.UI`, `SpiralLab.Sirius3.Dependencies`의 1.16.0을 설치합니다. 배포 UI Assembly는 WinForms와 WPF를 모두 제공합니다. 네이티브 WPF 편집기와 장치 패널을 제공하며, 1.15.0은 Remote/MCP 비동기 해제와 Mesh 텍스처 렌더링도 지원합니다.
 
 공개 WPF 데모는 Visual Studio 2022 이상과 `net481;net8.0-windows;net9.0-windows`를 사용합니다. 라이브러리는 `net10.0-windows`도 지원하지만 현재 데모 대상에는 포함되지 않습니다.
 
@@ -22,9 +22,9 @@ WPF 편집기 컨트롤은 `SpiralLab.Sirius3.UI`에 포함됩니다. 공개 NuG
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SpiralLab.Sirius3" Version="1.15.0" />
-    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.15.0" />
-    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.15.0" />
+    <PackageReference Include="SpiralLab.Sirius3" Version="1.16.0" />
+    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.16.0" />
+    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.16.0" />
   </ItemGroup>
 </Project>
 ```
@@ -37,6 +37,10 @@ WPF 편집기 컨트롤은 `SpiralLab.Sirius3.UI`에 포함됩니다. 공개 NuG
 | [wpf_editor_entity](../demos/wpf_editor_entity/MainWindow.xaml.cs) | 개체 생성과 WPF Document 편집 흐름 |
 
 Dependencies 패키지의 런타임 파일도 출력과 함께 유지합니다. 설치된 런타임을 선택하고 실행 전 `config*.ini`를 확인합니다. 설정된 장치를 소유하는 Sirius3 프로세스는 한 번에 하나만 실행합니다.
+
+1.16.0 패키지는 SVG 벡터와 3MF 메쉬 가져오기, `IDocument.ActClip` 클리핑, 전역 `Config.PowerMapInterpolationMode`의 Linear/PCHIP 보간을 제공합니다. 공개 데모는 `Version="1.*"` 참조를 유지하므로 업데이트 후 NuGet을 다시 복원하고 실제 해석된 버전을 확인합니다. 자세한 사용법은 [문서 가져오기](DocumentUserManual.koKR.md), [클리핑](ClippingUserManual.koKR.md), [PowerMap](PowermapUserManual.koKR.md)을 참고합니다.
+
+`wpf_editor_ui` 소스를 복사할 때 `SiriusEditorControl.xaml`/`.xaml.cs`, `SiriusMultiEditorControl.cs`와 공통 `EditorControlSupport.cs`를 함께 유지합니다. 공개 소스는 `Demos` 네임스페이스와 NuGet 참조를 유지하며 라이브러리의 내부 메서드 대신 공개 API를 사용합니다.
 
 ## 2. DPI 모드와 레이아웃
 

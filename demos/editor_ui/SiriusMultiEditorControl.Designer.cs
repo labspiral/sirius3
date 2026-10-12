@@ -1099,7 +1099,7 @@ namespace Demos
             this.tabPage18.Name = "tabPage18";
             this.tabPage18.Size = new System.Drawing.Size(708, 686);
             this.tabPage18.TabIndex = 0;
-            this.tabPage18.Text = "PowerMeter";
+            this.tabPage18.Text = "Powermeter";
             this.tabPage18.UseVisualStyleBackColor = true;
             // 
             // powerMeterControl1
@@ -1120,7 +1120,7 @@ namespace Demos
             this.tabPage19.Name = "tabPage19";
             this.tabPage19.Size = new System.Drawing.Size(708, 686);
             this.tabPage19.TabIndex = 1;
-            this.tabPage19.Text = "PowerMap";
+            this.tabPage19.Text = "Powermap";
             this.tabPage19.UseVisualStyleBackColor = true;
             // 
             // powerMapControl1

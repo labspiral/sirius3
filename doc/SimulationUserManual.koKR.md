@@ -1,6 +1,6 @@
 # [사용자 메뉴얼] 가공 경로 시뮬레이션 (Simulation)
 
-> 기준 버전: Sirius3 1.15.0 (공개 Release 기능)
+> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
 
 
 ## 1. 개요

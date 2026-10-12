@@ -1,4 +1,4 @@
-/*
+﻿/*
  *
  *                                                            ,--,      ,--,
  *             ,-.----.                                     ,---.'|   ,---.'|
@@ -937,6 +937,7 @@ namespace Demos
             editorControl1.Location = new Point(0, 0);
             editorControl1.Margin = new Padding(0);
             editorControl1.Name = "Editor";
+            PropertyGridCtrl.View = editorControl1.View;
 
             Load += SiriusEditorControl_Load;
             Disposed += SiriusEditorControl_Disposed;
@@ -1121,13 +1122,7 @@ namespace Demos
             var failures = new System.Collections.Generic.List<Exception>();
             try { if (server != null) await server.DisposeAsync(); }
             catch (Exception ex) { failures.Add(ex); }
-            try
-            {
-                if (registeredRemote is IAsyncDisposable asyncRemote)
-                    await asyncRemote.DisposeAsync();
-                else
-                    registeredRemote?.Dispose();
-            }
+            try { if (registeredRemote != null) await registeredRemote.DisposeAsync(); }
             catch (Exception ex) { failures.Add(ex); }
             try { DisposeDevicesCore(); }
             catch (Exception ex) { failures.Add(ex); }
