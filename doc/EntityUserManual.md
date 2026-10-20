@@ -1,8 +1,8 @@
 # EntityFactory & Entity User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17 (public features)
 
-[English](EntityUserManual.md) | [한국어](EntityUserManual.koKR.md)
+[English](EntityUserManual.md) | [한국어](EntityUserManual.koKR.md) | [All guides](README.md)
 
 ## 1. Basic entity creation workflow
 
@@ -98,11 +98,11 @@ Check the coordinate conversion one-step in so that the `ModelMatrix` and Offset
 
 You can import DXF/DWG, HPGL/PLT, Gerber/Excellon, G-code/NGC, images and 3D files. `UI.Config.ImportMergeDistance` is a common permissible distance to connect the close end points of DXF, DWG, HPGL, PLT, and `UI.Config.IsImportColorPreserved` will change the original color to the closest EntityPen color to keep the original color.
 
-Version 1.16.0 retains millimeter units, relative component placement, RGB colors, base materials and diffuse textures from `.3mf` build meshes. SVG imports produce an editable `EntitySvg`/`EntityContour` hierarchy. See [import requirements](DocumentUserManual.md) and [SVG settings](Sirius3UIConfigUserManual.md). Independent results from `IClippable.Clip` must be adopted or disposed by the caller; use [ActClip](ClippingUserManual.md) for document edits with Undo/Redo.
+3MF import retains millimeter units, relative component placement, RGB colors, base materials and diffuse textures from `.3mf` build meshes. SVG imports produce an editable `EntitySvg`/`EntityContour` hierarchy. See [import requirements](DocumentUserManual.md) and [SVG settings](Sirius3UIConfigUserManual.md). Independent results from `IClippable.Clip` must be adopted or disposed by the caller; use [ActClip](ClippingUserManual.md) for document edits with Undo/Redo.
 
 ## 10. Complete EntityFactory catalog
 
-The current public factory provides **84 method names and 124 overloads**. Creation does not insert entities into a document or start processing. Own unattached results until transferring them through a document action such as `document.ActAdd`. Control entities require the corresponding scanner capability.
+The current public factory provides **85 method names and 125 overloads**. Creation does not insert entities into a document or start processing. Own unattached results until transferring them through a document action such as `document.ActAdd`. Control entities require the corresponding scanner capability.
 
 ### Primitives
 
@@ -139,6 +139,7 @@ The current public factory provides **84 method names and 124 overloads**. Creat
 | Method | Return type | Overloads |
 |---|---|---|
 | `CreateImage` | `EntityImage` | 2 |
+| `CreatePDFImage` | `EntityImagePDF` | 1 |
 | `CreateImageZPL` | `EntityImageZPL` | 1 |
 | `CreateImageText` | `EntityImageText` | 1 |
 | `CreateText` | `EntityText` | 1 |
@@ -308,6 +309,7 @@ EntityBSpline CreateBSpline(IEnumerable<DVec3> controlPoints, IEnumerable<double
 EntityNURBSpline CreateNURBSpline(IEnumerable<DVec3> controlPoints, IEnumerable<double> knots, IEnumerable<double> weights, int degree, bool isClosed);
 EntityImage CreateImage(string fileName, double height, double width = 0);
 EntityImage CreateImage(System.Drawing.Bitmap bitmap, double height, double width = 0);
+EntityImagePDF CreatePDFImage(string fileName, int pageNumber, double height, double width = 0, int dpi = 150);
 EntityImageZPL CreateImageZPL(double width, double height, string zplText, EntityImageZPL.DotsPerMMs dpmm = EntityImageZPL.DotsPerMMs.Dots8_203DPI);
 EntityImageText CreateImageText(string fontName, System.Drawing.FontStyle style, bool isFill, string text, uint capPixels, int outlinePixels, double height, double width = 0);
 EntityText CreateText(string fontName, System.Drawing.FontStyle style, string text, double height);
@@ -380,6 +382,17 @@ EntityBreakPoint CreateBreakPoint(IEntity entity);
 EntityStepperMove CreateStepperMove(StepperAxes axis, StepperMoveTypes type, double position, double velocity);
 EntityStepperWait CreateStepperWait(StepperCombinedAxes axis, double msec);
 ```
+
+## Grip editing and PDF images
+
+Supported `IGrippable` entities expose position, native parameters, vertices,
+size and rotation according to their geometry. Use Tab/Shift+Tab, V/Shift+V and
+G as described in [Editor](EditorUserManual.md). BlockInsert grips change the
+placement instance; edit the block master deliberately when all instances must change.
+
+`CreatePDFImage(fileName, pageNumber, height, width = 0, dpi = 150)` creates an
+`EntityImagePDF`. Its page is rasterized, while Width/Height remain in mm.
+See [PDF import](DocumentUserManual.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

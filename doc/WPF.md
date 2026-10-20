@@ -1,12 +1,12 @@
 # Sirius3 WPF integration guide
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17 (public features)
 
-[English](WPF.md) | [한국어](WPF.koKR.md) | [WinForms](WinForms.md)
+[English](WPF.md) | [한국어](WPF.koKR.md) | [WinForms](WinForms.md) | [All guides](README.md)
 
 ## 1. Packages and demo projects
 
-WPF editor controls ship in `SpiralLab.Sirius3.UI`; install the published 1.16.0 `SpiralLab.Sirius3`, `SpiralLab.Sirius3.UI`, and `SpiralLab.Sirius3.Dependencies` packages. Both WinForms and WPF are available in the distributed UI assembly. WPF supports native editor and device panels; 1.15.0 also supplies asynchronous remote/MCP cleanup and Mesh texture rendering.
+WPF editor controls ship in `SpiralLab.Sirius3.UI`; install compatible published `SpiralLab.Sirius3`, `SpiralLab.Sirius3.UI`, and `SpiralLab.Sirius3.Dependencies` packages. Both WinForms and WPF are available in the distributed UI assembly. WPF supports native editor and device panels; 1.15.0 also supplies asynchronous remote/MCP cleanup and Mesh texture rendering.
 
 The public WPF demos require Visual Studio 2022 or later and target `net481;net8.0-windows;net9.0-windows`. The library additionally supports `net10.0-windows`, which is not a current demo target.
 
@@ -22,9 +22,9 @@ The public WPF demos require Visual Studio 2022 or later and target `net481;net8
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SpiralLab.Sirius3" Version="1.16.0" />
-    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.16.0" />
-    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.16.0" />
+    <PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
   </ItemGroup>
 </Project>
 ```
@@ -38,7 +38,7 @@ The public WPF demos require Visual Studio 2022 or later and target `net481;net8
 
 Keep the Dependencies package's runtime files with the output. Select an installed runtime and review `config*.ini` before launch. One Sirius3 process should own the configured devices at a time.
 
-The 1.16.0 packages provide SVG vector and 3MF mesh import, `IDocument.ActClip` clipping, and global Linear/PCHIP interpolation through `Config.PowerMapInterpolationMode`. Public demos retain `Version="1.*"` references; restore NuGet packages after an update and check the resolved version. See [document import](DocumentUserManual.md), [clipping](ClippingUserManual.md), and [PowerMap](PowermapUserManual.md).
+The public APIs provide SVG vector and 3MF mesh import, `IDocument.ActClip` clipping, and global Linear/PCHIP interpolation through `Config.PowerMapInterpolationMode`. Public demos retain `Version="1.*"` references; restore NuGet packages after an update and check the resolved version. See [document import](DocumentUserManual.md), [clipping](ClippingUserManual.md), and [PowerMap](PowermapUserManual.md).
 
 When copying `wpf_editor_ui`, keep `SiriusEditorControl.xaml`/`.xaml.cs`, `SiriusMultiEditorControl.cs`, and shared `EditorControlSupport.cs` together. Public source keeps namespace `Demos` and NuGet references, and uses public APIs in place of library-internal methods.
 
@@ -136,11 +136,18 @@ WPF controls do not automatically dispose assigned documents or devices. If mult
 
 WinForms and WPF use the same document/entity model and support 1.15.0 Mesh materials and diffuse textures. OBJ imports need the referenced MTL/image files; PLY texture imports need UV data and a valid texture reference. These appearances are for visualization; machining still uses configured paths and pens. See [entities](EntityUserManual.md) and [rendering](ViewUserManual.md).
 
-OpenGL work belongs to the owning surface/context. For OpenTK 3 WPF, queue GL operations to the render callback; for OpenTK 4, make the context current on its owning UI/render path. A created or started control alone does not prove that a context is current.
 
 Check cold startup and monitor transitions at representative DPI scales, tree focus, camera interaction, virtual/vendor panel selection, and closing while remote work is pending. Compilation alone does not verify GPU, monitor, license, or device behavior.
 
 Related guides: [integrated editor](SiriusEditorUserManual.md), [multi-editor](SiriusMultiEditorUserManual.md), [UI configuration](Sirius3UIConfigUserManual.md), [WinForms](WinForms.md).
+
+## Entity grips and Font Editor
+
+The viewport supports Move/Vertex/Scale with Tab and reverse cycling with Shift+Tab,
+V/Shift+V grip navigation, G magnetic snapping and F/Ctrl+F Fit. Editing is
+Undo/Redo-safe. See [Editor](EditorUserManual.md) for input focus and grid rules.
+Open **Font Edit** from the context menu for the separate font-file workflow;
+see [Font Editor](FontEditorUserManual.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

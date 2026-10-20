@@ -1,8 +1,8 @@
 # SiriusEditorControl User Manual
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17 (공개 기능)
 
-[English](SiriusEditorUserManual.md) | [한국어](SiriusEditorUserManual.koKR.md)
+[English](SiriusEditorUserManual.md) | [한국어](SiriusEditorUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 통합 편집기
 
@@ -51,6 +51,13 @@ Laser Ready, 최대 출력, Power Control 방식과 제조사별 설정을 확�
 패키지 컨트롤은 `SpiralLab.Sirius3.UI.WinForms` 또는 `SpiralLab.Sirius3.UI.WPF`, 공개 소스 복사본은 `Demos`를 사용합니다. WPF 컨트롤은 필요한 테마 리소스를 자체 초기화합니다. WPF Multi-Beam 메뉴는 지정된 Scanner가 `IRtcMultiBeam`일 때만 표시하며, 가상·제조사별 Laser 패널은 등록 장치나 사용자 WPF UI Factory에 따라 선택합니다.
 
 WinForms 호스트는 `PerMonitorV2`를 선택하고 데모 Form은 `AutoScaleMode.Dpi`와 `(96, 96)` 설계 기준을 사용합니다. WPF는 DPI-aware 실행 파일 manifest와 장치 독립 XAML 레이아웃을 사용합니다. 프레임워크별 시작·등록·종료 예제는 [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md) 가이드를 참고합니다.
+
+## 개체 Grip과 Font Editor
+
+뷰포트에서 Tab/Shift+Tab로 Move·Vertex·Scale을 순환하고 V/Shift+V으로 Grip을
+탐색합니다. G는 자석 스냅, F/Ctrl+F는 화면 맞춤이며 편집은 Undo/Redo로 복원합니다.
+포커스와 격자 규칙은 [편집기](EditorUserManual.koKR.md)를 참고하십시오. 우클릭 메뉴의
+**Font Edit**는 별도의 폰트 파일 편집을 엽니다. [Font Editor](FontEditorUserManual.koKR.md)를 참고하십시오.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

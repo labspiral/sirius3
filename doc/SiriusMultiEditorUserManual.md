@@ -1,8 +1,8 @@
 # SiriusMultiEditorControl User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17 (public features)
 
-[English](SiriusMultiEditorUserManual.md) | [한국어](SiriusMultiEditorUserManual.koKR.md)
+[English](SiriusMultiEditorUserManual.md) | [한국어](SiriusMultiEditorUserManual.koKR.md) | [All guides](README.md)
 
 ## 1. Purpose
 
@@ -51,6 +51,14 @@ Check whether the conversion is successful and the current index change event. I
 ## 7. WinForms and WPF hosts
 
 The two frameworks share indexed device registration and asynchronous cleanup, but have different control types and layout systems. WinForms demo forms use a 96-DPI `AutoScaleMode.Dpi` baseline; WPF windows use device-independent layout and a Per-Monitor V2 manifest. See [WinForms](WinForms.md) and [WPF](WPF.md). Register an MCP server on the multi-editor through `MCPServer` so `DisposeDevices()` can close it before the device sets.
+
+## Entity grips and Font Editor
+
+The viewport supports Move/Vertex/Scale with Tab and reverse cycling with Shift+Tab,
+V/Shift+V grip navigation, G magnetic snapping and F/Ctrl+F Fit. Editing is
+Undo/Redo-safe. See [Editor](EditorUserManual.md) for input focus and grid rules.
+Open **Font Edit** from the context menu for the separate font-file workflow;
+see [Font Editor](FontEditorUserManual.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

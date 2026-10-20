@@ -1,8 +1,8 @@
 # Sirius3 WinForms 통합 가이드
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17 (공개 기능)
 
-[English](WinForms.md) | [한국어](WinForms.koKR.md) | [WPF](WPF.koKR.md)
+[English](WinForms.md) | [한국어](WinForms.koKR.md) | [WPF](WPF.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 패키지와 데모 프로젝트
 
@@ -20,9 +20,9 @@
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SpiralLab.Sirius3" Version="1.16.0" />
-    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.16.0" />
-    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.16.0" />
+    <PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
   </ItemGroup>
 </Project>
 ```
@@ -37,7 +37,7 @@
 
 패키지 컨트롤의 네임스페이스는 `SpiralLab.Sirius3.UI.WinForms`입니다. `editor_ui`의 소스 예제는 `Demos`를 사용하며 계속 NuGet 패키지를 참조합니다.
 
-1.16.0 패키지는 SVG 벡터와 3MF 메쉬 가져오기, `IDocument.ActClip` 클리핑, 전역 `Config.PowerMapInterpolationMode`의 Linear/PCHIP 보간을 제공합니다. 공개 데모는 `Version="1.*"` 참조를 유지하므로 업데이트 후 NuGet을 다시 복원하고 실제 해석된 버전을 확인합니다. 자세한 사용법은 [문서 가져오기](DocumentUserManual.koKR.md), [클리핑](ClippingUserManual.koKR.md), [PowerMap](PowermapUserManual.koKR.md)을 참고합니다.
+공개 API는 SVG 벡터와 3MF 메쉬 가져오기, `IDocument.ActClip` 클리핑, 전역 `Config.PowerMapInterpolationMode`의 Linear/PCHIP 보간을 제공합니다. 공개 데모는 `Version="1.*"` 참조를 유지하므로 업데이트 후 NuGet을 다시 복원하고 실제 해석된 버전을 확인합니다. 자세한 사용법은 [문서 가져오기](DocumentUserManual.koKR.md), [클리핑](ClippingUserManual.koKR.md), [PowerMap](PowermapUserManual.koKR.md)을 참고합니다.
 
 `editor_ui` 소스를 복사할 때 단일·멀티 컨트롤의 `.cs`, `.Designer.cs`, `.resx`, 공통 `EditorControlSupport.cs`와 사용한 Resources를 함께 유지합니다. 공개 소스는 `Demos` 네임스페이스와 NuGet 참조를 유지하며 라이브러리의 내부 메서드 대신 공개 API를 사용합니다.
 
@@ -140,6 +140,13 @@ if (!marker.IsReady)
 100%, 150%, 200%의 시작 화면, 모니터 간 이동, DPI 변경 후 처음 여는 페이지를 확인합니다. ComboBox, 대화상자 최소 크기, 도구 모음 이미지, TreeView 행, PropertyGrid 설명과 편집기 화면을 확인합니다. 컴파일 성공만으로 DPI 레이아웃이나 GPU 렌더링을 검증할 수는 없습니다. 실행 전에 설정된 장치를 확인하고 장치를 소유하는 Sirius3 프로세스는 한 번에 하나만 실행합니다.
 
 관련 문서: [통합 편집기](SiriusEditorUserManual.koKR.md), [다중 편집기](SiriusMultiEditorUserManual.koKR.md), [UI Config](Sirius3UIConfigUserManual.koKR.md), [WPF](WPF.koKR.md).
+
+## 개체 Grip과 Font Editor
+
+뷰포트에서 Tab/Shift+Tab로 Move·Vertex·Scale을 순환하고 V/Shift+V으로 Grip을
+탐색합니다. G는 자석 스냅, F/Ctrl+F는 화면 맞춤이며 편집은 Undo/Redo로 복원합니다.
+포커스와 격자 규칙은 [편집기](EditorUserManual.koKR.md)를 참고하십시오. 우클릭 메뉴의
+**Font Edit**는 별도의 폰트 파일 편집을 엽니다. [Font Editor](FontEditorUserManual.koKR.md)를 참고하십시오.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

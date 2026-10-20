@@ -1,8 +1,8 @@
 # Sirius3 WinForms integration guide
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17 (public features)
 
-[English](WinForms.md) | [한국어](WinForms.koKR.md) | [WPF](WPF.md)
+[English](WinForms.md) | [한국어](WinForms.koKR.md) | [WPF](WPF.md) | [All guides](README.md)
 
 ## 1. Packages and demo projects
 
@@ -20,9 +20,9 @@ The public demos use Visual Studio 2022 or later and target `net481;net8.0-windo
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SpiralLab.Sirius3" Version="1.16.0" />
-    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.16.0" />
-    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.16.0" />
+    <PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
   </ItemGroup>
 </Project>
 ```
@@ -37,7 +37,7 @@ The public demos use Visual Studio 2022 or later and target `net481;net8.0-windo
 
 Package controls use namespace `SpiralLab.Sirius3.UI.WinForms`. The source examples in `editor_ui` use `Demos` and still consume NuGet packages.
 
-The 1.16.0 packages provide SVG vector and 3MF mesh import, `IDocument.ActClip` clipping, and global Linear/PCHIP interpolation through `Config.PowerMapInterpolationMode`. Public demos retain `Version="1.*"` references; restore NuGet packages after an update and check the resolved version. See [document import](DocumentUserManual.md), [clipping](ClippingUserManual.md), and [PowerMap](PowermapUserManual.md).
+The public APIs provide SVG vector and 3MF mesh import, `IDocument.ActClip` clipping, and global Linear/PCHIP interpolation through `Config.PowerMapInterpolationMode`. Public demos retain `Version="1.*"` references; restore NuGet packages after an update and check the resolved version. See [document import](DocumentUserManual.md), [clipping](ClippingUserManual.md), and [PowerMap](PowermapUserManual.md).
 
 When copying `editor_ui`, keep both controls' `.cs`, `.Designer.cs` and `.resx` files, shared `EditorControlSupport.cs`, and the resources they use together. Public source keeps namespace `Demos` and NuGet references, and uses public APIs in place of library-internal methods.
 
@@ -133,13 +133,21 @@ Use the `FormClosing` pattern in the linked demos: cancel the first close, guard
 | Host-owned document | Detach from all viewers and dispose once |
 | Core | Call `Core.Cleanup()` once after the UI/device lifetime ends |
 
-If `await DisposeDevices()` gives CS4008, the compiler resolved an older `void` signature. Verify the restored UI package and assembly, then refresh the affected package/version. Keep the `await` when consuming 1.16.0.
+If `await DisposeDevices()` gives CS4008, the compiler resolved an older `void` signature. Verify the restored UI package and assembly, then refresh the affected package/version. Keep `await` when consuming the asynchronous API.
 
 ## 6. Check the resulting application
 
 Check cold startup at 100%, 150%, and 200%, movement between monitors, and pages first opened after a DPI change. Inspect combo boxes, dialog minimum sizes, toolbar images, TreeView rows, PropertyGrid descriptions, and the editor viewport. Compilation alone does not verify DPI layout or GPU rendering. Review the configured devices before launching a demo; only one Sirius3 process should own them at a time.
 
 Related guides: [integrated editor](SiriusEditorUserManual.md), [multi-editor](SiriusMultiEditorUserManual.md), [UI configuration](Sirius3UIConfigUserManual.md), [WPF](WPF.md).
+
+## Entity grips and Font Editor
+
+The viewport supports Move/Vertex/Scale with Tab and reverse cycling with Shift+Tab,
+V/Shift+V grip navigation, G magnetic snapping and F/Ctrl+F Fit. Editing is
+Undo/Redo-safe. See [Editor](EditorUserManual.md) for input focus and grid rules.
+Open **Font Edit** from the context menu for the separate font-file workflow;
+see [Font Editor](FontEditorUserManual.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

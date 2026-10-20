@@ -1,8 +1,8 @@
 # SiriusEditorControl User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17 (public features)
 
-[English](SiriusEditorUserManual.md) | [한국어](SiriusEditorUserManual.koKR.md)
+[English](SiriusEditorUserManual.md) | [한국어](SiriusEditorUserManual.koKR.md) | [All guides](README.md)
 
 ## 1. Integrated Editor
 
@@ -51,6 +51,14 @@ Before releasing the editor or document, await `editor.DisposeDevices()` on the 
 Package controls use `SpiralLab.Sirius3.UI.WinForms` or `SpiralLab.Sirius3.UI.WPF`; public source copies use `Demos`. WPF controls initialize their required theme resources. WPF Multi-Beam navigation is shown only for an assigned `IRtcMultiBeam`, and virtual/vendor laser panels follow the registered laser or custom WPF UI factory.
 
 WinForms hosts select `PerMonitorV2`, and the demo forms use `AutoScaleMode.Dpi` with `AutoScaleDimensions = (96, 96)`. WPF hosts use a DPI-aware executable manifest and device-independent XAML layout. Follow the [WinForms](WinForms.md) or [WPF](WPF.md) guide for framework-specific startup, registration, and closing examples.
+
+## Entity grips and Font Editor
+
+The viewport supports Move/Vertex/Scale with Tab and reverse cycling with Shift+Tab,
+V/Shift+V grip navigation, G magnetic snapping and F/Ctrl+F Fit. Editing is
+Undo/Redo-safe. See [Editor](EditorUserManual.md) for input focus and grid rules.
+Open **Font Edit** from the context menu for the separate font-file workflow;
+see [Font Editor](FontEditorUserManual.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

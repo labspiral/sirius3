@@ -1,8 +1,8 @@
 # SiriusMultiEditorControl User Manual
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17 (공개 기능)
 
-[English](SiriusMultiEditorUserManual.md) | [한국어](SiriusMultiEditorUserManual.koKR.md)
+[English](SiriusMultiEditorUserManual.md) | [한국어](SiriusMultiEditorUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 용도
 
@@ -51,6 +51,13 @@ WinForms는 `editor_multiple2`와 `editor_ui`, WPF는 `wpf_editor_multiple2`와 
 ## 7. WinForms와 WPF 호스트
 
 두 프레임워크는 인덱스별 장치 등록과 비동기 해제 계약을 공유하며 컨트롤 형식과 레이아웃 방식은 다릅니다. WinForms 데모 Form은 96 DPI의 `AutoScaleMode.Dpi`, WPF Window는 장치 독립 레이아웃과 Per-Monitor V2 manifest를 사용합니다. [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md)를 참고합니다. 다중 편집기의 `MCPServer`에 서버를 지정하면 `DisposeDevices()`가 장치 세트보다 먼저 서버를 해제합니다.
+
+## 개체 Grip과 Font Editor
+
+뷰포트에서 Tab/Shift+Tab로 Move·Vertex·Scale을 순환하고 V/Shift+V으로 Grip을
+탐색합니다. G는 자석 스냅, F/Ctrl+F는 화면 맞춤이며 편집은 Undo/Redo로 복원합니다.
+포커스와 격자 규칙은 [편집기](EditorUserManual.koKR.md)를 참고하십시오. 우클릭 메뉴의
+**Font Edit**는 별도의 폰트 파일 편집을 엽니다. [Font Editor](FontEditorUserManual.koKR.md)를 참고하십시오.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

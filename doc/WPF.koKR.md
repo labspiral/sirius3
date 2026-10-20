@@ -1,12 +1,12 @@
 # Sirius3 WPF 통합 가이드
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17 (공개 기능)
 
-[English](WPF.md) | [한국어](WPF.koKR.md) | [WinForms](WinForms.koKR.md)
+[English](WPF.md) | [한국어](WPF.koKR.md) | [WinForms](WinForms.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 패키지와 데모 프로젝트
 
-WPF 편집기 컨트롤은 `SpiralLab.Sirius3.UI`에 포함됩니다. 공개 NuGet 패키지 `SpiralLab.Sirius3`, `SpiralLab.Sirius3.UI`, `SpiralLab.Sirius3.Dependencies`의 1.16.0을 설치합니다. 배포 UI Assembly는 WinForms와 WPF를 모두 제공합니다. 네이티브 WPF 편집기와 장치 패널을 제공하며, 1.15.0은 Remote/MCP 비동기 해제와 Mesh 텍스처 렌더링도 지원합니다.
+WPF 편집기 컨트롤은 `SpiralLab.Sirius3.UI`에 포함됩니다. 공개 NuGet 패키지 `SpiralLab.Sirius3`, `SpiralLab.Sirius3.UI`, `SpiralLab.Sirius3.Dependencies`에서 호환되는 버전을 설치합니다. 배포 UI Assembly는 WinForms와 WPF를 모두 제공합니다. 네이티브 WPF 편집기와 장치 패널을 제공하며, 1.15.0은 Remote/MCP 비동기 해제와 Mesh 텍스처 렌더링도 지원합니다.
 
 공개 WPF 데모는 Visual Studio 2022 이상과 `net481;net8.0-windows;net9.0-windows`를 사용합니다. 라이브러리는 `net10.0-windows`도 지원하지만 현재 데모 대상에는 포함되지 않습니다.
 
@@ -22,9 +22,9 @@ WPF 편집기 컨트롤은 `SpiralLab.Sirius3.UI`에 포함됩니다. 공개 NuG
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SpiralLab.Sirius3" Version="1.16.0" />
-    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.16.0" />
-    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.16.0" />
+    <PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
+    <PackageReference Include="SpiralLab.Sirius3.Dependencies" Version="1.*" />
   </ItemGroup>
 </Project>
 ```
@@ -38,7 +38,7 @@ WPF 편집기 컨트롤은 `SpiralLab.Sirius3.UI`에 포함됩니다. 공개 NuG
 
 Dependencies 패키지의 런타임 파일도 출력과 함께 유지합니다. 설치된 런타임을 선택하고 실행 전 `config*.ini`를 확인합니다. 설정된 장치를 소유하는 Sirius3 프로세스는 한 번에 하나만 실행합니다.
 
-1.16.0 패키지는 SVG 벡터와 3MF 메쉬 가져오기, `IDocument.ActClip` 클리핑, 전역 `Config.PowerMapInterpolationMode`의 Linear/PCHIP 보간을 제공합니다. 공개 데모는 `Version="1.*"` 참조를 유지하므로 업데이트 후 NuGet을 다시 복원하고 실제 해석된 버전을 확인합니다. 자세한 사용법은 [문서 가져오기](DocumentUserManual.koKR.md), [클리핑](ClippingUserManual.koKR.md), [PowerMap](PowermapUserManual.koKR.md)을 참고합니다.
+공개 API는 SVG 벡터와 3MF 메쉬 가져오기, `IDocument.ActClip` 클리핑, 전역 `Config.PowerMapInterpolationMode`의 Linear/PCHIP 보간을 제공합니다. 공개 데모는 `Version="1.*"` 참조를 유지하므로 업데이트 후 NuGet을 다시 복원하고 실제 해석된 버전을 확인합니다. 자세한 사용법은 [문서 가져오기](DocumentUserManual.koKR.md), [클리핑](ClippingUserManual.koKR.md), [PowerMap](PowermapUserManual.koKR.md)을 참고합니다.
 
 `wpf_editor_ui` 소스를 복사할 때 `SiriusEditorControl.xaml`/`.xaml.cs`, `SiriusMultiEditorControl.cs`와 공통 `EditorControlSupport.cs`를 함께 유지합니다. 공개 소스는 `Demos` 네임스페이스와 NuGet 참조를 유지하며 라이브러리의 내부 메서드 대신 공개 API를 사용합니다.
 
@@ -136,11 +136,17 @@ WPF 컨트롤은 지정된 Document나 장치를 자동으로 폐기하지 않�
 
 WinForms와 WPF는 같은 Document/Entity 모델을 사용하며 1.15.0의 Mesh 재질과 확산 텍스처를 지원합니다. OBJ는 참조 MTL·이미지 파일, PLY 텍스처는 UV 데이터와 유효한 이미지 참조가 필요합니다. 이 표현은 시각화용이며 실제 가공은 설정된 경로와 Pen을 사용합니다. [Entity](EntityUserManual.koKR.md)와 [렌더링](ViewUserManual.koKR.md)을 참고합니다.
 
-OpenGL 작업은 소유 Surface와 Context에서 수행합니다. OpenTK 3 WPF는 Render Callback에 GL 작업을 예약하고, OpenTK 4는 소유 UI/Render 경로에서 Context를 활성화합니다. 컨트롤을 생성하거나 시작한 것만으로 Context가 활성화되었다고 판단하지 않습니다.
 
 대표 DPI 배율의 시작 화면과 모니터 이동, TreeView 포커스, 카메라 조작, 가상·제조사 패널 선택, Remote 요청 중 종료를 확인합니다. 컴파일 성공만으로 GPU, 모니터, 라이선스나 장치 동작을 검증할 수는 없습니다.
 
 관련 문서: [통합 편집기](SiriusEditorUserManual.koKR.md), [다중 편집기](SiriusMultiEditorUserManual.koKR.md), [UI Config](Sirius3UIConfigUserManual.koKR.md), [WinForms](WinForms.koKR.md).
+
+## 개체 Grip과 Font Editor
+
+뷰포트에서 Tab/Shift+Tab로 Move·Vertex·Scale을 순환하고 V/Shift+V으로 Grip을
+탐색합니다. G는 자석 스냅, F/Ctrl+F는 화면 맞춤이며 편집은 Undo/Redo로 복원합니다.
+포커스와 격자 규칙은 [편집기](EditorUserManual.koKR.md)를 참고하십시오. 우클릭 메뉴의
+**Font Edit**는 별도의 폰트 파일 편집을 엽니다. [Font Editor](FontEditorUserManual.koKR.md)를 참고하십시오.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

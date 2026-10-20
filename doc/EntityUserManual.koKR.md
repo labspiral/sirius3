@@ -1,8 +1,8 @@
 # EntityFactory & Entity User Manual
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17 (공개 기능)
 
-[English](EntityUserManual.md) | [한국어](EntityUserManual.koKR.md)
+[English](EntityUserManual.md) | [한국어](EntityUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 개체를 만드는 기본 흐름
 
@@ -98,11 +98,11 @@ BlockInsert의 `ModelMatrix`와 Marker의 Offset/MatrixStack이 중복 적용되
 
 DXF/DWG, HPGL/PLT, Gerber/Excellon, G-code/NGC, 이미지와 3D 파일을 가져올 수 있습니다. `UI.Config.ImportMergeDistance`는 DXF, DWG, HPGL, PLT의 가까운 끝점을 연결하는 공통 허용 거리이며, `UI.Config.IsImportColorPreserved`는 원본 색상을 유지할지 가장 가까운 EntityPen 색상으로 바꿀지 정합니다.
 
-1.16.0은 `.3mf` 빌드 메쉬의 mm 단위, 상대 컴포넌트 배치, RGB 색상·기본 재질·diffuse 텍스처를 유지합니다. SVG는 래스터 이미지 대신 편집 가능한 `EntitySvg`/`EntityContour` 계층으로 가져옵니다. [가져오기 조건](DocumentUserManual.koKR.md)과 [SVG 설정](Sirius3UIConfigUserManual.koKR.md)을 참고합니다. `IClippable.Clip`이 반환한 독립 결과는 호출자가 문서에 추가하거나 해제하며, 문서 작업과 Undo/Redo에는 [ActClip](ClippingUserManual.koKR.md)을 사용합니다.
+3MF 가져오기는 `.3mf` 빌드 메쉬의 mm 단위, 상대 컴포넌트 배치, RGB 색상·기본 재질·diffuse 텍스처를 유지합니다. SVG는 래스터 이미지 대신 편집 가능한 `EntitySvg`/`EntityContour` 계층으로 가져옵니다. [가져오기 조건](DocumentUserManual.koKR.md)과 [SVG 설정](Sirius3UIConfigUserManual.koKR.md)을 참고합니다. `IClippable.Clip`이 반환한 독립 결과는 호출자가 문서에 추가하거나 해제하며, 문서 작업과 Undo/Redo에는 [ActClip](ClippingUserManual.koKR.md)을 사용합니다.
 
 ## 10. EntityFactory 전체 생성 항목
 
-현재 공개 팩토리의 **84개 함수 이름, 124개 오버로드**를 아래에 정리합니다. 생성만으로 문서에 추가되거나 가공이 시작되지는 않습니다. 독립 결과를 소유하다가 `document.ActAdd` 등의 문서 작업으로 소유권을 이전합니다. 제어 엔티티는 해당 Scanner capability가 필요합니다.
+현재 공개 팩토리의 **85개 함수 이름, 125개 오버로드**를 아래에 정리합니다. 생성만으로 문서에 추가되거나 가공이 시작되지는 않습니다. 독립 결과를 소유하다가 `document.ActAdd` 등의 문서 작업으로 소유권을 이전합니다. 제어 엔티티는 해당 Scanner capability가 필요합니다.
 
 ### 기본 형상
 
@@ -139,6 +139,7 @@ DXF/DWG, HPGL/PLT, Gerber/Excellon, G-code/NGC, 이미지와 3D 파일을 가져
 | 함수 | 반환 형식 | 오버로드 수 |
 |---|---|---|
 | `CreateImage` | `EntityImage` | 2 |
+| `CreatePDFImage` | `EntityImagePDF` | 1 |
 | `CreateImageZPL` | `EntityImageZPL` | 1 |
 | `CreateImageText` | `EntityImageText` | 1 |
 | `CreateText` | `EntityText` | 1 |
@@ -308,6 +309,7 @@ EntityBSpline CreateBSpline(IEnumerable<DVec3> controlPoints, IEnumerable<double
 EntityNURBSpline CreateNURBSpline(IEnumerable<DVec3> controlPoints, IEnumerable<double> knots, IEnumerable<double> weights, int degree, bool isClosed);
 EntityImage CreateImage(string fileName, double height, double width = 0);
 EntityImage CreateImage(System.Drawing.Bitmap bitmap, double height, double width = 0);
+EntityImagePDF CreatePDFImage(string fileName, int pageNumber, double height, double width = 0, int dpi = 150);
 EntityImageZPL CreateImageZPL(double width, double height, string zplText, EntityImageZPL.DotsPerMMs dpmm = EntityImageZPL.DotsPerMMs.Dots8_203DPI);
 EntityImageText CreateImageText(string fontName, System.Drawing.FontStyle style, bool isFill, string text, uint capPixels, int outlinePixels, double height, double width = 0);
 EntityText CreateText(string fontName, System.Drawing.FontStyle style, string text, double height);
@@ -380,6 +382,17 @@ EntityBreakPoint CreateBreakPoint(IEntity entity);
 EntityStepperMove CreateStepperMove(StepperAxes axis, StepperMoveTypes type, double position, double velocity);
 EntityStepperWait CreateStepperWait(StepperCombinedAxes axis, double msec);
 ```
+
+## Grip 편집과 PDF 이미지
+
+지원하는 `IGrippable` 개체는 형상에 따라 위치·고유 파라미터·정점·크기·회전 Grip을
+제공합니다. Tab/Shift+Tab·V/Shift+V·G 조작은 [편집기](EditorUserManual.koKR.md)를
+참고하십시오. BlockInsert Grip은 배치 인스턴스를 바꿉니다. 모든 배치를 바꾸려면
+블록 원본을 명시적으로 편집해야 합니다.
+
+`CreatePDFImage(fileName, pageNumber, height, width = 0, dpi = 150)`는
+`EntityImagePDF`를 생성합니다. 페이지는 래스터화하며 Width/Height는 mm를 유지합니다.
+[PDF 가져오기](DocumentUserManual.koKR.md)를 참고하십시오.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.
