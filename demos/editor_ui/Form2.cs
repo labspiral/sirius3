@@ -57,10 +57,10 @@ namespace Demos
                     try { await siriusEditorControl1.DisposeDevices(); }
                     catch (Exception deviceException) { System.Diagnostics.Trace.WriteLine(deviceException); }
 
-                    // Dispose document
+                    // Dispose the control before its caller-owned document
                     var doc = siriusEditorControl1.Document;
-                    siriusEditorControl1.Document = null;
-                    doc?.Dispose();
+                    try { siriusEditorControl1.Dispose(); }
+                    finally { doc?.Dispose(); }
 
                 }
                 catch (Exception exception)

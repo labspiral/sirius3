@@ -1,75 +1,53 @@
-# View System & OpenGL Rendering User Manual
+# 화면 표시와 카메라 사용 안내
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](ViewUserManual.md) | [한국어](ViewUserManual.koKR.md)
+[English](ViewUserManual.md) | [한국어](ViewUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
+## 1. 문서 표시
 
-## 1. 개요 (Overview)
+생성·편집에는 EditorControl, 보기 전용 확인에는 ViewerControl을 사용합니다.
+WinForms와 WPF는 같은 문서 형상을 표시하며 OpenGL 3.3이 필요합니다. 지원하는
+디스플레이 드라이버를 사용하고 실제 GPU·원격 데스크톱 환경에서 확인하십시오.
 
-Sirius3의 View 시스템은 OpenGL 3.3을 요구하며 WinForms 또는 WPF Surface를 통해 Document 형상을 표시합니다. 프레임 속도는 Document, 화면 해상도와 GPU에 따라 달라집니다.
-본 시스템은 화면 출력을 담당하는 Surface, 시각적 논리를 관리하는 View, 그리고 GPU 자원을 관리하는 Resource로 구성됩니다.
+## 2. 카메라와 화면 이동
 
-## 2. 구성 요소별 역할 (Core Components)
+직교 카메라와 Top·Front·Right·Back·Left 원근 카메라를 제공합니다.
+Ctrl+E/Ctrl+Q로 카메라를 전환합니다. 휠은 포인터 기준 확대·축소, 가운데 드래그는
+평행 이동, 오른쪽 드래그는 원근 카메라 회전입니다. F/Ctrl+F는 선택 개체 또는
+활성 Layer 전체를 맞춥니다. 일반 방향키는 카메라 이동, Alt+방향키는 깊이·회전을 조정합니다.
+[편집기 단축키](EditorUserManual.koKR.md)를 참고하십시오.
 
+## 3. 표시와 외관
 
-[WinFormsGLSurface: 하드웨어 연결 레이어]
-- 역할: WinForms의 `GLControl`과 OpenGL 컨텍스트를 연결하는 브릿지입니다.
-- 주요 기능: 
-  - 마우스 및 키보드 이벤트를 OpenGL 좌표계로 변환하여 전달.
-  - `MakeCurrent()`: 스레드별 OpenGL 컨텍스트 활성화 제어.
-  - `Invalidate()`: 화면 갱신 요청 및 `SwapBuffers` 수행.
-- 중요: `MakeCurrent()`는 반드시 UI 스레드에서만 호출되어야 합니다. 백그라운드 스레드에서 직접 GPU 자원에 접근하는 것은 금지됩니다.
+격자·좌표축·가공 영역 표시는 배치를 돕습니다. 표시 허용과 마킹 허용은 별도 설정입니다.
+숨겨진 개체는 편집 대상으로 선택하지 않으며 Alpha는 외관을 바꾸고 레이저 에너지는
+바꾸지 않습니다. 메시의 색·텍스처는 미리보기용이므로 표면 모델을 가공하려면 슬라이스
+등으로 지원하는 경로를 준비해야 합니다.
 
-[ViewBase: 시각 논리 관리자]
-- 역할: 카메라, 조명, 도면(Document) 및 마커 상태를 조합하여 하나의 장면(Scene)을 구성합니다.
-- 주요 기능:
-  - 카메라 제어: 2D(직교) 및 3D(원근) 카메라 전환 및 Zoom Fit 기능.
-  - 인터랙션: 마우스 드래그를 통한 개체 이동, 러버밴드(Frustum) 선택 처리.
-  - 시각화 보조: FOV 영역 표시, 그리드(Checkerboard), 좌표축(Axis) 렌더링.
-  - 시뮬레이션: 레이저 가공 경로의 실시간 애니메이션 가이드 표시.
+OBJ를 가져올 때 MTL·이미지를 함께 유지합니다. 저장한 문서는 가져온 텍스처를 보존합니다.
+이미지가 누락되거나 모델이 다르게 보이면 가져오기 로그와 실제 치수를 확인합니다.
+[엔티티](EntityUserManual.koKR.md)를 참고하십시오.
 
-[GLResource: GPU 리소스 관리자]
-- 역할: 개별 엔티티(Entity)의 정점(Vertex) 데이터를 GPU 메모리(VRAM)로 관리합니다.
-- 동기화 메커니즘 (`SyncWith`):
-  - 엔티티의 `BufferVersion`이 변경되었을 때만 GPU 버퍼(VAO, VBO, EBO)를 업데이트하여 불필요한 데이터 전송을 억제합니다.
-  - 정점(Position), 색상(Color), 법선(Normal), 텍스처(UV) 데이터를 독립적으로 버퍼링합니다.
+## 4. 선택과 시뮬레이션
 
-[Shaders: 렌더링 파이프라인]
-- 역할: GPU에서 실행되는 고속 연산 프로그램(GLSL)을 관리합니다.
-- 제공 셰이더:
-  - General: 일반적인 벡터 및 메시 개체를 위한 표준 셰이더 (조명, 슬라이스 효과 포함).
-  - Font: 고해상도 SDF(Signed Distance Field) 기반 텍스트 렌더링 전용.
-  - Plane: 작업 평면 및 그리드 렌더링용.
+클릭은 선택 가능한 보이는 형상 중 가장 가까운 결과를 선택하고, 영역 선택은 표시 형상과
+활성 해치 경로를 따릅니다. Grip은 화면 크기 기준으로 표시되어 줌 변경 시에도 조작할 수
+있습니다. 좌측 상단에서 현재 모드와 편집 값을 확인합니다. 회전 화살표 마커는 형상
+뒤에서도 표시·선택할 수 있고 원형 안내선은 개체에 가려질 수 있습니다. 다른 메쉬·곡면
+Grip은 형상의 가림을 따릅니다.
+[시뮬레이션](SimulationUserManual.koKR.md)은 가공 형상을 바꾸지 않고 이동·마킹 경로를 보여줍니다.
 
-## 3. 렌더링 워크플로우 (Rendering Workflow)
+## 5. 여러 화면과 종료
 
-가공 데이터가 화면에 표시되는 과정은 다음과 같습니다.
+하나의 문서를 서로 다른 카메라를 사용하는 여러 화면에 연결할 수 있습니다. 모든 화면이
+연결을 해제할 때까지 문서를 유지해야 합니다. 각 컨트롤은 소유 UI 스레드에서 닫고
+해제하며, 통합 편집기의 등록 장치 정리를 기다린 후 모든 화면이 닫히면 호스트가 소유한
+문서를 한 번 해제합니다.
 
-1) 데이터 변경: 사용자가 개체의 속성을 변경합니다.
-2) 재생성: `document.ActRegen()` 호출 시 `BufferVersion`이 증가합니다.
-3) 동기화: 다음 프레임 렌더링 시 `GLResource.SyncWith()`가 버전 차이를 감지하고 새 데이터를 GPU로 업로드합니다.
-4) 렌더링: `GLResource.Render()`가 호출되어 셰이더에 행렬(Model/View/Projection)과 조명 파라미터를 전달하고 `GL.DrawElements`를 실행합니다.
+DPI 설정과 종료 예제는 [WinForms](WinForms.koKR.md), [WPF](WPF.koKR.md),
+[Viewer](ViewerUserManual.koKR.md)를 참고하십시오.
 
-## 4. 주요 조작 단축키 (View Interactions)
-
-- 마우스 휠: 확대 / 축소 (커서 위치 기준).
-- 마우스 우클릭 드래그: 카메라 회전 (3D 모드 전용).
-- 마우스 휠 클릭 드래그: 화면 평행 이동 (Panning).
-- Space 바 (누른 채): 서브 엔티티(그룹 내부 개체) 선택 모드 활성화.
-- Ctrl + F: 선택 개체 또는 전체 도면 화면 맞춤 (Zoom Fit).
-
-## 5. 개발자 주의 사항 (Developer Notes)
-
-- 리소스 해제: `GLResource`는 비관리형 자원(VRAM)을 사용하므로, 엔티티가 삭제되거나 문서가 닫힐 때 반드시 `Dispose()`가 호출되어야 메모리 누수를 방지할 수 있습니다.
-- 렌더링 성능: 대량의 동일 개체를 렌더링할 때는 `EntityUniformGroup`을 사용하여 드로우 콜(Draw Call) 횟수를 최소화하십시오.
-- 투명도 제어: `EntityModelBase.Alpha` 속성을 통해 개체의 투명도를 조절할 수 있습니다.
-
-## 6. WPF Surface, DPI와 Mesh 텍스처
-
-`WPFGLSurface`는 공유 View를 WPF OpenGL 호스트에 연결합니다. XAML 레이아웃은 장치 독립 단위, 렌더링은 Framebuffer 픽셀을 사용하므로 같은 형상에 두 배율을 중복 적용하지 않습니다. 여러 View가 Document를 공유해도 GPU 자원은 Surface·Context별로 관리합니다. OpenTK 3 WPF의 GL 작업은 Render Callback에 예약하고 OpenTK 4는 소유 Context를 활성화합니다.
-
-1.15.0의 Mesh 렌더링은 가져온 확산 재질, 원본 색상과 유효한 UV·이미지를 사용합니다. OBJ MTL·이미지와 PLY 텍스처 참조는 가져올 때 해석하며 유지한 이미지 데이터를 Document에 저장합니다. 텍스처 표현은 레이저 경로를 바꾸지 않습니다. [Entity](EntityUserManual.koKR.md), [WinForms](WinForms.koKR.md), [WPF](WPF.koKR.md)를 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

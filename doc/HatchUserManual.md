@@ -1,8 +1,8 @@
 # IHatch and Hatchable Entities User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](HatchUserManual.md) | [한국어](HatchUserManual.koKR.md)
+[English](HatchUserManual.md) | [한국어](HatchUserManual.koKR.md) | [All guides](README.md)
 
 ## 1. Patterns, entities and generated paths
 
@@ -154,7 +154,6 @@ Regenerate after changing shape or hatch settings and inspect the return value. 
 
 An entity owns attached patterns. Direct Remove/Replace methods do not dispose removed patterns; an Undo/Redo owner may still need them. `ClearHatches(true)` disposes removed patterns, while `ClearHatches(false)` leaves their cleanup to the caller/history. Do not share one mutable pattern instance among independently owned entities; clone it.
 
-For custom implementations/concurrent access, stabilize source inputs and coupled settings. Acquire the parent `IMarkerable.MarkSyncRoot` before `HatchBase.HatchSyncRoot` when reading/cloning a generated result. A custom `IHatch` outside HatchBase supplies its own synchronization. Release data locks before external callbacks or controller output.
 
 ## 10. SVG, clipping and diagnosis
 

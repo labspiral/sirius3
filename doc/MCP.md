@@ -1,14 +1,14 @@
 # Sirius3 MCP Editor Demo: AI client setup
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](MCP.md) | [한국어](MCP.koKR.md)
+[English](MCP.md) | [한국어](MCP.koKR.md) | [All guides](README.md)
 
 `editor_remote_mcp` is a public WinForms demo that connects one Sirius3 editor to an MCP-compatible AI client. It registers the devices configured in `config.ini` and starts the MCP service from its startup code and displays its status, endpoint, and access token.
 
 Every supported target, including `net481`, uses authenticated Streamable HTTP. The demo reads its endpoint, access mode, and documentation root from `[MCP0]` in `config.ini`. `SIRIUS3_MCP_TOKEN` may supply a fixed token; otherwise a new token is generated for each run. HTTP listens on `http://0.0.0.0:3712/mcp` by default. Use `http://127.0.0.1:3712/mcp` from the same computer or replace the host with the server's reachable IP. STDIO is not supported.
 
-One running demo instance represents one editor and one MCP server. For several editors on one computer, host them in one Sirius3 application and assign distinct server ports. Close the previous demo before starting another instance. Device capabilities follow `config.ini`. File open/import/save and file-backed entity factories remain unavailable unless the host adds at least one `AllowedFileRoots` entry; `[MCP0]` does not configure file roots.
+One running demo instance represents one editor and one MCP server. For several editors on one computer, host them in one Sirius3 application and assign distinct server ports. Close the previous demo before starting another instance. Device capabilities follow `config.ini`. File open/import/save and file-backed entity factories default to `AllowedFileRoots = { "*" }`, allowing every local or network path accessible to the host process. The host may clear or replace `AllowedFileRoots` before server creation; an empty list disables file access. `[MCP0]` does not configure file roots.
 
 Client cancellation removes requests that are still queued for the editor UI. It does not stop a marking job or undo an action that already started; use an explicit stop request and check the resulting state.
 
@@ -41,7 +41,7 @@ Relative `DocumentationRoot` paths are resolved from the directory containing th
 
 `ACCESS` accepts `ReadOnly`, `DocumentControl`, `DeviceControl`, or `All`. The access mode can also be changed from the editor's MCP PropertyGrid while the server is running; the change applies to subsequent requests.
 
-This guide connects the WinForms `editor_remote_mcp` demo to Claude, Codex, Gemini, and GitHub Copilot. The examples were checked against the official client documentation on 2026-09-14.
+This guide connects the WinForms `editor_remote_mcp` demo to Claude, Codex, Gemini, and GitHub Copilot. HTTP configuration fields were checked against the official client references on 2026-10-19. Client UI labels may differ by installed version.
 
 ## HiDPI, WPF hosting, and shutdown
 
@@ -51,7 +51,7 @@ In 1.15.0, await `IMCPServer.DisposeAsync()` before releasing its editor binding
 
 ## Safety first
 
-This demo can enable document editing and registered-device control according to `[MCP0] ACCESS`. It can change the open document and operate the configured scanner, laser, digital I/O, power meter, and power map. File-backed operations additionally require a host-configured allowlist. Review every write or device request before approving it.
+This demo can enable document editing and registered-device control according to `[MCP0] ACCESS`. It can change the open document and operate the configured scanner, laser, digital I/O, power meter, and power map. File-backed operations follow the host's file-access policy; the default wildcard allows host-accessible paths, specific roots restrict them, and an empty list disables file access. Review every write or device request before approving it.
 
 Only one Sirius3 process may run at a time. Close every previous Sirius3 demo, MCP client-spawned `editor_remote_mcp.exe`, and debugging session before starting another target or client.
 
@@ -121,7 +121,7 @@ Run `/mcp` in Claude Code and confirm that `editor_remote_mcp` is connected. Do 
 
 On Windows, the ChatGPT desktop app, Codex CLI, and the Codex IDE extension on the same host share `%USERPROFILE%\.codex\config.toml`. This guide edits that file directly instead of relying on a Settings screen that may differ between app versions.
 
-The shared configuration for the same Codex host is also documented by [OpenAI Docs](https://learn.chatgpt.com/docs/extend/mcp). The Codex setup in this section was rechecked on 2026-10-01; the other client examples retain their earlier verification date.
+The shared configuration for the same Codex host is also documented by [OpenAI Docs](https://learn.chatgpt.com/docs/extend/mcp). The Codex HTTP fields and shared configuration location were rechecked on 2026-10-19.
 
 1. Fully quit the ChatGPT desktop app.
 2. Open `%USERPROFILE%\.codex\config.toml`. If it does not exist, create the `.codex` folder and `config.toml` file.
@@ -205,7 +205,7 @@ Visual Studio 2022 17.14 or later also supports GitHub Copilot MCP servers. In C
 
 The connected AI client can inspect editor state; open, import, edit, and save documents; create and modify entities; preview a processing path; and control registered devices. Ask for the intended result in ordinary language. The client discovers the available tools and their arguments from the connected demo.
 
-When the host has configured `AllowedFileRoots`, open and import files must already exist below one of those roots. Saved files must use the `.sirius3` extension in an existing allowed directory. Discarding unsaved changes and overwriting an existing file require explicit confirmation.
+With specific `AllowedFileRoots`, open/import files must exist under an allowed root. The default `"*"` also allows other host-accessible local and network paths; an empty list disables file access. Saved files must use the `.sirius3` extension in an existing allowed directory. Discarding unsaved changes and overwriting an existing file require explicit confirmation.
 
 Device-changing operations require explicit destructive-operation confirmation. Never permanently auto-approve the general device-control capability because it can reach the configured scanner, laser, digital I/O, power meter, and power map.
 
@@ -275,7 +275,37 @@ These examples describe only the user's intended task in ordinary language. The 
 
 Entity deletion, grouping, transforms, hatch editing, hit tests, point/grid clouds, and Editor simulation start/stop are also available. Preview is a processing-path operation and is separate from Editor simulation. Never treat an AI response as proof of success without the returned result and a follow-up state check.
 
+## Edit grips and source vertices
+
+Move includes position and supported X/Y/Z rotations; Vertex exposes source
+vertices/controls, and Size exposes dimensions/model scaling and scale reset.
+Inspect an object's Move, Vertex and Size grips, then change a source vertex,
+native size or rotation with Undo/Redo. Supported shapes, barcodes and raster
+objects retain native Width/Height/radius parameters and existing model scale.
+Coordinates use the object's original local frame; world positions include
+object and parent transforms. Requests use exact coordinates, without screen
+picking or camera-dependent magnetic/grid snapping.
+
+Polyline2D/3D and spline source vertices can be inserted or removed by index.
+Insertion uses an interior fraction of a source/control-polygon segment;
+polyline arcs preserve Bulge, while spline control insertion can change shape.
+Minimum point counts and related spline data are retained. Each accepted edit
+is one Undo/Redo action. Locked, busy or simulating documents reject changes.
+Prepare pending text/image source changes in the editor before grip operations.
+
+```text
+Inspect this object's editing grips. Increase its native width by 25% while keeping its model scale and opposite edge fixed. Verify the dimensions, undo, and verify the original values.
+```
+
+```text
+Insert a vertex halfway along the first source segment of this polyline. Check its arc and machining order, then undo and confirm the original vertices return.
+```
+
 ## Clip selected entities
+
+Clipping follows each entity's supported geometry. Partial cuts of spatial meshes
+or stitched images are unsupported. A layer containing such an intersected source
+fails as a whole and keeps the original document; choose supported sources instead.
 
 Clip supports paths or closed regions for entities implementing `IClippable`, including barcodes, text, spirals and block inserts. Existing HatchLine/HatchPolygon machining paths can be included or excluded. Results are added to the document with Undo/Redo; source removal is optional.
 
@@ -284,6 +314,21 @@ Select an EntityLayer alone when clipping its child data. Mixing a layer with it
 ```text
 Clip the selected objects to the world-coordinate rectangle from (-5, -5) to (5, 5). Create closed regions with EvenOdd fill and outer counterclockwise/hole clockwise winding. Include existing hatch paths, keep the originals, and check the resulting objects.
 ```
+
+## Requests for new imports, contours and PDF pages
+
+SVG, 3MF, PDF and offline G-code are prepared on a worker and added to the active layer with Undo/Redo. File operations require host-configured allowed roots. Import settings and power-map interpolation are shared by every editor in the process and are outside document Undo/Redo. Import-setting changes do not alter existing paths.
+
+- SVG: “Read the current import settings, enable automatic line hatching for new SVG imports at 0.1 mm, and import <allowed-path>\logo.svg as editable vectors. Keep the existing document contents and verify the result.”
+- 3MF: “Import <allowed-path>\part.3mf into the active layer. Check millimeter units and relative component placement, and report any unsupported materials or non-mesh data.”
+- G-code: “Set the dialect for new imports to Laser and helical-arc tolerance to 0.001 mm, then import <allowed-path>\path.gcode as offline paths. Report source line ranges and F/S/T attributes. Do not send commands to physical devices.”
+- PDF: “Add page 2 of <allowed-path>\label.pdf as an image at 20 mm height and 150 DPI. Check the page count and applied values. Change to page 3, then undo and verify that the previous image and page number return.”
+- Contour: “Add an open contour with two independently owned lines from (0, 0) to (10, 0), then to (10, 10). Keep existing entities and verify the connection.”
+- Power map: “Read the current power-map interpolation mode and change the process-wide setting to Pchip. Do not mark, measure or issue device output; verify the applied setting only.”
+
+PDF page numbers start at 1 and resolution is 36–600 DPI. Page changes require the original PDF under an allowed root; failure retains the previous image. Full source paths are neither returned nor editable. SVG supports solid fill/stroke outlines, excluding text, images, masks and filters. G-code F/S/T are source metadata, not pen/device settings. `.nc`/`.tap` retain the existing PCB import route.
+
+Font Editor public API help is searchable. The separate font editor's glyph editing, TTF conversion and save sessions are not MCP connection targets.
 
 ## Troubleshooting
 
@@ -298,7 +343,46 @@ Close the AI client connection and the demo window before changing target framew
 ## Official client references
 
 - [Claude Code: Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp)
-- [OpenAI Codex: Model Context Protocol](https://developers.openai.com/codex/mcp/)
+- [OpenAI Codex: Model Context Protocol](https://learn.chatgpt.com/docs/extend/mcp)
 - [Gemini CLI: MCP servers](https://geminicli.com/docs/tools/mcp-server/)
 - [VS Code: MCP configuration reference](https://code.visualstudio.com/docs/agents/reference/mcp-configuration)
 - [Visual Studio: Use MCP servers with GitHub Copilot](https://learn.microsoft.com/en-us/visualstudio/ide/mcp-servers?view=visualstudio)
+
+## Document structure and font updates
+
+Ask to inspect the page/layer structure, processing pen settings and named blocks before changing their public properties. Pen changes use document actions and Undo/Redo; they do not send commands to a device.
+
+Ask to create a polyline using positions, bulges and ramp factors, or inspect hit-test coordinates and vertex indexes. Vertex positions are in mm; ramp factors range from 0 to 4 and default to 1.
+
+Ask which Sirius font files are available, then reload one after external editing. Font operations require DocumentControl and follow the same file-access policy; a specific-root policy must include the font directory. Reloading affects matching live text in every editor in this process and is outside document Undo/Redo. Font Editor saves already refresh automatically.
+
+## File access and Font Editor
+
+| `AllowedFileRoots` | File access |
+|---|---|
+| Default `"*"` | Any path accessible to the host process, including network shares |
+| Specific folders | Those folders and descendants only |
+| Empty list | Disabled |
+
+The mode, file existence, extension, destination and overwrite checks still apply.
+The host sets this policy before creating the server; Windows permissions still
+limit access. Use [Font Editor](FontEditorUserManual.md) for interactive glyph
+editing and TTF conversion; it is not an MCP editor binding.
+
+## Registered device capabilities and Script data
+
+Ask which operations the connected scanner, laser and marker actually support,
+or inspect cached meter readings, calibration points and marker progress without
+starting a device. Entity queries also provide prepared vertices, hatch settings,
+cached converted text, contour topology and model-space slices in bounded pages.
+Slice Z uses mm after the entity's model transform and excludes parent transforms.
+
+Ask to change the registered script's lot/operator data, scalar variables or
+serial counters. These changes are outside document Undo/Redo and affect later
+text conversion or marking. Serial helpers retain the script's own increment
+policy. C# evaluation, source edits and .cs/.dll loading are unavailable.
+
+Device mutations need DeviceControl and operator confirmation; busy-state checks
+remain active. Ask to save or open calibration data only in allowed folders,
+confirming replacement or overwriting first. A successful command submission
+does not establish physical completion; inspect device status and events.

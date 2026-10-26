@@ -1,6 +1,6 @@
 # SiriusEditorControl User Manual
 
-> API 기준: Sirius3 Core/UI 1.17 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
 [English](SiriusEditorUserManual.md) | [한국어](SiriusEditorUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -54,8 +54,8 @@ WinForms 호스트는 `PerMonitorV2`를 선택하고 데모 Form은 `AutoScaleMo
 
 ## 개체 Grip과 Font Editor
 
-뷰포트에서 Tab/Shift+Tab로 Move·Vertex·Scale을 순환하고 V/Shift+V으로 Grip을
-탐색합니다. G는 자석 스냅, F/Ctrl+F는 화면 맞춤이며 편집은 Undo/Redo로 복원합니다.
+뷰포트에서 Tab/Shift+Tab로 Move·Vertex·Size을 순환하고 V/Shift+V으로 Grip을
+탐색합니다. Move는 개체 전체 이동·지원 축 회전, Size는 치수·모델 배율을 편집합니다. G는 자석 스냅, F/Ctrl+F는 화면 맞춤이며 편집은 Undo/Redo로 복원합니다.
 포커스와 격자 규칙은 [편집기](EditorUserManual.koKR.md)를 참고하십시오. 우클릭 메뉴의
 **Font Edit**는 별도의 폰트 파일 편집을 엽니다. [Font Editor](FontEditorUserManual.koKR.md)를 참고하십시오.
 

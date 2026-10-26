@@ -1,64 +1,72 @@
-# Integrated 3D Calibration User Manual
+# 3D Scanner Calibration User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](Correction3dUserManual.md) | [한국어](Correction3dUserManual.koKR.md)
+[English](Correction3dUserManual.md) | [한국어](Correction3dUserManual.koKR.md) | [All guides](README.md)
 
+## 1. Prepare the system
 
-## 1. Overview
+Use a compatible RTC, 3D focusing scanner and the matching CalibrationLibrary
+runtime. Prepare the source `.ctb`/`.ct5`, its readme file and the correct
+KFactor. Preserve the original and save each result under a new name.
 
-This manual describes how to use the Sirius3 3D Integrated Calibration Windows form using the SCANLAB RTC Controller and CalibrationLibrary v1.4.1.1.
-3D correction is not only the geometric error correction of the scanner, but also an essential procedure to keep the laser focus (Focus) stable in the entire work area.
+The calibration UI can move the scanner and change focus while you edit or
+select measurements. Use the equipment's approved calibration procedure.
 
-## 2. Prerequisites
+## 2. Measure in this order
 
-- The RTC controller and the 3D scanner (e.g. varioSCAN) must be connected normally.
-- It requires a default correction file (.ctb or .ct5) and a README text file for that file.
-- You need to know the exact K-Factor (bits/mm) value.
+1. **Beam tilt and XY field:** measure the center at two known heights to
+   correct beam tilt, then mark and measure the XY grid. Apply each accepted
+   result before continuing. See [2D field correction](Correction2dUserManual.md).
+2. **Focus at Z=0 and A/B/C:** find the best focus across the reference plane,
+   then at several known heights. Fit the focus curve from these samples.
+3. **Stretch:** for optics whose field size changes with height, measure test
+   patterns above and below the reference plane and correct the scale change.
 
-## 3. Step-by-Step Procedure
+## 3. Understand coefficients A, B and C
 
-Correction is recommended to go in the following order, and every time each step is completed, you need to press the 'Apply' button to reflect on the hardware, the accuracy of the next step will be increased.
+The focus table follows `Zout = A + B × l + C × l²`.
 
-Step 1: Beam Tilt Calibration
-- Correction of the scanner's scanning and central scanning errors in varioSCAN.
-- In the upper and lower plates, each measure the center point position to enter the gap (dx, dy) and the distance (Height) between the two plates.
-- After clicking 'Calibrate', press 'Apply' to reflect when successful.
+| Value | Meaning |
+|---|---|
+| `l` | The focal-length-deviation input in controller units; it is not directly a height in mm. |
+| `A` | The output offset at `l = 0`. |
+| `B` | The slope: how much output changes per unit of `l`. |
+| `C` | The curvature: how the slope changes as `l` grows. |
 
-Step 2: XY Field Calibration (2D Field Correction)
-- Correction of the scanner’s geometric errors (Scale, Rotation, Pincushion, etc.).
-- After processing the grid pattern, measure and enter the actual processing position (Measured X, Y) for each target coordinate (Target X, Y).
-- After 'Calibrate', press 'Apply' (Source File will then be automatically updated to the created file.)
+Imagine a graph with **l** on the horizontal axis and **Zout** on the vertical
+axis. A moves the curve up/down. With C=0 the curve is a straight line whose
+slope is B; nonzero C bends it into a parabola. The controller converts the
+requested position to its focus input, so do not substitute Z in mm for l.
+`FocusCalibrationCoeffABC` fits measured input/output pairs; `GetCoefficient`
+reads the coefficients from a correction file.
 
-Step 3: Focus Calibration at Z=0
-- The basic work level (Z=0) adjusts the microscope so that the focus is constant in the entire area.
-- In several points, change the value of A (Z control bit) and enter the most clear-focused value.
-- When a value is modified, it is automatically called IRtc3D.CtlLoadZTable (A, 0, 0) internally.
-- When selecting a cell, the scanner automatically moves to that location, and you can control the A value to check in real time.
+Keep the numeric basis with the data: calibration measurement arrays use 16-bit
+values for CTB and 20-bit values for CT5. Returned correction-file A/B/C coefficients
+use the 16-bit compatibility polynomial basis for both formats. Do not mix these
+coefficients with raw 20-bit inputs or substitute mm heights into that polynomial.
 
-Step 4: Focus Coeff A, B, C Calibration
-- Calculates the focus-curve coefficients (`Zout = A + B·l + C·l²`) as a function of travel distance.
-- Find the optimal focus control value (A) in various Z heights.
-- When you select the position value X, Y, Z, the scanner’s position moves automatically, and the value L (Focal Length Deviation bits) is calculated automatically using IRtc3D.CtlZDistance.
-- When a value is modified, it is automatically called IRtc3D.CtlLoadZTable (A, 0, 0) internally.
+## 4. Use an imported surface
 
+1. Import the STL or another supported mesh using `IDocument.ActImport`.
+2. Extract surface samples with `ActPointCloud` or `ActGridCloud`. Grid spacing
+   is in mm; use a smaller spacing where surface curvature requires more detail.
+   Inspect the resulting points from an oblique view.
+3. Align the model with the real workpiece coordinate system, then pass the XYZ
+   samples to `RtcCalibrationLibrary.PointsCloudCalibration` with the source
+   correction/readme files and a separate target path. Check its return code
+   and verify focus on the real surface before using the result for production.
 
-Step 5: Stretch Calibration
-- If you do not use the Telecentric lens, it is necessary to adjust the stretch.
-- Adjust the change in processing size (Scale) according to the change in height.
-- In Z+, Z- level, each process the test pattern and enter the measurement value.
+The point cloud represents a surface, not the interior volume. Normals returned
+by `ActGridCloud` help inspect the samples; the calibration operation takes the
+positions. See [entity point-cloud extraction](EntityUserManual.md).
 
-## 4. Key Features
+## 5. Save, apply and verify
 
-- Open/Save (mouse click): You can save or re-call the measurement data entered as a text file.
-- Manual Control: You can manually control the laser and scanner through the right panel to perform the test processing.
-- Live Update: In the Focus-related tab, the Z position of the scanner will change in real time as soon as you modify the grid cell value.
-
-## 5. Cautions
-
-- Do not manipulate the scanner or hardware forced during the correction process.
-- When you press 'Apply', the current charged correction file will apply to the actual hardware, and the subsequent correction will be accumulated based on this file.
-- If the K-Factor values are not accurate, all the calculation results are erroneous.
+Save measurement data before changing a grid. Apply only a successfully
+generated result, then verify the selected head/table and repeat representative
+measurements. A changed lens, working distance or installation requires another
+check. File creation alone does not establish focus or dimensional accuracy.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

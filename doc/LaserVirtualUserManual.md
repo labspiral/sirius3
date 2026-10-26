@@ -1,8 +1,8 @@
 # Laser Power Control & RTC Integration User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](LaserVirtualUserManual.md) | [한국어](LaserVirtualUserManual.koKR.md)
+[English](LaserVirtualUserManual.md) | [한국어](LaserVirtualUserManual.koKR.md) | [All guides](README.md)
 
 
 ## 1. Overview

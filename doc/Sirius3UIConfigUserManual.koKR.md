@@ -1,8 +1,8 @@
 # SpiralLab.Sirius3.UI.Config 설정 가이드
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](Sirius3UIConfigUserManual.md) | [한국어](Sirius3UIConfigUserManual.koKR.md)
+[English](Sirius3UIConfigUserManual.md) | [한국어](Sirius3UIConfigUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 역할과 설정 시점
 
@@ -43,11 +43,11 @@ Undo/Redo는 `IDocument.Act*` 작업을 기준으로 동작합니다. Page, Laye
 | `AssemblyName` | `SpiralLab.Sirius3.UI.dll` | UI 어셈블리 파일명 상수 |
 | `AssemblyVersion` | 실행 중인 어셈블리 버전 | `Major.Minor.Build` 형식의 읽기 전용 값 |
 | `FileOpenFilters` | Sirius3, DXF, DWG | 열기 대화상자 Filter 상수 |
-| `FileImportFilters` | Sirius3, SVG, STL, OBJ, PLY, 3MF, DXF, DWG, 이미지, HPGL/PLT, Gerber, G-code | 가져오기 대화상자 Filter 상수 |
+| `FileImportFilters` | Sirius3, PDF, SVG, STL, OBJ, PLY, 3MF, DXF, DWG, 이미지, HPGL/PLT, Gerber, G-code | 가져오기 대화상자 Filter 상수 |
 | `FileSaveFilters` | `.sirius3` | 저장 대화상자 Filter 상수 |
 | `FileImportImageFilters` | JPG, BMP, PNG, GIF, TIFF | 이미지 가져오기 Filter 상수 |
 | `FileMeasurementFilter` | `.txt` | Measurement 파일 Filter 상수 |
-| `IsCompressedFileFormat` | Release `true`, Debug `false` | 새 `.sirius3` 파일을 압축 형식으로 저장할지 결정합니다. 기존 파일을 여는 기능과는 구분하십시오. |
+| `IsCompressedFileFormat` | `true` | 새 `.sirius3` 파일을 압축 형식으로 저장할지 결정합니다. 기존 파일을 여는 기능과는 구분하십시오. |
 | `JsonExternalConvertes` | 빈 `List<JsonConverter>` | 사용자 정의 형식을 역직렬화할 때 사용할 Newtonsoft.Json Converter 목록입니다. |
 
 사용자 정의 Converter는 Document를 열기 전에 등록합니다.
@@ -418,6 +418,20 @@ Config 값을 `config*.ini`에서 읽는 제품이라면 Parsing과 범위 검�
 ## 24. 호스트에서 설정하는 HiDPI
 
 `UI.Config`는 프로세스 DPI 모드를 선택하지 않습니다. 컨트롤 생성 전에 실행 파일에서 설정합니다. WinForms 데모는 `PerMonitorV2`, 96 DPI Form 기준과 별도 `net481` app.config·manifest 설정을 사용합니다. WPF는 장치 독립 레이아웃과 실행 파일 manifest를 사용합니다. 포인트 단위 글꼴은 논리 크기를 유지하고 소유 이미지·행·설명 크기는 컨트롤의 DPI 처리를 따릅니다. [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md)를 참고합니다.
+
+## Grip과 가져오기 설정
+
+`KeyboardTransitXYCtrl`, `KeyboardTransitXYCtrlAlt`,
+`KeyboardTransitXYCtrlAltShift`의 기본 이동 간격은 1 / 0.1 / 0.01 mm입니다.
+`KeyboardRotateCtrl`, `KeyboardRotateCtrlAlt`, `KeyboardRotateCtrlAltShift`의
+기본 회전 간격은 90 / 10 / 1°입니다. 지원하는 개체와 Font Editor의 Grip에도 적용되며
+G로 전환하는 자석 스냅과는 별도입니다. [편집기](EditorUserManual.koKR.md)를 참고하십시오.
+
+PDF는 페이지 래스터 이미지로 가져옵니다. `EntityImagePDF.PageNumber`는 1부터 시작하며
+`RenderDpi`는 기본 150, 범위 36~600입니다. DPI는 픽셀 해상도이며 지정한 mm 치수와
+구분합니다. [문서 가져오기](DocumentUserManual.koKR.md)를 참고하십시오.
+
+폰트 파일과 설치 TTF 변환은 [Font Editor](FontEditorUserManual.koKR.md)에 설명합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

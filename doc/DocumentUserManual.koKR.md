@@ -1,8 +1,8 @@
 # IDocument & Recipe Management User Manual
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](DocumentUserManual.md) | [한국어](DocumentUserManual.koKR.md)
+[English](DocumentUserManual.md) | [한국어](DocumentUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. IDocument
 
@@ -91,9 +91,23 @@ document.Dispose();
 
 ## 4. Page
 
-문서는 최대 4개의 Page를 제공합니다. Page는 서로 다른 도면이나 공정을 분리하는 최상위 실행 단위입니다. Editor에서 활성 Page를 바꾸면 해당 Page의 Layer와 Entity가 편집 대상이 됩니다.
+문서는 `DocumentPages.Page1`부터 `Page4`까지 4개의 페이지를 제공합니다.
+각 페이지는 자신의 레이어를 가지며 일반 편집의 대상은 `ActivePage.ActiveLayer`입니다.
+통합 편집기는 페이지별 `TreeViewPageControl` 탭 4개를 제공합니다.
 
-MarkerRtc의 `LayerFirst`와 `OffsetFirst` 설정은 여러 Page/Offset을 가공할 때 반복 순서를 바꿉니다. 같은 데이터라도 설정에 따라 “Layer를 모두 처리한 뒤 다음 Offset” 또는 “Offset을 모두 처리한 뒤 다음 Layer”가 될 수 있으므로 실제 생산 순서를 먼저 정하십시오.
+```csharp
+document.Page = DocumentPages.Page2;
+// ActivePage도 document.DocumentData.Pages[1]로 바뀝니다.
+```
+
+`Page`를 지정하면 해당 `ActivePage`가 자동으로 선택됩니다. 반대로 같은 문서의
+기존 페이지를 `ActivePage`에 지정하면 `Page`도 바뀝니다. 두 속성을 함께 대입할
+필요 없이 하나만 지정합니다.
+
+`MarkerRtc.MarkProcedure`는 **선택한 페이지 안에서** 레이어와 Offset의 반복 순서를
+바꿉니다. LayerFirst는 한 Offset의 모든 레이어를 마친 뒤 다음 Offset으로 이동하고,
+OffsetFirst는 한 레이어를 모든 Offset에서 처리한 뒤 다음 레이어로 이동합니다.
+구체적인 순서는 [Offset 가공 순서](OffsetUserManual.koKR.md)를 참고합니다.
 
 ## 5. Layer
 
@@ -124,7 +138,7 @@ PropertyGrid에서 개체를 선택하면 개체 속성과 연결된 펜을 확�
 
 ### SVG 및 3MF 가져오기
 
-1.16.0의 `ActImport`는 `.svg`를 편집 가능한 `EntitySvg`/`EntityContour` 벡터 계층으로, `.3mf`를 `EntityMesh`로 가져옵니다. SVG는 96 pixels/inch와 Y축 반전으로 mm 좌표를 생성하며 선·호·베지어/NURBS 원본을 유지합니다. 단색 채움과 선 두께·끝점·모서리는 영역으로 처리합니다. 텍스트, 이미지, 마스크, 필터, clip path, marker, 점선과 non-scaling stroke는 지원하지 않으므로 외곽선으로 변환하거나 지원 형식으로 내보냅니다.
+`ActImport`는 `.svg`를 편집 가능한 `EntitySvg`/`EntityContour` 벡터 계층으로, `.3mf`를 `EntityMesh`로 가져옵니다. SVG는 96 pixels/inch와 Y축 반전으로 mm 좌표를 생성하며 선·호·베지어/NURBS 원본을 유지합니다. 단색 채움과 선 두께·끝점·모서리는 영역으로 처리합니다. 텍스트, 이미지, 마스크, 필터, clip path, marker, 점선과 non-scaling stroke는 지원하지 않으므로 외곽선으로 변환하거나 지원 형식으로 내보냅니다.
 
 SVG 선 해치는 기본적으로 생성하지 않습니다. 새 가져오기 전에 `UI.Config.IsSvgImportHatchEnabled = true`를 설정하면 `UI.Config.SvgImportHatchInterval`(기본 0.1 mm) 간격의 HatchLine을 추가합니다. 뒤에 그린 불투명 흰색은 기본적으로 앞의 형상을 잘라내며, `EntitySvg.WhiteIsKnockout`으로 이 정책을 바꿀 수 있습니다.
 
@@ -171,6 +185,23 @@ Document를 직접 생성한 코드는 더 이상 사용하지 않을 때 `Dispo
 ## 12. 1.15.0의 UI 호스트 종료
 
 편집기의 `DisposeDevices()`는 이제 `Task`를 반환합니다. UI Dispatcher가 유효한 동안 등록된 Remote/MCP 작업을 정리하도록 편집기나 Document를 해제하기 전에 완료를 기다립니다. 별도 소유 서버는 먼저 `DisposeAsync()`를 호출하고 기다립니다. 공유 Document는 다른 Viewer에서 연결을 해제한 후 한 번만 폐기합니다. 이 과정이 끝난 뒤 Application에서 `Core.Cleanup()`을 호출합니다. 종료 이벤트 패턴은 [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md)를 참고합니다.
+
+## PDF 페이지 가져오기
+
+PDF는 편집 가능한 벡터 문자·경로 대신 페이지 래스터 이미지(`EntityImagePDF`)로
+가져오며 첫 페이지로 시작합니다. 이미지를 선택한 뒤 PropertyGrid에서 `PageNumber`
+(1부터 시작), `RenderDpi`(36~600, 기본 150)를 설정합니다. 페이지·해상도를 바꾸려면
+원본 PDF가 필요합니다. 잘못된 페이지나 읽기 실패 시 이전 페이지 이미지를 유지합니다.
+Width/Height는 실제 mm 치수이며 DPI를 높이면 세부 표현과 메모리 사용량이 증가합니다.
+
+```csharp
+var image = EntityFactory.CreatePDFImage(@"C:\Drawings\label.pdf", 1, 20);
+if (!document.ActAdd(image))
+    image.Dispose();
+```
+
+래스터 처리는 [이미지 개체](EntityUserManual.koKR.md), 영역별 출력은
+[클리핑](ClippingUserManual.koKR.md)을 참고하십시오.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

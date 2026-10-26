@@ -1,8 +1,8 @@
 # [사용자 메뉴얼] 가공 경로 시뮬레이션 (Simulation)
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](SimulationUserManual.md) | [한국어](SimulationUserManual.koKR.md)
+[English](SimulationUserManual.md) | [한국어](SimulationUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 
 ## 1. 개요
@@ -27,23 +27,15 @@
    - 실행 중인 시뮬레이션을 즉시 중단하고 뷰를 원래 상태로 복구합니다.
 
 
-## 3. EditorControl UI 및 단축키 활용
+## 3. 편집기 명령
 
-  EditorControl 상단의 툴바 버튼과 키 조합을 통해 시뮬레이션 속도를 조절하거나 제어할 수 있습니다.
+F1 / Ctrl+F1 / Ctrl+Alt+F1은 빠른 / 보통 / 느린 시뮬레이션입니다. 시뮬레이션
+도구 모음 버튼과 속도 보조 키도 사용할 수 있으며 Escape로 중지합니다. 시작 키는
+`UI.Config.KeyboardSimulationStart` 설정을 따릅니다. 뷰포트 또는 트리에 포커스를
+두십시오. 텍스트 입력 칸은 일반 편집 명령을 사용합니다.
 
-  툴바 버튼: btnSimulation (아이콘 형태)
-   - 기본 클릭: 시뮬레이션을 시작하거나, 이미 동작 중인 경우 중지합니다.
-   - 속도 제어 (조합키): 버튼을 클릭할 때 누르고 있는 키에 따라 속도가 결정됩니다.
-       - 클릭 (기본): Fast (빠름) 속도로 실행
-       - Ctrl + 클릭: Normal (보통) 속도로 실행
-       - Ctrl + Alt + 클릭: Slow (느림) 속도로 실행
-
-  키보드 단축키 및 제어
-   - 시뮬레이션 시작: 일반적으로 툴바의 버튼을 통해 실행합니다.
-   - 중지 및 취소 (ESC 키):
-       - 시뮬레이션이 진행 중일 때 ESC 키를 누르면 즉시 시뮬레이션이 중단됩니다.
-       - EditorControl은 내부적으로 키 입력을 감지하여 Document.ActSimulateStop()을 호출하도록 설계되어 있습니다.
-
+시뮬레이션은 화면 표시용입니다. 스캐너 이동·실제 장비 동작이 가능한 Marker 미리보기와
+Marker Start 명령과 구분하십시오.
 
 ## 4. 시뮬레이션 상태 확인
 
@@ -53,27 +45,19 @@
    - Sirius3 1.11.14 이상에서는 ESC가 시뮬레이션을 즉시 중지하며, 종료 정리 중 Virtual RTC Abort가 반복되거나 정상적인 Virtual Laser 중지가 오류로 기록되지 않습니다.
 
 
-## 5. 사용 예시 (C#)
+## 5. 공개 API 예제
 
-  시뮬레이션 시작 코드 예시
+```csharp
+if (!document.IsSimulationWorking && document.Selected.Length > 0)
+    await document.ActSimulateStart(view, document.Selected, marker,
+        IDocument.SimulationSpeeds.Normal);
 
-   1 // 선택된 엔티티들에 대해 보통 속도로 시뮬레이션 시작
-   2 if (!document.IsSimulationWorking)
-   3 {
-   4     var selected = document.Selected;
-   5     if (selected.Length > 0)
-   6     {
-   7         await document.ActSimulateStart(view, selected, marker, IDocument.SimulationSpeeds.Normal);
-   8     }
-   9 }
+// 사용자가 중지를 요청하면 실행합니다.
+document.ActSimulateStop();
+```
 
-  시뮬레이션 중지 코드 예시
-
-   1 // 실행 중인 시뮬레이션 중지
-   2 document.ActSimulateStop();
-   3 
-
-
+프로그램에 연결한 View와 준비된 Marker를 전달합니다. 선택 경로와 가공 순서를
+시뮬레이션하며 레시피 데이터를 바꾸지 않습니다.
 
 ## 6. 주의 사항
 

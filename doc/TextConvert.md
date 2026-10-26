@@ -1,8 +1,8 @@
 # TextConverters & ITextConvertible Developer Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](TextConvert.md) | [한국어](TextConvert.koKR.md)
+[English](TextConvert.md) | [한국어](TextConvert.koKR.md) | [All guides](README.md)
 
 ## 1. Overview
 

@@ -1,5 +1,20 @@
 # Sirius3 版本历史
 
+## v1.17.0 (2026.10.26)
+
+- updated) 改进开发者手册
+- added) 新增 `IGrippable`
+  - 支持交互式创建对象，以及编辑顶点、位置、尺寸和旋转
+  - 支持通过 Ctrl、Alt、Shift 组合键进行捕捉移动
+- added) 新增 `FontEditorControl`
+  - 支持创建和编辑 `EntitySiriusText` 使用的字体文件
+- added) 新增 `EntityImagePDF`
+  - 支持通过 `IDocument.ActImport` 导入 PDF 文件
+- fixed) `EntityMixedGroup`、`EntityUniformGroup`、`EntityGerber`
+  - 提高编辑复合对象中子对象时的渲染性能
+- fixed) `MCPServerOptions.AllowedFileRoots`
+  - MCP 文件访问默认允许宿主进程可访问的所有路径
+
 ## v1.16.1 (2026.10.12)
 
 - updated) SCANLAB RTC6 依赖更新至 Software Package 1.25.1

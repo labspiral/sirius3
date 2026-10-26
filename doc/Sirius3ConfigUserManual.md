@@ -1,8 +1,8 @@
 # SpiralLab.Sirius3.Config Settings Guide
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](Sirius3ConfigUserManual.md) | [한국어](Sirius3ConfigUserManual.koKR.md)
+[English](Sirius3ConfigUserManual.md) | [한국어](Sirius3ConfigUserManual.koKR.md) | [All guides](README.md)
 
 ## 1. Role and Configuration Timing
 

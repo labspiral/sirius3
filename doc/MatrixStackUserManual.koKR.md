@@ -1,8 +1,8 @@
 # Coordinate Transformation & Matrix Stack User Manual
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](MatrixStackUserManual.md) | [한국어](MatrixStackUserManual.koKR.md)
+[English](MatrixStackUserManual.md) | [한국어](MatrixStackUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 
 ## 1. 개요 (Overview)
@@ -34,7 +34,7 @@ IRtc 인터페이스는 `MatrixPrimaryInternal` (1번 헤드)과 `MatrixSecondar
 
 [MatrixStack vs. Internal Matrix 차이]
 - MatrixStack (UI/PC): 가공 레시피의 논리적 배치용. PC의 CPU/GPU 자원을 사용하여 4x4 변환 수행.
-- Internal Matrix (HW): 실제 장비의 물리적 상태 보정용. RTC 보드 내의 DSP가 가공 중 실시간(10µs 단위)으로 2x2 변환 및 오프셋 적용.
+- Internal Matrix (HW): 실제 장비의 물리적 상태 보정용. 컨트롤러 출력 좌표에 설정한 변환과 오프셋을 적용합니다.
 
 ## 5. 최적의 활용 가이드 (Best Practices)
 
@@ -51,6 +51,21 @@ IRtc 인터페이스는 `MatrixPrimaryInternal` (1번 헤드)과 `MatrixSecondar
 
 [결론]
 "도면의 논리적 배치는 MatrixStack으로, 장비의 물리적 정렬과 하드웨어 특성(회전/반전) 보정은 Internal Matrix로 관리하는 것이 가장 설계 의도에 부합하며 시스템 부하가 적습니다."
+
+## 최종 위치를 계산하는 순서
+
+Sirius3는 행벡터 표기를 사용합니다. 상위 개체 변환을 적용하기 전 한 개체의 행렬은
+`M = A × S × Rz × Ry × Rx × T`입니다. A는 ModelAlign, S는 ModelScale,
+Rz/Ry/Rx는 모델 회전, T는 ModelTranslate입니다.
+
+가공 위치는 `v_mark = v_original × M_entity × M_ancestors × M_offset`으로 계산합니다.
+예를 들어 원본 X=10에 배율 2와 이동 5를 적용하면 X=25이고, Marker의 X=100 Offset을
+추가하면 X=125입니다. 상위 그룹·레이어의 행렬은 Marker Offset 전에 적용합니다.
+
+RTC 내부 행렬과 보정 테이블은 이후 컨트롤러 출력 단계입니다. 카메라·작업물 보정을
+개체 행렬과 Marker Offset에 중복으로 적용하지 않습니다. 반복 가공 순서는
+[Offset](OffsetUserManual.koKR.md), 원본·모델·실제 좌표는 [문서](DocumentUserManual.koKR.md)를
+참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

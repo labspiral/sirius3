@@ -1,6 +1,6 @@
 # EditorControl User Manual
 
-> API reference: Sirius3 Core/UI 1.17 (public features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
 [English](EditorUserManual.md) | [한국어](EditorUserManual.koKR.md) | [All guides](README.md)
 
@@ -16,6 +16,15 @@ shapes interactively. Follow the upper-left stage instructions; Enter completes
 supported multi-point tools and Escape cancels an unfinished operation. Text,
 barcode, image and 3D tools expose their detailed settings through dialogs or
 PropertyGrid. Completed edits participate in Undo/Redo.
+
+Spiral and Lissajous creation use **center → diameter**. SpiralClassic uses **center → start
+diameter → end diameter**. Click the center and move/click to set each diameter;
+the upper-left readout shows mm and the diameter is twice the center-to-pointer
+distance. A center drag sets the Spiral diameter or the Classic start diameter.
+Classic accepts a zero start diameter and inward or outward growth; its end
+diameter must be positive. Backspace returns one stage and Escape cancels.
+Creation adds and selects one entity as one Undo/Redo action. Lissajous changes native Diameter while preserving the source XY ratio; it applies no separate Y scale. Edit depth, turns
+and other parameters in PropertyGrid; see [entities](EntityUserManual.md).
 
 ## 2. Mouse selection and camera
 
@@ -38,18 +47,34 @@ available. See [TreeView](TreeviewUserManual.md) for focus-dependent selection.
 ## 3. Grip editing
 
 Select one supported entity to display its editing grips. A new entity selection
-starts in **Move**. Press **Tab** for Move → Vertex → Scale and **Shift+Tab** for the
+starts in **Move**. Press **Tab** for Move → Vertex → Size and **Shift+Tab** for the
 reverse order; modes unavailable for that shape are skipped.
 
 | Mode | Edit |
 |---|---|
-| Move | Position or bounding-box movement of the whole entity |
-| Vertex | Source vertices, curve controls, bulges and supported native dimensions |
-| Scale | Size and rotation; reset scale when the entity exposes that action |
+| Move | Whole-entity movement and supported X/Y/Z rotation |
+| Vertex | Source vertices, curve controls, bulges and supported native dimensions; Arc and Ellipse centers |
+| Size | Native dimensions or model scaling; reset scale when available; Ellipse center |
+
+Size grips update native dimensions for supported basic shapes, barcodes and
+raster entities, including ImageText, ZPL and PDF. Cube/Plane use Width/Height;
+Pyramid uses BaseWidth/BaseDepth. Radial solids retain their circular shape
+through radius parameters. Uniform Image/ImagePDF/ImageText resizing retains Width=0;
+independent resizing uses an explicit width. Whole-layout text, paths, meshes,
+groups and block instances retain transform sizing. Native depth/length and
+other source-parameter controls remain in Vertex mode. Size grips that change
+model scale use fainter fill and borders (60% of the ordinary opacity); native
+dimension grips use the normal amber appearance. This visual distinction does
+not change the size or selection behavior of a grip.
+
+X/Y/Z rotation arrow markers remain visible and selectable even when they are
+behind geometry; their circular guide paths may be hidden by the object. Other
+mesh/surface grips follow geometry visibility. When movement and rotation
+markers coincide, movement wins a click; use V/Shift+V to choose the rotation axis.
 
 Drag a grip and inspect the live coordinate, dimension or angle in the upper-left
 help. V / Shift+V moves to the next / previous available grip. Cyan circles
-indicate source vertices, mint squares movement, lime diamonds size, and blue
+indicate source vertices, mint squares movement, amber squares size, and blue
 markers curve/rotation controls. A committed drag creates one Undo action; Escape
 cancels its preview without changing history.
 
@@ -120,7 +145,21 @@ Hold Shift alone while sizing an interactive Rectangle, Ellipse, Cross or simila
 
 In Vertex mode, Polyline2D/3D and Bezier, CatmullRom, Hermite, BSpline and NURBSpline support Insert on the pointed segment and Delete on the hovered or V-selected source vertex. Spline insertion edits its control-polygon segment and can change the curve shape. Keep at least two points in an open path, three in a closed polyline, and degree+1 in NURBS/BSpline. Each insertion/removal is one Undo/Redo action and never deletes the entity. Other modes and Ctrl+Delete retain entity deletion.
 
-Upper-left help shows `Tab: Move mode`, `Tab: Vertex mode`, `Tab: Scale mode` and `V: Next grip`. Auxiliary controls are smaller and more transparent than source vertices.
+Upper-left help shows `Tab: Move mode`, `Tab: Vertex mode`, `Tab: Size mode` and `V: Next grip`. Auxiliary controls are smaller and more transparent than source vertices.
+
+Move, Vertex and Size markers use 8.8 logical pixels; auxiliary controls use 7.2 pixels, and active emphasis adds 3.2 pixels. These are 20% smaller while retaining the relative sizes. Display DPI scales the markers; the magnetic/picking margin remains unchanged. Move/Size handles and square marker orientation follow object rotation. FontEditor resizes rotated paths along their local axes while keeping the opposite anchor fixed.
+
+### Mode indicator and curve centers
+
+1. The bottom status bar shows the current Grip mode. Its background is mint
+   for Move, cyan for Vertex and amber for Size. Click it to select the next
+   available mode; Tab/Shift+Tab still selects the next/previous mode.
+2. Arc shows its center in Vertex mode. Ellipse shows its center in Vertex and
+   Size modes. Drag the mint center square to move the object, or use V/Shift+V
+   to select it. Bounds movement handles stay in Move mode.
+3. Changing modes cancels an unfinished drag without adding history. The mode
+   indicator is hidden when no editable object is selected, during creation,
+   or when editing is locked. Arc still skips Size when no scale reset applies.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

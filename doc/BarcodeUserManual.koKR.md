@@ -1,8 +1,8 @@
 # 바코드 개체 사용자 매뉴얼
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](BarcodeUserManual.md) | [한국어](BarcodeUserManual.koKR.md)
+[English](BarcodeUserManual.md) | [한국어](BarcodeUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 클래스와 Factory
 
@@ -125,11 +125,12 @@ Dots·Lines는 열린 점·선 표현입니다. 지원하는 닫힌 모드는 �
 
 IClippable은 생성 표현을 지원합니다. ActClip의 IncludeHatches로 기존 해치 경로를 유지하고 Undo/Redo로 결과를 추가할 수 있습니다. 잘린 일부는 형상이며 자동으로 판독 가능한 완전한 심벌이 되는 것은 아닙니다. [클리핑](ClippingUserManual.koKR.md)을 참고합니다.
 
-## 8. 사용자 바코드 구현 확장
+## 8. 생성한 바코드 편집
 
-EntityBarcode2DBase는 공통 형상·인터페이스를 제공합니다. 구체 구현은 EncodeAndCreateBitMatrix를 재정의하여 인코더를 연결하고 복제 동작을 구현합니다. 행렬 치수, 입력 검증, 직렬화 설정, ModifyFlag, 셀 소유권과 실패 정리를 유지합니다. 원본 순서, 표시·컨투어·선택·가공 표현을 일치시킵니다.
-
-공개 DataMatrix·QR·PDF417·Aztec 구현을 참고합니다. 엔티티·인코더 계층을 Scanner 명령 실행과 분리하여 확장하고 기존 Marker·Pen 계약으로 출력합니다. 기반 클래스는 추상이므로 직접 생성하지 않습니다.
+공개 개체 속성과 문서 작업으로 바코드를 편집합니다. 데이터·치수·Cell·해치를 바꾼 뒤
+재생성하고 결과를 확인한 후 출력합니다. 지원하는 치수는 Grip으로 조정할 수 있습니다.
+클리핑한 바코드 조각은 사용할 판독기로 검증해야 합니다.
+조작 방법은 [편집기](EditorUserManual.koKR.md)를 참고하십시오.
 
 ## 9. 편집과 결과 확인
 

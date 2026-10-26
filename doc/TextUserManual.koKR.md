@@ -1,8 +1,8 @@
 # 텍스트 개체 사용자 매뉴얼
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](TextUserManual.md) | [한국어](TextUserManual.koKR.md)
+[English](TextUserManual.md) | [한국어](TextUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 텍스트 표현 방식 선택
 
@@ -154,6 +154,14 @@ Windows 윤곽 텍스트에는 HatchLine·HatchPolygon을 적용할 수 있습�
 공백, 누락 문자, 여러 줄, 원형 방향, 고정 위치, 최종 bounds, 채움 구멍과 Pen을 확인합니다. 저장·재열기는 텍스트 파라미터를 유지하고 형상을 다시 생성합니다. 호출자 소유 독립 엔티티는 해제하고 문서 소유 엔티티는 문서 정리까지 유지합니다.
 
 공개 예제: [editor_entity](../demos/editor_entity/Form1.cs), [editor_barcode_textconvert](../demos/editor_barcode_textconvert/Form1.cs). 관련 문서: [엔티티](EntityUserManual.koKR.md), [바코드](BarcodeUserManual.koKR.md), [WinForms](WinForms.koKR.md), [WPF](WPF.koKR.md).
+
+## Font Editor로 폰트 편집
+
+편집기 우클릭 메뉴의 **Font Edit**로 CXF·LFF·DOT 폰트를 생성·편집하거나 기존
+EO FNT 파일을 엽니다. SiriusText를 먼저 선택하면 해당 폰트를 엽니다. 문자·경로·
+메트릭과 문자열 미리보기를 편집한 뒤 다른 이름으로 저장합니다. 저장하면 현재 프로그램의
+같은 폰트를 사용하는 텍스트가 갱신됩니다. 폰트 파일 변경은 자체 이력을 사용하며 문서의
+Undo/Redo에 포함되지 않습니다. [Font Editor](FontEditorUserManual.koKR.md)를 참고하십시오.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

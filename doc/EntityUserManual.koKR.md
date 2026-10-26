@@ -1,6 +1,6 @@
 # EntityFactory & Entity User Manual
 
-> API 기준: Sirius3 Core/UI 1.17 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
 [English](EntityUserManual.md) | [한국어](EntityUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -383,6 +383,28 @@ EntityStepperMove CreateStepperMove(StepperAxes axis, StepperMoveTypes type, dou
 EntityStepperWait CreateStepperWait(StepperCombinedAxes axis, double msec);
 ```
 
+## 점 표시와 대화형 Spiral 생성
+
+`EntityFactory.CreatePoints`를 포함해 새 `EntityPoints`의 기본값은 `PointSize = 2`입니다.
+표시 설정이므로 점 좌표나 실제 레이저 Spot 크기는 바꾸지 않습니다. 저장된 개체나
+복제 원본에 지정한 크기는 유지합니다.
+
+WinForms·WPF 그리기 명령은 `EntitySpiral`·`EntityLissajous`를 중심 → 지름, `EntitySpiralClassic`을
+중심 → 시작 지름 → 끝 지름 순서로 생성합니다. 포인터로 반지름을 지정하며 좌측
+상단에는 거리의 두 배인 지름을 mm로 표시합니다. Classic은 시작 지름 0, 양수인 끝
+지름과 안쪽·바깥쪽 진행을 허용합니다. Backspace는 이전 단계, Escape는 취소이며
+완료하면 Undo/Redo 한 건으로 기록합니다.
+
+| 그리기 명령 | 나머지 초기 값 |
+|---|---|
+| Spiral | Archimedean, Turns=5, Depth=2 mm, 닫힘 |
+| SpiralClassic | Revolutions=10, Depth=1 mm, 닫힘 |
+| Lissajous | π, Turns=10, Depth=0 mm, Ccw |
+
+생성 후 PropertyGrid에서 편집하며 평면 경로는 Depth=0을 사용합니다.
+Lissajous는 원본 지름을 편집하여 XY 비율을 유지하고 생성 배율 ModelScale은 1을 유지합니다. Factory 호출은 호출자가 전달한 값을 사용합니다.
+그리기·선택·Grip 조작은 [편집기](EditorUserManual.koKR.md)를 참고하십시오.
+
 ## Grip 편집과 PDF 이미지
 
 지원하는 `IGrippable` 개체는 형상에 따라 위치·고유 파라미터·정점·크기·회전 Grip을
@@ -393,6 +415,26 @@ EntityStepperWait CreateStepperWait(StepperCombinedAxes axis, double msec);
 `CreatePDFImage(fileName, pageNumber, height, width = 0, dpi = 150)`는
 `EntityImagePDF`를 생성합니다. 페이지는 래스터화하며 Width/Height는 mm를 유지합니다.
 [PDF 가져오기](DocumentUserManual.koKR.md)를 참고하십시오.
+
+## 하위 개체 컨테이너와 표면 점군
+
+`IHasChildren<IEntity>`는 Group·Gerber처럼 하위 개체를 담는 컨테이너 인터페이스입니다.
+새로운 기하 도형을 뜻하지 않습니다. 하위 편집도 문서 작업으로 처리해야 Undo/Redo를 지원합니다.
+
+| 컨테이너 | 용도 |
+|---|---|
+| `EntityMixedGroup` | 서로 다른 개체를 묶고 각 하위 개체의 동작을 유지합니다. |
+| `EntityUniformGroup` | 호환되는 렌더링 구조의 개체를 묶어 반복 표시를 효율적으로 처리합니다. |
+| `EntityGerber` | 가져온 Gerber 도면의 하위 형상을 유지합니다. |
+
+1. STL 또는 지원하는 메쉬 파일을 문서로 가져옵니다.
+2. `IDocument.ActPointCloud`는 원본 샘플 위치를 지정 방향으로 표면에 투영하고,
+   `ActGridCloud`는 지정한 격자 간격(mm)으로 표면을 샘플링합니다. 간격이 작으면
+   더 많은 점을 추출합니다.
+3. 카메라를 약간 기울여 점군을 확인합니다. 점은 내부를 채운 체적이 아니라 표면을
+   나타냅니다. `ActGridCloud`는 법선도 반환합니다. 좌표·단위를 맞춘 점군은
+   `RtcCalibrationLibrary.PointsCloudCalibration`으로 자유곡면 보정에 사용할 수 있습니다.
+   [3D 보정](Correction3dUserManual.koKR.md)을 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

@@ -272,7 +272,7 @@ namespace Demos
         [Browsable(false)]
         public EditorControl EditorCtrl => editorControl;
 
-        /// <summary>Gets or sets the assembly-owned accessory shown at the right side of the top command bar.</summary>
+        /// <summary>Gets or sets the assembly-owned accessory shown above the main navigation, aligned to its left edge.</summary>
         internal UIElement TopToolbarAccessory
         {
             get => topAccessoryHost.Content as UIElement;
@@ -1277,14 +1277,15 @@ namespace Demos
 
         private void OnPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            // The packaged editor owns viewport/child input, including construction
+            // and grip keys that can overlap the configured marker shortcut.
+            if (e.Handled || editorControl?.IsKeyboardFocusWithin == true)
+                return;
             if (TryExecuteMarkerShortcut(e))
             {
                 e.Handled = true;
                 return;
             }
-            // Let the package editor route shortcuts for its own children.
-            if (editorControl?.IsKeyboardFocusWithin == true)
-                return;
             if (WPFCommands.TryExecutePreviewShortcut(e, Document, View, Marker))
                 e.Handled = true;
         }
@@ -1296,6 +1297,8 @@ namespace Demos
             var key = WPFCommands.NormKey(e);
             if (key.Key != SpiralLab.Sirius3.UI.Config.KeyboardMarkerStart)
                 return false;
+            if (View is IViewInteractionHost interaction && interaction.IsInteractionActive)
+                return true;
 
             // The configured start key belongs to the editor even when the command
             // cannot start or the operator cancels the safety confirmation.

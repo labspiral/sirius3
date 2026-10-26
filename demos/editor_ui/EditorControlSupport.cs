@@ -752,6 +752,8 @@ namespace Demos
 
     internal static class ChartInteractionHelper
     {
+        // Framework Chart draws style dimensions in pixels. The modern package
+        // scales these logical dimensions itself, so it must receive them unchanged.
         internal static int StyleSize(Chart chart, int logicalPixels)
         {
 #if NETFRAMEWORK

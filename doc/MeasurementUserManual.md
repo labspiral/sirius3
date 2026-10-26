@@ -1,8 +1,8 @@
 # RTC real-time measurement and data analysis (Measurement & Plot)
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](MeasurementUserManual.md) | [한국어](MeasurementUserManual.koKR.md)
+[English](MeasurementUserManual.md) | [한국어](MeasurementUserManual.koKR.md) | [All guides](README.md)
 
 
 ## 1. Overview

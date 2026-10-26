@@ -1,63 +1,55 @@
-# PropertyGrid Control & Entity Inspector User Manual
+# PropertyGrid 사용 설명서
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](PropertyGridUserManual.md) | [한국어](PropertyGridUserManual.koKR.md)
+[English](PropertyGridUserManual.md) | [한국어](PropertyGridUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
-## 1. PropertyGrid의 역할
+## 1. 편집 대상 선택
 
-PropertyGrid는 편집기나 TreeView에서 선택한 Page, Layer, Entity, EntityPen, EntityLayerPen과 장치 설정을 분류별로 보여주고 편집합니다. 값을 바꾸면 Document의 변경 알림과 필요한 형상 재생성이 이어져 편집기에 반영됩니다.
+편집기 또는 TreeView에서 Page·Layer·개체·EntityPen·EntityLayerPen·장치를
+선택합니다. PropertyGrid에는 대상이 지원하는 설정이 표시됩니다. 편집 전 선택한
+이름과 값을 확인하십시오. 빈 화면은 보통 적용할 선택 대상이 없는 상태입니다.
+여러 개체를 선택하면 공통으로 편집 가능한 속성을 표시합니다.
 
-## 2. 선택과 표시
+## 2. 설정 찾기
 
-- 한 개체 선택: 해당 개체의 모든 공개 편집 속성 표시
-- 여러 개체 선택: 공통 속성만 표시하고 한 번의 변경을 선택 개체 전체에 적용
-- Layer/Pen 선택: 개체 형상 대신 레이어 또는 가공 조건 표시
-- 장치 변경: 연결된 RTC·Laser가 지원하지 않는 속성은 숨기거나 읽기 전용으로 표시
+Ctrl+F로 검색 칸에 포커스를 두고 속성 이름·분류·설명을 검색합니다. 검색을 지우면
+전체 목록이 복원되며 필터에서 제외한 속성이 삭제되는 것은 아닙니다. 등록 장치가
+지원하지 않는 속성은 숨겨지거나 읽기 전용으로 표시됩니다. 설명은 선택한 UI 언어로
+단위·선행 조건·관련 설정을 안내합니다.
 
-개체를 설명하거나 값을 비교할 때는 TreeView나 편집기에서 대상을 먼저 선택해 PropertyGrid가 채워졌는지 확인하십시오.
+## 3. 값과 미리보기 적용
 
-## 3. 속성 검색
+표시한 단위로 값을 입력하고 Enter 또는 편집기의 수락 명령으로 완료합니다.
+범위 제한이나 컨트롤러 해상도 변환이 적용되면 최종 표시 값을 확인하십시오.
+편집기를 통한 형상 변경은 화면을 갱신하며 문서 Undo/Redo에 반영됩니다.
 
-Sirius3 1.11.14부터 속성 **이름, 분류, 설명**을 검색할 수 있습니다.
-
-- `CTRL+F`: 검색창으로 이동
-- 검색어 입력: 일치하는 속성만 표시
-- Clear 버튼: 검색 조건을 한 번에 지움
-
-검색 중 보이지 않는 속성은 삭제된 것이 아니라 필터에서 제외된 것일 수 있습니다. 장치 지원 여부와 검색어를 함께 확인하십시오.
+드롭다운에 Apply가 있으면 미리보기로 확인할 수 있습니다. 수락은 변경을 확정하고
+취소 또는 수락하지 않은 닫기는 이전 값으로 복원합니다. 여러 대상을 선택했다면
+의도한 대상 모두를 확인합니다. 텍스트 칸은 커서·문자·편집 키를 자체 사용하므로
+그리기 단축키를 쓰려면 뷰포트로 포커스를 옮기십시오.
 
 ## 4. 주요 분류
 
-- Basic: 이름, ID, 가공/렌더링 허용
-- Transform: 위치, 회전, 배율, ModelMatrix
-- Geometry/Text/Hatch: 크기, 정점, 텍스트, 해치
-- Laser: Power, PowerMax, PowerMapCategory, Frequency, PulseWidth
-- Scanner: Mark/Jump Speed, Laser/Scanner Delay, Hard Jump
-- Raster: RasterMode, PixelTime, PixelPeriod, PixelPulses
-- Wobbel: Shape, Frequency, Parallel/Perpendicular 진폭
-- Layer Advanced: Sky Writing, Variable Delay, ALC, SCANAhead 연계
-- syncAXIS: MotionType, Bandwidth 등 협조 모션 설정
+| 분류 | 예 |
+|---|---|
+| 기본 / 변환 | 이름·표시/마킹 허용·위치·회전·배율 |
+| 형상 / 텍스트 / 해치 | 치수·문자열·문자 간격·해치 목록 |
+| EntityPen | 출력·주파수·속도·지연·래스터·점 설정 |
+| EntityLayerPen | ALC·Sky Writing·가변 지연·지원 컨트롤러 모드 |
 
-## 5. 값 변경과 범위
+가공 설정의 관계는 [Pen](PenUserManual.koKR.md), [LayerPen](LayerPenUserManual.koKR.md)을
+참고하십시오. 외관을 바꾸는 설정이 반드시 레이저 출력을 바꾸는 것은 아닙니다.
 
-숫자 편집기는 허용 범위를 벗어난 값을 속성의 최소·최대값 안으로 조정할 수 있습니다. 입력값이 그대로 남았다고 가정하지 말고 편집 완료 후 표시값과 로그를 확인하십시오.
+## 5. 프레임워크와 작업 상태
 
-`UI.Config.IsConvertToControllerResolution`을 켜면 EntityPen/EntityLayerPen의 시간·주파수 값이 연결된 RTC의 적용 해상도에 맞춰 표시될 수 있습니다. 이 옵션은 좌표 KFactor 변환과 별개입니다.
+WinForms·WPF는 각 프레임워크의 컨트롤로 같은 문서·장치 속성 편집 흐름을 제공합니다.
+설명 영역과 드롭다운은 호스트의 글꼴·DPI를 따릅니다. Marker가 Busy이면 편집이
+제한됩니다. 가공 시작 전 선택 장치와 준비 상태를 확인하십시오.
 
-## 6. 다국어 설명
+[편집기](EditorUserManual.koKR.md), [TreeView](TreeviewUserManual.koKR.md),
+[WinForms](WinForms.koKR.md), [WPF](WPF.koKR.md), [Font Editor](FontEditorUserManual.koKR.md)를 참고하십시오.
 
-Core와 UI Config, PropertyGrid 이름·분류·설명은 선택한 언어 리소스를 사용합니다. Sirius3 1.11.14부터 관련 설정, 주의사항과 적용 순서를 여러 줄로 다시 표시합니다. 다른 언어로 바꾼 뒤에는 PropertyGrid를 새로 열거나 선택을 갱신해 표시를 확인하십시오.
-
-## 7. 가공 중 제한
-
-Marker가 Busy이면 형상과 공정 조건 편집을 제한합니다. 확대·축소와 화면 이동은 가능하지만 선택과 데이터 변경은 잠깁니다. F5는 실제 Marker Start로 이어질 수 있으므로 작업 영역과 레이저 안전 상태를 확인한 뒤 사용하십시오.
-
-## 8. HiDPI와 WPF
-
-WinForms 1.15.0은 실제 글꼴·DPI로 설명 영역을 측정하고 레이아웃 변경 후 갱신합니다. 기본값은 제목과 설명 네 줄이며, 명시한 양수 `SiriusPropertyGrid.DescriptionHeight`는 유지하고 `HelpVisible`로 표시 여부를 선택합니다. 숫자·목록 드롭다운 편집기는 소유 Grid의 글꼴, DPI와 View를 따릅니다. 측정된 텍스트 크기에 배율을 다시 곱하지 않습니다.
-
-WPF는 같은 Document·장치 속성을 위한 자체 PropertyGrid와 Editor Adapter를 제공합니다. 현재 편집기·View를 Grid에 연결해 의도한 Document에서 미리보기가 갱신되도록 합니다. [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md)를 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

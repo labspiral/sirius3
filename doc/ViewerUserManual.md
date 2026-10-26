@@ -1,40 +1,34 @@
 # ViewerControl User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](ViewerUserManual.md) | [한국어](ViewerUserManual.koKR.md)
+[English](ViewerUserManual.md) | [한국어](ViewerUserManual.koKR.md) | [All guides](README.md)
 
+## 1. View a document
 
-## 1. Overview
+Use ViewerControl to inspect drawings or monitor a processing path without
+editing geometry in the viewport. Assign the host's `IDocument` to `Document`.
+An editor and multiple viewers can share it; edits made elsewhere are reflected
+in the viewers. A viewer is not an interlock or a lock on external document changes.
 
-`ViewerControl` is a lightweight OpenGL visualization control for monitoring laser-processing state or inspecting drawings in view-only mode.
-The editing function is excluded, so there is no risk of drawing mutation due to errors, and it uses system resources efficiently.
+## 2. Cameras and appearance
 
-## 2. Document Injection
+Wheel zooms around the pointer, middle drag pans and right drag rotates a
+perspective camera. Use Fit to inspect the intended region. Choose different
+cameras for top/side inspection in separate windows. Imported mesh colors and
+textures affect visualization, while machining follows prepared paths and pens.
 
-Like EditorControl, ViewerControl also infuses data from the outside through the `Document` property.
+## 3. Integration and cleanup
 
-- Real-time collaboration: When you connect the `IDocument` that is being edited in the Editor to the Viewer, the Viewer screen will also be synchronized and updated in real-time when an object is modified or added in the Editor.
-- Multi-view configuration: Exhibit multiple viewers to share one document, each of which can intrinsically monitor the processing status in different camera corners (flat, side, ISO, etc.).
+Both WinForms and WPF provide viewer controls. Configure DPI and the application
+lifetime as described in [WinForms](WinForms.md) and [WPF](WPF.md). Keep a shared
+document alive until every control has detached, then dispose the host-owned
+document once. Dispose each viewer when its window closes.
 
-## 3. Key Features
+For editing, use [EditorControl](EditorUserManual.md). See
+[view/camera](ViewUserManual.md), [simulation](SimulationUserManual.md) and
+[Font Editor](FontEditorUserManual.md) for the related workflows.
 
-- Read-only mode: The `IsAllowEdit` property is internally fixed to `false`, and the drawing is not changed by mouse drag or click.
-- Advanced Camera Animation:
-  - Auto Rotating: Automatically rotating the camera to a specific object center, allowing you to review the processing in multiple dimensions.
-  - Zoom Fit: One-click button to draw the whole or selected objects on the screen tightly.
-- Status display: You can receive the start/final event of the processing markers (`Marker`) to automatically update the screen or display the processing time.
-
-## 4. Usage Scenarios
-
-- Installation Operator Screen: The main editing window is hidden, exhibit only ViewerControl, so that the processing processing is safely checked.
-- 3D monitoring: 3D processing (e.g. Z-Defocus processing) is used as an assistant monitor to verify the intrusive orbit.
-
-## 5. WinForms/WPF and shared document lifetime
-
-Both frameworks provide viewer controls for the shared document model. A WinForms viewer window, including one created dynamically, uses `AutoScaleMode.Dpi` and a `(96, 96)` design baseline when hosted by the HiDPI demos. WPF uses device-independent layout. See [WinForms](WinForms.md) and [WPF](WPF.md).
-
-Dispose the viewer's UI/OpenGL resources when it is no longer needed. The host owns the assigned document; detach all viewers before disposing it. Mesh diffuse textures and source colors introduced in 1.15.0 are also displayed by viewers and do not change machining paths.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

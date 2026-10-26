@@ -1,8 +1,8 @@
 # Laser Power Mapping & Compensation User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](PowermapUserManual.md) | [한국어](PowermapUserManual.koKR.md)
+[English](PowermapUserManual.md) | [한국어](PowermapUserManual.koKR.md) | [All guides](README.md)
 
 This guide covers the public Sirius3 PowerMap API and its WinForms/WPF controls.
 

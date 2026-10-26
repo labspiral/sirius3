@@ -1,6 +1,6 @@
 # SiriusMultiEditorControl User Manual
 
-> API reference: Sirius3 Core/UI 1.17 (public features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
 [English](SiriusMultiEditorUserManual.md) | [한국어](SiriusMultiEditorUserManual.koKR.md) | [All guides](README.md)
 
@@ -54,9 +54,9 @@ The two frameworks share indexed device registration and asynchronous cleanup, b
 
 ## Entity grips and Font Editor
 
-The viewport supports Move/Vertex/Scale with Tab and reverse cycling with Shift+Tab,
+The viewport supports Move/Vertex/Size with Tab and reverse cycling with Shift+Tab,
 V/Shift+V grip navigation, G magnetic snapping and F/Ctrl+F Fit. Editing is
-Undo/Redo-safe. See [Editor](EditorUserManual.md) for input focus and grid rules.
+Undo/Redo-safe. Move includes whole-entity movement and supported axis rotation; Size edits dimensions or model scale. See [Editor](EditorUserManual.md) for input focus and grid rules.
 Open **Font Edit** from the context menu for the separate font-file workflow;
 see [Font Editor](FontEditorUserManual.md).
 

@@ -1,8 +1,8 @@
 # IDocument & Recipe Management User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](DocumentUserManual.md) | [한국어](DocumentUserManual.koKR.md)
+[English](DocumentUserManual.md) | [한국어](DocumentUserManual.koKR.md) | [All guides](README.md)
 
 ## 1. IDocument
 
@@ -91,9 +91,23 @@ The demo opens the Viewer and Editor Form in turn and shows the concept. In the 
 
 ## 4. Page
 
-The document provides up to four pages. Page is the top-level run unit that separates different drawings or processes. If you change the active Page in the Editor, the Layer and Entity of that Page will be edited.
+A document contains four pages, `DocumentPages.Page1` through `Page4`. Each page
+owns its layers; `ActivePage.ActiveLayer` is the destination for ordinary editing.
+The integrated editor provides four `TreeViewPageControl` page tabs.
 
-The `LayerFirst` and `OffsetFirst` settings in MarkerRtc change the repeated order when processing multiple Page/Offset. The same data can be “Take all layers and then offset” or “Take all offset and then layer” according to the settings, so set the actual production order first.
+```csharp
+document.Page = DocumentPages.Page2;
+// ActivePage now refers to document.DocumentData.Pages[1].
+```
+
+Setting `Page` also selects the corresponding `ActivePage`. Assigning an existing
+page from the same document to `ActivePage` updates `Page` in the other direction.
+Set one property; there is no need to assign both.
+
+`MarkerRtc.MarkProcedure` changes the order of layers and offsets **within the
+selected page**. LayerFirst completes all layers at one offset before moving to
+the next offset. OffsetFirst completes one layer at every offset before moving
+to the next layer. See [offset execution order](OffsetUserManual.md).
 
 ## 5. Layer
 
@@ -124,7 +138,7 @@ If you select an object in PropertyGrid, you can check the pen connected to the 
 
 ### SVG and 3MF import
 
-In 1.16.0, `ActImport` imports `.svg` as an editable `EntitySvg`/`EntityContour` vector hierarchy and `.3mf` as `EntityMesh`. SVG coordinates become millimeters using 96 pixels/inch and a reflected Y axis; native line, arc and Bezier/NURBS sources are retained. Solid fills and stroke widths, caps and joins form regions. Text, images, masks, filters, clip paths, markers, dashed and non-scaling strokes are unsupported; convert them to supported outlines before import.
+`ActImport` imports `.svg` as an editable `EntitySvg`/`EntityContour` vector hierarchy and `.3mf` as `EntityMesh`. SVG coordinates become millimeters using 96 pixels/inch and a reflected Y axis; native line, arc and Bezier/NURBS sources are retained. Solid fills and stroke widths, caps and joins form regions. Text, images, masks, filters, clip paths, markers, dashed and non-scaling strokes are unsupported; convert them to supported outlines before import.
 
 SVG line hatching is disabled by default. Set `UI.Config.IsSvgImportHatchEnabled = true` before a new import to add HatchLine at `UI.Config.SvgImportHatchInterval` (default 0.1 mm). Later opaque white paint cuts out earlier geometry by default; `EntitySvg.WhiteIsKnockout` controls this policy.
 
@@ -168,9 +182,27 @@ You can subscribe to the status changes as `OnNew`, `OnBeforeOpen`, `OnAfterOpen
 
 The code that created the document directly must call `Dispose()` when it is no longer used. Connected View and Device’s closing responsibility must be clearly managed by the code that created each.
 
-## 12. UI host shutdown in 1.15.0
+## 12. UI host shutdown
 
-An editor's `DisposeDevices()` now returns `Task`. Await it before closing the editor or disposing its document so registered remote/MCP work finishes while the UI dispatcher is still available. If the host owns a separate server, await its `DisposeAsync()` first. Detach other viewers from a shared document and dispose it once. Finish these steps before the application calls `Core.Cleanup()`. See [WinForms](WinForms.md) and [WPF](WPF.md) for closing-event patterns.
+An editor's `DisposeDevices()` returns `Task`. Await it before closing the editor or disposing its document so registered remote/MCP work finishes while the UI dispatcher is still available. If the host owns a separate server, await its `DisposeAsync()` first. Detach other viewers from a shared document and dispose it once. Finish these steps before the application calls `Core.Cleanup()`. See [WinForms](WinForms.md) and [WPF](WPF.md) for closing-event patterns.
+
+## PDF page import
+
+PDF files are imported as raster page images (`EntityImagePDF`), not editable
+vector text/paths. Import starts with page 1. Select the image and change
+`PageNumber` (one-based) and `RenderDpi` (36–600, default 150) in PropertyGrid.
+Keep the source PDF available when changing pages or resolution. Invalid or
+unreadable pages leave the previous page image intact. Width/Height are physical
+mm dimensions; increasing DPI increases raster detail and memory use.
+
+```csharp
+var image = EntityFactory.CreatePDFImage(@"C:\Drawings\label.pdf", 1, 20);
+if (!document.ActAdd(image))
+    image.Dispose();
+```
+
+See [image entities](EntityUserManual.md) for raster processing and
+[clipping](ClippingUserManual.md) for regional output.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

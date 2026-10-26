@@ -1,8 +1,8 @@
 # Marker Offset 사용자 매뉴얼
 
-> 기준: Sirius3 1.16.0 공개 API와 현재 구현.
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](OffsetUserManual.md) | [한국어](OffsetUserManual.koKR.md)
+[English](OffsetUserManual.md) | [한국어](OffsetUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 가공 위치별 좌표와 방향
 

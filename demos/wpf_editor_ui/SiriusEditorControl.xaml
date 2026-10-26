@@ -111,9 +111,6 @@
                 </Button>
             </ToolBar>
 
-            <ContentControl Grid.Column="1" x:Name="topAccessoryHost"
-                            VerticalContentAlignment="Stretch" HorizontalContentAlignment="Right"/>
-
             <ToolBar Grid.Column="2" Background="{DynamicResource Sirius.Brush.Toolbar}">
                 <Separator/>
                 <ToggleButton x:Name="btnLock" Click="BtnLock_Click" ToolTip="Lock / Unlock editing" BorderThickness="0">
@@ -232,12 +229,16 @@
             <!-- Main editor surface and other control tabs -->
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="0" x:Name="rowLog"/>
                 </Grid.RowDefinitions>
 
-                <local:SiriusNavigationView x:Name="tbcMain" Grid.Row="0" Background="{DynamicResource Sirius.Brush.Panel}"
+                <ContentControl Grid.Row="0" x:Name="topAccessoryHost"
+                                VerticalContentAlignment="Stretch" HorizontalContentAlignment="Left"/>
+
+                <local:SiriusNavigationView x:Name="tbcMain" Grid.Row="1" Background="{DynamicResource Sirius.Brush.Panel}"
                                             FontSize="{DynamicResource Sirius.FontSize.Body}"
                                             SelectorPadding="2,2,2,0" HeaderPadding="5,4" HeaderMargin="0">
                     <local:SiriusNavigationItem x:Name="tabEditor">
@@ -345,9 +346,9 @@
                     </local:SiriusNavigationItem>
                 </local:SiriusNavigationView>
 
-                <GridSplitter x:Name="logSplitter" Grid.Row="1" Height="3" ResizeDirection="Rows" HorizontalAlignment="Stretch" Visibility="Collapsed"/>
+                <GridSplitter x:Name="logSplitter" Grid.Row="2" Height="3" ResizeDirection="Rows" HorizontalAlignment="Stretch" Visibility="Collapsed"/>
 
-                <local:LogControl x:Name="logControl1" Grid.Row="2" Visibility="Collapsed"
+                <local:LogControl x:Name="logControl1" Grid.Row="3" Visibility="Collapsed"
                                   FontSize="{DynamicResource Sirius.FontSize.Compact}"/>
             </Grid>
 

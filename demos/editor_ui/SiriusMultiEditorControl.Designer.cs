@@ -878,6 +878,7 @@ namespace Demos
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.Controls.Add(this.tbcMain);
+            this.splitContainer2.Panel1.Controls.Add(this.flowLayoutPanel1);
             this.splitContainer2.Panel1MinSize = 100;
             // 
             // splitContainer2.Panel2
@@ -902,11 +903,11 @@ namespace Demos
             this.tbcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbcMain.ImageList = this.imageList1;
             this.tbcMain.ItemSize = new System.Drawing.Size(80, 28);
-            this.tbcMain.Location = new System.Drawing.Point(0, 0);
+            this.tbcMain.Location = new System.Drawing.Point(0, 30);
             this.tbcMain.Margin = new System.Windows.Forms.Padding(0);
             this.tbcMain.Name = "tbcMain";
             this.tbcMain.SelectedIndex = 0;
-            this.tbcMain.Size = new System.Drawing.Size(724, 758);
+            this.tbcMain.Size = new System.Drawing.Size(724, 728);
             this.tbcMain.TabIndex = 0;
             // 
             // tabEditor
@@ -1227,17 +1228,20 @@ namespace Demos
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel1.Controls.Add(this.rdDevice0);
             this.flowLayoutPanel1.Controls.Add(this.rdDevice1);
             this.flowLayoutPanel1.Controls.Add(this.rdDevice2);
             this.flowLayoutPanel1.Controls.Add(this.rdDevice3);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(379, 2);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(376, 30);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(724, 30);
             this.flowLayoutPanel1.TabIndex = 41;
+            this.flowLayoutPanel1.WrapContents = false;
             // 
             // rdDevice0
             // 
@@ -1306,7 +1310,6 @@ namespace Demos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.splitContainer123);
             this.Controls.Add(this.stsBottom);
             this.Controls.Add(this.tlsTop1);
@@ -1340,6 +1343,7 @@ namespace Demos
             this.tabEntityPen.ResumeLayout(false);
             this.tabLayerPen.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);

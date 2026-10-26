@@ -1,8 +1,8 @@
 # EntityPen 사용자 설명서
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](PenUserManual.md) | [한국어](PenUserManual.koKR.md)
+[English](PenUserManual.md) | [한국어](PenUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 `EntityPen`은 개별 개체를 가공할 때 사용할 레이저 출력, 펄스, 스캐너 속도, 지연 시간과 선택 기능을 한곳에 모아 둔 설정입니다. 편집기에서 개체의 선 색을 바꾸면 같은 색의 `EntityPen`이 연결되며, Marker는 해당 색을 처음 만날 때 RTC 리스트 버퍼에 펜 설정 명령을 기록합니다.
 
@@ -593,6 +593,8 @@ RTC6 카드, SCANahead 옵션, 호환 스캔헤드, 시스템 패키지와 펌�
 - [Rtc6SyncaxisUserManual.md](Rtc6SyncaxisUserManual.koKR.md): syncAXIS 셋업과 운용
 - [MeasurementUserManual.md](MeasurementUserManual.koKR.md): 측정 채널과 샘플링
 - [Sirius3UIConfigUserManual.md](Sirius3UIConfigUserManual.koKR.md): 편집기 기본 펜과 표시 설정
+
+과도한 Wobbel 주파수나 진폭은 스캔헤드에 과부하와 손상을 줄 수 있습니다. 실제 헤드가 허용하는 범위에서 낮은 조건부터 궤적을 확인하십시오.
 
 ---
 

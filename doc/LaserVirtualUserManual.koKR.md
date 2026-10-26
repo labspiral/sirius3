@@ -1,8 +1,8 @@
 # Laser Power Control & RTC Integration User Manual
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](LaserVirtualUserManual.md) | [한국어](LaserVirtualUserManual.koKR.md)
+[English](LaserVirtualUserManual.md) | [한국어](LaserVirtualUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 
 ## 1. 개요 (Overview)

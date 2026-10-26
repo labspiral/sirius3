@@ -1,63 +1,58 @@
-# PropertyGrid Control & Entity Inspector User Manual
+# PropertyGrid User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](PropertyGridUserManual.md) | [한국어](PropertyGridUserManual.koKR.md)
+[English](PropertyGridUserManual.md) | [한국어](PropertyGridUserManual.koKR.md) | [All guides](README.md)
 
-## 1. Role of PropertyGrid
+## 1. Select the target
 
-PropertyGrid displays and edits the selected Page, Layer, Entity, EntityPen, EntityLayerPen, or device settings from the editor or TreeView. A committed value change updates the Document, regenerates affected geometry when required, and refreshes the editor.
+Select a Page, Layer, entity, EntityPen, EntityLayerPen or device in the editor
+or TreeView. PropertyGrid shows that target's supported settings. Check the
+selected name and values before editing; a blank grid usually means there is no
+applicable selection. Multi-selection exposes common editable properties.
 
-## 2. Selection and Display
+## 2. Find a setting
 
-- Choose one object: Show all public editing properties of that object
-- Select multiple objects: Show only common properties and select one change to apply to the whole object
-- Layer/Pen Choice: Show Layer or Processing Conditions instead of Object Shape
-- Device Change: Properties that are not supported by the connected RTC·Laser are displayed as hidden or read only
+Ctrl+F focuses property search. Search names, categories or descriptions, and
+clear the search to restore the full list. A filtered-out property is not deleted.
+Device-specific properties may be hidden/read-only when the registered device
+does not support them. Descriptions use the chosen UI language and explain units,
+prerequisites and related settings.
 
-When describing an object or comparing values, first select the object in TreeView or Editor to make sure PropertyGrid is filled.
+## 3. Apply values and previews
 
-## 3. Property Search
+Enter the value in its displayed unit and finish the edit with Enter or the editor's
+accept command. Check the resulting value when range limits or controller-resolution
+conversion apply. Geometry edits refresh the drawing and participate in document
+Undo/Redo when performed through the editor.
 
-From Sirius3 1.11.14 you can search for properties **Name, Category, Description**.
+Dropdowns may offer Apply preview. Accept commits the change; cancel or close
+without acceptance restores the prior value. For multi-selection, check all
+intended targets. Text fields keep their own caret, typing and editing keys;
+move focus back to the viewport before using drawing shortcuts.
 
-- `CTRL+F`: Go to the search window
-- Search word enter: Show only matching properties
-- Clear button: Delete the search conditions at once
+## 4. Common groups
 
-The unseen properties during search may not be deleted but excluded from the filter. check the device support and search word together.
+| Group | Examples |
+|---|---|
+| Basic / transform | Name, render/mark permission, position, rotation, scale |
+| Geometry / text / hatch | Dimensions, text content, character spacing, hatch list |
+| EntityPen | Power, frequency, speed, delay, raster and point settings |
+| EntityLayerPen | ALC, Sky Writing, variable delay and supported controller modes |
 
-## 4. Main Categories
+Use [Pen](PenUserManual.md) and [LayerPen](LayerPenUserManual.md) for processing
+relationships. A change to appearance does not necessarily change laser output.
 
-- Basic: name, ID, processing/rendering permitted
-- Transform: position, rotation, distribution, ModelMatrix
-- Geometry/Text/Hatch: size, height, text, hatch
-- Laser: Power, PowerMax, PowerMapCategory, Frequency, PulseWidth
-- Scanner: Mark/Jump Speed, Laser/Scanner Delay, Hard Jump
-- Raster: RasterMode, PixelTime, PixelPeriod, PixelPulses
-- Wobbel: Shape, Frequency, Parallel/Perpendicular Extension
-- Layer Advanced: Sky Writing, Variable Delay, ALC, SCANAhead
-- syncAXIS: MotionType, Bandwidth, etc.
+## 5. Frameworks and operation state
 
-## 5. Changes in value and scope.
+WinForms and WPF expose the same document/device property workflow with their
+native controls. The description area and dropdowns follow the host's font/DPI.
+Editing is restricted while the marker is busy. Verify the selected device and
+its readiness before starting processing.
 
-Number Editor can adjust values outside the permissible range to the minimum/maximum values of the property. Do not assume that the input values remain the same, but check the display values and logs after editing is completed.
+See [Editor](EditorUserManual.md), [TreeView](TreeviewUserManual.md),
+[WinForms](WinForms.md), [WPF](WPF.md) and [Font Editor](FontEditorUserManual.md).
 
-When you activate `UI.Config.IsConvertToControllerResolution`, the time and frequency values of EntityPen/EntityLayerPen may be displayed according to the application resolution of the RTC connected, which is separate from the coordinate KFactor conversion.
-
-## 6. Localized Descriptions
-
-Core and UI Config, PropertyGrid names, classifications and descriptions use the language resource you have chosen. From Sirius3 1.11.14, the relevant settings, notes and application orders are displayed again in several lines. After changing to another language, open PropertyGrid again or update your choice to check the display.
-
-## 7. Restrictions During Marking
-
-If the Marker is Busy, it will limit the editing of the shape and process conditions. extension, reduction and screen movements are possible but the selection and data changes are locked. F5 can lead to the real Marker Start, so use it after checking the work area and the laser safety state.
-
-## 8. HiDPI and WPF
-
-WinForms 1.15.0 sizes the description area from the actual font/DPI and updates it after layout changes. The default allows a title and four description lines; explicit positive `SiriusPropertyGrid.DescriptionHeight` overrides are retained, and `HelpVisible` controls visibility. Numeric/list dropdown editors follow their owning grid's font, DPI, and view. Do not scale already measured text a second time.
-
-WPF uses its own PropertyGrid and editor adapters for the same document/device properties. Connect the current editor/view to the grid so previews update the intended document. See [WinForms](WinForms.md) and [WPF](WPF.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

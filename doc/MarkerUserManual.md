@@ -1,8 +1,8 @@
 # RTC Laser Marker Control User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](MarkerUserManual.md) | [한국어](MarkerUserManual.koKR.md)
+[English](MarkerUserManual.md) | [한국어](MarkerUserManual.koKR.md) | [All guides](README.md)
 
 
 ## 1. Overview
@@ -70,7 +70,7 @@ You can set to automatically check the physical state of the RTC card and scanne
 |---|---|---|
 | CreateVirtual → MarkerVirtual | Software processing without physical RTC execution. | Device-free traversal/host development; does not validate hardware timing. |
 | CreateRtc → MarkerRtc | Begins, ends and executes RTC lists at layer/offset boundaries. | General RTC4/5/6 workflow; handles layer-level ALC processing. |
-| CreateRtcFast → MarkerRtcFast | Aggregates traversal into a larger logical RTC list. | Reduces submission overhead; does not provide MarkerRtc's layer-level ALC setup. Check buffer and event boundaries for the application. |
+| CreateRtcFast → MarkerRtcFast | Uses one continuous logical list between ListBegin and ListEnd rather than a separate pair for each layer. | Reduces submission overhead; suited to a single EntityLayer, for example MoF. Automatic buffering can still divide the native transmission. Layer-level ALC setup is not provided. |
 | CreateSyncAxis → MarkerSyncAxis | Builds jobs by layer motion type through IRtcSyncAxis and coordinates laser lists. | syncAXIS scanner/stage processing; requires the compatible controller/job configuration. |
 | CreateAuto(IRtc) | IRtcSyncAxis → SyncAxis; RtcVirtual → Virtual; otherwise Rtc. | Does not automatically choose RtcFast. |
 

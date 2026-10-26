@@ -9,29 +9,6 @@
 托管及运行时开源组件
 --------------------
 
-SVG.NET (Svg)
-  版本 : 3.4.8
-  许可证 : Microsoft Public 许可证 (MS-PL)
-  来源  : https://github.com/svg-net/SVG
-  提交  : 9d564f47c82780df4b703ee0bf2436c6a2276f5c
-  分发: 嵌入 SpiralLab.Sirius3.UI，用于导入可编辑矢量轮廓
-
-ExCSS
-  版本 : 4.2.3
-  许可证 : MIT
-  版权: Copyright (c) 2024 Tyler Brinks
-  来源  : https://github.com/TylerBrinks/ExCSS
-  分发: 嵌入 SpiralLab.Sirius3.UI 的 SVG.NET 样式表解析器
-
-lib3mf
-  版本: 2.5.0
-  许可: BSD 2-Clause
-  来源: https://github.com/3MFConsortium/lib3mf
-  分发: Dependencies 中的 x64 和 x32 原生三角网格读取器
-  运行时: 需要与进程架构匹配的 Microsoft Visual C++ 2015-2022 或更新的兼容运行时。
-  通知: 包含 libzip、zlib、cpp-base64 和 fast_float。原始 LICENSE 和 SDK Credits
-        全文及二进制文件来源和构建信息收录于 THIRD-PARTY-NOTICES.txt 末尾。
-
 NLog
   版本: 6.0.5
   许可: BSD 3-Clause
@@ -123,7 +100,8 @@ SkiaSharp 与 HarfBuzzSharp
   包含: ANGLE、HarfBuzz、Skia、etc1、gif、libpng、DNG SDK、expat、
         FreeType、ICU、imgui、jsoncpp、libjpeg-turbo、libwebp、
         libmicrohttpd、piex、SDL、sfntly、SPIR-V Headers/Tools、zlib
-  注意: 未修改的上游说明作为 THIRD-PARTY-NOTICES.SkiaSharp.txt 一起分发。
+  注意: 未修改的上游说明全文收录于 THIRD-PARTY-NOTICES.txt 的
+        SkiaSharp 与 HarfBuzzSharp 章节。
 
 SixLabors.ImageSharp
   版本: 2.1.12、3.1.12（传递依赖）
@@ -149,6 +127,38 @@ PdfPig
   许可: Apache License 2.0
   源码: https://github.com/UglyToad/PdfPig
   分发    : 包含在 SpiralLab.Sirius3.UI Debug 和 Release 构建以及 Release 包中。
+
+PDFium native (bblanchon.PDFium.Win32)
+  版本: 157.0.8100 (157.0.8100.0)
+  许可: 包元数据声明 Apache-2.0；原生版本包含构建项目的 MIT 声明、
+        PDFium BSD 声明和捆绑库许可证。
+  源码: https://github.com/bblanchon/pdfium-binaries
+  分发: 用于 SpiralLab.Sirius3.UI 的 PDF 页面光栅化
+  注意: 未修改的许可全文和二进制来源收录于
+        THIRD-PARTY-NOTICES.txt 的 PDFium 章节。
+
+SVG.NET (Svg)
+  版本 : 3.4.8
+  许可证 : Microsoft Public 许可证 (MS-PL)
+  来源  : https://github.com/svg-net/SVG
+  提交  : 9d564f47c82780df4b703ee0bf2436c6a2276f5c
+  分发: 嵌入 SpiralLab.Sirius3.UI，用于导入可编辑矢量轮廓
+
+ExCSS
+  版本 : 4.2.3
+  许可证 : MIT
+  版权: Copyright (c) 2024 Tyler Brinks
+  来源  : https://github.com/TylerBrinks/ExCSS
+  分发: 嵌入 SpiralLab.Sirius3.UI 的 SVG.NET 样式表解析器
+
+lib3mf
+  版本: 2.5.0
+  许可: BSD 2-Clause
+  来源: https://github.com/3MFConsortium/lib3mf
+  分发: Dependencies 中的 x64 和 x32 原生三角网格读取器
+  运行时: 需要与进程架构匹配的 Microsoft Visual C++ 2015-2022 或更新的兼容运行时。
+  通知: 包含 libzip、zlib、cpp-base64 和 fast_float。原始 LICENSE 和 SDK Credits
+        全文及二进制文件来源和构建信息收录于 THIRD-PARTY-NOTICES.txt 末尾。
 
 Dependencies NuGet 包分发内容
 -----------------------------
@@ -183,3 +193,13 @@ Microsoft Windows API Code Pack 1.1.x 与 Xceed WPF Toolkit/AvalonDock 3.5.0.0
 MIT、BSD 2-Clause、BSD 3-Clause、Apache-2.0、Boost 1.0、GLFW、MS-PL 和
 SGI Free Software License B 2.0 的未经修改全文位于随本文件分发的
 THIRD-PARTY-NOTICES.txt。法律条件以该英文原文及各供应商的原始许可/EULA为准。
+
+
+## Material Icons
+
+Font Editor includes Google Material Design icon assets from
+https://github.com/google/material-design-icons under Apache License 2.0.
+The SVG originals are preserved; PNG/ICO derivatives are rasterizations.
+The complete upstream license is in
+THIRD-PARTY-NOTICES.txt (Material Icons).
+Font Editor 和 TTF 转换器使用 Unicode 字符块数据。Unicode License V3 完整原文与来源包含在 THIRD-PARTY-NOTICES.txt 中。

@@ -70,6 +70,7 @@ Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文]
 - Documents, Editors and Simulation
    - Four document pages with layers, pens, groups, blocks, and configurable Undo/Redo
    - Both WinForms and WPF `SiriusEditorControl` / `SiriusMultiEditorControl` are supported in Debug and Release; one document can be rendered to multiple views
+   - [Font Editor](SpiralLab.Sirius3.UI/FontEditor/README.md): independent CXF/LFF/EO FNT/DOT glyph editing from the WinForms/WPF **Font Edit** menu; mm vectors, integer DOT cells, BBox/metrics, Undo/Redo, DXF import, text preview and installed-TTF conversion. Always included in Debug and Release.
    - Real-time laser-path visualization with screen-sized markers, beam effects, and optional debris
    - Grid-based stitched-image visualization for camera and inspection workflows
 - Open Architecture

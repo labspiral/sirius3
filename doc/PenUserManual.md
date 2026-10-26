@@ -1,8 +1,8 @@
 # EntityPen User Guide
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](PenUserManual.md) | [한국어](PenUserManual.koKR.md)
+[English](PenUserManual.md) | [한국어](PenUserManual.koKR.md) | [All guides](README.md)
 
 `EntityPen` groups the laser output, pulse, scanner speed, delay, and optional features used to mark an individual entity. An entity's line color selects the `EntityPen` with the same color. The Marker writes that pen's settings to the RTC list buffer the first time it encounters the color.
 
@@ -593,6 +593,8 @@ RTC6 cards, SCANahead options, compatible scan heads, system packages and firmwa
 - [Rtc6SyncaxisUserManual.md](Rtc6SyncaxisUserManual.md): syncAXIS setup and operation
 - [MeasurementUserManual.md](MeasurementUserManual.md): measurement channels and sampling
 - [Sirius3UIConfigUserManual.md](Sirius3UIConfigUserManual.md): Editor's default pen and display settings
+
+Excessive Wobbel frequency or amplitude can overload and damage the scan head. Use limits approved for the actual head and validate the path at conservative settings.
 
 ---
 

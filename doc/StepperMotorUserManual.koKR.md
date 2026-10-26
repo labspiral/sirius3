@@ -1,8 +1,8 @@
 # RTC Stepper Motor Control User Manual
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](StepperMotorUserManual.md) | [한국어](StepperMotorUserManual.koKR.md)
+[English](StepperMotorUserManual.md) | [한국어](StepperMotorUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 
 ## 1. 개요 (Overview)

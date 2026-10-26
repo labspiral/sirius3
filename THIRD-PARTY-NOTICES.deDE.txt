@@ -12,31 +12,6 @@ Nutzungs- oder Weiterverteilungsrechte.
 Verwaltete und quelloffene Laufzeitkomponenten
 ----------------------------------------------
 
-SVG.NET (Svg)
-  Version : 3.4.8
-  Lizenz : Microsoft Public Lizenz (MS-PL)
-  Quelle  : https://github.com/svg-net/SVG
-  Commit  : 9d564f47c82780df4b703ee0bf2436c6a2276f5c
-  Lieferung: In SpiralLab.Sirius3.UI für den Import editierbarer Vektorkonturen eingebettet
-
-ExCSS
-  Version : 4.2.3
-  Lizenz : MIT
-  Copyright: Copyright (c) 2024 Tyler Brinks
-  Quelle  : https://github.com/TylerBrinks/ExCSS
-  Lieferung: Eingebetteter SVG.NET-Stylesheet-Parser in SpiralLab.Sirius3.UI
-
-lib3mf
-  Version: 2.5.0
-  Lizenz: BSD 2-Clause
-  Quelle: https://github.com/3MFConsortium/lib3mf
-  Auslieferung: Native x64- und x32-Dreiecksnetzleser im Dependencies-Paket
-  Laufzeit: Microsoft Visual C++ 2015-2022 oder eine neuere kompatible Laufzeit
-            für die jeweilige Prozessarchitektur ist erforderlich.
-  Hinweise: Enthält libzip, zlib, cpp-base64 und fast_float. Die vollständigen
-            Originaltexte LICENSE und SDK Credits sowie Herkunft und Build-Daten
-            der Binärdateien stehen am Ende der Datei THIRD-PARTY-NOTICES.txt.
-
 NLog
   Version  : 6.0.5
   Lizenz   : BSD 3-Clause
@@ -134,8 +109,8 @@ SkiaSharp und HarfBuzzSharp
   Enthält: ANGLE, HarfBuzz, Skia, etc1, gif, libpng, DNG SDK, expat,
            FreeType, ICU, imgui, jsoncpp, libjpeg-turbo, libwebp,
            libmicrohttpd, piex, SDL, sfntly, SPIR-V Headers/Tools, zlib
-  Hinweis: Die unveränderten Upstream-Hinweise werden in
-           THIRD-PARTY-NOTICES.SkiaSharp.txt mitgeliefert.
+  Hinweis: Die vollständigen unveränderten Upstream-Hinweise stehen im
+           Abschnitt SkiaSharp und HarfBuzzSharp von THIRD-PARTY-NOTICES.txt.
 
 SixLabors.ImageSharp
   Version: 2.1.12, 3.1.12 (transitive Abhängigkeit)
@@ -163,6 +138,41 @@ PdfPig
   Lizenz : Apache License 2.0
   Quelle : https://github.com/UglyToad/PdfPig
   Lieferung: In Debug- und Release-Builds von SpiralLab.Sirius3.UI sowie in Release-Paketen enthalten.
+
+PDFium native (bblanchon.PDFium.Win32)
+  Version: 157.0.8100 (157.0.8100.0)
+  Lizenz : Die Paketmetadaten nennen Apache-2.0; die native Version enthält
+           den MIT-Hinweis des Buildprojekts, den BSD-Hinweis von PDFium und
+           die Lizenzen der enthaltenen Bibliotheken.
+  Quelle : https://github.com/bblanchon/pdfium-binaries
+  Einsatz: PDF-Seitenrasterung in SpiralLab.Sirius3.UI
+  Hinweis: Vollständige unveränderte Lizenztexte und Binärherkunft stehen
+           im PDFium-Abschnitt von THIRD-PARTY-NOTICES.txt.
+
+SVG.NET (Svg)
+  Version : 3.4.8
+  Lizenz : Microsoft Public Lizenz (MS-PL)
+  Quelle  : https://github.com/svg-net/SVG
+  Commit  : 9d564f47c82780df4b703ee0bf2436c6a2276f5c
+  Lieferung: In SpiralLab.Sirius3.UI für den Import editierbarer Vektorkonturen eingebettet
+
+ExCSS
+  Version : 4.2.3
+  Lizenz : MIT
+  Copyright: Copyright (c) 2024 Tyler Brinks
+  Quelle  : https://github.com/TylerBrinks/ExCSS
+  Lieferung: Eingebetteter SVG.NET-Stylesheet-Parser in SpiralLab.Sirius3.UI
+
+lib3mf
+  Version: 2.5.0
+  Lizenz: BSD 2-Clause
+  Quelle: https://github.com/3MFConsortium/lib3mf
+  Auslieferung: Native x64- und x32-Dreiecksnetzleser im Dependencies-Paket
+  Laufzeit: Microsoft Visual C++ 2015-2022 oder eine neuere kompatible Laufzeit
+            für die jeweilige Prozessarchitektur ist erforderlich.
+  Hinweise: Enthält libzip, zlib, cpp-base64 und fast_float. Die vollständigen
+            Originaltexte LICENSE und SDK Credits sowie Herkunft und Build-Daten
+            der Binärdateien stehen am Ende der Datei THIRD-PARTY-NOTICES.txt.
 
 Verteilte Dateien des NuGet-Pakets Dependencies
 -----------------------------------------------
@@ -202,3 +212,13 @@ Apache-2.0, Boost 1.0, GLFW, MS-PL und SGI Free Software License B 2.0 befinden
 sich in der zusammen mit dieser Datei verteilten Datei THIRD-PARTY-NOTICES.txt.
 Maßgeblich sind der jeweilige englische Originaltext und die ursprüngliche
 Lizenz beziehungsweise EULA des Herstellers.
+
+
+## Material Icons
+
+Font Editor includes Google Material Design icon assets from
+https://github.com/google/material-design-icons under Apache License 2.0.
+The SVG originals are preserved; PNG/ICO derivatives are rasterizations.
+The complete upstream license is in
+THIRD-PARTY-NOTICES.txt (Material Icons).
+Font Editor und TTF-Konverter verwenden Unicode-Zeichenblockdaten. Der vollständige Unicode License V3 und die Quelle stehen in THIRD-PARTY-NOTICES.txt.

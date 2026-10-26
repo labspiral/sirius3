@@ -1,40 +1,34 @@
-# ViewerControl User Manual
+# ViewerControl 사용 설명서
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](ViewerUserManual.md) | [한국어](ViewerUserManual.koKR.md)
+[English](ViewerUserManual.md) | [한국어](ViewerUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
+## 1. 문서 보기
 
-## 1. 개요 (Overview)
+ViewerControl은 뷰포트에서 형상을 편집하지 않고 도면이나 가공 경로를 확인하는
+컨트롤입니다. 호스트의 `IDocument`를 `Document`에 연결합니다. 편집기와 여러 Viewer가
+문서를 공유하면 다른 화면의 변경도 반영됩니다. Viewer 자체가 장비 인터록이나
+외부 문서 변경을 잠그는 기능은 아닙니다.
 
-ViewerControl은 레이저 가공 상태를 모니터링하거나 도면을 단순히 확인(View-only)하기 위해 설계된 경량화된 OpenGL 시각화 컨트롤입니다. 
-편집 기능이 배제되어 있어 오조작에 의한 도면 변형 위험이 없으며, 시스템 리소스를 효율적으로 사용합니다.
+## 2. 카메라와 외관
 
-## 2. 외부 문서 연동 (Document Injection)
+휠은 포인터 기준 확대·축소, 가운데 드래그는 평행 이동, 오른쪽 드래그는 원근 카메라
+회전입니다. 화면 맞춤으로 확인할 영역을 표시합니다. 여러 창에서 서로 다른 카메라로
+상면·측면을 확인할 수 있습니다. 메시 색·텍스처는 화면 외관이며 실제 가공은 준비한
+경로와 Pen을 따릅니다.
 
-ViewerControl 역시 EditorControl과 마찬가지로 `Document` 속성을 통해 외부에서 데이터를 주입받습니다.
+## 3. 연결과 종료
 
-- 실시간 연동: 에디터에서 편집 중인 `IDocument`를 뷰어에 그대로 연결하면, 에디터에서 개체가 수정되거나 추가될 때 뷰어 화면도 실시간으로 동기화되어 업데이트됩니다.
-- 멀티 뷰 구성: 하나의 문서를 공유하는 여러 개의 뷰어를 띄워, 각각 다른 카메라 각도(평면, 측면, ISO 등)에서 가공 상태를 입체적으로 모니터링할 수 있습니다.
+WinForms와 WPF 모두 Viewer를 제공합니다. [WinForms](WinForms.koKR.md),
+[WPF](WPF.koKR.md)에 따라 DPI와 프로그램 수명을 구성합니다. 모든 컨트롤의 연결을
+해제할 때까지 공유 문서를 유지하고, 이후 호스트가 소유한 문서를 한 번 해제합니다.
+Viewer도 해당 창을 닫을 때 해제합니다.
 
-## 3. 주요 기능 (Key Features)
+편집은 [EditorControl](EditorUserManual.koKR.md)을 사용합니다.
+[화면·카메라](ViewUserManual.koKR.md), [시뮬레이션](SimulationUserManual.koKR.md),
+[Font Editor](FontEditorUserManual.koKR.md)에서 관련 작업을 확인하십시오.
 
-- 읽기 전용 모드 (Read-only): `IsAllowEdit` 속성이 내부적으로 `false`로 고정되어 있어, 마우스 드래그나 클릭에 의해 도면이 변경되지 않습니다.
-- 고급 카메라 애니메이션:
-  - Auto Rotating: 특정 개체를 중심으로 카메라를 자동으로 회전시켜 가공물을 다각도에서 검토할 수 있습니다.
-  - Zoom Fit: 버튼 클릭 한 번으로 도면 전체 또는 선택된 개체를 화면 꽉 차게 정렬합니다.
-- 상태 표시: 가공 진행 중인 마커(`Marker`)의 시작/종료 이벤트를 수신하여 화면을 자동으로 갱신하거나 처리 시간을 표시할 수 있습니다.
-
-## 4. 사용 시나리오 (Usage Scenarios)
-
-- 설비 운영자 화면: 메인 편집 창은 숨기고, ViewerControl만 노출하여 가공 진행 상황만 안전하게 확인하게 합니다.
-- 3D 모니터링: 3D 가공(Z-Defocus 가공 등) 시 입체적인 궤적을 확인하기 위한 보조 모니터용으로 활용합니다.
-
-## 5. WinForms/WPF와 공유 Document 수명
-
-두 프레임워크는 같은 Document 모델을 사용하는 Viewer를 제공합니다. HiDPI 데모의 WinForms Viewer 창은 동적으로 생성한 창까지 `AutoScaleMode.Dpi`와 `(96, 96)` 설계 기준을 사용합니다. WPF는 장치 독립 레이아웃을 사용합니다. [WinForms](WinForms.koKR.md)와 [WPF](WPF.koKR.md)를 참고합니다.
-
-더 이상 사용하지 않는 Viewer의 UI/OpenGL 자원은 해제합니다. 지정한 Document는 호스트가 소유하며 모든 Viewer 연결을 해제한 뒤 폐기합니다. Viewer에서도 1.15.0의 Mesh 확산 텍스처와 원본 색상을 표시하며 가공 경로는 변경하지 않습니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

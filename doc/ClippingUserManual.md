@@ -1,8 +1,8 @@
 # Document Clipping User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](ClippingUserManual.md) | [한국어](ClippingUserManual.koKR.md)
+[English](ClippingUserManual.md) | [한국어](ClippingUserManual.koKR.md) | [All guides](README.md)
 
 ## 1. Select sources and regions
 
@@ -50,6 +50,13 @@ Related guides: [documents](DocumentUserManual.md), [entities](EntityUserManual.
 ## Related features
 
 See [Offset coordinates and data parsing](OffsetUserManual.md), [text](TextUserManual.md), [barcodes](BarcodeUserManual.md), [hatching](HatchUserManual.md) and [complete EntityFactory](EntityUserManual.md).
+
+## Check image regions
+
+Regions wholly outside an image produce no result; source removal applies only
+to contributing sources. Partial raster clips preserve pixel placement and create
+independent results. Review zero-overlap seams and retained pixels after transformed
+or reflected source images, and use Undo if the chosen regions are wrong.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

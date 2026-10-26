@@ -1,75 +1,56 @@
-# View System & OpenGL Rendering User Manual
+# View and camera guide
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](ViewUserManual.md) | [한국어](ViewUserManual.koKR.md)
+[English](ViewUserManual.md) | [한국어](ViewUserManual.koKR.md) | [All guides](README.md)
 
+## 1. Display a document
 
-## 1. Overview
+Use an EditorControl for drawing and editing, or a ViewerControl for view-only
+inspection. Both WinForms and WPF display the same document geometry. OpenGL 3.3
+is required. Choose a supported display driver and test the application's actual
+GPU and remote-desktop environment.
 
-The Sirius3 View system requires OpenGL 3.3 and visualizes document geometry through a WinForms or WPF surface. Frame rate depends on the document, display resolution, and GPU.
-The system consists of Surface responsible for screen output, View managing visual logic, and Resource managing GPU resources.
+## 2. Cameras and navigation
 
-## 2. Core Components
+The view provides an orthographic camera and Top, Front, Right, Back and Left
+perspective cameras. Ctrl+E/Ctrl+Q cycles cameras. Wheel zoom is centered on the
+pointer, middle drag pans, and right drag rotates a perspective camera.
+F/Ctrl+F fits selected entities or active-layer contents. Plain arrows move the camera;
+Alt+arrows adjust depth or turning. See [Editor shortcuts](EditorUserManual.md).
 
+## 3. Visibility and appearance
 
-[WinFormsGLSurface: Hardware Connection Layer]
-- Role: WinForms is a bridge that connects the `GLControl` and OpenGL context.
-- Main Functions:
-  - Convert mouse and keyboard events into OpenGL coordinates.
-  - `MakeCurrent()`: Stream-based OpenGL context activation control.
-  - `Invalidate()`: screen update request and `SwapBuffers` perform.
-- Important: `MakeCurrent()` must necessarily be called only on the UI thread. Access to GPU resources directly from the background thread is prohibited.
+The grid, axes and field-of-view aids support placement. Rendering permission
+controls visibility; marking permission separately controls machining. A hidden
+entity is not an editing target. `Alpha` affects appearance, not laser energy.
+Imported mesh colors and diffuse textures are preview data; create slices or
+other supported paths before machining a surface model.
 
-[ViewBase: Visual Logic Manager]
-- Role: Combines the camera, lights, Document drawing, and marker state into one scene.
-- Main Functions:
-  - Camera Control: 2D (Professional) and 3D (Professional) Camera Conversion and Zoom Fit Function.
-  - Interaction: Drag entities with the mouse and select entities with a frustum.
-  - Visualization Assistant: FOV area display, checkboard, coordinate axis rendering.
-  - Simulation: Show the real-time animation guide of the laser processing pathway.
+Keep referenced OBJ/MTL/images together at import. Saved documents retain imported
+texture data. If an image is missing or a model looks wrong, inspect the import
+log and physical dimensions. See [entities](EntityUserManual.md).
 
-[GLResource: GPU Resource Manager]
-- Role: Manage the Vertex data of the individual entity (Entity) as a GPU memory (VRAM).
-- Synchronization mechanisms (`SyncWith`):
-  - Only when the entity's `BufferVersion` has been changed, the GPU buffer (VAO, VBO, EBO) is updated to prevent unnecessary data transfer.
-  - Buffer the position, color, normal, and texture (UV) data independently.
+## 4. Selection and simulation
 
-[Shaders: Rendering Pipeline]
-- Role: Manage the high-speed calculation program (GLSL) running in the GPU.
-- Provided by Shader:
-  - General: Standard shader for ordinary vectors and mesh entities, including lighting and clipping effects.
-  - Font: High-resolution SDF (Signed Distance Field) based text rendering.
-  - Plane: for work flat and grid rendering.
+Clicking chooses the nearest eligible visible geometry; box selection follows
+the displayed geometry and enabled hatch paths. Grips use screen-sized markers
+and remain usable when zoom changes. The upper-left help describes the current
+mode and active parameter. Rotation arrow markers remain visible and selectable
+through geometry while their circular guide paths may be occluded. Other mesh
+and surface grips follow geometry visibility. [Simulation](SimulationUserManual.md) displays planned
+travel and marking paths without changing machining geometry.
 
-## 3. Rendering Workflow
+## 5. Multiple views and application lifetime
 
-The process in which the processing data is displayed on the screen is as follows.
+Several views may share a document while using different cameras. The application
+must keep that document alive until every view has detached. Close/dispose each
+control on its owning UI thread, await registered-device cleanup in integrated
+editors, and dispose a host-owned document once after its views close.
 
-1) Data Change: The user changes the properties of the object.
-2) Reproduction: `BufferVersion` increases when calling `document.ActRegen()`.
-3) Synchronization: At the next frame rendering, `GLResource.SyncWith()` detects the version difference and upload new data to the GPU.
-4) Rendering: `GLResource.Render()` is called to send the model/view/projection and lighting parameters to the shader and run `GL.DrawElements`.
+For host DPI setup and shutdown examples, see [WinForms](WinForms.md), [WPF](WPF.md)
+and [Viewer](ViewerUserManual.md).
 
-## 4. View Interactions
-
-- Mouse wheels: extended / reduced (based on the locations of the crossing).
-- Mouse Uclick Drag: Camera Rotation (3D Mode Only).
-- Mouse wheel click drag: screen parallel move (Panning).
-- Space Bar: Activate the sub entity (Group internal objects) choice mode.
-- Ctrl + F: Selected object or full drawing screen customized (Zoom Fit).
-
-## 5. Developer Notes
-
-- Resource cleanup: `GLResource` owns unmanaged GPU resources (VRAM). Call `Dispose()` when an entity is deleted or the Document is closed to prevent resource leaks.
-- Rendering performance: When rendering the same mass of objects, use `EntityUniformGroup` to minimize the number of draw calls.
-- Transparency Control: The `EntityModelBase.Alpha` property allows you to control the transparency of the object.
-
-## 6. WPF surfaces, DPI, and mesh textures
-
-`WPFGLSurface` connects the shared view to a WPF OpenGL host. XAML layout uses device-independent units while rendering uses framebuffer pixels; avoid applying both scales to the same geometry. GPU resources belong to a surface/context, even when several views share one document. Queue OpenTK 3 WPF GL work to a render callback; OpenTK 4 work must make the owning context current.
-
-In 1.15.0, Mesh rendering uses imported diffuse materials, source colors, and valid UV/image data. OBJ MTL/image and PLY texture references are resolved at import; retained texture data is saved with the document. Texture appearance does not change laser paths. See [Entity](EntityUserManual.md), [WinForms](WinForms.md), and [WPF](WPF.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

@@ -1,8 +1,8 @@
 # RTC Laser Marker Control User Manual
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](MarkerUserManual.md) | [한국어](MarkerUserManual.koKR.md)
+[English](MarkerUserManual.md) | [한국어](MarkerUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 
 ## 1. 개요 (Overview)
@@ -70,7 +70,7 @@
 |---|---|---|
 | CreateVirtual → MarkerVirtual | 물리 RTC 실행 없는 소프트웨어 처리 | 장치 없는 순회·호스트 개발용이며 하드웨어 타이밍 검증은 아닙니다. |
 | CreateRtc → MarkerRtc | 레이어·Offset 경계에서 RTC 목록 시작·종료·실행 | 일반 RTC4/5/6 흐름이며 레이어별 ALC 처리를 제공합니다. |
-| CreateRtcFast → MarkerRtcFast | 순회를 더 큰 논리 RTC 목록으로 결합 | 제출 비용을 줄이며 MarkerRtc의 레이어별 ALC 설정은 제공하지 않습니다. 버퍼·이벤트 경계를 확인합니다. |
+| CreateRtcFast → MarkerRtcFast | 레이어마다 ListBegin·ListEnd를 호출하지 않고 하나의 연속된 논리 목록으로 처리 | 제출 비용을 줄이며 MoF처럼 EntityLayer 하나를 사용하는 작업에 적합합니다. Auto 버퍼는 실제 전송을 나눌 수 있습니다. 레이어별 ALC 설정은 제공하지 않습니다. |
 | CreateSyncAxis → MarkerSyncAxis | IRtcSyncAxis의 레이어 Motion Type별 Job과 Laser 목록 결합 | Scanner·Stage 동기 가공용이며 호환 컨트롤러·Job 설정이 필요합니다. |
 | CreateAuto(IRtc) | IRtcSyncAxis → SyncAxis, RtcVirtual → Virtual, 그 밖에는 Rtc | RtcFast를 자동 선택하지 않습니다. |
 

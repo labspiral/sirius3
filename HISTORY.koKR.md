@@ -1,5 +1,20 @@
 # Sirius3 버전 이력
 
+## v1.17.0 (2026.10.26)
+
+- updated) 개발자 매뉴얼 개선
+- added) `IGrippable` 추가
+  - 개체의 대화형 생성과 정점·위치·크기·회전 편집 지원
+  - Ctrl, Alt, Shift 키 조합을 이용한 스냅 이동 지원
+- added) `FontEditorControl` 추가
+  - `EntitySiriusText`용 폰트 파일 생성 및 편집 지원
+- added) `EntityImagePDF` 추가
+  - `IDocument.ActImport`를 통한 PDF 파일 가져오기 지원
+- fixed) `EntityMixedGroup`, `EntityUniformGroup`, `EntityGerber`
+  - 복합 개체의 하위 개체 편집 시 렌더링 성능 향상
+- fixed) `MCPServerOptions.AllowedFileRoots`
+  - MCP 파일 접근에서 호스트 프로세스가 접근 가능한 모든 경로를 기본 허용
+
 ## v1.16.1 (2026.10.12)
 
 - updated) SCANLAB RTC6 의존성을 Software Package 1.25.1 로 갱신
@@ -31,7 +46,7 @@
 
 - updated) SCANLAB RTC6 의존성을 Software Package 1.25.0으로 갱신하고, 초기화 시 보드 리비전에 맞는 펌웨어를 자동 선택하며 `RtcRevision`에서 값 0은 리비전 1, 값 1은 리비전 2로 확인할 수 있도록 개선
 - added) `EntityNURBSSurface`, `EntityTorus`, `EntityPlane`, `EntityPyramid` 3D 표면 메시와 팩토리 함수를 추가하고, WinForms 편집기에서 3D 메시와 스플라인을 생성·편집하고 슬라이스를 미리 볼 수 있도록 개선
-- added) 직선·원형 Sirius/GDI 텍스트와 `EntityImageText`에 Fixed 문자 셀 폭과 글리프 폭 맞춤 설정을 추가하여 공백과 누락 글리프를 포함한 문자 위치를 일정하게 유지
+- added) 직선·원형 Sirius/GDI 텍스트와 `EntityImageText`에 Fixed 문자 셀 폭과 문자 폭 맞춤 설정을 추가하여 공백과 누락 문자를 포함한 문자 위치를 일정하게 유지
 - changed) 원형 텍스트가 줄 바꿈을 동심원 여러 줄로 배치하고, 텍스트 기준선과 논리 경계 및 `EntityImageText`의 투명 여백 계산을 안정화
 - fixed) 1D/2D 바코드의 `Width`와 `Height`를 독립적인 최대 가공 경계로 유지하면서 인코딩 행렬을 내부에 맞춰 요청 크기를 넘지 않도록 수정
 - fixed) `EntityPoint`와 `EntityPoints`의 다중 펄스 점 마킹이 `EntityPen.IsPixelPulsesExit` 설정을 RTC 명령에 반영하도록 수정
@@ -40,11 +55,11 @@
 ## v1.12.2 (2026.8.18)
 
 - added) `EntityCircularSiriusText` 엔티티 추가
-- fixed) SiriusText AutoKerning이 사선을 포함한 글리프 선분 간 실제 최단거리로 글자 간격을 계산하도록 수정
+- fixed) SiriusText AutoKerning이 사선을 포함한 문자 선분 간 실제 최단거리로 글자 간격을 계산하도록 수정
  
 ## v1.12.1 (2026.8.16)
 
-- added) `EntitySiriusText.IsAutoKerning`으로 Variable 글자 간격에서 캐시된 폰트 윤곽을 기준으로 인접 글리프를 자동 커닝 지원
+- added) `EntitySiriusText.IsAutoKerning`으로 Variable 글자 간격에서 캐시된 폰트 윤곽을 기준으로 인접 문자를 자동 커닝 지원
 - fixed) Fixed 글자 간격에서 내용이 바뀌어도 문자 셀 위치를 유지하고 양쪽 끝 셀 여백을 보존하며, 다국어 폰트 메트릭 샘플을 설정하고 Unicode 17 문자권 범위로 폴백을 선택하도록 개선
 - fixed) `TextConverters.Link`의 연결 대상도 `Link`를 사용하면 연속 링크를 따라가지 않고 오류를 기록한 뒤 마킹을 중지하도록 수정
 - changed) Gentec-EO 초기화 시 `scaleIndex`가 `null`이면 오토 스케일을 켜지 않고 장치의 현재 스케일 및 오토 스케일 설정을 그대로 유지하도록 변경

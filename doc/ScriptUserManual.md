@@ -1,8 +1,8 @@
 # Sirius3 IScript Developer Manual (C# Scripting Integration)
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](ScriptUserManual.md) | [한국어](ScriptUserManual.koKR.md)
+[English](ScriptUserManual.md) | [한국어](ScriptUserManual.koKR.md) | [All guides](README.md)
 
 This guide explains the `IScript` interface at the core of Sirius3 dynamic text and shows developers how to extend it with application-specific behavior.
 

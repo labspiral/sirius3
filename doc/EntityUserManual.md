@@ -1,6 +1,6 @@
 # EntityFactory & Entity User Manual
 
-> API reference: Sirius3 Core/UI 1.17 (public features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
 [English](EntityUserManual.md) | [한국어](EntityUserManual.koKR.md) | [All guides](README.md)
 
@@ -383,6 +383,28 @@ EntityStepperMove CreateStepperMove(StepperAxes axis, StepperMoveTypes type, dou
 EntityStepperWait CreateStepperWait(StepperCombinedAxes axis, double msec);
 ```
 
+## Point display and interactive spirals
+
+New `EntityPoints` instances, including `EntityFactory.CreatePoints`, start with
+`PointSize = 2`. This is a display setting; it does not change point coordinates
+or the physical laser spot. Explicit sizes in saved entities and clones are retained.
+
+The WinForms/WPF drawing commands create `EntitySpiral` and `EntityLissajous` with center → diameter,
+and `EntitySpiralClassic` with center → start diameter → end diameter. The pointer
+sets a radius and the readout reports twice that distance as the diameter in mm.
+Classic accepts start diameter 0, a positive end diameter and inward/outward growth.
+Backspace returns a stage, Escape cancels, and completion produces one Undo/Redo action.
+
+| Drawing command | Other initial parameters |
+|---|---|
+| Spiral | Archimedean, Turns=5, Depth=2 mm, closed |
+| SpiralClassic | Revolutions=10, Depth=1 mm, closed |
+| Lissajous | π, Turns=10, Depth=0 mm, Ccw |
+
+Edit these values in PropertyGrid after creation; use Depth=0 for a planar path.
+Lissajous creation preserves the source XY ratio by editing native Diameter, with identity ModelScale. Factory calls continue to use the values supplied by the caller.
+See [Editor](EditorUserManual.md) for drawing, selection and grip controls.
+
 ## Grip editing and PDF images
 
 Supported `IGrippable` entities expose position, native parameters, vertices,
@@ -393,6 +415,26 @@ placement instance; edit the block master deliberately when all instances must c
 `CreatePDFImage(fileName, pageNumber, height, width = 0, dpi = 150)` creates an
 `EntityImagePDF`. Its page is rasterized, while Width/Height remain in mm.
 See [PDF import](DocumentUserManual.md).
+
+## Child containers and surface point clouds
+
+`IHasChildren<IEntity>` describes a container such as Group or Gerber. It is not
+an additional geometric shape. Document actions keep child edits in Undo/Redo.
+
+| Container | Use |
+|---|---|
+| `EntityMixedGroup` | Keep different entity types together while preserving individual child behavior. |
+| `EntityUniformGroup` | Group entities with compatible rendering structure for efficient repeated drawing. |
+| `EntityGerber` | Retain the child geometry of an imported Gerber drawing. |
+
+1. Import an STL or another supported mesh into the document.
+2. Use `IDocument.ActPointCloud` to project source sample positions along a
+   direction onto the surface, or `ActGridCloud` to sample the surface at a
+   specified grid spacing in mm. A smaller spacing produces more points.
+3. Inspect the points from an oblique camera view. They describe the sampled
+   surface, not a filled volume. `ActGridCloud` also returns normals. The points
+   can be passed to `RtcCalibrationLibrary.PointsCloudCalibration`; align units
+   and coordinates first. See [3D calibration](Correction3dUserManual.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

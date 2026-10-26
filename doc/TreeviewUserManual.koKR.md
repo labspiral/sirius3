@@ -1,6 +1,6 @@
 # TreeView Page Control User Manual
 
-> API 기준: Sirius3 Core/UI 1.17 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
 [English](TreeviewUserManual.md) | [한국어](TreeviewUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -52,8 +52,8 @@ F5는 TreeView에 포커스가 있어도 실제 Marker Start로 이어질 수 �
 
 문자 단축키는 WinForms·WPF의 Page·Block·Substrate·Wafer 트리에서 동일하게
 동작합니다. 처리한 문자 키로 다른 노드를 검색하지 않습니다. 텍스트 입력 칸은
-자체 편집 키를 유지하고 Tab은 일반 포커스 이동에 사용합니다. Grip의 V/Shift+V
-탐색은 뷰포트에서 사용하십시오. M은 마킹 허용 상태를 바꾸어 Undo/Redo에 기록하며
+자체 편집 키를 유지하고 Tab은 일반 포커스 이동에 사용합니다. Tab/Shift+Tab 모드
+전환은 뷰포트에서 사용하며 V/Shift+V 탐색은 트리에서도 뷰포트로 전달합니다. M은 마킹 허용 상태를 바꾸어 Undo/Redo에 기록하며
 실제 마킹을 시작하지 않습니다.
 
 ## 6. HiDPI와 프레임워크 지원
@@ -62,7 +62,19 @@ WinForms 1.15.0은 DPI 변경 후 처음 표시하는 페이지까지 현재 DPI
 
 
 
-뷰포트에서 Tab/Shift+Tab으로 Move·Vertex·Scale 모드를 변경합니다. 트리의 Tab은 포커스를 이동합니다.
+뷰포트에서 Tab/Shift+Tab으로 Move·Vertex·Size 모드를 변경합니다. 트리의 Tab은 포커스를 이동합니다.
+
+### 페이지 탭·활성 레이어·반복 블록
+
+1. 페이지 탭 4개는 각각 `TreeViewPageControl`을 가집니다. 탭을 바꾸면 문서 페이지도
+   바뀌며 굵게 표시한 레이어가 그 페이지의 편집 대상입니다.
+   [페이지 자동 동기화](DocumentUserManual.koKR.md)를 참고합니다.
+2. 원본 개체를 선택하고 Block 명령으로 재사용할 원본을 만듭니다. 이 작업은 문서의
+   `IDocument.ActBlock`으로 처리합니다. 별도의 `TreeViewBlockControl`은 블록 목록을 표시합니다.
+3. 원본을 `EntityBlockInsert`로 반복 배치합니다. 각 삽입 개체는 위치·배율·회전을
+   따로 가집니다. 블록 원본을 편집하면 모든 참조가, 삽입 개체를 편집하면 해당 배치만
+   바뀝니다. 같은 레이저 패턴을 여러 위치에 배치할 때 유용합니다.
+   [개체 컨테이너](EntityUserManual.koKR.md)를 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

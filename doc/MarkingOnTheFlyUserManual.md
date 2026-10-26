@@ -1,8 +1,8 @@
 # SpiralLab.Sirius3 MoF (Marking on the Fly) Integrated User Guide
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](MarkingOnTheFlyUserManual.md) | [한국어](MarkingOnTheFlyUserManual.koKR.md)
+[English](MarkingOnTheFlyUserManual.md) | [한국어](MarkingOnTheFlyUserManual.koKR.md) | [All guides](README.md)
 
 
 This manual describes the two main Sirius3 interfaces, `IRtcMoF` and `IRtcMoFExtension`, which synchronize scanner motion with an external encoder or absolute-position signal (McBSP) to mark moving workpieces.
@@ -116,7 +116,7 @@ The offsets demo retains the encoder origin while processing multiple placements
 
 The interrupt handler is a host callback with Windows scheduling latency. Replace illustrative sleeps with explicit completion/failure handling for the external operation. It is suited to paused coordination, not capture of a short input pulse. Use controller edge waits for timing-sensitive input sequencing. The current RTC4/4e dedicated edge helper does not record an edge wait; use verified level-wait composition or RTC5/6 for that demo flow. See [digital I/O](DigitalIOUserManual.md).
 
-Check IRtcMoF/IRtcMoFExtension/IRtcInterrupt support, controller generation, installed SDK/firmware, enabled MoF option/license, encoder polarity, counts per millimetre and virtual-field limits. Debug assertions in a sample are not production validation. Handle OnEncoderSignalError and OnOutOfVirtualImageField, aborts and errors, and stop/dispose host work during cleanup.
+Check IRtcMoF/IRtcMoFExtension/IRtcInterrupt support, controller generation, installed SDK/firmware, enabled MoF option/license, encoder polarity, counts per millimetre and virtual-field limits. Handle OnEncoderSignalError and OnOutOfVirtualImageField, aborts and errors, and stop/dispose host work during cleanup.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

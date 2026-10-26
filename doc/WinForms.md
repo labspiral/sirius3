@@ -1,12 +1,12 @@
 # Sirius3 WinForms integration guide
 
-> API reference: Sirius3 Core/UI 1.17 (public features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
 [English](WinForms.md) | [한국어](WinForms.koKR.md) | [WPF](WPF.md) | [All guides](README.md)
 
 ## 1. Packages and demo projects
 
-Install the published `SpiralLab.Sirius3`, `SpiralLab.Sirius3.UI`, and `SpiralLab.Sirius3.Dependencies` NuGet packages. Version 1.15.0 adds WinForms HiDPI support and asynchronous remote/MCP cleanup. Keep the Dependencies package's runtime files with the application output.
+Install the published `SpiralLab.Sirius3`, `SpiralLab.Sirius3.UI`, and `SpiralLab.Sirius3.Dependencies` NuGet packages. Sirius3 1.17.0 includes Grip editing, Font Editor and PDF page import alongside WinForms HiDPI and asynchronous remote/MCP cleanup. Keep the Dependencies package's runtime files with the application output.
 
 The public demos use Visual Studio 2022 or later and target `net481;net8.0-windows;net9.0-windows`. The library also supports `net10.0-windows`; that target is outside the current public demo configuration.
 
@@ -143,11 +143,13 @@ Related guides: [integrated editor](SiriusEditorUserManual.md), [multi-editor](S
 
 ## Entity grips and Font Editor
 
-The viewport supports Move/Vertex/Scale with Tab and reverse cycling with Shift+Tab,
+The viewport supports Move/Vertex/Size with Tab and reverse cycling with Shift+Tab,
 V/Shift+V grip navigation, G magnetic snapping and F/Ctrl+F Fit. Editing is
-Undo/Redo-safe. See [Editor](EditorUserManual.md) for input focus and grid rules.
+Undo/Redo-safe. Move includes whole-entity movement and supported axis rotation; Size edits dimensions or model scale. See [Editor](EditorUserManual.md) for input focus and grid rules.
 Open **Font Edit** from the context menu for the separate font-file workflow;
 see [Font Editor](FontEditorUserManual.md).
+
+See the [editor guide](EditorUserManual.md) for current Grip modes, curve centers and keyboard input. [Font Editor](FontEditorUserManual.md) covers conversion; [Document](DocumentUserManual.md) covers PDF pages and page switching.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

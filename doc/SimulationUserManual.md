@@ -1,8 +1,8 @@
 # [User Manual] Processing Route Simulation
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](SimulationUserManual.md) | [한국어](SimulationUserManual.koKR.md)
+[English](SimulationUserManual.md) | [한국어](SimulationUserManual.koKR.md) | [All guides](README.md)
 
 
 ## 1. Overview
@@ -27,23 +27,15 @@ Simulation stop (ActSimulateStop)
    - Stop the running simulation immediately and restore the view to the original state.
 
 
-## 3. EditorControl UI and Shortcuts
+## 3. Editor commands
 
-You can regulate or control the simulation speed through the toolbar button and key combination at the EditorControl top.
+Use F1 / Ctrl+F1 / Ctrl+Alt+F1 for Fast / Normal / Slow simulation, or the simulation
+toolbar button and its speed modifiers. Escape stops the current simulation.
+These defaults follow `UI.Config.KeyboardSimulationStart`. The viewport or tree
+must own focus; text fields keep their normal editing commands.
 
-Toolbar button: btnSimulation (Icon format)
-   - Basic click: Start the simulation or stop if it is already in operation.
-   - Speed Control: The speed is determined by the key you are pressing when you click the button.
-       - Click (Basic): Run at Fast (Fast) speed
-       - Ctrl + Click: Run at Normal (Normal) speed
-       - Ctrl+Alt+Click: Run to Slow
-
-Keyboard and control.
-   - Simulation Start: Usually run through the toolbar button.
-   - Cancellation and cancellation (ESC key):
-       - When the simulation is ongoing, if you press the ESC key, the simulation will immediately be stopped.
-       - EditorControl is designed to detect key entries internally to call Document.ActSimulateStop().
-
+Simulation is display-only. It is separate from Marker Preview and Marker Start,
+which can move scanners or operate real hardware.
 
 ## 4. Check Simulation Status
 
@@ -53,27 +45,19 @@ Keyboard and control.
    - In Sirius3 1.11.14 or higher, the ESC immediately stops the simulation, and the Virtual RTC Abort is repeated during the closing cleaning, or the normal Virtual Laser stop is not recorded as an error.
 
 
-## 5. Usage Example (C#)
+## 5. Public API example
 
-Simulation start code.
+```csharp
+if (!document.IsSimulationWorking && document.Selected.Length > 0)
+    await document.ActSimulateStart(view, document.Selected, marker,
+        IDocument.SimulationSpeeds.Normal);
 
-1 // Start simulation at normal speed for selected entities
-   2 if (!document.IsSimulationWorking)
-   3 {
-   4     var selected = document.Selected;
-   5     if (selected.Length > 0)
-   6     {
-   7         await document.ActSimulateStart(view, selected, marker, IDocument.SimulationSpeeds.Normal);
-   8     }
-   9 }
+// Stop the active simulation when requested.
+document.ActSimulateStop();
+```
 
-Simulation stop code.
-
-1/Stop the simulation running.
-   2 document.ActSimulateStop();
-   3 
-
-
+Pass the application's assigned view and ready marker. Simulation uses the
+selected source paths and processing order; it does not alter the recipe.
 
 ## 6. Cautions
 

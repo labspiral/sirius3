@@ -1,73 +1,59 @@
-# RTC Field Correction & 3D Calibration User Manual
+# RTC Field Correction and 3D Calibration
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](CalibrationUserManual.md) | [한국어](CalibrationUserManual.koKR.md)
+[English](CalibrationUserManual.md) | [한국어](CalibrationUserManual.koKR.md) | [All guides](README.md)
 
+## 1. Choose the correction task
 
-## 1. Overview
+| Task | What it corrects | Guide |
+|---|---|---|
+| 2D field correction | XY scale, rotation and position-dependent field distortion | [2D correction](Correction2dUserManual.md) |
+| 3D calibration | Beam tilt, focus over the field, focus versus height and height-dependent size | [3D calibration](Correction3dUserManual.md) |
+| Surface calibration | Focus for a measured/imported plane, cylinder, cone or freeform point cloud | [Surface points](EntityUserManual.md) |
 
-This manual describes how to use RtcCalibrationLibrary, which is provided to maximize the processing accuracy of the SCANLAB RTC controller.
-This library provides 2D correction to adjust the geometric distortion of the scanner and 3D correction to maintain equal focus and size throughout the area during 3D processing.
+`RtcCalibrationLibrary` wraps SCANLAB CalibrationLibrary. Use the matching
+runtime and distribution files. Activation is managed by Sirius3; it is not a
+public Config setting. Do not place activation codes in application source.
 
-## 2. Activation of the Library (Activation)
+## 2. Match coordinates before calculating
 
-- It requires SCANLAB CalibrationLibrary Runtime and Sirius3 distribution files.
-- Activation values are managed within Sirius3 and are not the public `Config` property. Do not record the activation code in the application code or settings file.
-- When the API returns `ACTIVATION_CODE_INVALID`, check the installed Sirius3/CalibrationLibrary version and the distribution file and contact the supplier.
+1. A reference point is the position commanded to the scanner. A measured point
+   is where the resulting mark was actually found. Both must use the same mm
+   coordinate system, origin, axis directions and measurement plane.
+2. Camera pixels must first be converted to that scanner coordinate system.
+   Keep each measured point paired with its own reference point; matching only
+   the number of samples is insufficient.
+3. Use the source correction file and its KFactor, plus its readme file where
+   the CalibrationLibrary operation requires one. Preserve a separate target file.
 
-## 3. 2D Field Correction (XY Field Correction)
+`XyCalibration` fits correction from paired reference/measured XY points. A
+successful return and output file confirm calculation; remeasurement determines
+whether the result meets the required accuracy.
 
-As the most basic adjustment, the scanner adjusts Scale, Rotation, Trapezoid, and Pincushion distortions.
-- Method: Call the `XyCalibration` method.
-- Required data:
-  - Target Points: Theoretical coordinates (mm) with the processing command.
-  - Measured Points: Coordinates (mm) measured at the actual marked positions.
-  - K-Factor: the bits/mm of the correction file that is being used.
-- Result: Based on the input source correction file (.ct5/.ctb), a new target correction file is created with error correction.
+## 3. Follow the 3D sequence
 
-## 4. 3D Calibration Step-by-Step
+1. Check the source KFactor, then correct beam tilt and the XY field.
+2. Calibrate focus over the Z=0 plane, then fit the focus coefficients A/B/C at
+   several heights. Calibrate stretch when field size changes with height.
+3. Apply each accepted result before measuring the next stage, so later samples
+   use the correction file actually loaded on the controller.
 
-It is strongly recommended to carry out the correction in the following order for perfect 3D processing.
+`FocusCalibrationAtZ0`, `FocusCalibrationCoeffABC`, `GetCoefficient` and
+`PointsCloudCalibration` are public wrapper operations. Their inputs differ;
+use the [3D workflow](Correction3dUserManual.md) instead of treating every value
+as an XY offset or a Z distance in mm.
 
-Step 1: Check the K-Factor
-- Use `GetCalibrationFactor` to verify the default scale coefficient of the corrected file.
+## 4. Surface-specific correction and verification
 
-Step 2: Beam Tilt Calibration
-- Corrects axial misalignment between the scanner and varioSCAN. Enter the center offset (`dx`, `dy`) at the upper and lower planes.
+A point cloud describes XYZ positions on a surface. `PointsCloudCalibration`
+uses those positions to create a surface-specific correction file. Cylinder,
+cone and plane workflows use their corresponding geometry parameters.
 
-Step 3: XY Field Correction
-- Do 2D correction to ensure the geometric accuracy of the basic flat.
-
-Step 4: Focus Calibration at Z=0
-- Adjust the concentration to be stable at all points of the basic work level (Z=0).
-
-Step 5: Focus Coeff A,B,C Calibration
-- Extract the coefficient of the focus change curve (Zout = A + Bl + Cl2) according to the Zq movement to adjust the focus accuracy within the 3D volume.
-
-Step 6: Stretch Calibration
-- Finally adjust the variation of the processing size (Scale) according to the change in the height.
-
-## 5. Specialized Geometries
-
-In addition to the flat, you can create an optimized adjustment file on the surface of a specific shape.
-- Points Cloud: Create a correction file adapted to the customized free curve (Point Cloud).
-- Cylinder: optimized adjustment to the surface of the rounded processing material.
-- Cone: optimized adjustment to the coronary processing surface.
-- Plane: Correction of new processing plates that are swallowed or moved.
-
-## 6. Utilities
-
-- Get/Set Coefficient: Read or modify the A, B, and C focus coefficients directly within the correction file.
-- Get/Set Stretch Factor: X, Manages the Stretch Factor.
-
-## 7. Error Handling
-
-If the work fails, you can identify the cause through `SlscErrorCodes`.
-- NO_ERROR 0 : Success
-- ACTIVATION_CODE_INVALID (1): License activation code error.
-- COULD_NOT_OPEN_CORR_FILE (4): file path or access authorization problem.
-- MISSING_README_PARAMS (11): There is no ReadMe text file matching the correction file or the content is defective.
+Check the returned error code, target file, active correction table, head,
+KFactor and working distance. Keep original files and measurements. If the
+runtime reports an activation or file compatibility error, resolve that error
+before applying a result to the equipment.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

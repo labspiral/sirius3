@@ -1,8 +1,8 @@
 # Coordinate Transformation & Matrix Stack User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](MatrixStackUserManual.md) | [한국어](MatrixStackUserManual.koKR.md)
+[English](MatrixStackUserManual.md) | [한국어](MatrixStackUserManual.koKR.md) | [All guides](README.md)
 
 
 ## 1. Overview
@@ -34,7 +34,7 @@ This is a sequence processed at the internal hardware level of the RTC controlle
 
 [MatrixStack vs. Internal Matrix Difference]
 - MatrixStack (UI/PC): for the logical placement of the processing recipes. perform 4x4 conversion using the CPU/GPU resources of the PC.
-- Internal Matrix (hardware): Adjusts physical equipment conditions. During marking, the RTC DSP applies the 2×2 transform and offset in real time at 10 µs intervals.
+- Internal Matrix (hardware): Adjusts physical equipment conditions. The controller applies the configured transform and offset to its output coordinates.
 
 ## 5. Best Practices
 
@@ -51,6 +51,23 @@ To maximize processing accuracy and system performance, divide the roles as foll
 
 The conclusion
 Use MatrixStack for the logical layout of geometry. Use the RTC Internal Matrix for physical equipment alignment and hardware-specific rotation or axis reversal; this best matches the intended separation of responsibilities and reduces software processing.
+
+## Read the final position in order
+
+Sirius3 uses row-vector notation. For one entity before ancestor transforms,
+`M = A × S × Rz × Ry × Rx × T`, where A is ModelAlign, S is ModelScale,
+Rz/Ry/Rx are model rotations and T is ModelTranslate.
+
+During marking, `v_mark = v_original × M_entity × M_ancestors × M_offset`.
+Thus an original X=10 scaled by 2 and translated by 5 becomes X=25; an additional
+X=100 Marker offset places it at X=125. Parent groups/layers contribute their
+own matrices before the marker offset.
+
+The RTC internal matrix and correction table belong to the later controller
+output stage. Do not apply the same camera/workpiece correction both to the
+entity matrix and to the Marker offset. [Offset](OffsetUserManual.md) explains
+LayerFirst/OffsetFirst repetition; [Document](DocumentUserManual.md) explains
+original, model and real coordinates.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

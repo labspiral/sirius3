@@ -67,6 +67,7 @@ Eine Windows/.NET-Plattform für die präzise Laserbearbeitung. Sie verbindet SC
 - Dokumente, Editoren und Simulation
   - Vier Dokumentseiten mit Ebenen, Stiften, Gruppen, Blöcken und konfigurierbarem Undo/Redo
   - WinForms- und WPF-`SiriusEditorControl` / `SiriusMultiEditorControl` werden in Debug und Release vollständig unterstützt; ein Dokument kann in mehreren Ansichten gerendert werden
+  - [Schrifteditor](SpiralLab.Sirius3.UI/FontEditor/README.md): unabhängige CXF/LFF/EO-FNT/DOT-Glyphenbearbeitung über **Font Edit** in WinForms/WPF; mm-Vektoren, ganzzahlige DOT-Zellen, BBox/Metriken, Undo/Redo, DXF-Import, Textvorschau und Konvertierung installierter TTF-Schriften. In Debug und Release immer enthalten.
   - Echtzeit-Laserpfad mit bildschirmfesten Markierungen, Strahleffekt und optionalen Partikeln
   - Rasterbasierte zusammengesetzte Bildansicht für Kamera- und Prüfabläufe
 - Offene Architektur

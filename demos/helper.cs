@@ -159,6 +159,7 @@ namespace Demos
                     rtc = ScannerFactory.CreateRtc6Ethernet(rtcId, ipAddress, subnetMask, kfactor, laserMode, signalLevelLaser12, signalLevelLaserOn, correctionPath);
                     break;
                 case "syncaxis":
+                case "rtc6syncaxis":
                     string configXmlFileName = NativeMethods.ReadIni(ConfigFileName, $"RTC{index}", "CONFIG_XML", string.Empty);
                     string configXmlFilePath = Path.Combine(SpiralLab.Sirius3.Config.SyncAxisPath, configXmlFileName);
                     rtc = ScannerFactory.CreateRtc6SyncAxis(rtcId, configXmlFilePath);

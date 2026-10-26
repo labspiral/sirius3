@@ -1,8 +1,8 @@
 # IHatch 해치 기능 사용자 매뉴얼
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](HatchUserManual.md) | [한국어](HatchUserManual.koKR.md)
+[English](HatchUserManual.md) | [한국어](HatchUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 패턴, 엔티티와 생성 경로
 
@@ -154,7 +154,6 @@ HatchResult는 빌린 참조입니다. 다른 엔티티에 그대로 연결하�
 
 엔티티는 연결한 패턴을 소유합니다. 직접 Remove/Replace는 제거한 패턴을 해제하지 않으며 Undo/Redo 소유자가 사용할 수 있습니다. ClearHatches(true)는 제거한 패턴을 해제하고 false는 호출자·이력에 정리를 맡깁니다. 독립 엔티티 사이에 하나의 변경 가능한 패턴을 공유하지 말고 복제합니다.
 
-사용자 구현·동시 접근에서는 입력 컨투어와 연관 설정을 고정합니다. 생성 결과를 읽거나 복제할 때 부모 IMarkerable.MarkSyncRoot를 먼저 획득하고 HatchBase.HatchSyncRoot를 획득합니다. HatchBase를 사용하지 않는 IHatch 구현은 자체 동기화를 제공합니다. 외부 콜백·컨트롤러 출력 전에 데이터 잠금을 해제합니다.
 
 ## 10. SVG, 클리핑과 문제 확인
 

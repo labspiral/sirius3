@@ -1,6 +1,6 @@
 # Font Editor User Manual
 
-> API reference: Sirius3 Core/UI 1.17 (public features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
 [English](FontEditorUserManual.md) | [한국어](FontEditorUserManual.koKR.md) | [All guides](README.md)
 
@@ -35,7 +35,7 @@ DOT cells remain on the integer grid and are displayed without antialiasing.
 The left **Characters** panel selects a character; the center canvas edits it;
 the right table shows ordered paths and vertices. Resize the dividers as needed.
 Latin characters are shown initially; choose a BMP block or enter a character/code
-to navigate. Ctrl+PageUp/PageDown changes character; Ctrl+Shift+G focuses Characters.
+to navigate. Ctrl+PageUp/PageDown changes character.
 Arrow keys in Characters navigate that panel rather than moving the canvas.
 
 | Character state | Meaning |
@@ -71,20 +71,20 @@ uses 0.01% of ascent (BBox height when ascent is zero), plus storage-grid roundi
 
 ## 5. Grips, snapping and navigation
 
-On the selected vector path, **Tab** cycles Move → Vertex → Scale and **Shift+Tab**
+On the selected vector path, **Tab** cycles Move → Vertex → Size and **Shift+Tab**
 reverses the cycle. Unsupported modes are skipped; a straight two-point path has
 Move and Vertex. Selecting a different path/character starts in Move.
 
 | Mode | Action |
 |---|---|
-| Move | Move the entire path using its center or bounds grips |
+| Move | Move the entire path using its center/bounds grips, or rotate it about Z |
 | Vertex | Edit source vertices and bulges |
-| Scale | Resize or rotate the whole path |
+| Size | Resize the whole path |
 
 V/Shift+V selects the next/previous available grip. Read the upper-left
 coordinate, size, angle or Bulge value while dragging. Escape cancels the preview;
-a completed drag creates one Undo action. Whole-path Move/Scale applies to the
-whole path even after selecting only some table rows.
+a completed drag creates one Undo action. Whole-path Move/Size applies to the
+whole path, including Move rotation, even after selecting only some table rows. Font path sizing edits source coordinates and keeps the normal size-grip opacity.
 
 **G** toggles magnetic attraction to points and guides, enabled by default. Its
 3 baseline-pixel picking distance scales with display DPI and is independent of
@@ -122,14 +122,21 @@ The preview window has its own Fit/view controls and optional Stay on top.
 Ctrl+I imports DXF geometry into the current character. Review units, BBox,
 path order and any format conversion before accepting it.
 
-Ctrl+Shift+C opens **Font Converter** for installed TrueType fonts. Choose style,
-output format and supported BMP blocks; Basic Latin is initially selected.
-EO binary is limited to U+0000–00FF. Vector output uses a reference height in mm
-and maximum curve-segment length (default 0.02 mm). Approximation error is computed
-as 0.01% of the height. BBox width **0** means automatic; a positive override must
-contain the resulting geometry. DOT conversion uses integer raster dimensions
-and Light/Normal/Bold pixel weight. The required converter executables must be
-present in the application's Sirius font folder.
+Ctrl+Shift+C opens **Font Converter** for installed TrueType fonts.
+
+1. Select the font and its Regular/Bold/Italic/Bold Italic style. The output list
+   contains **CXF, LFF and DOT**, with **CXF** selected initially. Basic Latin is
+   the initial character block. EO ASCII/binary FNT output is not offered here;
+   existing FNT files can still be opened and edited.
+2. For CXF/LFF, set the reference height in mm and maximum curve-segment length
+   (default 0.02 mm). Approximation error is 0.01% of the height. BBox width **0**
+   means automatic; a positive override must contain the converted geometry.
+3. For DOT, set the integer raster dimensions and **Dot factor** to adjust pixel
+   density. Pixel weight is fixed to **Normal**, so there is no separate Weight
+   selector. Font style remains available and changes the source glyph shape.
+
+The required converter executables must be present in the application's Sirius
+font folder. See [font files and text entities](TextUserManual.md) for reuse.
 
 ## 8. Save and reuse
 
@@ -191,7 +198,9 @@ Hold Shift alone during Ellipse creation for a circular preview. The constraint 
 
 In canvas Vertex mode, Insert splits the pointed line/arc and Delete removes the hovered or V-selected vertex. Keep at least two vertices in open paths and three in closed paths, preserving bulges and Undo/Redo. The vertex table and other modes retain selection deletion, midpoint insertion and path continuation. DOT and guide deletion retain their existing behavior.
 
-Help displays `Tab: Move mode` / `Tab: Vertex mode` / `Tab: Scale mode` and `V: Next grip`. Shift+Tab selects the previous mode, Shift+V the previous grip, and Alt+V adds a vertical guide. Auxiliary Bulge controls are smaller and more transparent than source vertices.
+Help displays `Tab: Move mode` / `Tab: Vertex mode` / `Tab: Size mode` and `V: Next grip`. Shift+Tab selects the previous mode, Shift+V the previous grip, and Alt+V adds a vertical guide. Auxiliary Bulge controls are smaller and more transparent than source vertices.
+
+Move, Vertex and Size markers use 8.8 logical pixels; auxiliary controls use 7.2 pixels, and active emphasis adds 3.2 pixels. These are 20% smaller while retaining the relative sizes. Display DPI scales the markers; the magnetic/picking margin remains unchanged. Move/Size handles and square marker orientation follow object rotation. FontEditor resizes rotated paths along their local axes while keeping the opposite anchor fixed.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

@@ -1,8 +1,8 @@
 # SCANLAB RTC4 Controller User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](Rtc4UserManual.md) | [한국어](Rtc4UserManual.koKR.md)
+[English](Rtc4UserManual.md) | [한국어](Rtc4UserManual.koKR.md) | [All guides](README.md)
 
 ## 1. Location of RTC4
 

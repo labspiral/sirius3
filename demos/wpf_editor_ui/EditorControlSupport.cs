@@ -255,23 +255,107 @@ namespace Demos
     using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
+    using System.IO;
+    using System.Linq;
+    using System.Resources;
     using Microsoft.Extensions.Logging;
 
     internal static class WPFWindowStyleHelper
     {
-        private static readonly ILogger Log = SpiralLab.Sirius3.Logger.CreateLogger(typeof(WPFWindowStyleHelper).FullName);
+        private static readonly object WinFormsImageSync = new object();
+        private static readonly System.Collections.Generic.Dictionary<string, BitmapImage> WinFormsImages =
+            new System.Collections.Generic.Dictionary<string, BitmapImage>(StringComparer.Ordinal);
+        private static readonly System.Collections.Generic.HashSet<string> MissingImages =
+            new System.Collections.Generic.HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private static ResourceSet generatedResources;
+        private static bool generatedResourcesInitialized;
 
-        internal static global::System.Windows.Controls.Image CreateImage(string resourceName, double size, bool required = false)
+        internal static BitmapImage LoadBitmap(string resourceName, bool required = false)
         {
-            var image = new global::System.Windows.Controls.Image { Width = size, Height = size, Stretch = Stretch.Uniform };
-            try
+            if (string.IsNullOrWhiteSpace(resourceName))
+                return null;
+
+            var cacheKey = $"wpf|{resourceName}";
+            lock (WinFormsImageSync)
             {
-                image.Source = new BitmapImage(new Uri($"/SpiralLab.Sirius3.UI;component/Resources/{resourceName}", UriKind.Relative));
+                if (WinFormsImages.TryGetValue(cacheKey, out var cached))
+                    return cached;
+                if (MissingImages.Contains(cacheKey))
+                    return null;
+
+                try
+                {
+                    var bitmap = LoadGeneratedResourceBitmap(resourceName);
+                    if (bitmap != null)
+                    {
+                        WinFormsImages[cacheKey] = bitmap;
+                        return bitmap;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    SpiralLab.Sirius3.Logger.Log(required ? LogLevel.Error : LogLevel.Debug, ex,
+                        $"wpf: {(required ? "required" : "optional")} image '{resourceName}' was not loaded from generated resources");
+                    MissingImages.Add(cacheKey);
+                    return null;
+                }
+
+                MissingImages.Add(cacheKey);
+                SpiralLab.Sirius3.Logger.Log(required ? LogLevel.Error : LogLevel.Debug,
+                    $"wpf: {(required ? "required" : "optional")} image '{resourceName}' was not found in generated resources");
+                return null;
             }
-            catch (Exception exception)
+        }
+
+        private static BitmapImage LoadGeneratedResourceBitmap(string resourceName)
+        {
+            var normalizedName = resourceName.Replace('\\', '/');
+            var requestedKey = "resources/" + normalizedName;
+            var escapedKey = "resources/" + string.Join("/", normalizedName.Split('/').Select(Uri.EscapeDataString));
+            var resources = GetGeneratedResources();
+            if (resources == null)
+                return null;
+            var value = resources.GetObject(requestedKey, true) ?? resources.GetObject(escapedKey, true);
+            if (!(value is Stream imageData))
+                return null;
+            using (var copy = new MemoryStream())
             {
-                Log.Log(required ? LogLevel.Error : LogLevel.Debug, exception, "WPF demo image {ResourceName} could not be loaded.", resourceName);
+                imageData.Position = 0;
+                imageData.CopyTo(copy);
+                copy.Position = 0;
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.StreamSource = copy;
+                bitmap.EndInit();
+                if (bitmap.CanFreeze)
+                    bitmap.Freeze();
+                return bitmap;
             }
+        }
+
+        private static ResourceSet GetGeneratedResources()
+        {
+            if (generatedResourcesInitialized)
+                return generatedResources;
+            generatedResourcesInitialized = true;
+
+            var assembly = typeof(SpiralLab.Sirius3.UI.WPF.EditorControl).Assembly;
+            var manifestName = assembly.GetManifestResourceNames().FirstOrDefault(name =>
+                name.EndsWith(".g.resources", StringComparison.OrdinalIgnoreCase));
+            if (manifestName == null)
+                return null;
+            var manifest = assembly.GetManifestResourceStream(manifestName);
+            if (manifest == null)
+                return null;
+            generatedResources = new ResourceSet(manifest);
+            return generatedResources;
+        }
+
+        internal static Image CreateImage(string resourceName, double size, bool required = false)
+        {
+            var image = new Image { Width = size, Height = size, Stretch = Stretch.Uniform };
+            image.Source = LoadBitmap(resourceName, required);
             if (image.Source == null)
             {
                 image.ToolTip = required ? $"Required image is missing: {resourceName}" : null;
@@ -279,7 +363,6 @@ namespace Demos
             }
             return image;
         }
-
     }
 }
 

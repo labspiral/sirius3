@@ -1,8 +1,8 @@
 # IRtcMultiBeam Developer Manual
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](MultibeamDeveloperManual.md) | [한국어](MultibeamDeveloperManual.koKR.md)
+[English](MultibeamDeveloperManual.md) | [한국어](MultibeamDeveloperManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 시스템 구조
 

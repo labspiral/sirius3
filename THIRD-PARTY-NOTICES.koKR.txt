@@ -10,31 +10,6 @@ THIRD-PARTY-NOTICES.txt를 참조하십시오. 공급사 재배포물은 각 공
 관리형 및 런타임 오픈소스 구성 요소
 -----------------------------------
 
-SVG.NET (Svg)
-  버전 : 3.4.8
-  라이선스 : Microsoft Public 라이선스 (MS-PL)
-  소스  : https://github.com/svg-net/SVG
-  커밋  : 9d564f47c82780df4b703ee0bf2436c6a2276f5c
-  배포: 편집 가능한 벡터 윤곽 가져오기를 위해 SpiralLab.Sirius3.UI에 내장
-
-ExCSS
-  버전 : 4.2.3
-  라이선스 : MIT
-  저작권: Copyright (c) 2024 Tyler Brinks
-  소스  : https://github.com/TylerBrinks/ExCSS
-  배포: SpiralLab.Sirius3.UI에 내장되는 SVG.NET 스타일시트 파서
-
-lib3mf
-  버전    : 2.5.0
-  라이선스: BSD 2-Clause
-  소스    : https://github.com/3MFConsortium/lib3mf
-  배포    : Dependencies의 x64 및 x32 네이티브 삼각형 메쉬 리더
-  런타임  : 프로세스 아키텍처에 맞는 Microsoft Visual C++ 2015-2022 또는
-            그 이후의 호환 런타임이 필요합니다.
-  고지    : libzip, zlib, cpp-base64, fast_float를 포함합니다. 원문 LICENSE와
-            SDK Credits 전문 및 바이너리 출처·빌드 정보는
-            THIRD-PARTY-NOTICES.txt 끝에 수록되어 있습니다.
-
 NLog
   버전    : 6.0.5
   라이선스: BSD 3-Clause
@@ -127,8 +102,8 @@ SkiaSharp 및 HarfBuzzSharp
   포함    : ANGLE, HarfBuzz, Skia, etc1, gif, libpng, DNG SDK, expat,
             FreeType, ICU, imgui, jsoncpp, libjpeg-turbo, libwebp,
             libmicrohttpd, piex, SDL, sfntly, SPIR-V Headers/Tools, zlib
-  고지    : 변경하지 않은 업스트림 고지를 THIRD-PARTY-NOTICES.SkiaSharp.txt로
-            함께 배포합니다.
+  고지    : 변경하지 않은 업스트림 고지 전문은 THIRD-PARTY-NOTICES.txt의
+            SkiaSharp 및 HarfBuzzSharp 절에 수록되어 있습니다.
 
 SixLabors.ImageSharp
   버전    : 2.1.12, 3.1.12(전이 의존성)
@@ -154,6 +129,40 @@ PdfPig
   라이선스: Apache License 2.0
   소스    : https://github.com/UglyToad/PdfPig
   배포    : SpiralLab.Sirius3.UI Debug 및 Release 빌드와 Release 패키지에 포함됩니다.
+
+PDFium native (bblanchon.PDFium.Win32)
+  버전    : 157.0.8100 (157.0.8100.0)
+  라이선스: 패키지 메타데이터는 Apache-2.0이며, 네이티브 릴리스에는 빌드
+            프로젝트의 MIT 고지, PDFium BSD 고지 및 포함 라이브러리의 라이선스가 있습니다.
+  소스    : https://github.com/bblanchon/pdfium-binaries
+  배포    : SpiralLab.Sirius3.UI의 PDF 페이지 래스터 변환
+  고지    : 변경하지 않은 라이선스 전문과 바이너리 출처는
+            THIRD-PARTY-NOTICES.txt의 PDFium 절에 수록되어 있습니다.
+
+SVG.NET (Svg)
+  버전 : 3.4.8
+  라이선스 : Microsoft Public 라이선스 (MS-PL)
+  소스  : https://github.com/svg-net/SVG
+  커밋  : 9d564f47c82780df4b703ee0bf2436c6a2276f5c
+  배포: 편집 가능한 벡터 윤곽 가져오기를 위해 SpiralLab.Sirius3.UI에 내장
+
+ExCSS
+  버전 : 4.2.3
+  라이선스 : MIT
+  저작권: Copyright (c) 2024 Tyler Brinks
+  소스  : https://github.com/TylerBrinks/ExCSS
+  배포: SpiralLab.Sirius3.UI에 내장되는 SVG.NET 스타일시트 파서
+
+lib3mf
+  버전    : 2.5.0
+  라이선스: BSD 2-Clause
+  소스    : https://github.com/3MFConsortium/lib3mf
+  배포    : Dependencies의 x64 및 x32 네이티브 삼각형 메쉬 리더
+  런타임  : 프로세스 아키텍처에 맞는 Microsoft Visual C++ 2015-2022 또는
+            그 이후의 호환 런타임이 필요합니다.
+  고지    : libzip, zlib, cpp-base64, fast_float를 포함합니다. 원문 LICENSE와
+            SDK Credits 전문 및 바이너리 출처·빌드 정보는
+            THIRD-PARTY-NOTICES.txt 끝에 수록되어 있습니다.
 
 Dependencies NuGet 패키지의 배포 파일
 --------------------------------------
@@ -190,3 +199,13 @@ MIT, BSD 2-Clause, BSD 3-Clause, Apache-2.0, Boost 1.0, GLFW, MS-PL 및
 SGI Free Software License B 2.0의 변경하지 않은 전문은 이 파일과 함께 배포되는
 THIRD-PARTY-NOTICES.txt에 있습니다. 법적 조건은 해당 영문 원문과 각 공급사의
 원본 라이선스/EULA를 기준으로 합니다.
+
+
+## Material Icons
+
+Font Editor includes Google Material Design icon assets from
+https://github.com/google/material-design-icons under Apache License 2.0.
+The SVG originals are preserved; PNG/ICO derivatives are rasterizations.
+The complete upstream license is in
+THIRD-PARTY-NOTICES.txt (Material Icons).
+Font Editor와 TTF 변환기는 Unicode 문자 블록 데이터를 사용합니다. Unicode License V3 원문과 출처는 THIRD-PARTY-NOTICES.txt에 포함되어 있습니다.

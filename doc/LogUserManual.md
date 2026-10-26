@@ -1,8 +1,8 @@
 # System Log Monitoring & Logger Events User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](LogUserManual.md) | [한국어](LogUserManual.koKR.md)
+[English](LogUserManual.md) | [한국어](LogUserManual.koKR.md) | [All guides](README.md)
 
 
 ## 1. Overview

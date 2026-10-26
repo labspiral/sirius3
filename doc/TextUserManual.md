@@ -1,8 +1,8 @@
 # Text Entities User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](TextUserManual.md) | [한국어](TextUserManual.koKR.md)
+[English](TextUserManual.md) | [한국어](TextUserManual.koKR.md) | [All guides](README.md)
 
 ## 1. Choose the text representation
 
@@ -154,6 +154,14 @@ Create the intended text type in the editor, select it, then use PropertyGrid fo
 Inspect spaces, missing characters, multiline layout, circle direction, fixed positions, final bounds, fill holes and the selected pen. Save/reopen preserves text parameters while generated geometry is rebuilt. Dispose caller-owned standalone entities and keep document-owned entities alive until document cleanup.
 
 Public examples: [editor_entity](../demos/editor_entity/Form1.cs), [editor_barcode_textconvert](../demos/editor_barcode_textconvert/Form1.cs). Related guides: [entities](EntityUserManual.md), [barcodes](BarcodeUserManual.md), [WinForms](WinForms.md), [WPF](WPF.md).
+
+## Font Editor
+
+Use **Font Edit** in the editor context menu to create/edit CXF, LFF and DOT
+fonts or open an existing EO FNT file. Select SiriusText first to open its font.
+Edit characters, paths, metrics and text preview, then Save As. Saving refreshes
+matching text consumers in the current application; font-file changes have their
+own history and are outside document Undo/Redo. See [Font Editor](FontEditorUserManual.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

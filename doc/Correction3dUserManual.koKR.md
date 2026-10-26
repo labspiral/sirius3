@@ -1,8 +1,8 @@
 # Integrated 3D Calibration User Manual
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](Correction3dUserManual.md) | [한국어](Correction3dUserManual.koKR.md)
+[English](Correction3dUserManual.md) | [한국어](Correction3dUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 
 ## 1. 개요 (Overview)
@@ -59,6 +59,37 @@ Step 5: Stretch Calibration (Z 볼륨 스트레치 보정)
 - 보정 절차 중 스캐너나 하드웨어를 강제로 조작하지 마십시오.
 - 'Apply'를 누르면 현재 로드된 보정 파일이 실제 하드웨어에 적용되며, 이후의 보정은 이 파일을 기준으로 누적 진행됩니다.
 - K-Factor 값이 정확하지 않으면 모든 계산 결과에 오차가 발생합니다.
+
+## A·B·C 계수를 이해하는 방법
+
+초점 테이블은 `Zout = A + B × l + C × l²`로 표현합니다. 그래프의 가로축은
+컨트롤러의 초점 거리 편차 입력 `l`, 세로축은 출력 `Zout`입니다.
+
+| 값 | 역할 |
+|---|---|
+| A | l=0에서의 출력이며 곡선을 위·아래로 이동합니다. |
+| B | l이 변할 때 출력이 변하는 기울기입니다. |
+| C | 기울기의 변화량이며 0이면 직선, 0이 아니면 포물선이 됩니다. |
+
+`l`은 높이 Z(mm) 자체가 아닙니다. 컨트롤러가 요청 좌표를 초점 입력으로 바꾸므로
+mm 값을 그대로 대입하지 않습니다. `FocusCalibrationCoeffABC`는 측정한 입력·출력
+쌍으로 계수를 구하고 `GetCoefficient`는 파일의 계수를 읽습니다.
+
+수치의 기준도 함께 유지합니다. 보정 측정 배열은 CTB가 16비트, CT5가 20비트 값을
+사용하지만 반환된 보정 파일의 A·B·C는 두 형식 모두 16비트 호환 다항식 기준입니다.
+이 계수에 원시 20비트 입력이나 mm 높이를 그대로 섞어 대입하지 않습니다.
+
+## 가져온 표면의 초점 보정
+
+1. `IDocument.ActImport`로 STL 등의 메쉬를 가져옵니다.
+2. `ActPointCloud` 또는 `ActGridCloud`로 표면 점을 추출합니다. 곡률이 큰 곳은 격자
+   간격(mm)을 줄이고 카메라를 약간 기울여 표면을 제대로 나타내는지 확인합니다.
+3. 모델을 실제 작업물 좌표에 맞춘 뒤 XYZ 점군과 원본 보정·README 파일을
+   `RtcCalibrationLibrary.PointsCloudCalibration`에 전달합니다. 결과는 별도 파일로
+   저장하고 반환 코드와 실제 표면 초점을 확인합니다.
+
+점군은 내부 체적이 아니라 표면입니다. `ActGridCloud`의 법선은 샘플 확인에 유용하며
+보정 함수에는 점 위치를 전달합니다. [표면 점군](EntityUserManual.koKR.md)을 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

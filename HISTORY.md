@@ -1,5 +1,20 @@
 # Sirius3 version history
 
+## v1.17.0 (2026.10.26)
+
+- updated) Improved the developer manual
+- added) `IGrippable`
+  - Interactive entity creation and editing of vertices, position, size and rotation
+  - Snapped movement using Ctrl, Alt and Shift key combinations
+- added) `FontEditorControl`
+  - Create and edit font files for `EntitySiriusText`
+- added) `EntityImagePDF`
+  - Import PDF files through `IDocument.ActImport`
+- fixed) `EntityMixedGroup`, `EntityUniformGroup`, `EntityGerber`
+  - Improved rendering performance when editing child entities in composite entities
+- fixed) `MCPServerOptions.AllowedFileRoots`
+  - MCP file access allows all paths accessible to the host process by default
+
 ## v1.16.1 (2026.10.12)
 
 - updated) Updated the SCANLAB RTC6 dependency to Software Package 1.25.1
@@ -537,4 +552,4 @@
   
 ## v0.1 (2025.03.06)
 
-- Initial release 
+- Initial release

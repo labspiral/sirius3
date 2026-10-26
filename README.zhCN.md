@@ -70,6 +70,7 @@
 - 文档、编辑器与模拟
    - 四个文档页面，支持图层、画笔、组、块及可配置数量的 Undo/Redo
    - Debug 和 Release 均支持 WinForms 与 WPF `SiriusEditorControl` / `SiriusMultiEditorControl`，并支持将一个文档渲染到多个视图
+   - [字体编辑器](SpiralLab.Sirius3.UI/FontEditor/README.md)：通过 WinForms/WPF **Font Edit** 菜单独立编辑 CXF/LFF/EO FNT/DOT 字形，支持 mm 矢量、整数 DOT 单元格、BBox/度量、撤销/重做、DXF 导入、文本预览与已安装 TTF 转换。Debug 和 Release 构建均始终包含。
    - 使用屏幕固定尺寸标记、光束效果和可选碎屑效果的实时加工路径可视化
    - 面向相机及检测流程的网格化拼接图像可视化
 - 开放架构

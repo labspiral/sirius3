@@ -1,6 +1,6 @@
 # TreeView Page Control User Manual
 
-> API reference: Sirius3 Core/UI 1.17 (public features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
 [English](TreeviewUserManual.md) | [한국어](TreeviewUserManual.koKR.md) | [All guides](README.md)
 
@@ -53,7 +53,7 @@ F5 can start real marking while TreeView has focus. Check the active devices and
 These letter shortcuts work in the Page, Block, Substrate and Wafer trees in
 WinForms and WPF. A handled letter does not also search for another node. Text
 inputs keep their editing keys, and Tab keeps normal focus navigation; focus the
-viewport to use V/Shift+V for Grip navigation. M changes marking permission
+viewport for Tab/Shift+Tab mode changes. V/Shift+V is also forwarded to the viewport. M changes marking permission
 and adds an Undo/Redo action; it does not start marking.
 
 ## 6. HiDPI and framework support
@@ -62,7 +62,20 @@ WinForms 1.15.0 measures TreeView rows and node styles for the current DPI, incl
 
 
 
-In the viewport, Tab/Shift+Tab changes Move/Vertex/Scale modes. Tab in the tree moves focus.
+In the viewport, Tab/Shift+Tab changes Move/Vertex/Size modes. Tab in the tree moves focus.
+
+### Page tabs, active layer and reusable blocks
+
+1. Each of the four page tabs owns a `TreeViewPageControl`. Switching tabs changes
+   the document's page; the bold layer is that page's active editing destination.
+   See [page synchronization](DocumentUserManual.md).
+2. Select source objects and use the Block command to create a reusable master.
+   `IDocument.ActBlock` is the document action behind this operation. The separate
+   `TreeViewBlockControl` displays the block library.
+3. Insert the master repeatedly as `EntityBlockInsert`. Each insertion has its
+   own position, scale and rotation. Edit the master to change every reference;
+   edit an insertion to change only its placement. This is useful for repeated
+   laser patterns. See [entity containers](EntityUserManual.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

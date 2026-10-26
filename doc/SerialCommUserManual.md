@@ -1,8 +1,8 @@
 # RTC RS-232 Serial Communication User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](SerialCommUserManual.md) | [한국어](SerialCommUserManual.koKR.md)
+[English](SerialCommUserManual.md) | [한국어](SerialCommUserManual.koKR.md) | [All guides](README.md)
 
 
 ## 1. Overview

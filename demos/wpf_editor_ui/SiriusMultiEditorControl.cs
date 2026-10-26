@@ -383,6 +383,7 @@ namespace Demos
             {
                 Orientation = Orientation.Horizontal,
                 Margin = new Thickness(2, 2, 2, 2),
+                HorizontalAlignment = global::System.Windows.HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
             };
             for (var index = 0; index < DeviceCapacity; index++)

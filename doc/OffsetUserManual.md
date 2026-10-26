@@ -1,8 +1,8 @@
 # Marker Offset user manual
 
-> Reference: Sirius3 1.16.0 public APIs and the current implementation.
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](OffsetUserManual.md) | [한국어](OffsetUserManual.koKR.md)
+[English](OffsetUserManual.md) | [한국어](OffsetUserManual.koKR.md) | [All guides](README.md)
 
 ## 1. Position and orientation for each processing location
 

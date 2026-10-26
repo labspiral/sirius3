@@ -1,8 +1,8 @@
 # SpiralLab.Sirius3.Config 설정 가이드
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](Sirius3ConfigUserManual.md) | [한국어](Sirius3ConfigUserManual.koKR.md)
+[English](Sirius3ConfigUserManual.md) | [한국어](Sirius3ConfigUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 역할과 설정 시점
 

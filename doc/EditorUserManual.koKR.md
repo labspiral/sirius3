@@ -1,6 +1,6 @@
 # EditorControl 사용 설명서
 
-> API 기준: Sirius3 Core/UI 1.17 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
 [English](EditorUserManual.md) | [한국어](EditorUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -15,6 +15,14 @@ PropertyGrid의 값을 편집합니다. Page·트리·Pen·장치 패널이 함�
 단계별 안내를 따르며, 여러 점을 입력하는 도구는 Enter로 완료하고 Escape로
 취소합니다. 텍스트·바코드·이미지·3D 도구의 세부 값은 대화상자 또는 PropertyGrid에서
 설정합니다. 완료한 편집은 Undo/Redo로 복원할 수 있습니다.
+
+Spiral·Lissajous는 **중심 → 지름**, SpiralClassic은 **중심 → 시작 지름 → 끝 지름** 순서로
+생성합니다. 중심을 클릭한 뒤 포인터를 이동하고 클릭하여 각 지름을 정합니다.
+좌측 상단에는 mm 단위 지름이 표시되며 중심-포인터 거리의 두 배입니다. 중심에서
+드래그하면 Spiral의 지름 또는 Classic의 시작 지름을 지정합니다. Classic은 시작
+지름 0과 안쪽·바깥쪽 진행을 허용하며 끝 지름은 양수여야 합니다. Backspace는 이전
+단계, Escape는 취소입니다. 완성한 개체를 추가·선택하고 Undo/Redo 한 건으로 기록합니다.
+Lissajous는 원본 지름만 변경하여 XY 비율을 유지하며 별도 Y 배율은 적용하지 않습니다. 깊이·회전수 등은 PropertyGrid에서 편집합니다. [엔티티](EntityUserManual.koKR.md)를 참고하십시오.
 
 ## 2. 마우스 선택과 카메라
 
@@ -37,18 +45,31 @@ PropertyGrid의 값을 편집합니다. Page·트리·Pen·장치 패널이 함�
 ## 3. Grip 편집
 
 지원하는 개체 하나를 선택하면 편집 Grip이 표시됩니다. 새 개체를 선택하면
-**Move**로 시작합니다. **Tab**는 Move → Vertex → Scale, **Shift+Tab**는 역순으로
+**Move**로 시작합니다. **Tab**는 Move → Vertex → Size, **Shift+Tab**는 역순으로
 전환하며 해당 형상이 지원하지 않는 모드는 건너뜁니다.
 
 | 모드 | 편집 대상 |
 |---|---|
-| Move | 중심 또는 경계 상자를 이용한 개체 전체 이동 |
-| Vertex | 원본 정점·곡선 제어점·Bulge·지원하는 원래 치수 |
-| Scale | 크기·회전 및 개체가 제공하는 배율 초기화 |
+| Move | 중심·경계를 이용한 개체 전체 이동과 지원하는 X/Y/Z 회전 |
+| Vertex | 원본 정점·곡선 제어점·Bulge·지원하는 원래 치수와 Arc·Ellipse 중심 |
+| Size | 원본 치수 또는 모델 배율 편집과 지원하는 배율 초기화, Ellipse 중심 |
+
+기본 도형·바코드·래스터 개체(ImageText·ZPL·PDF 포함)의 크기 Grip은 지원하는
+원본 치수를 편집합니다. Cube·Plane은 Width/Height, Pyramid는 BaseWidth/BaseDepth를
+사용하며 구·원통·원뿔·토러스는 반지름 제약을 유지합니다. Image·ImagePDF·ImageText의 균일 크기 조정은
+자동 Width=0을 유지하고, 독립적인 가로·세로 편집에서는 명시적 너비를 사용합니다.
+문자 전체 배치·경로·메쉬·그룹·블록 인스턴스는 변환 배율로 크기를 조정합니다.
+깊이·길이 등 원본 매개변수 Grip은 기존 Vertex 모드에서 편집합니다. 모델 배율을
+바꾸는 크기 Grip은 채움·테두리를 일반 불투명도의 60%로 흐리게 표시하며 원본 치수
+Grip은 일반 주황색 표시를 사용합니다. 이 구분은 Grip의 크기나 선택 방식을 바꾸지 않습니다.
+
+X/Y/Z 회전 화살표 마커는 형상 뒤에 있어도 표시되고 선택할 수 있으며 원형 안내선은
+개체에 가려질 수 있습니다. 다른 메쉬·곡면 Grip은 형상의 가림을 따릅니다. 이동과
+회전 마커가 겹치면 클릭은 이동을 우선하며 V/Shift+V으로 회전 축을 선택할 수 있습니다.
 
 Grip을 끌면서 좌측 상단의 좌표·치수·각도를 확인합니다. V/Shift+V은 사용 가능한
 Grip을 다음/이전 순서로 선택합니다. 정점은 청록 원, 이동은 민트 사각형, 크기는
-라임색 마름모, 곡선·회전은 파란색 표시로 구분합니다. 완료한 드래그는 Undo 한 건이며,
+주황색 사각형, 곡선·회전은 파란색 표시로 구분합니다. 완료한 드래그는 Undo 한 건이며,
 Escape로 취소한 미리보기는 이력을 남기지 않습니다.
 
 **G**는 원본 정점·제어점에 대한 자석 스냅을 켜거나 끕니다(기본 켜짐).
@@ -118,7 +139,21 @@ Rectangle·Ellipse·Cross 등의 대화형 크기 지정 중 Shift 단독으로 
 
 Vertex 모드에서 Polyline2D·Polyline3D와 Bezier·CatmullRom·Hermite·BSpline·NURBSpline은 Insert로 포인터 아래 구간에 정점을 추가하고, Delete로 가리키거나 V로 고른 원본 정점을 삭제합니다. 스플라인은 제어 다각형의 구간에 제어점을 추가하므로 곡선 모양이 바뀔 수 있습니다. 열린 경로는 2개, 닫힌 폴리라인은 3개, NURBS/BSpline은 차수+1개를 남깁니다. 추가·삭제는 각각 한 번의 Undo/Redo이며 개체 자체를 삭제하지 않습니다. 다른 모드와 Ctrl+Delete는 기존 개체 삭제 명령입니다.
 
-좌측 상단에는 `Tab: Move mode`, `Tab: Vertex mode`, `Tab: Scale mode`와 `V: Next grip`을 표시합니다. 보조 제어점은 원본 정점보다 작고 채움이 더 투명합니다.
+좌측 상단에는 `Tab: Move mode`, `Tab: Vertex mode`, `Tab: Size mode`와 `V: Next grip`을 표시합니다. 보조 제어점은 원본 정점보다 작고 채움이 더 투명합니다.
+
+Move·Vertex·Size 마커는 논리 8.8픽셀, 보조 제어점은 7.2픽셀이며 활성 상태에서는 3.2픽셀 커집니다. 상대적인 크기 차이를 유지하면서 전체 크기를 20% 줄였습니다. 표시 DPI에 따라 확대되며 자석·선택 허용 범위는 유지합니다. 이동·크기 Grip과 사각형 마커 방향은 개체 회전을 따릅니다. FontEditor도 회전된 경로의 로컬 축을 따라 크기를 조절하고 반대쪽 기준점을 유지합니다.
+
+### 하단 모드 표시와 곡선 중심점
+
+1. 하단 상태 표시줄은 현재 Grip 모드를 표시합니다. 배경은 Move가 민트색,
+   Vertex가 청록색, Size가 주황색입니다. 클릭하면 다음 지원 모드로 전환하고,
+   Tab/Shift+Tab으로 다음/이전 모드를 선택할 수도 있습니다.
+2. Arc는 Vertex 모드에서, Ellipse는 Vertex·Size 모드에서 중심점을 표시합니다.
+   민트색 중심 사각형을 끌어 개체를 이동하거나 V/Shift+V으로 선택합니다.
+   경계의 이동 Grip은 Move 모드에서만 표시합니다.
+3. 모드를 바꾸면 진행 중인 드래그를 이력 없이 취소합니다. 편집할 개체가 없거나
+   생성·편집 잠금 상태이면 하단 모드 표시를 숨깁니다. 배율 초기화가 필요하지 않은
+   Arc는 기존처럼 Size 모드를 건너뜁니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

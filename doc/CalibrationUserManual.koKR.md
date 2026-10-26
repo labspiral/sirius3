@@ -1,8 +1,8 @@
 # RTC Field Correction & 3D Calibration User Manual
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](CalibrationUserManual.md) | [한국어](CalibrationUserManual.koKR.md)
+[English](CalibrationUserManual.md) | [한국어](CalibrationUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 
 ## 1. 개요 (Overview)
@@ -68,6 +68,18 @@ Step 6: Stretch Calibration
 - ACTIVATION_CODE_INVALID (1): 라이선스 활성화 코드 오류.
 - COULD_NOT_OPEN_CORR_FILE (4): 파일 경로 또는 접근 권한 문제.
 - MISSING_README_PARAMS (11): 보정 파일과 짝이 맞는 ReadMe 텍스트 파일이 없거나 내용이 부실함.
+
+## 기준 좌표와 측정 좌표 맞추기
+
+1. 기준점은 스캐너에 명령한 위치이고 측정점은 실제로 가공된 위치입니다. 같은 원점,
+   축 방향, mm 단위와 측정 평면을 사용해야 두 점의 차이를 오차로 해석할 수 있습니다.
+2. 카메라 픽셀 좌표는 먼저 스캐너 좌표로 바꿉니다. 각 기준점과 그 점에서 측정한
+   값을 한 쌍으로 유지합니다. 점 개수만 같고 순서가 다르면 올바른 보정이 아닙니다.
+3. 원본 보정 파일의 KFactor와, 해당 CalibrationLibrary 작업이 요구하는 README를
+   사용합니다. 결과 파일은 별도로 보관하고 실제 재측정으로 정확도를 확인합니다.
+
+[2D 오차 입력](Correction2dUserManual.koKR.md)과 [3D·표면 보정](Correction3dUserManual.koKR.md)을
+차례로 확인하면 같은 좌표를 서로 다른 단계에서 중복 보정하는 것을 피할 수 있습니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

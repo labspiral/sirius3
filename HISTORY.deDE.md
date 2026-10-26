@@ -1,5 +1,20 @@
 # Sirius3 Versionsverlauf
 
+## v1.17.0 (2026.10.26)
+
+- updated) Entwicklerhandbuch überarbeitet
+- added) `IGrippable`
+  - Interaktives Erstellen von Objekten sowie Bearbeiten von Scheitelpunkten, Position, Größe und Drehung
+  - Bewegung mit Einrasten über Ctrl-, Alt- und Shift-Tastenkombinationen
+- added) `FontEditorControl`
+  - Erstellen und Bearbeiten von Schriftdateien für `EntitySiriusText`
+- added) `EntityImagePDF`
+  - Import von PDF-Dateien über `IDocument.ActImport`
+- fixed) `EntityMixedGroup`, `EntityUniformGroup`, `EntityGerber`
+  - Verbesserte Darstellungsleistung beim Bearbeiten von Unterobjekten in zusammengesetzten Objekten
+- fixed) `MCPServerOptions.AllowedFileRoots`
+  - MCP-Dateizugriff erlaubt standardmäßig alle für den Hostprozess zugänglichen Pfade
+
 ## v1.16.1 (2026.10.12)
 
 - updated) SCANLAB RTC6-Abhängigkeit auf Software Package 1.25.1 aktualisiert

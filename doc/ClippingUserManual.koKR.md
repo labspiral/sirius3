@@ -1,8 +1,8 @@
 # 문서 클리핑 사용자 매뉴얼
 
-> 기준 버전: Sirius3 1.16.0 (공개 Release 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
-[English](ClippingUserManual.md) | [한국어](ClippingUserManual.koKR.md)
+[English](ClippingUserManual.md) | [한국어](ClippingUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 원본과 영역 선택
 
@@ -50,6 +50,12 @@ bool success = document.ActClip(document.Selected, regions, options, isRemove: f
 ## 관련 기능
 
 [Offset 좌표와 문자열 파싱](OffsetUserManual.koKR.md), [텍스트](TextUserManual.koKR.md), [바코드](BarcodeUserManual.koKR.md), [해치](HatchUserManual.koKR.md), [전체 EntityFactory](EntityUserManual.koKR.md)를 함께 참고합니다.
+
+## 이미지 영역 확인
+
+이미지 밖에 있는 영역은 결과를 만들지 않으며 원본 제거는 결과를 만든 원본에
+적용됩니다. 부분 래스터 클리핑은 픽셀 위치를 유지한 독립 결과를 만듭니다. 회전·반사한
+이미지도 겹침 0의 경계와 남은 픽셀을 확인하고 영역이 잘못되었으면 Undo로 복원합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

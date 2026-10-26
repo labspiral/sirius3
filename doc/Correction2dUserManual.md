@@ -1,73 +1,69 @@
 # 2D Scanner Field Correction User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](Correction2dUserManual.md) | [한국어](Correction2dUserManual.koKR.md)
+[English](Correction2dUserManual.md) | [한국어](Correction2dUserManual.koKR.md) | [All guides](README.md)
 
-## 1. Why Field Correction Is Necessary
+## 1. Why correction is needed
 
-Galvanometer-mirror rotation is not perfectly proportional to linear motion on the work surface. F-theta lens nonlinearity, optical-axis decentering, scan-head installation angle, and lens tolerances all introduce position-dependent error. Adjusting KFactor corrects the overall scale, but barrel, pincushion, skew, and local distortion remain. 2D Field Correction reduces these nonlinear errors using XY deviations measured at multiple positions across the scan field.
+1. A 2D scan head uses X and Y mirrors to steer the beam. Mirror angle and the
+   position on a flat work surface are not perfectly proportional.
+2. With ordinary focusing geometry, distance from the optical axis follows
+   approximately `r = f × tan(θ)`, where `f` is focal length and `θ` is beam angle.
+   An f-theta lens is designed to bring this closer to `r = f × θ`. It reduces
+   distortion, but installation, alignment and lens tolerances leave residual errors.
+3. A measured correction table, such as a `.ct5` file for a compatible RTC,
+   compensates for those remaining errors over the field. `KFactor` sets the
+   overall bits/mm scale; it does not replace field correction.
 
-## 2. Prerequisites
+Use the correction file supplied for the actual head, lens and working distance.
+See [calibration overview](CalibrationUserManual.md) for the wider workflow.
 
-- Initiated RTC and scan heads
-- The original `.ctb` or `.ct5` correction file that corresponds to the current optic system
-- Grid test patterns that can be processed with low output
-- A vision system, measuring microscope, or other equipment capable of measuring actual coordinates
-- The way to keep the original/measure data/results files separately
+## 2. Prepare and mark a measurement grid
 
-Field-correction work may emit a real laser beam. Apply the equipment safety procedure and low-power test conditions before starting.
+1. Preserve the source correction file and create a different target filename.
+   Confirm the selected head and the file's KFactor before measuring.
+2. Use `CreateGridsForm` to prepare a grid pattern, then use the same rows,
+   columns and spacing in the correction form. Grid spacing is in mm.
+3. Mark and measure the reference positions using the equipment's approved
+   low-power procedure. Record actual XY coordinates with a calibrated camera
+   or measuring instrument. Resetting the grid clears existing measurement data.
 
-## 3. Source, Target and KFactor
+A coarse grid is easier to validate. Add more points where the remaining error
+requires them; a denser grid also increases measurement effort and the influence
+of incorrect samples.
 
-- Source File: The original correction file you are currently using
-- Target File: The way to save the results into a new file
-- KFactor: bits/mm unit coordinates
+## 3. Enter the measured error
 
-The conversion form is **Controller position (bit) = User input position (mm) × KFactor (bits/mm)**. Make sure KFactor and Source correction files are the same optical field standards.
+The form displays **dx = measured X − reference X** and
+**dy = measured Y − reference Y**, in mm. For example, reference `(10, 5)` and
+measured `(10.010, 4.995)` give `dx = 0.010`, `dy = -0.005`.
 
-## 4. Measurement Grid
+Both whitespace and a comma can separate the values:
 
-1. Select the full number Rows/Columns (e.g. 5×5, 9×9, 17×17).
-2. Set the Row/Column Interval (mm).
-3. Start the Grid with Reset This task deletes the existing cell data, so export it first.
-4. Processing the Grid of the theory coordinates.
-5. Collect real coordinates with vision or measurement equipment.
+```text
+0.010 -0.005
+0.010, -0.005
+```
 
-If you have more points, you can describe the local defect in more detail, but the impact of the measurement time and the wrong point is also increased. It is safe to increase the required area only gradually, starting with the Strong Grid.
+Map camera coordinates into the scanner coordinate system first. Match axis
+direction, rotation, mirroring, origin and units. Keep the same row/column order
+as the reference grid and reject missing, duplicate or nonfinite measurements.
+Cell colors highlight large errors; use numeric tolerances to accept the result.
 
-## 5. Entering Error Data
+## 4. Convert, apply and verify
 
-The 2D correction grid in Sirius3 1.13.0 can differentiate dx/dy as **discovered or sheltered**.
+1. Export the measurements, then select the matching source correction file,
+   KFactor and new target file. Convert creates the corrected file.
+2. Check conversion success before Apply loads the result into the RTC table.
+   Verify the active head and table number.
+3. Mark and measure the same grid again. Compare the remaining XY errors with
+   the process tolerance; file creation alone does not prove correction accuracy.
 
-- `0.010 -0.005`
-- `0.010, -0.005`
-
-dx/dy should fix the difference between the theory and the measurement point to the direction required by the API. When using the “measurement value – theoretical value” provided by the external vision, first unite the coordinate direction, camera rotation, reverse and unit. It is advisable to put the known defect in the center and four corners and then verify the code and then import the entire data.
-
-In 1.13.0, the cell color according to the defect distance is re- displayed. color is an assistant means to find the ideal points, and whether the accurate permission is judged by the numbers and the process gap.
-
-## 6. Create RtcCorrection2D with external vision data
-
-The developer can arrange the vision coordinates into a line-line order and then add theoretical coordinates and relative defects to `RtcCorrection2D`. Grid's source point, line-line direction, column direction and interval must match the UI indication. Failure point, duplicate point, NaN/Infinity, unit disagreement first passed and then open the 2D correction WinForms in `UI.Config.OnScannerFieldCorrection2DShow` to review, store and apply.
-
-## 7. Conversion and Application
-
-1. Backup the measurement data to Import/Export.
-2. Create a target file with a converter.
-3. Check the error message and the result file.
-4. Apply to RTC Correction Table and select it.
-5. Repeat the same grid and check the rest.
-
-Not just the fact that the file was created, the correction was successful. check the applied Table number, the current Primary Head, KFactor, the axis direction and the actual residues together.
-
-## 8. Cautions
-
-- Do not cover the original correction file.
-- If you change the grid structure and reset, the existing data will be deleted.
-- One or two big ideals can distort the whole fixing side.
-- Do not apply the Matrix twice between the camera coordinates and the scanner coordinates.
-- The correction results are only valid for the combination of the scanhead lens, work distance and installation state.
+Changing the head, lens, working distance or mechanical alignment may invalidate
+the measurements. Keep the original file and each verified result separately.
+Use [3D calibration](Correction3dUserManual.md) when focus and field size must
+also remain correct at different heights.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

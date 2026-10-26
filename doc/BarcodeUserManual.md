@@ -1,8 +1,8 @@
 # Barcode Entities User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](BarcodeUserManual.md) | [한국어](BarcodeUserManual.koKR.md)
+[English](BarcodeUserManual.md) | [한국어](BarcodeUserManual.koKR.md) | [All guides](README.md)
 
 ## 1. Classes and factories
 
@@ -125,11 +125,12 @@ Geometry-affecting edits require Regen/ActRegen before rendering, picking or mar
 
 IClippable supports the generated representation. ActClip can preserve existing hatch paths through IncludeHatches and adds results with Undo/Redo. A clipped portion is geometry; it is not automatically a complete decodable symbol. See [clipping](ClippingUserManual.md).
 
-## 8. Extending the barcode implementation
+## 8. Editing generated codes
 
-EntityBarcode2DBase supplies common geometry and interfaces. A concrete implementation overrides `EncodeAndCreateBitMatrix()` for its encoder and implements its cloning behavior. Preserve valid matrix dimensions, content validation, serialized settings, ModifyFlag updates, cell ownership and failure cleanup. Keep source-order, render, contour, picking and marking representations consistent.
-
-Inspect the public DataMatrix/QR/PDF417/Aztec implementations for examples. Extend the entity/encoder layer independently from scanner command execution; use existing marker/pen contracts for output. The common base is abstract and cannot be instantiated directly.
+Use the public entity properties and document actions to edit a code. Regenerate
+after data, dimensions, cell or hatch changes and check the result before output.
+Use Grip editing for supported dimensions; clipped code fragments still require
+validation with the intended reader. [Editor](EditorUserManual.md) explains the controls.
 
 ## 9. Editing and checking results
 

@@ -67,6 +67,7 @@ SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化�
 - ドキュメント、エディター、シミュレーション
   - レイヤー、ペン、グループ、ブロック、設定可能な Undo/Redo を備えた 4 ページ
   - WinForms と WPF の `SiriusEditorControl` / `SiriusMultiEditorControl` を Debug と Release の両方でサポート。1 つのドキュメントを複数ビューに表示可能
+  - [フォントエディター](SpiralLab.Sirius3.UI/FontEditor/README.md)：WinForms/WPF の **Font Edit** から CXF/LFF/EO FNT/DOT グリフを独立編集。mm ベクトル、整数 DOT セル、BBox/メトリクス、Undo/Redo、DXF インポート、テキストプレビュー、インストール済み TTF 変換に対応。Debug/Release の両方に常に含まれます。
   - 画面固定サイズのマーカー、ビーム効果、任意の粒子を使ったリアルタイム加工経路表示
   - カメラおよび検査向けのグリッド型スティッチ画像表示
 - オープンアーキテクチャ

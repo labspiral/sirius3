@@ -1,8 +1,8 @@
 # SpiralLab.Sirius3.UI.Config Settings Guide
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](Sirius3UIConfigUserManual.md) | [한국어](Sirius3UIConfigUserManual.koKR.md)
+[English](Sirius3UIConfigUserManual.md) | [한국어](Sirius3UIConfigUserManual.koKR.md) | [All guides](README.md)
 
 ## 1. Role and Configuration Timing
 
@@ -43,11 +43,11 @@ Undo/Redo acts based on the `IDocument.Act*` task. If you change the Page, Layer
 | `AssemblyName` | `SpiralLab.Sirius3.UI.dll` | UI Assembly Files |
 | `AssemblyVersion` | The running assembly version. | `Major.Minor.Build` format only read value |
 | `FileOpenFilters` | Sirius3, DXF, DWG | Open the dialog box Filter |
-| `FileImportFilters` | Sirius3, SVG, STL, OBJ, PLY, 3MF, DXF, DWG, images, HPGL/PLT, Gerber, G-code | Importation of the dialog box Filter |
+| `FileImportFilters` | Sirius3, PDF, SVG, STL, OBJ, PLY, 3MF, DXF, DWG, images, HPGL/PLT, Gerber, G-code | Importation of the dialog box Filter |
 | `FileSaveFilters` | `.sirius3` | The dialog box Filter. |
 | `FileImportImageFilters` | JPG, BMP, PNG, GIF, TIFF | Imaging the image Filter |
 | `FileMeasurementFilter` | `.txt` | Measurement File Filter |
-| `IsCompressedFileFormat` | Release `true`, Debug `false` | Decide whether to save the new `.sirius3` file in a compressed format. distinguish from the ability to open the existing file. |
+| `IsCompressedFileFormat` | `true` | Decide whether to save the new `.sirius3` file in a compressed format. distinguish from the ability to open the existing file. |
 | `JsonExternalConvertes` | `List<JsonConverter>` | This is a list of Newtonsoft.Json Converter used when rendering customized formats. |
 
 Custom Converter is registered before opening the Document.
@@ -418,6 +418,20 @@ When a product reads Config values from `config*.ini`, parse and validate ranges
 ## 24. HiDPI configuration belongs to the host
 
 `UI.Config` does not select process DPI awareness. Configure the executable before creating controls. WinForms demos use `PerMonitorV2`, a 96-DPI form baseline, and separate `net481` app.config/manifest settings. WPF uses device-independent layout and its executable manifest. Keep point-sized fonts logical and let the control's DPI handling size owned images, rows, and descriptions. See [WinForms](WinForms.md) and [WPF](WPF.md).
+
+## Grip and import settings
+
+`KeyboardTransitXYCtrl`, `KeyboardTransitXYCtrlAlt` and
+`KeyboardTransitXYCtrlAltShift` select 1 / 0.1 / 0.01 mm by default;
+`KeyboardRotateCtrl`, `KeyboardRotateCtrlAlt` and `KeyboardRotateCtrlAltShift`
+select 90 / 10 / 1°. These values also affect supported entity and Font Editor
+grips; G controls magnetic attraction separately. See [Editor](EditorUserManual.md).
+
+PDF import creates a raster page image. `EntityImagePDF.PageNumber` is one-based;
+`RenderDpi` defaults to 150 and accepts 36–600. DPI changes pixel resolution, not
+the requested physical mm size. See [document import](DocumentUserManual.md).
+
+Font files and installed-TTF conversion are described in [Font Editor](FontEditorUserManual.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

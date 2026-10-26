@@ -1,6 +1,6 @@
 # Font Editor 사용 설명서
 
-> API 기준: Sirius3 Core/UI 1.17 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
 [English](FontEditorUserManual.md) | [한국어](FontEditorUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -34,7 +34,7 @@ Y=0이 기준선입니다. BBox는 폰트의 허용 영역이며 ascent·descent
 좌측 **문자**에서 대상을 선택하고 가운데 캔버스에서 편집하며 우측 표에서 경로·정점
 순서를 확인합니다. 구분선을 끌어 영역 너비를 조정할 수 있습니다. 처음에는 Latin을
 표시하며 BMP 블록 또는 문자·코드를 입력해 이동합니다. Ctrl+PageUp/PageDown은
-이전/다음 문자, Ctrl+Shift+G는 문자 목록으로 포커스를 이동합니다. 문자 목록의
+이전/다음 문자를 선택합니다. 문자 목록의
 방향키는 목록 탐색에 사용하며 캔버스를 움직이지 않습니다.
 
 | 문자 상태 | 의미 |
@@ -68,20 +68,20 @@ Enter는 입력한 점으로 완료, Backspace는 이전 단계, Escape는 취�
 
 ## 5. Grip·스냅·화면 이동
 
-선택한 벡터 경로에서 **Tab**는 Move → Vertex → Scale, **Shift+Tab**는 역순으로
+선택한 벡터 경로에서 **Tab**는 Move → Vertex → Size, **Shift+Tab**는 역순으로
 전환합니다. 지원하지 않는 모드는 건너뜁니다. 직선 두 점 경로는 Move·Vertex를
 사용합니다. 다른 경로 또는 문자를 선택하면 Move로 시작합니다.
 
 | 모드 | 조작 |
 |---|---|
-| Move | 중심·경계 Grip으로 경로 전체 이동 |
+| Move | 중심·경계 Grip으로 경로 전체 이동 또는 Z 회전 |
 | Vertex | 원본 정점과 Bulge 편집 |
-| Scale | 경로 전체 크기·회전 조정 |
+| Size | 경로 전체 크기 조정 |
 
 V/Shift+V으로 다음/이전 Grip을 선택합니다. 드래그하면서 좌측 상단의 좌표·크기·
 각도·Bulge 값을 확인합니다. Escape는 미리보기를 취소하고 완료한 드래그는 Undo
-한 건으로 기록합니다. 표에서 일부 정점만 선택했어도 전체 경로의 Move·Scale Grip은
-그 경로 전체에 적용됩니다.
+한 건으로 기록합니다. 표에서 일부 정점만 선택했어도 전체 경로의 Move·Size Grip은
+회전을 포함한 그 경로 전체에 적용됩니다. 폰트 경로의 크기 편집은 원본 좌표를 변경하므로 크기 Grip의 일반 불투명도를 유지합니다.
 
 **G**는 점·가이드에 대한 자석 스냅을 켜거나 끕니다(기본 켜짐). 선택 거리는 기준
 3픽셀에 DPI를 적용하며 줌과 무관합니다. 이동·각도 격자와는 별도입니다. 지원하는
@@ -115,12 +115,21 @@ Ctrl+Shift+P로 **문자열 미리보기**를 열고 테스트 문자열을 입�
 Ctrl+I로 현재 문자에 DXF를 가져옵니다. 적용 전 단위·BBox·경로 순서와 포맷에 따른
 곡선 변환을 확인합니다.
 
-Ctrl+Shift+C는 설치 TrueType의 **폰트 변환기**를 엽니다. 스타일·출력 포맷과 지원
-BMP 블록을 선택하며 Basic Latin이 기본 선택입니다. EO binary는 U+0000~00FF로
-제한됩니다. 벡터는 기준 높이(mm)와 곡선 구간 최대 길이(기본 0.02 mm)를 사용하고
-근사 오차는 높이의 0.01%로 계산합니다. BBox 폭 **0**은 자동이며 양수를 지정하면
-변환 형상을 모두 포함해야 합니다. DOT는 정수 래스터 크기와 Light/Normal/Bold 픽셀
-굵기를 사용합니다. 필요한 변환 실행 파일이 프로그램의 Sirius 폰트 폴더에 있어야 합니다.
+Ctrl+Shift+C는 설치된 TrueType 폰트를 변환하는 **폰트 변환기**를 엽니다.
+
+1. 폰트와 Regular/Bold/Italic/Bold Italic 스타일을 선택합니다. 출력 목록은
+   **CXF·LFF·DOT**이며 기본값은 **CXF**입니다. 기본 문자 블록은 Basic Latin입니다.
+   EO ASCII/binary FNT 출력은 이 화면에서 제공하지 않습니다. 기존 FNT 파일은
+   계속 열고 편집할 수 있습니다.
+2. CXF/LFF는 기준 높이(mm)와 곡선 구간 최대 길이(기본 0.02 mm)를 설정합니다.
+   근사 오차는 높이의 0.01%입니다. BBox 폭 **0**은 자동이며 양수를 지정하면
+   변환 형상을 모두 포함해야 합니다.
+3. DOT는 정수 래스터 크기와 **Dot factor**로 픽셀 밀도를 조정합니다. 픽셀 굵기는
+   **Normal**로 고정되어 Weight 선택 항목이 없습니다. Font style은 계속 제공하며
+   원본 글자의 굵기·기울기를 바꿉니다.
+
+필요한 변환 실행 파일은 프로그램의 Sirius 폰트 폴더에 있어야 합니다.
+저장한 폰트의 사용 방법은 [텍스트 개체](TextUserManual.koKR.md)를 참고합니다.
 
 ## 8. 저장과 재사용
 
@@ -182,7 +191,9 @@ Ellipse 생성 중 Shift 단독은 원 비율로 미리보기합니다. 생성�
 
 캔버스의 Vertex 모드에서 Insert는 포인터 아래 직선·호를 분할하고 Delete는 가리키거나 V로 고른 정점을 삭제합니다. 열린 경로는 2개, 닫힌 경로는 3개를 남기며 호의 Bulge와 Undo/Redo를 보존합니다. 정점 표와 다른 모드의 기존 선택 삭제·중점 삽입·연속 그리기 명령은 유지됩니다. DOT와 가이드 삭제는 기존 규칙을 따릅니다.
 
-`Tab: Move mode` / `Tab: Vertex mode` / `Tab: Scale mode`, `V: Next grip` 안내를 확인하십시오. Shift+Tab은 이전 모드, Shift+V는 이전 Grip이며 세로 가이드 추가는 Alt+V입니다. 보조 Bulge 제어점은 정점보다 작고 채움이 더 투명합니다.
+`Tab: Move mode` / `Tab: Vertex mode` / `Tab: Size mode`, `V: Next grip` 안내를 확인하십시오. Shift+Tab은 이전 모드, Shift+V는 이전 Grip이며 세로 가이드 추가는 Alt+V입니다. 보조 Bulge 제어점은 정점보다 작고 채움이 더 투명합니다.
+
+Move·Vertex·Size 마커는 논리 8.8픽셀, 보조 제어점은 7.2픽셀이며 활성 상태에서는 3.2픽셀 커집니다. 상대적인 크기 차이를 유지하면서 전체 크기를 20% 줄였습니다. 표시 DPI에 따라 확대되며 자석·선택 허용 범위는 유지합니다. 이동·크기 Grip과 사각형 마커 방향은 개체 회전을 따릅니다. FontEditor도 회전된 경로의 로컬 축을 따라 크기를 조절하고 반대쪽 기준점을 유지합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

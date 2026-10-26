@@ -1,12 +1,12 @@
 # Sirius3 WinForms 통합 가이드
 
-> API 기준: Sirius3 Core/UI 1.17 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
 
 [English](WinForms.md) | [한국어](WinForms.koKR.md) | [WPF](WPF.koKR.md) | [전체 안내서](README.koKR.md)
 
 ## 1. 패키지와 데모 프로젝트
 
-공개 NuGet 패키지 `SpiralLab.Sirius3`, `SpiralLab.Sirius3.UI`, `SpiralLab.Sirius3.Dependencies`를 설치합니다. 1.15.0은 WinForms HiDPI와 Remote/MCP 비동기 해제를 지원합니다. Dependencies 패키지가 출력으로 복사하는 런타임 파일도 함께 배포합니다.
+공개 NuGet 패키지 `SpiralLab.Sirius3`, `SpiralLab.Sirius3.UI`, `SpiralLab.Sirius3.Dependencies`를 설치합니다. 1.17.0은 Grip 편집·Font Editor·PDF 페이지 가져오기와 WinForms HiDPI·Remote/MCP 비동기 해제를 지원합니다. Dependencies 패키지가 출력으로 복사하는 런타임 파일도 함께 배포합니다.
 
 공개 데모는 Visual Studio 2022 이상과 `net481;net8.0-windows;net9.0-windows`를 사용합니다. 라이브러리는 `net10.0-windows`도 지원하지만 현재 공개 데모의 대상에는 포함되지 않습니다.
 
@@ -143,10 +143,12 @@ if (!marker.IsReady)
 
 ## 개체 Grip과 Font Editor
 
-뷰포트에서 Tab/Shift+Tab로 Move·Vertex·Scale을 순환하고 V/Shift+V으로 Grip을
-탐색합니다. G는 자석 스냅, F/Ctrl+F는 화면 맞춤이며 편집은 Undo/Redo로 복원합니다.
+뷰포트에서 Tab/Shift+Tab로 Move·Vertex·Size을 순환하고 V/Shift+V으로 Grip을
+탐색합니다. Move는 개체 전체 이동·지원 축 회전, Size는 치수·모델 배율을 편집합니다. G는 자석 스냅, F/Ctrl+F는 화면 맞춤이며 편집은 Undo/Redo로 복원합니다.
 포커스와 격자 규칙은 [편집기](EditorUserManual.koKR.md)를 참고하십시오. 우클릭 메뉴의
 **Font Edit**는 별도의 폰트 파일 편집을 엽니다. [Font Editor](FontEditorUserManual.koKR.md)를 참고하십시오.
+
+최신 Grip 모드·중심점 편집과 키보드 사용법은 [편집기 안내서](EditorUserManual.koKR.md)를 참고합니다. 폰트 변환은 [Font Editor](FontEditorUserManual.koKR.md), PDF 페이지와 페이지 전환은 [문서](DocumentUserManual.koKR.md)에서 설명합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

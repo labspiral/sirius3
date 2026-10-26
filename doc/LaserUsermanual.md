@@ -1,8 +1,8 @@
 # ILaser and Custom Laser UI User Manual
 
-> Reference version: Sirius3 1.16.0 (public Release features)
+> API reference: Sirius3 Core/UI 1.17.0 (public features)
 
-[English](LaserUsermanual.md) | [한국어](LaserUsermanual.koKR.md)
+[English](LaserUsermanual.md) | [한국어](LaserUsermanual.koKR.md) | [All guides](README.md)
 
 ## 1. ILaser and LaserBase
 

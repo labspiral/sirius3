@@ -4,3 +4,10 @@
 obj
 .vs
 bin
+.codex*
+.cursor/
+.cursor-tutor/
+.idx/
+.chatgpt/
+.cline/
+.roo/
