@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3.UI.Config 설정 가이드
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.1 (공개 기능)
 
 [English](Sirius3UIConfigUserManual.md) | [한국어](Sirius3UIConfigUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -432,6 +432,21 @@ PDF는 페이지 래스터 이미지로 가져옵니다. `EntityImagePDF.PageNum
 구분합니다. [문서 가져오기](DocumentUserManual.koKR.md)를 참고하십시오.
 
 폰트 파일과 설치 TTF 변환은 [Font Editor](FontEditorUserManual.koKR.md)에 설명합니다.
+
+## 1.17.1의 공개 설정 형식
+
+호스트 코드는 현재 enum 형식을 사용합니다.
+
+```csharp
+using UIConfig = SpiralLab.Sirius3.UI.Config;
+
+UIConfig.GCodeImportDialect = UIConfig.GCodeImportDialects.Auto;
+UIConfig.WPFTheme = SpiralLab.Sirius3.UI.WPF.SiriusWPFThemes.Material;
+```
+
+`GCodeImportDialect`는 새 가져오기에 적용되며 기본값은 Auto입니다. Auto는 Marlin 헤더를 감지하고 나머지는 CNC 규칙을 선택합니다. Cnc는 스핀들 명령이 없는 이송 경로도 유지하고 Laser는 M3/M4와 양수 S가 적용된 이동만 유지합니다. CNC·Laser의 지연 P 값은 초, Marlin의 P 값은 밀리초입니다. `GCodeImportInfo.Dialect`도 같은 `UI.Config.GCodeImportDialects` 형식입니다. 설정 변경으로 기존 문서를 다시 생성하지는 않습니다.
+
+`SiriusWPFThemes.Material`이 유일하게 제공되는 WPF 테마이며 기본값입니다. WPF 컨트롤이 리소스를 설치하며 애플리케이션 설정은 소유 UI 스레드에서 적용합니다. 이 Config 설정은 프로세스 전체에 적용되고 문서 Undo/Redo 대상이 아닙니다. [WPF 연동](WPF.koKR.md)과 [문서 가져오기](DocumentUserManual.koKR.md)를 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

@@ -1,6 +1,6 @@
 # Sirius3 MCP Editor Demo: AI client setup
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI public features
 
 [English](MCP.md) | [한국어](MCP.koKR.md) | [All guides](README.md)
 
@@ -48,6 +48,12 @@ This guide connects the WinForms `editor_remote_mcp` demo to Claude, Codex, Gemi
 The WinForms demo uses Per-Monitor V2 and a 96-DPI `AutoScaleMode.Dpi` main form. Follow [WinForms](WinForms.md) for the modern .NET startup property and the separate `net481` config/manifest settings. WPF applications use the same authenticated HTTP API through the WPF `MCPFactory.CreateServer` overload; see [WPF](WPF.md).
 
 In 1.15.0, await `IMCPServer.DisposeAsync()` before releasing its editor binding. If assigned to the editor's `MCPServer` property, `await editor.DisposeDevices()` handles the registered server and remote first, then the devices. Keep the UI event loop alive until cleanup finishes. The public demo cancels the first close, awaits cleanup, then closes again; do not replace this with a blocking wait.
+
+### Reuse an HTTP endpoint after shutdown
+
+Await `server.Stop()` before restarting that server on the same endpoint. Await `DisposeAsync()` when replacing it with a new server. Stop releases the HTTP listener; it does not dispose the editor or stop a marking job. Keep the UI event loop alive during shutdown.
+
+Two live servers need distinct ports; changing only the `/mcp` path does not give them separate TCP endpoints. A fixed occupied port remains a startup error and never falls back to a random port. In net481, startup logs the conflicting endpoint and socket error, and uses an exclusive listener rather than sharing a live port with Windows SO_REUSEADDR. Close the previous host or select another configured port before retrying.
 
 ## Safety first
 
@@ -377,6 +383,8 @@ starting a device. Entity queries also provide prepared vertices, hatch settings
 cached converted text, contour topology and model-space slices in bounded pages.
 Slice Z uses mm after the entity's model transform and excludes parent transforms.
 
+For a registered RTC6 Ethernet scanner, the scanner capability catalog includes `IRtcWatchdog` and `IRtcStreamParser`. Read the watchdog state before disabling it, because `CtlWatchdog(0)` clears the triggered state. Use `CtlConnectionLossBehavior` for Ethernet link-loss response and `CtlStreamParserWaveFormStreaming` for waveform telemetry; these are separate from the watchdog timeout. Device changes require `DeviceControl`, an idle marker and `confirmDestructive=true`. Direct writes to the corresponding control properties are rejected so the board result can be checked. StreamParser packet sizes are limited to 256, 512, 1024, 2048, 4096, 8192, 16384 or 32768 bytes.
+
 Ask to change the registered script's lot/operator data, scalar variables or
 serial counters. These changes are outside document Undo/Redo and affect later
 text conversion or marking. Serial helpers retain the script's own increment
@@ -386,3 +394,40 @@ Device mutations need DeviceControl and operator confirmation; busy-state checks
 remain active. Ask to save or open calibration data only in allowed folders,
 confirming replacement or overwriting first. A successful command submission
 does not establish physical completion; inspect device status and events.
+
+<a id="syncaxis-setup"></a>
+
+## syncAXIS setup
+
+For a registered `IRtcSyncAxis` scanner and `MarkerSyncAxis`, the assistant can inspect the six setup goals, prepare a document pattern, initialize the configured scanner, change simulation/hardware mode, run the prepared step and select an external CT5 correction reference. The [ScannerControl setup guide](Rtc6SyncaxisUserManual.md#syncaxis-setup) describes the shapes, motion types, defaults and measurement targets.
+
+Save the recipe before approving preparation. Preparation calls `IDocument.ActNew()`, resetting all pages and pens before creating the selected pattern. Laser-delay preparation immediately sets `Marker.Offsets`; other steps clear them. The H path's layer-pen values are the starting timing/speed values: X/right increases switch offset by column, Y/up increases pre-trigger by row. Every run restarts from those values.
+
+Calibration rows and columns must be odd integers 3–99. Static-accuracy counts must be odd, 3–31; combined-accuracy counts accept 3–31, and laser-delay arrays accept 1–21. Invalid MCP counts are rejected. Grid size is diameter in mm; center interval must exceed it. Request StageOnly and ScannerOnly references separately, then the StageAndScanner combined pattern when needed. Each preparation replaces the prior document.
+
+| Operation | Required access and confirmation |
+|---|---|
+| Inspect step state | A registered scanner and document; no marking or reinitialization |
+| Prepare or recreate a pattern | DocumentControl and confirmation that the current document can be reset |
+| Inspect or update setup XML, select CT5 | DeviceControl and file-access policy checks; selecting a file updates XML only |
+| Initialize, switch mode or run | DeviceControl and idle registered devices; initialization in hardware mode, switching to hardware and hardware marking require explicit approval |
+
+Keep the XML, its referenced working/program directories, simulation output folder and selected CT5 within the host's allowed file roots when a restricted policy is used. Preparation and simulation evidence belong to this server's registered-device session. A pattern created in the UI is not automatically prepared in MCP; use the same workflow for preparation and execution. Changes to the document or XML require another simulation review before hardware marking.
+
+MCP Run reports completion and the generated simulation file name; it does not itself open Viewer. Open that output in syncAXIS Viewer on the host and inspect position and dynamic limits. The ScannerControl UI's Run opens Viewer automatically after a successful simulation. Simulation does not establish physical alignment or approve laser operation.
+
+Create a new CT5 in external calibration software, select the configured scan head and file, and explicitly initialize the idle scanner to apply the XML reference. Do not recreate the registered scanner merely to select a correction file. Initialization restores the mode saved in XML; verify the current mode again. Synchronization's size-100, 44-line pattern spans approximately ±45.833 mm and does not replace the full bidirectional CHECK_SYSTEMDELAYS procedure.
+
+```text
+Show the syncAXIS setup steps and current mode. After I save the document and confirm its reset, prepare the laser-delay H with the rows, columns, spacing and timing increments I specify. Simulate it and tell me which output to inspect in Viewer. Repeat from the layer-pen starting values after I adjust them. Do not change to hardware mode or operate the physical machine until I explicitly approve it.
+```
+
+## Scanner field correction
+
+Ask to inspect the connected RTC's 2D/3D field-correction formats, units and converter availability first. Provide measurements in the same CSV/tab format as EditorControl, then request validation and export. 2D uses the configured correXion Pro program; the five 3D steps use CalibrationLibrary: beam tilt, XY, focus at Z=0, focus coefficients A/B/C and Z-volume stretch. Normal vendor licenses are required. Coordinates are raw scanner mm; focus L/A use signed RTC Z bits and are converted once to the source CTB/CT5 basis.
+
+DeviceControl is required and the RTC, all markers and simulation must be idle. Files, logs and generated README files follow AllowedFileRoots. Existing outputs require overwrite confirmation. Conversion creates a separate file; request applying a reviewed file separately with explicit confirmation and a ready RTC. Application loads/selects its correction table only. Measurement marking, motion and laser output are not started. Files and device settings are outside document Undo/Redo; measured-data validation does not establish native-table validity or calibration accuracy.
+
+“Inspect the scanner field-correction formats. Validate my measured XY CSV, export it to an allowed folder, and explain the values. Prepare a separate correction file with the normal vendor library. Report the result and leave device application for a separate explicitly confirmed request.”
+
+OBJ imports require referenced MTL and texture files to be in allowed folders too. An import rejected by this policy leaves the document and Undo/Redo history unchanged. Switching document pages clears the previous selection; assigning the active page again keeps it. Page selection itself adds no Undo/Redo history.

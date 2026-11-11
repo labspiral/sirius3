@@ -1,5 +1,12 @@
 # Sirius3 version history
 
+## v1.17.1 (2026.11.11)
+
+- added) `Rtc6SyncAxis`: Added a setup screen
+- added) `Rtc6Ethernet`: Added watchdog monitoring
+- fixed) `IDocument.ActClip`: Added the `ClipOptions.IsIncludeOnce` option
+  - Clipped data shared at a boundary is generated in only one region
+
 ## v1.17.0 (2026.10.26)
 
 - updated) Improved the developer manual

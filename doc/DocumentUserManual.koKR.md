@@ -1,6 +1,6 @@
 # IDocument & Recipe Management User Manual
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 공개 기능
 
 [English](DocumentUserManual.md) | [한국어](DocumentUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -93,7 +93,7 @@ document.Dispose();
 
 문서는 `DocumentPages.Page1`부터 `Page4`까지 4개의 페이지를 제공합니다.
 각 페이지는 자신의 레이어를 가지며 일반 편집의 대상은 `ActivePage.ActiveLayer`입니다.
-통합 편집기는 페이지별 `TreeViewPageControl` 탭 4개를 제공합니다.
+통합 편집기는 페이지별 `TreeViewPageControl` 탭 4개를 제공합니다. WinForms에서는 문서를 교체한 뒤를 포함하여 Document API로 페이지를 바꾸면 선택된 탭도 동기화됩니다.
 
 ```csharp
 document.Page = DocumentPages.Page2;
@@ -138,7 +138,7 @@ PropertyGrid에서 개체를 선택하면 개체 속성과 연결된 펜을 확�
 
 ### SVG 및 3MF 가져오기
 
-`ActImport`는 `.svg`를 편집 가능한 `EntitySvg`/`EntityContour` 벡터 계층으로, `.3mf`를 `EntityMesh`로 가져옵니다. SVG는 96 pixels/inch와 Y축 반전으로 mm 좌표를 생성하며 선·호·베지어/NURBS 원본을 유지합니다. 단색 채움과 선 두께·끝점·모서리는 영역으로 처리합니다. 텍스트, 이미지, 마스크, 필터, clip path, marker, 점선과 non-scaling stroke는 지원하지 않으므로 외곽선으로 변환하거나 지원 형식으로 내보냅니다.
+`ActImport`는 `.svg`를 편집 가능한 `EntitySvg`/`EntityContour` 벡터 계층으로, `.3mf`를 `EntityMesh`로 가져옵니다. SVG는 96 pixels/inch와 Y축 반전으로 mm 좌표를 생성하며 선·호·베지어/NURBS 원본을 유지합니다. 단색 채움과 선 두께·끝점·모서리는 영역으로 처리합니다. 단순 SVG `<text>`는 사용 가능한 글꼴을 찾으면 편집 가능한 텍스트 자식으로 가져옵니다. 위치, 크기, 굵기, 스타일과 text anchor에는 지원되는 SVG 값을 사용합니다. Text span과 text path, 복잡한 타이포그래피, 이미지, 마스크, 필터, clip path, marker, 점선과 non-scaling stroke는 여전히 지원하지 않습니다. 해당 내용은 가져오기 전에 외곽선으로 변환합니다.
 
 SVG 선 해치는 기본적으로 생성하지 않습니다. 새 가져오기 전에 `UI.Config.IsSvgImportHatchEnabled = true`를 설정하면 `UI.Config.SvgImportHatchInterval`(기본 0.1 mm) 간격의 HatchLine을 추가합니다. 뒤에 그린 불투명 흰색은 기본적으로 앞의 형상을 잘라내며, `EntitySvg.WhiteIsKnockout`으로 이 정책을 바꿀 수 있습니다.
 
@@ -202,6 +202,12 @@ if (!document.ActAdd(image))
 
 래스터 처리는 [이미지 개체](EntityUserManual.koKR.md), 영역별 출력은
 [클리핑](ClippingUserManual.koKR.md)을 참고하십시오.
+
+## syncAXIS 셋업의 새 레시피 생성
+
+ScannerControl의 [syncAXIS 셋업](Rtc6SyncaxisUserManual.koKR.md#syncaxis-setup)은 할당된 `IDocument`를 편집합니다. Create는 저장 확인 후 `ActNew()`로 모든 Page와 펜을 초기화하고 활성 Page의 빈 기본 레이어를 교체하여 해당 단계의 데이터만 만듭니다. 생성 후 일반 Undo/Redo로 ActNew가 교체한 문서를 복원할 수 없으므로 생산 레시피를 먼저 저장합니다. 정적·복합 정밀도의 기준 패턴도 각각 새로 생성하므로 보존할 레시피는 따로 저장합니다.
+
+생성된 개체나 펜을 EditorControl·PropertyGrid에서 편집하고 하드웨어 사용 전에 다시 시뮬레이션합니다. 생성 입력값을 바꾸면 Create가 다시 필요하지만 문서 편집 후에는 패턴을 재생성하지 않고 시뮬레이션할 수 있습니다. 레이저 지연 Create는 마커 오프셋도 교체하고 다른 단계는 비우며, 장치 쪽 오프셋은 문서 형상과 구분됩니다. [오프셋과 콜백](OffsetUserManual.koKR.md#offset-callbacks)을 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

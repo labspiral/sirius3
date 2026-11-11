@@ -1,6 +1,6 @@
 # Document Clipping User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI public features
 
 [English](ClippingUserManual.md) | [한국어](ClippingUserManual.koKR.md) | [All guides](README.md)
 
@@ -16,11 +16,31 @@ Select document-owned supported entities. Pass an `EntityLayer` alone to clip it
 |---|---|
 | `ClipModes.Paths` (default) | Retains path portions inside the region; open paths remain open and supported native curve types are retained. |
 | `ClipModes.ClosedRegions` | Intersects filled planar regions and includes cutting boundaries; sources must share a local XY plane. |
-| `IncludeHatches` (default `true`) | Includes existing active HatchLine/HatchPolygon paths as independent entities; results do not regenerate the source hatch settings. |
+| `IsIncludeHatches` (default `true`) | Includes existing active HatchLine/HatchPolygon paths as independent entities; results do not regenerate the source hatch settings. |
+| `IsIncludeOnce` (default `true`) | In an ordered `ActClip` call, assigns shared points, straight path portions and active raster pixels to the first containing region. Set `false` to retain them in every containing region. |
 | `Fill` | Interprets input regions in ClosedRegions; default `HatchFills.EvenOdd`. |
 | `Winding` | Sets local-XY output orientation; default outer CCW and holes CW. |
 
-Raster clipping retains the pixel pitch and positions, crops to active pixels, and ignores transparent pixels in subsequent clipping and marking. With zero overlap, adjacent image tiles retain their rendered boundaries without shifting samples.
+Raster clipping retains the pixel pitch and positions, crops to active pixels, and ignores transparent pixels in subsequent clipping and marking. With zero overlap, adjacent image tiles retain their rendered boundaries without shifting samples. Crossing line pieces still meet at their shared endpoint when `IsIncludeOnce` is enabled. A direct single-region `IClippable.Clip` call is unaffected by this option.
+
+### Boundary ownership and region order
+
+For two adjacent tiles, a point, a coincident straight path portion or a raster sample on their common boundary can be contained by both regions. `ClipOptions.IsIncludeOnce = true` assigns that shared data to the first containing region in the order passed to `ActClip`. For example, a point at X=0 belongs to the first tile below; swapping the regions changes its owner.
+
+```csharp
+var orderedRegions = new[]
+{
+    Frustum.Build(new DVec2(-10, -10), new DVec2(0, 10)),
+    Frustum.Build(new DVec2(0, -10), new DVec2(10, 10))
+};
+var boundaryOptions = ClipOptions.Default;
+boundaryOptions.Mode = ClipModes.Paths;
+boundaryOptions.IsIncludeOnce = true;
+bool clipped = document.ActClip(document.Selected, orderedRegions,
+    boundaryOptions, isRemove: false);
+```
+
+The WinForms and WPF clipping dialogs expose this option. Keep it enabled to avoid duplicate shared data; turn it off only when each containing region must retain a copy. This is an ordered-region rule, not removal of all coincident entities in the recipe. Check group boundaries and use Undo/Redo before marking the results.
 
 ## 3. Add results with Undo/Redo
 
@@ -33,7 +53,7 @@ var regions = new[]
 };
 var options = ClipOptions.Default;
 options.Mode = ClipModes.ClosedRegions;
-options.IncludeHatches = true;
+options.IsIncludeHatches = true;
 bool success = document.ActClip(document.Selected, regions, options, isRemove: false);
 ```
 
@@ -43,7 +63,7 @@ Calling `IClippable.Clip` directly leaves the source unchanged and returns calle
 
 ## 4. Editor workflow
 
-Select the explained object or layer in the editor/TreeView, then open clipping. Set the grid's area size and overlap, preview the regions, choose the geometry and hatch options, and decide whether to retain the source. Apply once and inspect resulting groups, boundaries and hatch paths before preparing a marking job. Selecting a layer does not remove its page identity.
+Select the explained object or layer in the editor/TreeView, then open clipping. Set the grid's area size and overlap, preview the regions, choose the geometry and hatch options, and decide whether to retain the source. Apply once and inspect resulting groups, boundaries and hatch paths before preparing a marking job. Selecting a layer does not remove its page identity. Grid overlap stays inside the selected outer bounds; a one-cell grid has no effective overlap. The WPF dialog exposes the same grid and clipping options as WinForms.
 
 Related guides: [documents](DocumentUserManual.md), [entities](EntityUserManual.md), [WinForms](WinForms.md), [WPF](WPF.md).
 

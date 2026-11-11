@@ -61,8 +61,6 @@ namespace Demos
             // XML configuration file
             string configXmlFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "syncaxis", "syncAXISConfig.xml");
 
-            // Rtc6SyncAxis support x64 runtime only !
-            Debug.Assert(SpiralLab.Sirius3.Core.IsRunningPlatform64);
             // Create syncAXIS(XL-SCAN) controller
             var rtc = ScannerFactory.CreateRtc6SyncAxis(0, configXmlFileName);
 
@@ -91,9 +89,9 @@ namespace Demos
             do
             {
                 Console.WriteLine("'ESC' : abort (stop)");
-                Console.WriteLine("'S' : get status");
+                Console.WriteLine("'G' : get status");
                 Console.WriteLine("'R' : reset");
-                Console.WriteLine("'J' : simulation mode");
+                Console.WriteLine("'S' : simulation mode");
                 Console.WriteLine("'H' : hardware mode");
                 Console.WriteLine("'F' : follow mode");
                 Console.WriteLine("'U' : unfollow mode");
@@ -126,7 +124,7 @@ namespace Demos
                         // Soft stop 
                         //rtc.CtlStop();
                         break;
-                    case ConsoleKey.S:
+                    case ConsoleKey.G:
                         if (rtc.CtlGetStatus(RtcStatus.Busy))
                             Console.WriteLine("syncaxis is busy now ...");
                         else
@@ -151,7 +149,7 @@ namespace Demos
                     case ConsoleKey.C:
                         PrintJobCharacteristic(rtc);
                         break;
-                    case ConsoleKey.J:
+                    case ConsoleKey.S:
                         rtc.CtlSimulationMode(true);
                         break;
                     case ConsoleKey.H:

@@ -1,6 +1,6 @@
 # Sirius3 WinForms integration guide
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.1 (public features)
 
 [English](WinForms.md) | [한국어](WinForms.koKR.md) | [WPF](WPF.md) | [All guides](README.md)
 
@@ -99,6 +99,12 @@ Change both values together: `(6F, 13F)` is the previous font-based baseline. Ap
 Keep font sizes in logical points. Sirius3 scales its owned toolbar images, tabs, TreeView rows, PropertyGrid description area, and custom value editors. Do not multiply those metrics by the display scale again. Custom owner-drawn UI still needs its own current-DPI measurements.
 
 Process DPI awareness belongs to the executable. Referencing the UI DLL does not enable it for the host. Existing products with font-based forms should review their own layout before changing their scaling baseline.
+
+### syncAXIS setup and nested fonts
+
+In 1.17.1, assigning the initialized `IRtcSyncAxis` device shows a syncAXIS setup tab in ScannerControl. The integrated editor passes its document and marker; a separately hosted ScannerControl needs the same `Document`, `Scanner` and `Marker` assignments. Keep one host owner for those objects. See [setup steps, Create's document reset and Run](Rtc6SyncaxisUserManual.md#syncaxis-setup).
+
+Keep nested user-control fonts in logical points and allow one DPI scaling pass. Scanner/setup panels, Font Editor, PowerMap preview and serial controls follow the common WinForms font/DPI handling. Do not enlarge each child font again or mix an old font-based baseline into a 96-DPI host. Check resize, monitor changes, numeric inputs and wrapped descriptions at the target display scale.
 
 ## 4. Register documents and devices
 

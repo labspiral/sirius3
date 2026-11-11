@@ -1,6 +1,6 @@
 # 바코드 개체 사용자 매뉴얼
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 공개 기능
 
 [English](BarcodeUserManual.md) | [한국어](BarcodeUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -40,7 +40,7 @@ Width와 Height는 로컬 mm 단위의 사용자 요청 최대 가공 범위입�
 | PDF417 | DotDimension은 생성된 읽기 전용 결과이며 요청 최소값이 아닙니다. |
 | Aztec | DotDimension은 샘플링 요청입니다. 구조 크기는 Layers·내용·오류 정정으로 정하며 실제 출력은 DotDimensionAdjusted입니다. |
 
-Adjusted 결과에는 추가 Quiet zone·셀 DotFactor 확장을 포함하지 않으며 직렬화하지 않습니다. 생성 전·실패 후에는 0입니다. 이를 다음 요청값으로 되먹임하지 말고 구체 클래스에 맞는 속성을 사용합니다.
+Adjusted 결과에는 추가 Quiet zone·셀 DotFactor 확장을 포함하지 않으며 직렬화하지 않습니다. 생성 전·실패 후에는 0입니다. 이를 다음 요청값으로 되먹임하지 말고 구체 클래스에 맞는 속성을 사용합니다. 재생성 후 표시되는 X/Y Dot Pitch는 실제 생성된 행렬 크기를 사용합니다. 선 셀은 양 끝 샘플 간격을, 다른 셀은 셀 너비와 높이를 표시하며 요청한 `Width`와 `Height`는 바뀌지 않습니다.
 
 ## 4. 셀 모드와 가공
 
@@ -123,7 +123,7 @@ Dots·Lines는 열린 점·선 표현입니다. 지원하는 닫힌 모드는 �
 
 형상 설정 변경 후 Regen·ActRegen을 수행하고 새 내용을 표시·선택·가공합니다. 인코딩 실패 시 이전 셀 형상, bounds와 해치 결과를 폐기하고 사용자 설정은 이후 유효한 값에 사용하도록 유지합니다. 이전 표시만으로 판단하지 말고 Boolean 결과·로그를 확인합니다.
 
-IClippable은 생성 표현을 지원합니다. ActClip의 IncludeHatches로 기존 해치 경로를 유지하고 Undo/Redo로 결과를 추가할 수 있습니다. 잘린 일부는 형상이며 자동으로 판독 가능한 완전한 심벌이 되는 것은 아닙니다. [클리핑](ClippingUserManual.koKR.md)을 참고합니다.
+IClippable은 생성 표현을 지원합니다. ActClip의 IsIncludeHatches로 기존 해치 경로를 유지하고 Undo/Redo로 결과를 추가할 수 있습니다. 잘린 일부는 형상이며 자동으로 판독 가능한 완전한 심벌이 되는 것은 아닙니다. [클리핑](ClippingUserManual.koKR.md)을 참고합니다.
 
 ## 8. 생성한 바코드 편집
 

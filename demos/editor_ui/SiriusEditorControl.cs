@@ -105,6 +105,7 @@ namespace Demos
 
         #region Fields
         private IDocument document;
+        private bool isSynchronizingPageTab;
         private IScanner scanner;
         private ILaser laser;
         private IMarker marker;
@@ -178,6 +179,7 @@ namespace Demos
                 {
                     PropertyGridCtrl.SelecteObject = null;
                     document.OnNew -= Document_OnNew;
+                    document.OnPageChanged -= Document_OnPageChanged;
                     document.OnBeforeOpen -= Document_OnBeforeOpen;
                     document.OnAfterOpen -= Document_OnAfterOpen;
                     document.OnBeforeSave -= Document_OnBeforeSave;
@@ -221,6 +223,8 @@ namespace Demos
                 if (document != null)
                 {
                     document.OnNew += Document_OnNew;
+                    document.OnPageChanged += Document_OnPageChanged;
+                    Document_OnPageChanged(document, document.ActivePage);
                     document.OnBeforeOpen += Document_OnBeforeOpen;
                     document.OnAfterOpen += Document_OnAfterOpen;
                     document.OnBeforeSave += Document_OnBeforeSave;
@@ -1151,6 +1155,7 @@ namespace Demos
             if (document != null)
             {
                 document.OnNew -= Document_OnNew;
+                document.OnPageChanged -= Document_OnPageChanged;
                 document.OnBeforeOpen -= Document_OnBeforeOpen;
                 document.OnAfterOpen -= Document_OnAfterOpen;
                 document.OnBeforeSave -= Document_OnBeforeSave;
@@ -1185,6 +1190,7 @@ namespace Demos
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
+            if (document != null) Document_OnPageChanged(document, document.ActivePage);
             timerStatus.Enabled = Visible;
             if (EditorCtrl != null)
             {
@@ -1207,6 +1213,20 @@ namespace Demos
         #endregion
 
         #region Document Events
+        private void Document_OnPageChanged(IDocument source, IPage page)
+        {
+            EditorControlDispatch.Run(this, () =>
+            {
+                if (!ReferenceEquals(source, Document) || source.DocumentData?.Pages == null) return;
+                if ((int)source.Page < 0 || (int)source.Page > 3) return;
+                int index = source.DocumentData.Pages.ToList().IndexOf(source.ActivePage);
+                if (index < 0 || index > 3 || tbcLeft.SelectedIndex == index) return;
+                isSynchronizingPageTab = true;
+                try { tbcLeft.SelectedIndex = index; }
+                finally { isSynchronizingPageTab = false; }
+            });
+        }
+
         private void Document_OnSimulationStarted(IDocument source, IEntity[] entities) =>
             QueueSimulationStateUpdate(source);
 
@@ -1866,7 +1886,7 @@ namespace Demos
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         private void tbcLeft_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Document == null) return;
+            if (isSynchronizingPageTab || Document == null) return;
 
             Cursor.Current = Cursors.WaitCursor;
             Document.ActSelectClear();
@@ -1958,7 +1978,7 @@ namespace Demos
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         private void BtnOpen_Click(object sender, EventArgs e)
         {
-            if (Document == null) return;
+            if (isSynchronizingPageTab || Document == null) return;
 
             using var dlg = new OpenFileDialog
             {
@@ -2019,7 +2039,7 @@ namespace Demos
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (Document == null) return;
+            if (isSynchronizingPageTab || Document == null) return;
 
             using var dlg = new SaveFileDialog
             {

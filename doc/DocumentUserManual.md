@@ -1,6 +1,6 @@
 # IDocument & Recipe Management User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI public features
 
 [English](DocumentUserManual.md) | [한국어](DocumentUserManual.koKR.md) | [All guides](README.md)
 
@@ -93,7 +93,7 @@ The demo opens the Viewer and Editor Form in turn and shows the concept. In the 
 
 A document contains four pages, `DocumentPages.Page1` through `Page4`. Each page
 owns its layers; `ActivePage.ActiveLayer` is the destination for ordinary editing.
-The integrated editor provides four `TreeViewPageControl` page tabs.
+The integrated editor provides four `TreeViewPageControl` page tabs. In WinForms, the selected tab follows a page change made through the document API, including after a document is replaced.
 
 ```csharp
 document.Page = DocumentPages.Page2;
@@ -138,7 +138,7 @@ If you select an object in PropertyGrid, you can check the pen connected to the 
 
 ### SVG and 3MF import
 
-`ActImport` imports `.svg` as an editable `EntitySvg`/`EntityContour` vector hierarchy and `.3mf` as `EntityMesh`. SVG coordinates become millimeters using 96 pixels/inch and a reflected Y axis; native line, arc and Bezier/NURBS sources are retained. Solid fills and stroke widths, caps and joins form regions. Text, images, masks, filters, clip paths, markers, dashed and non-scaling strokes are unsupported; convert them to supported outlines before import.
+`ActImport` imports `.svg` as an editable `EntitySvg`/`EntityContour` vector hierarchy and `.3mf` as `EntityMesh`. SVG coordinates become millimeters using 96 pixels/inch and a reflected Y axis; native line, arc and Bezier/NURBS sources are retained. Solid fills and stroke widths, caps and joins form regions. A simple SVG `<text>` element becomes an editable text child when its font is available; its position, size, weight, style and text anchor use supported SVG values. Text spans and text paths, complex typography, images, masks, filters, clip paths, markers, dashed and non-scaling strokes remain unsupported. Convert unsupported content to outlines before import.
 
 SVG line hatching is disabled by default. Set `UI.Config.IsSvgImportHatchEnabled = true` before a new import to add HatchLine at `UI.Config.SvgImportHatchInterval` (default 0.1 mm). Later opaque white paint cuts out earlier geometry by default; `EntitySvg.WhiteIsKnockout` controls this policy.
 
@@ -203,6 +203,12 @@ if (!document.ActAdd(image))
 
 See [image entities](EntityUserManual.md) for raster processing and
 [clipping](ClippingUserManual.md) for regional output.
+
+## syncAXIS setup creates a new recipe
+
+ScannerControl's [syncAXIS Setup](Rtc6SyncaxisUserManual.md#syncaxis-setup) edits the assigned `IDocument`. Its Create action asks you to save, calls `ActNew()` to reset all pages and pens, replaces the active empty default layer, and generates only that step's data. Save the production recipe first: normal Undo/Redo after creation does not restore the document that ActNew replaced. Static and Combined Accuracy references are also separate creations, so save each recipe that must be retained.
+
+Edit the generated entities or pen values through EditorControl/PropertyGrid and simulate again before hardware use. Generator-input changes require another Create; document edits can be simulated without recreating the pattern. Laser-delay Create also replaces the marker's offsets, while other steps clear them; those device-side offsets are distinct from document geometry. See [offsets and callbacks](OffsetUserManual.md#offset-callbacks).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

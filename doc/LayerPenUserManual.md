@@ -1,6 +1,6 @@
 # EntityLayerPen User Guide
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.1 (public features)
 
 [English](LayerPenUserManual.md) | [한국어](LayerPenUserManual.koKR.md) | [All guides](README.md)
 
@@ -343,7 +343,7 @@ Preview Time indicates how pre-calculated the future trajectory will be delivere
 
 ## syncAXIS Motion Mode
 
-syncAXIS is the ability to co-drive the transfer stages and scanners in a wide work area using a common `MarkerRtc` and a separate syncAXIS Marker.
+Use `MarkerSyncAxis` with an initialized `IRtcSyncAxis` to coordinate the stage and scanner over a wide working area. An ordinary `MarkerRtc` does not execute syncAXIS jobs.
 
 ### MotionType
 
@@ -369,6 +369,18 @@ BandWidth increases does not always improve performance. you need to consider th
 - Marker and `IRtcSyncAxis` registration for syncAXIS
 
 For more details, see [Rtc6SyncaxisUserManual.md](Rtc6SyncaxisUserManual.md).
+
+### Laser-delay starting values
+
+For syncAXIS layers, `EntityLayerPen` provides the following nullable values. The default is null, which keeps the corresponding scanner trajectory value unchanged. These are layer settings, separate from the conventional EntityPen laser-on/off delays.
+
+| Property | Unit | Setup use |
+|---|---|---|
+| `SyncAxisLaserSwitchOffsetTime` | µs | Starting switch offset; the laser-delay sweep increases it by X column. |
+| `SyncAxisLaserPreTriggerTime` | µs | Starting pre-trigger time; the sweep increases it by Y row. |
+| `SyncAxisLaserDelaySpeed` | mm/s | Scanner jump/mark speed for the sweep. |
+
+The [ScannerControl setup](Rtc6SyncaxisUserManual.md#syncaxis-setup) generates an H and its marker offsets, applies these starting values for each run, and restores the trajectory after the offset/job. Each Static or Combined Accuracy Create prepares one selected motion mode, so use the StageOnly and ScannerOnly buttons separately and StageAndScanner for the combined test. Keep the generated document and simulation result paired when adjusting these pens.
 
 ## LayerFirst and OffsetFirst
 

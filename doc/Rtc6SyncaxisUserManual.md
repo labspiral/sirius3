@@ -1,6 +1,6 @@
 # RTC6 syncAXIS (XL-SCAN) Setup and Usage Guide
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.1 (public features)
 
 [English](Rtc6SyncaxisUserManual.md) | [한국어](Rtc6SyncaxisUserManual.koKR.md) | [All guides](README.md)
 
@@ -117,7 +117,12 @@ INI tells you which XML to choose, and the actual Stage, Scanner, Laser configur
 
 `demos/console_syncaxis_setup/Program.cs` is an example of creating `Rtc6SyncAxis` directly without using `EditorHelper`.
 
+Set `SimulationMode=true` in the XML before executing this example. A mode change after Initialize cannot undo an initial connection made in hardware mode.
+
 ```csharp
+using System;
+using System.IO;
+using SpiralLab.Sirius3.Scanner;
 using SpiralLab.Sirius3.Scanner.Rtc;
 
 bool coreInitialized = false;
@@ -144,7 +149,7 @@ try
     if (!rtc.Initialize())
         throw new InvalidOperationException("syncAXIS initialization failed.");
 
-    // First, verify Job only in the Simulation Mode.
+    // XML must already specify SimulationMode=true before Initialize.
     if (!rtc.CtlSimulationMode(true))
         throw new InvalidOperationException("Failed to switch to Simulation Mode.");
 }
@@ -196,6 +201,53 @@ Check all return values immediately after calling if the middle list command fai
 - Open the results with `Config.SyncAxisViewerProgramPath` syncAXIS Viewer
 
 In the Viewer, check the Scanner/Stage Position, Speed and Dynamic Limit breaches. If any position or Dynamic Violation remains, modify XML or Job and repeat Simulation.
+
+<a id="syncaxis-setup"></a>
+
+### 6.3 ScannerControl syncAXIS Setup
+
+Sirius3 1.17.1 provides the same six setup steps in the WinForms and WPF Scanner tabs. The host must initialize and register an `IRtcSyncAxis` scanner and its `MarkerSyncAxis`, with the editor's `IDocument` connected. The setup tab appears for that scanner. A standalone `ScannerControl` also needs its `Document` and `Marker` assigned; showing the tab does not initialize or own these objects.
+
+The top button displays the **current simulation or hardware mode** and changes it through `IsSimulationMode`. Switching to hardware requires confirmation. **Initialize** explicitly reinitializes the idle scanner from its current XML, including the mode saved in that file. Run does not initialize the scanner implicitly. The XML working directory must exist and be an absolute path; keep the matching program files, correction files and writable simulation output directory accessible.
+
+#### Create, edit, run and repeat
+
+1. Save the current recipe before confirming **Create**. It calls `IDocument.ActNew()`, resetting all pages and pens, replaces the active empty default layer, and creates only the chosen pattern. It does not append to the production recipe, and Undo cannot recover the document that ActNew replaced.
+2. Review and edit the generated entities and pens in EditorControl and PropertyGrid. Each step has its own size and related inputs. Grid size means marker diameter; **Interval** is center-to-center spacing in mm and must exceed the diameter. Filled circles include line hatching at 0.1 mm interval with 0.05 mm boundary exclusion.
+3. Click that step's **Run**. In simulation mode, a successful completed job automatically opens syncAXIS Viewer. There is no separate Viewer button. A stopped or failed job does not open Viewer. In hardware mode, Run has red text and requires confirmation before laser output or stage/scanner motion.
+4. Inspect the simulation output, then measure the physical result only under the approved hardware procedure. **Stop** interrupts the current job; remove the error cause before using the idle **Reset** action. The lower strip shows elapsed time, operation status, Ready, Busy, Error and the **Errors** queue.
+5. Repeat until the step's target is met. Editing document geometry or pens invalidates prior simulation evidence: simulate the edited pattern again. Changing the step's generator inputs requires Create again and therefore another document reset. After changing XML or choosing a new CT5, use Initialize and recheck the result. Keep the reviewed document and configuration unchanged before hardware Run.
+
+#### Six steps and expected results
+
+| Step | Motion | Inputs and expected result |
+|---|---|---|
+| 1. First test marking | StageAndScanner | A four-line square, default side length 100 mm. Confirm position, size and the complete path. |
+| 2. Laser delay | ScannerOnly | One editable H is repeated using marker offsets. Adjust row/column timing to align stroke ends; details below. |
+| 3. Scanner calibration grid | ScannerOnly | Diameter 0.3 mm, interval 9 mm, 11 × 11 by default. Rows and columns must be odd integers 3–99, increment 2. Choose a filled circle, circle, double circle, cross or point marker. Measure the grid and produce/select a new CT5 externally. |
+| 4. Static accuracy | Separate StageOnly and ScannerOnly creation | Generate stage crosses or scanner circles with separate Create buttons. Defaults: diameter 0.3 mm, interval 2 mm, 15 × 15; counts must be odd, 3–31. One corner marker is omitted for orientation. Compare the reference marks at matching coordinates. |
+| 5. Synchronization | StageAndScanner | A simplified editable layout of 44 short lines, default nominal size 100. Its X/Y limits are approximately −45.833 to +45.833 mm. See the limitation below. |
+| 6. Combined accuracy | StageOnly, ScannerOnly or StageAndScanner | Separate creation buttons prepare the two reference grids or coordinated grid, one at a time. Defaults: diameter 0.3 mm, interval 9 mm, 11 × 11; counts 3–31. Compare static references with the combined result over the working area. |
+
+In the calibration grid, typed even counts are reduced to the preceding odd integer; WPF Up/Down keys also change counts by 2. Each accuracy Create replaces the current document, so save each reference recipe if it must be retained. The preview depicts the machining pattern; the adjacent text identifies which axes move.
+
+#### Laser-delay rows, columns and layer pens
+
+Create adds a single ScannerOnly H and immediately updates `IMarker.Offsets` for the chosen rows, columns and spacing. Other steps' Create actions clear these offsets so the new pattern is not repeated at previous locations. The default H half-height is 1 mm, the array is 11 × 11, spacing is 2.5 mm, and scanner speed is 500 mm/s.
+
+- X increases to the right: `EntityLayerPen.SyncAxisLaserSwitchOffsetTime` is the starting value in µs, increased by the column increment. Defaults: −40 µs start and +5 µs per column.
+- Y increases upward: `EntityLayerPen.SyncAxisLaserPreTriggerTime` is the starting value in µs, increased by the row increment. Defaults: −10 µs start and +2 µs per row.
+- The bottom-left H uses both starting values. `EntityLayerPen.SyncAxisLaserDelaySpeed` supplies the starting scanner speed in mm/s.
+
+The sweep uses `IMarker.OnBeforeOffset` and `OnAfterOffset` with syncAXIS LayerFirst processing, restoring the scanner trajectory afterward. Repeated Run starts from the document's layer-pen values; it does not accumulate the previous run's increments. Edit those values to refine the search, then simulate again. See [layer pens](LayerPenUserManual.md) and [offset callbacks](OffsetUserManual.md#offset-callbacks).
+
+#### Correction files and synchronization limits
+
+Scanner calibration does not calculate a CT5 inside this screen. Generate and measure the ScannerOnly grid, use external calibration software to create a new `.ct5`, select the configured scan head and **Select ct5**, then click **Initialize** to apply the changed XML. Select preserves the external file and updates the XML correction reference; it is not an immediate live RTC table load. Recheck laser delay and residual error after applying correction. See [2D correction](Correction2dUserManual.md).
+
+For Synchronization, pattern size is a nominal layout scale. The half-extent is `11/24 × size`, not `size/2`; the existing 100 setting therefore produces a total span of about 91.667 mm. The vendor installation procedure does not specify a 100 mm size. Its full CHECK_SYSTEMDELAYS test uses 21 line pairs in each of four directions, stage acceleration travel and reversal. The 44-line UI pattern does not perform that complete measurement procedure or prove synchronization accuracy. Use the full equipment procedure when measuring system delays.
+
+The [MCP guide](MCP.md#syncaxis-setup) describes preparing these patterns through an AI client. Its preparation and simulation state belongs to the registered-device session; a drawing created manually in the UI is not automatically a pattern prepared by that MCP session.
 
 ## 7. Conditions for Switching to Hardware Mode
 

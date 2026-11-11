@@ -1,6 +1,6 @@
 # IHatch and Hatchable Entities User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI public features
 
 [English](HatchUserManual.md) | [한국어](HatchUserManual.koKR.md) | [All guides](README.md)
 
@@ -159,7 +159,7 @@ An entity owns attached patterns. Direct Remove/Replace methods do not dispose r
 
 New SVG imports can add HatchLine when `UI.Config.IsSvgImportHatchEnabled = true`, using `SvgImportHatchInterval` (default 0.1 mm) and half that interval as boundary clearance. The policy applies to new imports; existing document patterns remain editable independently. See [import settings](Sirius3UIConfigUserManual.md).
 
-`ClipOptions.IncludeHatches` includes existing active HatchLine/HatchPolygon machining paths as independent clipped entities. It preserves captured paths rather than reapplying hatch parameters to every tile. See [clipping](ClippingUserManual.md).
+`ClipOptions.IsIncludeHatches` includes existing active HatchLine/HatchPolygon machining paths as independent clipped entities. It preserves captured paths rather than reapplying hatch parameters to every tile. See [clipping](ClippingUserManual.md).
 
 If fill is missing, check closed/nonempty geometry, enabled hatching, fill/winding and holes, clearance, polygon minimum area, positive finite spacing, regeneration results and pen selection. Excessively dense line sequences are rejected before allocation. A smooth preview alone does not validate process energy or device execution.
 

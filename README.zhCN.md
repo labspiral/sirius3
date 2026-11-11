@@ -21,7 +21,7 @@
    - 支持设置可变多边形、可变跳跃延迟时间
    - 支持双头、3D
    - 支持 MoF (Marking on the Fly) 和扩展 MoF (Fly extension)
-   - Sky Writing Mode 1/2/3/4
+   - Sky Writing：RTC5 支持 Mode 1–3，RTC6 支持 Mode 1–4（需要匹配的软件/固件），RTC4 不支持
    - 支持利用 SCANAhead 的自动延迟值 (Auto delays)
    - 支持多束光 (1 个激光源 + 2 个 AOM + 2 个振镜扫描头) 控制
 - ALC (Automatic Laser Control)
@@ -42,7 +42,7 @@
    - 频率、脉冲宽度、模拟、数字输出
    - 激光源厂商支持：AdvancedOptoWave, Coherent, IPG, JPT, Photonics Industry, Spectra Physics 等
 - 功率计和功率映射 (PowerMap)
-   - Coherent (PowerMax), Thorlabs (基于 OPM), Ophir (基于 StarLab)
+   - Coherent (PowerMax), Thorlabs (基于 OPM), Ophir (基于 StarLab), Gentec-EO
    - 支持基于功率映射的输出补偿
 - 渲染与几何处理
    - 基于 OpenGL 3.3+ 的 2D/3D 渲染器，提供一个正交相机和五个透视相机
@@ -50,19 +50,21 @@
    - 带闭合/开放轮廓诊断的拓扑感知三维网格切片
    - 基于绕组规则处理轮廓、嵌套区域和相邻条码单元的多重填充
 - 实体、文本与条码
-   - 点、线、弧、多段线、三角形、矩形、螺旋、Trépannage 和样条曲线
+   - 点、线、弧、椭圆、多段线、三角形、矩形、十字、螺旋、Trepan、Lissajous 和样条曲线
    - 立方体、球体、圆柱体、圆锥体、网格、图层、组、块和块插入
    - Text、SiriusText、ImageText、Circular Text、链接文本及 ZPL 渲染实体
    - 支持轮廓、填充和点阵单元加工的一维、QR、DataMatrix、PDF417 及 Aztec 条码
 - 文件导入与互操作
-   - Sirius3 文档、DXF/DWG、SVG、HPGL/PLT、Gerber/Excellon 及 G-code/NGC
-   - SVG（`.svg`）矢量导入：`IDocument.ActImport` / `EntityFactory.CreateSVG`。保留可编辑的原始曲线，并以毫米生成填充、描边宽度、端点及连接区域，包括圆头和圆角。
-   - SVG 填充线：通过 `UI.Config.IsSvgImportHatchEnabled` 启用（默认 `false`），通过 `UI.Config.SvgImportHatchInterval` 调整间距（默认 0.1 mm）。支持直线/多边形填充线；点击和拖动选择基于显示的轮廓和填充线。
-   - 光栅图像以及 STL、OBJ、PLY、STP/STEP、3MF 三维模型
-   - 3MF（`.3mf`）网格导入：`IDocument.ActImport` / `EntityFactory.CreateMesh`。按相对位置和文件单位，将构建中的多个三角网格模型及组件合并为一个毫米单位的网格。已保存的切片器加工路径和切片结果不属于导入范围。
-   - 在三维预览中保留可用的网格颜色及 OBJ/PLY/3MF 漫反射纹理
-   - G-code/NGC 导入保留模态 XYZ 坐标、单位和工作原点、平面圆弧和螺旋线、停留及激光 ON/OFF 路径。通过 `UI.Config.GCodeImportDialect` 选择 CNC、Laser 或 Marlin 规则，通过 `GCodeImportInfo.TryGet` 查询源 F/S/T 和行范围，不应用设备设置。
-   - 矢量文件的容差路径连接和基于内容的 Gerber/Excellon 识别
+   - Sirius3（`.sirius3`）：保存、打开和导入文档。
+   - DXF/DWG：二维 CAD 图纸（DWG 需要 ODA File Converter）。
+   - SVG：矢量轮廓、填充及可编辑的单段文本（复杂文本需转为路径）。
+   - HPGL/PLT：绘图仪矢量路径。
+   - Gerber/Excellon：PCB 图形和钻孔数据。
+   - PNG/BMP/GIF/JPG(JPEG)/TIF(TIFF)：光栅图像。
+   - PDF：将页面导入为光栅图像（不支持密码保护）。
+   - STL/OBJ/PLY/STP(STEP)/3MF：三维网格导入和切片。
+   - G-code（`.gcode`、`.ngc`）：CNC 和激光加工路径。
+   - CXF/LFF/EO FNT/DOT：SiriusText 外部字体。
 - 远程通信与动态数据
    - 用于标记控制和数据访问的 TCP/IP、Serial（RS-232）、WebSocket 及 MQTT
    - 内置 HTTP MCP 服务器，支持 AI 辅助注册编辑器、编辑文档与实体、运行模拟以及控制已注册设备
@@ -70,12 +72,13 @@
 - 文档、编辑器与模拟
    - 四个文档页面，支持图层、画笔、组、块及可配置数量的 Undo/Redo
    - Debug 和 Release 均支持 WinForms 与 WPF `SiriusEditorControl` / `SiriusMultiEditorControl`，并支持将一个文档渲染到多个视图
+   - 提供英语、韩语、简体中文、日语和德语 UI 资源
    - [字体编辑器](SpiralLab.Sirius3.UI/FontEditor/README.md)：通过 WinForms/WPF **Font Edit** 菜单独立编辑 CXF/LFF/EO FNT/DOT 字形，支持 mm 矢量、整数 DOT 单元格、BBox/度量、撤销/重做、DXF 导入、文本预览与已安装 TTF 转换。Debug 和 Release 构建均始终包含。
    - 使用屏幕固定尺寸标记、光束效果和可选碎屑效果的实时加工路径可视化
    - 面向相机及检测流程的网格化拼接图像可视化
 - 开放架构
-   - 可扩展的编辑器、实体、标记器、振镜、激光器、功率计和远程通信接口
-   - 内置 MCP 服务器，支持 AI 辅助注册编辑器、编辑文档与实体以及控制设备
+   - 可扩展的编辑器、实体、标记器、振镜、激光器、功率计、功率映射及远程通信接口
+   - 用于开发和模拟的虚拟振镜、激光器、功率计及标记器实现
 
 ## 主要变更事项
 |                              |                SIRIUS3                   |              SIRIUS2                  |
@@ -83,12 +86,12 @@
 | 多页面支持                    | 支持 4 个页面的交叉编辑                   | 单页面编辑                             |
 | 摄像头                        | 6 个 (2D + 5 个 3D) 摄像头                | 单个 3D 摄像头                         |
 | 渲染速度                      | GPU 加速 OpenGL 着色器引擎                | 内置着色器引擎                         |
-| 渲染模式                      | Model, PerVertex, Normal, ZDepth          | 无                                    |
+| 渲染模式                      | Model, PerVertex, PerNormal, ZHeightMap, Texture, TexturePerVertex          | 无                                    |
 | 选择功能                      | 点/线/三角形 AABB 加速                    | 低速                                  |
 | 填充 (Hatch)                  | 基于绕组规则的多重填充                    | 单个填充                               |
 | 3D 网格切片机                 | 内置 STL、OBJ、PLY、STEP、3MF 网格切片机 | 无                                    |
 | Gerber / Excellon            | 基于内容识别的导入                        | 无                                    |
-| 外部字体文件                  | CXF, LFF, FNT, DOT 文件格式               | 仅支持自定义 CXF, LFF 文件格式         |
+| 外部字体文件                  | CXF, LFF, EO FNT, DOT 文件格式               | 仅支持自定义 CXF, LFF 文件格式         |
 | 画笔 (Pen)                    | 分离 Entity 和 Layer 的画笔属性           | Entity 单一画笔                        |
 | MCP                          | 支持                                      | 无                                    |
 | 库更新                        | 支持 NuGet 包管理器                      | 手动                                   |
@@ -100,7 +103,7 @@
 
 ## 软件包 / DLLs
 - `SpiralLab.Sirius3.Dependencies` — SCANLAB RTC4/5/6, syncAXIS 运行时, 字体, 示例文件
-- `SpiralLab.Sirius3` — 硬件控制 (振镜/激光/功率计等)
+- `SpiralLab.Sirius3` — 振镜、激光器、数字 I/O、功率计和功率映射的硬件控制及公共契约
 - `SpiralLab.Sirius3.UI` — 实体、几何处理、OpenGL 渲染、WinForms/WPF 控件及内置 MCP 集成
  > 支持通过 NuGet 包管理器进行便捷的安装及更新。
 
@@ -113,14 +116,19 @@
 ## 系统要求
 - Windows 10/11 (x64)
 - GPU/驱动程序至少支持 OpenGL 3.3（强烈建议使用最新驱动程序）
-- 需要安装 SCANLAB 驱动程序/运行时
-- Visual Studio 2022 或更高版本
+- 安装所选设备需要的驱动程序/运行时；NuGet 复制本机文件不会安装设备驱动程序
+- 构建：`net481` 需要 .NET Framework 4.8.1 Developer Pack；现代 .NET 目标需要对应的 .NET SDK
+- 运行：.NET Framework 4.8.1，或与框架依赖型 .NET 应用匹配的 Windows Desktop Runtime
+- 开发：公开演示使用安装了 .NET 桌面开发工作负载的 Visual Studio 2022 或更高版本（.NET 8：17.8+；.NET 9：17.12+；也支持 `net481`）。在 Visual Studio 中面向 .NET 10 开发需要 Visual Studio 2026（18.0+）和兼容的 SDK（[Microsoft 兼容性指南](https://learn.microsoft.com/en-us/dotnet/core/porting/versioning-sdk-msbuild-vs)）。
  
 ## 依赖项
+
+以下列出 Sirius3 集成使用的版本和主要 .NET 依赖项。NuGet 恢复托管依赖项；设备所需的驱动程序需单独安装。
+
 - SCANLAB
    - RTC4: v2023.11.02
    - RTC5: v2024.09.27
-   - RTC6: 2026.8.17 v1.25.1
+   - RTC6: 2026.9.10 v1.25.1
    - syncAXIS: v1.8.2 (2023.03.09)
 
 - .NET
@@ -131,15 +139,20 @@
       - Microsoft.Extensions.Logging.Abstractions 10.0.10
       - Microsoft.Extensions.Logging.Debug 10.0.10
       - Newtonsoft.Json 13.0.4
+
 ## 软件包安装
 - 添加引用 (建议使用 NuGet 包管理器)
-   - `SpiralLab.Sirius3.Dependencies` (https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
-   - `SpiralLab.Sirius3` (https://www.nuget.org/packages/SpiralLab.Sirius3)
-   - `SpiralLab.Sirius3.UI` (https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
+   - [SpiralLab.Sirius3.Dependencies](https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
+   - [SpiralLab.Sirius3](https://www.nuget.org/packages/SpiralLab.Sirius3)
+   - [SpiralLab.Sirius3.UI](https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
+
+请选择与应用兼容的软件包版本，并在构建和部署输出中保留 Dependencies 软件包的运行时和数据文件夹。Dependencies 软件包在构建时将这些文件复制到输出目录。从上面的支持列表中选择应用需要的目标框架。
 
 ## 快速入门
 
 安装上文列出的三个 Sirius3 NuGet 软件包。以下片段展示主要流程；设备创建、验证和事件绑定使用 `...` 省略。请将启动、加载和关闭步骤分别放入宿主对应的事件中。
+
+公开演示读取 `config*.ini`，通过 `ScannerFactory`、`LaserFactory`、`IOFactory`、`PowerMeterFactory` 和 `MarkerFactory` 创建设备，初始化后再注册。`RegisterDevices` 将设备连接到编辑器，并使用其文档和视图调用 `marker.Ready`。INI 加载辅助方法属于演示；宿主应用需提供自己的配置流程。
 
 # [WinForms](#tab/winforms)
 
@@ -148,6 +161,7 @@
 ```xml
 <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <PlatformTarget>x64</PlatformTarget>
     <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
@@ -161,7 +175,7 @@ using SpiralLab.Sirius3.MCP;
 using System.Windows.Forms;
 
 // Startup: initialize Core and create the host UI.
-SpiralLab.Sirius3.Core.Initialize();
+if (!SpiralLab.Sirius3.Core.Initialize()) return;
 var form = new Form
 {
     AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F),
@@ -176,11 +190,12 @@ form.Controls.Add(editor);
 
 // Load: create and initialize the scanner, laser, I/O, power meter and marker.
 ...
-editor.RegisterDevices(rtc, laser, powerMeter, ..., marker);
+editor.RegisterDevices(rtc, laser, powerMeter,
+    dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
 // Optional MCP: start after device registration (Remote license).
 var server = MCPFactory.CreateServer(0, "MCP", editor);
-server.AccessMode = MCPAccessMode.All;
+server.AccessMode = MCPAccessModes.All;
 editor.MCPServer = server;
 await server.Start();
 ...
@@ -207,6 +222,7 @@ SpiralLab.Sirius3.Core.Cleanup();
 ```xml
 <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <PlatformTarget>x64</PlatformTarget>
     <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -220,18 +236,19 @@ using SpiralLab.Sirius3.MCP;
 using System.Windows;
 
 // Startup: initialize Core and create the host UI.
-SpiralLab.Sirius3.Core.Initialize();
+if (!SpiralLab.Sirius3.Core.Initialize()) return;
 var editor = new SpiralLab.Sirius3.UI.WPF.SiriusEditorControl();
 var window = new Window { Content = editor };
 ...
 
 // Loaded: create and initialize the scanner, laser, I/O, power meter and marker.
 ...
-editor.RegisterDevices(rtc, laser, powerMeter, ..., marker);
+editor.RegisterDevices(rtc, laser, powerMeter,
+    dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
 // Optional MCP: start after device registration (Remote license).
 var server = MCPFactory.CreateServer(0, "MCP", editor);
-server.AccessMode = MCPAccessMode.All;
+server.AccessMode = MCPAccessModes.All;
 editor.MCPServer = server;
 await server.Start();
 ...
@@ -251,11 +268,13 @@ document?.Dispose();
 SpiralLab.Sirius3.Core.Cleanup();
 ```
 
+---
+
 `DisposeDevices()` 先等待已注册的 MCP 服务器和远程连接释放，再清理设备。完成编辑器和 Document 清理后，在应用退出阶段调用 `Core.Cleanup()`。详细示例包含关闭事件的重复请求保护和错误处理。
 
-完整示例：[WinForms 指南（英语）](https://github.com/labspiral/sirius3/blob/main/doc/WinForms.md)、[WPF 指南（英语）](https://github.com/labspiral/sirius3/blob/main/doc/WPF.md)、[演示项目](DEMOS.zhCN.md)。
+分配的文档由调用方拥有。WPF `Unloaded` 暂停显示工作；生命周期结束时应显式等待设备清理，再释放编辑器和文档。检查初始化结果，失败时清理部分创建的设备，并在 UI 退出后为每次成功的 `Core.Initialize()` 调用 `Core.Cleanup()`。
 
----
+完整示例：[WinForms 指南（英语）](https://github.com/labspiral/sirius3/blob/main/doc/WinForms.md)、[WPF 指南（英语）](https://github.com/labspiral/sirius3/blob/main/doc/WPF.md)、[演示项目](DEMOS.zhCN.md) · [MCP 集成指南](SpiralLab.Sirius3.UI/MCP/README.zhCN.md).
 
 ## WinForms HiDPI
 
@@ -284,6 +303,9 @@ Application.SetCompatibleTextRenderingDefault(false);
 [Microsoft: .NET Framework HiDPI](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/high-dpi-support-in-windows-forms), [WinForms automatic scaling](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/forms/autoscale).
 
 ## 演示程序
+
+公开 WinForms/WPF 编辑器演示的目标框架为 `net481;net8.0-windows;net9.0-windows`，需要 Visual Studio 2022 或更高版本和所选目标对应的 SDK。库另支持 `net10.0-windows`。可从 [editor_ui](https://github.com/labspiral/sirius3/tree/main/demos/editor_ui) 或 [wpf_editor_ui](https://github.com/labspiral/sirius3/tree/main/demos/wpf_editor_ui) 开始。
+
 - 程序说明 [DEMOS.zhCN.md](DEMOS.zhCN.md) 
 - 创建振镜、激光、功率计、标记器等设备对象并连接到 SiriusEditorControl。
 - 示例代码: https://github.com/labspiral/sirius3/tree/main/demos

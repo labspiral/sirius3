@@ -1,6 +1,6 @@
 # SCANLAB RTC6 Controller User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI public features
 
 [English](Rtc6UserManual.md) | [한국어](Rtc6UserManual.koKR.md) | [All guides](README.md)
 
@@ -91,6 +91,32 @@ Do not connect the laser until you have verified voltage levels, polarity, refer
 Due to the nonlinearity of the F-theta lens, mirror corner, lightweight predisposition, scanhead installation failure, the command coordinates and the actual processing location may not match. First match the full scanning with the right KFactor and then reduce the position-by-location failure with the 2D/3D correction file.
 
 After RTC6 start, check the correction file and table selection, Laser Mode, Scanner Ready, Error Code, Analog and Digital I/O status. Sirius3 1.13.0 read the RTC6 status and Analog I/O as a generated controller API and reliably deals with Ethernet connection errors and end-of-state timers.
+
+## 11. RTC6 Ethernet watchdog and waveform telemetry
+
+After initializing `Rtc6Ethernet`, use its `IRtcWatchdog` capability to configure the board watchdog. `CtlWatchdog(timeoutMs, feedIntervalMs)` uses a 100 ms feed interval by default; a nonzero timeout must be at least three times the positive feed interval. A missed feed stops list execution and switches off the laser. Read `CtlWatchdogTriggered` before disabling the watchdog, since a zero timeout clears the triggered state.
+
+Ethernet link-loss response is separate. `IRtcWatchdog.ConnectionLossBehavior` defaults to `Disable` after loading the board program; apply a selected response with `CtlConnectionLossBehavior` and check the return value. The options are `SuppressSignals`, `SwitchOffSignals`, `SimulateExtStop` and `Disable`. Choose the response for the actual equipment and controller configuration.
+
+`IRtcStreamParser` configures asynchronous waveform telemetry after board initialization. `StreamParserWaveFormBufferSize` defaults to 8192 bytes and accepts 256, 512, 1024, 2048, 4096, 8192, 16384 or 32768. Apply it with `CtlStreamParserWaveFormStreaming`; switching streaming off disconnects the StreamParser client. List-dependent recording defaults to true and is selected for later measurement lists with `CtlStreamParserByListDependent`. Telemetry is unsuitable for an interlock or time-critical laser shutdown. `CtlGetTemperature(out double celsius)` reads RTC6 board temperature in °C.
+
+### Configure and observe the watchdog
+
+Apply both timing values with the result-returning capability method after the host initializes its RTC6 Ethernet scanner. For example, 900 ms timeout and 100 ms feed interval satisfy the required ratio:
+
+```csharp
+using System;
+using SpiralLab.Sirius3.Scanner.Rtc;
+
+// rtc is an initialized Rtc6Ethernet owned by the host.
+IRtcWatchdog watchdog = rtc;
+if (!watchdog.CtlWatchdog(900, 100))
+    throw new InvalidOperationException("Watchdog configuration failed.");
+if (!watchdog.CtlWatchdogTriggered(out bool triggered))
+    throw new InvalidOperationException("Watchdog state could not be read.");
+```
+
+Inspect `IsWatchdogTriggered` and the logs during normal monitoring, and query the board result with `CtlWatchdogTriggered`. A triggered watchdog must be inspected before disabling it, since disabling clears the latched indication. Configure link-loss behavior separately; neither StreamParser telemetry nor a UI polling loop replaces the board watchdog or an independent interlock. A registered-device [MCP client](MCP.md) can inspect these capabilities and request explicitly approved changes through the same interface.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

@@ -1,6 +1,6 @@
 # SCANLAB RTC6 Controller User Manual
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 공개 기능
 
 [English](Rtc6UserManual.md) | [한국어](Rtc6UserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -91,6 +91,32 @@ Wobbel은 기본 Mark 경로에 원·타원·8자 등의 주기 운동을 합성
 F-theta 렌즈의 비선형성, 미러 각도, 광축 편심, 스캔헤드 장착 오차 때문에 명령 좌표와 실제 가공 위치는 일치하지 않을 수 있습니다. 먼저 올바른 KFactor로 전체 축척을 맞춘 뒤 2D/3D 보정 파일로 위치별 오차를 줄입니다.
 
 RTC6 초기화 후에는 보정 파일과 Table 선택, Laser Mode, Scanner Ready, Error Code, 아날로그·디지털 I/O 상태를 확인하십시오. Sirius3 1.13.0은 RTC6 상태와 아날로그 I/O를 세대에 맞는 컨트롤러 API로 읽고 Ethernet 연결 오류와 종료 중 상태 타이머를 안정적으로 처리합니다.
+
+## 11. RTC6 Ethernet 와치독과 파형 원격 측정
+
+`Rtc6Ethernet` 초기화 후 `IRtcWatchdog`로 보드 와치독을 설정합니다. `CtlWatchdog(timeoutMs, feedIntervalMs)`의 기본 갱신 간격은 100 ms이며 0이 아닌 대기 시간은 양수 갱신 간격의 세 배 이상이어야 합니다. 갱신을 놓치면 리스트 실행이 멈추고 레이저가 꺼집니다. 0 ms로 끄면 작동 상태가 지워지므로 먼저 `CtlWatchdogTriggered`를 읽습니다.
+
+Ethernet 링크 손실 대응은 와치독과 별개입니다. 보드 프로그램 로드 후 `IRtcWatchdog.ConnectionLossBehavior`의 기본값은 `Disable`이며, 선택한 동작을 `CtlConnectionLossBehavior`로 적용하고 반환값을 확인합니다. 선택지는 `SuppressSignals`, `SwitchOffSignals`, `SimulateExtStop`, `Disable`입니다. 실제 장비와 컨트롤러 구성에 맞게 선택합니다.
+
+`IRtcStreamParser`는 보드 초기화 후 비동기 파형 원격 측정을 설정합니다. `StreamParserWaveFormBufferSize`의 기본값은 8192바이트이며 256, 512, 1024, 2048, 4096, 8192, 16384, 32768 중 하나를 사용합니다. `CtlStreamParserWaveFormStreaming`으로 적용하며 끄면 StreamParser 클라이언트 연결이 즉시 해제됩니다. 리스트 의존 기록의 기본값은 true이고 `CtlStreamParserByListDependent`로 이후 측정 리스트의 모드를 선택합니다. 원격 측정은 인터록이나 즉각적인 레이저 정지에 사용하지 않습니다. `CtlGetTemperature(out double celsius)`는 RTC6 보드 온도(°C)를 읽습니다.
+
+### 와치독 설정과 상태 확인
+
+호스트가 RTC6 Ethernet 스캐너를 초기화한 뒤 반환값을 제공하는 기능 메서드로 두 시간 값을 함께 적용합니다. 다음의 대기 시간 900 ms와 갱신 간격 100 ms는 필요한 비율을 만족합니다.
+
+```csharp
+using System;
+using SpiralLab.Sirius3.Scanner.Rtc;
+
+// rtc는 호스트가 소유하고 초기화한 Rtc6Ethernet입니다.
+IRtcWatchdog watchdog = rtc;
+if (!watchdog.CtlWatchdog(900, 100))
+    throw new InvalidOperationException("Watchdog configuration failed.");
+if (!watchdog.CtlWatchdogTriggered(out bool triggered))
+    throw new InvalidOperationException("Watchdog state could not be read.");
+```
+
+일반 모니터링에서는 `IsWatchdogTriggered`와 로그를 확인하고 `CtlWatchdogTriggered`로 보드 상태를 조회합니다. 와치독을 끄면 기록된 작동 표시가 지워지므로 먼저 원인을 확인합니다. 링크 손실 동작은 별도로 설정하며 StreamParser 원격 측정이나 UI 폴링 루프는 보드 와치독 또는 독립 인터록을 대체하지 않습니다. 등록 장치의 [MCP 클라이언트](MCP.koKR.md)에서도 같은 기능을 조회하고 명시적으로 승인한 변경을 요청할 수 있습니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

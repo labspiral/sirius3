@@ -23,7 +23,7 @@ SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化�
   - 可変 Polygon Delay / Jump Delay
   - セカンドヘッド、3D
   - MoF（Marking on the Fly）および MoF Extension
-  - Sky Writing Mode 1/2/3/4
+  - Sky Writing：RTC5 は Mode 1–3、RTC6 は Mode 1–4（対応ソフトウェア/ファームウェアが必要）。RTC4 は非対応
   - SCANAhead による Auto Delays
   - MultiBeam（レーザー光源 1 台 + AOM 2 台 + スキャンヘッド 2 台）
 - ALC（Automatic Laser Control）/ Pulse on Demand
@@ -39,7 +39,7 @@ SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化�
   - 周波数、デューティ比、アナログ出力、デジタル出力
   - AdvancedOptoWave、Coherent、IPG、JPT、Photonics Industry、Spectra Physics などを統合
 - パワーメーターと PowerMap
-  - Coherent PowerMax、Thorlabs（OPM）、Ophir（StarLab）
+  - Coherent PowerMax、Thorlabs（OPM）、Ophir（StarLab）、Gentec-EO
   - PowerMap に基づく出力補償
 - レンダリングとジオメトリ処理
   - 1 台の正投影カメラと 5 台の透視カメラを備えた OpenGL 3.3+ 2D/3D レンダラー
@@ -47,19 +47,21 @@ SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化�
   - 開閉輪郭診断を備えたトポロジー対応 3D メッシュスライサー
   - 外形、入れ子領域、連結バーコードセルに対応する winding ベースの複数ハッチ
 - エンティティ、テキスト、バーコード
-  - 点、線、円弧、ポリライン、三角形、矩形、スパイラル、トレパン、スプライン
+  - 点、線、円弧、楕円、ポリライン、三角形、矩形、十字、スパイラル、トレパン、リサージュ、スプライン
   - 立方体、球、円柱、円錐、メッシュ、レイヤー、グループ、ブロック、ブロック挿入
   - Text、SiriusText、ImageText、Circular Text、リンクテキスト、ZPL エンティティ
   - Outline、Hatch、Dot セル加工に対応する 1D、QR、DataMatrix、PDF417、Aztec バーコード
 - ファイルインポートと相互運用
-  - Sirius3、DXF/DWG、SVG、HPGL/PLT、Gerber/Excellon、G-code/NGC
-  - SVG（`.svg`）ベクターインポート：`IDocument.ActImport` / `EntityFactory.CreateSVG`。編集可能な元曲線を保持し、塗り・線幅・端点・接続部を mm 単位の領域として生成します。丸い端点と角も反映します。
-  - SVG ハッチ：`UI.Config.IsSvgImportHatchEnabled` で有効にします（既定 `false`）。`UI.Config.SvgImportHatchInterval` で間隔を調整します（既定 0.1 mm）。線/ポリゴンハッチに対応し、クリックとドラッグによる選択は表示された輪郭とハッチを基準にします。
-  - ラスター画像および STL、OBJ、PLY、STP/STEP、3MF 3D モデル
-  - 3MF（`.3mf`）メッシュインポート：`IDocument.ActImport` / `EntityFactory.CreateMesh`。ビルド内の複数の三角形メッシュモデルとコンポーネントを、相対配置とファイルの単位を反映して一つの mm 単位メッシュにまとめます。保存されたスライサーの加工経路とスライス結果はインポート対象に含まれません。
-  - 3D プレビューで利用可能なメッシュの色と OBJ/PLY/3MF の拡散テクスチャを保持
-  - G-code/NGC インポートはモーダル XYZ 座標、単位・作業原点、平面円弧・ヘリックス、ドウェル、レーザー ON/OFF 経路を保持します。`UI.Config.GCodeImportDialect` で CNC・Laser・Marlin 規則を選択し、`GCodeImportInfo.TryGet` で機器設定を適用せず元の F/S/T と行範囲を取得します。
-  - 許容距離に基づくベクターパス結合と内容に基づく Gerber/Excellon 判定
+  - Sirius3（`.sirius3`）：ドキュメントの保存・読み込み・インポート。
+  - DXF/DWG：2D CAD 図面（DWG は ODA File Converter が必要）。
+  - SVG：ベクター輪郭、塗り、編集可能な単一テキスト（複雑なテキストはパスへの変換が必要）。
+  - HPGL/PLT：プロッターのベクターパス。
+  - Gerber/Excellon：PCB パターンとドリルデータ。
+  - PNG/BMP/GIF/JPG(JPEG)/TIF(TIFF)：ラスター画像。
+  - PDF：ページをラスター画像としてインポート（パスワード保護は非対応）。
+  - STL/OBJ/PLY/STP(STEP)/3MF：3D メッシュのインポートとスライス。
+  - G-code（`.gcode`、`.ngc`）：CNC・レーザー加工パス。
+  - CXF/LFF/EO FNT/DOT：SiriusText 用外部フォント。
 - リモート通信と動的データ
   - マーカー制御とデータアクセス用の TCP/IP、Serial（RS-232）、WebSocket、MQTT
   - AI によるエディター登録、文書・エンティティ編集、シミュレーション、登録済みデバイス制御に対応する組み込み HTTP MCP サーバー
@@ -67,12 +69,13 @@ SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化�
 - ドキュメント、エディター、シミュレーション
   - レイヤー、ペン、グループ、ブロック、設定可能な Undo/Redo を備えた 4 ページ
   - WinForms と WPF の `SiriusEditorControl` / `SiriusMultiEditorControl` を Debug と Release の両方でサポート。1 つのドキュメントを複数ビューに表示可能
+  - 英語、韓国語、簡体字中国語、日本語、ドイツ語の UI リソース
   - [フォントエディター](SpiralLab.Sirius3.UI/FontEditor/README.md)：WinForms/WPF の **Font Edit** から CXF/LFF/EO FNT/DOT グリフを独立編集。mm ベクトル、整数 DOT セル、BBox/メトリクス、Undo/Redo、DXF インポート、テキストプレビュー、インストール済み TTF 変換に対応。Debug/Release の両方に常に含まれます。
   - 画面固定サイズのマーカー、ビーム効果、任意の粒子を使ったリアルタイム加工経路表示
   - カメラおよび検査向けのグリッド型スティッチ画像表示
 - オープンアーキテクチャ
-  - エディター、エンティティ、マーカー、スキャナー、レーザー、パワーメーター、リモートの拡張可能なインターフェイス
-  - AI によるエディター登録、文書・エンティティ編集、デバイス制御に対応する組み込み MCP サーバー
+  - 拡張可能なエディター、エンティティ、マーカー、スキャナー、レーザー、パワーメーター、PowerMap、リモートインターフェイス
+  - 開発とシミュレーション用の仮想スキャナー、レーザー、パワーメーター、マーカー実装
 
 ## Sirius2 との主な違い
 
@@ -81,10 +84,12 @@ SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化�
 | ドキュメントページ | 4 ページ | 単一ドキュメント |
 | カメラ | 内蔵 6 台 | 透視カメラ |
 | レンダリング | GPU アクセラレーション OpenGL シェーダー | 内蔵シェーダー |
+| 表示モード | Model、PerVertex、PerNormal、ZHeightMap、Texture、TexturePerVertex | なし |
 | ヒットテスト | AABB 高速化 | 低速 |
 | ハッチ | winding 対応複数ハッチ | 単一ハッチ |
 | 3D メッシュスライス | STL、OBJ、PLY、STEP、3MF | なし |
 | Gerber / Excellon | 内容判定インポート | なし |
+| フォントファイル | CXF、LFF、EO FNT、DOT | 独自 CXF、LFF |
 | ペン | Entity と Layer のペン | Entity ペンのみ |
 | MCP | 対応 | なし |
 | 更新 | NuGet Package Manager | 手動 |
@@ -97,7 +102,7 @@ SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化�
 ## パッケージ / DLL
 
 - `SpiralLab.Sirius3.Dependencies` - SCANLAB RTC4/5/6、syncAXIS ランタイム、フォント、サンプルデータ
-- `SpiralLab.Sirius3` - スキャナー、レーザー、パワーメーターなどの HAL
+- `SpiralLab.Sirius3` - スキャナー、レーザー、デジタル I/O、パワーメーター、PowerMap のハードウェア制御と共通契約
 - `SpiralLab.Sirius3.UI` - エンティティ、ジオメトリ処理、OpenGL レンダリング、WinForms/WPF コントロール、組み込み MCP 連携
 
 NuGet Package Manager で簡単にインストールおよび更新できます。
@@ -113,15 +118,19 @@ NuGet Package Manager で簡単にインストールおよび更新できます�
 
 - Windows 10/11（x64）
 - OpenGL 3.3 以上をサポートする GPU/ドライバー（最新ドライバーを強く推奨）
-- SCANLAB ドライバー/ランタイム
-- Visual Studio 2022 以降
+- 選択したデバイスに必要なドライバー/ランタイム。NuGet によるネイティブファイルのコピーではデバイスドライバーはインストールされません。
+- ビルド：`net481` は .NET Framework 4.8.1 Developer Pack、.NET 8/9/10 ターゲットは対応する .NET SDK が必要です。
+- 実行：.NET Framework 4.8.1、またはフレームワーク依存 .NET アプリに対応する Windows Desktop Runtime が必要です。
+- 開発：公開デモは .NET デスクトップ開発ワークロードを備えた Visual Studio 2022 以降を使用します（.NET 8：17.8+、.NET 9：17.12+、`net481` も対応）。Visual Studio で .NET 10 をターゲットにするには Visual Studio 2026（18.0+）と互換 SDK が必要です（[Microsoft 互換性ガイド](https://learn.microsoft.com/en-us/dotnet/core/porting/versioning-sdk-msbuild-vs)）。
 
 ## 依存関係
+
+以下は Sirius3 の連携に使用するバージョンと主要な .NET 依存関係です。マネージド依存関係は NuGet が復元し、デバイスに必要なドライバーは別途インストールします。
 
 - SCANLAB
   - RTC4: v2023.11.02
   - RTC5: v2024.09.27
-  - RTC6: 2026.8.17 v1.25.1
+  - RTC6: 2026.9.10 v1.25.1
   - syncAXIS: v1.8.2（2023.03.09）
 - .NET
   - `net481`: OpenTK 3.3.3
@@ -130,17 +139,22 @@ NuGet Package Manager で簡単にインストールおよび更新できます�
   - すべてのターゲットで Microsoft.Extensions.Logging.Abstractions 10.0.10
   - すべてのターゲットで Microsoft.Extensions.Logging.Debug 10.0.10
   - Newtonsoft.Json 13.0.4
+
 ## パッケージのインストール
 
 次の NuGet パッケージを参照してください。
 
-- `SpiralLab.Sirius3.Dependencies`
-- `SpiralLab.Sirius3`
-- `SpiralLab.Sirius3.UI`
+- [SpiralLab.Sirius3.Dependencies](https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
+- [SpiralLab.Sirius3](https://www.nuget.org/packages/SpiralLab.Sirius3)
+- [SpiralLab.Sirius3.UI](https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
+
+アプリに適合するパッケージバージョンを選択し、Dependencies パッケージのランタイム/データフォルダーをビルドと配布の出力に保持します。Dependencies パッケージはビルド時にこれらを出力先へコピーします。上の対応一覧からアプリに必要なターゲットを選択してください。
 
 ## クイックスタート
 
 上記の Sirius3 NuGet パッケージを3つインストールします。以下の抜粋は基本的な流れを示し、デバイス生成、検証、イベント接続を `...` で省略しています。起動、読み込み、終了の各処理をホストの対応するイベントに配置します。
+
+公開デモは `config*.ini` を読み、`ScannerFactory`、`LaserFactory`、`IOFactory`、`PowerMeterFactory`、`MarkerFactory` でデバイスを作成・初期化してから登録します。`RegisterDevices` はデバイスをエディターに接続し、そのドキュメントとビューを渡して `marker.Ready` を呼びます。INI 読み込みヘルパーはデモ固有で、ホストアプリは独自の設定フローを用意します。
 
 # [WinForms](#tab/winforms)
 
@@ -149,6 +163,7 @@ NuGet Package Manager で簡単にインストールおよび更新できます�
 ```xml
 <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <PlatformTarget>x64</PlatformTarget>
     <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
@@ -162,7 +177,7 @@ using SpiralLab.Sirius3.MCP;
 using System.Windows.Forms;
 
 // Startup: initialize Core and create the host UI.
-SpiralLab.Sirius3.Core.Initialize();
+if (!SpiralLab.Sirius3.Core.Initialize()) return;
 var form = new Form
 {
     AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F),
@@ -177,11 +192,12 @@ form.Controls.Add(editor);
 
 // Load: create and initialize the scanner, laser, I/O, power meter and marker.
 ...
-editor.RegisterDevices(rtc, laser, powerMeter, ..., marker);
+editor.RegisterDevices(rtc, laser, powerMeter,
+    dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
 // Optional MCP: start after device registration (Remote license).
 var server = MCPFactory.CreateServer(0, "MCP", editor);
-server.AccessMode = MCPAccessMode.All;
+server.AccessMode = MCPAccessModes.All;
 editor.MCPServer = server;
 await server.Start();
 ...
@@ -208,6 +224,7 @@ SpiralLab.Sirius3.Core.Cleanup();
 ```xml
 <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <PlatformTarget>x64</PlatformTarget>
     <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -221,18 +238,19 @@ using SpiralLab.Sirius3.MCP;
 using System.Windows;
 
 // Startup: initialize Core and create the host UI.
-SpiralLab.Sirius3.Core.Initialize();
+if (!SpiralLab.Sirius3.Core.Initialize()) return;
 var editor = new SpiralLab.Sirius3.UI.WPF.SiriusEditorControl();
 var window = new Window { Content = editor };
 ...
 
 // Loaded: create and initialize the scanner, laser, I/O, power meter and marker.
 ...
-editor.RegisterDevices(rtc, laser, powerMeter, ..., marker);
+editor.RegisterDevices(rtc, laser, powerMeter,
+    dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
 // Optional MCP: start after device registration (Remote license).
 var server = MCPFactory.CreateServer(0, "MCP", editor);
-server.AccessMode = MCPAccessMode.All;
+server.AccessMode = MCPAccessModes.All;
 editor.MCPServer = server;
 await server.Start();
 ...
@@ -252,11 +270,13 @@ document?.Dispose();
 SpiralLab.Sirius3.Core.Cleanup();
 ```
 
+---
+
 `DisposeDevices()` は登録済みMCPサーバーとRemoteの非同期解放を待ってからデバイスを解放します。エディターとDocumentの解放後、アプリケーション終了時に `Core.Cleanup()` を呼び出します。終了イベントの重複防止とエラー処理は詳細例を参照してください。
 
-完全な例：[WinFormsガイド（英語）](https://github.com/labspiral/sirius3/blob/main/doc/WinForms.md)、[WPFガイド（英語）](https://github.com/labspiral/sirius3/blob/main/doc/WPF.md)、[デモプロジェクト](DEMOS.jaJP.md)。
+割り当てたドキュメントは呼び出し元が所有します。WPF の `Unloaded` は表示処理を一時停止します。寿命が終わるときにデバイス解放を待ち、エディターとドキュメントを明示的に破棄します。初期化結果を確認し、失敗時は作成途中のデバイスを解放し、成功した `Core.Initialize()` ごとに UI 終了後 `Core.Cleanup()` を呼びます。
 
----
+完全な例：[WinFormsガイド（英語）](https://github.com/labspiral/sirius3/blob/main/doc/WinForms.md)、[WPFガイド（英語）](https://github.com/labspiral/sirius3/blob/main/doc/WPF.md)、[デモプロジェクト](DEMOS.jaJP.md)、[MCP 連携ガイド](SpiralLab.Sirius3.UI/MCP/README.jaJP.md)。
 
 ## WinForms HiDPI
 
@@ -285,6 +305,8 @@ Application.SetCompatibleTextRenderingDefault(false);
 [Microsoft: .NET Framework HiDPI](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/high-dpi-support-in-windows-forms), [WinForms automatic scaling](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/forms/autoscale).
 
 ## デモプログラム
+
+公開 WinForms/WPF エディターデモのターゲットは `net481;net8.0-windows;net9.0-windows` で、Visual Studio 2022 以降と選択したターゲットに対応する SDK が必要です。ライブラリは `net10.0-windows` にも対応します。[editor_ui](https://github.com/labspiral/sirius3/tree/main/demos/editor_ui) または [wpf_editor_ui](https://github.com/labspiral/sirius3/tree/main/demos/wpf_editor_ui) から開始できます。
 
 - 説明: [DEMOS.jaJP.md](DEMOS.jaJP.md)
 - サンプル: https://github.com/labspiral/sirius3/tree/main/demos

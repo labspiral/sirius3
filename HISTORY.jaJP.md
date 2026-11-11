@@ -1,5 +1,12 @@
 # Sirius3 バージョン履歴
 
+## v1.17.1 (2026.11.11)
+
+- added) `Rtc6SyncAxis`：セットアップ画面を追加
+- added) `Rtc6Ethernet`：ウォッチドッグ監視機能を追加
+- fixed) `IDocument.ActClip`：`ClipOptions.IsIncludeOnce` オプションを追加
+  - 境界で重なるクリップデータの結果を一方の領域にのみ生成
+
 ## v1.17.0 (2026.10.26)
 
 - updated) 開発者マニュアルを改善

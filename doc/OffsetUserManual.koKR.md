@@ -1,6 +1,6 @@
 # Marker Offset 사용자 매뉴얼
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.1 (공개 기능)
 
 [English](OffsetUserManual.md) | [한국어](OffsetUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -85,6 +85,35 @@ MyBarcode|DM-001|MyText|TEXT-001
 시작 전에 Offset과 데이터를 준비·검증합니다. Marker가 Busy인 동안 위치나 데이터를 바꾸지 않습니다. Marker 이벤트, 완료 상태와 변환 오류를 확인합니다. Offset은 값으로 복사되며 장치·문서 수명은 호스트가 소유합니다.
 
 관련 문서: [TextConvert](TextConvert.koKR.md), [텍스트](TextUserManual.koKR.md), [바코드](BarcodeUserManual.koKR.md), [MoF](MarkingOnTheFlyUserManual.koKR.md).
+
+<a id="offset-callbacks"></a>
+
+## 7. 오프셋 전·후 콜백
+
+Sirius3 1.17.1은 `IMarker.OnBeforeOffset`과 `OnAfterOffset`을 제공합니다. 두 핸들러의 형식은 `Func<IMarker, int, Offset, bool>`이며 인덱스는 0부터 시작하고 Offset은 현재 배치 값입니다. Before에서 false를 반환하면 가공을 중단하고 After에서 false를 반환하면 다음 오프셋을 중단합니다. 핸들러는 마커 작업 스레드에서 실행되므로 UI 변경은 소유 UI 스레드로 전달합니다.
+
+```csharp
+using System;
+using SpiralLab.Sirius3.Marker;
+using SpiralLab.Sirius3.Mathematics;
+
+Func<IMarker, int, Offset, bool> before = (source, index, offset) =>
+{
+    Console.WriteLine($"Preparing offset {index}: {offset.Translate}");
+    return true;
+};
+Func<IMarker, int, Offset, bool> after = (source, index, offset) => true;
+marker.OnBeforeOffset += before;
+marker.OnAfterOffset += after;
+// 소유 작업 또는 소유 객체의 수명 동안 구독을 유지합니다.
+// 가공이 멈춘 후 소유 객체 정리 시 구독을 해제합니다.
+// marker.OnBeforeOffset -= before;
+// marker.OnAfterOffset -= after;
+```
+
+syncAXIS LayerFirst의 Before는 오프셋별 독립 작업 전에 호출되므로 해당 위치의 궤적을 설정할 수 있습니다. OffsetFirst는 레이어 리스트를 만드는 동안 각 레이어·오프셋 조합에 대해 콜백을 호출합니다. 여러 오프셋을 버퍼에 모으는 마커의 After는 실제 실행 완료 전에 호출될 수 있습니다. 결과는 작업 완료 상태·오류·`OnEnded`로 판단하며 After를 물리 트리거나 모든 출력 완료의 보증으로 사용하지 않습니다. 임시 장치 상태는 정상 After 처리뿐 아니라 작업의 최종 정리 경로에서도 복원합니다.
+
+[syncAXIS 레이저 지연 절차](Rtc6SyncaxisUserManual.koKR.md#syncaxis-setup)는 Create에서 오프셋 배열을 만들고 레이어 펜을 지연·속도의 시작점으로 사용합니다. X/오른쪽 열마다 레이저 스위치 오프셋, Y/위쪽 행마다 사전 트리거가 증가합니다. 다른 단계의 Create는 배열을 비웁니다. Run을 반복하면 증가량을 누적하지 않고 시작값부터 다시 적용합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

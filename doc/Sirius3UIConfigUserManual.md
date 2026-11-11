@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3.UI.Config Settings Guide
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.1 (public features)
 
 [English](Sirius3UIConfigUserManual.md) | [한국어](Sirius3UIConfigUserManual.koKR.md) | [All guides](README.md)
 
@@ -432,6 +432,21 @@ PDF import creates a raster page image. `EntityImagePDF.PageNumber` is one-based
 the requested physical mm size. See [document import](DocumentUserManual.md).
 
 Font files and installed-TTF conversion are described in [Font Editor](FontEditorUserManual.md).
+
+## Public configuration types in 1.17.1
+
+Use the current enum types when compiling host code:
+
+```csharp
+using UIConfig = SpiralLab.Sirius3.UI.Config;
+
+UIConfig.GCodeImportDialect = UIConfig.GCodeImportDialects.Auto;
+UIConfig.WPFTheme = SpiralLab.Sirius3.UI.WPF.SiriusWPFThemes.Material;
+```
+
+`GCodeImportDialect` applies to new imports and defaults to Auto. Auto detects Marlin headers and otherwise selects CNC semantics. Cnc retains feed paths even without spindle words; Laser retains only M3/M4 motion with positive S. CNC/Laser dwell P values are seconds, while Marlin P values are milliseconds. `GCodeImportInfo.Dialect` uses the same `UI.Config.GCodeImportDialects` type. Changing the setting does not regenerate existing documents.
+
+`SiriusWPFThemes.Material` is the only supplied WPF theme and the default. WPF controls install their resources; apply application configuration on the owning UI thread. These Config settings are process-wide and outside document Undo/Redo. See [WPF integration](WPF.md) and [document imports](DocumentUserManual.md).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

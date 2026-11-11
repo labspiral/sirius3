@@ -1,6 +1,6 @@
 # Barcode Entities User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI public features
 
 [English](BarcodeUserManual.md) | [한국어](BarcodeUserManual.koKR.md) | [All guides](README.md)
 
@@ -40,7 +40,7 @@ Without aspect fitting, independent dimensions can produce different X/Y pitch. 
 | PDF417 | `DotDimension` is a generated read-only result, not a requested minimum. |
 | Aztec | `DotDimension` requests sampling; Layers, content and error correction determine the structural size. Read `DotDimensionAdjusted`. |
 
-Adjusted dimensions exclude additional quiet-zone and cell DotFactor expansion, are not serialized and are zero before generation or after failure. Do not feed them back as the next requested dimensions. Read the properties appropriate to the concrete class.
+Adjusted dimensions exclude additional quiet-zone and cell DotFactor expansion, are not serialized and are zero before generation or after failure. Do not feed them back as the next requested dimensions. Read the properties appropriate to the concrete class. After regeneration, the displayed X/Y dot pitch uses the generated matrix dimensions: line cells report end-to-end sample spacing, while other cells report cell width and height. The requested `Width` and `Height` remain unchanged.
 
 ## 4. Cell modes and machining
 
@@ -123,7 +123,7 @@ Dots/Lines are open point/line representations. Closed modes expose contour regi
 
 Geometry-affecting edits require Regen/ActRegen before rendering, picking or marking the new content. Encoding failures retire old cell geometry, bounds and hatch results while preserving user settings for a later valid value. Inspect the Boolean result and logs instead of relying on the previous visible code.
 
-IClippable supports the generated representation. ActClip can preserve existing hatch paths through IncludeHatches and adds results with Undo/Redo. A clipped portion is geometry; it is not automatically a complete decodable symbol. See [clipping](ClippingUserManual.md).
+IClippable supports the generated representation. ActClip can preserve existing hatch paths through IsIncludeHatches and adds results with Undo/Redo. A clipped portion is geometry; it is not automatically a complete decodable symbol. See [clipping](ClippingUserManual.md).
 
 ## 8. Editing generated codes
 

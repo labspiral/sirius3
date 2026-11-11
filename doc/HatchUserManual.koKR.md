@@ -1,6 +1,6 @@
 # IHatch 해치 기능 사용자 매뉴얼
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 공개 기능
 
 [English](HatchUserManual.md) | [한국어](HatchUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -159,7 +159,7 @@ HatchResult는 빌린 참조입니다. 다른 엔티티에 그대로 연결하�
 
 새 SVG 가져오기는 UI.Config.IsSvgImportHatchEnabled가 true이면 SvgImportHatchInterval(기본 0.1 mm)과 그 절반의 경계 여백으로 HatchLine을 추가할 수 있습니다. 새 가져오기에만 적용하며 기존 문서 패턴은 독립적으로 편집합니다. [가져오기 설정](Sirius3UIConfigUserManual.koKR.md)을 참고합니다.
 
-ClipOptions.IncludeHatches는 기존 활성 HatchLine/HatchPolygon 가공 경로를 독립 클리핑 결과로 포함합니다. 각 타일에서 설정을 다시 적용하지 않고 캡처한 경로를 유지합니다. [클리핑](ClippingUserManual.koKR.md)을 참고합니다.
+ClipOptions.IsIncludeHatches는 기존 활성 HatchLine/HatchPolygon 가공 경로를 독립 클리핑 결과로 포함합니다. 각 타일에서 설정을 다시 적용하지 않고 캡처한 경로를 유지합니다. [클리핑](ClippingUserManual.koKR.md)을 참고합니다.
 
 채움이 없으면 닫힌·비어 있지 않은 형상, 활성화, 채움 규칙·구멍 방향, 여백, 폴리곤 최소 면적, 양의 유한 간격, 재생성 결과와 Pen을 확인합니다. 지나치게 조밀한 선 시퀀스는 할당 전에 거부합니다. 미리보기만으로 공정 에너지나 장치 실행을 검증할 수는 없습니다.
 

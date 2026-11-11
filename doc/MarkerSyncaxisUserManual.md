@@ -1,6 +1,6 @@
 # SyncAXIS Integrated Marker Control User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.1 (public features)
 
 [English](MarkerSyncaxisUserManual.md) | [한국어](MarkerSyncaxisUserManual.koKR.md) | [All guides](README.md)
 
@@ -60,6 +60,12 @@ SyncAXIS often uses the simulation function to predict the real path before proc
 The public [editor_marker](../demos/editor_marker/Form1.cs) supplies MyMarkerSyncAxis and MyMarkerRtc/MyMarkerRtcFast source. Initialize the scanner and laser, then bind those same instances through RegisterDevices/Ready. Start acceptance is not completion; observe Busy, errors and OnEnded.
 
 Offset X/Y/Z supplies coordinate displacement, AngleZ rotates about Z and ExtensionData supplies per-location strings. Mechanical motion follows syncAXIS job, motion-type and axis-limit configuration. Offset Z alone is not an independent stage command. See [marker comparison](MarkerUserManual.md) and [Offset examples/parser](OffsetUserManual.md).
+
+## 9. Errors, elapsed time and setup execution
+
+The lower **Errors** link in WinForms `MarkerSyncAxisControl` opens the assigned syncAXIS scanner's internal error queue, matching the ScannerControl setup page. Read it together with `Rtc6SyncAxis.OpStatus` and Ready/Busy/Error. Green operation status is not proof of calibration quality or machine safety. After a planning error, inspect the queue and correct the configuration or pattern before resetting the idle marker; use Stop while a job is active.
+
+The setup page's elapsed-time display follows the marker operation. Its per-step Run uses the current mode and automatically opens Viewer only after a successful simulation has completed and output is available. This is separate from the regular marker panel's Measurement Plot option. A stopped or failed setup run does not launch Viewer. See the [six setup steps and repetition workflow](Rtc6SyncaxisUserManual.md#syncaxis-setup).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

@@ -1,6 +1,6 @@
 # Sirius3 WinForms 통합 가이드
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.1 (공개 기능)
 
 [English](WinForms.md) | [한국어](WinForms.koKR.md) | [WPF](WPF.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -99,6 +99,12 @@ this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 글꼴 크기는 논리적인 포인트 단위로 유지합니다. Sirius3가 소유한 도구 모음 이미지, 탭, TreeView 행, PropertyGrid 설명 영역과 값 편집기는 DPI에 맞게 처리하므로 화면 배율을 다시 곱하지 않습니다. 사용자 정의 그리기 영역은 현재 DPI로 직접 측정해야 합니다.
 
 프로세스 DPI 모드는 실행 파일이 결정합니다. UI DLL을 참조하는 것만으로 호스트의 DPI 모드가 설정되지는 않습니다. 기존 Font 기반 제품은 설계 기준을 변경하기 전에 자체 레이아웃을 확인합니다.
+
+### syncAXIS 셋업과 중첩 컨트롤 폰트
+
+1.17.1은 초기화한 `IRtcSyncAxis` 장치를 할당하면 ScannerControl에 syncAXIS 셋업 탭을 표시합니다. 통합 에디터는 문서와 마커를 전달하며 ScannerControl을 별도로 호스팅한다면 같은 `Document`·`Scanner`·`Marker`를 지정해야 합니다. 이 객체들의 소유자는 호스트 하나로 유지합니다. [셋업 단계·Create 문서 초기화·Run](Rtc6SyncaxisUserManual.koKR.md#syncaxis-setup)을 참고합니다.
+
+중첩 사용자 컨트롤의 폰트는 논리 포인트 단위로 유지하고 DPI 배율을 한 번만 적용합니다. Scanner·셋업, Font Editor, PowerMap 미리보기와 시리얼 컨트롤은 공통 WinForms 폰트·DPI 처리를 따릅니다. 각 하위 폰트를 다시 확대하거나 96 DPI 호스트에 과거 Font 기준 배율을 섞지 않습니다. 대상 화면 배율에서 창 크기 변경·모니터 이동·숫자 입력과 설명 줄바꿈을 확인합니다.
 
 ## 4. Document와 장치 등록
 

@@ -23,7 +23,7 @@ Eine Windows/.NET-Plattform für die präzise Laserbearbeitung. Sie verbindet SC
   - Variable Polygon- und Sprungverzögerungen
   - Zweiter Kopf und 3D
   - MoF (Marking on the Fly) und MoF Extension
-  - Sky Writing Mode 1/2/3/4
+  - Sky Writing: RTC5 Modi 1–3; RTC6 Modi 1–4 mit passender Software/Firmware; RTC4 wird nicht unterstützt
   - Automatische Verzögerungen mit SCANAhead
   - MultiBeam (eine Laserquelle + zwei AOM + zwei Scanköpfe)
 - ALC (Automatic Laser Control) / Pulse on Demand
@@ -39,7 +39,7 @@ Eine Windows/.NET-Plattform für die präzise Laserbearbeitung. Sie verbindet SC
   - Frequenz, Tastgrad, analoge und digitale Ausgänge
   - Integrationen unter anderem für AdvancedOptoWave, Coherent, IPG, JPT, Photonics Industry und Spectra Physics
 - Leistungsmesser und PowerMap
-  - Coherent PowerMax, Thorlabs über OPM und Ophir über StarLab
+  - Coherent PowerMax, Thorlabs über OPM, Ophir über StarLab und Gentec-EO
   - Ausgangskompensation anhand einer PowerMap
 - Rendering und Geometrieverarbeitung
   - OpenGL-3.3+-Renderer für 2D/3D mit einer orthografischen und fünf perspektivischen Kameras
@@ -47,19 +47,21 @@ Eine Windows/.NET-Plattform für die präzise Laserbearbeitung. Sie verbindet SC
   - Topologiebewusstes Schneiden von 3D-Netzen mit Diagnose offener und geschlossener Konturen
   - Winding-basierte Mehrfachschraffuren für Außenkonturen, verschachtelte Bereiche und verbundene Barcodezellen
 - Entitäten, Text und Barcodes
-  - Punkte, Linien, Bögen, Polylinien, Dreiecke, Rechtecke, Spiralen, Trepanierbahnen und Splines
+  - Punkte, Linien, Bögen, Ellipsen, Polylinien, Dreiecke, Rechtecke, Kreuze, Spiralen, Trepanierbahnen, Lissajous-Bahnen und Splines
   - Würfel, Kugeln, Zylinder, Kegel, Netze, Ebenen, Gruppen, Blöcke und Blockeinfügungen
   - Text, SiriusText, ImageText, kreisförmiger Text, verknüpfter Text und ZPL-Entitäten
   - 1D-, QR-, DataMatrix-, PDF417- und Aztec-Barcodes mit Kontur-, Schraffur- und Punktzellenbearbeitung
 - Dateiimport und Interoperabilität
-  - Sirius3-Dokumente, DXF/DWG, SVG, HPGL/PLT, Gerber/Excellon und G-code/NGC
-  - SVG-Vektorimport (`.svg`): `IDocument.ActImport` / `EntityFactory.CreateSVG`. Behält editierbare Originalkurven bei und erzeugt Füll-, Strichbreiten-, End- und Verbindungsregionen in Millimetern, einschließlich runder Enden und Ecken.
-  - SVG-Schraffur: Aktivierung mit `UI.Config.IsSvgImportHatchEnabled` (Standard `false`), Abstand über `UI.Config.SvgImportHatchInterval` (Standard 0.1 mm). Linien-/Polygonschraffur wird unterstützt; Klick- und Ziehauswahl verwendet die angezeigten Konturen und Schraffuren.
-  - Rasterbilder sowie STL-, OBJ-, PLY-, STP/STEP- und 3MF-3D-Modelle
-  - 3MF-Netzimport (`.3mf`): `IDocument.ActImport` / `EntityFactory.CreateMesh`. Fasst die Dreiecksnetzmodelle und Komponenten des Builds unter Berücksichtigung relativer Platzierung und Quelldateieinheiten zu einem Netz in Millimetern zusammen. Gespeicherte Slicer-Bearbeitungspfade und Schnittergebnisse gehören nicht zum Importumfang.
-  - Verfügbare Netzfarben und OBJ-/PLY-/3MF-Diffustexturen bleiben in der 3D-Vorschau erhalten
-  - G-code/NGC-Import bewahrt modale XYZ-Koordinaten, Einheiten/Arbeitsursprünge, ebene Bögen/Helices, Verweilzeiten und Laser-ON/OFF-Pfade. `UI.Config.GCodeImportDialect` wählt CNC-, Laser- oder Marlin-Regeln; `GCodeImportInfo.TryGet` liefert Quellwerte F/S/T und Zeilenbereiche, ohne Geräteeinstellungen anzuwenden.
-  - Toleranzbasiertes Verbinden von Vektorpfaden und inhaltsbasierte Gerber/Excellon-Erkennung
+  - Sirius3 (`.sirius3`): Dokumente speichern, öffnen und importieren.
+  - DXF/DWG: 2D-CAD-Zeichnungen (DWG benötigt ODA File Converter).
+  - SVG: Vektorkonturen, Füllungen und editierbarer einteiliger Text (komplexen Text in Pfade umwandeln).
+  - HPGL/PLT: Vektorpfade für Plotter.
+  - Gerber/Excellon: Leiterplattenmuster und Bohrdaten.
+  - PNG/BMP/GIF/JPG(JPEG)/TIF(TIFF): Rasterbilder.
+  - PDF: Seiten als Rasterbilder importieren (passwortgeschützte PDFs nicht unterstützt).
+  - STL/OBJ/PLY/STP(STEP)/3MF: 3D-Netze importieren und schneiden.
+  - G-code (`.gcode`, `.ngc`): CNC- und Laserbearbeitungspfade.
+  - CXF/LFF/EO FNT/DOT: externe Schriften für SiriusText.
 - Fernkommunikation und dynamische Daten
   - TCP/IP, seriell (RS-232), WebSocket und MQTT für Markersteuerung und Datenzugriff
   - Eingebetteter HTTP-MCP-Server für KI-gestützte Editorregistrierung, Dokument- und Entitätsbearbeitung, Simulation sowie Steuerung registrierter Geräte
@@ -67,12 +69,13 @@ Eine Windows/.NET-Plattform für die präzise Laserbearbeitung. Sie verbindet SC
 - Dokumente, Editoren und Simulation
   - Vier Dokumentseiten mit Ebenen, Stiften, Gruppen, Blöcken und konfigurierbarem Undo/Redo
   - WinForms- und WPF-`SiriusEditorControl` / `SiriusMultiEditorControl` werden in Debug und Release vollständig unterstützt; ein Dokument kann in mehreren Ansichten gerendert werden
+  - UI-Ressourcen in Englisch, Koreanisch, vereinfachtem Chinesisch, Japanisch und Deutsch
   - [Schrifteditor](SpiralLab.Sirius3.UI/FontEditor/README.md): unabhängige CXF/LFF/EO-FNT/DOT-Glyphenbearbeitung über **Font Edit** in WinForms/WPF; mm-Vektoren, ganzzahlige DOT-Zellen, BBox/Metriken, Undo/Redo, DXF-Import, Textvorschau und Konvertierung installierter TTF-Schriften. In Debug und Release immer enthalten.
   - Echtzeit-Laserpfad mit bildschirmfesten Markierungen, Strahleffekt und optionalen Partikeln
   - Rasterbasierte zusammengesetzte Bildansicht für Kamera- und Prüfabläufe
 - Offene Architektur
-  - Erweiterbare Schnittstellen für Editor, Entitäten, Marker, Scanner, Laser, Leistungsmesser und Fernsteuerung
-  - Eingebetteter MCP-Server für KI-gestützte Editorregistrierung, Dokument- und Entitätsbearbeitung sowie Gerätesteuerung
+  - Erweiterbare Schnittstellen für Editor, Entitäten, Marker, Scanner, Laser, Leistungsmesser, PowerMap und Fernkommunikation
+  - Virtuelle Scanner, Laser, Leistungsmesser und Marker für Entwicklung und Simulation
 
 ## Wichtige Unterschiede zu Sirius2
 
@@ -81,10 +84,12 @@ Eine Windows/.NET-Plattform für die präzise Laserbearbeitung. Sie verbindet SC
 | Dokumentseiten | 4 Seiten | Einzelnes Dokument |
 | Kameras | 6 integrierte Kameras | Perspektivkamera |
 | Rendering | GPU-beschleunigte OpenGL-Shader | Integrierte Shader-Engine |
+| Darstellungsmodi | Model, PerVertex, PerNormal, ZHeightMap, Texture, TexturePerVertex | Nicht vorhanden |
 | Treffertest | AABB-beschleunigt | Langsam |
 | Schraffur | Winding-basierte Mehrfachschraffur | Einfache Schraffur |
 | 3D-Netzschnitt | STL, OBJ, PLY, STEP, 3MF | Nicht vorhanden |
 | Gerber / Excellon | Inhaltsbasierte Erkennung | Nicht vorhanden |
+| Schriftdateien | CXF, LFF, EO FNT, DOT | Angepasste CXF-, LFF-Formate |
 | Stifte | Getrennte Entity- und Layer-Stifte | Ein Entity-Stift |
 | MCP | Unterstützt | Nicht vorhanden |
 | Aktualisierung | NuGet-Paketverwaltung | Manuell |
@@ -97,7 +102,7 @@ Eine Windows/.NET-Plattform für die präzise Laserbearbeitung. Sie verbindet SC
 ## Pakete / DLLs
 
 - `SpiralLab.Sirius3.Dependencies` - SCANLAB RTC4/5/6, syncAXIS-Laufzeit, Schriftarten und Beispieldaten
-- `SpiralLab.Sirius3` - Hardwareabstraktion für Scanner, Laser, Leistungsmesser usw.
+- `SpiralLab.Sirius3` - Hardwaresteuerung und gemeinsame Verträge für Scanner, Laser, digitale E/A, Leistungsmesser und PowerMaps
 - `SpiralLab.Sirius3.UI` - Entitäten, Geometrieverarbeitung, OpenGL-Rendering, WinForms/WPF-Steuerelemente und eingebettete MCP-Integration
 
 Die Installation und Aktualisierung erfolgt über die NuGet-Paketverwaltung.
@@ -113,15 +118,19 @@ Die Installation und Aktualisierung erfolgt über die NuGet-Paketverwaltung.
 
 - Windows 10/11 (x64)
 - GPU und Treiber mit mindestens OpenGL 3.3; aktuelle Treiber werden dringend empfohlen
-- Installierte SCANLAB-Treiber und -Laufzeiten
-- Visual Studio 2022 oder neuer
+- Treiber und Laufzeiten der gewählten Geräte; native Dateien aus NuGet installieren keine Gerätetreiber
+- Build: .NET Framework 4.8.1 Developer Pack für `net481` oder das passende .NET SDK für moderne Ziele
+- Ausführung: .NET Framework 4.8.1 oder die passende Windows Desktop Runtime bei frameworkabhängigen .NET-Anwendungen
+- Entwicklung: Visual Studio 2022 oder neuer mit der Workload für .NET-Desktopentwicklung für öffentliche Demos (.NET 8: 17.8+, .NET 9: 17.12+; auch `net481`). .NET 10 erfordert in Visual Studio die Version 2026 (18.0+) und ein kompatibles SDK ([Microsoft-Kompatibilitätsleitfaden](https://learn.microsoft.com/en-us/dotnet/core/porting/versioning-sdk-msbuild-vs)).
 
 ## Abhängigkeiten
+
+Die folgenden Versionen beschreiben die Sirius3-Integrationen und wesentlichen .NET-Abhängigkeiten. NuGet stellt verwaltete Abhängigkeiten wieder her; Gerätetreiber werden separat installiert.
 
 - SCANLAB
   - RTC4: v2023.11.02
   - RTC5: v2024.09.27
-  - RTC6: 2026.8.17 v1.25.1
+  - RTC6: 2026.9.10 v1.25.1
   - syncAXIS: v1.8.2 (2023.03.09)
 - .NET
   - OpenTK 3.3.3 für `net481`
@@ -130,17 +139,22 @@ Die Installation und Aktualisierung erfolgt über die NuGet-Paketverwaltung.
   - Microsoft.Extensions.Logging.Abstractions 10.0.10 für alle Zielplattformen
   - Microsoft.Extensions.Logging.Debug 10.0.10 für alle Zielplattformen
   - Newtonsoft.Json 13.0.4
+
 ## Pakete installieren
 
 Fügen Sie die folgenden NuGet-Pakete hinzu:
 
-- `SpiralLab.Sirius3.Dependencies`
-- `SpiralLab.Sirius3`
-- `SpiralLab.Sirius3.UI`
+- [SpiralLab.Sirius3.Dependencies](https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
+- [SpiralLab.Sirius3](https://www.nuget.org/packages/SpiralLab.Sirius3)
+- [SpiralLab.Sirius3.UI](https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
+
+Wählen Sie mit Ihrer Anwendung kompatible Paketversionen und behalten Sie die Laufzeit-/Datenordner des Dependencies-Pakets in Build- und Verteilungsausgabe bei. Das Dependencies-Paket kopiert diese Dateien beim Build in den Ausgabeordner. Wählen Sie aus der obigen Liste die benötigten Zielframeworks.
 
 ## Schnellstart
 
 Installieren Sie die drei oben aufgeführten Sirius3-NuGet-Pakete. Die Ausschnitte zeigen den grundlegenden Ablauf; Geräteerstellung, Validierung und Ereignisbindung sind mit `...` verkürzt. Ordnen Sie Start, Laden und Beenden den jeweiligen Host-Ereignissen zu.
+
+Die öffentlichen Demos lesen `config*.ini`, erstellen Geräte über `ScannerFactory`, `LaserFactory`, `IOFactory`, `PowerMeterFactory` und `MarkerFactory` und initialisieren sie vor der Registrierung. `RegisterDevices` verbindet sie mit dem Editor und ruft `marker.Ready` mit dessen Dokument und Ansicht auf. Der INI-Ladehelfer gehört zur Demo; die Hostanwendung stellt ihren eigenen Konfigurationsablauf bereit.
 
 # [WinForms](#tab/winforms)
 
@@ -149,6 +163,7 @@ Projekteinstellungen
 ```xml
 <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <PlatformTarget>x64</PlatformTarget>
     <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
@@ -162,7 +177,7 @@ using SpiralLab.Sirius3.MCP;
 using System.Windows.Forms;
 
 // Startup: initialize Core and create the host UI.
-SpiralLab.Sirius3.Core.Initialize();
+if (!SpiralLab.Sirius3.Core.Initialize()) return;
 var form = new Form
 {
     AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F),
@@ -177,11 +192,12 @@ form.Controls.Add(editor);
 
 // Load: create and initialize the scanner, laser, I/O, power meter and marker.
 ...
-editor.RegisterDevices(rtc, laser, powerMeter, ..., marker);
+editor.RegisterDevices(rtc, laser, powerMeter,
+    dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
 // Optional MCP: start after device registration (Remote license).
 var server = MCPFactory.CreateServer(0, "MCP", editor);
-server.AccessMode = MCPAccessMode.All;
+server.AccessMode = MCPAccessModes.All;
 editor.MCPServer = server;
 await server.Start();
 ...
@@ -208,6 +224,7 @@ Projekteinstellungen
 ```xml
 <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <PlatformTarget>x64</PlatformTarget>
     <TargetFrameworks>net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -221,18 +238,19 @@ using SpiralLab.Sirius3.MCP;
 using System.Windows;
 
 // Startup: initialize Core and create the host UI.
-SpiralLab.Sirius3.Core.Initialize();
+if (!SpiralLab.Sirius3.Core.Initialize()) return;
 var editor = new SpiralLab.Sirius3.UI.WPF.SiriusEditorControl();
 var window = new Window { Content = editor };
 ...
 
 // Loaded: create and initialize the scanner, laser, I/O, power meter and marker.
 ...
-editor.RegisterDevices(rtc, laser, powerMeter, ..., marker);
+editor.RegisterDevices(rtc, laser, powerMeter,
+    dInExt1, dInLaserPort, dOutExt1, dOutExt2, dOutLaserPort, marker);
 
 // Optional MCP: start after device registration (Remote license).
 var server = MCPFactory.CreateServer(0, "MCP", editor);
-server.AccessMode = MCPAccessMode.All;
+server.AccessMode = MCPAccessModes.All;
 editor.MCPServer = server;
 await server.Start();
 ...
@@ -252,11 +270,13 @@ document?.Dispose();
 SpiralLab.Sirius3.Core.Cleanup();
 ```
 
+---
+
 `DisposeDevices()` wartet zuerst auf die Freigabe registrierter MCP-Server und Remote-Verbindungen und gibt danach die Geräte frei. Nach Editor- und Dokumentfreigabe ruft die Anwendung beim Beenden `Core.Cleanup()` auf. Vollständige Beispiele zeigen den Schutz vor mehrfachen Schließanforderungen und die Fehlerbehandlung.
 
-Vollständige Beispiele: [WinForms-Leitfaden (Englisch)](https://github.com/labspiral/sirius3/blob/main/doc/WinForms.md), [WPF-Leitfaden (Englisch)](https://github.com/labspiral/sirius3/blob/main/doc/WPF.md), [Demoprojekte](DEMOS.deDE.md).
+Zugewiesene Dokumente bleiben im Besitz des Aufrufers. WPF `Unloaded` pausiert die Anzeige; warten Sie am Lebensende ausdrücklich auf die Gerätefreigabe und geben Sie Editor und Dokument frei. Prüfen Sie Initialisierungsergebnisse, räumen Sie bei Fehlern teilweise erstellte Geräte auf und rufen Sie nach jedem erfolgreichen `Core.Initialize()` beim UI-Ende `Core.Cleanup()` auf.
 
----
+Vollständige Beispiele: [WinForms-Leitfaden (Englisch)](https://github.com/labspiral/sirius3/blob/main/doc/WinForms.md), [WPF-Leitfaden (Englisch)](https://github.com/labspiral/sirius3/blob/main/doc/WPF.md), [Demoprojekte](DEMOS.deDE.md) · [MCP-Integrationsleitfaden](SpiralLab.Sirius3.UI/MCP/README.deDE.md).
 
 ## WinForms HiDPI
 
@@ -285,6 +305,8 @@ Mit `ApplicationConfiguration.Initialize()` setzen Sie `<ApplicationHighDpiMode>
 [Microsoft: .NET Framework HiDPI](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/high-dpi-support-in-windows-forms), [WinForms automatic scaling](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/forms/autoscale).
 
 ## Demoprogramme
+
+Die öffentlichen WinForms-/WPF-Editordemos verwenden `net481;net8.0-windows;net9.0-windows` und benötigen Visual Studio 2022 oder neuer sowie die SDKs für die gewählten Ziele. Die Bibliothek unterstützt zusätzlich `net10.0-windows`. Beginnen Sie mit [editor_ui](https://github.com/labspiral/sirius3/tree/main/demos/editor_ui) oder [wpf_editor_ui](https://github.com/labspiral/sirius3/tree/main/demos/wpf_editor_ui).
 
 - Beschreibungen: [DEMOS.deDE.md](DEMOS.deDE.md)
 - Beispiele: https://github.com/labspiral/sirius3/tree/main/demos

@@ -1,6 +1,6 @@
 # Digital Input, Output and Controller Trigger User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.1 (public features)
 
 [English](DigitalIOUserManual.md) | [한국어](DigitalIOUserManual.koKR.md) | [All guides](README.md)
 
@@ -17,7 +17,7 @@
 | `RtcDOutputLaserPort` | LASER-port output, 2 bits |
 | `DInputVirtual` / `DOutputVirtual` | Software I/O without a physical port |
 
-Use `IOFactory.CreateInputExtension1Port`, `CreateInputLaserPort`, `CreateOutputExtension1Port`, `CreateOutputExtension2Port`, `CreateOutputLaserPort`, `CreateVirtualInput` and `CreateVirtualOutput`. Initialize the scanner before an RTC adapter, initialize the adapter, then register the same instances with the editor. The built-in adapters use channel 0; validate bit numbers against the physical port width.
+Use `IOFactory.CreateInputExtension1`, `CreateInputLaserPort`, `CreateOutputExtension1`, `CreateOutputExtension2`, `CreateOutputLaserPort`, `CreateVirtualInput` and `CreateVirtualOutput`. Initialize the scanner before an RTC adapter, initialize the adapter, then register the same instances with the editor. The built-in adapters use channel 0; validate bit numbers against the physical port width.
 
 ## 2. Buffers, polling and output submission
 
@@ -87,6 +87,10 @@ using (var simulatedInput = IOFactory.CreateVirtualInput(0))
 ```
 
 Virtual forced-state methods notify immediately when they change a bit. This is useful for event wiring, and differs from physical-input polling.
+
+### Contact type names
+
+`IDInputTrigger.Type` returns the public `SpiralLab.Sirius3.IO.InputTypes` enum: `A` is active-high/normally-open and `B` is active-low/normally-closed. It is a read-only description of the chosen trigger implementation, not an output command or wiring configuration. The contact convention and any hold/debounce duration must match the sensor and polling interval.
 
 ## 5. Controller list conditions and Edge waiting
 

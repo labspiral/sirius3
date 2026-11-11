@@ -1,6 +1,6 @@
 # SyncAXIS Integrated Marker Control User Manual
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.1 (공개 기능)
 
 [English](MarkerSyncaxisUserManual.md) | [한국어](MarkerSyncaxisUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -60,6 +60,12 @@ SyncAXIS는 가공 전 실제 경로를 예측하기 위해 시뮬레이션 기�
 공개 [editor_marker](../demos/editor_marker/Form1.cs)는 MyMarkerSyncAxis와 MyMarkerRtc·MyMarkerRtcFast 소스를 제공합니다. Scanner와 Laser를 초기화한 뒤 같은 인스턴스를 RegisterDevices·Ready에 연결합니다. Start 반환은 완료가 아니며 Busy·오류·OnEnded를 확인합니다.
 
 Offset X/Y/Z는 좌표 이동, AngleZ는 Z축 회전, ExtensionData는 위치별 문자열입니다. 기계 이동은 syncAXIS Job·Motion Type·축 제한 설정을 따릅니다. Offset Z만 지정했다고 독립 Stage 명령이 실행되지는 않습니다. [Marker 비교](MarkerUserManual.koKR.md)와 [Offset 예제·파싱](OffsetUserManual.koKR.md)을 참고합니다.
+
+## 9. 오류·소요 시간과 셋업 실행
+
+WinForms `MarkerSyncAxisControl` 하단의 **Errors** 링크는 ScannerControl 셋업 화면과 같은 방식으로 할당된 syncAXIS 스캐너의 내부 오류 목록을 엽니다. `Rtc6SyncAxis.OpStatus`, Ready·Busy·Error와 함께 확인합니다. 동작 상태가 초록색이라고 보정 품질이나 장비 안전이 보증되지는 않습니다. 경로 계획 오류가 발생하면 목록을 읽고 설정·패턴의 원인을 수정한 뒤 유휴 마커를 리셋합니다. 작업 중에는 Stop을 사용합니다.
+
+셋업 화면의 소요 시간은 마커 작업을 따릅니다. 단계별 Run은 현재 모드로 실행하며 성공한 시뮬레이션이 완료되고 출력이 준비된 뒤 Viewer를 자동으로 엽니다. 일반 마커 화면의 Measurement Plot 옵션과는 별도 동작입니다. 중지·실패한 셋업 실행에서는 Viewer를 열지 않습니다. [여섯 셋업 단계와 반복 절차](Rtc6SyncaxisUserManual.koKR.md#syncaxis-setup)를 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

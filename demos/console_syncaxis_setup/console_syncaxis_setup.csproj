@@ -9,6 +9,8 @@
 		<ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<RootNamespace>Demos</RootNamespace>
+		<PlatformTarget>x64</PlatformTarget>
+		<Prefer32Bit>false</Prefer32Bit>
 		<OutputPath>..\..\bin\</OutputPath>
 		<IncludeSymbols>False</IncludeSymbols>
 		<NeutralResourcesLanguage>en-US</NeutralResourcesLanguage>
@@ -49,6 +51,73 @@
 	  </None>
 	</ItemGroup>
 
+	<!-- Optional RTC6 files for syncAXIS v1.8.2 x64. Uncomment this target when needed. -->
+	<!--
+	<Target Name="OverrideRTCFilesForSyncAXISx64" AfterTargets="Build">
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\bin64\RTC6DLLx64.dll"
+			DestinationFolder="$(TargetDir)x64\"
+			OverwriteReadOnlyFiles="true" />
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\ProgramFiles\RTC6Dat.dat"
+			DestinationFolder="$(TargetDir)"
+			OverwriteReadOnlyFiles="true" />
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\ProgramFiles\RTC6Eth.out"
+			DestinationFolder="$(TargetDir)"
+			OverwriteReadOnlyFiles="true" />
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\ProgramFiles\RTC6Out.out"
+			DestinationFolder="$(TargetDir)"
+			OverwriteReadOnlyFiles="true" />
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\ProgramFiles\RTC6RBF.rbf"
+			DestinationFolder="$(TargetDir)"
+			OverwriteReadOnlyFiles="true" />
+	</Target>
+	-->
+
+	<!-- Optional RTC6 files for syncAXIS v1.8.2 x32. Uncomment this target when needed. -->
+	<!--
+	<Target Name="OverrideRTCFilesForSyncAXISx32" AfterTargets="Build">
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\bin\RTC6DLL.dll"
+			DestinationFolder="$(TargetDir)x32\"
+			OverwriteReadOnlyFiles="true" />
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\ProgramFiles\RTC6Dat.dat"
+			DestinationFolder="$(TargetDir)"
+			OverwriteReadOnlyFiles="true" />
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\ProgramFiles\RTC6Eth.out"
+			DestinationFolder="$(TargetDir)"
+			OverwriteReadOnlyFiles="true" />
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\ProgramFiles\RTC6Out.out"
+			DestinationFolder="$(TargetDir)"
+			OverwriteReadOnlyFiles="true" />
+		<Copy
+			SourceFiles="$(TargetDir)syncaxis\ProgramFiles\RTC6RBF.rbf"
+			DestinationFolder="$(TargetDir)"
+			OverwriteReadOnlyFiles="true" />
+	</Target>
+	-->
+
+	<!-- copy syncAXIS files for x32 or x64. -->
+	<PropertyGroup>
+		<SyncAxisRuntimeFolder Condition="'$(PlatformTarget)' == 'x86'">x32</SyncAxisRuntimeFolder>
+		<SyncAxisRuntimeFolder Condition="'$(PlatformTarget)' == 'x64'">x64</SyncAxisRuntimeFolder>
+	</PropertyGroup>
+
+	<Target Name="CopySyncAxisRuntimeFiles" AfterTargets="CopyFilesToOutputDirectory">
+		<Error Condition="'$(SyncAxisRuntimeFolder)' == ''" Text="The syncAXIS demo must target x86 or x64 to select the matching runtime files." />
+		<Error Condition="!Exists('$(TargetDir)$(SyncAxisRuntimeFolder)\syncAXIS.NET.dll')" Text="The $(SyncAxisRuntimeFolder) syncAXIS.NET.dll is missing from the SpiralLab.Sirius3.Dependencies package output." />
+		<ItemGroup>
+			<SyncAxisRuntimeFiles Include="$(TargetDir)$(SyncAxisRuntimeFolder)\syncAXIS*.*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(SyncAxisRuntimeFiles)" DestinationFolder="$(TargetDir)" OverwriteReadOnlyFiles="true" />
+	</Target>
+	
 	<!-- For all targets -->
 
 	<ItemGroup>
@@ -60,4 +129,5 @@
 		<PackageReference Include="SpiralLab.Sirius3" Version="1.*" />
 		<PackageReference Include="SpiralLab.Sirius3.UI" Version="1.*" />
 	</ItemGroup>
+	
 </Project>

@@ -1,5 +1,12 @@
 # Sirius3 版本历史
 
+## v1.17.1 (2026.11.11)
+
+- added) `Rtc6SyncAxis`：新增设置界面
+- added) `Rtc6Ethernet`：新增看门狗监测功能
+- fixed) `IDocument.ActClip`：新增 `ClipOptions.IsIncludeOnce` 选项
+  - 边界处重叠的裁剪数据仅在一个区域中生成结果
+
 ## v1.17.0 (2026.10.26)
 
 - updated) 改进开发者手册

@@ -1,6 +1,6 @@
 # Marker Offset user manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.1 (public features)
 
 [English](OffsetUserManual.md) | [한국어](OffsetUserManual.koKR.md) | [All guides](README.md)
 
@@ -85,6 +85,35 @@ Only the configured separator is active for delimiter pairs; `&` and `;` are not
 Prepare and validate offsets before starting. Do not change locations or metadata while a marker is busy. Check marker events, completion status and conversion errors. Offset data is copied as a value; device and document lifetimes remain host-owned.
 
 Related guides: [TextConvert](TextConvert.md), [text](TextUserManual.md), [barcodes](BarcodeUserManual.md), [MoF](MarkingOnTheFlyUserManual.md).
+
+<a id="offset-callbacks"></a>
+
+## 7. Before and after each offset
+
+Sirius3 1.17.1 adds `IMarker.OnBeforeOffset` and `OnAfterOffset`. Both handlers have signature `Func<IMarker, int, Offset, bool>`: the index is zero-based and the Offset is the current placement. Return false from Before to stop marking, or from After to stop subsequent offsets. Handlers run on the marker task thread; marshal UI changes to the owning UI thread.
+
+```csharp
+using System;
+using SpiralLab.Sirius3.Marker;
+using SpiralLab.Sirius3.Mathematics;
+
+Func<IMarker, int, Offset, bool> before = (source, index, offset) =>
+{
+    Console.WriteLine($"Preparing offset {index}: {offset.Translate}");
+    return true;
+};
+Func<IMarker, int, Offset, bool> after = (source, index, offset) => true;
+marker.OnBeforeOffset += before;
+marker.OnAfterOffset += after;
+// Keep these subscriptions for the owning operation/lifetime.
+// After marking has stopped, detach them during owner cleanup:
+// marker.OnBeforeOffset -= before;
+// marker.OnAfterOffset -= after;
+```
+
+With syncAXIS LayerFirst, Before runs before each separate offset job, allowing its trajectory to be set for that location. With OffsetFirst, callbacks run for each layer/offset combination while that layer's list is built. Buffered markers may call After before physical execution ends. Use job completion, errors and `OnEnded` to judge the result; After is not a physical trigger or a guarantee that every queued mark has finished. Restore temporary device state in the operation's final cleanup as well as normal After handling.
+
+The [syncAXIS laser-delay workflow](Rtc6SyncaxisUserManual.md#syncaxis-setup) creates its offset array during Create and uses the layer pen as its timing/speed starting point. X/right columns increase laser switch offset, Y/up rows increase pre-trigger. Another step's Create clears the array. A repeated Run begins from the starting values instead of accumulating increments.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

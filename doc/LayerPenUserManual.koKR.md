@@ -1,6 +1,6 @@
 # EntityLayerPen 사용자 설명서
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.1 (공개 기능)
 
 [English](LayerPenUserManual.md) | [한국어](LayerPenUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -343,7 +343,7 @@ Preview Time은 미래 궤적을 얼마나 미리 계산해 스캔헤드에 전�
 
 ## syncAXIS 동작 모드
 
-syncAXIS는 넓은 작업 영역에서 이송 스테이지와 스캐너를 협조 구동하는 기능입니다. 일반 `MarkerRtc`와 별도의 syncAXIS용 Marker를 사용합니다.
+초기화한 `IRtcSyncAxis`와 `MarkerSyncAxis`로 넓은 작업 영역에서 스테이지와 스캐너를 협조 구동합니다. 일반 `MarkerRtc`는 syncAXIS 작업을 실행하지 않습니다.
 
 ### MotionType
 
@@ -369,6 +369,18 @@ BandWidth를 높인다고 항상 성능이 좋아지는 것은 아닙니다. 스
 - syncAXIS용 Marker와 `IRtcSyncAxis` 등록
 
 자세한 절차는 [Rtc6SyncaxisUserManual.md](Rtc6SyncaxisUserManual.koKR.md)를 참고하십시오.
+
+### 레이저 지연 시작값
+
+syncAXIS 레이어의 `EntityLayerPen`은 다음 nullable 값을 제공합니다. 기본값은 null이며 대응하는 스캐너 궤적 값을 그대로 유지합니다. 일반 EntityPen의 레이저 켜짐·꺼짐 지연과 구분되는 레이어 설정입니다.
+
+| 속성 | 단위 | 셋업 용도 |
+|---|---|---|
+| `SyncAxisLaserSwitchOffsetTime` | µs | 스위치 오프셋 시작값이며 레이저 지연 탐색에서 X 열마다 증가합니다. |
+| `SyncAxisLaserPreTriggerTime` | µs | 사전 트리거 시작값이며 Y 행마다 증가합니다. |
+| `SyncAxisLaserDelaySpeed` | mm/s | 탐색 시 스캐너의 Jump·Mark 속도입니다. |
+
+[ScannerControl 셋업](Rtc6SyncaxisUserManual.koKR.md#syncaxis-setup)은 H와 마커 오프셋을 만들고 매 실행에 이 시작값을 적용하며 오프셋·작업 후 궤적을 복원합니다. 정적·복합 정밀도의 각 Create는 선택한 동작 모드 하나만 준비하므로 StageOnly와 ScannerOnly를 각각 생성하고 복합 검증에는 StageAndScanner를 사용합니다. 펜을 조정할 때는 생성 문서와 시뮬레이션 결과를 함께 확인합니다.
 
 ## LayerFirst와 OffsetFirst 실행 순서
 

@@ -1,5 +1,12 @@
 # Sirius3 버전 이력
 
+## v1.17.1 (2026.11.11)
+
+- added) `Rtc6SyncAxis` : setup 화면 제공
+- added) `Rtc6Ethernet` : 와치독 모니터링 기능 추가
+- fixed) `IDocument.ActClip` : `ClipOptions.IsIncludeOnce` 옵션 제공
+  - 경계에서 짤린 데이타가 겹친 경우 한쪽 영역에만 결과가 포함
+
 ## v1.17.0 (2026.10.26)
 
 - updated) 개발자 매뉴얼 개선

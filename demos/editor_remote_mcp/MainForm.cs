@@ -68,10 +68,10 @@ namespace Demos
 
         private string GetAccessModeLabel()
         {
-            var accessMode = mcpServer?.AccessMode ?? MCPAccessMode.All;
-            return accessMode == MCPAccessMode.ReadOnly
+            var accessMode = mcpServer?.AccessMode ?? MCPAccessModes.All;
+            return accessMode == MCPAccessModes.ReadOnly
                 ? "read-only"
-                : accessMode == MCPAccessMode.DocumentControl
+                : accessMode == MCPAccessModes.DocumentControl
                     ? "read/write"
                     : accessMode.ToString();
         }

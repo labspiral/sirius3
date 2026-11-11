@@ -25,7 +25,7 @@ namespace Demos
             try
             {
                 var accessMode = NativeMethods.ReadIni(
-                    EditorHelper.ConfigFileName, $"MCP{index}", "ACCESS", MCPAccessMode.All);
+                    EditorHelper.ConfigFileName, $"MCP{index}", "ACCESS", MCPAccessModes.All);
                 server = createServer(CreateMCPOptions(index));
                 server.AccessMode = accessMode;
                 return server.Start().GetAwaiter().GetResult();

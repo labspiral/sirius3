@@ -1,6 +1,6 @@
 # Sirius3 WPF 통합 가이드
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 공개 기능
 
 [English](WPF.md) | [한국어](WPF.koKR.md) | [WinForms](WinForms.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -40,7 +40,7 @@ Dependencies 패키지의 런타임 파일도 출력과 함께 유지합니다. 
 
 공개 API는 SVG 벡터와 3MF 메쉬 가져오기, `IDocument.ActClip` 클리핑, 전역 `Config.PowerMapInterpolationMode`의 Linear/PCHIP 보간을 제공합니다. 공개 데모는 `Version="1.*"` 참조를 유지하므로 업데이트 후 NuGet을 다시 복원하고 실제 해석된 버전을 확인합니다. 자세한 사용법은 [문서 가져오기](DocumentUserManual.koKR.md), [클리핑](ClippingUserManual.koKR.md), [PowerMap](PowermapUserManual.koKR.md)을 참고합니다.
 
-`wpf_editor_ui` 소스를 복사할 때 `SiriusEditorControl.xaml`/`.xaml.cs`, `SiriusMultiEditorControl.cs`와 공통 `EditorControlSupport.cs`를 함께 유지합니다. 공개 소스는 `Demos` 네임스페이스와 NuGet 참조를 유지하며 라이브러리의 내부 메서드 대신 공개 API를 사용합니다.
+공개 단일·다중 편집기 소스는 각각 독립적으로 사용할 수 있습니다. 단일 편집기는 `SiriusEditorControl.xaml`/`.xaml.cs`와 `EditorControlSupport.cs`를 복사합니다. 다중 편집기는 `SiriusMultiEditorControl.xaml`/`.cs`와 같은 지원 파일을 복사하며 단일 편집기 소스는 필요하지 않습니다. 공개 소스는 `Demos` 네임스페이스와 NuGet 참조를 유지하며 라이브러리의 내부 메서드 대신 공개 API를 사용합니다. 다중 편집기는 패널과 문서 명령을 직접 관리합니다. `EditorHost`는 다중 편집기 자신을 반환하고 `EditorCtrl`은 내부 편집 화면을 제공합니다.
 
 ## 2. DPI 모드와 레이아웃
 
@@ -101,6 +101,12 @@ Scanner UI의 Multi-Beam 메뉴는 지정된 Scanner가 `IRtcMultiBeam`일 때�
 
 마우스와 키보드 명령은 포커스 위치에 따라 적용됩니다. TreeView에 포커스가 있으면 방향키는 트리 탐색에 사용합니다. Marker Start 단축키는 설정된 장비를 동작시킬 수 있습니다. [편집기 단축키](EditorUserManual.koKR.md)와 [TreeView 단축키](TreeviewUserManual.koKR.md)를 참고합니다.
 
+### syncAXIS 셋업
+
+1.17.1의 네이티브 WPF ScannerControl도 `IRtcSyncAxis`를 할당하면 여섯 단계의 syncAXIS 탭을 표시합니다. 초기화한 스캐너와 `MarkerSyncAxis`를 에디터에 등록하면 문서와 마커가 해당 탭에 연결됩니다. 독립 WPF ScannerControl도 `Document`와 `Marker`로 같은 연결을 제공하며 소유권은 호스트에 있습니다.
+
+현재 모드·Initialize, 단계별 Create·Run·Stop·Reset, CT5 선택과 성공한 시뮬레이션의 Viewer 자동 실행은 [동일한 셋업 절차](Rtc6SyncaxisUserManual.koKR.md#syncaxis-setup)를 따릅니다. 보정 격자 개수는 3~99의 홀수이고 위·아래 방향키로 2씩 바꾸며 짝수를 입력한 뒤 포커스를 옮기면 보정됩니다. WinForms의 DPI·폰트 배율을 수동 적용하지 않고 WPF 레이아웃 단위를 사용합니다.
+
 ## 5. WPF에서 MCP 사용
 
 같은 `SpiralLab.Sirius3.MCP` API가 WPF 편집기 오버로드를 제공합니다. 장치를 등록한 후 서버를 생성합니다. 초기화된 편집기에 대해 비동기 UI 스레드 메서드에서 다음을 실행합니다.
@@ -111,7 +117,7 @@ var options = new SpiralLab.Sirius3.MCP.MCPServerOptions
     HttpEndpoint = new Uri("http://127.0.0.1:3712/mcp")
 };
 var server = SpiralLab.Sirius3.MCP.MCPFactory.CreateServer(0, "MCP", editor, options);
-server.AccessMode = SpiralLab.Sirius3.MCP.MCPAccessMode.All;
+server.AccessMode = SpiralLab.Sirius3.MCP.MCPAccessModes.All;
 editor.MCPServer = server;
 if (!await server.Start())
     throw new InvalidOperationException("MCP startup failed.");

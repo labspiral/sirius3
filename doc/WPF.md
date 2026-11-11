@@ -1,6 +1,6 @@
 # Sirius3 WPF integration guide
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI public features
 
 [English](WPF.md) | [한국어](WPF.koKR.md) | [WinForms](WinForms.md) | [All guides](README.md)
 
@@ -40,7 +40,7 @@ Keep the Dependencies package's runtime files with the output. Select an install
 
 The public APIs provide SVG vector and 3MF mesh import, `IDocument.ActClip` clipping, and global Linear/PCHIP interpolation through `Config.PowerMapInterpolationMode`. Public demos retain `Version="1.*"` references; restore NuGet packages after an update and check the resolved version. See [document import](DocumentUserManual.md), [clipping](ClippingUserManual.md), and [PowerMap](PowermapUserManual.md).
 
-When copying `wpf_editor_ui`, keep `SiriusEditorControl.xaml`/`.xaml.cs`, `SiriusMultiEditorControl.cs`, and shared `EditorControlSupport.cs` together. Public source keeps namespace `Demos` and NuGet references, and uses public APIs in place of library-internal methods.
+The public single and multi-editor sources are independent. For a single editor, copy `SiriusEditorControl.xaml`/`.xaml.cs` with `EditorControlSupport.cs`. For a multi-editor, copy `SiriusMultiEditorControl.xaml`/`.cs` with that support file; the single-editor sources are not required. Public source keeps namespace `Demos` and NuGet references, and uses public APIs in place of library-internal methods. The multi-editor owns its panels and document commands; `EditorHost` returns that multi-editor itself, while `EditorCtrl` exposes its editor surface.
 
 ## 2. DPI awareness and layout
 
@@ -101,6 +101,12 @@ The Scanner UI shows Multi-Beam navigation only for an assigned `IRtcMultiBeam`.
 
 Mouse and keyboard commands follow focus. Directional keys remain available for tree navigation when the TreeView has focus. Marker Start shortcuts can operate configured equipment; see [editor shortcuts](EditorUserManual.md) and [TreeView shortcuts](TreeviewUserManual.md).
 
+### syncAXIS setup
+
+The native WPF ScannerControl in 1.17.1 also shows the six-step syncAXIS tab for an assigned `IRtcSyncAxis`. Register the initialized scanner and `MarkerSyncAxis` with the editor so it supplies the document and marker to that tab. A standalone WPF ScannerControl exposes `Document` and `Marker` for the same connection; the host retains ownership.
+
+The current-mode/Initialize controls, per-step Create/Run/Stop/Reset, CT5 selection and successful-simulation Viewer launch follow the [same setup workflow](Rtc6SyncaxisUserManual.md#syncaxis-setup). Calibration counts are odd integers 3–99; Up/Down changes them by 2 and leaving an even entry normalizes it. Use WPF layout units rather than applying WinForms DPI/font scaling manually.
+
 ## 5. MCP on WPF
 
 The same `SpiralLab.Sirius3.MCP` API provides a WPF editor overload. Register devices before creating the server. In an asynchronous UI-thread method, with an initialized editor:
@@ -111,7 +117,7 @@ var options = new SpiralLab.Sirius3.MCP.MCPServerOptions
     HttpEndpoint = new Uri("http://127.0.0.1:3712/mcp")
 };
 var server = SpiralLab.Sirius3.MCP.MCPFactory.CreateServer(0, "MCP", editor, options);
-server.AccessMode = SpiralLab.Sirius3.MCP.MCPAccessMode.All;
+server.AccessMode = SpiralLab.Sirius3.MCP.MCPAccessModes.All;
 editor.MCPServer = server;
 if (!await server.Start())
     throw new InvalidOperationException("MCP startup failed.");

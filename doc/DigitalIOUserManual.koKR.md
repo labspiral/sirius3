@@ -1,6 +1,6 @@
 # 디지털 입력·출력과 컨트롤러 트리거 사용자 매뉴얼
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.1 (공개 기능)
 
 [English](DigitalIOUserManual.md) | [한국어](DigitalIOUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -17,7 +17,7 @@ IDInput·IDOutput은 디지털 I/O 계약입니다. DInputBase·DOutputBase는 �
 | RtcDOutputLaserPort | LASER 출력 2비트 |
 | DInputVirtual / DOutputVirtual | 물리 포트 없는 소프트웨어 I/O |
 
-IOFactory의 CreateInputExtension1Port, CreateInputLaserPort, CreateOutputExtension1Port, CreateOutputExtension2Port, CreateOutputLaserPort, CreateVirtualInput, CreateVirtualOutput을 사용합니다. Scanner를 먼저 초기화하고 어댑터를 생성·초기화한 뒤 같은 인스턴스를 Editor에 등록합니다. 내장 어댑터는 채널 0을 사용하며 물리 포트 폭에 맞는 비트 번호인지 확인합니다.
+IOFactory의 CreateInputExtension1, CreateInputLaserPort, CreateOutputExtension1, CreateOutputExtension2, CreateOutputLaserPort, CreateVirtualInput, CreateVirtualOutput을 사용합니다. Scanner를 먼저 초기화하고 어댑터를 생성·초기화한 뒤 같은 인스턴스를 Editor에 등록합니다. 내장 어댑터는 채널 0을 사용하며 물리 포트 폭에 맞는 비트 번호인지 확인합니다.
 
 ## 2. 버퍼, 폴링과 출력 반영
 
@@ -87,6 +87,10 @@ using (var simulatedInput = IOFactory.CreateVirtualInput(0))
 ```
 
 Virtual 강제 변경 메서드는 실제 값이 바뀌면 즉시 알립니다. 이벤트 연결 확인용이며 물리 입력 폴링과 동작이 다릅니다.
+
+### 접점 형식 이름
+
+`IDInputTrigger.Type`은 공개 enum `SpiralLab.Sirius3.IO.InputTypes`를 반환합니다. `A`는 Active High·상시 열림, `B`는 Active Low·상시 닫힘입니다. 선택한 트리거 구현을 설명하는 읽기 전용 값이며 출력 명령이나 배선 설정이 아닙니다. 접점 규칙과 유지·디바운스 시간은 센서와 폴링 간격에 맞추어야 합니다.
 
 ## 5. 컨트롤러 목록 조건과 Edge 대기
 

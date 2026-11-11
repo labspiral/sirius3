@@ -1,6 +1,6 @@
 # RTC6 syncAXIS(XL-SCAN) 설정 및 사용 가이드
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.1 (공개 기능)
 
 [English](Rtc6SyncaxisUserManual.md) | [한국어](Rtc6SyncaxisUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -117,7 +117,12 @@ INI는 어떤 XML을 선택할지 알려주고, 실제 Stage·Scanner·Laser 구
 
 `demos/console_syncaxis_setup/Program.cs`는 `EditorHelper`를 사용하지 않고 `Rtc6SyncAxis`를 직접 만드는 예입니다.
 
+이 예를 실행하기 전에 XML에 `SimulationMode=true`를 지정합니다. Initialize 이후의 모드 변경으로 최초 하드웨어 연결을 되돌릴 수는 없습니다.
+
 ```csharp
+using System;
+using System.IO;
+using SpiralLab.Sirius3.Scanner;
 using SpiralLab.Sirius3.Scanner.Rtc;
 
 bool coreInitialized = false;
@@ -144,7 +149,7 @@ try
     if (!rtc.Initialize())
         throw new InvalidOperationException("syncAXIS 초기화 실패");
 
-    // 먼저 Simulation Mode에서만 Job을 검증합니다.
+    // Initialize 전에 XML에 SimulationMode=true를 지정해야 합니다.
     if (!rtc.CtlSimulationMode(true))
         throw new InvalidOperationException("Simulation Mode 전환 실패");
 }
@@ -196,6 +201,53 @@ if (success)
 - `Config.SyncAxisViewerProgramPath`의 syncAXIS Viewer로 결과 열기
 
 Viewer에서 Scanner/Stage Position, 속도와 동적 Limit 위반을 확인합니다. Position 또는 Dynamic Violation이 하나라도 남아 있으면 XML이나 Job을 수정하고 Simulation을 반복하십시오.
+
+<a id="syncaxis-setup"></a>
+
+### 6.3 ScannerControl의 syncAXIS 셋업
+
+Sirius3 1.17.1은 WinForms와 WPF의 Scanner 탭에서 동일한 여섯 셋업 단계를 제공합니다. 호스트에서 `IRtcSyncAxis` 스캐너와 해당 `MarkerSyncAxis`를 초기화·등록하고 에디터의 `IDocument`를 연결해야 합니다. 해당 스캐너를 할당하면 셋업 탭이 표시됩니다. 독립 `ScannerControl`은 `Document`와 `Marker`도 지정해야 하며, 탭 표시만으로 장치를 초기화하거나 소유하지 않습니다.
+
+상단 버튼은 **현재 시뮬레이션 또는 하드웨어 모드**를 표시하고 `IsSimulationMode`로 전환합니다. 하드웨어 전환에는 확인이 필요합니다. **Initialize**는 유휴 스캐너를 현재 XML로 명시적으로 재초기화하며 파일에 저장된 모드도 다시 적용합니다. Run은 스캐너를 자동 초기화하지 않습니다. XML의 작업 디렉터리는 존재하는 절대 경로여야 하며 대응하는 프로그램·보정 파일과 쓰기 가능한 시뮬레이션 출력 폴더에 접근할 수 있어야 합니다.
+
+#### 생성·편집·실행과 반복
+
+1. **Create** 확인 전에 현재 레시피를 저장합니다. 생성은 `IDocument.ActNew()`로 모든 Page와 펜을 초기화하고 활성 Page의 빈 기본 레이어를 교체하여 선택한 패턴만 만듭니다. 생산 레시피에 덧붙이지 않으며 Undo로 ActNew 이전 문서를 복구할 수 없습니다.
+2. 생성된 개체와 펜을 EditorControl·PropertyGrid에서 검토하고 편집합니다. 크기와 관련 입력은 단계별로 제공됩니다. 격자 크기는 마커 직경이고 **Interval**은 mm 단위의 중심 간격으로 직경보다 커야 합니다. 채운 원에는 해치 간격 0.1 mm, 경계 제외 0.05 mm인 선 해치가 포함됩니다.
+3. 해당 단계의 **Run**을 누릅니다. 시뮬레이션 작업이 성공적으로 완료되면 syncAXIS Viewer가 자동으로 열립니다. 별도 Viewer 버튼은 없으며 중지·실패한 작업에서는 Viewer가 열리지 않습니다. 하드웨어 모드의 Run은 빨간 글씨로 표시되고 레이저 출력이나 스테이지·스캐너 이동 전에 확인을 받습니다.
+4. 시뮬레이션 결과를 검토한 뒤 승인된 실장비 절차에서만 가공 결과를 측정합니다. **Stop**은 현재 작업을 중단합니다. 오류 원인을 제거한 다음 유휴 상태에서 **Reset**을 사용합니다. 하단에는 소요 시간, 동작 상태, Ready, Busy, Error 및 **Errors** 오류 목록이 표시됩니다.
+5. 단계 목표를 만족할 때까지 반복합니다. 문서 형상이나 펜을 편집하면 이전 시뮬레이션 검증이 무효가 되므로 편집한 패턴을 다시 시뮬레이션합니다. 생성 입력값을 바꾸었다면 Create가 다시 필요하며 문서도 다시 초기화됩니다. XML 변경이나 신규 CT5 선택 후에는 Initialize로 재적용하고 결과를 확인합니다. 하드웨어 Run 전에는 검토한 문서와 설정을 그대로 유지합니다.
+
+#### 여섯 단계와 목표
+
+| 단계 | 동작 모드 | 입력값과 확인할 결과 |
+|---|---|---|
+| 1. 첫 시험 가공 | StageAndScanner | 기본 변 길이 100 mm인 네 선의 사각형입니다. 위치·크기와 전체 경로를 확인합니다. |
+| 2. 레이저 지연 | ScannerOnly | 편집 가능한 H 하나를 마커 오프셋으로 반복합니다. 행·열별 지연을 조정해 획 끝을 정렬합니다. 자세한 설정은 아래에 설명합니다. |
+| 3. 스캐너 보정 격자 | ScannerOnly | 기본 직경 0.3 mm, 간격 9 mm, 11 × 11입니다. 행·열은 3~99의 홀수이며 증감은 2입니다. 채운 원·원·동심원·십자·점 표식을 선택하고 측정 후 외부에서 신규 CT5를 생성·선택합니다. |
+| 4. 정적 정밀도 | StageOnly·ScannerOnly 개별 생성 | 스테이지 십자와 스캐너 원을 별도 Create 버튼으로 만듭니다. 기본 직경 0.3 mm, 간격 2 mm, 15 × 15이며 행·열은 3~31의 홀수입니다. 방향 식별을 위해 한쪽 모서리 표식이 생략됩니다. 같은 좌표에서 기준 표식의 상대 위치를 비교합니다. |
+| 5. 동기화 | StageAndScanner | 짧은 선 44개의 간략한 편집용 배치이며 기본 명목 크기는 100입니다. X/Y 범위는 약 −45.833~+45.833 mm입니다. 아래의 제한 사항을 확인합니다. |
+| 6. 복합 정밀도 | StageOnly·ScannerOnly·StageAndScanner | 기준 격자 두 종류와 복합 격자를 각각 생성하며 한 번에 하나만 준비합니다. 기본 직경 0.3 mm, 간격 9 mm, 11 × 11이고 행·열은 3~31입니다. 작업 영역에서 정적 기준과 복합 가공 결과를 비교합니다. |
+
+스캐너 보정 격자에 짝수 개수를 입력하면 바로 아래 홀수로 조정하며 WPF의 위·아래 방향키도 2씩 변경합니다. 정밀도 단계의 각 Create는 현재 문서를 교체하므로 기준 레시피를 보존하려면 각각 저장합니다. 미리보기는 가공 형상을 나타내고 옆의 설명은 어떤 축을 움직이는지 구분합니다.
+
+#### 레이저 지연의 행·열과 레이어 펜
+
+Create는 ScannerOnly H 하나를 만들고 선택한 행·열·간격으로 `IMarker.Offsets`를 즉시 설정합니다. 다른 단계의 Create는 이전 위치에서 새 패턴이 반복되지 않도록 오프셋을 비웁니다. H 반높이 기본값은 1 mm, 배열은 11 × 11, 간격은 2.5 mm, 스캐너 속도는 500 mm/s입니다.
+
+- X는 오른쪽으로 증가합니다. `EntityLayerPen.SyncAxisLaserSwitchOffsetTime`은 µs 단위의 시작값이며 열 증가량을 더합니다. 기본 시작값 −40 µs, 열당 증가량 +5 µs입니다.
+- Y는 위쪽으로 증가합니다. `EntityLayerPen.SyncAxisLaserPreTriggerTime`은 µs 단위의 시작값이며 행 증가량을 더합니다. 기본 시작값 −10 µs, 행당 증가량 +2 µs입니다.
+- 좌하단 H에는 두 시작값이 적용됩니다. `EntityLayerPen.SyncAxisLaserDelaySpeed`는 mm/s 단위의 시작 스캐너 속도입니다.
+
+탐색은 syncAXIS LayerFirst 처리의 `IMarker.OnBeforeOffset`·`OnAfterOffset`을 사용하며 이후 스캐너 궤적을 복원합니다. Run을 반복해도 이전 증가량이 누적되지 않고 문서의 레이어 펜 시작값에서 다시 시작합니다. 이 값을 편집해 탐색 범위를 조정하고 다시 시뮬레이션합니다. [레이어 펜](LayerPenUserManual.koKR.md)과 [오프셋 콜백](OffsetUserManual.koKR.md#offset-callbacks)을 참고합니다.
+
+#### 보정 파일과 동기화 검증의 범위
+
+이 화면은 CT5를 계산하지 않습니다. ScannerOnly 격자를 생성·가공·측정하고 외부 보정 소프트웨어에서 신규 `.ct5`를 만듭니다. 설정된 스캔 헤드와 **Select ct5**로 파일을 선택한 뒤 **Initialize**를 눌러 XML 변경을 적용합니다. 선택은 외부 파일을 보존하면서 XML의 보정 참조를 바꾸며, 실행 중인 RTC 테이블을 즉시 로드하지 않습니다. 적용 후 레이저 지연과 잔류 오차를 다시 확인합니다. [2D 보정](Correction2dUserManual.koKR.md)을 참고합니다.
+
+동기화의 패턴 크기는 배치 비율을 정하는 명목값입니다. 반폭은 `크기 × 11/24`이며 `크기/2`가 아니므로 100을 입력하면 전체 폭은 약 91.667 mm입니다. 공급사 설치 절차는 100 mm 크기를 지정하지 않습니다. 전체 CHECK_SYSTEMDELAYS 검사는 네 방향 각각 선 쌍 21개, 스테이지 가속 이동과 반전을 사용합니다. UI의 선 44개는 전체 측정 절차를 수행하거나 동기화 정밀도를 입증하지 않습니다. 시스템 지연을 측정할 때는 장비의 전체 절차를 사용합니다.
+
+[MCP 안내서](MCP.koKR.md#syncaxis-setup)는 AI 클라이언트에서 같은 패턴을 준비하는 방법을 설명합니다. 준비·시뮬레이션 검증 상태는 등록 장치의 세션에 속하며 UI에서 수동으로 만든 도면이 해당 MCP 세션의 준비 패턴으로 자동 등록되지는 않습니다.
 
 ## 7. Hardware Mode 전환 조건
 

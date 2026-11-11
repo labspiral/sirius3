@@ -1,6 +1,6 @@
 # RTC Laser Marker Control User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.1 (public features)
 
 [English](MarkerUserManual.md) | [한국어](MarkerUserManual.koKR.md) | [All guides](README.md)
 
@@ -100,6 +100,10 @@ Use these sources to study traversal, list/job boundaries and hooks. Preserve in
 With `TextConverters.Offset`, a plain ExtensionData string supplies the same value to all converted entities. `MyBarcode|A|MyText|B` assigns values by entity Name; JSON can represent values containing the separator. Delimiter names are case-insensitive, JSON keys are case-sensitive, and repeated delimiter names use the last matching pair. See [Offset](OffsetUserManual.md) for the parser, worked examples and transformation order.
 
 Related guides: [syncAXIS](MarkerSyncaxisUserManual.md), [laser adapters](LaserUsermanual.md), [digital I/O](DigitalIOUserManual.md).
+
+## 13. Per-offset processing callbacks
+
+`OnBeforeOffset` and `OnAfterOffset` provide the current index and Offset and return a Boolean continuation result. Use them for per-location processing conditions or monitoring, while keeping UI dispatch and final state restoration in the host. Their timing depends on the marker's buffering and LayerFirst/OffsetFirst procedure; an After callback need not mean physical completion. See [callback signatures and lifetime](OffsetUserManual.md#offset-callbacks) and the [syncAXIS laser-delay example](Rtc6SyncaxisUserManual.md#syncaxis-setup).
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

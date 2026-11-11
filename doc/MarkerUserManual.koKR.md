@@ -1,6 +1,6 @@
 # RTC Laser Marker Control User Manual
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.1 (공개 기능)
 
 [English](MarkerUserManual.md) | [한국어](MarkerUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -100,6 +100,10 @@ Fast는 제출 방식의 차이이며 물리 스캔이 반드시 빨라진다는
 `TextConverters.Offset`에서 일반 ExtensionData 문자열은 모든 변환 개체에 같은 값을 제공합니다. `MyBarcode|A|MyText|B`는 개체 Name별 값을 지정하고 구분자를 포함한 값은 JSON으로 표현할 수 있습니다. 구분자 이름은 대소문자를 무시하며 JSON 키는 구분합니다. 구분자 방식의 반복 이름은 마지막 쌍을 사용합니다. 파싱·좌표 예제와 변환 순서는 [Offset](OffsetUserManual.koKR.md)을 참고합니다.
 
 관련 문서: [syncAXIS](MarkerSyncaxisUserManual.koKR.md), [Laser 확장](LaserUsermanual.koKR.md), [디지털 I/O](DigitalIOUserManual.koKR.md).
+
+## 13. 위치별 처리 콜백
+
+`OnBeforeOffset`과 `OnAfterOffset`은 현재 인덱스·Offset을 전달하고 bool로 처리 계속 여부를 받습니다. 위치별 가공 조건이나 모니터링에 사용하며 UI 전달과 최종 상태 복원은 호스트에서 처리합니다. 호출 시점은 마커의 버퍼 구성과 LayerFirst·OffsetFirst 절차에 따라 달라지고 After가 실제 가공 완료를 의미하지 않을 수 있습니다. [콜백 형식과 수명](OffsetUserManual.koKR.md#offset-callbacks), [syncAXIS 레이저 지연 예](Rtc6SyncaxisUserManual.koKR.md#syncaxis-setup)를 참고합니다.
 
 ---
 2026 Copyright (c) SpiralLAB. All rights reserved.

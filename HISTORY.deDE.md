@@ -1,5 +1,12 @@
 # Sirius3 Versionsverlauf
 
+## v1.17.1 (2026.11.11)
+
+- added) `Rtc6SyncAxis`: Einrichtungsoberfläche hinzugefügt
+- added) `Rtc6Ethernet`: Watchdog-Überwachung hinzugefügt
+- fixed) `IDocument.ActClip`: Option `ClipOptions.IsIncludeOnce` hinzugefügt
+  - Überlappende Clipping-Daten an einer Grenze werden nur in einem Bereich erzeugt
+
 ## v1.17.0 (2026.10.26)
 
 - updated) Entwicklerhandbuch überarbeitet
