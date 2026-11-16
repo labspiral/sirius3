@@ -707,7 +707,6 @@ namespace Demos
             // 
             this.treeViewPageControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.treeViewPageControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewPageControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeViewPageControl1.Location = new System.Drawing.Point(0, 0);
             this.treeViewPageControl1.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewPageControl1.Name = "treeViewPageControl1";
@@ -730,7 +729,6 @@ namespace Demos
             // 
             this.treeViewPageControl2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.treeViewPageControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewPageControl2.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeViewPageControl2.Location = new System.Drawing.Point(0, 0);
             this.treeViewPageControl2.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewPageControl2.Name = "treeViewPageControl2";
@@ -753,7 +751,6 @@ namespace Demos
             // 
             this.treeViewPageControl3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.treeViewPageControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewPageControl3.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeViewPageControl3.Location = new System.Drawing.Point(0, 0);
             this.treeViewPageControl3.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewPageControl3.Name = "treeViewPageControl3";
@@ -776,7 +773,6 @@ namespace Demos
             // 
             this.treeViewPageControl4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.treeViewPageControl4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewPageControl4.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeViewPageControl4.Location = new System.Drawing.Point(0, 0);
             this.treeViewPageControl4.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewPageControl4.Name = "treeViewPageControl4";
@@ -799,7 +795,6 @@ namespace Demos
             // 
             this.treeViewBlockControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.treeViewBlockControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewBlockControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.treeViewBlockControl1.Location = new System.Drawing.Point(0, 0);
             this.treeViewBlockControl1.Margin = new System.Windows.Forms.Padding(0);
             this.treeViewBlockControl1.Name = "treeViewBlockControl1";
@@ -837,7 +832,6 @@ namespace Demos
             // 
             this.entityPenControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.entityPenControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.entityPenControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.entityPenControl1.Location = new System.Drawing.Point(0, 0);
             this.entityPenControl1.Margin = new System.Windows.Forms.Padding(0);
             this.entityPenControl1.Name = "entityPenControl1";
@@ -860,7 +854,6 @@ namespace Demos
             // 
             this.layerPenControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.layerPenControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.layerPenControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.layerPenControl1.Location = new System.Drawing.Point(0, 0);
             this.layerPenControl1.Margin = new System.Windows.Forms.Padding(16, 15, 16, 15);
             this.layerPenControl1.Name = "layerPenControl1";
@@ -958,7 +951,6 @@ namespace Demos
             // 
             this.manualControl1.BackColor = System.Drawing.SystemColors.Control;
             this.manualControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.manualControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.manualControl1.Location = new System.Drawing.Point(0, 0);
             this.manualControl1.Margin = new System.Windows.Forms.Padding(0);
             this.manualControl1.Name = "manualControl1";
@@ -980,7 +972,6 @@ namespace Demos
             // scannerControl1
             // 
             this.scannerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scannerControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.scannerControl1.Location = new System.Drawing.Point(0, 0);
             this.scannerControl1.Margin = new System.Windows.Forms.Padding(0);
             this.scannerControl1.Name = "scannerControl1";
@@ -1002,7 +993,6 @@ namespace Demos
             // laserControl1
             // 
             this.laserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.laserControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.laserControl1.Location = new System.Drawing.Point(0, 0);
             this.laserControl1.Margin = new System.Windows.Forms.Padding(0);
             this.laserControl1.Name = "laserControl1";
@@ -1045,7 +1035,6 @@ namespace Demos
         "Ext AI0",
         "Ext AI1"};
             this.rtcDIControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtcDIControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtcDIControl1.Location = new System.Drawing.Point(0, 0);
             this.rtcDIControl1.Margin = new System.Windows.Forms.Padding(0);
             this.rtcDIControl1.Name = "rtcDIControl1";
@@ -1059,7 +1048,6 @@ namespace Demos
         "Ext AO1",
         "Ext AO2"};
             this.rtcDOControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtcDOControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtcDOControl1.Location = new System.Drawing.Point(0, 0);
             this.rtcDOControl1.Margin = new System.Windows.Forms.Padding(0);
             this.rtcDOControl1.Name = "rtcDOControl1";
@@ -1106,7 +1094,6 @@ namespace Demos
             // powerMeterControl1
             // 
             this.powerMeterControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.powerMeterControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.powerMeterControl1.Location = new System.Drawing.Point(0, 0);
             this.powerMeterControl1.Margin = new System.Windows.Forms.Padding(0);
             this.powerMeterControl1.Name = "powerMeterControl1";
@@ -1128,7 +1115,6 @@ namespace Demos
             // 
             this.powerMapControl1.BackColor = System.Drawing.SystemColors.Control;
             this.powerMapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.powerMapControl1.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.powerMapControl1.Location = new System.Drawing.Point(0, 0);
             this.powerMapControl1.Margin = new System.Windows.Forms.Padding(0);
             this.powerMapControl1.Name = "powerMapControl1";
@@ -1183,7 +1169,6 @@ namespace Demos
             // 
             this.logControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.logControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.logControl1.Location = new System.Drawing.Point(0, 0);
             this.logControl1.Margin = new System.Windows.Forms.Padding(0);
             this.logControl1.Name = "logControl1";
@@ -1219,7 +1204,6 @@ namespace Demos
             // propertyGridControl1
             // 
             this.propertyGridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGridControl1.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.propertyGridControl1.Location = new System.Drawing.Point(0, 0);
             this.propertyGridControl1.Margin = new System.Windows.Forms.Padding(0);
             this.propertyGridControl1.Name = "propertyGridControl1";

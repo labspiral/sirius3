@@ -37,7 +37,9 @@ namespace Demos.Internal
             var speed = rtcMoF.MoFMode == RtcMoFModes.Rotary
                 ? string.Format(CultureInfo.CurrentCulture, "ENC R: {0:0.0} °/s", rtcMoF.EncRotaryApproxSpeed)
                 : string.Format(CultureInfo.CurrentCulture, "ENC X/Y: {0:0.0} / {1:0.0} mm/s", rtcMoF.EncXApproxSpeed, rtcMoF.EncYApproxSpeed);
-            return string.IsNullOrEmpty(description) ? speed : description + Environment.NewLine + speed;
+            return string.IsNullOrEmpty(description)
+                ? speed
+                : description + Environment.NewLine + speed;
         }
     }
 }

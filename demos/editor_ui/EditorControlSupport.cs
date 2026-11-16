@@ -34,9 +34,9 @@ namespace Demos
         private static extern uint GetDpiForWindow(IntPtr handle);
 #endif
 
-        internal static void Attach(ContainerControl control)
+        internal static void Attach(ContainerControl control, bool attachStatusStrips = true)
         {
-            ToolStripDpi.AttachStatusStrips(control);
+            if (attachStatusStrips) ToolStripDpi.AttachStatusStrips(control);
 #if NETFRAMEWORK
             if (control is Form || control.AutoScaleMode != AutoScaleMode.Dpi || SpiralLab.Sirius3.UI.WinForms.EditorControl.IsDesigner()) return;
             if (!entries.TryGetValue(control, out _)) entries.Add(control, new Entry(control));

@@ -43,22 +43,39 @@ namespace Demos
     /// Supported WPF editor control that hosts <see cref="EditorControl"/> and exposes
     /// native WPF document and device management panels.
     /// <para><see cref="EditorControl"/>과 네이티브 WPF 문서 및 장치 관리 패널을 제공합니다.</para>
+    /// <example>
+    /// <code language="xml"><![CDATA[
+    /// <!-- xmlns:sirius="clr-namespace:Demos" -->
+    /// <sirius:SiriusEditorControl Document="{Binding Document}"
+    ///                             Scanner="{Binding Scanner}"
+    ///                             Marker="{Binding Marker}" />
+    /// ]]></code>
+    /// <para>호스트 창에서 문서와 초기화된 장치를 바인딩할 때 사용합니다.</para>
+    /// </example>
     /// </summary>
+    /// <remarks>
+    /// <a href="~/images/wpf-siriuseditorcontrol.png"><img src="~/images/wpf-siriuseditorcontrol.png" alt="SiriusEditorControl" width="1135"/></a><br/>
+    /// <para>Assigned documents and devices remain caller-owned. Await
+    /// <see cref="DisposeDevices">DisposeDevices</see> before disposing the document, then call <see cref="Dispose">Dispose</see>
+    /// while the control is still loaded.</para>
+    /// <para>할당한 문서와 장치는 호출자가 소유합니다. 문서를 해제하기 전에
+    /// <see cref="DisposeDevices">DisposeDevices</see> 완료를 기다리고, 컨트롤이 로드된 동안 <see cref="Dispose">Dispose</see>를 호출합니다.</para>
+    /// </remarks>
     public partial class SiriusEditorControl : IDisposable
     {
         #region Events
         /// <summary>
-        /// Raised after New button is pressed.
+        /// <para>Raised after New button is pressed.</para>
         /// <para>New 버튼을 누른 후 발생합니다.</para>
         /// </summary>
         public event Action<SiriusEditorControl> OnAfterNew;
         /// <summary>
-        /// Raised after a document file is opened.
+        /// <para>Raised after a document file is opened.</para>
         /// <para>문서 파일을 연 후 발생합니다.</para>
         /// </summary>
         public event Action<SiriusEditorControl, string> OnAfterOpen;
         /// <summary>
-        /// Raised after a document file is saved.
+        /// <para>Raised after a document file is saved.</para>
         /// <para>문서 파일을 저장한 후 발생합니다.</para>
         /// </summary>
         public event Action<SiriusEditorControl, string> OnAfterSave;
@@ -145,7 +162,7 @@ namespace Demos
 
         #region CLR Properties
         /// <summary>
-        /// Gets or sets the alias name shown in the status bar.
+        /// <para>Gets or sets the alias name shown in the status bar.</para>
         /// <para>상태 표시줄에 표시되는 별칭 이름을 가져오거나 설정합니다.</para>
         /// </summary>
         [Category("Sirius3")] [DisplayName("Alias")]
@@ -156,7 +173,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets the current document.
+        /// <para>Gets or sets the current document.</para>
         /// <para>현재 문서를 가져오거나 설정합니다.</para>
         /// </summary>
         [Category("Sirius3")] [DisplayName("Document")]
@@ -171,7 +188,7 @@ namespace Demos
         public IView View => editorControl?.View;
 
         /// <summary>
-        /// Gets or sets the scanner.
+        /// <para>Gets or sets the scanner.</para>
         /// <para>스캐너를 가져오거나 설정합니다.</para>
         /// </summary>
         [Category("Sirius3")] [DisplayName("Scanner")]
@@ -182,7 +199,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets the laser.
+        /// <para>Gets or sets the laser.</para>
         /// <para>레이저를 가져오거나 설정합니다.</para>
         /// </summary>
         [Category("Sirius3")] [DisplayName("Laser")]
@@ -193,7 +210,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets the marker.
+        /// <para>Gets or sets the marker.</para>
         /// <para>마커를 가져오거나 설정합니다.</para>
         /// </summary>
         [Category("Sirius3")] [DisplayName("Marker")]
@@ -256,8 +273,8 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets the MCP server created for this editor. The assignment enables UI control and transfers disposal responsibility to <see cref="DisposeDevices"/>.
-        /// <para>이 편집기를 대상으로 생성된 MCP 서버를 가져오거나 설정합니다. 지정하면 UI 제어를 사용하며 <see cref="DisposeDevices"/>가 서버 해제를 담당합니다.</para>
+        /// <para>Gets or sets the MCP server created for this editor. The assignment enables UI control and transfers disposal responsibility to <see cref="DisposeDevices">DisposeDevices</see>.</para>
+        /// <para>이 편집기를 대상으로 생성된 MCP 서버를 가져오거나 설정합니다. 지정하면 UI 제어를 사용하며 <see cref="DisposeDevices">DisposeDevices</see>가 서버 해제를 담당합니다.</para>
         /// </summary>
         [LocalizedCategory("MCP")]
         [LocalizedDisplayName("MCPServer")]
@@ -372,7 +389,7 @@ namespace Demos
         #endregion
         #region Constructor
         /// <summary>
-        /// Initializes a new instance of <see cref="SiriusEditorControl"/>.
+        /// <para>Initializes a new instance of <see cref="SiriusEditorControl"/>.</para>
         /// <para><see cref="SiriusEditorControl"/> 인스턴스를 초기화합니다.</para>
         /// </summary>
 
@@ -542,6 +559,7 @@ namespace Demos
             if (layerPenControl1 != null) layerPenControl1.Document = newDoc;
             if (propertyGridControl1 != null) propertyGridControl1.Document = newDoc;
             if (MarkerCtrl != null) MarkerCtrl.Document = newDoc;
+            if (ScannerCtrl != null) ScannerCtrl.Document = newDoc;
             if (PowerMapCtrl != null) PowerMapCtrl.Document = newDoc;
             ApplyEditPermission();
         }
@@ -635,6 +653,7 @@ namespace Demos
             }
 
             if (MarkerCtrl != null) MarkerCtrl.Marker = newMarker;
+            if (ScannerCtrl != null) ScannerCtrl.Marker = newMarker;
             if (ManualCtrl != null) ManualCtrl.Marker = newMarker;
             if (DORtcCtrl != null) DORtcCtrl.Marker = newMarker;
             if (RemoteCtrl != null) RemoteCtrl.Marker = newMarker;
@@ -767,7 +786,7 @@ namespace Demos
         private static GridLength EnsureVisibleLength(GridLength value, GridLength fallback) => value.Value > 0 ? value : fallback;
 
         /// <summary>
-        /// Registers all hardware devices at once.
+        /// <para>Registers all hardware devices at once.</para>
         /// <para>모든 하드웨어 장치를 한 번에 등록합니다.</para>
         /// </summary>
         public void RegisterDevices(
@@ -811,7 +830,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Asynchronously disposes the registered MCP server and remote, then disposes the remaining devices.
+        /// <para>Asynchronously disposes the registered MCP server and remote, then disposes the remaining devices.</para>
         /// <para>등록된 MCP 서버와 원격 연결을 비동기로 해제한 뒤 나머지 장치를 해제합니다.</para>
         /// </summary>
         /// <remarks>Call and await on the owning dispatcher before disposing the editor or document.
@@ -1320,10 +1339,11 @@ namespace Demos
                 _ = Marker.Start(Document.Page);
             return true;
         }
+
         /// <summary>
         /// Detaches the document, device, timer, tree, property-grid, and OpenGL event paths.
-        /// Assigned documents and devices are not disposed; use <see cref="DisposeDevices"/> explicitly for owned devices.
-        /// <para>문서, 장치, 타이머, 트리, 속성 표와 OpenGL 이벤트를 해제합니다. 할당된 문서와 장치는 폐기하지 않으며 소유 장치는 <see cref="DisposeDevices"/>를 명시적으로 호출합니다.</para>
+        /// Assigned documents and devices are not disposed; use <see cref="DisposeDevices">DisposeDevices</see> explicitly for owned devices.
+        /// <para>문서, 장치, 타이머, 트리, 속성 표와 OpenGL 이벤트를 해제합니다. 할당된 문서와 장치는 폐기하지 않으며 소유 장치는 <see cref="DisposeDevices">DisposeDevices</see>를 명시적으로 호출합니다.</para>
         /// <example><code language="C#">
         /// // After confirming closure, while the window can still render.
         /// // 종료를 확인한 뒤, 창에서 렌더링이 가능한 동안 호출합니다.
@@ -1393,7 +1413,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Adjusts navigation page visibility based on RTC capabilities.
+        /// <para>Adjusts navigation page visibility based on RTC capabilities.</para>
         /// <para>RTC 기능에 따라 탐색 페이지 가시성을 조정합니다.</para>
         /// </summary>
         internal void PageVisibility(IScanner scanner)

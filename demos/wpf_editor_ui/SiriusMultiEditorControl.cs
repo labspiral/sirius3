@@ -27,7 +27,6 @@ using WPFSaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 using SpiralLab.Sirius3;
 using SpiralLab.Sirius3.UI;
-using SpiralLab.Sirius3.UI.WPF;
 using SpiralLab.Sirius3.Document;
 using SpiralLab.Sirius3.Entity;
 using SpiralLab.Sirius3.IO;
@@ -40,6 +39,7 @@ using SpiralLab.Sirius3.Scanner.Rtc;
 using SpiralLab.Sirius3.Scanner.Rtc.SyncAxis;
 using SpiralLab.Sirius3.View;
 using SpiralLab.Sirius3.MCP;
+using SpiralLab.Sirius3.UI.WPF;
 
 namespace Demos
 {
@@ -49,6 +49,7 @@ namespace Demos
     /// <para>최대 4개 장치 세트가 문서와 자체 패널을 공유하는 독립 WPF 편집기입니다.
     /// 할당된 문서와 장치는 호출자가 소유하며 등록된 장치는 DisposeDevices로 명시적으로 해제합니다.</para>
     /// </summary>
+    /// <remarks><a href="~/images/wpf-siriusmultieditorcontrol.png"><img src="~/images/wpf-siriusmultieditorcontrol.png" alt="SiriusMultiEditorControl" width="1135"/></a><br/></remarks>
     public partial class SiriusMultiEditorControl : IDisposable
     {
         private const int DeviceCapacity = 4;
@@ -68,22 +69,28 @@ namespace Demos
 
 
         #region Events
-        /// <summary>Raised before switching the active device set.<para>활성 장치 세트를 전환하기 전에 발생합니다.</para></summary>
+        /// <summary>
+        /// <para>Raised before switching the active device set.</para>
+        /// <para>활성 장치 세트를 전환하기 전에 발생합니다.</para>
+        /// </summary>
         public event Action<SiriusMultiEditorControl> OnBeforeChangeDevice;
-        /// <summary>Raised after switching the active device set.<para>활성 장치 세트를 전환한 후 발생합니다.</para></summary>
+        /// <summary>
+        /// <para>Raised after switching the active device set.</para>
+        /// <para>활성 장치 세트를 전환한 후 발생합니다.</para>
+        /// </summary>
         public event Action<SiriusMultiEditorControl> OnAfterChangeDevice;
         /// <summary>
-        /// Raised after New button is pressed.
+        /// <para>Raised after New button is pressed.</para>
         /// <para>New 버튼을 누른 후 발생합니다.</para>
         /// </summary>
         public event Action<SiriusMultiEditorControl> OnAfterNew;
         /// <summary>
-        /// Raised after a document file is opened.
+        /// <para>Raised after a document file is opened.</para>
         /// <para>문서 파일을 연 후 발생합니다.</para>
         /// </summary>
         public event Action<SiriusMultiEditorControl, string> OnAfterOpen;
         /// <summary>
-        /// Raised after a document file is saved.
+        /// <para>Raised after a document file is saved.</para>
         /// <para>문서 파일을 저장한 후 발생합니다.</para>
         /// </summary>
         public event Action<SiriusMultiEditorControl, string> OnAfterSave;
@@ -173,7 +180,7 @@ namespace Demos
 
         #region CLR Properties
         /// <summary>
-        /// Gets or sets the alias name shown in the status bar.
+        /// <para>Gets or sets the alias name shown in the status bar.</para>
         /// <para>상태 표시줄에 표시되는 별칭 이름을 가져오거나 설정합니다.</para>
         /// </summary>
         [Category("Sirius3")] [DisplayName("Alias")]
@@ -184,7 +191,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets the current document.
+        /// <para>Gets or sets the current document.</para>
         /// <para>현재 문서를 가져오거나 설정합니다.</para>
         /// </summary>
         [Category("Sirius3")] [DisplayName("Document")]
@@ -199,7 +206,7 @@ namespace Demos
         public IView View => editorControl?.View;
 
         /// <summary>
-        /// Gets or sets the scanner.
+        /// <para>Gets or sets the scanner.</para>
         /// <para>스캐너를 가져오거나 설정합니다.</para>
         /// </summary>
         [Category("Sirius3")] [DisplayName("Scanner")]
@@ -210,7 +217,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets the laser.
+        /// <para>Gets or sets the laser.</para>
         /// <para>레이저를 가져오거나 설정합니다.</para>
         /// </summary>
         [Category("Sirius3")] [DisplayName("Laser")]
@@ -221,7 +228,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets the marker.
+        /// <para>Gets or sets the marker.</para>
         /// <para>마커를 가져오거나 설정합니다.</para>
         /// </summary>
         [Category("Sirius3")] [DisplayName("Marker")]
@@ -284,8 +291,8 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets the MCP server created for this editor. The assignment enables UI control and transfers disposal responsibility to <see cref="DisposeDevices"/>.
-        /// <para>이 편집기를 대상으로 생성된 MCP 서버를 가져오거나 설정합니다. 지정하면 UI 제어를 사용하며 <see cref="DisposeDevices"/>가 서버 해제를 담당합니다.</para>
+        /// <para>Gets or sets the MCP server created for this editor. The assignment enables UI control and transfers disposal responsibility to <see cref="DisposeDevices">DisposeDevices</see>.</para>
+        /// <para>이 편집기를 대상으로 생성된 MCP 서버를 가져오거나 설정합니다. 지정하면 UI 제어를 사용하며 <see cref="DisposeDevices">DisposeDevices</see>가 서버 해제를 담당합니다.</para>
         /// </summary>
         [LocalizedCategory("MCP")]
         [LocalizedDisplayName("MCPServer")]
@@ -452,7 +459,7 @@ namespace Demos
         #endregion
         #region Constructor
         /// <summary>
-        /// Initializes a new instance of <see cref="SiriusMultiEditorControl"/>.
+        /// <para>Initializes a new instance of <see cref="SiriusMultiEditorControl"/>.</para>
         /// <para><see cref="SiriusMultiEditorControl"/> 인스턴스를 초기화합니다.</para>
         /// </summary>
 
@@ -624,6 +631,7 @@ namespace Demos
             if (layerPenControl1 != null) layerPenControl1.Document = newDoc;
             if (propertyGridControl1 != null) propertyGridControl1.Document = newDoc;
             if (MarkerCtrl != null) MarkerCtrl.Document = newDoc;
+            if (ScannerCtrl != null) ScannerCtrl.Document = newDoc;
             if (PowerMapCtrl != null) PowerMapCtrl.Document = newDoc;
             if (newDoc != null)
                 for (var index = 0; index < DeviceCapacity; index++)
@@ -718,6 +726,7 @@ namespace Demos
             }
 
             if (MarkerCtrl != null) MarkerCtrl.Marker = newMarker;
+            if (ScannerCtrl != null) ScannerCtrl.Marker = newMarker;
             if (ManualCtrl != null) ManualCtrl.Marker = newMarker;
             if (DORtcCtrl != null) DORtcCtrl.Marker = newMarker;
             if (RemoteCtrl != null) RemoteCtrl.Marker = newMarker;
@@ -941,7 +950,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Asynchronously disposes the registered MCP server and remote, then disposes the remaining devices.
+        /// <para>Asynchronously disposes the registered MCP server and remote, then disposes the remaining devices.</para>
         /// <para>등록된 MCP 서버와 원격 연결을 비동기로 해제한 뒤 나머지 장치를 해제합니다.</para>
         /// </summary>
         /// <remarks>Call and await on the owning dispatcher before disposing the editor or document.
@@ -1456,8 +1465,8 @@ private void ApplyEditPermission()
 
         /// <summary>
         /// Detaches the document, device, timer, tree, property-grid, and OpenGL event paths.
-        /// Assigned documents and devices are not disposed; use <see cref="DisposeDevices"/> explicitly for owned devices.
-        /// <para>문서, 장치, 타이머, 트리, 속성 표와 OpenGL 이벤트를 해제합니다. 할당된 문서와 장치는 폐기하지 않으며 소유 장치는 <see cref="DisposeDevices"/>를 명시적으로 호출합니다.</para>
+        /// Assigned documents and devices are not disposed; use <see cref="DisposeDevices">DisposeDevices</see> explicitly for owned devices.
+        /// <para>문서, 장치, 타이머, 트리, 속성 표와 OpenGL 이벤트를 해제합니다. 할당된 문서와 장치는 폐기하지 않으며 소유 장치는 <see cref="DisposeDevices">DisposeDevices</see>를 명시적으로 호출합니다.</para>
         /// <example><code language="C#">
         /// // After confirming closure, while the window can still render.
         /// // 종료를 확인한 뒤, 창에서 렌더링이 가능한 동안 호출합니다.
@@ -1538,7 +1547,7 @@ private void ApplyEditPermission()
         }
 
         /// <summary>
-        /// Adjusts navigation page visibility based on RTC capabilities.
+        /// <para>Adjusts navigation page visibility based on RTC capabilities.</para>
         /// <para>RTC 기능에 따라 탐색 페이지 가시성을 조정합니다.</para>
         /// </summary>
         private void PageVisibility(IScanner scanner)
@@ -1550,7 +1559,7 @@ private void ApplyEditPermission()
         #endregion
         #region Device Selection
         /// <summary>
-        /// Switches the active device set when every registered marker is idle; devices are retained.
+        /// <para>Switches the active device set when every registered marker is idle; devices are retained.</para>
         /// <para>등록된 모든 마커가 유휴 상태일 때 활성 장치 세트를 전환하며 장치를 해제하지 않습니다.</para>
         /// </summary>
         /// <param name="index">Target device-set index.<br/>대상 장치 세트 인덱스입니다.</param>

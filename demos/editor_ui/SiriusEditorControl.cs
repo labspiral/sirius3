@@ -80,24 +80,24 @@ namespace Demos
     /// 하나의 문서에 대해 하나의 장치 세트(스캐너, 레이저, 파워 미터, 마커 등)를 지원합니다.</para>
     /// </summary>
     /// <remarks>
-    /// <img src="~/images/siriuseditorcontrol.png"/><br/>
+    /// <a href="~/images/siriuseditorcontrol.png"><img src="~/images/siriuseditorcontrol.png" alt="SiriusEditorControl" width="1133"/></a><br/>
     /// </remarks>
     [ToolboxItem(true)]
     public partial class SiriusEditorControl : UserControl
     {
         #region Events
         /// <summary>
-        /// Raised when after new button has pressed.
+        /// <para>Raised when after new button has pressed.</para>
         /// <para>새 문서 버튼이 눌린 후 발생합니다.</para>
         /// </summary>
         public event Action<SiriusEditorControl> OnAfterNew;
         /// <summary>
-        /// Raised when after open button has pressed.
+        /// <para>Raised when after open button has pressed.</para>
         /// <para>열기 버튼이 눌린 후 발생합니다.</para>
         /// </summary>
         public event Action<SiriusEditorControl, string> OnAfterOpen;
         /// <summary>
-        /// Raised when after save button has pressed.
+        /// <para>Raised when after save button has pressed.</para>
         /// <para>저장 버튼이 눌린 후 발생합니다.</para>
         /// </summary>
         public event Action<SiriusEditorControl, string> OnAfterSave;
@@ -138,7 +138,7 @@ namespace Demos
 
         #region Public Bindable Properties
         /// <summary>
-        /// Gets or sets the editor name.
+        /// <para>Gets or sets the editor name.</para>
         /// <para>현재 편집기의 이름을 가져오거나 설정합니다.</para>
         /// </summary>
         [Browsable(true)]
@@ -152,7 +152,7 @@ namespace Demos
             set { lblAliasName.Text = value; }
         }
         /// <summary>
-        /// Gets or sets the current document and wires related UI/controls to it.
+        /// <para>Gets or sets the current document and wires related UI/controls to it.</para>
         /// <para>현재 문서를 가져오거나 설정하고 관련 UI/컨트롤을 연결합니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -192,6 +192,8 @@ namespace Demos
 
                 if (MarkerCtrl != null)
                     MarkerCtrl.Document = document;
+                if (ScannerCtrl != null)
+                    ScannerCtrl.Document = document;
                 if (PropertyGridCtrl != null)
                     PropertyGridCtrl.Document = document;
                 if (EditorCtrl != null)
@@ -238,7 +240,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Get current view.
+        /// <para>Get current view.</para>
         /// <para>현재 뷰를 가져옵니다.</para>
         /// </summary>
         [Browsable(true)]
@@ -253,7 +255,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets the RTC(scanner) instance and wires all RTC-related controls.
+        /// <para>Gets or sets the RTC(scanner) instance and wires all RTC-related controls.</para>
         /// <para>RTC(스캐너) 인스턴스를 가져오거나 설정하고 모든 RTC 관련 컨트롤을 연결합니다.</para>
         /// </summary>
         /// <remarks>Created by <see cref="ScannerFactory"/>.</remarks>
@@ -322,7 +324,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets the laser and wires dependent controls and pen power mappings.
+        /// <para>Gets or sets the laser and wires dependent controls and pen power mappings.</para>
         /// <para>레이저를 가져오거나 설정하고 종속 컨트롤 및 펜 파워 매핑을 연결합니다.</para>
         /// </summary>
         /// <remarks>Created by <see cref="LaserFactory"/>.</remarks>
@@ -365,7 +367,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets the marker and wires all marker-dependent controls and events.
+        /// <para>Gets or sets the marker and wires all marker-dependent controls and events.</para>
         /// <para>마커를 가져오거나 설정하고 모든 마커 종속 컨트롤 및 이벤트를 연결합니다.</para>
         /// </summary>
         /// <remarks>Created by <see cref="MarkerFactory"/>.</remarks>
@@ -393,6 +395,8 @@ namespace Demos
 
                 if (MarkerCtrl != null)
                     MarkerCtrl.Marker = marker;
+                if (ScannerCtrl != null)
+                    ScannerCtrl.Marker = marker;
                 if (ManualCtrl != null)
                     ManualCtrl.Marker = marker;
                 if (DORtcCtrl != null)
@@ -419,7 +423,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets the power meter and wires related control/event hooks.
+        /// <para>Gets or sets the power meter and wires related control/event hooks.</para>
         /// <para>파워 미터를 가져오거나 설정하고 관련 컨트롤/이벤트 후크를 연결합니다.</para>
         /// </summary>
         /// <remarks>Created by <see cref="PowerMeterFactory"/>.</remarks>
@@ -471,7 +475,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets RTC DI (Extension1) input port binding.
+        /// <para>Gets or sets RTC DI (Extension1) input port binding.</para>
         /// <para>RTC DI (Extension1) 입력 포트 바인딩을 가져오거나 설정합니다.</para>
         /// </summary>
         /// <remarks>Created by <see cref="IOFactory"/>.</remarks>
@@ -494,7 +498,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets RTC DI (Laser) input port binding (2-bit).
+        /// <para>Gets or sets RTC DI (Laser) input port binding (2-bit).</para>
         /// <para>RTC DI (레이저) 입력 포트 바인딩(2비트)을 가져오거나 설정합니다.</para>
         /// </summary>
         /// <remarks>Created by <see cref="IOFactory"/>.</remarks>
@@ -517,7 +521,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets RTC DO (Extension1) output port binding (16-bit).
+        /// <para>Gets or sets RTC DO (Extension1) output port binding (16-bit).</para>
         /// <para>RTC DO (Extension1) 출력 포트 바인딩(16비트)을 가져오거나 설정합니다.</para>
         /// </summary>
         /// <remarks>Created by <see cref="IOFactory"/>.</remarks>
@@ -540,7 +544,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets RTC DO (Extension2) output port binding (8-bit).
+        /// <para>Gets or sets RTC DO (Extension2) output port binding (8-bit).</para>
         /// <para>RTC DO (Extension2) 출력 포트 바인딩(8비트)을 가져오거나 설정합니다.</para>
         /// </summary>
         /// <remarks>Created by <see cref="IOFactory"/>.</remarks>
@@ -563,7 +567,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Gets or sets RTC DO (Laser) output port binding (2-bit).
+        /// <para>Gets or sets RTC DO (Laser) output port binding (2-bit).</para>
         /// <para>RTC DO (레이저) 출력 포트 바인딩(2비트)을 가져오거나 설정합니다.</para>
         /// </summary>
         /// <remarks>Created by <see cref="IOFactory"/>.</remarks>
@@ -624,8 +628,8 @@ namespace Demos
         private IRemote remote;
 
         /// <summary>
-        /// Gets or sets the MCP server created for this editor. The assignment enables UI control and transfers disposal responsibility to <see cref="DisposeDevices"/>.
-        /// <para>이 편집기를 대상으로 생성된 MCP 서버를 가져오거나 설정합니다. 지정하면 UI 제어를 사용하며 <see cref="DisposeDevices"/>가 서버 해제를 담당합니다.</para>
+        /// <para>Gets or sets the MCP server created for this editor. The assignment enables UI control and transfers disposal responsibility to <see cref="DisposeDevices">DisposeDevices</see>.</para>
+        /// <para>이 편집기를 대상으로 생성된 MCP 서버를 가져오거나 설정합니다. 지정하면 UI 제어를 사용하며 <see cref="DisposeDevices">DisposeDevices</see>가 서버 해제를 담당합니다.</para>
         /// </summary>
         [Browsable(true)]
         [ReadOnly(false)]
@@ -722,7 +726,7 @@ namespace Demos
         bool isPropertyGridWindow = true;
 
         /// <summary>
-        /// Get <see cref="TreeViewPageControl"/> for <see cref="IDocumentData.Pages"/>
+        /// <para>Get <see cref="TreeViewPageControl"/> for <see cref="IDocumentData.Pages"/></para>
         /// <para><see cref="IDocumentData.Pages"/>에 대한 <see cref="TreeViewPageControl"/>을 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -742,7 +746,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Get <see cref="TreeViewBlockControl"/> for <see cref="IDocumentData.Blocks"/>
+        /// <para>Get <see cref="TreeViewBlockControl"/> for <see cref="IDocumentData.Blocks"/></para>
         /// <para><see cref="IDocumentData.Blocks"/>에 대한 <see cref="TreeViewBlockControl"/>을 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -790,7 +794,7 @@ namespace Demos
         //}
 
         /// <summary>
-        /// Gets the property grid control wrapper.
+        /// <para>Gets the property grid control wrapper.</para>
         /// <para>속성 그리드 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -798,7 +802,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.PropertyGridControl PropertyGridCtrl => propertyGridControl1;
 
         /// <summary>
-        /// Gets the editor (OpenGL) control wrapper.
+        /// <para>Gets the editor (OpenGL) control wrapper.</para>
         /// <para>편집기(OpenGL) 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -806,7 +810,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.EditorControl EditorCtrl => editorControl1;
 
         /// <summary>
-        /// Gets the laser control wrapper.
+        /// <para>Gets the laser control wrapper.</para>
         /// <para>레이저 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -814,7 +818,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.LaserControl LaserCtrl => laserControl1;
 
         /// <summary>
-        /// Gets the RTC control wrapper.
+        /// <para>Gets the RTC control wrapper.</para>
         /// <para>RTC 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -822,7 +826,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.ScannerControl ScannerCtrl => scannerControl1;
 
         /// <summary>
-        /// Gets the marker control wrapper.
+        /// <para>Gets the marker control wrapper.</para>
         /// <para>마커 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -830,7 +834,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.MarkerControl MarkerCtrl => markerControl1;
 
         /// <summary>
-        /// Gets the RTC DI control wrapper.
+        /// <para>Gets the RTC DI control wrapper.</para>
         /// <para>RTC DI 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -838,7 +842,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.DIRtcControl DIRtcCtrl => rtcDIControl1;
 
         /// <summary>
-        /// Gets the RTC DO control wrapper.
+        /// <para>Gets the RTC DO control wrapper.</para>
         /// <para>RTC DO 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -846,7 +850,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.DORtcControl DORtcCtrl => rtcDOControl1;
 
         /// <summary>
-        /// Gets the manual control wrapper.
+        /// <para>Gets the manual control wrapper.</para>
         /// <para>수동 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -854,7 +858,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.ManualControl ManualCtrl => manualControl1;
 
         /// <summary>
-        /// Gets the power meter control wrapper.
+        /// <para>Gets the power meter control wrapper.</para>
         /// <para>파워 미터 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -862,7 +866,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.PowerMeterControl PowerMeterCtrl => powerMeterControl1;
 
         /// <summary>
-        /// Gets the power map control wrapper.
+        /// <para>Gets the power map control wrapper.</para>
         /// <para>파워 맵 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -870,7 +874,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.PowerMapControl PowerMapCtrl => powerMapControl1;
 
         /// <summary>
-        /// Gets the stepper control wrapper.
+        /// <para>Gets the stepper control wrapper.</para>
         /// <para>스태퍼 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -878,7 +882,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.StepperControl StepperCtrl => stepperControl1;
 
         /// <summary>
-        /// Gets the entity pen control wrapper.
+        /// <para>Gets the entity pen control wrapper.</para>
         /// <para>엔티티 펜 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -886,7 +890,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.EntityPenControl EntityPenCtrl => entityPenControl1;
 
         /// <summary>
-        /// Gets the layer pen control wrapper.
+        /// <para>Gets the layer pen control wrapper.</para>
         /// <para>레이어 펜 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -894,7 +898,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.LayerPenControl LayerPenCtrl => layerPenControl1;
 
         /// <summary>
-        /// Gets the remote control wrapper.
+        /// <para>Gets the remote control wrapper.</para>
         /// <para>리모트 컨트롤 래퍼를 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -902,7 +906,7 @@ namespace Demos
         public SpiralLab.Sirius3.UI.WinForms.RemoteControl RemoteCtrl => remoteControl1;
 
         /// <summary>
-        /// Gets the log control.
+        /// <para>Gets the log control.</para>
         /// <para>로그 컨트롤을 가져옵니다.</para>
         /// </summary>
         [Browsable(false)]
@@ -912,7 +916,7 @@ namespace Demos
 
         #region Constructor & Form Lifecycle
         /// <summary>
-        /// Initializes a new instance of <see cref="SiriusEditorControl"/> and wires UI events.
+        /// <para>Initializes a new instance of <see cref="SiriusEditorControl"/> and wires UI events.</para>
         /// <para><see cref="SiriusEditorControl"/>의 새 인스턴스를 초기화하고 UI 이벤트를 연결합니다.</para>
         /// </summary>
         public SiriusEditorControl()
@@ -1040,7 +1044,7 @@ namespace Demos
 
 
         /// <summary>
-        /// Registers devices.
+        /// <para>Registers devices.</para>
         /// <para>장치를 등록합니다.</para>
         /// </summary>
         /// <param name="scanner">The scanner instance.</param>
@@ -1053,7 +1057,7 @@ namespace Demos
         /// <param name="dOLaserPort">The digital output laser port.</param>
         /// <param name="marker">The marker instance.</param>
         /// <param name="remote">The remote instance.</param>
-        /// <param name="mcpServer">The MCP server created for this editor. When assigned, <see cref="DisposeDevices"/> disposes it before the devices.<br/>이 편집기를 대상으로 생성된 MCP 서버입니다. 지정하면 <see cref="DisposeDevices"/>가 장치보다 먼저 해제합니다.</param>
+        /// <param name="mcpServer">The MCP server created for this editor. When assigned, <see cref="DisposeDevices">DisposeDevices</see> disposes it before the devices.<br/>이 편집기를 대상으로 생성된 MCP 서버입니다. 지정하면 <see cref="DisposeDevices">DisposeDevices</see>가 장치보다 먼저 해제합니다.</param>
         public void RegisterDevices(IScanner scanner, ILaser laser, IPowerMeter powerMeter, IDInput dIExt1, IDInput dILaserPort, IDOutput dOExt1, IDOutput dOExt2, IDOutput dOLaserPort, IMarker marker, IRemote remote = null, IMCPServer mcpServer = null)
         {
             Scanner = scanner;
@@ -1110,7 +1114,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Asynchronously disposes the registered MCP server and remote, then disposes the remaining devices.
+        /// <para>Asynchronously disposes the registered MCP server and remote, then disposes the remaining devices.</para>
         /// <para>등록된 MCP 서버와 원격 연결을 비동기로 해제한 뒤 나머지 장치를 해제합니다.</para>
         /// </summary>
         /// <remarks>Call and await on the owning UI thread before disposing the editor or document.
@@ -1135,7 +1139,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Initializes core components, editor surface, document, and default virtual devices.
+        /// <para>Initializes core components, editor surface, document, and default virtual devices.</para>
         /// <para>핵심 구성 요소, 편집기 화면, 문서 및 기본 가상 장치를 초기화합니다.</para>
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -1145,7 +1149,7 @@ namespace Demos
             Marker?.Ready(Document, View, Scanner as IRtc, Laser, PowerMeter);
         }
         /// <summary>
-        /// Handles form closing; disposes timers.
+        /// <para>Handles form closing; disposes timers.</para>
         /// <para>폼 닫기를 처리하고 타이머를 해제합니다.</para>
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -1199,7 +1203,7 @@ namespace Demos
             }
         }
         /// <summary>
-        /// Enables or disables the status timer based on form visibility.
+        /// <para>Enables or disables the status timer based on form visibility.</para>
         /// <para>폼 가시성에 따라 상태 타이머를 활성화하거나 비활성화합니다.</para>
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -1241,7 +1245,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Called when a new document is created.
+        /// <para>Called when a new document is created.</para>
         /// <para>새 문서가 생성될 때 호출됩니다.</para>
         /// </summary>
         /// <param name="doc">The document instance.</param>
@@ -1255,7 +1259,7 @@ namespace Demos
             }));
         }
         /// <summary>
-        /// Called before a document open operation.
+        /// <para>Called before a document open operation.</para>
         /// <para>문서 열기 작업 전에 호출됩니다.</para>
         /// </summary>
         /// <param name="doc">The document instance.</param>
@@ -1265,7 +1269,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Called after a document has been opened; updates pens and property grid.
+        /// <para>Called after a document has been opened; updates pens and property grid.</para>
         /// <para>문서가 열린 후 호출됩니다. 펜과 속성 그리드를 업데이트합니다.</para>
         /// </summary>
         /// <param name="doc">The document instance.</param>
@@ -1285,7 +1289,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Called before a document save operation.
+        /// <para>Called before a document save operation.</para>
         /// <para>문서 저장 작업 전에 호출됩니다.</para>
         /// </summary>
         /// <param name="doc">The document instance.</param>
@@ -1295,7 +1299,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Called after a document has been saved; updates file name label.
+        /// <para>Called after a document has been saved; updates file name label.</para>
         /// <para>문서가 저장된 후 호출됩니다. 파일 이름 레이블을 업데이트합니다.</para>
         /// </summary>
         /// <param name="doc">The document instance.</param>
@@ -1313,7 +1317,7 @@ namespace Demos
 
         #region Status / Marker / PowerMeter UI
         /// <summary>
-        /// Toggles the log screen (reserved, currently not used).
+        /// <para>Toggles the log screen (reserved, currently not used).</para>
         /// <para>로그 화면을 토글합니다 (예약됨, 현재 사용되지 않음).</para>
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -1324,7 +1328,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Resets MoF encoder values with user confirmation.
+        /// <para>Resets MoF encoder values with user confirmation.</para>
         /// <para>사용자 확인을 통해 MoF 인코더 값을 재설정합니다.</para>
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -1382,7 +1386,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Periodic status painter for Ready/Busy/Error (and Remote if enabled).
+        /// <para>Periodic status painter for Ready/Busy/Error (and Remote if enabled).</para>
         /// <para>준비/가공중/오류 (및 원격이 활성화된 경우)에 대한 주기적인 상태 표시기입니다.</para>
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -1491,7 +1495,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Called when marking starts; disables editing and starts progress timer.
+        /// <para>Called when marking starts; disables editing and starts progress timer.</para>
         /// <para>마킹이 시작될 때 호출됩니다. 편집을 비활성화하고 진행 타이머를 시작합니다.</para>
         /// </summary>
         /// <param name="_marker">The marker instance.</param>
@@ -1504,7 +1508,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Periodically updates elapsed marking time while marker is busy.
+        /// <para>Periodically updates elapsed marking time while marker is busy.</para>
         /// <para>마커가 작동 중일 때 경과된 마킹 시간을 주기적으로 업데이트합니다.</para>
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -1522,7 +1526,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Called when marking ends; re-enables editing and shows total time.
+        /// <para>Called when marking ends; re-enables editing and shows total time.</para>
         /// <para>마킹이 종료될 때 호출됩니다. 편집을 다시 활성화하고 총 시간을 표시합니다.</para>
         /// </summary>
         /// <param name="_marker">The marker instance.</param>
@@ -1558,7 +1562,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Event handler for <c>IRemote</c> has ended
+        /// <para>Event handler for <c>IRemote</c> has ended</para>
         /// <para>원격 통신 제어 모드 변경시 발생합니다.</para>
         /// </summary>
         /// <param name="remote"><c>IRemote</c></param>
@@ -1576,7 +1580,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Called when MoF encoders change; updates encoder label text depending on MoF mode.
+        /// <para>Called when MoF encoders change; updates encoder label text depending on MoF mode.</para>
         /// <para>MoF 인코더가 변경될 때 호출됩니다. MoF 모드에 따라 인코더 레이블 텍스트를 업데이트합니다.</para>
         /// </summary>
         /// <param name="rtcMoF">The IRtcMoF instance.</param>
@@ -1621,7 +1625,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Clears power display when power meter data cleared.
+        /// <para>Clears power display when power meter data cleared.</para>
         /// <para>파워 미터 데이터가 지워지면 파워 디스플레이를 지웁니다.</para>
         /// </summary>
         /// <param name="_powerMeter">The power meter instance.</param>
@@ -1631,7 +1635,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Shows status when power measurement starts.
+        /// <para>Shows status when power measurement starts.</para>
         /// <para>전력 측정이 시작될 때 상태를 표시합니다.</para>
         /// </summary>
         /// <param name="_powerMeter">The power meter instance.</param>
@@ -1641,7 +1645,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Shows status when power measurement stops.
+        /// <para>Shows status when power measurement stops.</para>
         /// <para>전력 측정이 중지될 때 상태를 표시합니다.</para>
         /// </summary>
         /// <param name="_powerMeter">The power meter instance.</param>
@@ -1651,7 +1655,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Displays latest power value when measured.
+        /// <para>Displays latest power value when measured.</para>
         /// <para>측정될 때 최신 전력 값을 표시합니다.</para>
         /// </summary>
         /// <param name="_powerMeter">The power meter instance.</param>
@@ -1697,7 +1701,7 @@ namespace Demos
 
         #region UI Visibility / Editability
         /// <summary>
-        /// Updates menu/control visibility by RTC capabilities (placeholder).
+        /// <para>Updates menu/control visibility by RTC capabilities (placeholder).</para>
         /// <para>RTC 기능에 따라 메뉴/컨트롤 가시성을 업데이트합니다 (자리 표시자).</para>
         /// </summary>
         private void MenuVisibility()
@@ -1707,7 +1711,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Adjusts entity property visibility based on RTC capabilities.
+        /// <para>Adjusts entity property visibility based on RTC capabilities.</para>
         /// <para>RTC 기능에 따라 엔티티 속성 가시성을 조정합니다.</para>
         /// </summary>
         private void PropertyVisibility()
@@ -1717,7 +1721,7 @@ namespace Demos
             EntityLayerPen.PropertyVisibility(Scanner);
         }
         /// <summary>
-        /// Adjusts tab page visibility based on RTC capabilities.
+        /// <para>Adjusts tab page visibility based on RTC capabilities.</para>
         /// <para>RTC 기능에 따라 페이지 가시성을 조정합니다.</para>
         /// </summary>
         private void PageVisibility()
@@ -1732,7 +1736,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Requests editing; locks and active jobs still restrict editing.
+        /// <para>Requests editing; locks and active jobs still restrict editing.</para>
         /// <para>편집 허용을 요청합니다. 잠금 또는 실행 중 작업의 편집 제한은 유지됩니다.</para>
         /// </summary>
         /// <param name="isEnable">True to enable; false to disable.
@@ -1790,7 +1794,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Update device information at entity, layer pens.
+        /// <para>Update device information at entity, layer pens.</para>
         /// <para>엔티티, 레이저 펜에 레이저 및 스캐너의 디바이스 정보를 업데이트합니다.</para>
         /// </summary>
         private void UpdatePens()
@@ -1879,7 +1883,7 @@ namespace Demos
 
         #region Left Tab / File Buttons
         /// <summary>
-        /// Switches active page/layer in the document based on the selected left tab.
+        /// <para>Switches active page/layer in the document based on the selected left tab.</para>
         /// <para>선택된 왼쪽 탭에 따라 문서의 활성 페이지/레이어를 전환합니다.</para>
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -1939,7 +1943,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Creates a new document according to selected include flags.
+        /// <para>Creates a new document according to selected include flags.</para>
         /// <para>선택된 포함 플래그에 따라 새 문서를 생성합니다.</para>
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -1971,14 +1975,14 @@ namespace Demos
         }
 
         /// <summary>
-        /// Opens a document from file with selected include flags.
+        /// <para>Opens a document from file with selected include flags.</para>
         /// <para>선택된 포함 플래그로 파일에서 문서를 엽니다.</para>
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         private void BtnOpen_Click(object sender, EventArgs e)
         {
-            if (isSynchronizingPageTab || Document == null) return;
+            if (Document == null) return;
 
             using var dlg = new OpenFileDialog
             {
@@ -2032,14 +2036,14 @@ namespace Demos
         }
 
         /// <summary>
-        /// Saves the current document to file.
+        /// <para>Saves the current document to file.</para>
         /// <para>현재 문서를 파일에 저장합니다.</para>
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (isSynchronizingPageTab || Document == null) return;
+            if (Document == null) return;
 
             using var dlg = new SaveFileDialog
             {
@@ -2075,7 +2079,7 @@ namespace Demos
         }
 
         /// <summary>
-        /// Toggles allow to edit(lock) at view or not.
+        /// <para>Toggles allow to edit(lock) at view or not.</para>
         /// <para>뷰에서의 편집 허용(잠금) 여부를 토글합니다.</para>
         /// </summary>
         /// <param name="sender">The source of the event. <para>이벤트 소스입니다.</para> </param>

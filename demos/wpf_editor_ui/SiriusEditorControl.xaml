@@ -58,10 +58,10 @@
             </Grid.ColumnDefinitions>
             <ToolBar Grid.Column="0" x:Name="tolTop" ToolBarTray.IsLocked="True" Background="{DynamicResource Sirius.Brush.Toolbar}">
                 <Button x:Name="btnNew" Click="BtnNew_Click" ToolTip="New Document" >
-                    <Image Source="../Resources/File new.png" Width="20" Height="20"/>
+                    <Image Source="Resources/File new.png" Width="20" Height="20"/>
                 </Button>
                 <Button x:Name="btnOpen" Click="BtnOpen_Click" ToolTip="Open Document" >
-                    <Image Source="../Resources/Import Import.png" Width="20" Height="20"/>
+                    <Image Source="Resources/Import Import.png" Width="20" Height="20"/>
                 </Button>
                 <Separator/>
 
@@ -107,7 +107,7 @@
 
                 <Separator/>
                 <Button x:Name="btnSave" Click="BtnSave_Click" ToolTip="Save Document" >
-                    <Image Source="../Resources/Save as.png" Width="20" Height="20"/>
+                    <Image Source="Resources/Save as.png" Width="20" Height="20"/>
                 </Button>
             </ToolBar>
 
@@ -491,4 +491,3 @@
         </StatusBar>
     </Grid>
 </UserControl>
-

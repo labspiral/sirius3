@@ -1,5 +1,10 @@
 # Sirius3 Versionsverlauf
 
+## v1.17.2 (2026.12.x)
+
+- added) Vietnamesische und spanische Ressourcen hinzugefügt
+- updated) Ausführliche Beschreibungen für die 3D-Kalibrierverfahren ergänzt
+
 ## v1.17.1 (2026.11.11)
 
 - added) `Rtc6SyncAxis`: Einrichtungsoberfläche hinzugefügt
