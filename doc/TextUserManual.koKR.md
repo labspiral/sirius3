@@ -1,6 +1,6 @@
 # 텍스트 개체 사용자 매뉴얼
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](TextUserManual.md) | [한국어](TextUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -158,7 +158,7 @@ Windows 윤곽 텍스트에는 HatchLine·HatchPolygon을 적용할 수 있습�
 ## Font Editor로 폰트 편집
 
 편집기 우클릭 메뉴의 **Font Edit**로 CXF·LFF·DOT 폰트를 생성·편집하거나 기존
-EO FNT 파일을 엽니다. SiriusText를 먼저 선택하면 해당 폰트를 엽니다. 문자·경로·
+FNT 파일을 엽니다. SiriusText를 먼저 선택하면 해당 폰트를 엽니다. 문자·경로·
 메트릭과 문자열 미리보기를 편집한 뒤 다른 이름으로 저장합니다. 저장하면 현재 프로그램의
 같은 폰트를 사용하는 텍스트가 갱신됩니다. 폰트 파일 변경은 자체 이력을 사용하며 문서의
 Undo/Redo에 포함되지 않습니다. [Font Editor](FontEditorUserManual.koKR.md)를 참고하십시오.

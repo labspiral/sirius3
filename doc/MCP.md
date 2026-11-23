@@ -1,6 +1,6 @@
 # Sirius3 MCP Editor Demo: AI client setup
 
-> API reference: Sirius3 Core/UI public features
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](MCP.md) | [한국어](MCP.koKR.md) | [All guides](README.md)
 

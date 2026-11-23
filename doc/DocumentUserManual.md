@@ -1,6 +1,6 @@
 # IDocument & Recipe Management User Manual
 
-> API reference: Sirius3 Core/UI public features
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](DocumentUserManual.md) | [한국어](DocumentUserManual.koKR.md) | [All guides](README.md)
 

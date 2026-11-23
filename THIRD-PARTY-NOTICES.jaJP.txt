@@ -91,8 +91,8 @@ OxyPlot
   バージョン: 2.2.0（マネージドパッケージ）、1.0.0（SCANLAB ツールファイル）
   ライセンス: MIT
   ソース    : https://github.com/oxyplot/oxyplot
-  配布      : マネージド WPF 2.2.0 コンポーネントは Debug WPF ビルドにのみ
-              含み、Release パッケージからは除外します。SCANLAB ツール
+  配布      : マネージド WPF 2.2.0 コンポーネントは Debug および Release WPF
+              ビルドに内部依存関係として組み込みます。SCANLAB ツール
               ファイルは別途取り扱います。
 
 Be.Windows.Forms.HexBox 1.6.1 / 2.1.0、MQTTnet 3.1.2 / 5.1.0.1559、

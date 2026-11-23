@@ -1,6 +1,6 @@
 # Text Entities User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](TextUserManual.md) | [한국어](TextUserManual.koKR.md) | [All guides](README.md)
 
@@ -158,7 +158,7 @@ Public examples: [editor_entity](../demos/editor_entity/Form1.cs), [editor_barco
 ## Font Editor
 
 Use **Font Edit** in the editor context menu to create/edit CXF, LFF and DOT
-fonts or open an existing EO FNT file. Select SiriusText first to open its font.
+fonts or open an existing FNT file. Select SiriusText first to open its font.
 Edit characters, paths, metrics and text preview, then Save As. Saving refreshes
 matching text consumers in the current application; font-file changes have their
 own history and are outside document Undo/Redo. See [Font Editor](FontEditorUserManual.md).

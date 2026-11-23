@@ -2,7 +2,7 @@
 
 Eine Windows/.NET-Plattform für die präzise Laserbearbeitung. Sie verbindet SCANLAB-Steuerung, Geräteintegration, Geometrieverarbeitung, OpenGL-Visualisierung, Dokumentbearbeitung, KI-Prompts über einen eingebetteten MCP-Server, Simulation und Markierausführung.
 
-[English](README.md) | [한국어](README.koKR.md) | [简体中文](README.zhCN.md) | [日本語](README.jaJP.md) | Deutsch
+[English](README.md) | [한국어](README.koKR.md) | [简体中文](README.zhCN.md) | [日本語](README.jaJP.md) | Deutsch · [Tiếng Việt](README.viVN.md) · [Español](README.esES.md)
 
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo.png)
 
@@ -61,7 +61,7 @@ Eine Windows/.NET-Plattform für die präzise Laserbearbeitung. Sie verbindet SC
   - PDF: Seiten als Rasterbilder importieren (passwortgeschützte PDFs nicht unterstützt).
   - STL/OBJ/PLY/STP(STEP)/3MF: 3D-Netze importieren und schneiden.
   - G-code (`.gcode`, `.ngc`): CNC- und Laserbearbeitungspfade.
-  - CXF/LFF/EO FNT/DOT: externe Schriften für SiriusText.
+  - CXF/LFF/FNT/DOT: externe Schriften für SiriusText.
 - Fernkommunikation und dynamische Daten
   - TCP/IP, seriell (RS-232), WebSocket und MQTT für Markersteuerung und Datenzugriff
   - Eingebetteter HTTP-MCP-Server für KI-gestützte Editorregistrierung, Dokument- und Entitätsbearbeitung, Simulation sowie Steuerung registrierter Geräte
@@ -69,8 +69,8 @@ Eine Windows/.NET-Plattform für die präzise Laserbearbeitung. Sie verbindet SC
 - Dokumente, Editoren und Simulation
   - Vier Dokumentseiten mit Ebenen, Stiften, Gruppen, Blöcken und konfigurierbarem Undo/Redo
   - WinForms- und WPF-`SiriusEditorControl` / `SiriusMultiEditorControl` werden in Debug und Release vollständig unterstützt; ein Dokument kann in mehreren Ansichten gerendert werden
-  - UI-Ressourcen in Englisch, Koreanisch, vereinfachtem Chinesisch, Japanisch und Deutsch
-  - [Schrifteditor](SpiralLab.Sirius3.UI/FontEditor/README.md): unabhängige CXF/LFF/EO-FNT/DOT-Glyphenbearbeitung über **Font Edit** in WinForms/WPF; mm-Vektoren, ganzzahlige DOT-Zellen, BBox/Metriken, Undo/Redo, DXF-Import, Textvorschau und Konvertierung installierter TTF-Schriften. In Debug und Release immer enthalten.
+  - UI-Ressourcen in Englisch, Koreanisch, vereinfachtem Chinesisch, Japanisch, Deutsch, Vietnamesisch und Spanisch
+  - [Schrifteditor](SpiralLab.Sirius3.UI/FontEditor/README.md): unabhängige CXF/LFF/FNT/DOT-Glyphenbearbeitung über **Font Edit** in WinForms/WPF; mm-Vektoren, ganzzahlige DOT-Zellen, BBox/Metriken, Undo/Redo, DXF-Import, Textvorschau und Konvertierung installierter TTF-Schriften. In Debug und Release immer enthalten.
   - Echtzeit-Laserpfad mit bildschirmfesten Markierungen, Strahleffekt und optionalen Partikeln
   - Rasterbasierte zusammengesetzte Bildansicht für Kamera- und Prüfabläufe
 - Offene Architektur
@@ -89,7 +89,7 @@ Eine Windows/.NET-Plattform für die präzise Laserbearbeitung. Sie verbindet SC
 | Schraffur | Winding-basierte Mehrfachschraffur | Einfache Schraffur |
 | 3D-Netzschnitt | STL, OBJ, PLY, STEP, 3MF | Nicht vorhanden |
 | Gerber / Excellon | Inhaltsbasierte Erkennung | Nicht vorhanden |
-| Schriftdateien | CXF, LFF, EO FNT, DOT | Angepasste CXF-, LFF-Formate |
+| Schriftdateien | CXF, LFF, FNT, DOT | Angepasste CXF-, LFF-Formate |
 | Stifte | Getrennte Entity- und Layer-Stifte | Ein Entity-Stift |
 | MCP | Unterstützt | Nicht vorhanden |
 | Aktualisierung | NuGet-Paketverwaltung | Manuell |
@@ -121,7 +121,7 @@ Die Installation und Aktualisierung erfolgt über die NuGet-Paketverwaltung.
 - Treiber und Laufzeiten der gewählten Geräte; native Dateien aus NuGet installieren keine Gerätetreiber
 - Build: .NET Framework 4.8.1 Developer Pack für `net481` oder das passende .NET SDK für moderne Ziele
 - Ausführung: .NET Framework 4.8.1 oder die passende Windows Desktop Runtime bei frameworkabhängigen .NET-Anwendungen
-- Entwicklung: Visual Studio 2022 oder neuer mit der Workload für .NET-Desktopentwicklung für öffentliche Demos (.NET 8: 17.8+, .NET 9: 17.12+; auch `net481`). .NET 10 erfordert in Visual Studio die Version 2026 (18.0+) und ein kompatibles SDK ([Microsoft-Kompatibilitätsleitfaden](https://learn.microsoft.com/en-us/dotnet/core/porting/versioning-sdk-msbuild-vs)).
+- Entwicklung: Visual Studio 2022 oder neuer mit der Workload für .NET-Desktopentwicklung für öffentliche Demos.
 
 ## Abhängigkeiten
 
@@ -147,8 +147,6 @@ Fügen Sie die folgenden NuGet-Pakete hinzu:
 - [SpiralLab.Sirius3.Dependencies](https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
 - [SpiralLab.Sirius3](https://www.nuget.org/packages/SpiralLab.Sirius3)
 - [SpiralLab.Sirius3.UI](https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
-
-Wählen Sie mit Ihrer Anwendung kompatible Paketversionen und behalten Sie die Laufzeit-/Datenordner des Dependencies-Pakets in Build- und Verteilungsausgabe bei. Das Dependencies-Paket kopiert diese Dateien beim Build in den Ausgabeordner. Wählen Sie aus der obigen Liste die benötigten Zielframeworks.
 
 ## Schnellstart
 

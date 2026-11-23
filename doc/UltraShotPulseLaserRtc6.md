@@ -1,6 +1,6 @@
 # ULTRA SHORT PULSE LASER with PULSE PICKING AND SYNCHRONIZATION
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](UltraShotPulseLaserRtc6.md) | [한국어](UltraShotPulseLaserRtc6.koKR.md) | [All guides](README.md)
 

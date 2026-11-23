@@ -1,10 +1,10 @@
 # Sirius3 documentation
 
-> API reference: Sirius3 Core/UI 1.17.1 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](README.md) | [한국어](README.koKR.md)
 
-These guides cover public Core/UI 1.17 APIs and editor workflows. Install compatible
+These guides cover public Core/UI 1.17.2 APIs and editor workflows. Install compatible
 Core, UI and Dependencies packages; their version numbers can differ. Check that the
 installed packages support the required features when adopting an example or menu.
 
@@ -12,26 +12,6 @@ Start with the framework guide, then create/select an entity and edit it in
 PropertyGrid. Use **Font Edit** for font-file editing. Review processing conditions
 before Marker Preview or actual marking. Document laser-path playback is display-only;
 syncAXIS simulation plans a controller job for review in Viewer.
-
-## Sirius3 1.17.1 additions
-
-These features require Core/UI packages that contain the 1.17.1 public APIs; check the installed versions before using new controls or examples.
-
-1. [syncAXIS setup](Rtc6SyncaxisUserManual.md#syncaxis-setup): six steps in WinForms and WPF, editable document patterns, mode-dependent Run/Stop/Reset, automatic Viewer after successful simulation and external CT5 selection/reinitialization.
-2. [RTC6 Ethernet](Rtc6UserManual.md): watchdog monitoring, separate link-loss response and StreamParser waveform telemetry, also available through registered-device [MCP capabilities](MCP.md).
-3. [Clipping](ClippingUserManual.md): `IsIncludeOnce` assigns shared boundary data to the first containing region; both editor frameworks expose the option.
-4. [Offset callbacks](OffsetUserManual.md#offset-callbacks) and [layer pens](LayerPenUserManual.md): per-location continuation handlers and syncAXIS laser-delay starting values.
-5. [Host integration](WinForms.md): consistent nested-control fonts in HiDPI WinForms; [WPF](WPF.md) also exposes the setup tab. See [UI Config](Sirius3UIConfigUserManual.md) for current G-code and theme enum types.
-
-## Sirius3 1.17.0 highlights
-
-1. [Editor](EditorUserManual.md): interactive creation and Grip editing, with a
-   clickable mode indicator and Arc/Ellipse center handles.
-2. [Font Editor](FontEditorUserManual.md): edit existing Sirius fonts or convert
-   installed fonts to CXF/LFF/DOT; CXF is the default conversion output.
-3. [Document and entities](DocumentUserManual.md): PDF page images, synchronized
-   page selection and improved child editing in composite objects. See
-   [MCP file access](MCP.md) for the host-accessible-path default.
 
 ## Start and integrate
 

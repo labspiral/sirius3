@@ -64,6 +64,10 @@ Sirius3 の加工データおよびベクターデータを生成してページ
 
 閉じた輪郭に Line/Polygon Hatch を生成し、経路を最適化して、ハッチごとに異なる Entity Pen を割り当てます。
 
+## editor_hatch_clip
+
+穴を含む領域と FOV 矩形の共通部分を求め、得られた閉じた輪郭をハッチングする方法を示します。
+
 ## editor_interrupt
 
 RTC リストバッファ実行中に割り込みを発生させ、アプリケーション処理後に実行可能状態のリストを再開します。
@@ -188,7 +192,7 @@ ACS Motion Control、excelliSCAN または intelliSCAN iV、RTC6 を組み合わ
 
 ## wpf_editor_entity
 
-`SpiralLab.Sirius3.UI.WPF.SiriusEditorControl` で `editor_entity` のサンプルを再利用するネイティブ WPF デモです。対応ターゲットフレームワークで PropertyGrid の編集と複数選択、Undo/Redo、右クリック編集ウィンドウ、グリッド材質とメッシュシャドウのコマンドを示します。既定の構成では仮想デバイスを使用します。
+`SpiralLab.Sirius3.UI.WPF.SiriusEditorControl` で `editor_entity` のサンプルを再利用するネイティブ WPF デモです。対応ターゲットフレームワークで PropertyGrid の編集と複数選択、Undo/Redo、右クリック編集ウィンドウ、グリッド表示コマンドを示します。既定の構成では仮想デバイスを使用します。
 
 ## wpf_editor_multiple
 
@@ -197,3 +201,7 @@ ACS Motion Control、excelliSCAN または intelliSCAN iV、RTC6 を組み合わ
 ## wpf_editor_multiple2
 
 `editor_multiple2` に対応するネイティブ WPF デモで、1 つの `SiriusMultiEditorControl` に 2 つのデバイスシステムを登録します。1 つの Document を維持したままアクティブなデバイスシステムを切り替え、同じデータをどちらのシステムでも加工する方法を示します。共有の `config.ini` は既定で仮想デバイスを使用します。
+
+## wpf_editor_ui
+
+エディター UI をカスタマイズするためのネイティブ WPF `SiriusEditorControl`、`SiriusMultiEditorControl` とサポートファイルの公開ソースを提供します。ホストは既定で仮想デバイスを使用します。

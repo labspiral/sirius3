@@ -1,6 +1,6 @@
 # Remote Control Protocol Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](RemoteProtocolManual.md) | [한국어](RemoteProtocolManual.koKR.md) | [All guides](README.md)
 

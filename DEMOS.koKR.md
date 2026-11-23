@@ -98,6 +98,10 @@ RtcCalibrationLibrary 를 사용해 스캐너 3차원 필드 보정 기능을 �
 경로 최적화(Sort)를 사용하면, 해치의 경로가 최적화되어 가공 시간이 단축되는 효과를 얻을 수 있으며,
 각 해치별로 서로 다른 개체펜(Entity Pen) 을 설정해 가공 조건을 달리 할 수 있습니다.
 
+## editor_hatch_clip
+
+구멍이 있는 영역과 FOV 사각형의 교차 영역을 구하고, 결과로 얻은 닫힌 윤곽을 해칭하는 방법을 보여줍니다.
+
 ## editor_interrupt
 
 RTC 카드는 말그대로 Real Time Controller 카드로, 리스트 버퍼에 미리 가공 데이타를 제공하고
@@ -269,7 +273,7 @@ syncAXIS 라이브러리를 활용해 스캐너와 모션 컨트롤러의 동기
 
 ## wpf_editor_entity
 
-`SpiralLab.Sirius3.UI.WPF.SiriusEditorControl`에서 `editor_entity` 예제를 재사용하는 네이티브 WPF 데모입니다. 지원 대상 프레임워크에서 PropertyGrid 편집과 다중 선택, 실행 취소·다시 실행, 오른쪽 클릭 편집 창, 격자 재질 및 메시 그림자 명령을 보여줍니다. 기본 설정은 가상 장치를 사용합니다.
+`SpiralLab.Sirius3.UI.WPF.SiriusEditorControl`에서 `editor_entity` 예제를 재사용하는 네이티브 WPF 데모입니다. 지원 대상 프레임워크에서 PropertyGrid 편집과 다중 선택, 실행 취소·다시 실행, 오른쪽 클릭 편집 창, 격자 표시 명령을 보여줍니다. 기본 설정은 가상 장치를 사용합니다.
 
 ## wpf_editor_multiple
 
@@ -278,3 +282,7 @@ syncAXIS 라이브러리를 활용해 스캐너와 모션 컨트롤러의 동기
 ## wpf_editor_multiple2
 
 `editor_multiple2`의 네이티브 WPF 대응 데모로, 하나의 `SiriusMultiEditorControl`에 두 장치 시스템을 등록합니다. 하나의 Document를 유지하면서 활성 장치 시스템을 전환하여 동일한 데이터를 어느 시스템에서든 가공하는 방법을 보여줍니다. 공용 `config.ini`는 기본적으로 가상 장치를 사용합니다.
+
+## wpf_editor_ui
+
+편집기 UI를 사용자 정의할 수 있도록 네이티브 WPF `SiriusEditorControl`, `SiriusMultiEditorControl`과 지원 파일의 공개 소스를 제공합니다. 호스트는 기본적으로 가상 장치를 사용합니다.

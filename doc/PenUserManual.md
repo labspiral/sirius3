@@ -1,6 +1,6 @@
 # EntityPen User Guide
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](PenUserManual.md) | [한국어](PenUserManual.koKR.md) | [All guides](README.md)
 

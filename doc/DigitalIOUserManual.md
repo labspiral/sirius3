@@ -1,6 +1,6 @@
 # Digital Input, Output and Controller Trigger User Manual
 
-> API reference: Sirius3 Core/UI 1.17.1 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](DigitalIOUserManual.md) | [한국어](DigitalIOUserManual.koKR.md) | [All guides](README.md)
 

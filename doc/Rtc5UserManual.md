@@ -1,6 +1,6 @@
 # SCANLAB RTC5 Controller User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](Rtc5UserManual.md) | [한국어](Rtc5UserManual.koKR.md) | [All guides](README.md)
 

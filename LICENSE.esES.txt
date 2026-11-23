@@ -1,0 +1,76 @@
+Acuerdo de licencia comercial de Sirius3
+Versión 1.0
+
+Este Acuerdo de licencia («Acuerdo») es un acuerdo legal entre usted (una persona física o una única entidad jurídica) y SpiralLab Co. («SpiralLab») para el uso del software Sirius3.
+
+PRODUCTO
+- Nombre: Sirius3 («Software»)
+- Archivos cubiertos (incluidas las actualizaciones y correcciones de errores):
+  • SpiralLab.Sirius3.Dependencies.dll (https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
+  • SpiralLab.Sirius3.dll (https://www.nuget.org/packages/SpiralLab.Sirius3)
+  • SpiralLab.Sirius3.UI.dll (https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
+- Sitio web: https://spirallab.co.kr
+- Proyectos de ejemplo: https://github.com/labspiral/sirius3
+
+CONTACTO PARA LICENCIAS
+Para adquirir u obtener una clave de licencia, contacte con: hcchoi@spirallab.co.kr (a la atención de Hong Chan, Choi).
+
+1. CONCESIÓN DE LICENCIA
+1.1. Una vez que SpiralLab emita una clave de licencia válida y usted acepte este Acuerdo, SpiralLab le concede una licencia no exclusiva, intransferible y sin derecho a sublicencia para instalar y utilizar el Software en formato binario únicamente para sus fines empresariales internos, con sujeción a las condiciones de este Acuerdo.
+1.2. Si adquiere una licencia por puesto o por servidor, su uso queda limitado al número de puestos o servidores adquiridos. Si su licencia es de otro tipo (por ejemplo, por aplicación o por dispositivo), su uso queda limitado al alcance de dicha licencia.
+1.3. Este Acuerdo no concede ningún derecho sobre el código fuente.
+
+2. EVALUACIÓN / USO DE PRUEBA
+2.1. Sin una licencia válida, el Software puede ejecutarse en modo de evaluación durante un máximo de treinta (30) minutos por ejecución o sesión («Período de prueba»). Al finalizar el Período de prueba, deberá dejar de utilizarlo u obtener una licencia válida.
+2.2. El uso de prueba se ofrece «TAL CUAL», sin asistencia ni garantía de ningún tipo.
+
+3. ACTIVACIÓN Y CLAVE DE LICENCIA
+3.1. El Software puede requerir la activación mediante una clave de licencia. Usted se compromete a no eludir ni desactivar ningún mecanismo de licencia o activación.
+3.2. Usted es responsable de proteger sus claves de licencia y evitar cualquier uso no autorizado.
+
+4. RESTRICCIONES
+Usted no podrá realizar, ni permitir que terceros realicen, las siguientes acciones:
+(a) descompilar, realizar ingeniería inversa, desensamblar o intentar obtener de otro modo el código fuente, las ideas subyacentes, los algoritmos o las API no públicas del Software, salvo en la medida expresamente permitida por la legislación aplicable pese a esta limitación;
+(b) modificar, traducir o crear obras derivadas del Software;
+(c) alquilar, arrendar, prestar, vender, sublicenciar, ceder, distribuir, publicar o poner de otro modo el Software a disposición de terceros, salvo lo expresamente permitido por este Acuerdo;
+(d) eliminar o modificar avisos o etiquetas de propiedad del Software;
+(e) utilizar el Software para crear un producto o servicio competidor o copiar sus funciones o su interfaz de usuario;
+(f) utilizar el Software de manera que infrinja las leyes o normativas aplicables.
+
+5. TITULARIDAD
+El Software se licencia, no se vende. SpiralLab y sus licenciantes conservan todos los derechos, la titularidad y los intereses sobre el Software, incluidos todos los derechos de propiedad intelectual. Solo se le conceden los derechos expresamente establecidos en este Acuerdo.
+
+6. ACTUALIZACIONES; ASISTENCIA
+Las actualizaciones, correcciones de errores o parches que SpiralLab le facilite como parte de un plan válido de mantenimiento o asistencia se considerarán parte del Software y estarán sujetos a este Acuerdo. Salvo acuerdo expreso por escrito, SpiralLab no tiene obligación de proporcionar asistencia, mantenimiento ni futuras actualizaciones.
+
+7. COMPONENTES DE TERCEROS
+El Software puede incluir o depender de componentes de terceros sujetos a sus propias licencias (por ejemplo, MIT, Apache-2.0 o Boost Software License). El uso de dichos componentes está sujeto a esas licencias. Consulte el archivo «THIRD-PARTY-NOTICES.txt» incluido para obtener más información. Este Acuerdo no limita sus derechos conforme a las licencias de terceros.
+
+8. CONFIDENCIALIDAD
+Toda información no pública que se le comunique sobre el Software, las claves de licencia o la actividad de SpiralLab es información confidencial de SpiralLab. Usted no podrá revelarla a terceros sin el consentimiento previo por escrito de SpiralLab.
+
+9. EXCLUSIÓN DE GARANTÍAS
+EN LA MEDIDA MÁXIMA PERMITIDA POR LA LEY, EL SOFTWARE SE PROPORCIONA «TAL CUAL» Y «SEGÚN DISPONIBILIDAD», CON TODOS SUS DEFECTOS Y SIN GARANTÍA DE NINGÚN TIPO, YA SEA EXPRESA, IMPLÍCITA, LEGAL O DE OTRA ÍNDOLE, INCLUIDAS, SIN LIMITACIÓN, LAS GARANTÍAS DE COMERCIABILIDAD, IDONEIDAD PARA UN FIN DETERMINADO, TITULARIDAD Y NO INFRACCIÓN. USTED UTILIZA EL SOFTWARE POR SU CUENTA Y RIESGO.
+
+10. LIMITACIÓN DE RESPONSABILIDAD
+EN LA MEDIDA MÁXIMA PERMITIDA POR LA LEY, SPIRALLAB Y SUS LICENCIANTES NO SERÁN RESPONSABLES EN NINGÚN CASO DE DAÑOS INDIRECTOS, INCIDENTALES, ESPECIALES, CONSECUENTES, EJEMPLARES O PUNITIVOS, NI DE LA PÉRDIDA DE BENEFICIOS, INGRESOS O DATOS O LA INTERRUPCIÓN DE LA ACTIVIDAD EMPRESARIAL, DERIVADOS DE ESTE ACUERDO O DEL USO O LA IMPOSIBILIDAD DE USO DEL SOFTWARE O RELACIONADOS CON ELLOS, AUN CUANDO SE LES HAYA ADVERTIDO DE LA POSIBILIDAD DE TALES DAÑOS. LA RESPONSABILIDAD TOTAL ACUMULADA DE SPIRALLAB EN VIRTUD DE ESTE ACUERDO NO SUPERARÁ LOS IMPORTES QUE USTED HAYA PAGADO POR EL SOFTWARE DURANTE LOS DOCE (12) MESES INMEDIATAMENTE ANTERIORES AL HECHO QUE ORIGINE LA RESPONSABILIDAD.
+
+11. VIGENCIA Y RESOLUCIÓN
+11.1. Este Acuerdo entra en vigor al descargar, instalar o utilizar el Software por primera vez y permanece vigente hasta su resolución.
+11.2. SpiralLab podrá resolver este Acuerdo de inmediato si usted incumple cualquiera de sus condiciones. Tras la resolución, deberá cesar todo uso, destruir todas las copias del Software (incluidas las claves de licencia) y certificar su destrucción si se le solicita.
+11.3. Las secciones 3–5, 7–10, 11.3 y 12 seguirán vigentes tras la resolución.
+
+12. EXPORTACIÓN; CUMPLIMIENTO NORMATIVO
+Usted se compromete a cumplir todas las leyes y normativas aplicables en materia de exportación, importación y sanciones, así como las demás leyes aplicables a su uso del Software.
+
+13. DISPOSICIONES GENERALES
+13.1. Acuerdo íntegro. Este Acuerdo constituye la totalidad del acuerdo entre las partes sobre su objeto y sustituye todos los entendimientos anteriores o contemporáneos.
+13.2. Cesión. Usted no podrá ceder ni transferir este Acuerdo sin el consentimiento previo por escrito de SpiralLab; cualquier intento de hacerlo será nulo.
+13.3. Divisibilidad. Si una disposición se considera inaplicable, se modificará en la medida necesaria para hacerla aplicable preservando su intención, y las demás disposiciones seguirán vigentes.
+13.4. Renuncia. La falta de exigencia del cumplimiento de una disposición no constituye una renuncia a exigirlo en el futuro.
+13.5. Notificaciones. Para consultas sobre licencias y condiciones comerciales, contacte con: hcchoi@spirallab.co.kr (desarrollador: Hong Chan, Choi).
+
+ACEPTACIÓN
+AL INSTALAR O UTILIZAR EL SOFTWARE, USTED RECONOCE QUE HA LEÍDO Y COMPRENDIDO ESTE ACUERDO Y ACEPTA QUEDAR VINCULADO POR SUS CONDICIONES.
+
+© SpiralLab Co. All rights reserved.

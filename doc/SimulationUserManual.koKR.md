@@ -1,6 +1,6 @@
 # [사용자 메뉴얼] 가공 경로 시뮬레이션 (Simulation)
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](SimulationUserManual.md) | [한국어](SimulationUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 

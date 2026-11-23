@@ -1,8 +1,9 @@
 # Sirius3 Versionsverlauf
 
-## v1.17.2 (2026.12.x)
+## v1.17.2 (2026.11.23)
 
 - added) Vietnamesische und spanische Ressourcen hinzugefügt
+- added) Entität `EntityLaserBeam` hinzugefügt
 - updated) Ausführliche Beschreibungen für die 3D-Kalibrierverfahren ergänzt
 
 ## v1.17.1 (2026.11.11)
@@ -42,7 +43,7 @@
 - fixed) Asynchrone Ressourcenfreigabe für IRemote und IMCPServer unterstützt
 - added) Unterstützung für Texturrendering von 3D-Netzen
 
-## v1.14.5 (2026.9.24)
+## v1.14.4 (2026.9.24)
 
 - added) Unterstützung für MCP (Model Context Protocol)
   - MCP-Server hinzugefügt, über den KI-Clients einen Editor registrieren, Dokumente und Entitäten bearbeiten und Geräte steuern können

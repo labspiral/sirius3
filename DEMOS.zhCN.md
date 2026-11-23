@@ -96,6 +96,10 @@ Sirius3 库初始化
 使用路径优化（Sort）功能，可优化填充路径，从而缩短加工时间；
 还可以为每个填充区域设置不同的实体笔（Entity Pen），以调整加工条件。
 
+## editor_hatch_clip
+
+演示将带孔区域与 FOV 矩形求交，并对生成的闭合轮廓进行填充。
+
 ## editor_interrupt
 
 RTC卡顾名思义是实时控制器（Real Time Controller）卡，它会预先将加工数据提供给列表缓冲区，
@@ -268,7 +272,7 @@ MoF（Marking on the fly）功能是将外部移动物体产生的编码器信�
 
 ## wpf_editor_entity
 
-此原生 WPF 演示使用 `SpiralLab.Sirius3.UI.WPF.SiriusEditorControl` 复用 `editor_entity` 示例。它展示受支持目标框架中的 PropertyGrid 编辑与多选、撤销/重做、右键编辑窗口，以及网格材质和网格阴影命令。默认配置使用虚拟设备。
+此原生 WPF 演示使用 `SpiralLab.Sirius3.UI.WPF.SiriusEditorControl` 复用 `editor_entity` 示例。它展示受支持目标框架中的 PropertyGrid 编辑与多选、撤销/重做、右键编辑窗口，以及网格显示命令。默认配置使用虚拟设备。
 
 ## wpf_editor_multiple
 
@@ -277,3 +281,7 @@ MoF（Marking on the fly）功能是将外部移动物体产生的编码器信�
 ## wpf_editor_multiple2
 
 这是 `editor_multiple2` 的原生 WPF 对应演示，在一个 `SiriusMultiEditorControl` 中注册两个设备系统。编辑器在保留同一个 Document 的同时切换当前设备系统，使相同的数据可以由任一系统进行加工。共享的 `config.ini` 默认使用虚拟设备。
+
+## wpf_editor_ui
+
+提供原生 WPF `SiriusEditorControl`、`SiriusMultiEditorControl` 及其支持文件的公开源码，用于自定义编辑器界面。宿主默认使用虚拟设备。

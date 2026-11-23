@@ -1,7 +1,7 @@
 # Sirius3
 A Windows/.NET platform for precision laser processing that combines SCANLAB control, device integration, geometry processing, OpenGL visualization, document editing, AI prompting through an embedded MCP server, simulation, and marking execution.
 
-Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文](README.zhCN.md) · [日本語](README.jaJP.md) · [Deutsch](README.deDE.md)
+Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文](README.zhCN.md) · [日本語](README.jaJP.md) · [Deutsch](README.deDE.md) · [Tiếng Việt](README.viVN.md) · [Español](README.esES.md)
 
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo.png)
 
@@ -64,7 +64,7 @@ Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文]
    - PDF: import pages as raster images (password-protected PDFs unsupported).
    - STL/OBJ/PLY/STP(STEP)/3MF: 3D mesh import and slicing.
    - G-code (`.gcode`, `.ngc`): CNC and laser toolpaths.
-   - CXF/LFF/EO FNT/DOT: external fonts for SiriusText.
+   - CXF/LFF/FNT/DOT: external fonts for SiriusText.
 - Remote Communication and Dynamic Data
    - TCP/IP, Serial (RS-232), WebSocket, and MQTT endpoints for marker control and data access
    - Embedded HTTP MCP server for AI-assisted editor registration, document/entity editing, simulation, and registered-device control
@@ -72,8 +72,8 @@ Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文]
 - Documents, Editors and Simulation
    - Four document pages with layers, pens, groups, blocks, and configurable Undo/Redo
    - Both WinForms and WPF `SiriusEditorControl` / `SiriusMultiEditorControl` are supported in Debug and Release; one document can be rendered to multiple views
-   - Localized UI resources in English, Korean, Simplified Chinese, Japanese, and German
-   - [Font Editor](SpiralLab.Sirius3.UI/FontEditor/README.md): independent CXF/LFF/EO FNT/DOT glyph editing from the WinForms/WPF **Font Edit** menu; mm vectors, integer DOT cells, BBox/metrics, Undo/Redo, DXF import, text preview and installed-TTF conversion. Always included in Debug and Release.
+   - Localized UI resources in English, Korean, Simplified Chinese, Japanese, German, Vietnamese, and Spanish
+   - [Font Editor](SpiralLab.Sirius3.UI/FontEditor/README.md): independent CXF/LFF/FNT/DOT glyph editing from the WinForms/WPF **Font Edit** menu; mm vectors, integer DOT cells, BBox/metrics, Undo/Redo, DXF import, text preview and installed-TTF conversion. Always included in Debug and Release.
    - Real-time laser-path visualization with screen-sized markers, beam effects, and optional debris
    - Grid-based stitched-image visualization for camera and inspection workflows
 - Open Architecture
@@ -91,7 +91,7 @@ Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文]
 | Hatch                        |Winding-aware multiple hatches            |Single Hatch                           |
 | 3D Mesh with slicer          |Built-in slicer for STL, OBJ, PLY, STEP, 3MF |None                                |
 | Gerber / Excellon            |Content-detected import                   |None                                   |
-| Font file                    |CXF, LFF, EO FNT, DOT formats        |Customized CXF, LFF formats            |
+| Font file                    |CXF, LFF, FNT, DOT formats        |Customized CXF, LFF formats            |
 | Pen                          |Pens for Entity and Layer                 |Entity Pen                             |
 | MCP                          |Supported                                 |None                                   |
 | Library update               |By Nuget Package Manager                  |Manual                                 |
@@ -119,7 +119,7 @@ Languages: [English](README.md) · [한국어](README.koKR.md) · [简体中文]
 - Drivers/runtimes required by the selected devices; native files from NuGet do not install device drivers
 - Build: .NET Framework 4.8.1 Developer Pack for `net481`, or the .NET SDK matching the selected modern target
 - Run: .NET Framework 4.8.1, or the matching Windows Desktop Runtime for a framework-dependent .NET application
-- Development: Visual Studio 2022 with the .NET desktop development workload for the public demos (.NET 8: 17.8+, .NET 9: 17.12+; also `net481`); targeting .NET 10 in Visual Studio requires Visual Studio 2026 (18.0+) and a compatible SDK ([Microsoft compatibility guide](https://learn.microsoft.com/en-us/dotnet/core/porting/versioning-sdk-msbuild-vs))
+- Development: Visual Studio 2022 with the .NET desktop development workload for the public demos
 
 ## Dependencies
 
@@ -145,8 +145,6 @@ The following versions describe the Sirius3 integrations and principal .NET depe
    - [SpiralLab.Sirius3.Dependencies](https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
    - [SpiralLab.Sirius3](https://www.nuget.org/packages/SpiralLab.Sirius3)
    - [SpiralLab.Sirius3.UI](https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
-   
-Choose package versions that are compatible with your application and keep the dependency package's runtime/data folders in the build and deployment output. The Dependencies package copies these files to the output during the build. Select the target framework(s) your application needs from the supported list above.
 
 ## Quick Start
 

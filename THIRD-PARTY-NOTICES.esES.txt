@@ -1,0 +1,223 @@
+Avisos de software de terceros
+=============================
+
+Este documento describe el software de terceros distribuido, a fecha de
+2026-10-07, con los paquetes NuGet SpiralLab.Sirius3, SpiralLab.Sirius3.UI y
+SpiralLab.Sirius3.Dependencies. Los textos completos y sin modificar de las
+licencias figuran en THIRD-PARTY-NOTICES.txt, que debe acompañar siempre a este
+archivo. Los componentes de proveedores están sujetos a sus propios contratos;
+este documento no concede nuevos derechos de uso ni de redistribución.
+
+Componentes de código abierto administrados y de ejecución
+---------------------------------------------------------
+
+NLog
+  Versión : 6.0.5
+  Licencia: BSD 3-Clause
+  Copyright (c) 2004-2024 Jaroslaw Kowalski, Kim Christensen, Julian Verdurmen
+  Fuente  : https://github.com/NLog/NLog
+
+NLog.Extensions.Logging
+  Versión : 6.0.5
+  Licencia: BSD 2-Clause
+  Copyright (c) 2004-2025 NLog Project
+  Fuente  : https://github.com/NLog/NLog.Extensions.Logging
+
+Newtonsoft.Json 13.0.4
+  Licencia: MIT
+  Fuente  : https://www.newtonsoft.com/json
+
+OpenTK y controles
+  Versiones: OpenTK 3.3.3/4.9.4, GLControl 3.3.3/4.0.2,
+             GLWpfControl 3.3.1-sirius.1/4.3.6
+  Licencia : MIT
+  © The Open Toolkit contributors
+  Copyright (c) 2019 varon
+  Fuentes  : https://github.com/opentk/opentk
+             https://github.com/opentk/GLWpfControl
+  Cambios  : net481 utiliza el código de GLWpfControl 3.3.1 modificado para
+             liberar la interoperabilidad DX/GL antes de eliminar la textura
+             compartida. El ensamblado resultante se integra en
+             SpiralLab.Sirius3.UI.dll.
+
+PropertyTools.Wpf
+  Versión : 3.1.0
+  Licencia: MIT
+  Copyright (c) 2014 PropertyTools contributors
+  Fuente  : https://github.com/PropertyTools/PropertyTools
+  Uso     : WPF TreeListBox detrás de un adaptador específico de Sirius3.
+  Entrega : Dependencia privada integrada en las compilaciones WPF Debug y Release.
+
+GLFW (OpenTK.redist.glfw)
+  Versión : 3.4.0.44
+  Licencia: Licencia GLFW de tipo zlib/libpng
+  Fuente  : https://github.com/glfw/glfw
+
+Clipper2 2.0.0
+  Licencia: Boost Software License 1.0
+  Fuente  : https://github.com/AngusJohnson/Clipper2
+
+netDxf 2023.11.10
+  Licencia: MIT
+  Fuente  : https://github.com/haplokuon/netDxf
+
+StbImageSharp 2.30.15
+  Licencia: El paquete NuGet no contiene metadatos de licencia; la implementación
+            stb_image incluida es de dominio público o está bajo MIT.
+  Fuente  : https://github.com/StbSharp/StbImageSharp
+  Estado  : Deben verificarse las condiciones de redistribución de la biblioteca
+            envoltorio antes de distribuirla.
+
+ZXing.Net 0.16.11
+  Licencia: Apache-2.0
+  Fuente  : https://github.com/micjahn/ZXing.Net
+
+BouncyCastle.Cryptography 2.6.2
+  Licencia: MIT
+  Fuente  : https://www.bouncycastle.org/
+
+GerberTools/GerberLibrary
+  Versión : Compilación 2018-12-21
+  Licencia: MIT
+  Copyright (c) 2016 This is not Rocket Science
+  Fuente  : https://github.com/ThisIsNotRocketScience/GerberTools
+
+LibTessDotNet 1.1.15
+  Licencia: SGI Free Software License B 2.0
+  Fuente  : https://github.com/speps/LibTessDotNet
+  Nota    : LICENSE del proyecto original establece la licencia SGI, aunque
+            los metadatos de NuGet indican MIT.
+
+OxyPlot
+  Versiones: 2.2.0 (paquetes administrados), 1.0.0 (archivos de herramientas SCANLAB)
+  Licencia : MIT
+  Fuente   : https://github.com/oxyplot/oxyplot
+  Entrega  : Los componentes administrados WPF 2.2.0 se integran como dependencias
+             privadas en las compilaciones WPF Debug y Release. Los archivos
+             de herramientas SCANLAB son independientes.
+
+Be.Windows.Forms.HexBox 1.6.1 / 2.1.0, MQTTnet 3.1.2 / 5.1.0.1559,
+BinaryKits.Zpl.Viewer 1.3.1 / BinaryKits.Zpl.Label 3.3.1
+  Licencia: MIT
+
+SkiaSharp y HarfBuzzSharp
+  Versiones: SkiaSharp 3.119.1, HarfBuzzSharp 8.3.1.2
+  Licencia : MIT y avisos originales de terceros de los recursos nativos.
+  Fuente   : https://github.com/mono/SkiaSharp
+  Incluye  : ANGLE, HarfBuzz, Skia, etc1, gif, libpng, DNG SDK, expat,
+             FreeType, ICU, imgui, jsoncpp, libjpeg-turbo, libwebp,
+             libmicrohttpd, piex, SDL, sfntly, SPIR-V Headers/Tools, zlib.
+  Avisos   : Los avisos originales completos y sin modificar figuran en las
+             secciones SkiaSharp y HarfBuzzSharp de THIRD-PARTY-NOTICES.txt.
+
+SixLabors.ImageSharp
+  Versiones: 2.1.12, 3.1.12 (dependencias transitivas)
+  Licencia : Apache-2.0 se aplica a este uso transitivo. Six Labors Split License
+             de ImageSharp 3.x concede Apache-2.0 a las dependencias transitivas.
+  Fuente   : https://github.com/SixLabors/ImageSharp
+
+Microsoft Roslyn 4.8.0, WinForms.DataVisualization 1.10.0 y paquetes Microsoft .NET
+  Licencia: MIT
+  Alcance : Microsoft.CodeAnalysis.*, Microsoft.Extensions.*, Microsoft.Bcl.*,
+            Microsoft.Windows.Compatibility, System.* y recursos de ejecución
+            resueltos para net481, net8.0-windows, net9.0-windows y net10.0-windows.
+
+Model Context Protocol C# SDK
+  Versiones: ModelContextProtocol 2.2.0, ModelContextProtocol.AspNetCore 2.2.0
+  Licencia : Apache License 2.0
+  © Model Context Protocol, a Series of LF Projects, LLC
+  Fuente   : https://github.com/modelcontextprotocol/csharp-sdk
+  Entrega  : Incluido en las compilaciones Debug y Release y en los paquetes
+             Release de SpiralLab.Sirius3.UI.
+
+PdfPig
+  Versión : 0.1.16
+  Licencia: Apache License 2.0
+  Fuente  : https://github.com/UglyToad/PdfPig
+  Entrega : Incluido en las compilaciones Debug y Release y en los paquetes
+            Release de SpiralLab.Sirius3.UI.
+
+PDFium native (bblanchon.PDFium.Win32)
+  Versión : 157.0.8100 (157.0.8100.0)
+  Licencia: Los metadatos del paquete indican Apache-2.0. La distribución nativa
+            contiene el aviso MIT del proyecto de compilación, el aviso BSD de
+            PDFium y las licencias de las bibliotecas incluidas.
+  Fuente  : https://github.com/bblanchon/pdfium-binaries
+  Entrega : Rasterización de páginas PDF en SpiralLab.Sirius3.UI.
+  Avisos  : Las licencias completas y sin modificar y la procedencia de los
+            binarios figuran en la sección PDFium de THIRD-PARTY-NOTICES.txt.
+
+SVG.NET (Svg)
+  Versión : 3.4.8
+  Licencia: Microsoft Public License (MS-PL)
+  Fuente  : https://github.com/svg-net/SVG
+  Commit  : 9d564f47c82780df4b703ee0bf2436c6a2276f5c
+  Entrega : Integrado en SpiralLab.Sirius3.UI para importar contornos vectoriales editables.
+
+ExCSS
+  Versión : 4.2.3
+  Licencia: MIT
+  Copyright (c) 2024 Tyler Brinks
+  Fuente  : https://github.com/TylerBrinks/ExCSS
+  Entrega : Analizador de hojas de estilo SVG.NET integrado en SpiralLab.Sirius3.UI.
+
+lib3mf
+  Versión : 2.5.0
+  Licencia: BSD 2-Clause
+  Fuente  : https://github.com/3MFConsortium/lib3mf
+  Entrega : Lector nativo de mallas triangulares x64 y x32 de Dependencies.
+  Ejecución: Requiere Microsoft Visual C++ 2015-2022 o una versión posterior
+             compatible, de la misma arquitectura que el proceso.
+  Avisos  : Incluye libzip, zlib, cpp-base64 y fast_float. LICENSE original,
+            SDK Credits completos y la procedencia e información de compilación
+            de los binarios figuran al final de THIRD-PARTY-NOTICES.txt.
+
+Archivos distribuidos por el paquete NuGet Dependencies
+-------------------------------------------------------
+
+Apache Xerces-C++ 3.2.3
+  Licencia: Apache-2.0
+  Fuente  : https://xerces.apache.org/xerces-c/
+
+SharpDX 4.2.0
+  Licencia: MIT
+  Fuente  : https://github.com/sharpdx/SharpDX
+
+Microsoft Windows API Code Pack 1.1.x y Xceed WPF Toolkit/AvalonDock 3.5.0.0
+  Licencia: Microsoft Public License (MS-PL)
+  Nota    : Se instalan como dependencias de las herramientas SCANLAB.
+
+Componentes sujetos a condiciones independientes del proveedor
+
+  - SCANLAB: RTC4/RTC5/RTC6, CalibrationLibrary, herramientas de calibración,
+    syncAXIS 1.8.2, firmware/datos y syncAXIS Configurator/Viewer.
+  - ACS Motion Control: SPiiPlus .NET/COM/C 3.11.01.
+  - Thorlabs: PM100D/TLPM/TLPMX/TLSPCNT.
+  - Ophir: OphirLMMeasurement 10.4.0.0.
+  - Dependencia de herramientas SCANLAB: SciChart 5.2.1.11757.
+  - Controladores de dispositivos, instaladores WDF, firmware, datos de
+    corrección, ejemplos y manuales instalados por el paquete.
+
+Conserve los archivos EULA/licencia de cada proveedor y redistribuya únicamente
+los archivos expresamente autorizados por el contrato correspondiente.
+
+Textos completos de las licencias
+---------------------------------
+
+Los textos completos y sin modificar de MIT, BSD 2-Clause, BSD 3-Clause,
+Apache-2.0, Boost 1.0, GLFW, MS-PL y SGI Free Software License B 2.0 figuran en
+THIRD-PARTY-NOTICES.txt, distribuido junto con este archivo. Las condiciones
+legales se rigen por esos originales en inglés y las licencias/EULA originales
+de cada proveedor.
+
+Material Icons y Unicode
+------------------------
+
+Font Editor incluye iconos Google Material Design de
+https://github.com/google/material-design-icons bajo Apache License 2.0.
+Se conservan los SVG originales; los derivados PNG/ICO son rasterizaciones.
+La licencia original completa figura en la sección Material Icons de
+THIRD-PARTY-NOTICES.txt.
+Font Editor y los conversores TTF utilizan datos de bloques de caracteres
+Unicode. El texto original de Unicode License V3 y su procedencia figuran en
+THIRD-PARTY-NOTICES.txt.

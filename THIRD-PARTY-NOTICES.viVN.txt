@@ -1,0 +1,216 @@
+Thông báo về phần mềm bên thứ ba
+================================
+
+Tài liệu này mô tả phần mềm bên thứ ba được phân phối cùng các gói NuGet
+SpiralLab.Sirius3, SpiralLab.Sirius3.UI và SpiralLab.Sirius3.Dependencies tính
+đến ngày 2026-10-07. Toàn văn giấy phép không chỉnh sửa nằm trong
+THIRD-PARTY-NOTICES.txt, luôn phải được phân phối cùng tệp này. Thành phần của
+nhà cung cấp chịu điều chỉnh bởi hợp đồng riêng; tài liệu này không cấp thêm
+quyền sử dụng hoặc phân phối lại.
+
+Thành phần nguồn mở được quản lý và thành phần thời gian chạy
+-----------------------------------------------------------
+
+NLog
+  Phiên bản: 6.0.5
+  Giấy phép: BSD 3-Clause
+  Copyright (c) 2004-2024 Jaroslaw Kowalski, Kim Christensen, Julian Verdurmen
+  Nguồn    : https://github.com/NLog/NLog
+
+NLog.Extensions.Logging
+  Phiên bản: 6.0.5
+  Giấy phép: BSD 2-Clause
+  Copyright (c) 2004-2025 NLog Project
+  Nguồn    : https://github.com/NLog/NLog.Extensions.Logging
+
+Newtonsoft.Json 13.0.4
+  Giấy phép: MIT
+  Nguồn    : https://www.newtonsoft.com/json
+
+OpenTK và các điều khiển
+  Phiên bản: OpenTK 3.3.3/4.9.4, GLControl 3.3.3/4.0.2,
+             GLWpfControl 3.3.1-sirius.1/4.3.6
+  Giấy phép: MIT
+  © The Open Toolkit contributors
+  Copyright (c) 2019 varon
+  Nguồn    : https://github.com/opentk/opentk
+             https://github.com/opentk/GLWpfControl
+  Sửa đổi  : net481 dùng mã nguồn GLWpfControl 3.3.1 đã sửa để hủy chia sẻ DX/GL
+             trước khi xóa kết cấu dùng chung. Assembly được tạo được nhúng vào
+             SpiralLab.Sirius3.UI.dll.
+
+PropertyTools.Wpf
+  Phiên bản: 3.1.0
+  Giấy phép: MIT
+  Copyright (c) 2014 PropertyTools contributors
+  Nguồn    : https://github.com/PropertyTools/PropertyTools
+  Sử dụng  : WPF TreeListBox thông qua bộ điều hợp riêng của Sirius3.
+  Phân phối: Nhúng dưới dạng phụ thuộc nội bộ trong bản dựng WPF Debug và Release.
+
+GLFW (OpenTK.redist.glfw)
+  Phiên bản: 3.4.0.44
+  Giấy phép: Giấy phép GLFW kiểu zlib/libpng
+  Nguồn    : https://github.com/glfw/glfw
+
+Clipper2 2.0.0
+  Giấy phép: Boost Software License 1.0
+  Nguồn    : https://github.com/AngusJohnson/Clipper2
+
+netDxf 2023.11.10
+  Giấy phép: MIT
+  Nguồn    : https://github.com/haplokuon/netDxf
+
+StbImageSharp 2.30.15
+  Giấy phép: Gói NuGet không có siêu dữ liệu giấy phép; phần triển khai stb_image
+             đi kèm thuộc phạm vi công cộng hoặc theo MIT.
+  Nguồn    : https://github.com/StbSharp/StbImageSharp
+  Trạng thái: Cần xác minh điều kiện phân phối lại thư viện bao trước khi phân phối.
+
+ZXing.Net 0.16.11
+  Giấy phép: Apache-2.0
+  Nguồn    : https://github.com/micjahn/ZXing.Net
+
+BouncyCastle.Cryptography 2.6.2
+  Giấy phép: MIT
+  Nguồn    : https://www.bouncycastle.org/
+
+GerberTools/GerberLibrary
+  Phiên bản: Bản dựng 2018-12-21
+  Giấy phép: MIT
+  Copyright (c) 2016 This is not Rocket Science
+  Nguồn    : https://github.com/ThisIsNotRocketScience/GerberTools
+
+LibTessDotNet 1.1.15
+  Giấy phép: SGI Free Software License B 2.0
+  Nguồn    : https://github.com/speps/LibTessDotNet
+  Ghi chú  : LICENSE của dự án gốc là giấy phép SGI, khác với thông tin MIT trong
+             siêu dữ liệu NuGet.
+
+OxyPlot
+  Phiên bản: 2.2.0 (gói được quản lý), 1.0.0 (tệp công cụ SCANLAB)
+  Giấy phép: MIT
+  Nguồn    : https://github.com/oxyplot/oxyplot
+  Phân phối: Các thành phần WPF 2.2.0 được quản lý được nhúng dưới dạng phụ thuộc
+             nội bộ trong bản dựng WPF Debug và Release. Tệp công cụ SCANLAB
+             được phân phối riêng.
+
+Be.Windows.Forms.HexBox 1.6.1 / 2.1.0, MQTTnet 3.1.2 / 5.1.0.1559,
+BinaryKits.Zpl.Viewer 1.3.1 / BinaryKits.Zpl.Label 3.3.1
+  Giấy phép: MIT
+
+SkiaSharp và HarfBuzzSharp
+  Phiên bản: SkiaSharp 3.119.1, HarfBuzzSharp 8.3.1.2
+  Giấy phép: MIT và thông báo bên thứ ba gốc của các thành phần native.
+  Nguồn    : https://github.com/mono/SkiaSharp
+  Bao gồm  : ANGLE, HarfBuzz, Skia, etc1, gif, libpng, DNG SDK, expat,
+             FreeType, ICU, imgui, jsoncpp, libjpeg-turbo, libwebp,
+             libmicrohttpd, piex, SDL, sfntly, SPIR-V Headers/Tools, zlib.
+  Thông báo: Toàn văn thông báo gốc không chỉnh sửa nằm trong các mục SkiaSharp
+             và HarfBuzzSharp của THIRD-PARTY-NOTICES.txt.
+
+SixLabors.ImageSharp
+  Phiên bản: 2.1.12, 3.1.12 (phụ thuộc bắc cầu)
+  Giấy phép: Apache-2.0 áp dụng cho việc sử dụng phụ thuộc bắc cầu này. Six Labors
+             Split License của ImageSharp 3.x cấp Apache-2.0 cho phụ thuộc bắc cầu.
+  Nguồn    : https://github.com/SixLabors/ImageSharp
+
+Microsoft Roslyn 4.8.0, WinForms.DataVisualization 1.10.0 và các gói Microsoft .NET
+  Giấy phép: MIT
+  Phạm vi  : Microsoft.CodeAnalysis.*, Microsoft.Extensions.*, Microsoft.Bcl.*,
+             Microsoft.Windows.Compatibility, System.* và các thành phần thời
+             gian chạy được phân giải cho net481, net8.0-windows,
+             net9.0-windows, net10.0-windows.
+
+Model Context Protocol C# SDK
+  Phiên bản: ModelContextProtocol 2.2.0, ModelContextProtocol.AspNetCore 2.2.0
+  Giấy phép: Apache License 2.0
+  © Model Context Protocol, a Series of LF Projects, LLC
+  Nguồn    : https://github.com/modelcontextprotocol/csharp-sdk
+  Phân phối: Có trong bản dựng Debug, Release và gói Release của SpiralLab.Sirius3.UI.
+
+PdfPig
+  Phiên bản: 0.1.16
+  Giấy phép: Apache License 2.0
+  Nguồn    : https://github.com/UglyToad/PdfPig
+  Phân phối: Có trong bản dựng Debug, Release và gói Release của SpiralLab.Sirius3.UI.
+
+PDFium native (bblanchon.PDFium.Win32)
+  Phiên bản: 157.0.8100 (157.0.8100.0)
+  Giấy phép: Siêu dữ liệu gói là Apache-2.0. Bản phát hành native có thông báo MIT
+             của dự án dựng, thông báo BSD của PDFium và giấy phép thư viện đi kèm.
+  Nguồn    : https://github.com/bblanchon/pdfium-binaries
+  Phân phối: Chuyển trang PDF thành ảnh raster trong SpiralLab.Sirius3.UI.
+  Thông báo: Toàn văn giấy phép không chỉnh sửa và nguồn gốc tệp nhị phân nằm
+             trong mục PDFium của THIRD-PARTY-NOTICES.txt.
+
+SVG.NET (Svg)
+  Phiên bản: 3.4.8
+  Giấy phép: Microsoft Public License (MS-PL)
+  Nguồn    : https://github.com/svg-net/SVG
+  Commit   : 9d564f47c82780df4b703ee0bf2436c6a2276f5c
+  Phân phối: Nhúng vào SpiralLab.Sirius3.UI để nhập đường bao vector có thể chỉnh sửa.
+
+ExCSS
+  Phiên bản: 4.2.3
+  Giấy phép: MIT
+  Copyright (c) 2024 Tyler Brinks
+  Nguồn    : https://github.com/TylerBrinks/ExCSS
+  Phân phối: Bộ phân tích bảng định kiểu SVG.NET nhúng trong SpiralLab.Sirius3.UI.
+
+lib3mf
+  Phiên bản: 2.5.0
+  Giấy phép: BSD 2-Clause
+  Nguồn    : https://github.com/3MFConsortium/lib3mf
+  Phân phối: Bộ đọc lưới tam giác native x64 và x32 trong Dependencies.
+  Thời gian chạy: Cần Microsoft Visual C++ 2015-2022 hoặc bản tương thích mới hơn,
+                  phù hợp với kiến trúc của tiến trình.
+  Thông báo: Bao gồm libzip, zlib, cpp-base64, fast_float. LICENSE gốc, toàn bộ
+             SDK Credits, nguồn gốc và thông tin dựng tệp nhị phân nằm ở cuối
+             THIRD-PARTY-NOTICES.txt.
+
+Tệp phân phối trong gói NuGet Dependencies
+-----------------------------------------
+
+Apache Xerces-C++ 3.2.3
+  Giấy phép: Apache-2.0
+  Nguồn    : https://xerces.apache.org/xerces-c/
+
+SharpDX 4.2.0
+  Giấy phép: MIT
+  Nguồn    : https://github.com/sharpdx/SharpDX
+
+Microsoft Windows API Code Pack 1.1.x và Xceed WPF Toolkit/AvalonDock 3.5.0.0
+  Giấy phép: Microsoft Public License (MS-PL)
+  Ghi chú  : Được cài làm phụ thuộc của công cụ SCANLAB.
+
+Thành phần phân phối lại theo điều khoản riêng của nhà cung cấp
+
+  - SCANLAB: RTC4/RTC5/RTC6, CalibrationLibrary, công cụ hiệu chuẩn, syncAXIS 1.8.2,
+    firmware/dữ liệu và syncAXIS Configurator/Viewer.
+  - ACS Motion Control: SPiiPlus .NET/COM/C 3.11.01.
+  - Thorlabs: PM100D/TLPM/TLPMX/TLSPCNT.
+  - Ophir: OphirLMMeasurement 10.4.0.0.
+  - Phụ thuộc công cụ SCANLAB: SciChart 5.2.1.11757.
+  - Trình điều khiển thiết bị, bộ cài WDF, firmware, dữ liệu hiệu chỉnh, mẫu và
+    tài liệu hướng dẫn được gói cài đặt.
+
+Giữ nguyên tệp EULA/giấy phép của từng nhà cung cấp và chỉ phân phối lại các
+tệp được hợp đồng tương ứng cho phép rõ ràng.
+
+Toàn văn giấy phép
+------------------
+
+Toàn văn không chỉnh sửa của MIT, BSD 2-Clause, BSD 3-Clause, Apache-2.0,
+Boost 1.0, GLFW, MS-PL và SGI Free Software License B 2.0 nằm trong
+THIRD-PARTY-NOTICES.txt được phân phối cùng tệp này. Điều kiện pháp lý căn cứ
+vào các bản gốc tiếng Anh đó và giấy phép/EULA gốc của từng nhà cung cấp.
+
+Material Icons và Unicode
+-------------------------
+
+Font Editor bao gồm biểu tượng Google Material Design từ
+https://github.com/google/material-design-icons theo Apache License 2.0.
+Giữ nguyên SVG gốc; các tệp PNG/ICO phái sinh là ảnh raster hóa.
+Toàn văn giấy phép gốc nằm trong mục Material Icons của THIRD-PARTY-NOTICES.txt.
+Font Editor và bộ chuyển đổi TTF sử dụng dữ liệu khối ký tự Unicode. Bản gốc
+Unicode License V3 và nguồn gốc dữ liệu nằm trong THIRD-PARTY-NOTICES.txt.

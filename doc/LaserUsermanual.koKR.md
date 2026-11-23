@@ -1,6 +1,6 @@
 # ILaser와 사용자 Laser UI 매뉴얼
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](LaserUsermanual.md) | [한국어](LaserUsermanual.koKR.md) | [전체 안내서](README.koKR.md)
 

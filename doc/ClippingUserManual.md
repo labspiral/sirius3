@@ -1,6 +1,6 @@
 # Document Clipping User Manual
 
-> API reference: Sirius3 Core/UI public features
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](ClippingUserManual.md) | [한국어](ClippingUserManual.koKR.md) | [All guides](README.md)
 

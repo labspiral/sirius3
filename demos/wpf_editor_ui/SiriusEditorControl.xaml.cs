@@ -1137,7 +1137,16 @@ namespace Demos
         private void BtnNew_Click(object sender, RoutedEventArgs e)
         {
             if (Document == null) return;
-            Document.ActNew(true, true, true, true, true, false, false, false, false);
+            Document.ActNew(
+                includePage1: mnuIncludePage1.IsChecked,
+                includePage2: mnuIncludePage2.IsChecked,
+                includePage3: mnuIncludePage3.IsChecked,
+                includePage4: mnuIncludePage4.IsChecked,
+                includeBlocks: mnuIncludeBlocks.IsChecked,
+                includeEntityPens: mnuIncludeEntityPens.IsChecked,
+                includeLayerPens: mnuIncludeLayerPens.IsChecked,
+                includeWafers: mnuIncludeWafers.IsChecked,
+                includeSubstrates: mnuIncludeSubstrates.IsChecked);
             OnAfterNew?.Invoke(this);
         }
 
@@ -1164,7 +1173,17 @@ namespace Demos
             try
             {
                 global::System.Windows.Input.Mouse.OverrideCursor = global::System.Windows.Input.Cursors.Wait;
-                if (Document.ActOpen(dlg.FileName, true, true, true, false, false, false, false))
+                if (Document.ActOpen(
+                    dlg.FileName,
+                    includePage1: mnuIncludePage1.IsChecked,
+                    includePage2: mnuIncludePage2.IsChecked,
+                    includePage3: mnuIncludePage3.IsChecked,
+                    includePage4: mnuIncludePage4.IsChecked,
+                    includeBlocks: mnuIncludeBlocks.IsChecked,
+                    includeEntityPens: mnuIncludeEntityPens.IsChecked,
+                    includeLayerPens: mnuIncludeLayerPens.IsChecked,
+                    includeWafers: mnuIncludeWafers.IsChecked,
+                    includeSubstrates: mnuIncludeSubstrates.IsChecked))
                     OnAfterOpen?.Invoke(this, dlg.FileName);
             }
             finally

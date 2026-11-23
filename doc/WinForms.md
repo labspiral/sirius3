@@ -1,6 +1,6 @@
 # Sirius3 WinForms integration guide
 
-> API reference: Sirius3 Core/UI 1.17.1 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](WinForms.md) | [한국어](WinForms.koKR.md) | [WPF](WPF.md) | [All guides](README.md)
 
@@ -33,6 +33,7 @@ The public demos use Visual Studio 2022 or later and target `net481;net8.0-windo
 | [editor_ui](../demos/editor_ui/Form1.cs) | `Form1` for one device set, `Form2` for multiple sets; editable control sources in namespace `Demos` |
 | [editor_multiple2](../demos/editor_multiple2/Form1.cs) | Indexed device registration and switching |
 | [editor_viewer](../demos/editor_viewer/Form1.cs) | Separate viewer windows sharing a document |
+| [editor_fieldcorrection_3d](../demos/editor_fieldcorrection_3d/README.md) | Opens the package's 3D calibration form with a ready 3D RTC; uses the shared `config.ini` |
 | [editor_remote_mcp](../demos/editor_remote_mcp/MainForm.cs) | Authenticated HTTP MCP server and asynchronous shutdown |
 
 Package controls use namespace `SpiralLab.Sirius3.UI.WinForms`. The source examples in `editor_ui` use `Demos` and still consume NuGet packages.
@@ -40,6 +41,23 @@ Package controls use namespace `SpiralLab.Sirius3.UI.WinForms`. The source examp
 The public APIs provide SVG vector and 3MF mesh import, `IDocument.ActClip` clipping, and global Linear/PCHIP interpolation through `Config.PowerMapInterpolationMode`. Public demos retain `Version="1.*"` references; restore NuGet packages after an update and check the resolved version. See [document import](DocumentUserManual.md), [clipping](ClippingUserManual.md), and [PowerMap](PowermapUserManual.md).
 
 When copying `editor_ui`, keep both controls' `.cs`, `.Designer.cs` and `.resx` files, shared `EditorControlSupport.cs`, and the resources they use together. Public source keeps namespace `Demos` and NuGet references, and uses public APIs in place of library-internal methods.
+
+### Language resources and native assets
+
+The public demos retain `ko-KR;zh-CN;ja-JP;de-DE;vi-VN;es-ES` in
+`SatelliteResourceLanguages`. English (United States) is neutral. Vietnamese
+and Spanish appear only when the restored packages supply the resources and
+the host selects `vi-VN` or `es-ES` before creating controls. Keep these
+cultures in your own explicit satellite resource list if you use them. The
+project setting alone does not translate the demo's own labels.
+
+Sirius3 1.17.2 filters unused SkiaSharp, HarfBuzzSharp, and PDFium native
+files from Windows build and publish output, also for indirect references.
+They keep the Windows x86/x64 files supplied in `x32` and `x64` and retain
+the three libraries' ARM64 runtime files when ARM64 is selected explicitly.
+This does not imply ARM64 support for vendor devices. Set
+`Sirius3FilterNativeAssets=false` to disable the filter. Check a fresh output
+folder; the filter does not remove files left by earlier builds.
 
 ## 2. Configure DPI before creating forms
 

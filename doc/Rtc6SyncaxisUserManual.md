@@ -1,6 +1,6 @@
 # RTC6 syncAXIS (XL-SCAN) Setup and Usage Guide
 
-> API reference: Sirius3 Core/UI 1.17.1 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](Rtc6SyncaxisUserManual.md) | [한국어](Rtc6SyncaxisUserManual.koKR.md) | [All guides](README.md)
 
@@ -208,15 +208,15 @@ In the Viewer, check the Scanner/Stage Position, Speed and Dynamic Limit breache
 
 Sirius3 1.17.1 provides the same six setup steps in the WinForms and WPF Scanner tabs. The host must initialize and register an `IRtcSyncAxis` scanner and its `MarkerSyncAxis`, with the editor's `IDocument` connected. The setup tab appears for that scanner. A standalone `ScannerControl` also needs its `Document` and `Marker` assigned; showing the tab does not initialize or own these objects.
 
-The top button displays the **current simulation or hardware mode** and changes it through `IsSimulationMode`. Switching to hardware requires confirmation. **Initialize** explicitly reinitializes the idle scanner from its current XML, including the mode saved in that file. Run does not initialize the scanner implicitly. The XML working directory must exist and be an absolute path; keep the matching program files, correction files and writable simulation output directory accessible.
+The top button displays the **current simulation or hardware mode** and changes the runtime mode through `IsSimulationMode`. Switching to hardware requires confirmation. **Initialize** reloads the current XML while the scanner and marker are idle. It applies the `SimulationMode` saved in the file, so verify the mode after initialization. Use an existing absolute `BaseDirectoryPath`, keep `ProgramFileDirectory` and the correction files accessible, and check that the simulation output directory is writable.
 
 #### Create, edit, run and repeat
 
 1. Save the current recipe before confirming **Create**. It calls `IDocument.ActNew()`, resetting all pages and pens, replaces the active empty default layer, and creates only the chosen pattern. It does not append to the production recipe, and Undo cannot recover the document that ActNew replaced.
 2. Review and edit the generated entities and pens in EditorControl and PropertyGrid. Each step has its own size and related inputs. Grid size means marker diameter; **Interval** is center-to-center spacing in mm and must exceed the diameter. Filled circles include line hatching at 0.1 mm interval with 0.05 mm boundary exclusion.
-3. Click that step's **Run**. In simulation mode, a successful completed job automatically opens syncAXIS Viewer. There is no separate Viewer button. A stopped or failed job does not open Viewer. In hardware mode, Run has red text and requires confirmation before laser output or stage/scanner motion.
-4. Inspect the simulation output, then measure the physical result only under the approved hardware procedure. **Stop** interrupts the current job; remove the error cause before using the idle **Reset** action. The lower strip shows elapsed time, operation status, Ready, Busy, Error and the **Errors** queue.
-5. Repeat until the step's target is met. Editing document geometry or pens invalidates prior simulation evidence: simulate the edited pattern again. Changing the step's generator inputs requires Create again and therefore another document reset. After changing XML or choosing a new CT5, use Initialize and recheck the result. Keep the reviewed document and configuration unchanged before hardware Run.
+3. In simulation mode, click that step's **Run**. A completed simulation opens its output in syncAXIS Viewer automatically. If Viewer cannot open, use the reported output path to inspect the result. Check the path and position or dynamic limit violations before continuing. A stopped or failed simulation must be repeated successfully.
+4. Hardware **Run** requires a successful simulation of the same prepared step and matching machine configuration. Use the approved machine procedure, switch to hardware mode and confirm the red **Run**. If document geometry or pens change, simulate again. After changing pattern size, count or shape, use **Create** again and save any recipe you want to retain beforehand. After an XML or CT5 change, use **Initialize** and repeat simulation.
+5. Use **Stop** while a setup job is active. If operation status is red or the controller reports **Aborted**, open **Errors**, correct the cause and use **Reset** after the scanner and marker become idle. Hardware Reset asks for confirmation because it can move scanner mirrors and arm laser control. The lower strip also shows elapsed time, Ready, Busy and Error.
 
 #### Six steps and expected results
 
@@ -243,11 +243,28 @@ The sweep uses `IMarker.OnBeforeOffset` and `OnAfterOffset` with syncAXIS LayerF
 
 #### Correction files and synchronization limits
 
-Scanner calibration does not calculate a CT5 inside this screen. Generate and measure the ScannerOnly grid, use external calibration software to create a new `.ct5`, select the configured scan head and **Select ct5**, then click **Initialize** to apply the changed XML. Select preserves the external file and updates the XML correction reference; it is not an immediate live RTC table load. Recheck laser delay and residual error after applying correction. See [2D correction](Correction2dUserManual.md).
+1. Generate the **Scanner calibration grid** and use the `ScannerOnly` result to measure the field. Use external calibration software to create a new `.ct5`. See [2D correction](Correction2dUserManual.md).
+2. On the scanner calibration step, select the configured **Scan head** and confirm the existing path shown beside it. Click **Select ct5**, choose the new file and confirm the displayed head and XML path. This updates that head's XML reference. The setup picker requires exactly one correction file entry for that head. For a configuration with several slots, use the head-and-slot API below.
+3. Click **Initialize** while idle to apply the updated XML. Check the runtime mode and the selected head's file path. Recheck laser delay and residual XY error and repeat simulation for the revised configuration before continuing.
 
 For Synchronization, pattern size is a nominal layout scale. The half-extent is `11/24 × size`, not `size/2`; the existing 100 setting therefore produces a total span of about 91.667 mm. The vendor installation procedure does not specify a 100 mm size. Its full CHECK_SYSTEMDELAYS test uses 21 line pairs in each of four directions, stage acceleration travel and reversal. The 44-line UI pattern does not perform that complete measurement procedure or prove synchronization accuracy. Use the full equipment procedure when measuring system delays.
 
 The [MCP guide](MCP.md#syncaxis-setup) describes preparing these patterns through an AI client. Its preparation and simulation state belongs to the registered-device session; a drawing created manually in the UI is not automatically a pattern prepared by that MCP session.
+
+#### Head-specific CT5 API
+
+In 1.17.2, `IRtcSyncAxis.CtlLoadCorrectionFile(ScanDevices, CorrectionTables, string)`
+targets a named XML scan device and slot. The overload without `ScanDevices`
+continues to target `ScanDevice1`. Use an initialized, idle scanner with no list
+pending. Use an existing CT5 and do not edit the XML at the same time.
+
+- A different file path updates the chosen head's XML entry and reinitializes
+  syncAXIS. The previous stage and correction index are restored; other runtime
+  overrides, including simulation mode, return to their XML settings. Verify the
+  mode again before running a job. If stage restoration switches stages, stage
+  control stays in Unfollow. If the call fails, consult the log for rollback status.
+- The same path rereads that slot for all heads without reinitializing. Slots are
+  `Table1` through `Table4`; append only the next consecutive slot.
 
 ## 7. Conditions for Switching to Hardware Mode
 

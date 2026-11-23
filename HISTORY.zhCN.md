@@ -1,8 +1,9 @@
 # Sirius3 版本历史
 
-## v1.17.2 (2026.12.x)
+## v1.17.2 (2026.11.23)
 
 - added) 新增越南语和西班牙语资源
+- added) 新增 `EntityLaserBeam` 实体
 - updated) 为3D校正步骤提供详细说明
 
 ## v1.17.1 (2026.11.11)
@@ -42,7 +43,7 @@
 - fixed) 支持异步释放 IRemote 和 IMCPServer 资源
 - added) 支持三维网格的纹理渲染
 
-## v1.14.5 (2026.9.24)
+## v1.14.4 (2026.9.24)
 
 - added) 支持 MCP（Model Context Protocol）
   - 添加 MCP 服务器，支持 AI 客户端注册编辑器、编辑文档与实体以及控制设备

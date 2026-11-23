@@ -13,7 +13,7 @@
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <IncludeSymbols>False</IncludeSymbols>
     <NeutralResourcesLanguage>en-US</NeutralResourcesLanguage>
-    <SatelliteResourceLanguages>ko-KR;zh-CN;ja-JP;de-DE</SatelliteResourceLanguages>
+		<SatelliteResourceLanguages>ko-KR;zh-CN;ja-JP;de-DE;vi-VN;es-ES</SatelliteResourceLanguages>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 

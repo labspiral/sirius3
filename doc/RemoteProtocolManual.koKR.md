@@ -1,6 +1,6 @@
 # Sirius3 원격 제어 프로토콜 사용자 매뉴얼 (Remote Control Protocol Manual)
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](RemoteProtocolManual.md) | [한국어](RemoteProtocolManual.koKR.md) | [전체 안내서](README.koKR.md)
 

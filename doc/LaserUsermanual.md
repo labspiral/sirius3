@@ -1,6 +1,6 @@
 # ILaser and Custom Laser UI User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](LaserUsermanual.md) | [한국어](LaserUsermanual.koKR.md) | [All guides](README.md)
 

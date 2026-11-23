@@ -1,6 +1,6 @@
 # Barcode Entities User Manual
 
-> API reference: Sirius3 Core/UI public features
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](BarcodeUserManual.md) | [한국어](BarcodeUserManual.koKR.md) | [All guides](README.md)
 

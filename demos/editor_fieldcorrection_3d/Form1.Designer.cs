@@ -46,10 +46,11 @@
             // btn3DCorrection
             // 
             this.btn3DCorrection.Location = new System.Drawing.Point(3, 3);
+            this.btn3DCorrection.Enabled = false;
             this.btn3DCorrection.Name = "btn3DCorrection";
             this.btn3DCorrection.Size = new System.Drawing.Size(177, 32);
             this.btn3DCorrection.TabIndex = 0;
-            this.btn3DCorrection.Text = "Show 3D Correction";
+            this.btn3DCorrection.Text = "Open 3D Calibration";
             this.btn3DCorrection.UseVisualStyleBackColor = true;
             // 
             // siriusEditorControl1
@@ -83,7 +84,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form1";
-            this.Text = "Sirius3 Demo - (c)SpiralLAB";
+            this.Text = "Sirius3 3D Calibration - (c)SpiralLAB";
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

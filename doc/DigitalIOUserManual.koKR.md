@@ -1,6 +1,6 @@
 # 디지털 입력·출력과 컨트롤러 트리거 사용자 매뉴얼
 
-> API 기준: Sirius3 Core/UI 1.17.1 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](DigitalIOUserManual.md) | [한국어](DigitalIOUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 

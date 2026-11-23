@@ -1,6 +1,6 @@
 # SIRIUS3 Multi-Beam Laser Control System User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](MultibeamSystemManual.md) | [한국어](MultibeamSystemManual.koKR.md) | [All guides](README.md)
 

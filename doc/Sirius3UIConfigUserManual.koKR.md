@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3.UI.Config 설정 가이드
 
-> API 기준: Sirius3 Core/UI 1.17.1 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](Sirius3UIConfigUserManual.md) | [한국어](Sirius3UIConfigUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -316,6 +316,10 @@ Timeout은 Motor를 강제로 안전 정지시키는 장치 보호 기능과 동
 
 보정 Field와 광학계의 유효 영역을 넘지 않는 작은 값부터 검증하십시오. Jog는 실제 Scanner를 움직일 수 있습니다.
 
+1.17.2의 3D 세로 조그 슬라이더는 절대 지령 Z(mm)를 설정합니다. 위 XY 조그 거리와
+별개로 대응 README의 범위를 사용합니다. [3D 보정과 수동 Z 범위](Correction3dUserManual.koKR.md#6-통합-3d-보정-절차)를
+참고하십시오.
+
 ## 21. Remote Protocol
 
 | 설정 | 기본값 | 설명 |
@@ -433,7 +437,7 @@ PDF는 페이지 래스터 이미지로 가져옵니다. `EntityImagePDF.PageNum
 
 폰트 파일과 설치 TTF 변환은 [Font Editor](FontEditorUserManual.koKR.md)에 설명합니다.
 
-## 1.17.1의 공개 설정 형식
+## 1.17.2의 공개 설정 형식
 
 호스트 코드는 현재 enum 형식을 사용합니다.
 

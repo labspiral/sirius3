@@ -1,7 +1,7 @@
 # Sirius3
 面向 Windows/.NET 的精密激光加工平台，集成 SCANLAB 控制、设备连接、几何处理、OpenGL 可视化、文档编辑、通过内置 MCP 服务器进行 AI 提示、模拟和加工执行
 
-语言：[English](README.md) · [한국어](README.koKR.md) · [简体中文](README.zhCN.md) · [日本語](README.jaJP.md) · [Deutsch](README.deDE.md)
+语言：[English](README.md) · [한국어](README.koKR.md) · [简体中文](README.zhCN.md) · [日本語](README.jaJP.md) · [Deutsch](README.deDE.md) · [Tiếng Việt](README.viVN.md) · [Español](README.esES.md)
 
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo.png)
 
@@ -64,7 +64,7 @@
    - PDF：将页面导入为光栅图像（不支持密码保护）。
    - STL/OBJ/PLY/STP(STEP)/3MF：三维网格导入和切片。
    - G-code（`.gcode`、`.ngc`）：CNC 和激光加工路径。
-   - CXF/LFF/EO FNT/DOT：SiriusText 外部字体。
+   - CXF/LFF/FNT/DOT：SiriusText 外部字体。
 - 远程通信与动态数据
    - 用于标记控制和数据访问的 TCP/IP、Serial（RS-232）、WebSocket 及 MQTT
    - 内置 HTTP MCP 服务器，支持 AI 辅助注册编辑器、编辑文档与实体、运行模拟以及控制已注册设备
@@ -72,8 +72,8 @@
 - 文档、编辑器与模拟
    - 四个文档页面，支持图层、画笔、组、块及可配置数量的 Undo/Redo
    - Debug 和 Release 均支持 WinForms 与 WPF `SiriusEditorControl` / `SiriusMultiEditorControl`，并支持将一个文档渲染到多个视图
-   - 提供英语、韩语、简体中文、日语和德语 UI 资源
-   - [字体编辑器](SpiralLab.Sirius3.UI/FontEditor/README.md)：通过 WinForms/WPF **Font Edit** 菜单独立编辑 CXF/LFF/EO FNT/DOT 字形，支持 mm 矢量、整数 DOT 单元格、BBox/度量、撤销/重做、DXF 导入、文本预览与已安装 TTF 转换。Debug 和 Release 构建均始终包含。
+   - 提供英语、韩语、简体中文、日语、德语、越南语和西班牙语 UI 资源
+   - [字体编辑器](SpiralLab.Sirius3.UI/FontEditor/README.md)：通过 WinForms/WPF **Font Edit** 菜单独立编辑 CXF/LFF/FNT/DOT 字形，支持 mm 矢量、整数 DOT 单元格、BBox/度量、撤销/重做、DXF 导入、文本预览与已安装 TTF 转换。Debug 和 Release 构建均始终包含。
    - 使用屏幕固定尺寸标记、光束效果和可选碎屑效果的实时加工路径可视化
    - 面向相机及检测流程的网格化拼接图像可视化
 - 开放架构
@@ -91,7 +91,7 @@
 | 填充 (Hatch)                  | 基于绕组规则的多重填充                    | 单个填充                               |
 | 3D 网格切片机                 | 内置 STL、OBJ、PLY、STEP、3MF 网格切片机 | 无                                    |
 | Gerber / Excellon            | 基于内容识别的导入                        | 无                                    |
-| 外部字体文件                  | CXF, LFF, EO FNT, DOT 文件格式               | 仅支持自定义 CXF, LFF 文件格式         |
+| 外部字体文件                  | CXF, LFF, FNT, DOT 文件格式               | 仅支持自定义 CXF, LFF 文件格式         |
 | 画笔 (Pen)                    | 分离 Entity 和 Layer 的画笔属性           | Entity 单一画笔                        |
 | MCP                          | 支持                                      | 无                                    |
 | 库更新                        | 支持 NuGet 包管理器                      | 手动                                   |
@@ -119,7 +119,7 @@
 - 安装所选设备需要的驱动程序/运行时；NuGet 复制本机文件不会安装设备驱动程序
 - 构建：`net481` 需要 .NET Framework 4.8.1 Developer Pack；现代 .NET 目标需要对应的 .NET SDK
 - 运行：.NET Framework 4.8.1，或与框架依赖型 .NET 应用匹配的 Windows Desktop Runtime
-- 开发：公开演示使用安装了 .NET 桌面开发工作负载的 Visual Studio 2022 或更高版本（.NET 8：17.8+；.NET 9：17.12+；也支持 `net481`）。在 Visual Studio 中面向 .NET 10 开发需要 Visual Studio 2026（18.0+）和兼容的 SDK（[Microsoft 兼容性指南](https://learn.microsoft.com/en-us/dotnet/core/porting/versioning-sdk-msbuild-vs)）。
+- 开发：公开演示使用安装了 .NET 桌面开发工作负载的 Visual Studio 2022 或更高版本。
  
 ## 依赖项
 
@@ -145,8 +145,6 @@
    - [SpiralLab.Sirius3.Dependencies](https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
    - [SpiralLab.Sirius3](https://www.nuget.org/packages/SpiralLab.Sirius3)
    - [SpiralLab.Sirius3.UI](https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
-
-请选择与应用兼容的软件包版本，并在构建和部署输出中保留 Dependencies 软件包的运行时和数据文件夹。Dependencies 软件包在构建时将这些文件复制到输出目录。从上面的支持列表中选择应用需要的目标框架。
 
 ## 快速入门
 

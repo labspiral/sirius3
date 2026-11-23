@@ -2,7 +2,7 @@
 
 SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化、ドキュメント編集、組み込み MCP サーバーを利用した AI プロンプト、シミュレーション、マーキング実行を統合した Windows/.NET 向け精密レーザー加工プラットフォームです。
 
-[English](README.md) | [한국어](README.koKR.md) | [简体中文](README.zhCN.md) | 日本語 | [Deutsch](README.deDE.md)
+[English](README.md) | [한국어](README.koKR.md) | [简体中文](README.zhCN.md) | 日本語 | [Deutsch](README.deDE.md) · [Tiếng Việt](README.viVN.md) · [Español](README.esES.md)
 
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo.png)
 
@@ -61,7 +61,7 @@ SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化�
   - PDF：ページをラスター画像としてインポート（パスワード保護は非対応）。
   - STL/OBJ/PLY/STP(STEP)/3MF：3D メッシュのインポートとスライス。
   - G-code（`.gcode`、`.ngc`）：CNC・レーザー加工パス。
-  - CXF/LFF/EO FNT/DOT：SiriusText 用外部フォント。
+  - CXF/LFF/FNT/DOT：SiriusText 用外部フォント。
 - リモート通信と動的データ
   - マーカー制御とデータアクセス用の TCP/IP、Serial（RS-232）、WebSocket、MQTT
   - AI によるエディター登録、文書・エンティティ編集、シミュレーション、登録済みデバイス制御に対応する組み込み HTTP MCP サーバー
@@ -69,8 +69,8 @@ SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化�
 - ドキュメント、エディター、シミュレーション
   - レイヤー、ペン、グループ、ブロック、設定可能な Undo/Redo を備えた 4 ページ
   - WinForms と WPF の `SiriusEditorControl` / `SiriusMultiEditorControl` を Debug と Release の両方でサポート。1 つのドキュメントを複数ビューに表示可能
-  - 英語、韓国語、簡体字中国語、日本語、ドイツ語の UI リソース
-  - [フォントエディター](SpiralLab.Sirius3.UI/FontEditor/README.md)：WinForms/WPF の **Font Edit** から CXF/LFF/EO FNT/DOT グリフを独立編集。mm ベクトル、整数 DOT セル、BBox/メトリクス、Undo/Redo、DXF インポート、テキストプレビュー、インストール済み TTF 変換に対応。Debug/Release の両方に常に含まれます。
+  - 英語、韓国語、簡体字中国語、日本語、ドイツ語、ベトナム語、スペイン語の UI リソース
+  - [フォントエディター](SpiralLab.Sirius3.UI/FontEditor/README.md)：WinForms/WPF の **Font Edit** から CXF/LFF/FNT/DOT グリフを独立編集。mm ベクトル、整数 DOT セル、BBox/メトリクス、Undo/Redo、DXF インポート、テキストプレビュー、インストール済み TTF 変換に対応。Debug/Release の両方に常に含まれます。
   - 画面固定サイズのマーカー、ビーム効果、任意の粒子を使ったリアルタイム加工経路表示
   - カメラおよび検査向けのグリッド型スティッチ画像表示
 - オープンアーキテクチャ
@@ -89,7 +89,7 @@ SCANLAB 制御、デバイス連携、ジオメトリ処理、OpenGL 可視化�
 | ハッチ | winding 対応複数ハッチ | 単一ハッチ |
 | 3D メッシュスライス | STL、OBJ、PLY、STEP、3MF | なし |
 | Gerber / Excellon | 内容判定インポート | なし |
-| フォントファイル | CXF、LFF、EO FNT、DOT | 独自 CXF、LFF |
+| フォントファイル | CXF、LFF、FNT、DOT | 独自 CXF、LFF |
 | ペン | Entity と Layer のペン | Entity ペンのみ |
 | MCP | 対応 | なし |
 | 更新 | NuGet Package Manager | 手動 |
@@ -121,7 +121,7 @@ NuGet Package Manager で簡単にインストールおよび更新できます�
 - 選択したデバイスに必要なドライバー/ランタイム。NuGet によるネイティブファイルのコピーではデバイスドライバーはインストールされません。
 - ビルド：`net481` は .NET Framework 4.8.1 Developer Pack、.NET 8/9/10 ターゲットは対応する .NET SDK が必要です。
 - 実行：.NET Framework 4.8.1、またはフレームワーク依存 .NET アプリに対応する Windows Desktop Runtime が必要です。
-- 開発：公開デモは .NET デスクトップ開発ワークロードを備えた Visual Studio 2022 以降を使用します（.NET 8：17.8+、.NET 9：17.12+、`net481` も対応）。Visual Studio で .NET 10 をターゲットにするには Visual Studio 2026（18.0+）と互換 SDK が必要です（[Microsoft 互換性ガイド](https://learn.microsoft.com/en-us/dotnet/core/porting/versioning-sdk-msbuild-vs)）。
+- 開発：公開デモは .NET デスクトップ開発ワークロードを備えた Visual Studio 2022 以降を使用します。
 
 ## 依存関係
 
@@ -147,8 +147,6 @@ NuGet Package Manager で簡単にインストールおよび更新できます�
 - [SpiralLab.Sirius3.Dependencies](https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
 - [SpiralLab.Sirius3](https://www.nuget.org/packages/SpiralLab.Sirius3)
 - [SpiralLab.Sirius3.UI](https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
-
-アプリに適合するパッケージバージョンを選択し、Dependencies パッケージのランタイム/データフォルダーをビルドと配布の出力に保持します。Dependencies パッケージはビルド時にこれらを出力先へコピーします。上の対応一覧からアプリに必要なターゲットを選択してください。
 
 ## クイックスタート
 

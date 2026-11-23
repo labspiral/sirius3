@@ -64,6 +64,10 @@ Vergleicht normale MicroVector-Sprünge mit einem Hard Jump innerhalb eines 10-�
 
 Erzeugt Linien- und Polygonschraffuren für geschlossene Konturen, optimiert ihre Reihenfolge und weist einzelnen Schraffuren unterschiedliche Entity-Stifte zu.
 
+## editor_hatch_clip
+
+Zeigt den Schnitt einer Fläche mit einer Aussparung und einem FOV-Rechteck sowie das Schraffieren der resultierenden geschlossenen Konturen.
+
 ## editor_interrupt
 
 Unterbricht die Verarbeitung eines RTC-Listenpuffers, lässt die Anwendung eine Benutzerfunktion ausführen und setzt anschließend die weiterhin vorbereitete Liste fort.
@@ -188,7 +192,7 @@ Erzeugt `EntityImageZPL` mit dem lokalen BinaryKits-Renderer und demonstriert Et
 
 ## wpf_editor_entity
 
-Diese native WPF-Demo verwendet die Beispiele aus `editor_entity` mit `SpiralLab.Sirius3.UI.WPF.SiriusEditorControl`. Sie demonstriert PropertyGrid-Bearbeitung und Mehrfachauswahl, Undo/Redo, Editorfenster per Rechtsklick sowie Befehle für Rastermaterial und Mesh-Schatten in den unterstützten Zielframeworks. Die Standardkonfiguration verwendet virtuelle Geräte.
+Diese native WPF-Demo verwendet die Beispiele aus `editor_entity` mit `SpiralLab.Sirius3.UI.WPF.SiriusEditorControl`. Sie demonstriert PropertyGrid-Bearbeitung und Mehrfachauswahl, Undo/Redo, Editorfenster per Rechtsklick sowie Befehle für die Rasterdarstellung in den unterstützten Zielframeworks. Die Standardkonfiguration verwendet virtuelle Geräte.
 
 ## wpf_editor_multiple
 
@@ -197,3 +201,7 @@ Diese native WPF-Entsprechung zu `editor_multiple` enthält zwei unabhängige `S
 ## wpf_editor_multiple2
 
 Diese native WPF-Entsprechung zu `editor_multiple2` registriert zwei Gerätesysteme in einem `SiriusMultiEditorControl`. Der Editor wechselt das aktive Gerätesystem, behält dabei jedoch ein gemeinsames Document bei, sodass dieselben Daten mit beiden Systemen verarbeitet werden können. Die gemeinsame `config.ini` verwendet standardmäßig virtuelle Geräte.
+
+## wpf_editor_ui
+
+Stellt den öffentlichen Quellcode der nativen WPF-Steuerelemente `SiriusEditorControl`, `SiriusMultiEditorControl` und ihrer Unterstützungsdatei zur Anpassung der Editoroberfläche bereit. Der Host verwendet standardmäßig virtuelle Geräte.

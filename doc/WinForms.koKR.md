@@ -1,6 +1,6 @@
 # Sirius3 WinForms 통합 가이드
 
-> API 기준: Sirius3 Core/UI 1.17.1 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](WinForms.md) | [한국어](WinForms.koKR.md) | [WPF](WPF.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -33,6 +33,7 @@
 | [editor_ui](../demos/editor_ui/Form1.cs) | 단일 장치용 `Form1`, 다중 장치용 `Form2`, `Demos` 네임스페이스의 편집 가능한 컨트롤 소스 |
 | [editor_multiple2](../demos/editor_multiple2/Form1.cs) | 인덱스별 장치 등록과 전환 |
 | [editor_viewer](../demos/editor_viewer/Form1.cs) | Document를 공유하는 별도 Viewer 창 |
+| [editor_fieldcorrection_3d](../demos/editor_fieldcorrection_3d/README.koKR.md) | 준비된 3D RTC로 패키지의 보정 창을 엽니다. 공용 `config.ini`를 사용합니다. |
 | [editor_remote_mcp](../demos/editor_remote_mcp/MainForm.cs) | 인증된 HTTP MCP 서버와 비동기 종료 |
 
 패키지 컨트롤의 네임스페이스는 `SpiralLab.Sirius3.UI.WinForms`입니다. `editor_ui`의 소스 예제는 `Demos`를 사용하며 계속 NuGet 패키지를 참조합니다.
@@ -40,6 +41,21 @@
 공개 API는 SVG 벡터와 3MF 메쉬 가져오기, `IDocument.ActClip` 클리핑, 전역 `Config.PowerMapInterpolationMode`의 Linear/PCHIP 보간을 제공합니다. 공개 데모는 `Version="1.*"` 참조를 유지하므로 업데이트 후 NuGet을 다시 복원하고 실제 해석된 버전을 확인합니다. 자세한 사용법은 [문서 가져오기](DocumentUserManual.koKR.md), [클리핑](ClippingUserManual.koKR.md), [PowerMap](PowermapUserManual.koKR.md)을 참고합니다.
 
 `editor_ui` 소스를 복사할 때 단일·멀티 컨트롤의 `.cs`, `.Designer.cs`, `.resx`, 공통 `EditorControlSupport.cs`와 사용한 Resources를 함께 유지합니다. 공개 소스는 `Demos` 네임스페이스와 NuGet 참조를 유지하며 라이브러리의 내부 메서드 대신 공개 API를 사용합니다.
+
+### 언어 리소스와 네이티브 파일
+
+공개 데모의 `SatelliteResourceLanguages`에는
+`ko-KR;zh-CN;ja-JP;de-DE;vi-VN;es-ES`를 유지합니다. 기본 리소스는 미국 영어입니다.
+베트남어·스페인어는 복원한 패키지에 해당 리소스가 있고, 컨트롤 생성 전에 호스트가
+`vi-VN` 또는 `es-ES`를 선택해야 표시됩니다. 자체 프로젝트에 언어 목록을 지정했다면
+필요한 언어를 포함하십시오. 이 설정만으로 데모 자체의 문구가 번역되지는 않습니다.
+
+Sirius3 1.17.2는 직접·간접 참조의 Windows 빌드·게시 출력에서 불필요한 SkiaSharp,
+HarfBuzzSharp, PDFium 네이티브 파일을 제외합니다. `x32`·`x64`로 제공되는 Windows
+x86/x64 파일은 유지하며, ARM64를 명시적으로 선택하면 세 라이브러리의 ARM64
+파일을 보존합니다. 이는 공급사 장치의 ARM64 지원을 의미하지 않습니다.
+`Sirius3FilterNativeAssets=false`로 필터를 끌 수 있습니다. 이전 빌드의 파일은
+삭제하지 않으므로 새 출력 폴더에서 확인하십시오.
 
 ## 2. 폼 생성 전 DPI 설정
 

@@ -94,8 +94,8 @@ OxyPlot
   Version: 2.2.0 (verwaltetes Paket), 1.0.0 (SCANLAB-Werkzeugdatei)
   Lizenz : MIT
   Quelle : https://github.com/oxyplot/oxyplot
-  Verteilung: Die verwaltete WPF-Komponente 2.2.0 ist nur in Debug-WPF-Builds
-              enthalten und aus Release-Paketen ausgeschlossen. Die SCANLAB-
+  Verteilung: Die verwalteten WPF-Komponenten 2.2.0 sind als private Abhängigkeiten
+              in Debug- und Release-WPF-Builds eingebettet. Die SCANLAB-
               Werkzeugdatei wird gesondert behandelt.
 
 Be.Windows.Forms.HexBox 1.6.1 / 2.1.0, MQTTnet 3.1.2 / 5.1.0.1559,

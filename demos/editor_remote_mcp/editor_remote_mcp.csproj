@@ -12,7 +12,7 @@
     <OutputPath>..\..\bin\editor_remote_mcp\</OutputPath>
     <IncludeSymbols>False</IncludeSymbols>
     <NeutralResourcesLanguage>en-US</NeutralResourcesLanguage>
-    <SatelliteResourceLanguages>ko-KR;zh-CN;ja-JP;de-DE</SatelliteResourceLanguages>
+		<SatelliteResourceLanguages>ko-KR;zh-CN;ja-JP;de-DE;vi-VN;es-ES</SatelliteResourceLanguages>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
 

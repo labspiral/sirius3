@@ -96,6 +96,10 @@ Hatches can be created in line or polygon form, and you can set the hatch spacin
 Using path optimization (Sort) optimizes the hatching path, reducing machining time, and;
 you can set different entity pens for each hatch to vary the machining conditions.
 
+## editor_hatch_clip
+
+Demonstrates intersecting a region containing a hole with an FOV rectangle and hatching the resulting closed contours.
+
 ## editor_interrupt
 
 The RTC card, as the name suggests, is a Real-Time Controller card. It pre-loads processing data into the list buffer and processes it in real time; therefore, it is difficult to insert various user functions during processing.
@@ -264,7 +268,7 @@ It demonstrates label size and print-density settings, Unicode ZPL data, `^CW` f
 
 ## wpf_editor_entity
 
-This native WPF demo reuses the `editor_entity` samples with `SpiralLab.Sirius3.UI.WPF.SiriusEditorControl`. It demonstrates PropertyGrid editing and multi-selection, Undo/Redo, right-click editor windows, and grid material and mesh-shadow commands across the supported target frameworks. The default configuration uses virtual devices.
+This native WPF demo reuses the `editor_entity` samples with `SpiralLab.Sirius3.UI.WPF.SiriusEditorControl`. It demonstrates PropertyGrid editing and multi-selection, Undo/Redo, right-click editor windows, and grid display commands across the supported target frameworks. The default configuration uses virtual devices.
 
 ## wpf_editor_multiple
 
@@ -273,3 +277,7 @@ This native WPF counterpart to `editor_multiple` hosts two independent `SiriusEd
 ## wpf_editor_multiple2
 
 This native WPF counterpart to `editor_multiple2` uses one `SiriusMultiEditorControl` with two registered device systems. The editor switches the active device system while retaining one shared Document, allowing the same data to be processed by either system. The shared `config.ini` uses virtual devices by default.
+
+## wpf_editor_ui
+
+Provides public-source native WPF `SiriusEditorControl`, `SiriusMultiEditorControl` and their support file for customizing the editor UI. The host uses virtual devices by default.

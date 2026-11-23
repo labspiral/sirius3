@@ -1,6 +1,6 @@
 # View and camera guide
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](ViewUserManual.md) | [한국어](ViewUserManual.koKR.md) | [All guides](README.md)
 

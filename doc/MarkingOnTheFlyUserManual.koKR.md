@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3 MoF (Marking on the Fly) 통합 사용자 매뉴얼
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](MarkingOnTheFlyUserManual.md) | [한국어](MarkingOnTheFlyUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 

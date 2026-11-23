@@ -1,0 +1,76 @@
+Thỏa thuận cấp phép thương mại Sirius3
+Phiên bản 1.0
+
+Thỏa thuận cấp phép này ("Thỏa thuận") là thỏa thuận pháp lý giữa bạn (cá nhân hoặc một pháp nhân duy nhất) và SpiralLab Co. ("SpiralLab") về việc sử dụng phần mềm Sirius3.
+
+SẢN PHẨM
+- Tên: Sirius3 ("Phần mềm")
+- Các tệp thuộc phạm vi cấp phép (bao gồm mọi bản cập nhật và sửa lỗi):
+  • SpiralLab.Sirius3.Dependencies.dll (https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
+  • SpiralLab.Sirius3.dll (https://www.nuget.org/packages/SpiralLab.Sirius3)
+  • SpiralLab.Sirius3.UI.dll (https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
+- Trang web: https://spirallab.co.kr
+- Dự án mẫu: https://github.com/labspiral/sirius3
+
+LIÊN HỆ CẤP PHÉP
+Để mua hoặc nhận khóa giấy phép, liên hệ: hcchoi@spirallab.co.kr (người nhận: Hong Chan, Choi).
+
+1. CẤP QUYỀN SỬ DỤNG
+1.1. Sau khi SpiralLab cấp khóa giấy phép hợp lệ và bạn chấp nhận Thỏa thuận này, SpiralLab cấp cho bạn giấy phép không độc quyền, không được chuyển nhượng và không được cấp phép lại để cài đặt và sử dụng Phần mềm ở dạng nhị phân chỉ cho mục đích kinh doanh nội bộ của bạn, theo các điều khoản tại đây.
+1.2. Nếu mua giấy phép theo chỗ sử dụng hoặc theo máy chủ, việc sử dụng của bạn bị giới hạn ở số chỗ sử dụng hoặc máy chủ đã mua. Nếu giấy phép thuộc loại khác (ví dụ theo ứng dụng hoặc theo thiết bị), việc sử dụng bị giới hạn bởi phạm vi của giấy phép đó.
+1.3. Thỏa thuận này không cấp bất kỳ quyền nào đối với mã nguồn.
+
+2. ĐÁNH GIÁ / DÙNG THỬ
+2.1. Khi không có giấy phép hợp lệ, Phần mềm có thể chạy ở chế độ đánh giá tối đa ba mươi (30) phút cho mỗi lần chạy hoặc phiên sử dụng ("Thời gian dùng thử"). Sau khi Thời gian dùng thử hết hạn, bạn phải ngừng sử dụng hoặc nhận giấy phép hợp lệ.
+2.2. Việc dùng thử được cung cấp "NGUYÊN TRẠNG", không kèm hỗ trợ hoặc bảo đảm dưới bất kỳ hình thức nào.
+
+3. KÍCH HOẠT VÀ KHÓA GIẤY PHÉP
+3.1. Phần mềm có thể yêu cầu kích hoạt bằng khóa giấy phép. Bạn đồng ý không vượt qua hoặc vô hiệu hóa bất kỳ cơ chế cấp phép hoặc kích hoạt nào.
+3.2. Bạn chịu trách nhiệm bảo vệ các khóa giấy phép của mình và ngăn chặn mọi hành vi sử dụng trái phép.
+
+4. HẠN CHẾ
+Bạn không được thực hiện hoặc cho phép bên thứ ba thực hiện các hành vi sau:
+(a) dịch ngược, phân tích ngược, tháo rã hoặc tìm cách khác để suy ra mã nguồn, ý tưởng nền tảng, thuật toán hoặc API không công khai của Phần mềm, ngoại trừ trong phạm vi pháp luật hiện hành cho phép rõ ràng bất chấp hạn chế này;
+(b) sửa đổi, dịch hoặc tạo tác phẩm phái sinh từ Phần mềm;
+(c) cho thuê, cho mượn, bán, cấp phép lại, chuyển nhượng, phân phối, công bố hoặc bằng cách khác cung cấp Phần mềm cho bên thứ ba, trừ trường hợp Thỏa thuận này cho phép rõ ràng;
+(d) xóa hoặc sửa đổi thông báo hoặc nhãn về quyền sở hữu trên Phần mềm;
+(e) sử dụng Phần mềm nhằm xây dựng sản phẩm hoặc dịch vụ cạnh tranh hoặc sao chép các tính năng hay giao diện người dùng của Phần mềm;
+(f) sử dụng Phần mềm theo cách vi phạm pháp luật hoặc quy định hiện hành.
+
+5. QUYỀN SỞ HỮU
+Phần mềm được cấp phép sử dụng, không phải được bán. SpiralLab và các bên cấp phép của SpiralLab giữ mọi quyền, quyền sở hữu và lợi ích đối với Phần mềm, bao gồm mọi quyền sở hữu trí tuệ liên quan. Bạn không được cấp quyền nào ngoài các quyền được quy định rõ trong Thỏa thuận này.
+
+6. CẬP NHẬT; HỖ TRỢ
+Mọi bản cập nhật, sửa lỗi hoặc bản vá mà SpiralLab cung cấp cho bạn trong khuôn khổ gói bảo trì hoặc hỗ trợ hợp lệ đều được xem là một phần của Phần mềm và chịu sự điều chỉnh của Thỏa thuận này. Trừ khi có thỏa thuận rõ ràng bằng văn bản, SpiralLab không có nghĩa vụ cung cấp hỗ trợ, bảo trì hoặc cập nhật trong tương lai.
+
+7. THÀNH PHẦN BÊN THỨ BA
+Phần mềm có thể bao gồm hoặc phụ thuộc vào thành phần bên thứ ba được cấp phép theo điều khoản riêng (ví dụ MIT, Apache-2.0, Boost Software License). Việc sử dụng các thành phần đó chịu sự điều chỉnh của các giấy phép tương ứng. Xem tệp "THIRD-PARTY-NOTICES.txt" đi kèm để biết chi tiết. Thỏa thuận này không giới hạn các quyền của bạn theo giấy phép bên thứ ba.
+
+8. BẢO MẬT
+Mọi thông tin không công khai được tiết lộ cho bạn về Phần mềm, khóa giấy phép hoặc hoạt động kinh doanh của SpiralLab đều là thông tin mật của SpiralLab. Bạn không được tiết lộ thông tin đó cho bên thứ ba khi chưa có sự đồng ý trước bằng văn bản của SpiralLab.
+
+9. MIỄN TRỪ BẢO ĐẢM
+TRONG PHẠM VI TỐI ĐA PHÁP LUẬT CHO PHÉP, PHẦN MỀM ĐƯỢC CUNG CẤP "NGUYÊN TRẠNG" VÀ "THEO KHẢ NĂNG SẴN CÓ", VỚI MỌI KHIẾM KHUYẾT VÀ KHÔNG KÈM BẤT KỲ BẢO ĐẢM NÀO, DÙ RÕ RÀNG, NGẦM ĐỊNH, THEO LUẬT ĐỊNH HAY HÌNH THỨC KHÁC, BAO GỒM NHƯNG KHÔNG GIỚI HẠN Ở BẢO ĐẢM VỀ KHẢ NĂNG THƯƠNG MẠI, SỰ PHÙ HỢP CHO MỤC ĐÍCH CỤ THỂ, QUYỀN SỞ HỮU VÀ KHÔNG XÂM PHẠM QUYỀN. BẠN TỰ CHỊU MỌI RỦI RO KHI SỬ DỤNG PHẦN MỀM.
+
+10. GIỚI HẠN TRÁCH NHIỆM
+TRONG PHẠM VI TỐI ĐA PHÁP LUẬT CHO PHÉP, SPIRALLAB HOẶC CÁC BÊN CẤP PHÉP CỦA SPIRALLAB KHÔNG CHỊU TRÁCH NHIỆM TRONG BẤT KỲ TRƯỜNG HỢP NÀO ĐỐI VỚI THIỆT HẠI GIÁN TIẾP, NGẪU NHIÊN, ĐẶC BIỆT, HỆ QUẢ, MANG TÍNH RĂN ĐE HOẶC TRỪNG PHẠT; HAY VIỆC MẤT LỢI NHUẬN, DOANH THU, DỮ LIỆU HOẶC GIÁN ĐOẠN KINH DOANH PHÁT SINH TỪ HOẶC LIÊN QUAN ĐẾN THỎA THUẬN NÀY HAY VIỆC SỬ DỤNG HOẶC KHÔNG THỂ SỬ DỤNG PHẦN MỀM, NGAY CẢ KHI ĐÃ ĐƯỢC THÔNG BÁO VỀ KHẢ NĂNG XẢY RA THIỆT HẠI ĐÓ. TỔNG TRÁCH NHIỆM TÍCH LŨY CỦA SPIRALLAB THEO THỎA THUẬN NÀY KHÔNG VƯỢT QUÁ KHOẢN PHÍ BẠN ĐÃ TRẢ CHO PHẦN MỀM TRONG MƯỜI HAI (12) THÁNG NGAY TRƯỚC SỰ KIỆN LÀM PHÁT SINH TRÁCH NHIỆM.
+
+11. THỜI HẠN VÀ CHẤM DỨT
+11.1. Thỏa thuận này có hiệu lực khi bạn tải xuống, cài đặt hoặc sử dụng Phần mềm lần đầu và tiếp tục có hiệu lực cho đến khi bị chấm dứt.
+11.2. SpiralLab có thể chấm dứt Thỏa thuận ngay lập tức nếu bạn vi phạm bất kỳ điều khoản nào. Khi chấm dứt, bạn phải ngừng mọi hoạt động sử dụng, hủy mọi bản sao Phần mềm (bao gồm khóa giấy phép) và xác nhận việc hủy khi được yêu cầu.
+11.3. Các mục 3–5, 7–10, 11.3 và 12 tiếp tục có hiệu lực sau khi chấm dứt.
+
+12. XUẤT KHẨU; TUÂN THỦ
+Bạn đồng ý tuân thủ mọi luật và quy định hiện hành về xuất khẩu, nhập khẩu và cấm vận, cùng mọi luật khác áp dụng cho việc sử dụng Phần mềm của bạn.
+
+13. ĐIỀU KHOẢN CHUNG
+13.1. Toàn bộ thỏa thuận. Thỏa thuận này cấu thành toàn bộ thỏa thuận giữa các bên về nội dung liên quan và thay thế mọi thỏa thuận hoặc cách hiểu trước đó hoặc cùng thời điểm.
+13.2. Chuyển nhượng. Bạn không được chuyển nhượng hoặc chuyển giao Thỏa thuận này khi chưa có sự đồng ý trước bằng văn bản của SpiralLab; mọi nỗ lực thực hiện đều vô hiệu.
+13.3. Tính độc lập của điều khoản. Nếu một điều khoản bị xác định là không thể thi hành, điều khoản đó sẽ được sửa trong phạm vi cần thiết để có thể thi hành mà vẫn giữ nguyên ý định; các điều khoản còn lại tiếp tục có hiệu lực.
+13.4. Từ bỏ quyền. Việc không yêu cầu thi hành một điều khoản không có nghĩa là từ bỏ quyền yêu cầu thi hành trong tương lai.
+13.5. Thông báo. Với câu hỏi về giấy phép và điều kiện thương mại, liên hệ: hcchoi@spirallab.co.kr (nhà phát triển: Hong Chan, Choi).
+
+XÁC NHẬN
+BẰNG VIỆC CÀI ĐẶT HOẶC SỬ DỤNG PHẦN MỀM, BẠN XÁC NHẬN ĐÃ ĐỌC, HIỂU VÀ ĐỒNG Ý CHỊU SỰ RÀNG BUỘC BỞI CÁC ĐIỀU KHOẢN CỦA THỎA THUẬN NÀY.
+
+© SpiralLab Co. All rights reserved.

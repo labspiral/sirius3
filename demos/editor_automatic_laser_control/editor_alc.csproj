@@ -12,7 +12,7 @@
 		<OutputPath>..\..\bin\</OutputPath>
 		<IncludeSymbols>False</IncludeSymbols>
 		<NeutralResourcesLanguage>en-US</NeutralResourcesLanguage>		
-		<SatelliteResourceLanguages>ko-KR;zh-CN;ja-JP;de-DE</SatelliteResourceLanguages>
+		<SatelliteResourceLanguages>ko-KR;zh-CN;ja-JP;de-DE;vi-VN;es-ES</SatelliteResourceLanguages>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(TargetFramework.StartsWith(`net9.0-windows`))'">

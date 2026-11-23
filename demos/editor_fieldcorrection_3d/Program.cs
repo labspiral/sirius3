@@ -18,17 +18,22 @@ namespace Demos
             //string locale = "zh-CN";
             //string locale = "ja-JP";
             //string locale = "de-DE";
+            //string locale = "vi-VN";
+            //string locale = "es-ES";
             var cultureInfo = new CultureInfo(locale);
             Thread.CurrentThread.CurrentCulture = cultureInfo;
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
             SpiralLab.Sirius3.Core.Initialize();
-
-
-            Application.Run(new Form1());
-
-
-            SpiralLab.Sirius3.Core.Cleanup();
+            try
+            {
+                using var form = new Form1();
+                Application.Run(form);
+            }
+            finally
+            {
+                SpiralLab.Sirius3.Core.Cleanup();
+            }
         }
     }
 }

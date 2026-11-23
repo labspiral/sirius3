@@ -1,6 +1,6 @@
 # 문서 클리핑 사용자 매뉴얼
 
-> API 기준: Sirius3 Core/UI 공개 기능
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](ClippingUserManual.md) | [한국어](ClippingUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 

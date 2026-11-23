@@ -1,6 +1,6 @@
 # Sirius3 IScript Developer Manual (C# Scripting Integration)
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](ScriptUserManual.md) | [한국어](ScriptUserManual.koKR.md) | [All guides](README.md)
 

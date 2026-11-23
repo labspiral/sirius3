@@ -1,6 +1,6 @@
 # IRtcMultiBeam Developer Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](MultibeamDeveloperManual.md) | [한국어](MultibeamDeveloperManual.koKR.md) | [All guides](README.md)
 

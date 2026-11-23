@@ -1,6 +1,6 @@
 # RTC Stepper Motor Control User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](StepperMotorUserManual.md) | [한국어](StepperMotorUserManual.koKR.md) | [All guides](README.md)
 

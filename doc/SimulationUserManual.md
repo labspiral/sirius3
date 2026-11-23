@@ -1,6 +1,6 @@
 # [User Manual] Processing Route Simulation
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](SimulationUserManual.md) | [한국어](SimulationUserManual.koKR.md) | [All guides](README.md)
 

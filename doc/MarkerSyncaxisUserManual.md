@@ -1,6 +1,6 @@
 # SyncAXIS Integrated Marker Control User Manual
 
-> API reference: Sirius3 Core/UI 1.17.1 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](MarkerSyncaxisUserManual.md) | [한국어](MarkerSyncaxisUserManual.koKR.md) | [All guides](README.md)
 

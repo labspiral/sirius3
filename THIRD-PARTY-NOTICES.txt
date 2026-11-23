@@ -101,7 +101,7 @@ OxyPlot
   License : MIT
   Copyright: Copyright (c) 2014 OxyPlot contributors
   Source  : https://github.com/oxyplot/oxyplot
-  Delivery: Managed WPF 2.2.0 components are embedded only in Debug WPF builds and excluded from Release packages; the SCANLAB tool payload is separate
+  Delivery: Managed WPF 2.2.0 components are embedded as private dependencies in Debug and Release WPF builds; the SCANLAB tool payload is separate
 
 Be.HexEditor
   Version : 1.6.1, 2.1.0

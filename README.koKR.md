@@ -1,7 +1,7 @@
 # Sirius3
 SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 편집, MCP 서버를 이용한 AI 프롬프트, 시뮬레이션 및 가공 실행을 통합한 Windows/.NET 기반 정밀 레이저 가공 플랫폼
 
-언어: [English](README.md) · [한국어](README.koKR.md) · [简体中文](README.zhCN.md) · [日本語](README.jaJP.md) · [Deutsch](README.deDE.md)
+언어: [English](README.md) · [한국어](README.koKR.md) · [简体中文](README.zhCN.md) · [日本語](README.jaJP.md) · [Deutsch](README.deDE.md) · [Tiếng Việt](README.viVN.md) · [Español](README.esES.md)
 
 ![sirius3_logo](https://spirallab.co.kr/sirius3/sirius3_logo.png)
 
@@ -64,7 +64,7 @@ SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 
    - PDF: 페이지를 래스터 이미지로 가져오기(암호 보호 미지원).
    - STL/OBJ/PLY/STP(STEP)/3MF: 3D 메쉬 가져오기·슬라이싱.
    - G-code (`.gcode`, `.ngc`): CNC·레이저 가공 경로.
-   - CXF/LFF/EO FNT/DOT: SiriusText용 외부 폰트.
+   - CXF/LFF/FNT/DOT: SiriusText용 외부 폰트.
 - 원격 통신 및 동적 데이터
    - 마커 제어와 데이터 접근을 위한 TCP/IP, Serial(RS-232), WebSocket 및 MQTT
    - AI 기반 편집기 등록, 문서·엔티티 편집, 시뮬레이션 및 등록 장치 제어를 지원하는 내장 HTTP MCP 서버
@@ -72,8 +72,8 @@ SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 
 - 문서, 편집기 및 시뮬레이션
    - 레이어, 펜, 그룹, 블록 및 개수 설정형 Undo/Redo를 갖는 4개 문서 페이지
    - WinForms와 WPF `SiriusEditorControl` / `SiriusMultiEditorControl`을 Debug 및 Release에서 모두 지원하며, 하나의 문서를 복수 뷰에 렌더링하는 기능
-   - 영어, 한국어, 중국어 간체, 일본어 및 독일어 UI 리소스
-   - [폰트 편집기](SpiralLab.Sirius3.UI/FontEditor/README.koKR.md): WinForms/WPF **Font Edit** 메뉴에서 독립적인 CXF/LFF/EO FNT/DOT 글리프 편집을 제공합니다. mm 벡터, 정수 DOT 셀, BBox/메트릭, Undo/Redo, DXF 가져오기, 문자열 미리보기와 설치 TTF 변환을 지원하며 Debug/Release 빌드에 항상 포함됩니다.
+   - 영어, 한국어, 중국어 간체, 일본어, 독일어, 베트남어 및 스페인어 UI 리소스
+   - [폰트 편집기](SpiralLab.Sirius3.UI/FontEditor/README.koKR.md): WinForms/WPF **Font Edit** 메뉴에서 독립적인 CXF/LFF/FNT/DOT 글리프 편집을 제공합니다. mm 벡터, 정수 DOT 셀, BBox/메트릭, Undo/Redo, DXF 가져오기, 문자열 미리보기와 설치 TTF 변환을 지원하며 Debug/Release 빌드에 항상 포함됩니다.
    - 화면 고정 크기 마커, 빔 효과 및 선택적 파편 효과를 제공하는 실시간 가공 경로 시각화
    - 카메라 및 검사 작업용 격자 기반 스티치 이미지 시각화
 - 오픈 아키텍쳐
@@ -91,7 +91,7 @@ SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 
 | 해치                         |winding 기반 다중 해치                     |단일 해치                               |
 | 3D 메쉬 슬라이서              |STL, OBJ, PLY, STEP, 3MF 슬라이서 내장      |없음                                   |
 | Gerber / Excellon            |내용 판별 기반 가져오기                     |없음                                   |
-| 외부 폰트 파일                |CXF, LFF, EO FNT, DOT 파일 포맷               |커스텀 CXF, LFF 파일 포맷만 지원         |
+| 외부 폰트 파일                |CXF, LFF, FNT, DOT 파일 포맷               |커스텀 CXF, LFF 파일 포맷만 지원         |
 | 펜                           |Entity 와 Layer 용 펜 속성 분리            |Entity 단일펜                           |
 | MCP                          |지원                                      |없음                                   |
 | 라이브러리 업데이트            |Nuget 패키지 매니저 지원                    |수동                                   |
@@ -119,7 +119,7 @@ SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 
 - 선택한 장치에 필요한 드라이버/런타임 설치 필요. NuGet의 네이티브 파일 복사는 장치 드라이버 설치를 대신하지 않습니다.
 - 빌드: `net481`은 .NET Framework 4.8.1 Developer Pack, .NET 8/9/10 대상은 해당 .NET SDK 필요
 - 실행: .NET Framework 4.8.1 또는 프레임워크 종속 .NET 애플리케이션에 맞는 Windows Desktop Runtime 필요
-- 개발: 공개 데모는 .NET 데스크톱 개발 워크로드가 설치된 Visual Studio 2022 이상을 사용합니다(.NET 8: 17.8+, .NET 9: 17.12+; `net481`도 지원). Visual Studio에서 .NET 10을 대상으로 개발하려면 Visual Studio 2026 (18.0+)과 호환 SDK가 필요합니다([Microsoft 호환성 안내](https://learn.microsoft.com/en-us/dotnet/core/porting/versioning-sdk-msbuild-vs)).
+- 개발: 공개 데모는 .NET 데스크톱 개발 워크로드가 설치된 Visual Studio 2022 이상을 사용합니다.
  
 ## 의존성
 
@@ -145,8 +145,6 @@ SCANLAB 제어, 장치 연동, 지오메트리 처리, OpenGL 시각화, 문서 
    - [SpiralLab.Sirius3.Dependencies](https://www.nuget.org/packages/SpiralLab.Sirius3.Dependencies)
    - [SpiralLab.Sirius3](https://www.nuget.org/packages/SpiralLab.Sirius3)
    - [SpiralLab.Sirius3.UI](https://www.nuget.org/packages/SpiralLab.Sirius3.UI)
-
-애플리케이션과 호환되는 패키지 버전을 선택하고, Dependencies 패키지의 런타임·데이터 폴더를 빌드 및 배포 결과에 유지합니다. Dependencies 패키지는 빌드 시 이 파일들을 출력 폴더로 복사합니다. 대상 프레임워크는 위 지원 목록 중 애플리케이션에 필요한 항목을 선택합니다.
 
 ## 빠른 시작
 

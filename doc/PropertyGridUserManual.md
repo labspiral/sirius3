@@ -1,6 +1,6 @@
 # PropertyGrid User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](PropertyGridUserManual.md) | [한국어](PropertyGridUserManual.koKR.md) | [All guides](README.md)
 

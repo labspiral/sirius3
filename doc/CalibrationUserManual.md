@@ -1,6 +1,6 @@
 # RTC Field Correction and 3D Calibration
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](CalibrationUserManual.md) | [한국어](CalibrationUserManual.koKR.md) | [All guides](README.md)
 
@@ -43,6 +43,12 @@ whether the result meets the required accuracy.
 `PointsCloudCalibration` are public wrapper operations. Their inputs differ;
 use the [3D workflow](Correction3dUserManual.md) instead of treating every value
 as an XY offset or a Z distance in mm.
+
+After Z=0 focus, use ABC and/or Stretch as needed. For the updated
+[five-tab workflow](Correction3dUserManual.md#6-integrated-calibration-workflow),
+see the tilt sign convention, separate file saving and controller loading.
+The [public example](../demos/editor_fieldcorrection_3d/README.md) explains
+how to select virtual devices in the shared demo configuration.
 
 ## 4. Surface-specific correction and verification
 

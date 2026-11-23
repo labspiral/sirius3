@@ -1,6 +1,6 @@
 # EntityLayerPen 사용자 설명서
 
-> API 기준: Sirius3 Core/UI 1.17.1 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](LayerPenUserManual.md) | [한국어](LayerPenUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 

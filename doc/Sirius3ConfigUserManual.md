@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3.Config Settings Guide
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](Sirius3ConfigUserManual.md) | [한국어](Sirius3ConfigUserManual.koKR.md) | [All guides](README.md)
 

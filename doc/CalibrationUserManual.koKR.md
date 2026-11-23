@@ -1,6 +1,6 @@
 # RTC Field Correction & 3D Calibration User Manual
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](CalibrationUserManual.md) | [한국어](CalibrationUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -47,6 +47,11 @@ Step 5: Focus Coeff A,B,C Calibration
 
 Step 6: Stretch Calibration
 - Z축 높이 변화에 따른 가공 크기(Scale)의 변형을 최종 보정합니다.
+
+Z=0 초점 보정 뒤에는 필요에 따라 ABC와 스트레치를 선택하고 순서를 바꿀 수 있습니다.
+[최신 다섯 탭 절차](Correction3dUserManual.koKR.md#6-통합-3d-보정-절차)에서
+틸트 부호 규칙과 파일 저장·RTC 로드를 구분해 설명합니다. [공개 예제](../demos/editor_fieldcorrection_3d/README.koKR.md)에는
+공용 설정에서 가상 장치를 선택하는 방법이 있습니다.
 
 ## 5. 특수 형상 보정 (Specialized Geometries)
 

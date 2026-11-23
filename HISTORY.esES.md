@@ -1,8 +1,9 @@
 # Historial de versiones de Sirius3
 
-## v1.17.2 (2026.12.x)
+## v1.17.2 (2026.11.23)
 
 - added) Añadidos recursos en vietnamita y español
+- added) Añadida la entidad `EntityLaserBeam`
 - updated) Añadidas descripciones detalladas de los procedimientos de calibración 3D
 
 ## v1.17.1 (2026.11.11)

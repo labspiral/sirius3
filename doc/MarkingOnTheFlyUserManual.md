@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3 MoF (Marking on the Fly) Integrated User Guide
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](MarkingOnTheFlyUserManual.md) | [한국어](MarkingOnTheFlyUserManual.koKR.md) | [All guides](README.md)
 

@@ -1,6 +1,6 @@
 # EntityLayerPen User Guide
 
-> API reference: Sirius3 Core/UI 1.17.1 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](LayerPenUserManual.md) | [한국어](LayerPenUserManual.koKR.md) | [All guides](README.md)
 

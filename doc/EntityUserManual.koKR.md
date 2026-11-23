@@ -1,6 +1,6 @@
 # EntityFactory & Entity User Manual
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](EntityUserManual.md) | [한국어](EntityUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -102,7 +102,7 @@ DXF/DWG, HPGL/PLT, Gerber/Excellon, G-code/NGC, 이미지와 3D 파일을 가져
 
 ## 10. EntityFactory 전체 생성 항목
 
-현재 공개 팩토리의 **85개 함수 이름, 125개 오버로드**를 아래에 정리합니다. 생성만으로 문서에 추가되거나 가공이 시작되지는 않습니다. 독립 결과를 소유하다가 `document.ActAdd` 등의 문서 작업으로 소유권을 이전합니다. 제어 엔티티는 해당 Scanner capability가 필요합니다.
+현재 공개 팩토리는 **86개 함수 이름, 126개 오버로드**를 제공합니다. 생성한 개체는 호출자가 소유하고 `document.ActAdd` 등의 문서 작업으로 소유권을 이전합니다. 제어 엔티티에는 해당 스캐너 기능이 필요합니다.
 
 ### 기본 형상
 
@@ -168,6 +168,7 @@ DXF/DWG, HPGL/PLT, Gerber/Excellon, G-code/NGC, 이미지와 3D 파일을 가져
 | `CreateCube` | `EntityCube` | 1 |
 | `CreateCylinder` | `EntityCylinder` | 1 |
 | `CreateCone` | `EntityCone` | 2 |
+| `CreateLaserBeam` | `EntityLaserBeam` | 1 |
 | `CreateSphere` | `EntitySphere` | 1 |
 | `CreatePlane` | `EntityPlane` | 2 |
 | `CreatePyramid` | `EntityPyramid` | 1 |
@@ -330,6 +331,7 @@ EntityCube CreateCube(DVec3 center, double width, double height, double depth = 
 EntityCylinder CreateCylinder(DVec3 start, double radius, double depth, int segments = 24);
 EntityCone CreateCone(double radiusReference, double radiusEnd, double length, int segments = 24);
 EntityCone CreateCone(DVec3 reference, double radiusReference, double radiusEnd, double length, int segments = 24);
+EntityLaserBeam CreateLaserBeam(DVec3 from, DVec3 to, double baseRadius);
 EntitySphere CreateSphere(DVec3 center, double radius, int segments = 24);
 EntityPlane CreatePlane(DVec3 center, double width, double height);
 EntityPlane CreatePlane(DVec3 center, DVec3 normal, double width, double height);
@@ -382,6 +384,17 @@ EntityBreakPoint CreateBreakPoint(IEntity entity);
 EntityStepperMove CreateStepperMove(StepperAxes axis, StepperMoveTypes type, double position, double velocity);
 EntityStepperWait CreateStepperWait(StepperCombinedAxes axis, double msec);
 ```
+
+## 레이저 빔 표시와 점 가공
+
+`CreateLaserBeam(from, to, baseRadius)`는 `From`에서 `To`까지 광선 형태의
+경로를 표시합니다. `EntityPoint`처럼 `To` 위치를 단일 점으로 가공합니다.
+두 끝점과 시작 면의 반지름은 mm로 지정합니다. 반지름은 빔 표시에 적용됩니다.
+
+속성 창의 **가공** 범주에서 **펜 색상**(`PenColor`)으로 끝점의 표시 색상과
+점 가공에 사용할 문서 펜을 지정합니다. 빔 자체의 색상과 불투명도는
+`ModelColor`와 `Alpha`로 설정합니다. 표시 전용 빔은 `IsAllowMark = false`로
+설정합니다.
 
 ## 점 표시와 대화형 Spiral 생성
 

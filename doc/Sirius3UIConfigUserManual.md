@@ -1,6 +1,6 @@
 # SpiralLab.Sirius3.UI.Config Settings Guide
 
-> API reference: Sirius3 Core/UI 1.17.1 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](Sirius3UIConfigUserManual.md) | [한국어](Sirius3UIConfigUserManual.koKR.md) | [All guides](README.md)
 
@@ -316,6 +316,10 @@ Timeout is not the same as the device protection function that forced Motor to s
 
 Verify from a small value that does not exceed the validity area of the correction field and optical system. Jog can move the real scanner.
 
+In 1.17.2, the vertical 3D jog slider sets an absolute command Z in
+mm. It uses the matched README range, independently of the XY jog distance
+setting above. See [3D calibration and manual Z limits](Correction3dUserManual.md#6-integrated-calibration-workflow).
+
 ## 21. Remote Protocol
 
 | Setting | Default | Explanation |
@@ -433,7 +437,7 @@ the requested physical mm size. See [document import](DocumentUserManual.md).
 
 Font files and installed-TTF conversion are described in [Font Editor](FontEditorUserManual.md).
 
-## Public configuration types in 1.17.1
+## Public configuration types in 1.17.2
 
 Use the current enum types when compiling host code:
 

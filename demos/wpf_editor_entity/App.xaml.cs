@@ -21,6 +21,8 @@ namespace Demos
             //string locale = "zh-CN";
             //string locale = "ja-JP";
             //string locale = "de-DE";
+            //string locale = "vi-VN";
+            //string locale = "es-ES";
             var culture = new CultureInfo(locale);
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;

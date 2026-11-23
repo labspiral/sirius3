@@ -1,6 +1,6 @@
 # Sirius3 WPF integration guide
 
-> API reference: Sirius3 Core/UI public features
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](WPF.md) | [한국어](WPF.koKR.md) | [WinForms](WinForms.md) | [All guides](README.md)
 
@@ -106,6 +106,13 @@ Mouse and keyboard commands follow focus. Directional keys remain available for 
 The native WPF ScannerControl in 1.17.1 also shows the six-step syncAXIS tab for an assigned `IRtcSyncAxis`. Register the initialized scanner and `MarkerSyncAxis` with the editor so it supplies the document and marker to that tab. A standalone WPF ScannerControl exposes `Document` and `Marker` for the same connection; the host retains ownership.
 
 The current-mode/Initialize controls, per-step Create/Run/Stop/Reset, CT5 selection and successful-simulation Viewer launch follow the [same setup workflow](Rtc6SyncaxisUserManual.md#syncaxis-setup). Calibration counts are odd integers 3–99; Up/Down changes them by 2 and leaving an even entry normalizes it. Use WPF layout units rather than applying WinForms DPI/font scaling manually.
+
+### Calibration and language resources
+
+The public WPF demos retain `vi-VN` and
+`es-ES`. Use the same [language and native deployment settings](WinForms.md#language-resources-and-native-assets).
+The 1.17.2 [3D calibration dialog](Correction3dUserManual.md#6-integrated-calibration-workflow)
+shares the five-step workflow with WinForms.
 
 ## 5. MCP on WPF
 

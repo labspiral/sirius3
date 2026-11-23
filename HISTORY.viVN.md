@@ -1,8 +1,9 @@
 # Lịch sử phiên bản Sirius3
 
-## v1.17.2 (2026.12.x)
+## v1.17.2 (2026.11.23)
 
 - added) Thêm tài nguyên tiếng Việt và tiếng Tây Ban Nha
+- added) Thêm đối tượng `EntityLaserBeam`
 - updated) Bổ sung mô tả chi tiết cho các bước hiệu chuẩn 3D
 
 ## v1.17.1 (2026.11.11)

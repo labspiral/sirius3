@@ -1,6 +1,6 @@
 # [사용자 메뉴얼] RTC 실시간 계측 및 데이터 분석 (Measurement & Plot)
 
-> API 기준: Sirius3 Core/UI 1.17.0 (공개 기능)
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](MeasurementUserManual.md) | [한국어](MeasurementUserManual.koKR.md) | [전체 안내서](README.koKR.md)
 

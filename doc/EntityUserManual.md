@@ -1,6 +1,6 @@
 # EntityFactory & Entity User Manual
 
-> API reference: Sirius3 Core/UI 1.17.0 (public features)
+> API reference: Sirius3 Core/UI 1.17.2 (public features)
 
 [English](EntityUserManual.md) | [한국어](EntityUserManual.koKR.md) | [All guides](README.md)
 
@@ -102,7 +102,7 @@ You can import DXF/DWG, HPGL/PLT, Gerber/Excellon, G-code/NGC, images and 3D fil
 
 ## 10. Complete EntityFactory catalog
 
-The current public factory provides **85 method names and 125 overloads**. Creation does not insert entities into a document or start processing. Own unattached results until transferring them through a document action such as `document.ActAdd`. Control entities require the corresponding scanner capability.
+The current public factory provides **86 method names and 126 overloads**. Own unattached results until transferring them through a document action such as `document.ActAdd`. Control entities require the corresponding scanner capability.
 
 ### Primitives
 
@@ -168,6 +168,7 @@ The current public factory provides **85 method names and 125 overloads**. Creat
 | `CreateCube` | `EntityCube` | 1 |
 | `CreateCylinder` | `EntityCylinder` | 1 |
 | `CreateCone` | `EntityCone` | 2 |
+| `CreateLaserBeam` | `EntityLaserBeam` | 1 |
 | `CreateSphere` | `EntitySphere` | 1 |
 | `CreatePlane` | `EntityPlane` | 2 |
 | `CreatePyramid` | `EntityPyramid` | 1 |
@@ -330,6 +331,7 @@ EntityCube CreateCube(DVec3 center, double width, double height, double depth = 
 EntityCylinder CreateCylinder(DVec3 start, double radius, double depth, int segments = 24);
 EntityCone CreateCone(double radiusReference, double radiusEnd, double length, int segments = 24);
 EntityCone CreateCone(DVec3 reference, double radiusReference, double radiusEnd, double length, int segments = 24);
+EntityLaserBeam CreateLaserBeam(DVec3 from, DVec3 to, double baseRadius);
 EntitySphere CreateSphere(DVec3 center, double radius, int segments = 24);
 EntityPlane CreatePlane(DVec3 center, double width, double height);
 EntityPlane CreatePlane(DVec3 center, DVec3 normal, double width, double height);
@@ -382,6 +384,18 @@ EntityBreakPoint CreateBreakPoint(IEntity entity);
 EntityStepperMove CreateStepperMove(StepperAxes axis, StepperMoveTypes type, double position, double velocity);
 EntityStepperWait CreateStepperWait(StepperCombinedAxes axis, double msec);
 ```
+
+## Laser beam display and point marking
+
+`CreateLaserBeam(from, to, baseRadius)` displays a ray-shaped path from
+`From` to `To`. Like `EntityPoint`, it marks a single point at `To`.
+Specify the endpoints and the source-face radius in millimeters. The radius
+controls the displayed beam.
+
+In the PropertyGrid **Mark** category, **Pen color** (`PenColor`) sets the
+target point color and selects the document pen for point marking. Set
+`ModelColor` and `Alpha` for the beam itself. For a display-only beam, set
+`IsAllowMark = false`.
 
 ## Point display and interactive spirals
 

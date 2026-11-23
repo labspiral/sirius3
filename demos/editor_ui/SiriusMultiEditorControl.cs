@@ -330,6 +330,9 @@ namespace Demos
                 treeViewBlockControl1.Document = document;
                 //treeViewWaferControl1.Document = document;
                 //treeViewSubstrateControl1.Document = document;
+                foreach (var pageTree in PageCtrls)
+                    pageTree.View = View;
+                BlockCtrl.View = View;
 
                 if (document != null)
                 {
@@ -2014,27 +2017,21 @@ namespace Demos
                 if (dialogResult != DialogResult.Yes) return;
             }
 
-            bool includeLayers = mnuIncludePage1.Checked;
-            bool includeLayers2nd = mnuIncludePage2.Checked;
-            bool includeBlocks = mnuIncludeBlocks.Checked;
-            bool includeEntityPens = mnuIncludeEntityPens.Checked;
-            bool includeLayerPens = mnuIncludeLayerPens.Checked;
-            bool includeWafers = mnuIncludeWafers.Checked;
-            bool includeSubstrates = mnuIncludeSubstrates.Checked;
-
             var previousCursor = Cursor.Current;
             try
             {
                 Cursor.Current = Cursors.WaitCursor;
                 Document?.ActOpen(
                     dlg.FileName,
-                    includeLayers,
-                    includeLayers2nd,
-                    includeBlocks,
-                    includeEntityPens,
-                    includeLayerPens,
-                    includeWafers,
-                    includeSubstrates);
+                    includePage1: mnuIncludePage1.Checked,
+                    includePage2: mnuIncludePage2.Checked,
+                    includePage3: mnuIncludePage3.Checked,
+                    includePage4: mnuIncludePage4.Checked,
+                    includeBlocks: mnuIncludeBlocks.Checked,
+                    includeEntityPens: mnuIncludeEntityPens.Checked,
+                    includeLayerPens: mnuIncludeLayerPens.Checked,
+                    includeWafers: mnuIncludeWafers.Checked,
+                    includeSubstrates: mnuIncludeSubstrates.Checked);
             }
             finally
             {

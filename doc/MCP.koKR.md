@@ -1,6 +1,6 @@
 # Sirius3 MCP Editor 데모: AI 클라이언트 연결 방법
 
-> API 기준: Sirius3 Core/UI 공개 기능
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](MCP.md) | [한국어](MCP.koKR.md) | [전체 안내서](README.koKR.md)
 

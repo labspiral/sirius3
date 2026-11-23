@@ -1,6 +1,6 @@
 # Sirius3 WPF 통합 가이드
 
-> API 기준: Sirius3 Core/UI 공개 기능
+> API 기준: Sirius3 Core/UI 1.17.2 (공개 기능)
 
 [English](WPF.md) | [한국어](WPF.koKR.md) | [WinForms](WinForms.koKR.md) | [전체 안내서](README.koKR.md)
 
@@ -106,6 +106,13 @@ Scanner UI의 Multi-Beam 메뉴는 지정된 Scanner가 `IRtcMultiBeam`일 때�
 1.17.1의 네이티브 WPF ScannerControl도 `IRtcSyncAxis`를 할당하면 여섯 단계의 syncAXIS 탭을 표시합니다. 초기화한 스캐너와 `MarkerSyncAxis`를 에디터에 등록하면 문서와 마커가 해당 탭에 연결됩니다. 독립 WPF ScannerControl도 `Document`와 `Marker`로 같은 연결을 제공하며 소유권은 호스트에 있습니다.
 
 현재 모드·Initialize, 단계별 Create·Run·Stop·Reset, CT5 선택과 성공한 시뮬레이션의 Viewer 자동 실행은 [동일한 셋업 절차](Rtc6SyncaxisUserManual.koKR.md#syncaxis-setup)를 따릅니다. 보정 격자 개수는 3~99의 홀수이고 위·아래 방향키로 2씩 바꾸며 짝수를 입력한 뒤 포커스를 옮기면 보정됩니다. WinForms의 DPI·폰트 배율을 수동 적용하지 않고 WPF 레이아웃 단위를 사용합니다.
+
+### 보정 및 언어 리소스
+
+공개 WPF 데모는 `vi-VN)과 `es-ES` 리소스를 유지합니다.
+[언어와 네이티브 배포 설정](WinForms.koKR.md#언어-리소스와-네이티브-파일)을 동일하게
+적용합니다. [최신 3D 보정 창](Correction3dUserManual.koKR.md#6-통합-3d-보정-절차)은
+1.17.2에서 WinForms와 같은 다섯 단계를 제공합니다.
 
 ## 5. WPF에서 MCP 사용
 
